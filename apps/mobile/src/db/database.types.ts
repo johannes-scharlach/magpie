@@ -323,10 +323,12 @@ export type Database = {
       household_profiles: {
         Row: {
           created_at: string
+          cuisines: Json
           fresh_ingredients: Json
           goals: Json
           id: string
           ingredient_avoidances: Json
+          keeps: Json
           kitchen_equipment: Json
           main_supermarket: string
           meals_at_home: string
@@ -338,10 +340,12 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          cuisines?: Json
           fresh_ingredients?: Json
           goals?: Json
           id: string
           ingredient_avoidances?: Json
+          keeps?: Json
           kitchen_equipment?: Json
           main_supermarket?: string
           meals_at_home?: string
@@ -353,10 +357,12 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          cuisines?: Json
           fresh_ingredients?: Json
           goals?: Json
           id?: string
           ingredient_avoidances?: Json
+          keeps?: Json
           kitchen_equipment?: Json
           main_supermarket?: string
           meals_at_home?: string

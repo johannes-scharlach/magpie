@@ -20,8 +20,6 @@ import { ShopsEditor } from "@/features/profile/shops-editor";
 const titles: Record<string, string> = {
   goals: "Goals",
   kitchen_equipment: "Equipment",
-  pantry: "Usual pantry",
-  fresh_ingredients: "Fresh staples",
   restrictions: "Household restrictions",
   meals_at_home: "Meals at home",
   shops: "Shopping routine",

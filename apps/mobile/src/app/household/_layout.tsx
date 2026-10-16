@@ -32,6 +32,24 @@ export default function HouseholdLayout() {
         }}
       />
       <Stack.Screen
+        name="cuisines"
+        options={{
+          presentation: "formSheet",
+          sheetAllowedDetents: [1],
+          sheetGrabberVisible: true,
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="cuisine"
+        options={{
+          presentation: "formSheet",
+          sheetAllowedDetents: [1],
+          sheetGrabberVisible: true,
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
         name="switch"
         options={{
           presentation: "formSheet",

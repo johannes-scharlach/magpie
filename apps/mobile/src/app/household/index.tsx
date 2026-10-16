@@ -1,5 +1,6 @@
 import { Host } from "@expo/ui";
 import {
+  cuisineLabel,
   dietOptions,
   selectionLabels,
   avoidanceKinds,
@@ -27,11 +28,10 @@ import {
 import { useHousehold } from "@/features/profile/use-household";
 import { unregisterPushDevice } from "@/features/notifications/notifications";
 
-const selectionTitles: Record<SelectionField, string> = {
+// Pantry and fresh staples are no longer asked; cuisines replace them.
+const selectionTitles: Partial<Record<SelectionField, string>> = {
   goals: "Goals",
   kitchen_equipment: "Equipment",
-  pantry: "Usual pantry",
-  fresh_ingredients: "Fresh staples",
 };
 const SWITCH_ICON = {
   ios: "arrow.left.arrow.right.circle",
@@ -141,9 +141,18 @@ export default function ProfileScreen() {
                 "None selected"
               }
               onPress={() => router.push(`/household/${key}` as never)}
-              title={selectionTitles[key]}
+              title={selectionTitles[key]!}
             />
           ))}
+          <SettingsRow
+            detail={
+              household.profile.cuisines
+                .map((c) => cuisineLabel(c.cuisine))
+                .join(", ") || "None selected"
+            }
+            onPress={() => router.push("/household/cuisines" as never)}
+            title="Cuisines"
+          />
         </SettingsSection>
         <SettingsSection title="Shopping">
           <SettingsRow
