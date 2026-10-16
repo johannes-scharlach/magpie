@@ -14,6 +14,7 @@ import { DietEditor, Field, MealRoutineEditor } from "@/features/profile/form";
 import { ChoiceTiles } from "@/features/profile/choice-tiles";
 import { AvoidancesEditor } from "@/features/profile/avoidances-editor";
 import { ShopsEditor } from "@/features/profile/shops-editor";
+import { CuisineList } from "@/features/profile/cuisine-list";
 
 export const titles: Record<Step, string> = {
   name: "What’s your name?",
@@ -23,6 +24,7 @@ export const titles: Record<Step, string> = {
   restrictions: "Anything to avoid?",
   groceries: "Where do you shop?",
   kitchen: "What equipment do you have?",
+  cuisines: "What do you like to cook?",
   email: "Save your kitchen",
   code: "Check your inbox",
 };
@@ -35,6 +37,7 @@ export const subtitles: Record<Exclude<Step, "email" | "code">, string> = {
   restrictions: "For anyone you cook for.",
   groceries: "Your usual shop, and anywhere else you go for food.",
   kitchen: "Tap the appliances you have.",
+  cuisines: "Pick a cuisine to say what’s in your cupboard for it.",
 };
 
 function HouseholdEditor({
@@ -209,6 +212,17 @@ export function SetupQuestion({
           field="kitchen_equipment"
           value={draft.profile.kitchen_equipment}
           onChange={(kitchen_equipment) => editProfile({ kitchen_equipment })}
+        />
+      ) : null}
+      {step === "cuisines" ? (
+        <CuisineList
+          profile={draft.profile}
+          onOpen={(cuisine) =>
+            router.push({
+              pathname: "/setup/cuisine",
+              params: cuisine ? { cuisine } : {},
+            } as never)
+          }
         />
       ) : null}
     </>

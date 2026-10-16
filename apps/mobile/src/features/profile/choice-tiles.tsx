@@ -1,7 +1,12 @@
 import * as Haptics from "expo-haptics";
 import { SymbolView } from "expo-symbols";
 import { useState, useRef } from "react";
-import { Pressable, View, useWindowDimensions, type TextInput } from "react-native";
+import {
+  Pressable,
+  View,
+  useWindowDimensions,
+  type TextInput,
+} from "react-native";
 import { useResolveClassNames } from "uniwind";
 import {
   selectionOptions,
@@ -45,6 +50,63 @@ export function ChoiceChip({
   );
 }
 
+export function ArtTile({
+  art,
+  title,
+  width,
+  selected,
+  onPress,
+}: {
+  art: ArtworkId;
+  title: string;
+  width: number;
+  selected: boolean;
+  onPress: () => void;
+}) {
+  const primary = useResolveClassNames("text-primary").color;
+  const muted = useResolveClassNames("text-muted-foreground").color;
+  return (
+    <Pressable
+      accessibilityRole="checkbox"
+      accessibilityLabel={title}
+      accessibilityState={{ checked: selected }}
+      onPress={() => {
+        void Haptics.selectionAsync().catch(() => {});
+        onPress();
+      }}
+      style={{ width, borderCurve: "continuous" }}
+      className={
+        selected
+          ? "gap-2 rounded-2xl border border-primary bg-accent p-2"
+          : "gap-2 rounded-2xl border border-border bg-card p-2 active:bg-secondary"
+      }
+    >
+      <Artwork id={art} />
+      <View className="min-h-11 flex-row items-center gap-1">
+        <Text className="flex-1 text-sm font-medium">{title}</Text>
+        <SymbolView
+          name={
+            selected
+              ? { ios: "checkmark.circle.fill", android: "check_circle" }
+              : { ios: "circle", android: "radio_button_unchecked" }
+          }
+          size={18}
+          tintColor={selected ? primary : muted}
+        />
+      </View>
+    </Pressable>
+  );
+}
+
+/** Three columns of art tiles at regular text sizes; fewer as text grows. */
+export function useTileWidth(dense: boolean) {
+  const { width, fontScale } = useWindowDimensions();
+  const columns =
+    fontScale > 1.5 ? 1 : dense && width >= 370 && fontScale <= 1.1 ? 3 : 2;
+  return (width - 48 - TILE_GAP * (columns - 1)) / columns;
+}
+export const TILE_GAP = 10;
+
 export function ChoiceTiles({
   field,
   value,
@@ -54,9 +116,9 @@ export function ChoiceTiles({
   value: Selection;
   onChange: (value: Selection) => void;
 }) {
-  const { width, fontScale } = useWindowDimensions();
-  const primary = useResolveClassNames("text-primary").color;
-  const muted = useResolveClassNames("text-muted-foreground").color;
+  const tileWidth = useTileWidth(
+    field === "pantry" || field === "fresh_ingredients",
+  );
   const [showPrevious, setShowPrevious] = useState(false);
   const [adding, setAdding] = useState(false);
   const [custom, setCustom] = useState("");
@@ -69,7 +131,11 @@ export function ChoiceTiles({
       input.current?.focus();
       return;
     }
-    if (!value.other.some((item) => item.toLowerCase() === custom.trim().toLowerCase())) {
+    if (
+      !value.other.some(
+        (item) => item.toLowerCase() === custom.trim().toLowerCase(),
+      )
+    ) {
       onChange({ ...value, other: [...value.other, custom.trim()] });
     }
     setAdding(false);
@@ -139,10 +205,7 @@ export function ChoiceTiles({
     );
   }
 
-  const staples = field === "pantry" || field === "fresh_ingredients";
-  const columns = fontScale > 1.5 ? 1 : staples && width >= 370 && fontScale <= 1.1 ? 3 : 2;
-  const gap = 10;
-  const tileWidth = (width - 48 - gap * (columns - 1)) / columns;
+  const gap = TILE_GAP;
   const options = Object.entries(selectionOptions[field]);
   const visible = options;
   const legacy: Record<string, string> =
@@ -164,41 +227,16 @@ export function ChoiceTiles({
   return (
     <View className="gap-4">
       <View className="flex-row flex-wrap" style={{ gap }}>
-        {visible.map(([key, title]) => {
-          const selected = value[key] === true;
-          return (
-            <Pressable
-              key={key}
-              accessibilityRole="checkbox"
-              accessibilityLabel={title}
-              accessibilityState={{ checked: selected }}
-              onPress={() => {
-                void Haptics.selectionAsync().catch(() => {});
-                onChange({ ...value, [key]: !selected });
-              }}
-              style={{ width: tileWidth, borderCurve: "continuous" }}
-              className={
-                selected
-                  ? "gap-2 rounded-2xl border border-primary bg-accent p-2"
-                  : "gap-2 rounded-2xl border border-border bg-card p-2 active:bg-secondary"
-              }
-            >
-              <Artwork id={`${prefix}-${key}` as ArtworkId} />
-              <View className="min-h-11 flex-row items-center gap-1">
-                <Text className="flex-1 text-sm font-medium">{title}</Text>
-                <SymbolView
-                  name={
-                    selected
-                      ? { ios: "checkmark.circle.fill", android: "check_circle" }
-                      : { ios: "circle", android: "radio_button_unchecked" }
-                  }
-                  size={18}
-                  tintColor={selected ? primary : muted}
-                />
-              </View>
-            </Pressable>
-          );
-        })}
+        {visible.map(([key, title]) => (
+          <ArtTile
+            key={key}
+            art={`${prefix}-${key}` as ArtworkId}
+            title={title}
+            width={tileWidth}
+            selected={value[key] === true}
+            onPress={() => onChange({ ...value, [key]: value[key] !== true })}
+          />
+        ))}
       </View>
       {oldSelections.length ? (
         <View className="gap-2">
@@ -254,7 +292,11 @@ export function ChoiceTiles({
       </View>
       {adding ? (
         <EditorSheet
-          title={field === "kitchen_equipment" ? "Add equipment" : "Add an ingredient"}
+          title={
+            field === "kitchen_equipment"
+              ? "Add equipment"
+              : "Add an ingredient"
+          }
           onDismiss={() => setAdding(false)}
         >
           <Field

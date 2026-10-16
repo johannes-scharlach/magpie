@@ -16,6 +16,7 @@ export const steps = [
   "restrictions",
   "groceries",
   "kitchen",
+  "cuisines",
   "email",
   "code",
 ] as const;

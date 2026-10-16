@@ -2,7 +2,12 @@ import { Image } from "expo-image";
 import { View } from "react-native";
 import { Text } from "@/components/ui/text";
 import type { CookingProfile } from "@magpie/profile";
-import { equipmentOptions, pantryOptions, freshOptions } from "@magpie/profile";
+import {
+  equipmentOptions,
+  freshOptions,
+  ingredientOptions,
+  pantryOptions,
+} from "@magpie/profile";
 
 // Every ID has a production brief in art/README.md. Ship the transparent WebP
 // exports from pnpm assets:optimize, not the PNG masters; missing art gets a placeholder.
@@ -10,7 +15,8 @@ export type ArtworkId =
   | "welcome-market-find"
   | `equipment-${keyof typeof equipmentOptions}`
   | `pantry-${keyof typeof pantryOptions}`
-  | `fresh-${keyof typeof freshOptions}`;
+  | `fresh-${keyof typeof freshOptions}`
+  | `ingredient-${keyof typeof ingredientOptions}`;
 
 const deliveredAssets: Partial<Record<ArtworkId, number>> = {
   "welcome-market-find": require("./art/optimized/welcome-market-find.webp"),
@@ -49,6 +55,16 @@ const deliveredAssets: Partial<Record<ArtworkId, number>> = {
   "fresh-greek-yoghurt": require("./art/optimized/fresh-greek-yoghurt.webp"),
   "fresh-plain-yoghurt": require("./art/optimized/fresh-plain-yoghurt.webp"),
   "fresh-cream": require("./art/optimized/fresh-cream.webp"),
+  "ingredient-soy-sauce": require("./art/optimized/pantry-soy-sauce.webp"),
+  "ingredient-canned-corn": require("./art/optimized/pantry-canned-corn.webp"),
+  "ingredient-canned-tuna": require("./art/optimized/pantry-canned-tuna.webp"),
+  "ingredient-chickpeas": require("./art/optimized/pantry-chickpeas.webp"),
+  "ingredient-lentils": require("./art/optimized/pantry-lentils.webp"),
+  "ingredient-canned-beans": require("./art/optimized/pantry-canned-beans.webp"),
+  "ingredient-peanut-butter": require("./art/optimized/pantry-peanut-butter.webp"),
+  "ingredient-noodles": require("./art/optimized/pantry-noodles.webp"),
+  "ingredient-oats": require("./art/optimized/pantry-oats.webp"),
+  "ingredient-coconut-milk": require("./art/optimized/pantry-coconut-milk.webp"),
 };
 
 export function Artwork({
@@ -104,14 +120,10 @@ export function Artwork({
 /** Recognition at signup: the user's actual selections, rather than a summary to read. */
 export function KitchenArtwork({ profile }: { profile: CookingProfile }) {
   const ids: ArtworkId[] = [
-    ...Object.keys(pantryOptions)
-      .filter((key) => profile.pantry[key] === true)
-      .slice(0, 2)
-      .map((key) => `pantry-${key}` as ArtworkId),
-    ...Object.keys(freshOptions)
-      .filter((key) => profile.fresh_ingredients[key] === true)
-      .slice(0, 2)
-      .map((key) => `fresh-${key}` as ArtworkId),
+    ...profile.keeps
+      .filter((id) => id in ingredientOptions)
+      .slice(0, 3)
+      .map((id) => `ingredient-${id}` as ArtworkId),
     ...Object.keys(equipmentOptions)
       .filter((key) => profile.kitchen_equipment[key] === true)
       .slice(0, 1)
