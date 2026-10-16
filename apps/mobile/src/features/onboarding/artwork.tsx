@@ -40,6 +40,15 @@ const deliveredAssets: Partial<Record<ArtworkId, number>> = {
   "pantry-coconut-milk": require("./art/optimized/pantry-coconut-milk.webp"),
   "pantry-honey": require("./art/optimized/pantry-honey.webp"),
   "pantry-sugar": require("./art/optimized/pantry-sugar.webp"),
+  "pantry-stock": require("./art/optimized/pantry-stock.webp"),
+  "pantry-spices": require("./art/optimized/pantry-spices.webp"),
+  "fresh-eggs": require("./art/optimized/fresh-eggs.webp"),
+  "fresh-milk": require("./art/optimized/fresh-milk.webp"),
+  "fresh-butter": require("./art/optimized/fresh-butter.webp"),
+  "fresh-cheese": require("./art/optimized/fresh-cheese.webp"),
+  "fresh-greek-yoghurt": require("./art/optimized/fresh-greek-yoghurt.webp"),
+  "fresh-plain-yoghurt": require("./art/optimized/fresh-plain-yoghurt.webp"),
+  "fresh-cream": require("./art/optimized/fresh-cream.webp"),
 };
 
 export function Artwork({
