@@ -112,9 +112,46 @@ test("onboarding choices retain their meaning through validation and assistant c
   assert.equal(acceptsPortion(2.05), false);
 });
 
+test("cuisines show what the household keeps for each, shared items under every cuisine", () => {
+  const household = householdSchema.parse({
+    profile: {
+      ...newProfile(),
+      keeps: ["sesame-oil", "umeboshi", "miso", "gochujang"],
+      cuisines: [
+        { cuisine: "japanese", extras: ["Yuzu kosho"] },
+        { cuisine: "korean" },
+        { cuisine: "Georgian", extras: ["Adjika"] },
+      ],
+    },
+    people: [
+      { ...newPerson("9c5b42f7-fbea-4df2-b8d3-d42d37ed9a1d"), name: "Sam" },
+    ],
+  });
+  const context = profileContext(household, "caller");
+  assert.match(
+    context,
+    /^- Japanese: Miso, Sesame oil, Umeboshi, Yuzu kosho$/m,
+  );
+  assert.match(context, /^- Korean: Gochujang, Sesame oil$/m);
+  assert.match(context, /^- Georgian: Adjika$/m);
+  assert.match(
+    context,
+    /invitation to be used, not a request to use it every time/,
+  );
+
+  const none = profileContext(
+    { ...household, profile: newProfile() },
+    "caller",
+  );
+  assert.doesNotMatch(none, /Cuisines they cook/);
+});
+
 test("editing one profile section never inserts defaults into other sections", () => {
   assert.deepEqual(profileChangesSchema.parse({ main_supermarket: "Aldi" }), {
     main_supermarket: "Aldi",
   });
   assert.deepEqual(profileChangesSchema.parse({ shops: [] }), { shops: [] });
+  assert.deepEqual(profileChangesSchema.parse({ keeps: ["miso"] }), {
+    keeps: ["miso"],
+  });
 });
