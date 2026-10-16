@@ -47,6 +47,8 @@ const household_profiles = new Table({
   restrictions: column.text,
   ingredient_avoidances: column.text,
   shops: column.text,
+  keeps: column.text,
+  cuisines: column.text,
   meals_at_home: column.text,
   main_supermarket: column.text,
   other_shops: column.text,

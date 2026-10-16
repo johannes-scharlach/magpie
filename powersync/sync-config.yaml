@@ -36,7 +36,7 @@ streams:
         )
 
   household_profiles:
-    # SELECT * includes ingredient_avoidances and shops (onboarding choices).
+    # SELECT * includes ingredient_avoidances, shops, keeps and cuisines (onboarding choices).
     auto_subscribe: true
     priority: 2
     query: |

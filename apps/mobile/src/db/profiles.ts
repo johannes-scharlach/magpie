@@ -21,6 +21,8 @@ export function decodeHousehold(
     "fresh_ingredients",
     "ingredient_avoidances",
     "shops",
+    "keeps",
+    "cuisines",
   ]) {
     if (typeof profile[key] === "string")
       profile[key] = JSON.parse(profile[key]);
