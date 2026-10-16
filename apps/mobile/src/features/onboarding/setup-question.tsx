@@ -23,8 +23,6 @@ export const titles: Record<Step, string> = {
   restrictions: "Anything to avoid?",
   groceries: "Where do you shop?",
   kitchen: "What equipment do you have?",
-  pantry: "What do you nearly always have?",
-  fresh: "What do you buy regularly?",
   email: "Save your kitchen",
   code: "Check your inbox",
 };
@@ -37,8 +35,6 @@ export const subtitles: Record<Exclude<Step, "email" | "code">, string> = {
   restrictions: "For anyone you cook for.",
   groceries: "Your usual shop, and anywhere else you go for food.",
   kitchen: "Tap the appliances you have.",
-  pantry: "Cupboard staples. Tap a few — you can add more later.",
-  fresh: "Fresh food you buy often, even if it’s not in the fridge today.",
 };
 
 function HouseholdEditor({
@@ -213,20 +209,6 @@ export function SetupQuestion({
           field="kitchen_equipment"
           value={draft.profile.kitchen_equipment}
           onChange={(kitchen_equipment) => editProfile({ kitchen_equipment })}
-        />
-      ) : null}
-      {step === "pantry" ? (
-        <ChoiceTiles
-          field="pantry"
-          value={draft.profile.pantry}
-          onChange={(pantry) => editProfile({ pantry })}
-        />
-      ) : null}
-      {step === "fresh" ? (
-        <ChoiceTiles
-          field="fresh_ingredients"
-          value={draft.profile.fresh_ingredients}
-          onChange={(fresh_ingredients) => editProfile({ fresh_ingredients })}
         />
       ) : null}
     </>

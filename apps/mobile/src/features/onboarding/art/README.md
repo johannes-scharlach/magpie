@@ -400,6 +400,39 @@ Food illustrates the choice, rather than adding a generic icon above it.
 
 > One elongated clay Chinese cabbage with pale white ribs and crinkled light green leaves, one outer leaf slightly open, recognisably napa cabbage rather than a round cabbage. Isolated square composition, 15% clear margin. Matte polymer clay, rounded handmade forms, front three-quarter view, top-left studio light, gentle shadows, flat background #FBF8F4. No mascot, text, lettering, labels, borders, or selection marks.
 
+## Cuisine tiles — trial
+
+A cuisine is shown through its cupboard: a small still life of two or three
+signature ingredients from that cuisine's own ingredient list, not dishes,
+flags, landmarks, or costumes. Picking a cuisine means picking a cupboard.
+
+Question for this trial: do these still lifes read as the cuisine at tile size
+on the cuisine list? Start with the four below as one 2×2 sprite sheet. If they
+do not read, the list falls back to text rows and ingredient art stays on the
+per-cuisine screens.
+
+Ingredient art is drawn once per ingredient ID and reused across cuisines, so
+cuisine still lifes may borrow existing pantry tiles' look (soy sauce bottle,
+coconut milk tin) but are generated as their own composition.
+
+Slice with `pnpm assets:slice <sheet> --ids cuisine-japanese,cuisine-mexican,cuisine-levantine,cuisine-sichuan --rows 2 --cols 2`.
+
+### Sprite prompt (2×2)
+
+> A 2×2 grid of four separate small claymation still lifes, each centred in its own cell with generous clear space between cells and 15% clear margin inside each cell. Every cell shows two or three pantry ingredients from one cuisine, grouped closely as a single compact composition, same apparent object scale and consistent front three-quarter view across all four cells.
+> Top left: a small round lidded tub with its lid tilted open showing pale golden-brown miso paste, a folded dark green sheet of nori, and two wrinkled deep-red umeboshi plums on a tiny white saucer.
+> Top right: two dried dark burgundy ancho chiles with curled stems, a halved bright green lime showing its segments, and a small stack of three pale yellow corn tortillas.
+> Bottom left: a small shallow bowl of smooth beige tahini with a spoon, a tiny dish heaped with deep crimson sumac, and a small jar holding a yellow preserved lemon in quarters.
+> Bottom right: a loose handful of glossy dried red chillies, a small mound of reddish-brown Sichuan peppercorns with their split husks visible, and a small jar of dark red chilli crisp with oil and flakes.
+> Handcrafted stop-motion claymation art style, matte polymer plasticine with soft rounded edges, pillowy volume, cute tactile handmade feel, soft studio lighting from top-left with gentle shadows. Solid flat uniform neutral mid-grey background, exact colour #808080, plain and seamless across all cells, no grid lines, no ground plane, no cast shadows on the background. No blue tones in any subject. No text, words, labels, lettering, brand marks, flags, borders, checkmarks, sparkles, or mascot.
+
+### Acceptance
+
+- Each cell reads as its cuisine at actual tile size, without its label.
+- Japanese and Sichuan stay distinct from each other and from a generic
+  "Asian" look.
+- Subjects match the scale and view of existing pantry tiles.
+
 ## Existing assets
 
 `art-welcome.png` is the master for the startup screen's

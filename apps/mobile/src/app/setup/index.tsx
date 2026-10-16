@@ -8,7 +8,7 @@ import { useAuth } from "@/db/provider";
 import { useHouseholdAccess } from "@/features/onboarding/access";
 import { Artwork } from "@/features/onboarding/artwork";
 import { CompleteSetup } from "@/features/onboarding/complete";
-import { createDraft } from "@/features/onboarding/draft";
+import { createDraft, lastQuestion } from "@/features/onboarding/draft";
 import { OnboardingScreen } from "@/features/onboarding/onboarding-screen";
 import { useOnboarding } from "@/features/onboarding/provider";
 import { StartupScreen } from "@/features/onboarding/startup-screen";
@@ -46,7 +46,7 @@ export default function Welcome() {
         // A session bypasses the email gate. Persist the resumed step before
         // changing routes so an interruption cannot later finalize early.
         return session && ["email", "code"].includes(next.step)
-          ? { ...next, step: "fresh" }
+          ? { ...next, step: lastQuestion }
           : next;
       });
       router.push("/setup/questions" as never);

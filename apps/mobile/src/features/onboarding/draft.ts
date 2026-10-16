@@ -16,12 +16,13 @@ export const steps = [
   "restrictions",
   "groceries",
   "kitchen",
-  "pantry",
-  "fresh",
   "email",
   "code",
 ] as const;
 export type Step = (typeof steps)[number];
+/** Questions end where sign-up begins; a session skips sign-up. */
+export const questionCount = steps.indexOf("email");
+export const lastQuestion = steps[questionCount - 1]!;
 export type OnboardingDraft = {
   version: 1;
   onboarding_person_id: string;

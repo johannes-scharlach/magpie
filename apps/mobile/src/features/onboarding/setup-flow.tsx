@@ -20,7 +20,12 @@ import { Text } from "@/components/ui/text";
 import { PreviousQuestionButton } from "@/features/onboarding/previous-question-button";
 import { useAuth } from "@/db/provider";
 import { FormError } from "@/features/profile/form";
-import { steps, type Step } from "@/features/onboarding/draft";
+import {
+  lastQuestion,
+  questionCount,
+  steps,
+  type Step,
+} from "@/features/onboarding/draft";
 import {
   EmailAuthFields,
   useEmailAuth,
@@ -74,7 +79,7 @@ function Questions({ initialStep }: { initialStep: Step }) {
         setIndex(target);
         if (reduced) setSettledIndex(target);
         AccessibilityInfo.announceForAccessibility(
-          `${titles[targetStep]}. Question ${target + 1} of ${session ? 9 : steps.length}.`,
+          `${titles[targetStep]}. Question ${target + 1} of ${session ? questionCount : steps.length}.`,
         );
       } finally {
         moving.current = false;
@@ -125,7 +130,7 @@ function Questions({ initialStep }: { initialStep: Step }) {
     (step !== "name" || !!person.name.trim()) &&
     (step !== "diet" || person.diet !== "other" || !!person.diet_other.trim());
   const isAuth = step === "email" || step === "code";
-  const finishing = !!session && (step === "fresh" || isAuth);
+  const finishing = !!session && (step === lastQuestion || isAuth);
   const locked = busy || auth.busy;
   // The content ends at the next reachable question. A flick cannot skip
   // required answers, send an email, verify a code, or finish setup.
@@ -240,13 +245,13 @@ function Questions({ initialStep }: { initialStep: Step }) {
                   accessibilityLabel="Setup progress"
                   accessibilityValue={{
                     min: 1,
-                    max: session ? 9 : steps.length,
-                    now: Math.min(pageIndex + 1, session ? 9 : steps.length),
+                    max: session ? questionCount : steps.length,
+                    now: Math.min(pageIndex + 1, session ? questionCount : steps.length),
                   }}
                   className="self-end text-sm text-muted-foreground"
                 >
-                  {Math.min(pageIndex + 1, session ? 9 : steps.length)} of{" "}
-                  {session ? 9 : steps.length}
+                  {Math.min(pageIndex + 1, session ? questionCount : steps.length)} of{" "}
+                  {session ? questionCount : steps.length}
                 </Text>
                 <View className="gap-2">
                   <Text
