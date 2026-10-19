@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { kitchenPortrait } from "./kitchen-portrait";
 
 describe("kitchen portrait", () => {
-  it("leads with cuisines and samples their specialties instead of the first cans", () => {
+  it("names cuisines and pictures their specialties instead of the first cans", () => {
     const portrait = kitchenPortrait({
       ...newProfile(),
       keeps: ["canned-corn", "canned-tuna", "chickpeas", "doubanjiang", "sichuan-peppercorns", "polenta"],
@@ -13,9 +13,10 @@ describe("kitchen portrait", () => {
         { cuisine: "italian", extras: [] },
       ],
     });
+    // The caption names three; the picture shows everything, staples last.
     expect(portrait?.artworkIds).toEqual([
-      "cuisine-sichuan", "cuisine-italian",
       "ingredient-doubanjiang", "ingredient-polenta", "ingredient-sichuan-peppercorns",
+      "ingredient-canned-corn", "ingredient-canned-tuna", "ingredient-chickpeas",
     ]);
     expect(portrait?.caption).toBe(
       "Sichuan and Italian cooking, with Doubanjiang, Polenta and Sichuan peppercorns.",

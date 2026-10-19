@@ -38,32 +38,33 @@ export function kitchenPortrait(profile: CookingProfile) {
   const details: Detail[] = [];
   const seen = new Set<string>();
   // Take turns so one well-stocked cuisine doesn't crowd out the others.
-  while (details.length < 3 && groups.some((group) => group.length)) {
+  while (groups.some((group) => group.length)) {
     for (const group of groups) {
       const detail = group.shift();
       if (!detail || seen.has(detail.label.toLowerCase())) continue;
       seen.add(detail.label.toLowerCase());
       details.push(detail);
-      if (details.length === 3) break;
     }
   }
+  // The picture holds the whole cupboard, staples behind the specialties.
+  const pictured = [
+    ...details,
+    ...profile.keeps
+      .filter((id) => everyday.has(id))
+      .map(ingredient)
+      .filter((detail) => !seen.has(detail.label.toLowerCase())),
+  ];
   if (!cuisines.length && !details.length) return null;
 
   const labels = cuisines.length > 3
     ? [...cuisines.slice(0, 2).map((entry) => cuisineLabel(entry.cuisine)), `${cuisines.length - 2} other cuisines`]
     : cuisines.map((entry) => cuisineLabel(entry.cuisine));
-  const flavours = list(details.map((detail) => detail.label));
+  const flavours = list(details.slice(0, 3).map((detail) => detail.label));
   const caption = cuisines.length
     ? `${list(labels)} cooking${flavours ? `, with ${flavours}` : ""}.`
     : `A kitchen stocked with ${flavours}.`;
   return {
-    artworkIds: [
-      ...cuisines
-        .filter((entry) => entry.cuisine in cuisineOptions)
-        .slice(0, 2)
-        .map((entry) => `cuisine-${entry.cuisine}`),
-      ...details.flatMap((detail) => detail.artworkId ? [detail.artworkId] : []),
-    ],
+    artworkIds: pictured.flatMap((detail) => detail.artworkId ? [detail.artworkId] : []),
     caption,
   };
 }

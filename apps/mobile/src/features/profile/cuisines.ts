@@ -53,6 +53,14 @@ export function removeCuisine(profile: Cupboards, cuisine: string): Cupboards {
   };
 }
 
+/** The ingredients a cuisine's picture shows: what they keep for it, in catalog order. */
+export function medley(profile: Cupboards, cuisine: string): string[] {
+  // A shared tick says nothing about a cuisine they don't cook.
+  if (!profile.cuisines.some((c) => c.cuisine === cuisine)) return [];
+  const listed: readonly string[] = cuisineOptions[cuisine]?.ingredients ?? [];
+  return listed.filter((id) => profile.keeps.includes(id));
+}
+
 /** A typed name matches a catalog label or one of their own before it becomes new. */
 export function cuisineId(profile: Cupboards, name: string): string {
   const typed = name.trim();

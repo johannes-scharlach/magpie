@@ -4,6 +4,7 @@ import {
   addExtra,
   cookCuisine,
   cuisineId,
+  medley,
   removeCuisine,
   setExtras,
   toggleKept,
@@ -62,6 +63,16 @@ describe("cuisine cupboards", () => {
     expect(cuisineId(withOwn, " japanese ")).toBe("japanese");
     expect(cuisineId(withOwn, "georgian")).toBe("Georgian");
     expect(cuisineId(withOwn, "Peranakan")).toBe("Peranakan");
+  });
+
+  it("a cuisine's picture shows what they keep for it, and nothing for a cuisine they don't cook", () => {
+    expect(medley(profile, "japanese")).toEqual(["miso", "sesame-oil"]);
+    const stocked = { ...profile, keeps: ["sake", "nori", "mirin", "miso"] };
+    expect(medley(stocked, "japanese")).toEqual(["miso", "mirin", "sake", "nori"]);
+    expect(medley(profile, "thai")).toEqual([]);
+    // Sesame oil is kept for Japanese; Korean lists it but they don't cook Korean.
+    expect(medley(profile, "korean")).toEqual([]);
+    expect(medley(profile, "Georgian")).toEqual([]);
   });
 
   it("removing a cuisine leaves what the household keeps", () => {

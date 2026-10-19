@@ -400,7 +400,12 @@ Food illustrates the choice, rather than adding a generic icon above it.
 
 > One elongated clay Chinese cabbage with pale white ribs and crinkled light green leaves, one outer leaf slightly open, recognisably napa cabbage rather than a round cabbage. Isolated square composition, 15% clear margin. Matte polymer clay, rounded handmade forms, front three-quarter view, top-left studio light, gentle shadows, flat background #FBF8F4. No mascot, text, lettering, labels, borders, or selection marks.
 
-## Cuisine tiles — trial
+## Cuisine tiles — trial, not used
+
+The app has no cuisine art. The cuisine list and the kitchen portrait show a
+cuisine through the ingredient art of what the household keeps for it, so
+ingredient tiles are the art to produce. The four still lifes below remain as
+the trial record and are not imported.
 
 A cuisine is shown through its cupboard: a small still life of two or three
 signature ingredients from that cuisine's own ingredient list, not dishes,
@@ -472,3 +477,23 @@ are referenced by runtime code; PNG masters do not enter Metro's asset graph.
 - **Subject**: Vine cherry tomatoes, fresh basil leaves, yellow onion, and garlic bulb
 - **Prompt**:
   > Fresh culinary ingredients: ripe red cherry tomatoes on the vine, vibrant green basil leaves, a plump yellow onion, and a whole garlic bulb. Same matte polymer clay art style, smooth plasticine with soft rounded edges, pillowy volume, soft studio lighting from top-left with gentle shadows, solid flat background with exact color #FBF8F4 as reference image. No text or lettering.
+
+---
+
+## 4×4 Ingredient Sprite Sheets (Production Pipeline)
+
+Individual ingredients are produced in 4×4 grid sprite sheets (16 items per sheet, 2048×2048 JPEG) on `#808080` neutral mid-grey, sliced with `scripts/slice-spritesheet.mjs` (via `scripts/art-matting.py` neural alpha matting), and optimized with `pnpm assets:optimize`.
+
+### Delivered Sheets (1–5)
+- `spritesheet-japanese-1.jpg`: 16 Japanese cupboard items (delivered & wired).
+- `spritesheet-mexican-1.jpg`: 16 Mexican & Americas items (delivered & wired).
+- `spritesheet-levantine-1.jpg`: 16 Levantine & Mediterranean items (delivered & wired).
+- `spritesheet-east-asian-1.jpg`: 16 Sichuan, Cantonese & Korean items (delivered & wired).
+- `spritesheet-european-1.jpg`: 16 Italian & Spanish items (delivered & wired).
+
+### In-Flight Sheets (6–10)
+- `spritesheet-south-asian-1.jpg`: 16 South Asian items (sliced to PNG masters).
+- `spritesheet-southeast-asian-1.jpg`: 16 Southeast Asian items (sliced to PNG masters).
+- `spritesheet-french-british-1.jpg`: 16 French & British items (sliced to PNG masters).
+- `spritesheet-north-african-1.jpg`: 16 North African items (master saved, ready to slice).
+- `spritesheet-central-eastern-european-1.jpg`: 16 Central/Eastern European items (prompt documented in handoff artifact).
