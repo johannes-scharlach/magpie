@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
 import { OnboardingScreen } from "@/features/onboarding/onboarding-screen";
 import {
+  addExtra,
   cookCuisine,
   cuisineId,
   removeCuisine,
@@ -38,7 +39,20 @@ export function CupboardScreen({
   const [cuisine, setCuisine] = useState(params.cuisine);
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState<string | null>(null);
+  const [extra, setExtra] = useState("");
   const entry = profile.cuisines.find((c) => c.cuisine === cuisine);
+
+  function saveExtra() {
+    if (!cuisine || !extra.trim()) return;
+    change((p) => addExtra(p, cuisine, extra));
+    setExtra("");
+  }
+
+  function finish() {
+    if (!cuisine) return;
+    change((p) => addExtra(cuisine === "everyday" ? p : cookCuisine(p, cuisine), cuisine, extra));
+    router.back();
+  }
 
   function addOwn() {
     if (!name.trim()) {
@@ -53,19 +67,16 @@ export function CupboardScreen({
   const label = cuisine ? cuisineLabel(cuisine) : "";
   const title = cuisine ? `Your ${label} cupboard` : "A cuisine of your own";
   const subtitle = cuisine
-    ? `What’s in your ${label} cupboard right now?`
+    ? "Pick all that are typically at home"
     : "Name it, then add what you keep for it.";
   const action = !cuisine
     ? { label: "Add cuisine", onPress: addOwn }
     : // Staples are not cooked; nothing needs recording until a tick.
       entry || cuisine === "everyday"
-      ? { label: "Done", onPress: () => router.back() }
+       ? { label: "Done", onPress: finish }
       : {
           label: `I cook ${label}`,
-          onPress: () => {
-            change((p) => cookCuisine(p, cuisine));
-            router.back();
-          },
+           onPress: finish,
         };
   const fields = (
     <>
@@ -77,6 +88,9 @@ export function CupboardScreen({
           onToggle={(id) => change((p) => toggleKept(p, cuisine, id))}
           extras={entry?.extras ?? []}
           onExtras={(extras) => change((p) => setExtras(p, cuisine, extras))}
+          extra={extra}
+          onExtraChange={setExtra}
+          onAddExtra={saveExtra}
         />
       ) : (
         <Field

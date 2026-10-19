@@ -5,7 +5,7 @@ import { Platform, Pressable, View, type TextInput } from "react-native";
 import { useResolveClassNames } from "uniwind";
 import { PrimaryAction } from "@/components/action";
 import { ChoiceList } from "@/components/choice-list";
-import { EditorSheet } from "@/components/editor-sheet";
+import { EditorSheet, type EditorSheetHandle } from "@/components/editor-sheet";
 import { Text } from "@/components/ui/text";
 import { Field } from "@/features/profile/form";
 
@@ -19,13 +19,14 @@ export function ShopsEditor({ profile, onChange }: {
   const [editing, setEditing] = useState<{ index: number; shop: Shop } | null>(null);
   const [attempted, setAttempted] = useState(false);
   const input = useRef<TextInput>(null);
+  const sheet = useRef<EditorSheetHandle>(null);
   function open(shop: Shop, index = -1) { setAttempted(false); setEditing({ shop: { ...shop }, index }); }
   function save() {
     if (!editing) return;
     if (!editing.shop.name.trim()) { setAttempted(true); input.current?.focus(); return; }
     const shop = { ...editing.shop, name: editing.shop.name.trim() };
     onChange({ shops: editing.index < 0 ? [...profile.shops, shop] : profile.shops.map((entry, index) => index === editing.index ? shop : entry) });
-    setEditing(null);
+    sheet.current?.dismiss();
   }
   const remainingSuggestions = shopSuggestions.filter(
     (name) => !profile.shops.some((shop) => shop.name.toLowerCase() === name.toLowerCase()),
@@ -95,7 +96,7 @@ export function ShopsEditor({ profile, onChange }: {
       </View>
       {profile.other_shops ? <Field label="Your existing shopping notes" multiline value={profile.other_shops} onChangeText={(other_shops) => onChange({ other_shops })} /> : null}
       {editing ? (
-        <EditorSheet title={editing.index < 0 ? "Add a shop" : "Edit shop"} onDismiss={() => setEditing(null)}>
+        <EditorSheet ref={sheet} autoFocusInput={!editing.shop.name ? input : undefined} title={editing.index < 0 ? "Add a shop" : "Edit shop"} onDismiss={() => setEditing(null)}>
           <Field ref={input} label="Shop name" value={editing.shop.name} onChangeText={(name) => setEditing({ ...editing, shop: { ...editing.shop, name } })} autoFocus={!editing.shop.name} returnKeyType="done" error={attempted && !editing.shop.name.trim() ? "Enter a shop name." : null} />
           <View className="gap-2">
             <Text className="font-medium">How easy is it to get there?</Text>
@@ -107,7 +108,7 @@ export function ShopsEditor({ profile, onChange }: {
             />
           </View>
           <PrimaryAction label={editing.index < 0 ? "Add shop" : "Save"} onPress={save} />
-          {editing.index >= 0 ? <Pressable accessibilityRole="button" className="min-h-11 items-center justify-center" onPress={() => { onChange({ shops: profile.shops.filter((_, index) => index !== editing.index) }); setEditing(null); }}><Text className="font-medium text-destructive">Remove shop</Text></Pressable> : null}
+          {editing.index >= 0 ? <Pressable accessibilityRole="button" className="min-h-11 items-center justify-center" onPress={() => { onChange({ shops: profile.shops.filter((_, index) => index !== editing.index) }); sheet.current?.dismiss(); }}><Text className="font-medium text-destructive">Remove shop</Text></Pressable> : null}
         </EditorSheet>
       ) : null}
     </View>

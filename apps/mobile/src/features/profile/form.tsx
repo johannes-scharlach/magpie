@@ -5,8 +5,9 @@ import {
   portionReferenceRange,
   type HouseholdPerson,
 } from "@magpie/profile";
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import {
+  AppState,
   Platform,
   ScrollView,
   View,
@@ -20,7 +21,7 @@ import { ChoiceList } from "@/components/choice-list";
 import { Input } from "@/components/ui/input";
 import { MenuPicker } from "@/components/ui/menu-picker";
 import { Text } from "@/components/ui/text";
-import { Slider } from "@expo/ui/community/slider";
+import { PortionSlider } from "@/features/profile/portion-slider";
 import { useResolveClassNames } from "uniwind";
 
 export function FormScreen({
@@ -158,30 +159,58 @@ function isMealRoutine(
 export function MealRoutineEditor({
   value,
   onChange,
+  onInputHeightChange,
 }: {
   value: string;
   onChange: (value: string) => void;
+  onInputHeightChange?: (height: number) => void;
 }) {
   const isVarying = value === "It varies" || !isMealRoutine(value);
   const selectedValue = isVarying ? "It varies" : value;
   const detail = value === "It varies" ? "" : value;
   const routineRef = useRef<TextInput>(null);
-  const wasVarying = useRef(isVarying);
+  const focusRoutine = useRef(false);
+  const [windowFocused, setWindowFocused] = useState(true);
+  // Android modals temporarily take window focus. Requesting the keyboard
+  // before the activity regains it focuses the field but leaves the IME hidden.
   useEffect(() => {
-    if (isVarying && !wasVarying.current) routineRef.current?.focus();
-    wasVarying.current = isVarying;
-  }, [isVarying]);
+    if (Platform.OS !== "android") return;
+    const blur = AppState.addEventListener("blur", () => {
+      setWindowFocused(false);
+    });
+    const focus = AppState.addEventListener("focus", () => {
+      setWindowFocused(true);
+    });
+    return () => {
+      blur.remove();
+      focus.remove();
+    };
+  }, []);
+  useEffect(() => {
+    if (!isVarying || !windowFocused || !focusRoutine.current) return;
+    focusRoutine.current = false;
+    routineRef.current?.focus();
+  }, [isVarying, windowFocused]);
+  useEffect(() => {
+    if (!isVarying) onInputHeightChange?.(0);
+  }, [isVarying, onInputHeightChange]);
   return (
     <View className="gap-3">
       <PickerRow
         label="Meals at home"
         choices={mealRoutineChoices}
         selectedValue={selectedValue}
-        onValueChange={onChange}
+        onValueChange={(next) => {
+          focusRoutine.current = next === "It varies" && !isVarying;
+          onChange(next);
+        }}
       />
       {isVarying ? (
         <Field
           ref={routineRef}
+          onLayout={(event) =>
+            onInputHeightChange?.(event.nativeEvent.layout.height)
+          }
           label="Tell us about your routine"
           multiline
           value={detail}
@@ -426,18 +455,11 @@ function PortionReference({
           )
         }
       >
-        <Slider
-          minimumValue={portionReferenceRange.min}
-          maximumValue={portionReferenceRange.max}
-          step={Platform.OS === "ios" ? portionReferenceRange.step : undefined}
+        <PortionSlider
           value={value}
           onValueChange={(next) => onChange(snapToStep(next))}
-          minimumTrackTintColor={primary}
-          maximumTrackTintColor={track}
-          {...(Platform.OS === "android" && {
-            thumbTintColor: primary,
-          })}
-          style={{ width: "100%", height: 32 }}
+          activeColor={primary}
+          inactiveColor={track}
         />
       </View>
       <Text className="text-sm text-muted-foreground">

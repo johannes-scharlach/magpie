@@ -69,7 +69,7 @@ export function RecipeBrowser({
                   accessibilityLabel="Empty cookbook"
                 />
               ) : null}
-              <Text variant="muted">
+              <Text variant="muted" className="text-center">
                 {search.trim()
                   ? `No matches for “${search.trim()}”.`
                   : "Your cookbook is empty. Import the recipes you love to cook."}

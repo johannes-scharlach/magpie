@@ -1,4 +1,5 @@
 import { Stack } from "expo-router";
+import { Platform } from "react-native";
 import { useReducedMotion } from "react-native-reanimated";
 
 export default function HouseholdLayout() {
@@ -8,6 +9,7 @@ export default function HouseholdLayout() {
       screenOptions={{
         animation: reduced ? "fade" : "default",
         headerBackButtonDisplayMode: "minimal",
+        ...(Platform.OS === "android" ? { sheetCornerRadius: 28 } : {}),
       }}
     >
       {/* The header lives on the root stack's "household" screen: only there

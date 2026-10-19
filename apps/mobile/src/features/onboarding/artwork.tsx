@@ -3,11 +3,13 @@ import { View } from "react-native";
 import { Text } from "@/components/ui/text";
 import type { CookingProfile } from "@magpie/profile";
 import {
+  cuisineOptions,
   equipmentOptions,
   freshOptions,
   ingredientOptions,
   pantryOptions,
 } from "@magpie/profile";
+import { kitchenPortrait } from "./kitchen-portrait";
 
 // Every ID has a production brief in art/README.md. Ship the transparent WebP
 // exports from pnpm assets:optimize, not the PNG masters; missing art gets a placeholder.
@@ -16,7 +18,8 @@ export type ArtworkId =
   | `equipment-${keyof typeof equipmentOptions}`
   | `pantry-${keyof typeof pantryOptions}`
   | `fresh-${keyof typeof freshOptions}`
-  | `ingredient-${keyof typeof ingredientOptions}`;
+  | `ingredient-${keyof typeof ingredientOptions}`
+  | `cuisine-${keyof typeof cuisineOptions}`;
 
 const deliveredAssets: Partial<Record<ArtworkId, number>> = {
   "welcome-market-find": require("./art/optimized/welcome-market-find.webp"),
@@ -65,7 +68,15 @@ const deliveredAssets: Partial<Record<ArtworkId, number>> = {
   "ingredient-noodles": require("./art/optimized/pantry-noodles.webp"),
   "ingredient-oats": require("./art/optimized/pantry-oats.webp"),
   "ingredient-coconut-milk": require("./art/optimized/pantry-coconut-milk.webp"),
+  "cuisine-japanese": require("./art/optimized/cuisine-japanese.webp"),
+  "cuisine-mexican": require("./art/optimized/cuisine-mexican.webp"),
+  "cuisine-levantine": require("./art/optimized/cuisine-levantine.webp"),
+  "cuisine-sichuan": require("./art/optimized/cuisine-sichuan.webp"),
 };
+
+export function hasArtwork(id: string): id is ArtworkId {
+  return id in deliveredAssets;
+}
 
 export function Artwork({
   id,
@@ -117,31 +128,48 @@ export function Artwork({
   );
 }
 
-/** Recognition at signup: the user's actual selections, rather than a summary to read. */
+/** A loose still life of their kitchen, never padded with unrelated available art. */
 export function KitchenArtwork({ profile }: { profile: CookingProfile }) {
-  const ids: ArtworkId[] = [
-    ...profile.keeps
-      .filter((id) => id in ingredientOptions)
-      .slice(0, 3)
-      .map((id) => `ingredient-${id}` as ArtworkId),
-    ...Object.keys(equipmentOptions)
-      .filter((key) => profile.kitchen_equipment[key] === true)
-      .slice(0, 1)
-      .map((key) => `equipment-${key}` as ArtworkId),
-  ].slice(0, 4);
-  if (!ids.length) return null;
+  const portrait = kitchenPortrait(profile);
+  if (!portrait) return null;
+  // Missing art stays absent; the caption still recognises those selections.
+  const ids = portrait.artworkIds.filter(hasArtwork);
   return (
-    <View
-      className="flex-row items-center gap-2"
-      accessible
-      accessibilityRole="image"
-      accessibilityLabel="Your selected kitchen equipment and ingredients"
-    >
-      {ids.map((id) => (
-        <View className="flex-1" key={id}>
-          <Artwork id={id} />
+    <View className="gap-3">
+      {ids.length ? (
+        <View
+          className="w-full max-w-md self-center"
+          style={{ aspectRatio: ids.length > 2 ? 1.4 : 1.7 }}
+          accessible={false}
+          importantForAccessibility="no-hide-descendants"
+          accessibilityElementsHidden
+        >
+          {ids.map((id, index) => {
+            const foreground = index >= 2;
+            const foregroundCount = ids.length - 2;
+            const left = ids.length === 1 ? 18
+              : foreground ? 8 + (index - 2) * (56 / Math.max(foregroundCount - 1, 1))
+              : index === 0 ? 0 : 43;
+            return (
+              <View
+                key={id}
+                className="absolute"
+                style={{
+                  left: `${foreground && foregroundCount === 1 ? 34 : left}%`,
+                  top: foreground ? (index % 2 ? "52%" : "44%") : (index === 0 ? "0%" : "5%"),
+                  width: ids.length === 1 ? "64%" : foreground ? "32%" : "56%",
+                  transform: [{ rotate: `${[-7, 6, -9, 4, 8][index]}deg` }],
+                }}
+              >
+                <Artwork id={id} />
+              </View>
+            );
+          })}
         </View>
-      ))}
+      ) : null}
+      <Text className="text-base leading-6 text-muted-foreground">
+        {portrait.caption}
+      </Text>
     </View>
   );
 }

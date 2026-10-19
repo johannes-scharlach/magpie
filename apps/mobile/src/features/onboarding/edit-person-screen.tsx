@@ -128,6 +128,7 @@ export function EditSetupPerson() {
       <PersonFields
         person={person}
         onChange={setPerson}
+        autoFocusName={!existing}
         errors={fieldErrors}
         validationAttempt={validationAttempt}
       />

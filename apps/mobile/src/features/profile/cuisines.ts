@@ -37,6 +37,15 @@ export function setExtras(
   };
 }
 
+export function addExtra(profile: Cupboards, cuisine: string, input: string): Cupboards {
+  const typed = input.trim();
+  const extras = profile.cuisines.find((c) => c.cuisine === cuisine)?.extras ?? [];
+  if (!typed || extras.some((extra) => extra.toLowerCase() === typed.toLowerCase())) {
+    return profile;
+  }
+  return setExtras(profile, cuisine, [...extras, typed]);
+}
+
 export function removeCuisine(profile: Cupboards, cuisine: string): Cupboards {
   return {
     keeps: profile.keeps,

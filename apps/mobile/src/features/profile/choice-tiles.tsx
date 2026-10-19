@@ -5,6 +5,7 @@ import {
   Pressable,
   View,
   useWindowDimensions,
+  type LayoutChangeEvent,
   type TextInput,
 } from "react-native";
 import { useResolveClassNames } from "uniwind";
@@ -19,7 +20,7 @@ import {
 import { PrimaryAction } from "@/components/action";
 import { AddRow } from "@/components/add-row";
 import { ChoiceList } from "@/components/choice-list";
-import { EditorSheet } from "@/components/editor-sheet";
+import { EditorSheet, type EditorSheetHandle } from "@/components/editor-sheet";
 import { Text } from "@/components/ui/text";
 import { Artwork, type ArtworkId } from "@/features/onboarding/artwork";
 import { Field } from "@/features/profile/form";
@@ -81,7 +82,13 @@ export function ArtTile({
           : "gap-2 rounded-2xl border border-border bg-card p-2 active:bg-secondary"
       }
     >
-      <Artwork id={art} />
+      {art.startsWith("equipment-") ? (
+        <View className="w-16 self-center">
+          <Artwork id={art} />
+        </View>
+      ) : (
+        <Artwork id={art} />
+      )}
       <View className="min-h-11 flex-row items-center gap-1">
         <Text className="flex-1 text-sm font-medium">{title}</Text>
         <SymbolView
@@ -99,11 +106,18 @@ export function ArtTile({
 }
 
 /** Three columns of art tiles at regular text sizes; fewer as text grows. */
-export function useTileWidth(dense: boolean) {
+export function useTileLayout(dense: boolean) {
   const { width, fontScale } = useWindowDimensions();
+  const [gridWidth, setGridWidth] = useState<number | null>(null);
+  const availableWidth = gridWidth ?? width - 48;
   const columns =
-    fontScale > 1.5 ? 1 : dense && width >= 370 && fontScale <= 1.1 ? 3 : 2;
-  return (width - 48 - TILE_GAP * (columns - 1)) / columns;
+    fontScale > 1.5 ? 1 : dense && availableWidth >= 322 && fontScale <= 1.1 ? 3 : 2;
+  return {
+    // Leave fractional slack rather than letting rounding wrap the last tile.
+    tileWidth: Math.floor((availableWidth - TILE_GAP * (columns - 1)) / columns),
+    onLayout: (event: LayoutChangeEvent) =>
+      setGridWidth(event.nativeEvent.layout.width),
+  };
 }
 export const TILE_GAP = 10;
 
@@ -116,7 +130,7 @@ export function ChoiceTiles({
   value: Selection;
   onChange: (value: Selection) => void;
 }) {
-  const tileWidth = useTileWidth(
+  const { tileWidth, onLayout } = useTileLayout(
     field === "pantry" || field === "fresh_ingredients",
   );
   const [showPrevious, setShowPrevious] = useState(false);
@@ -124,6 +138,7 @@ export function ChoiceTiles({
   const [custom, setCustom] = useState("");
   const [attempted, setAttempted] = useState(false);
   const input = useRef<TextInput>(null);
+  const sheet = useRef<EditorSheetHandle>(null);
 
   function add() {
     if (!custom.trim()) {
@@ -138,7 +153,7 @@ export function ChoiceTiles({
     ) {
       onChange({ ...value, other: [...value.other, custom.trim()] });
     }
-    setAdding(false);
+    sheet.current?.dismiss();
   }
 
   // Goals are intentions, not tangible objects: render as a clear multi-select list.
@@ -187,7 +202,7 @@ export function ChoiceTiles({
           />
         </ChoiceList>
         {adding ? (
-          <EditorSheet title="Your goal" onDismiss={() => setAdding(false)}>
+          <EditorSheet ref={sheet} autoFocusInput={input} title="Your goal" onDismiss={() => setAdding(false)}>
             <Field
               ref={input}
               label="What would help?"
@@ -226,7 +241,7 @@ export function ChoiceTiles({
 
   return (
     <View className="gap-4">
-      <View className="flex-row flex-wrap" style={{ gap }}>
+      <View className="flex-row flex-wrap" style={{ gap }} onLayout={onLayout}>
         {visible.map(([key, title]) => (
           <ArtTile
             key={key}
@@ -292,6 +307,8 @@ export function ChoiceTiles({
       </View>
       {adding ? (
         <EditorSheet
+          ref={sheet}
+          autoFocusInput={input}
           title={
             field === "kitchen_equipment"
               ? "Add equipment"

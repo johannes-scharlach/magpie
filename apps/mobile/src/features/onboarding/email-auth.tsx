@@ -176,7 +176,7 @@ export function useEmailAuth({
           onPress: () => void verify(code),
         }
       : {
-          label: busy ? "Sending…" : "Send code",
+          label: busy ? "Sending…" : "Continue",
           disabled: busy,
           onPress: () => void send(),
         },

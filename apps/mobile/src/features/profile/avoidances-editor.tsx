@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import { Platform, Pressable, View, type TextInput } from "react-native";
 import { useResolveClassNames } from "uniwind";
 import { PrimaryAction } from "@/components/action";
-import { EditorSheet } from "@/components/editor-sheet";
+import { EditorSheet, type EditorSheetHandle } from "@/components/editor-sheet";
 import { Text } from "@/components/ui/text";
 import { Field, PickerRow } from "@/features/profile/form";
 
@@ -28,13 +28,14 @@ export function AvoidancesEditor({ value, onChange, notes, onNotes }: {
   const [editing, setEditing] = useState<{ index: number; item: IngredientAvoidance } | null>(null);
   const [attempted, setAttempted] = useState(false);
   const input = useRef<TextInput>(null);
+  const sheet = useRef<EditorSheetHandle>(null);
   function open(item: IngredientAvoidance, index = -1) { setAttempted(false); setEditing({ item: { ...item }, index }); }
   function save() {
     if (!editing) return;
     if (!editing.item.ingredient.trim()) { setAttempted(true); input.current?.focus(); return; }
     const item = { ...editing.item, ingredient: editing.item.ingredient.trim(), detail: editing.item.detail.trim() };
     onChange(editing.index < 0 ? [...value, item] : value.map((entry, index) => index === editing.index ? item : entry));
-    setEditing(null);
+    sheet.current?.dismiss();
   }
   return (
     <View className="gap-8">
@@ -132,7 +133,7 @@ export function AvoidancesEditor({ value, onChange, notes, onNotes }: {
       {notes ? <Field label="Your existing notes" multiline value={notes} onChangeText={onNotes} /> : null}
       {!value.length && !notes.trim() ? <Text className="text-sm text-muted-foreground">Nothing to avoid? Just continue.</Text> : null}
       {editing ? (
-        <EditorSheet title={editing.index < 0 ? "Add an ingredient" : "Edit ingredient"} onDismiss={() => setEditing(null)}>
+        <EditorSheet ref={sheet} autoFocusInput={!editing.item.ingredient ? input : undefined} title={editing.index < 0 ? "Add an ingredient" : "Edit ingredient"} onDismiss={() => setEditing(null)}>
           <Field ref={input} label="Ingredient" value={editing.item.ingredient} onChangeText={(ingredient) => setEditing({ ...editing, item: { ...editing.item, ingredient } })} autoFocus={!editing.item.ingredient} error={attempted && !editing.item.ingredient.trim() ? "Enter an ingredient." : null} />
           <PickerRow
             label="Reason"
@@ -145,7 +146,7 @@ export function AvoidancesEditor({ value, onChange, notes, onNotes }: {
           />
           <Field label="Details (optional)" placeholder="e.g. Only Sam" value={editing.item.detail} onChangeText={(detail) => setEditing({ ...editing, item: { ...editing.item, detail } })} />
           <PrimaryAction label={editing.index < 0 ? "Add" : "Save"} onPress={save} />
-          {editing.index >= 0 ? <Pressable accessibilityRole="button" className="min-h-11 items-center justify-center" onPress={() => { onChange(value.filter((_, index) => index !== editing.index)); setEditing(null); }}><Text className="font-medium text-destructive">Remove ingredient</Text></Pressable> : null}
+          {editing.index >= 0 ? <Pressable accessibilityRole="button" className="min-h-11 items-center justify-center" onPress={() => { onChange(value.filter((_, index) => index !== editing.index)); sheet.current?.dismiss(); }}><Text className="font-medium text-destructive">Remove ingredient</Text></Pressable> : null}
         </EditorSheet>
       ) : null}
     </View>

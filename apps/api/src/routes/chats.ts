@@ -582,12 +582,15 @@ chats.post("/:id/messages", async (c) => {
         messages: await convertToModelMessages(uiMessages, {
           ignoreIncompleteToolCalls: true,
         }),
-        tools: buildChatTools(userId, listId, {
-          chatId,
-          messageId: message.id,
-          chat,
-          today,
-        }),
+        tools: {
+          ...buildChatTools(userId, listId, {
+            chatId,
+            messageId: message.id,
+            chat,
+            today,
+          }),
+          googleSearch: google.tools.googleSearch({}),
+        },
         stopWhen: stepCountIs(5),
         abortSignal: AbortSignal.timeout(120_000),
         onError: () => {}, // The saved-turn stream logs and classifies model failures.

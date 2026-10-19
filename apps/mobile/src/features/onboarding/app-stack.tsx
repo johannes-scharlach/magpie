@@ -65,7 +65,8 @@ function InvitationStack({ children }: { children: ReactNode }) {
         screenOptions={
           Platform.OS === "ios"
             ? { headerTransparent: true, headerShadowVisible: false }
-            : undefined
+            // Match Material bottom sheets; navigation sheets default to square.
+            : { sheetCornerRadius: 28 }
         }
       >
         <Stack.Protected guard={!!invitation.code}>

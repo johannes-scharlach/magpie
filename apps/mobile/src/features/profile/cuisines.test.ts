@@ -1,6 +1,7 @@
 import { newProfile } from "@magpie/profile";
 import { describe, expect, it } from "vitest";
 import {
+  addExtra,
   cookCuisine,
   cuisineId,
   removeCuisine,
@@ -15,6 +16,16 @@ const profile = {
 };
 
 describe("cuisine cupboards", () => {
+  it("adds typed ingredients to the latest cupboard without blanks or duplicates", () => {
+    const added = addExtra(profile, "japanese", "  Shiso  ");
+    expect(added.cuisines[0]?.extras).toEqual(["Yuzu kosho", "Shiso"]);
+    expect(addExtra(added, "japanese", "SHISO")).toBe(added);
+    expect(addExtra(profile, "everyday", "  ")).toBe(profile);
+    expect(addExtra(profile, "everyday", "Polenta").cuisines[1]).toEqual({
+      cuisine: "everyday", extras: ["Polenta"],
+    });
+  });
+
   it("a tick is one shared fact, and ticking marks the cuisine as cooked", () => {
     const ticked = toggleKept(profile, "korean", "gochujang");
     expect(ticked.keeps).toEqual(["sesame-oil", "miso", "gochujang"]);

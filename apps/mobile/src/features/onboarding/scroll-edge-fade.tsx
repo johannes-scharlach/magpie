@@ -14,28 +14,6 @@ export function ScrollEdgeFade({
   const token = useResolveClassNames("bg-background").backgroundColor;
   const background = typeof token === "string" ? token : "#FBF8F4";
   const fadeHeight = height + FADE_RUN;
-  if (edge === "top") {
-    const solidStop = fadeHeight > 0 ? Math.min(height / fadeHeight, 0.75) : 0;
-    return (
-      <LinearGradient
-        colors={[
-          background,
-          background,
-          `${background}80`,
-          `${background}00`,
-        ]}
-        locations={[0, solidStop, (solidStop + 1) / 2, 1]}
-        style={{
-          pointerEvents: "none",
-          position: "absolute",
-          left: 0,
-          right: 0,
-          top: 0,
-          height: fadeHeight,
-        }}
-      />
-    );
-  }
   return (
     <LinearGradient
       colors={[
@@ -45,12 +23,14 @@ export function ScrollEdgeFade({
         background,
       ]}
       locations={[0, 0.35, 0.75, 1]}
+      start={{ x: 0, y: edge === "top" ? 1 : 0 }}
+      end={{ x: 0, y: edge === "top" ? 0 : 1 }}
       style={{
         pointerEvents: "none",
         position: "absolute",
         left: 0,
         right: 0,
-        bottom: 0,
+        ...(edge === "top" ? { top: 0 } : { bottom: 0 }),
         height: fadeHeight,
       }}
     />

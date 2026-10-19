@@ -1,5 +1,6 @@
 import { execFileSync } from "node:child_process";
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseArgs } from "node:util";
@@ -25,10 +26,13 @@ export async function sliceSpritesheet({
   rows = 3,
   cols = 3,
   ids,
-  experimentalMatting = true,
+  matting = true,
+  experimentalMatting,
   blueKey = false,
   padding = 16,
 }) {
+  const useMatting = experimentalMatting !== undefined ? experimentalMatting : matting;
+
   if (!ids || ids.length !== rows * cols) {
     throw new Error(`Expected exactly ${rows * cols} IDs for a ${rows}x${cols} grid, got ${ids ? ids.length : 0}.`);
   }
@@ -38,21 +42,9 @@ export async function sliceSpritesheet({
 
   const hasTransparency = image.data.some((_, idx) => idx % 4 === 3 && image.data[idx] < 255);
 
-  if (!hasTransparency) {
-    if (experimentalMatting) {
-      console.log("Running experimental foreground matting on spritesheet...");
-      const normalized = await sharp(image.data, { raw: image.info }).png().toBuffer();
-      const args = ["run", "--no-project", "--python", "3.12", "--script", join(__dirname, "experimental-art-matting.py")];
-      const cutout = execFileSync("uv", args, {
-        input: normalized,
-        maxBuffer: 256 * 1024 * 1024,
-        stdio: ["pipe", "pipe", "inherit"],
-      });
-      image = await sharp(cutout).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
-    } else if (blueKey) {
-      console.log("Running blue-screen keying on spritesheet...");
-      keyBlue(image.data);
-    }
+  if (!hasTransparency && blueKey) {
+    console.log("Running blue-screen keying on spritesheet...");
+    keyBlue(image.data);
   }
 
   const { width, height } = image.info;
@@ -60,57 +52,127 @@ export async function sliceSpritesheet({
   const cellH = Math.floor(height / rows);
   await mkdir(outputDir, { recursive: true });
 
+  let tempDir = null;
+  const cellMattedFiles = [];
+
+  if (!hasTransparency && useMatting) {
+    tempDir = await mkdtemp(join(tmpdir(), "magpie-slice-"));
+    const inputPaths = [];
+    const outputPaths = [];
+
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const minCellX = c * cellW;
+        const cellWidth = c === cols - 1 ? width - minCellX : cellW;
+        const minCellY = r * cellH;
+        const cellHeight = r === rows - 1 ? height - minCellY : cellH;
+
+        const cellPath = join(tempDir, `cell-${r}-${c}.png`);
+        const mattedPath = join(tempDir, `matted-${r}-${c}.png`);
+
+        await sharp(original)
+          .extract({ left: minCellX, top: minCellY, width: cellWidth, height: cellHeight })
+          .png()
+          .toFile(cellPath);
+
+        inputPaths.push(cellPath);
+        outputPaths.push(mattedPath);
+        cellMattedFiles.push(mattedPath);
+      }
+    }
+
+    console.log(`Running neural foreground matting on ${inputPaths.length} cells...`);
+    const mattingScript = join(__dirname, "art-matting.py");
+    execFileSync("uv", [
+      "run",
+      "--no-project",
+      "--python",
+      "3.12",
+      "--script",
+      mattingScript,
+      "--input",
+      ...inputPaths,
+      "--output",
+      ...outputPaths,
+    ], { stdio: "inherit" });
+  }
+
   const results = [];
 
-  for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < cols; c++) {
-      const index = r * cols + c;
-      const id = ids[index];
-      const minCellX = c * cellW;
-      const maxCellX = c === cols - 1 ? width - 1 : (c + 1) * cellW - 1;
-      const minCellY = r * cellH;
-      const maxCellY = r === rows - 1 ? height - 1 : (r + 1) * cellH - 1;
+  try {
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const index = r * cols + c;
+        const id = ids[index];
+        const minCellX = c * cellW;
+        const cellWidth = c === cols - 1 ? width - minCellX : cellW;
+        const minCellY = r * cellH;
+        const cellHeight = r === rows - 1 ? height - minCellY : cellH;
 
-      let minX = maxCellX;
-      let maxX = minCellX;
-      let minY = maxCellY;
-      let maxY = minCellY;
-      let foundForeground = false;
+        let cellData;
+        let cellInfo;
 
-      for (let y = minCellY; y <= maxCellY; y++) {
-        for (let x = minCellX; x <= maxCellX; x++) {
-          const alpha = image.data[(y * width + x) * 4 + 3];
-          if (alpha > 10) {
-            foundForeground = true;
-            if (x < minX) minX = x;
-            if (x > maxX) maxX = x;
-            if (y < minY) minY = y;
-            if (y > maxY) maxY = y;
+        if (!hasTransparency && useMatting) {
+          const mattedBuffer = await sharp(cellMattedFiles[index])
+            .ensureAlpha()
+            .raw()
+            .toBuffer({ resolveWithObject: true });
+          cellData = mattedBuffer.data;
+          cellInfo = mattedBuffer.info;
+        } else {
+          const cropped = await sharp(image.data, { raw: image.info })
+            .extract({ left: minCellX, top: minCellY, width: cellWidth, height: cellHeight })
+            .raw()
+            .toBuffer({ resolveWithObject: true });
+          cellData = cropped.data;
+          cellInfo = cropped.info;
+        }
+
+        let minX = cellWidth;
+        let maxX = 0;
+        let minY = cellHeight;
+        let maxY = 0;
+        let foundForeground = false;
+
+        for (let y = 0; y < cellHeight; y++) {
+          for (let x = 0; x < cellWidth; x++) {
+            const alpha = cellData[(y * cellWidth + x) * 4 + 3];
+            if (alpha > 10) {
+              foundForeground = true;
+              if (x < minX) minX = x;
+              if (x > maxX) maxX = x;
+              if (y < minY) minY = y;
+              if (y > maxY) maxY = y;
+            }
           }
         }
+
+        if (!foundForeground) {
+          console.warn(`Warning: No visible foreground found for cell (${r}, ${c}) [${id}]`);
+          continue;
+        }
+
+        const left = Math.max(0, minX - padding);
+        const top = Math.max(0, minY - padding);
+        const right = Math.min(cellWidth - 1, maxX + padding);
+        const bottom = Math.min(cellHeight - 1, maxY + padding);
+        const extractWidth = right - left + 1;
+        const extractHeight = bottom - top + 1;
+
+        const cellImage = await sharp(cellData, { raw: cellInfo })
+          .extract({ left, top, width: extractWidth, height: extractHeight })
+          .png()
+          .toBuffer();
+
+        const outPath = join(outputDir, `${id}.png`);
+        await writeFile(outPath, cellImage);
+        console.log(`Saved sliced asset ${id}.png (${extractWidth}x${extractHeight}) -> ${outPath}`);
+        results.push({ id, path: outPath, width: extractWidth, height: extractHeight });
       }
-
-      if (!foundForeground) {
-        console.warn(`Warning: No visible foreground found for cell (${r}, ${c}) [${id}]`);
-        continue;
-      }
-
-      const left = Math.max(0, minX - padding);
-      const top = Math.max(0, minY - padding);
-      const right = Math.min(width - 1, maxX + padding);
-      const bottom = Math.min(height - 1, maxY + padding);
-      const extractWidth = right - left + 1;
-      const extractHeight = bottom - top + 1;
-
-      const cellImage = await sharp(image.data, { raw: image.info })
-        .extract({ left, top, width: extractWidth, height: extractHeight })
-        .png()
-        .toBuffer();
-
-      const outPath = join(outputDir, `${id}.png`);
-      await writeFile(outPath, cellImage);
-      console.log(`Saved sliced asset ${id}.png (${extractWidth}x${extractHeight}) -> ${outPath}`);
-      results.push({ id, path: outPath, width: extractWidth, height: extractHeight });
+    }
+  } finally {
+    if (tempDir) {
+      await rm(tempDir, { recursive: true, force: true }).catch(() => {});
     }
   }
 
@@ -148,7 +210,7 @@ async function main() {
     rows,
     cols,
     ids,
-    experimentalMatting: values.matting && !values["blue-key"],
+    matting: values.matting && !values["blue-key"],
     blueKey: values["blue-key"],
   });
 }

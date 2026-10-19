@@ -5,7 +5,6 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useResolveClassNames } from "uniwind";
 import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
-import { onboardingArt } from "./art";
 
 const STARTUP_TIMEOUT_MS = 15_000;
 
@@ -38,21 +37,13 @@ export function StartupScreen({
         paddingBottom: insets.bottom + 24,
       }}
     >
-      <View className="w-full max-w-md gap-6">
-        <Text className="text-center text-[25px] font-semibold tracking-tight text-primary">
-          magpie
-        </Text>
-        <View
-          className="overflow-hidden rounded-2xl"
-          style={{ borderCurve: "continuous" }}
-        >
-          <Image
-            source={onboardingArt.welcome.source}
-            accessibilityLabel={onboardingArt.welcome.accessibilityLabel}
-            contentFit="cover"
-            style={{ width: "100%", aspectRatio: 1 }}
-          />
-        </View>
+      <View className="w-full max-w-md items-center gap-6">
+        <Image
+          source={require("../../../assets/images/splash-icon.png")}
+          accessibilityLabel="Magpie"
+          contentFit="contain"
+          style={{ width: 160, height: 160 }}
+        />
         <View className="min-h-36 items-center gap-4">
           {timedOut ? (
             <>

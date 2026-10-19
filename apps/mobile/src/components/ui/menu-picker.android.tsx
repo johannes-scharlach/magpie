@@ -35,9 +35,6 @@ export function MenuPicker({
         accessibilityRole="button"
         accessibilityLabel={`${label}: ${selectedValue}`}
         onPress={(e) => {
-          void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(
-            () => {},
-          );
           setAnchor({ x: e.nativeEvent.pageX, y: e.nativeEvent.pageY });
         }}
         className={cn(
@@ -55,7 +52,12 @@ export function MenuPicker({
           id: choice,
           title: choice,
           selected: choice === selectedValue,
-          onSelect: () => onValueChange(choice),
+          onSelect: () => {
+            if (choice !== selectedValue) {
+              void Haptics.selectionAsync().catch(() => {});
+            }
+            onValueChange(choice);
+          },
         }))}
       />
     </View>

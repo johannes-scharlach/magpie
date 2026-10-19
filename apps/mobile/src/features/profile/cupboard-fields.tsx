@@ -1,14 +1,18 @@
 import { cuisineOptions, ingredientLabel } from "@magpie/profile";
-import { useState } from "react";
-import { View } from "react-native";
+import { SymbolView } from "expo-symbols";
+import { Pressable, View } from "react-native";
+import { useResolveClassNames } from "uniwind";
+import { Input } from "@/components/ui/input";
+import { Text } from "@/components/ui/text";
 import { type ArtworkId } from "@/features/onboarding/artwork";
 import {
   ArtTile,
   ChoiceChip,
   TILE_GAP,
-  useTileWidth,
+  useTileLayout,
 } from "@/features/profile/choice-tiles";
-import { Field } from "@/features/profile/form";
+
+const ADD_ICON = { ios: "plus.circle", android: "add_circle" } as const;
 
 /** One cuisine's cupboard: its distinctive ingredients, then the user's own words. */
 export function CupboardFields({
@@ -17,30 +21,27 @@ export function CupboardFields({
   onToggle,
   extras,
   onExtras,
+  extra,
+  onExtraChange,
+  onAddExtra,
 }: {
   cuisine: string;
   keeps: string[];
   onToggle: (id: string) => void;
   extras: string[];
   onExtras: (extras: string[]) => void;
+  extra: string;
+  onExtraChange: (value: string) => void;
+  onAddExtra: () => void;
 }) {
-  const tileWidth = useTileWidth(true);
-  const [extra, setExtra] = useState("");
+  const { tileWidth, onLayout } = useTileLayout(true);
+  const iconColor = useResolveClassNames("text-foreground").color;
   const listed = cuisineOptions[cuisine]?.ingredients ?? [];
-
-  function addExtra() {
-    const typed = extra.trim();
-    if (!typed) return;
-    if (!extras.some((e) => e.toLowerCase() === typed.toLowerCase())) {
-      onExtras([...extras, typed]);
-    }
-    setExtra("");
-  }
 
   return (
     <View className="gap-5">
       {listed.length ? (
-        <View className="flex-row flex-wrap" style={{ gap: TILE_GAP }}>
+        <View className="flex-row flex-wrap" style={{ gap: TILE_GAP }} onLayout={onLayout}>
           {listed.map((id) => (
             <ArtTile
               key={id}
@@ -65,16 +66,31 @@ export function CupboardFields({
           ))}
         </View>
       ) : null}
-      <Field
-        label="Anything else you keep for it?"
-        placeholder="Add an ingredient"
-        value={extra}
-        onChangeText={setExtra}
-        returnKeyType="done"
-        submitBehavior="submit"
-        onSubmitEditing={addExtra}
-        onBlur={addExtra}
-      />
+      <View className="gap-2">
+        <Text className="text-sm font-medium">Anything else you keep for it?</Text>
+        <View className="min-h-12 flex-row items-center rounded-2xl bg-muted pr-1">
+          <Input
+            accessibilityLabel="Anything else you keep for it?"
+            placeholder="Add an ingredient"
+            className="h-12 min-h-0 flex-1 border-0 bg-transparent px-3.5 py-1"
+            value={extra}
+            onChangeText={onExtraChange}
+            returnKeyType="done"
+            submitBehavior="submit"
+            onSubmitEditing={onAddExtra}
+          />
+          {extra.trim() ? (
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel="Add ingredient"
+              onPress={onAddExtra}
+              className="h-12 w-10 items-center justify-center self-end active:opacity-60"
+            >
+              <SymbolView name={ADD_ICON} tintColor={iconColor} size={22} />
+            </Pressable>
+          ) : null}
+        </View>
+      </View>
     </View>
   );
 }

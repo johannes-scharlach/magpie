@@ -24,7 +24,7 @@ export const titles: Record<Step, string> = {
   restrictions: "Anything to avoid?",
   groceries: "Where do you shop?",
   kitchen: "What equipment do you have?",
-  cuisines: "What do you like to cook?",
+  cuisines: "How do you cook?",
   email: "Save your kitchen",
   code: "Check your inbox",
 };
@@ -98,11 +98,13 @@ export function SetupQuestion({
   step,
   onNext,
   validationAttempt,
+  onRoutineInputHeightChange,
 }: {
   step: Step;
   onNext: () => void;
   /** Continue was tapped with a required answer missing. */
   validationAttempt: number;
+  onRoutineInputHeightChange?: (height: number) => void;
 }) {
   const router = useRouter();
   const { draft, update } = useOnboarding();
@@ -191,6 +193,7 @@ export function SetupQuestion({
           <MealRoutineEditor
             value={draft.profile.meals_at_home}
             onChange={(meals_at_home) => editProfile({ meals_at_home })}
+            onInputHeightChange={onRoutineInputHeightChange}
           />
         </View>
       ) : null}

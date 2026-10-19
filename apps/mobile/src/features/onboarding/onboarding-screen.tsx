@@ -3,7 +3,7 @@ import { GlassView } from "expo-glass-effect";
 import { SymbolView } from "expo-symbols";
 import { type ReactNode } from "react";
 import { useState } from "react";
-import { Pressable, View } from "react-native";
+import { Platform, Pressable, View } from "react-native";
 import {
   KeyboardAwareScrollView,
   KeyboardStickyView,
@@ -48,6 +48,7 @@ export function OnboardingScreen({
   const insets = useSafeAreaInsets();
   const [footerHeight, setFooterHeight] = useState(0);
   const iconColor = useResolveClassNames("text-foreground").color;
+  const backTopGap = Platform.OS === "android" ? 0 : 10;
   return (
     <View className="flex-1 bg-background">
       <View className="flex-1">
@@ -58,7 +59,7 @@ export function OnboardingScreen({
           keyboardShouldPersistTaps="handled"
           contentContainerClassName="flex-grow gap-6 px-6"
           contentContainerStyle={{
-            paddingTop: insets.top + (onBack && !step ? 64 : 18),
+            paddingTop: insets.top + (onBack && !step ? backTopGap + 54 : 18),
             paddingBottom: footerHeight + 24,
           }}
         >
@@ -108,7 +109,7 @@ export function OnboardingScreen({
         {onBack ? (
           <View
             pointerEvents="box-none"
-            style={{ left: 16, position: "absolute", top: insets.top + 10 }}
+            style={{ left: 16, position: "absolute", top: insets.top + backTopGap }}
           >
             <Pressable
               accessibilityLabel="Back"
