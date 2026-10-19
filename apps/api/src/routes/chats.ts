@@ -20,6 +20,7 @@ import { Hono } from "hono";
 import { z } from "zod";
 
 import { ASSISTANT_SYSTEM_PROMPT } from "../assistant-prompt.js";
+import { cuisineDirection } from "../cuisine-direction.js";
 import type { AppBindings } from "../auth.js";
 import { buildChatTools } from "../chat-tools.js";
 import { createChatReply, type AssistantUIMessage } from "../chat-reply.js";
@@ -556,6 +557,7 @@ chats.post("/:id/messages", async (c) => {
     PLAN_PROMPT,
     recipeChatPrompt(chat),
     household ? profileContext(household, userId) : null,
+    household ? cuisineDirection(household.profile, chatId) : null,
     localTime
       ? `The user's current local time is ${localTime}. The timezone reflects their broad region — use it for seasonal produce and measurement defaults, not as an exact location.`
       : null,
