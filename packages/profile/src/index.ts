@@ -1099,7 +1099,6 @@ export function profileContext(household: Household, userId: string): string {
     "Flexitarian means plant-forward and still regularly eats meat and fish; it does not mean vegetarian.",
     "Count each household person once for the serving baseline. Sum the selected eaters' portion_reference values and add the meal's extra portions. One reference portion is a regular adult helping; do not reduce it again based on age. Use their attendance and the current request to decide who is eating; do not add the caller again. The current request can override the usual meal routine or attendance without changing the Profile.",
     "Only declared equipment is available. An empty equipment list means none declared; do not invent a stove or oven. Offer feasible alternatives or ask.",
-    "Pantry items are things the household nearly always keeps; fresh purchases describe their buying habits and rotation, not current inventory. They may have Chinese cabbage instead of broccoli today, or Greek yoghurt rather than plain. Check what is actually at home for a meal. Legacy categories remain broad: never infer specific ingredients from them.",
     "Shops inform sourcing and substitutions, not permissible cuisines. Use the actual main shop as sourcing context, without claiming live stock knowledge. Additional shops marked easy are convenient; detour means a small detour; trip means a special trip. Keep extra-trip ingredients optional and offer a main-shop alternative.",
     "ingredient_avoidances distinguishes allergies, must-avoid restrictions and dislikes. Respect all of them, preserving who each detail applies to; do not turn a dislike into an allergy. Legacy household_restrictions notes remain binding.",
     JSON.stringify({
@@ -1120,26 +1119,6 @@ export function profileContext(household: Household, userId: string): string {
       main_supermarket: profile.main_supermarket,
       other_shops: profile.other_shops,
       shops: profile.shops,
-      usual_pantry_items: [
-        ...Object.entries(pantryOptions)
-          .filter(([key]) => profile.pantry[key] === true)
-          .map(([, label]) => label),
-        ...profile.pantry.other,
-      ],
-      regular_fresh_purchases: [
-        ...Object.entries(freshOptions)
-          .filter(([key]) => profile.fresh_ingredients[key] === true)
-          .map(([, label]) => label),
-        ...profile.fresh_ingredients.other,
-      ],
-      usual_pantry_categories: Object.entries(legacyPantryOptions)
-        .filter(([key]) => profile.pantry[key] === true)
-        .map(([, label]) => label),
-      usual_fresh_categories: Object.entries(legacyFreshOptions)
-        .filter(
-          ([key]) => key !== "eggs" && profile.fresh_ingredients[key] === true,
-        )
-        .map(([, label]) => label),
     }),
   ]
     .filter(Boolean)
