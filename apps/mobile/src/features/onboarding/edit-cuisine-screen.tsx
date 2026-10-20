@@ -1,3 +1,4 @@
+import { Platform } from "react-native";
 import { useOnboarding } from "@/features/onboarding/provider";
 import { CupboardScreen } from "@/features/profile/cupboard-screen";
 
@@ -14,7 +15,8 @@ export function EditSetupCuisine() {
         })).catch(() => {})
       }
       error={error}
-      fullScreenOnAndroid
+      // Matches setup/_layout.tsx: a sheet on iOS, a full screen on Android.
+      layout={Platform.OS === "ios" ? "sheet" : "onboarding"}
     />
   );
 }

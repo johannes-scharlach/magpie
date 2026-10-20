@@ -56,7 +56,7 @@ export default function ProfileScreen() {
       title: name ?? "Household",
       headerRight: () => (
         <Pressable
-          onPress={() => router.push("/household/switch" as never)}
+          onPress={() => router.push("/household/switch")}
           hitSlop={8}
           accessibilityLabel="Switch household"
           accessibilityRole="button"
@@ -93,7 +93,7 @@ export default function ProfileScreen() {
                 router.push({
                   pathname: "/household/person",
                   params: { id: p.id },
-                } as never)
+                })
               }
               detail={[
                 p.age_group,
@@ -113,24 +113,32 @@ export default function ProfileScreen() {
           ))}
           <SettingsRow
             title="Add a person"
-            onPress={() => router.push("/household/person" as never)}
+            onPress={() => router.push("/household/person")}
           />
           <SettingsRow
             title="Invite to household"
-            onPress={() => router.push("/household/invite" as never)}
+            onPress={() => router.push("/household/invite")}
           />
         </SettingsSection>
         <SettingsSection title="Cooking">
           <SettingsRow
             detail={
-              [...household.profile.ingredient_avoidances.map((item) => `${item.ingredient} (${avoidanceKinds[item.kind]}${item.detail ? `: ${item.detail}` : ""})`), household.profile.restrictions].filter(Boolean).join(", ") || "Nothing to avoid"
+              [
+                ...household.profile.ingredient_avoidances.map(
+                  (item) =>
+                    `${item.ingredient} (${avoidanceKinds[item.kind]}${item.detail ? `: ${item.detail}` : ""})`,
+                ),
+                household.profile.restrictions,
+              ]
+                .filter(Boolean)
+                .join(", ") || "Nothing to avoid"
             }
-            onPress={() => router.push("/household/restrictions" as never)}
+            onPress={() => router.push("/household/restrictions")}
             title="Household restrictions"
           />
           <SettingsRow
             detail={household.profile.meals_at_home || "Not specified"}
-            onPress={() => router.push("/household/meals_at_home" as never)}
+            onPress={() => router.push("/household/meals_at_home")}
             title="Meals at home"
           />
           {(Object.keys(selectionTitles) as SelectionField[]).map((key) => (
@@ -140,7 +148,7 @@ export default function ProfileScreen() {
                 selectionLabels(key, household.profile[key]).join(", ") ||
                 "None selected"
               }
-              onPress={() => router.push(`/household/${key}` as never)}
+              onPress={() => router.push(`/household/${key}`)}
               title={selectionTitles[key]!}
             />
           ))}
@@ -150,19 +158,28 @@ export default function ProfileScreen() {
                 .map((c) => cuisineLabel(c.cuisine))
                 .join(", ") || "None selected"
             }
-            onPress={() => router.push("/household/cuisines" as never)}
+            onPress={() => router.push("/household-cuisines")}
             title="Cuisines"
           />
         </SettingsSection>
         <SettingsSection title="Shopping">
           <SettingsRow
             detail={household.profile.main_supermarket || "Not specified"}
-            onPress={() => router.push("/household/shops" as never)}
+            onPress={() => router.push("/household/shops")}
             title="Main shop"
           />
           <SettingsRow
-            detail={[...household.profile.shops.map((shop) => `${shop.name} · ${shopAccessOptions[shop.access]}`), household.profile.other_shops].filter(Boolean).join(", ") || "Not specified"}
-            onPress={() => router.push("/household/shops" as never)}
+            detail={
+              [
+                ...household.profile.shops.map(
+                  (shop) => `${shop.name} · ${shopAccessOptions[shop.access]}`,
+                ),
+                household.profile.other_shops,
+              ]
+                .filter(Boolean)
+                .join(", ") || "Not specified"
+            }
+            onPress={() => router.push("/household/shops")}
             title="Other shops and routine"
           />
         </SettingsSection>
@@ -174,7 +191,7 @@ export default function ProfileScreen() {
               router.push({
                 pathname: "/notifications",
                 params: { source: "settings" },
-              } as never)
+              })
             }
           />
           <SettingsRow title="Email" detail={session?.user.email} />

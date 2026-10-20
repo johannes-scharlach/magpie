@@ -1,7 +1,7 @@
 import { cuisineLabel, type CookingProfile } from "@magpie/profile";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
-import { Platform, ScrollView, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { PrimaryAction } from "@/components/action";
 import { CloseButton } from "@/components/close-button";
 import { Button } from "@/components/ui/button";
@@ -16,7 +16,7 @@ import {
   toggleKept,
 } from "@/features/profile/cuisines";
 import { CupboardFields } from "@/features/profile/cupboard-fields";
-import { Field, FormError } from "@/features/profile/form";
+import { Field, FormError, FormScreen } from "@/features/profile/form";
 
 export type Cupboards = Pick<CookingProfile, "keeps" | "cuisines">;
 
@@ -25,13 +25,14 @@ export function CupboardScreen({
   profile,
   change,
   error,
-  fullScreenOnAndroid = false,
+  layout,
 }: {
   profile: Cupboards;
   /** Applies the edit to the latest saved cupboards and saves the result. */
   change: (edit: (profile: Cupboards) => Cupboards) => void;
   error: string | null;
-  fullScreenOnAndroid?: boolean;
+  /** sheet: its own title and close button. page: the stack header has them. */
+  layout: "sheet" | "page" | "onboarding";
 }) {
   const params = useLocalSearchParams<{ cuisine?: string }>();
   const router = useRouter();
@@ -122,7 +123,19 @@ export function CupboardScreen({
     </Button>
   ) : null;
 
-  if (Platform.OS === "ios" || !fullScreenOnAndroid) {
+  if (layout === "page") {
+    return (
+      <FormScreen>
+        <Stack.Screen options={{ title }} />
+        <Text className="text-muted-foreground">{subtitle}</Text>
+        {fields}
+        <PrimaryAction label={action.label} onPress={action.onPress} />
+        {removeButton}
+      </FormScreen>
+    );
+  }
+
+  if (layout === "sheet") {
     return (
       <ScrollView
         style={{ flex: 1 }}

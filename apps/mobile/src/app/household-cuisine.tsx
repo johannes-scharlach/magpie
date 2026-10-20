@@ -32,6 +32,7 @@ export default function EditHouseholdCuisine() {
         );
       }}
       error={saveError ?? error}
+      layout="page"
     />
   );
 }

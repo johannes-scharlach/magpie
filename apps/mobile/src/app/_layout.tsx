@@ -76,6 +76,19 @@ export default function RootLayout() {
                         headerBackButtonDisplayMode: "minimal",
                       }}
                     />
+                    {/* Pushed from household settings. Nested in household/,
+                        they would sit under that stack's parent header. */}
+                    <Stack.Screen
+                      name="household-cuisines"
+                      options={{
+                        title: "Cuisines",
+                        headerBackButtonDisplayMode: "minimal",
+                      }}
+                    />
+                    <Stack.Screen
+                      name="household-cuisine"
+                      options={{ headerBackButtonDisplayMode: "minimal" }}
+                    />
                     <Stack.Screen
                       name="household-activity"
                       options={{
