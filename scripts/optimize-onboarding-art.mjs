@@ -8,17 +8,18 @@ const TILE_SIZE = 512;
 const HERO_SIZE = 1024;
 const QUALITY = 82;
 const retiredBanners = new Set(["art-diet.png", "art-kitchen.png", "art-pantry.png", "art-fresh.png"]);
-const defaultInput = fileURLToPath(new URL("../apps/mobile/src/features/onboarding/art/", import.meta.url));
+const defaultTargets = [
+  {
+    input: fileURLToPath(new URL("../apps/mobile/src/features/onboarding/art/", import.meta.url)),
+    output: fileURLToPath(new URL("../apps/mobile/src/features/onboarding/art/optimized/", import.meta.url)),
+  },
+  {
+    input: fileURLToPath(new URL("../apps/mobile/src/features/chat/art/", import.meta.url)),
+    output: fileURLToPath(new URL("../apps/mobile/src/features/chat/art/optimized/", import.meta.url)),
+  },
+];
 
-async function main() {
-  const { values } = parseArgs({
-    options: {
-      input: { type: "string" },
-      output: { type: "string" },
-    },
-  });
-  const input = resolve(values.input ?? defaultInput);
-  const output = resolve(values.output ?? join(input, "optimized"));
+async function optimizeFolder({ input, output }) {
   const entries = await readdir(input, { withFileTypes: true });
   const files = entries
     .filter((entry) => entry.isFile() && entry.name.endsWith(".png") && !retiredBanners.has(entry.name))
@@ -50,6 +51,36 @@ async function main() {
 
   const savings = ((1 - optimizedBytes / sourceBytes) * 100).toFixed(1);
   console.log(`Total: ${files.length} images, ${(sourceBytes / 1024 / 1024).toFixed(2)} MiB -> ${(optimizedBytes / 1024 / 1024).toFixed(2)} MiB (${savings}% smaller)`);
+  return { filesCount: files.length, sourceBytes, optimizedBytes };
+}
+
+async function main() {
+  const { values } = parseArgs({
+    options: {
+      input: { type: "string" },
+      output: { type: "string" },
+    },
+  });
+
+  const targets = values.input
+    ? [{ input: resolve(values.input), output: resolve(values.output ?? join(values.input, "optimized")) }]
+    : defaultTargets.map((t) => ({ input: resolve(t.input), output: resolve(t.output) }));
+
+  let totalFiles = 0;
+  let totalSourceBytes = 0;
+  let totalOptimizedBytes = 0;
+
+  for (const target of targets) {
+    const res = await optimizeFolder(target);
+    totalFiles += res.filesCount;
+    totalSourceBytes += res.sourceBytes;
+    totalOptimizedBytes += res.optimizedBytes;
+  }
+
+  if (targets.length > 1) {
+    const savings = ((1 - totalOptimizedBytes / totalSourceBytes) * 100).toFixed(1);
+    console.log(`Grand Total: ${totalFiles} images, ${(totalSourceBytes / 1024 / 1024).toFixed(2)} MiB -> ${(totalOptimizedBytes / 1024 / 1024).toFixed(2)} MiB (${savings}% smaller)`);
+  }
 }
 
 main().catch((error) => {

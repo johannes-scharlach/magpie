@@ -41,7 +41,7 @@ const HIGHLIGHT_MS = 4500;
 // tint colour (see `iconRenderingMode` below), so they follow light and dark.
 const ADD_ICON = require("../../../../assets/icons/add.xml");
 const MEALS_ICON = require("../../../../assets/icons/restaurant.xml");
-const EMPTY_SHOP_ICON = require("../../../../assets/images/spot/empty-shop.png");
+const EMPTY_SHOP_ICON = require("../../../../assets/images/spot/empty-shop.webp");
 type Held = Browse & { hold: HeldPosition };
 type Entry = { key: string } & (
   | { kind: "header"; title: string }

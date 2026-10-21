@@ -2,7 +2,7 @@
 
 Clay-style spot illustrations for Magpie empty states. Handcrafted matte polymer clay aesthetic matching the Magpie mascot reference (`#FBF8F4` warm background, soft top-left studio lighting, smooth plasticine, rounded edges).
 
-All images are formatted as 400×400 PNG with full alpha transparency (`hasAlpha: yes`), keyed from uniform chroma blue backdrops with edge despill so the spot illustrations float directly on the screen canvas with no bounding box in both light and dark mode.
+All images are authored as 400×400 PNG masters with full alpha transparency (`hasAlpha: yes`), keyed from uniform chroma blue backdrops with edge despill so the spot illustrations float directly on the screen canvas with no bounding box in both light and dark mode. For bundling, tiny WebP exports (`.webp`) are generated and imported by the app.
 
 ## Assets
 

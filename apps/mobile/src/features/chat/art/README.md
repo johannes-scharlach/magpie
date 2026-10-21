@@ -1,80 +1,83 @@
 # Quick meal idea artwork
 
-One watercolor per seeded idea in `../seeded-ideas.json`, mapped by title in
-`../seeded-art.ts`. Shown at 56pt on Home, so each image is a thumbnail first:
-one recognisable subject, not a plated dish.
+Claymation icons per seeded idea in `../seeded-ideas.json`, mapped by title in
+`../seeded-art.ts`. Shown at 56pt on Home (`SeededRow` in `seeded-deck.tsx`),
+so each image is a thumbnail first: bold simple silhouettes, recognisable as
+small thumbnails over `bg-card`.
 
-## Thumbnail prompt (current)
+## Art style & pipeline
 
-Generated with `features/onboarding/art/art-fresh.png` as the style reference:
+Generated as 3×3 sprite sheet grids (2048×2048 JPEG) on solid neutral mid-grey
+`#808080` backgrounds, then sliced and matted into transparent PNGs using
+`pnpm assets:slice` (powered by `scripts/slice-spritesheet.mjs` and
+`scripts/art-matting.py`).
 
-> Tiny watercolor icon, designed to be recognised at 56 points on a phone
-> screen. [Subject]. One subject only, close up, filling almost the whole
-> square frame. Bold simple silhouette, a few large flat watercolor washes
-> with soft pigment edges, two or three colors, a single crisp outline. No
-> small details, no plate rim, no cutlery, no table, no background props, no
-> construction lines, no grid. No text, words, labels, or lettering. Solid
-> flat background with exact color #FBF8F4 (light warm porcelain off-white).
-> Same watercolor palette and hand as the reference, simplified.
+### Prompt formula
 
-Export: 1024×1024 PNG resized to 192×192, JPEG quality 80. No crop.
+> A 3x3 grid of nine separate small claymation meal idea dish compositions, each centered in its own cell with generous clear space between cells and 15% clear margin inside each cell. Every cell shows one single compact meal idea, same apparent object scale and consistent front three-quarter view across all nine cells. Bold simple silhouettes, recognisable as small thumbnails.
+>
+> [Cell descriptions in row-major order]
+>
+> Handcrafted stop-motion claymation art style, matte polymer plasticine with soft rounded edges, pillowy volume, cute tactile handmade feel, soft studio lighting from top-left with gentle shadows. Solid flat uniform neutral mid-grey background, exact colour #808080, plain and seamless across all cells, no grid lines, no ground plane, no cast shadows on the background. No blue tones in any subject. No text, words, labels, lettering, brand marks, flags, borders, checkmarks, sparkles, or mascot.
 
-Thumbnail subjects so far:
+### Slicing & optimization commands
 
-- `pork-chops-plums.jpg` — A single golden-brown pork chop with two halved purple plums resting against it.
-- `corn-zucchini-feta.jpg` — A charred corn cob with a few bright green zucchini rounds and white feta cubes.
-- `chanterelles-toast.jpg` — One thick slice of toasted sourdough topped with golden-yellow chanterelle mushrooms, their wavy funnel-shaped caps and pale gills clearly visible, and a few parsley leaves.
-- `sausage-peppers-potatoes.jpg` — Two browned sausages crossed over a red pointed pepper and one golden baby potato.
-- `tomato-ricotta-pasta.jpg` — A few rigatoni tubes with burst red cherry tomatoes and a spoonful of white ricotta.
-- `flammkuchen.jpg` — A rectangular slice of thin crisp Flammkuchen topped with white cream, bacon bits and onion rings.
-- `cacio-e-pepe.jpg` — A twirl of spaghetti on a fork, dusted with grated cheese and cracked black pepper.
-- `tortilla-patatas.jpg` — A thick golden wedge of Spanish potato omelette showing its layers of potato.
-- `amatriciana.jpg` — A few rigatoni tubes in red tomato sauce with crispy pieces of guanciale.
-- `white-bean-tuna.jpg` — A small heap of white cannellini beans with flakes of tuna and a lemon wedge.
-- `gnocchi-pancetta.jpg` — A few golden potato gnocchi with crispy pancetta bits and one sage leaf.
-- `shakshuka.jpg` — A small cast-iron pan of red tomato sauce with two bright egg yolks.
+1. Slice sprite sheet:
+```bash
+pnpm assets:slice apps/mobile/src/features/chat/art/spritesheet-ideas-N.jpg \
+  --rows 3 --cols 3 \
+  --output apps/mobile/src/features/chat/art \
+  --ids id1,id2,id3,id4,id5,id6,id7,id8,id9
+```
 
-## Plated prompt (earlier, to be replaced)
+2. Export tiny WebP assets for bundling:
+```bash
+pnpm assets:optimize
+```
+(Exports to `apps/mobile/src/features/chat/art/optimized/*.webp`. `../seeded-art.ts` bundles only these WebPs, keeping PNGs as masters.)
 
-The other images are still the first attempt: the onboarding style formula
-(`features/onboarding/art/README.md`) with `art-diet.png` as reference, the
-subject below, ending "Same circular composition as reference." Exported
-centre-cropped to 640×640, then 192×192 JPEG. Too busy to read at 56pt.
+## Delivered Sheets
 
-### Plated subjects
+### Sheet 1 (`spritesheet-ideas-1.jpg`)
+1. `pork-chops-plums` — Pan-Seared Pork Chops with Jammy Zwetschgen (Plums)
+2. `corn-zucchini-feta` — Late-Summer Charred Sweet Corn, Zucchini & Feta Skillet
+3. `chanterelles-toast` — Brown-Butter Pfifferlinge (Chanterelles) on Toasted Sourdough
+4. `sausage-peppers-potatoes` — Sheet-Pan Roasted Sausage, Sweet Bell Peppers & New Potatoes
+5. `tomato-ricotta-pasta` — Jammy Cherry Tomato & Ricotta Pasta
+6. `flammkuchen` — Flammkuchen with Schmand, bacon and onions
+7. `cacio-e-pepe` — Classic Spaghetti Cacio e Pepe
+8. `tortilla-patatas` — Spanish Tortilla de Patatas
+9. `amatriciana` — Pasta all’Amatriciana
 
-- `pork-chops-plums.jpg` — Two pan-seared pork chops with glossy jammy purple plum halves, slivers of red onion, a balsamic glaze and a sprig of rosemary in a cast-iron skillet viewed from above.
-- `corn-zucchini-feta.jpg` — A skillet viewed from above with charred sweet corn kernels, sliced zucchini and crumbled feta, fresh basil leaves and a lime wedge.
-- `chanterelles-toast.jpg` — Golden chanterelle mushrooms in brown butter piled on toasted sourdough slices with shallot and chopped parsley, on a round plate viewed from above.
-- `sausage-peppers-potatoes.jpg` — A sheet pan viewed from above with roasted sausages, sweet pointed red and yellow peppers, baby potatoes, whole garlic cloves and oregano sprigs.
-- `tomato-ricotta-pasta.jpg` — A shallow bowl viewed from above with rigatoni, jammy burst cherry tomatoes, dollops of ricotta, garlic slices and basil leaves.
-- `flammkuchen.jpg` — A thin rectangular Flammkuchen with white Schmand, bacon lardons and onion rings on a wooden board viewed from above.
-- `cacio-e-pepe.jpg` — A bowl viewed from above with a twirled nest of spaghetti cacio e pepe, grated Pecorino and cracked black pepper.
-- `tortilla-patatas.jpg` — A Spanish tortilla de patatas, a thick golden potato omelette with one wedge cut out, on a round plate viewed from above, a small onion beside it.
-- `amatriciana.jpg` — A bowl viewed from above with rigatoni all'amatriciana in tomato sauce, crispy guanciale pieces, grated Pecorino and chili flakes.
-- `white-bean-tuna.jpg` — A bowl viewed from above with a Tuscan salad of cannellini beans, flaked tuna, thin red onion, parsley and a lemon half.
-- `gnocchi-pancetta.jpg` — A pan viewed from above with potato gnocchi in brown butter, crispy pancetta, fried sage leaves and grated Parmesan.
-- `shakshuka.jpg` — A skillet viewed from above with shakshuka: eggs poached in red tomato and bell pepper sauce, crumbled feta and cumin, a slice of bread beside it.
-- `bean-quesadillas.jpg` — Quesadilla wedges viewed from above showing black beans and melted cheese, a small bowl of salsa and a green pepper beside them.
-- `pork-apples-mustard.jpg` — A skillet viewed from above with pork chops, golden apple slices in a mustard cream sauce and thyme sprigs.
-- `spanakorizo.jpg` — A bowl viewed from above with Greek spanakorizo, green spinach rice pilaf with dill and spring onions, a lemon half beside it.
-- `tofu-peanut-broccoli.jpg` — A bowl viewed from above with crispy tofu cubes in a glossy peanut-soy glaze beside steamed broccoli florets and sliced ginger.
-- `trout-potato-hash.jpg` — A skillet viewed from above with crisp potato hash, flakes of smoked trout, a dollop of sour cream with horseradish and chopped chives.
-- `sausage-fennel-traybake.jpg` — A sheet pan viewed from above with roasted sausages, fennel wedges, sweet potato chunks, garlic cloves and rosemary.
-- `baked-feta.jpg` — A baking dish viewed from above with a block of baked feta surrounded by blistered cherry tomatoes, Kalamata olives and oregano, a baguette beside it.
-- `sheet-pan-gnocchi.jpg` — A sheet pan viewed from above with crispy gnocchi, red and yellow bell peppers, red onion, mini mozzarella balls and basil.
-- `lemon-chicken-potatoes.jpg` — A roasting pan viewed from above with golden skin-on chicken thighs, baby potatoes, lemon halves, garlic heads and thyme.
-- `pork-kimchi.jpg` — A plate viewed from above with stir-fried pork belly and kimchi in a red gochujang sauce beside a small bowl of short-grain rice.
-- `gyudon.jpg` — A rice bowl viewed from above topped with thinly sliced simmered beef and onions, chopsticks resting on the rim.
-- `tomato-egg.jpg` — A plate viewed from above with Chinese tomato and egg stir-fry, fluffy scrambled egg, tomato wedges and scallions, a small bowl of rice beside it.
-- `miso-salmon.jpg` — A round plate viewed from above with a miso-butter glazed salmon fillet and green beans.
-- `egg-fried-rice.jpg` — A bowl viewed from above with egg fried rice, diced ham, scallions and egg, a spoon beside it.
-- `ajvar-pinsa.jpg` — An oval pinsa viewed from above spread with red ajvar, topped with torn burrata, folds of prosciutto and fresh arugula.
-- `thai-curry-noodles.jpg` — A bowl viewed from above with red Thai curry noodles in coconut broth, salmon pieces and sugar snap peas.
-- `red-pesto-gnocchi.jpg` — A sheet pan viewed from above with gnocchi in red pesto, roasted zucchini rounds, golden halloumi slices and cherry tomatoes.
-- `bean-ajvar-merguez.jpg` — A skillet viewed from above with creamy white beans in red ajvar sauce, crispy merguez sausages, baby spinach and crumbled feta.
-- `lahmacun-flatbreads.jpg` — Flatbreads viewed from above spread with hummus and topped with spiced ground lamb, sumac and parsley leaves.
-- `harissa-chicken-couscous.jpg` — A plate viewed from above with harissa and apricot glazed chicken thighs on fluffy couscous, a lemon half beside it.
-- `corn-kimchi-quesadillas.jpg` — Golden quesadilla wedges viewed from above filled with kimchi, sweet corn and melted cheese.
-- `gochujang-pork-cucumber.jpg` — A plate viewed from above with glossy gochujang-honey glazed pork belly slices and a cucumber sesame salad beside them.
-- `nasu-dengaku.jpg` — A plate viewed from above with halved aubergines under a glossy caramelized miso glaze and sliced scallions, a small bowl of rice beside it.
+### Sheet 2 (`spritesheet-ideas-2.jpg`)
+1. `white-bean-tuna` — Tuscan White Bean & Tuna Salad
+2. `gnocchi-pancetta` — Garlic & Herb Gnocchi with Crispy Pancetta
+3. `shakshuka` — North African Shakshuka
+4. `bean-quesadillas` — Quesadillas with Refried Black Beans & Roasted Poblanos/Peppers
+5. `pork-apples-mustard` — Pan-Seared Pork Chops with Apples & Mustard Cream Sauce
+6. `spanakorizo` — Greek Spanakorizo (Spinach & Rice Pilaf)
+7. `tofu-peanut-broccoli` — Crispy Tofu with Peanut-Soy Glaze & Steamed Broccoli
+8. `trout-potato-hash` — Smoked Trout, Potato & Horseradish Hash
+9. `sausage-fennel-traybake` — Roasted Sausage, Fennel & Sweet Potato Traybake
+
+### Sheet 3 (`spritesheet-ideas-3.jpg`)
+1. `baked-feta` — Baked Feta with Cherry Tomatoes & Kalamata Olives
+2. `sheet-pan-gnocchi` — Crispy Sheet-Pan Gnocchi with Bell Peppers & Mozzarella
+3. `lemon-chicken-potatoes` — Lemon-Herb Roasted Chicken Thighs & Baby Potatoes
+4. `pork-kimchi` — Korean Stir-Fried Pork Belly with Kimchi (Jaeyuk / Duri-chigi style)
+5. `gyudon` — Japanese Gyudon (Beef Rice Bowl)
+6. `tomato-egg` — Chinese Tomato & Egg Stir-Fry (Fan Qie Chao Dan)
+7. `miso-salmon` — Miso-Butter Salmon & Green Beans
+8. `egg-fried-rice` — Egg Fried Rice with Char Siu or Ham
+9. `ajvar-pinsa` — Smoky Ajvar & Burrata Pinsa with Prosciutto
+
+### Sheet 4 (`spritesheet-ideas-4.jpg`)
+1. `thai-curry-noodles` — Weeknight Red Thai Curry Noodles with Salmon & Sugar Snaps
+2. `red-pesto-gnocchi` — Sheet-Pan Red Pesto Gnocchi with Roasted Zucchini & Halloumi
+3. `bean-ajvar-merguez` — Silky White Bean & Ajvar Skillet with Crispy Merguez / Salsiccia
+4. `lahmacun-flatbreads` — Crispy Hummus & Spiced Lamb/Beef Flatbreads (Lahmacun-Style)
+5. `harissa-chicken-couscous` — Harissa & Apricot Glazed Chicken Thighs with Steamed Couscous
+6. `corn-kimchi-quesadillas` — Charred Sweet Corn & Kimchi Quesadillas
+7. `gochujang-pork-cucumber` — Gochujang & Honey Glazed Pork Belly with Cucumber Sesame Crunch
+8. `nasu-dengaku` — Miso-Glazed Roasted Aubergine (Nasu Dengaku) with Steamed Rice
+9. `creamy-tuscan-chicken` — (Bonus 9th cell) Creamy Tuscan Chicken

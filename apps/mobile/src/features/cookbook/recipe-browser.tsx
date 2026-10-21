@@ -11,7 +11,7 @@ import { useColorScheme } from "@/hooks/use-color-scheme";
 import type { MealSlot } from "@/features/meals/slots";
 import { useRecipeChoices } from "./use-recipe-choices";
 
-const EMPTY_COOKBOOK_ICON = require("../../../assets/images/spot/empty-cookbook.png");
+const EMPTY_COOKBOOK_ICON = require("../../../assets/images/spot/empty-cookbook.webp");
 
 /** Shared browsing rules and native search for the cookbook and slot picker. */
 export function RecipeBrowser({

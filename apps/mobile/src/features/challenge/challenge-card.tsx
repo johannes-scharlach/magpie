@@ -1,5 +1,7 @@
+import { Collapsible, Host, RNHostView } from "@expo/ui";
 import { useQuery } from "@powersync/react";
 import * as Haptics from "expo-haptics";
+import { Image } from "expo-image";
 import { SymbolView } from "expo-symbols";
 import { useEffect, useState } from "react";
 import { View } from "react-native";
@@ -10,7 +12,7 @@ import { Text } from "@/components/ui/text";
 import { useAuth } from "@/db/provider";
 import { supabase } from "@/lib/supabase";
 
-import { challengeGoals, type ChallengeCounts } from "./goals";
+import { challengeGoals, type ChallengeCounts, type ChallengeGoal } from "./goals";
 
 const DONE_ICON = {
   ios: "checkmark.circle.fill",
@@ -18,116 +20,191 @@ const DONE_ICON = {
 } as const;
 const OPEN_ICON = { ios: "circle", android: "radio_button_unchecked" } as const;
 
-/** Per user, on every device: the account remembers the finish moment. */
-const FINISHED_KEY = "first_run_challenge_finished_at";
-
 /**
- * The first-run challenge on Home (spec 0011). Goals, not a tour: each line
- * says what to do and the app is where you do it. Once everything is done
- * the card says so once; Done puts it away for good.
+ * Goals, not shortcuts: the real app is where users learn each way in.
+ * The server awards a future month of Pro; Done only dismisses its receipt.
  */
 export function ChallengeCard() {
   const { session } = useAuth();
-  const userId = session?.user.id ?? null;
-  const finished = Boolean(session?.user.user_metadata?.[FINISHED_KEY]);
+  if (!session) return null;
+  return (
+    <AccountChallenge
+      key={session.user.id}
+      userId={session.user.id}
+      previouslyDismissed={Boolean(
+        session.user.user_metadata?.first_run_challenge_finished_at,
+      )}
+    />
+  );
+}
+
+function AccountChallenge({
+  userId,
+  previouslyDismissed,
+}: {
+  userId: string;
+  previouslyDismissed: boolean;
+}) {
   const counts = useChallengeCounts(userId);
-  const { goals, complete } = challengeGoals(counts);
+  const { goals, featured, completedCount, complete } = challengeGoals(counts);
+  const { data: rewards } = useQuery<{
+    earned_at: string;
+    dismissed_at: string | null;
+  }>("SELECT earned_at, dismissed_at FROM first_run_rewards WHERE id = ?", [userId]);
+  const reward = rewards[0];
+  const [expanded, setExpanded] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [dismissed, setDismissed] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const primary = useResolveClassNames("text-primary").color;
-  const muted = useResolveClassNames("text-muted-foreground").color;
+  const link = useResolveClassNames("text-link").color;
+  const earned = Boolean(reward?.earned_at);
 
   useEffect(() => {
-    if (complete && !finished)
+    if (earned && !reward?.dismissed_at)
       void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-  }, [complete, finished]);
+  }, [earned, reward?.dismissed_at]);
 
-  if (!userId || finished) return null;
+  if (dismissed || reward?.dismissed_at || (previouslyDismissed && !earned))
+    return null;
 
-  async function finish() {
+  async function dismiss() {
+    if (saving) return;
     setSaving(true);
     setError(null);
-    const { error: failed } = await supabase.auth.updateUser({
-      data: { [FINISHED_KEY]: new Date().toISOString() },
-    });
+    const { error: failed } = await supabase
+      .from("first_run_rewards")
+      .update({ dismissed_at: new Date().toISOString() })
+      .eq("id", userId)
+      .select("id")
+      .single();
     setSaving(false);
     if (failed) setError("Could not save. Try again.");
+    else setDismissed(true);
   }
 
   return (
-    <View className="mx-4 mb-8 gap-3">
-      <Text className="text-xl font-semibold">
-        {complete ? "Challenge complete" : "Your first-run challenge"}
-      </Text>
-      <View className="gap-3 rounded-2xl bg-card px-4 py-4">
-        {complete ? (
-          <Text className="text-muted-foreground">
-            Your cookbook is yours now, and you know every way into a meal.
-          </Text>
-        ) : null}
-        {goals.map((goal) =>
-          goal.target > 1 ? (
-            <View
-              key={goal.key}
-              className="gap-2"
-              accessible
-              accessibilityLabel={`${goal.label}: ${goal.count} of ${goal.target}`}
-            >
-              <View className="flex-row items-center gap-2.5">
-                <SymbolView
-                  name={goal.done ? DONE_ICON : OPEN_ICON}
-                  tintColor={goal.done ? primary : muted}
-                  size={22}
-                />
-                <Text className="flex-1">{goal.label}</Text>
-                <Text className="text-muted-foreground">
-                  {goal.count}/{goal.target}
-                </Text>
-              </View>
-              <View className="ml-8 h-1.5 overflow-hidden rounded-full bg-muted">
-                <View
-                  className="h-full rounded-full bg-primary"
-                  style={{ width: `${(goal.count / goal.target) * 100}%` }}
-                />
-              </View>
-            </View>
-          ) : (
-            <View
-              key={goal.key}
-              className="flex-row items-center gap-2.5"
-              accessible
-              accessibilityLabel={`${goal.label}: ${goal.done ? "done" : "not done yet"}`}
-            >
-              <SymbolView
-                name={goal.done ? DONE_ICON : OPEN_ICON}
-                tintColor={goal.done ? primary : muted}
-                size={22}
-              />
-              <Text
-                className={goal.done ? "flex-1 text-muted-foreground" : "flex-1"}
-              >
-                {goal.label}
-              </Text>
-            </View>
-          ),
-        )}
-        {complete ? (
-          <Button onPress={() => void finish()} disabled={saving}>
-            <Text>Done</Text>
-          </Button>
-        ) : null}
-        {error ? (
-          <Text className="text-destructive" accessibilityRole="alert">
-            {error}
-          </Text>
-        ) : null}
+    <View className="mx-4 mb-6 overflow-hidden rounded-3xl bg-accent">
+      <View className="gap-1 px-5 pb-4 pt-5">
+        <Text className="text-lg font-semibold leading-6 text-accent-foreground">
+          {earned
+            ? "Your month of Pro is earned"
+            : complete
+              ? "Challenge complete"
+              : "Earn a month of Pro"}
+        </Text>
+        <Text className="text-sm leading-5 text-accent-foreground">
+          {earned
+            ? "It’s yours when Pro launches."
+            : complete
+              ? "Your reward will be saved once your changes sync."
+              : "Yours when Pro launches."}
+        </Text>
       </View>
+
+      {!earned && featured ? (
+        <View className="flex-row items-center gap-3 px-5">
+          <View className="flex-1 gap-2">
+            <Text className="text-xl font-semibold leading-6 text-accent-foreground">
+              {featured.invitation}
+            </Text>
+            <Text className="text-sm leading-5 text-muted-foreground">
+              {featured.cue}
+            </Text>
+            {featured.target > 1 ? (
+              <Text className="text-sm font-medium text-primary">
+                {featured.count} of {featured.target} recipes imported
+              </Text>
+            ) : null}
+          </View>
+          {/* Existing food art until the visualization agent delivers the challenge artwork. */}
+          <Image
+            source={require("../chat/art/optimized/lemon-chicken-potatoes.webp")}
+            contentFit="contain"
+            accessibilityElementsHidden
+            importantForAccessibility="no-hide-descendants"
+            style={{ width: 88, height: 100 }}
+          />
+        </View>
+      ) : null}
+
+      {!earned && !complete ? (
+        <View className="px-5 pb-4 pt-4">
+          {/* Match height only: matching width shrinks the header's tap target to its label. */}
+          <Host matchContents={{ vertical: true }} seedColor={link}>
+            <Collapsible
+              isOpen={expanded}
+              onOpenChange={setExpanded}
+              label={`${completedCount} of ${goals.length} complete · ${expanded ? "Show less" : "See all challenges"}`}
+              labelStyle={{
+                color: typeof link === "string" ? link : undefined,
+                fontSize: 14,
+              }}
+            >
+              <RNHostView matchContents>
+                <View className="gap-4 pt-4">
+                  <Text className="text-sm text-accent-foreground">
+                    Try all five, in any order. No need to cook them now.
+                  </Text>
+                  {goals.map((goal) => (
+                    <TaskRow key={goal.key} goal={goal} />
+                  ))}
+                </View>
+              </RNHostView>
+            </Collapsible>
+          </Host>
+        </View>
+      ) : null}
+
+      {earned ? (
+        <View className="items-start px-5 pb-5">
+          <Button
+            onPress={() => void dismiss()}
+            disabled={saving}
+            className="min-h-11"
+          >
+            <Text>{saving ? "Saving…" : "Done"}</Text>
+          </Button>
+          {error ? (
+            <Text className="mt-3 text-destructive" accessibilityRole="alert">
+              {error}
+            </Text>
+          ) : null}
+        </View>
+      ) : null}
+    </View>
+  );
+}
+
+function TaskRow({ goal }: { goal: ChallengeGoal }) {
+  const primary = useResolveClassNames("text-accent-foreground").color;
+  const muted = useResolveClassNames("text-muted-foreground").color;
+  return (
+    <View
+      className="flex-row items-center gap-2.5"
+      accessible
+      accessibilityLabel={`${goal.label}: ${goal.done ? "done" : `${goal.count} of ${goal.target}`}`}
+    >
+      <SymbolView
+        name={goal.done ? DONE_ICON : OPEN_ICON}
+        tintColor={goal.done ? primary : muted}
+        size={20}
+      />
+      <Text
+        className={`flex-1 text-sm ${goal.done ? "text-muted-foreground" : "text-accent-foreground"}`}
+      >
+        {goal.label}
+      </Text>
+      {goal.target > 1 ? (
+        <Text className="text-sm text-accent-foreground">
+          {goal.count}/{goal.target}
+        </Text>
+      ) : null}
     </View>
   );
 }
 
 /** Recipes and recipe chats you created, across your households. */
-function useChallengeCounts(userId: string | null): ChallengeCounts {
+function useChallengeCounts(userId: string): ChallengeCounts {
   const { data: origins } = useQuery<{ origin: string; n: number }>(
     "SELECT origin, count(*) AS n FROM recipes WHERE created_by = ? AND origin IS NOT NULL GROUP BY origin",
     [userId],

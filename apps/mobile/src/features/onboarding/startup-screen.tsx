@@ -39,7 +39,7 @@ export function StartupScreen({
     >
       <View className="w-full max-w-md items-center gap-6">
         <Image
-          source={require("../../../assets/images/splash-icon.png")}
+          source={require("../../../assets/images/splash-icon.webp")}
           accessibilityLabel="Magpie"
           contentFit="contain"
           style={{ width: 160, height: 160 }}
