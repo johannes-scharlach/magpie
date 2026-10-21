@@ -93,21 +93,27 @@ const SuggestionsSchema = z.object({
     .describe("2-6 short replies the user is most likely to tap next"),
 });
 
-async function generateSuggestions(assistantText: string): Promise<string[]> {
+async function generateSuggestions(
+  assistantText: string,
+  context: { userText: string; hasChildren: boolean },
+): Promise<string[]> {
   if (!assistantText.trim()) return [];
   const { output } = await generateText({
     model: google(UTILITY_MODEL),
     abortSignal: AbortSignal.timeout(10_000),
     output: Output.object({ schema: SuggestionsSchema }),
-    prompt: `You suggest quick replies in a cooking assistant chat. Below is the assistant's latest message. Propose 2-6 short replies the user is most likely to want to send next, written in the user's voice.
+    prompt: `You suggest quick replies in a cooking assistant chat. Below are the user's last message and the assistant's reply. Propose 2-6 short replies the user is most likely to want to send next, written in the user's voice. Only offer a reply when it makes sense for this dish and this request; never push against what the user asked for.
 
 Guidelines:
-- If the assistant pitched several ideas (<idea> tags), the user can just tap the idea to expand on it. Offer replies that suggest to merge two of the ideas or substitute an ingredient either for a more seasonal or for a more commonly available one.
-- If the assistant sketched out a dish (<sketch> tag: what it's like to eat, what you'd need, how the cooking goes), the first reply is: Save & plan it
-- If the assistant just saved a recipe to the cookbook, the first reply is: Plan it for tonight
-- Otherwise suggest the most natural next moves (a tweak, a swap, a question about the dish).
+- If the assistant pitched several ideas (<idea> tags), the user can just tap an idea to expand on it. Offer: More ideas. If the ideas sit close together in style or cuisine, offer: A wider range. If they lean on shortcuts or fusion, offer: More authentic ones.
+- If the assistant sketched out a dish (<sketch> tag: what it's like to eat, what you'd need, how the cooking goes), offer tweaks to it: Make it faster, if it isn't quick already. Make it more authentic, if it leans on shortcuts or fusion.${context.hasChildren ? " Make it more kid-friendly, if it isn't already; the household has children." : ""} A question about the dish is fine too.
+- Otherwise suggest the most natural next moves (a tweak or a question about the dish).
+- Never suggest saving or planning; the app has buttons for that.
 - Keep each reply under 8 words. No numbering, no punctuation at the end.
 - Write the replies in the same language as the assistant's message. (e.g. if the assistant's message is in French, write the replies in French)
+
+User's message:
+${context.userText.slice(-2000)}
 
 Assistant's message:
 ${assistantText.slice(-4000)}`,
@@ -599,7 +605,14 @@ chats.post("/:id/messages", async (c) => {
         // Local Storage URLs are private addresses; download them plainly.
         experimental_download: downloadMedia,
       }),
-    suggestions: generateSuggestions,
+    suggestions: (text) =>
+      generateSuggestions(text, {
+        userText: textOf(message),
+        hasChildren:
+          household?.people.some(
+            (p) => p.age_group === "Child" || p.age_group === "Toddler",
+          ) ?? false,
+      }),
     save: async (reply) => {
       await pool.query(
         "UPDATE chat_messages SET parts = $2::jsonb WHERE id = $1",
