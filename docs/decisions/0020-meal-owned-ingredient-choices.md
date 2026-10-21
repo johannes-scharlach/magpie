@@ -3,6 +3,7 @@
 Date: 2026-09-29
 Status: Accepted
 Supersedes: 13 (swap ownership and adjustment reconciliation)
+Amended by: 29 (going without an ingredient is its last option)
 
 Choosing tuna instead of sardines is a meal decision, including when tuna is
 already at home. It must persist without a shopping item.

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { sharedRecipePage } from "./routes/shared-recipes.js";
+import { sharedRecipePage } from "./routes/shared-recipe-page.js";
 
 const id = "f2700000-0000-4000-8000-000000000002";
 const cookies = {
@@ -13,7 +13,9 @@ const cookies = {
 };
 
 test("a shared recipe page shows enough to want it, and opens it in the app", async () => {
-  const page = sharedRecipePage(async (asked) => (asked === id ? cookies : null));
+  const page = sharedRecipePage(async (asked) =>
+    asked === id ? cookies : null,
+  );
   const response = await page.request(`/${id}`);
   assert.equal(response.status, 200);
   assert.equal(response.headers.get("cache-control"), "no-store");

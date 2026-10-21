@@ -1,4 +1,9 @@
-import { itemNameKey, parseMealSwaps, type MealItem } from "@magpie/meals";
+import {
+  isWithout,
+  itemNameKey,
+  parseMealSwaps,
+  type MealItem,
+} from "@magpie/meals";
 import * as Crypto from "expo-crypto";
 
 import {
@@ -77,6 +82,10 @@ export async function decideIngredients(opts: {
       }
       if (item) continue;
       const option = optionsForLine(line)[optionIndex] ?? line;
+      if (isWithout(option))
+        throw new Error(
+          "This meal goes without it. Choose the ingredient first.",
+        );
       const created = {
         id: Crypto.randomUUID(),
         name: option.item_name,
@@ -103,9 +112,9 @@ export async function decideIngredients(opts: {
         ],
       );
     }
-    const decided = shoppingReview(
-      variant.ingredientLines, items, swaps, [...atHome],
-    );
+    const decided = shoppingReview(variant.ingredientLines, items, swaps, [
+      ...atHome,
+    ]);
     await tx.execute(
       "UPDATE planned_meals SET ingredients_at_home = ?, shopping_reviewed_variant_id = ?, updated_at = ? WHERE id = ?",
       [

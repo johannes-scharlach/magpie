@@ -109,7 +109,8 @@ export function adjustRecipeMessage(opts: {
   people: Eater[];
   eaterIds: string[];
   extraPortions: number;
-  swaps: { from: string; to: string }[];
+  /** A null `to` goes without the ingredient. */
+  swaps: { from: string; to: string | null }[];
 }): string {
   const names = opts.people
     .filter((person) => opts.eaterIds.includes(person.id))
@@ -117,7 +118,11 @@ export function adjustRecipeMessage(opts: {
   return [
     `Write a variant for ${opts.date} ${opts.meal}.`,
     `Eating: ${joinNames(names) || "nobody from the household"}${opts.extraPortions ? `, plus ${formatExtraPortions(opts.extraPortions)} extra portions` : ""}.`,
-    ...opts.swaps.map((swap) => `Use ${swap.to} instead of ${swap.from}.`),
+    ...opts.swaps.map((swap) =>
+      swap.to === null
+        ? `Leave out the ${swap.from}.`
+        : `Use ${swap.to} instead of ${swap.from}.`,
+    ),
     "Size the recipe for these eaters and fold the shopping list's swaps into the ingredients and steps.",
   ].join("\n");
 }

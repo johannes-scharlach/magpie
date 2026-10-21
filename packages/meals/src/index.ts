@@ -21,7 +21,18 @@ export type IngredientLine = Swap & {
   id?: number;
   swaps?: Swap[];
   shopping_hint?: "check_at_home" | "likely_purchase";
+  /** Present when the dish works without this line, after a rewrite if
+   *  needed. The cook-facing label, e.g. "Skip the garnish". */
+  without?: string;
 };
+
+/** Cooking without the line: its last option, with nothing to buy. */
+export type Without = { without: string };
+export type IngredientOption = Swap | Without;
+
+export function isWithout(option: IngredientOption): option is Without {
+  return !("item_name" in option);
+}
 
 /** The projection of a `list_items` row this package needs. */
 export type MealItem = {
@@ -85,7 +96,7 @@ export type MealSync = {
 export function mealSync(
   sizedFor: SizedFor | null,
   meal: SizedFor,
-  ingredients: readonly { swap: Swap | null }[],
+  ingredients: readonly { swap: IngredientOption | null }[],
 ): MealSync {
   const swaps = ingredients.filter((state) => state.swap).length;
   const sizing = !sizedFor
@@ -115,14 +126,20 @@ export function parseMealSwaps(raw: string | null | undefined): MealSwaps {
   return value as MealSwaps;
 }
 
-export function ingredientOptions(line: IngredientLine): Swap[] {
+export function ingredientOptions(line: IngredientLine): IngredientOption[] {
   const seen = new Set<string>();
-  return [line, ...(line.swaps ?? [])].filter((option) => {
+  const named = [line, ...(line.swaps ?? [])].filter((option) => {
     const key = itemNameKey(option.item_name);
     if (seen.has(key)) return false;
     seen.add(key);
     return true;
   });
+  return line.without ? [...named, { without: line.without }] : named;
+}
+
+function sameOption(a: IngredientOption, b: IngredientOption): boolean {
+  if (isWithout(a) || isWithout(b)) return isWithout(a) && isWithout(b);
+  return itemNameKey(a.item_name) === itemNameKey(b.item_name);
 }
 
 export function mealIngredients<L extends IngredientLine>(
@@ -151,11 +168,15 @@ export function rebaseMealSwaps(
     if (!swap || line.id == null) continue;
     const replacement = next.find((candidate) => candidate.id === line.id);
     if (!replacement) continue;
-    const index = ingredientOptions(replacement).findIndex(
-      (option) => itemNameKey(option.item_name) === itemNameKey(swap.item_name),
+    const index = ingredientOptions(replacement).findIndex((option) =>
+      sameOption(option, swap),
     );
     if (index < 0) {
-      throw new Error(`The revised recipe must use or retain the meal's choice of ${swap.item_name}`);
+      throw new Error(
+        isWithout(swap)
+          ? `The revised recipe must drop or retain the meal's choice to ${swap.without}`
+          : `The revised recipe must use or retain the meal's choice of ${swap.item_name}`,
+      );
     }
     if (index > 0) rebased[line.id] = index;
   }
@@ -168,16 +189,18 @@ export function ingredientSpec(line: Swap): string | null {
   );
 }
 
-/** Active items follow the meal. Purchases and unlinked items are snapshots. */
+/** Active items follow the meal. Purchases and unlinked items are snapshots.
+ * Null when the meal goes without the ingredient: nothing to buy. */
 export function resolveMealItem<I extends MealItem & { category_id: string | null }>(
   item: I,
   lines: readonly IngredientLine[],
   swaps: MealSwaps,
-): I {
+): I | null {
   if (item.status === "purchased" || item.ingredient_id == null) return item;
   const line = lines.find((line) => line.id === item.ingredient_id);
   if (!line) return item;
   const chosen = mealIngredients([line], swaps)[0]!.chosen;
+  if (isWithout(chosen)) return null;
   return {
     ...item,
     name: chosen.item_name,

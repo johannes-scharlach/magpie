@@ -1,9 +1,13 @@
-import { parseMealSwaps } from "@magpie/meals";
+import {
+  isWithout,
+  parseMealSwaps,
+  type IngredientOption,
+} from "@magpie/meals";
 import { MenuView } from "@expo/ui/community/menu";
 import { useQuery } from "@powersync/react";
 import * as Haptics from "expo-haptics";
 import { Stack, useLocalSearchParams } from "expo-router";
-import { SymbolView } from "expo-symbols";
+import { SymbolView, type SymbolViewProps } from "expo-symbols";
 import { useMemo, useState } from "react";
 import { ActivityIndicator, Platform, ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -11,7 +15,7 @@ import { useResolveClassNames } from "uniwind";
 
 import { Action } from "@/components/action";
 import { Text } from "@/components/ui/text";
-import { setMealSwap } from "@/db/meal-ingredients";
+import { goWithout, setMealSwap } from "@/db/meal-ingredients";
 import { decideIngredients, parseAtHome } from "@/db/meal-shopping";
 import type { ListItem, PlannedMeal } from "@/db/schema";
 import { parseIngredientLines } from "@/db/variants";
@@ -107,7 +111,12 @@ function IngredientReview({
     ([id, index]) => (savedSwaps[id] ?? 0) === index,
   );
   if (settledSwaps.length) {
-    setPendingSwaps(withoutIds(pendingSwaps, settledSwaps.map(([id]) => id)));
+    setPendingSwaps(
+      withoutIds(
+        pendingSwaps,
+        settledSwaps.map(([id]) => id),
+      ),
+    );
   }
   const swaps = { ...savedSwaps };
   for (const [id, index] of pendingSwaps) {
@@ -166,12 +175,23 @@ function IngredientReview({
       () => setPending((current) => withoutIds(current, ingredientIds)),
     );
   };
-  const swap = (ingredientId: number, index: number, name: string) => {
+  const swap = (
+    ingredientId: number,
+    index: number,
+    option: IngredientOption,
+  ) => {
     if (!meal.variant_id) return;
-    const variantId = meal.variant_id;
+    const choice = {
+      mealId: meal.id,
+      variantId: meal.variant_id,
+      ingredientId,
+    };
     setPendingSwaps((current) => new Map(current).set(ingredientId, index));
     run(
-      () => setMealSwap({ mealId: meal.id, variantId, ingredientId, name }),
+      () =>
+        isWithout(option)
+          ? goWithout(choice)
+          : setMealSwap({ ...choice, name: option.item_name }),
       () => setPendingSwaps((current) => withoutIds(current, [ingredientId])),
     );
   };
@@ -265,26 +285,33 @@ function IngredientRow({
   /** Separators sit between rows, never after the last one. */
   last: boolean;
   decide: Decide;
-  swap: (ingredientId: number, index: number, name: string) => void;
+  swap: (ingredientId: number, index: number, option: IngredientOption) => void;
 }) {
   const primary = useResolveClassNames("text-primary").color;
   const { line, optionIndex, item, decision } = entry;
   const options = optionsForLine(line);
-  const chosen = options[optionIndex] ?? line;
+  const option = options[optionIndex] ?? line;
+  const skipped = isWithout(option);
+  // Going without still names the ingredient being left out.
+  const chosen = isWithout(option) ? line : option;
   // A bought row shows what was actually bought.
   const bought = item?.status === "purchased";
   const name = capitalize(bought ? (item.name ?? "") : chosen.item_name);
   const amount = bought
     ? splitSpec(item.spec).amount
-    : chosen.qty_text
+    : !skipped && chosen.qty_text
       ? prettyQuantity(chosen.qty_text)
       : null;
   const others = options.filter((_, index) => index !== optionIndex);
+  const otherNames = others.flatMap((other) =>
+    isWithout(other) ? [] : [other.item_name],
+  );
   const canSwap = line.id != null && others.length > 0 && decision !== "bought";
   const detail = [
     amount,
-    bought ? null : chosen.prep_note,
-    canSwap ? `or ${others.map((option) => option.item_name).join(", ")}` : null,
+    bought || skipped ? null : chosen.prep_note,
+    isWithout(option) ? option.without : null,
+    canSwap && otherNames.length ? `or ${otherNames.join(", ")}` : null,
   ]
     .filter(Boolean)
     .join(" · ");
@@ -297,7 +324,11 @@ function IngredientRow({
     .join("\n");
   const title = (
     <View className="flex-row items-center gap-1.5 self-start">
-      <Text className="font-medium">{name}</Text>
+      <Text
+        className={`font-medium ${skipped ? "text-muted-foreground line-through" : ""}`}
+      >
+        {name}
+      </Text>
       {canSwap ? (
         <SymbolView name={POPUP_ICON} tintColor={primary} size={11} />
       ) : null}
@@ -317,17 +348,19 @@ function IngredientRow({
           {canSwap ? (
             <MenuView
               // The host sizes itself to the label once; a new name is a new host.
-              key={chosen.item_name}
+              key={skipped ? "without" : chosen.item_name}
               title={reasons}
               actions={options.map((option, index) => ({
                 id: String(index),
-                title: capitalize(option.item_name),
+                title: isWithout(option)
+                  ? option.without
+                  : capitalize(option.item_name),
                 state: index === optionIndex ? "on" : "off",
               }))}
               onPressAction={({ nativeEvent: { event } }) => {
                 const option = options[Number(event)];
                 if (option && Number(event) !== optionIndex)
-                  swap(line.id!, Number(event), option.item_name);
+                  swap(line.id!, Number(event), option);
               }}
             >
               <View
@@ -343,17 +376,10 @@ function IngredientRow({
           )}
         </View>
         {line.id == null ? null : decision === "bought" ? (
-          // Bought is a fact, not a choice: a badge the picker's size keeps
-          // the column's rhythm.
-          <View className="h-8 w-28 flex-row items-center justify-center gap-1.5 rounded-full bg-primary/10 android:h-10 android:w-32">
-            <SymbolView
-              name={{ ios: "checkmark", android: "check" }}
-              tintColor={primary}
-              size={13}
-              weight="semibold"
-            />
-            <Text className="text-sm font-medium text-primary">Bought</Text>
-          </View>
+          <Badge icon={{ ios: "checkmark", android: "check" }} label="Bought" />
+        ) : decision === "without" ? (
+          // Undone from the name's menu, where the choice was made.
+          <Badge icon={{ ios: "minus", android: "remove" }} label="Skipped" />
         ) : (
           <DecisionPicker
             value={decision === "undecided" ? null : decision}
@@ -365,6 +391,23 @@ function IngredientRow({
         )}
       </View>
       {detail ? <Text variant="muted">{detail}</Text> : null}
+    </View>
+  );
+}
+
+/** A fact, not a choice: a badge the picker's size keeps the column's rhythm. */
+function Badge({
+  icon,
+  label,
+}: {
+  icon: SymbolViewProps["name"];
+  label: string;
+}) {
+  const primary = useResolveClassNames("text-primary").color;
+  return (
+    <View className="h-8 w-28 flex-row items-center justify-center gap-1.5 rounded-full bg-primary/10 android:h-10 android:w-32">
+      <SymbolView name={icon} tintColor={primary} size={13} weight="semibold" />
+      <Text className="text-sm font-medium text-primary">{label}</Text>
     </View>
   );
 }

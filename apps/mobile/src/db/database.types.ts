@@ -165,6 +165,24 @@ export type Database = {
           },
         ]
       }
+      first_run_rewards: {
+        Row: {
+          dismissed_at: string | null
+          earned_at: string
+          id: string
+        }
+        Insert: {
+          dismissed_at?: string | null
+          earned_at?: string
+          id: string
+        }
+        Update: {
+          dismissed_at?: string | null
+          earned_at?: string
+          id?: string
+        }
+        Relationships: []
+      }
       household_activities: {
         Row: {
           actor_name: string
@@ -925,6 +943,10 @@ export type Database = {
         Returns: undefined
       }
       queue_meal_reminders: { Args: { now_at?: string }; Returns: undefined }
+      record_first_run_reward: {
+        Args: { target_user_id: string }
+        Returns: undefined
+      }
       register_push_device: {
         Args: {
           target_expo_push_token: string
@@ -1091,4 +1113,3 @@ export const Constants = {
     Enums: {},
   },
 } as const
-

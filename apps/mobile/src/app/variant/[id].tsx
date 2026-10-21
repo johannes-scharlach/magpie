@@ -1,4 +1,6 @@
 import {
+  ingredientOptions,
+  isWithout,
   itemNameKey,
   mealIngredients,
   mealSync,
@@ -49,7 +51,7 @@ import { useResolveClassNames } from "uniwind";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Text } from "@/components/ui/text";
-import { setMealSwap } from "@/db/meal-ingredients";
+import { goWithout, setMealSwap } from "@/db/meal-ingredients";
 import { useAuth } from "@/db/provider";
 import type { PlannedMeal, Variant, Recipe } from "@/db/schema";
 import { deleteRecipe } from "@/db/recipes";
@@ -138,7 +140,13 @@ type RowModel = {
   swappedFrom: string | null;
   /** Everything the recipe allows here, its own line first. */
   options: Alternative[];
+  /** The label for going without, when the planned meal can. */
+  without: string | null;
+  /** The meal goes without this ingredient. */
+  skipped: boolean;
 };
+
+const WITHOUT_ACTION = "without";
 
 function IngredientRow({
   row,
@@ -154,12 +162,13 @@ function IngredientRow({
   idx: number;
   last: boolean;
   onSwap: (idx: number, direction: SwapDirection) => void;
-  onPick: (idx: number, alternative: Alternative) => void;
+  onPick: (idx: number, alternative: Alternative | null) => void;
   mutedColor: ColorValue | undefined;
   primaryColor: ColorValue | undefined;
   readOnly?: boolean;
 }) {
   const canSwap = !readOnly && row.options.length > 1;
+  const canChoose = canSwap || (!readOnly && !!row.without);
   const translateX = useSharedValue(0);
   const opacity = useSharedValue(1);
 
@@ -227,7 +236,13 @@ function IngredientRow({
     opacity: opacity.value,
   }));
 
-  const nameClass = `shrink ${row.swappedFrom ? "text-primary" : "text-foreground"}`;
+  const nameClass = `shrink ${
+    row.skipped
+      ? "text-muted-foreground line-through"
+      : row.swappedFrom
+        ? "text-primary"
+        : "text-foreground"
+  }`;
   const currentKey = itemNameKey(row.name);
   // A swapped name is tinted and carries the swap glyph: the change must
   // read without colour too.
@@ -251,10 +266,10 @@ function IngredientRow({
     >
       <Animated.View className="gap-0.5" style={animatedStyle}>
         <View className="flex-row flex-wrap items-baseline gap-x-1.5">
-          {row.qtyText ? (
+          {row.qtyText && !row.skipped ? (
             <Text className="font-semibold">{prettyQuantity(row.qtyText)}</Text>
           ) : null}
-          {canSwap ? (
+          {canChoose ? (
             // A popup button, as Settings shows a value with choices: the
             // name and the system's up-down chevron open a menu of what
             // the recipe allows here. A swapped name is tinted; the menu's
@@ -262,16 +277,37 @@ function IngredientRow({
             <MenuView
               // The host sizes itself to the label once; a longer name
               // after a swap would be clipped, so a new name is a new host.
-              key={row.name}
+              key={row.skipped ? WITHOUT_ACTION : row.name}
               title={row.swappedFrom ? `Recipe: ${row.swappedFrom}` : ""}
-              actions={row.options.map((option) => ({
-                id: option.name,
-                title: option.name,
-                state: itemNameKey(option.name) === currentKey ? "on" : "off",
-              }))}
+              actions={[
+                ...row.options.map((option) => ({
+                  id: option.name,
+                  title: option.name,
+                  state:
+                    !row.skipped && itemNameKey(option.name) === currentKey
+                      ? ("on" as const)
+                      : ("off" as const),
+                })),
+                ...(row.without
+                  ? [
+                      {
+                        id: WITHOUT_ACTION,
+                        title: row.without,
+                        state: row.skipped ? ("on" as const) : ("off" as const),
+                      },
+                    ]
+                  : []),
+              ]}
               onPressAction={({ nativeEvent: { event } }) => {
+                if (event === WITHOUT_ACTION) {
+                  if (!row.skipped) onPick(idx, null);
+                  return;
+                }
                 const option = row.options.find((o) => o.name === event);
-                if (option && itemNameKey(option.name) !== currentKey) {
+                if (
+                  option &&
+                  (row.skipped || itemNameKey(option.name) !== currentKey)
+                ) {
                   onPick(idx, option);
                 }
               }}
@@ -294,9 +330,9 @@ function IngredientRow({
             name
           )}
         </View>
-        {row.prepNote ? (
+        {row.skipped || row.prepNote ? (
           <Text variant="muted" className="text-sm">
-            {row.prepNote}
+            {row.skipped ? row.without : row.prepNote}
           </Text>
         ) : null}
       </Animated.View>
@@ -626,16 +662,21 @@ export default function VariantPage() {
             prepNote: display.prep_note ?? null,
             swappedFrom: swap ? line.item_name : null,
             options: alternativesForLine(line),
+            without: null,
+            skipped: false,
           };
         }
-        const state = chosenIngredients[idx];
-        const display = state?.swap ?? line;
+        const swap = chosenIngredients[idx]?.swap ?? null;
+        const skipped = !!swap && isWithout(swap);
+        const display = swap && !isWithout(swap) ? swap : line;
         return {
           qtyText: display.qty_text,
           name: display.item_name,
           prepNote: display.prep_note ?? null,
-          swappedFrom: state?.swap ? line.item_name : null,
+          swappedFrom: swap && !skipped ? line.item_name : null,
           options: alternativesForLine(line),
+          without: line.without ?? null,
+          skipped,
         };
       }),
     [ingredientLines, meal, activeSwaps, chosenIngredients],
@@ -644,7 +685,8 @@ export default function VariantPage() {
   // Meal writes queue so rapid swaps cannot lose each other between read and write.
   const swapQueue = useRef(Promise.resolve());
   const persistSwap = useCallback(
-    (ingredientId: number, optionIndex: number, name: string) => {
+    // A null name goes without the ingredient.
+    (ingredientId: number, optionIndex: number, name: string | null) => {
       const persistMealId = meal?.id;
       const persistVariantId = meal?.variant_id;
       if (!persistMealId || !persistVariantId) return;
@@ -654,13 +696,13 @@ export default function VariantPage() {
         if (prev[ingredientId] === optionIndex) return prev;
         return { ...prev, [ingredientId]: optionIndex };
       });
+      const choice = {
+        mealId: persistMealId,
+        variantId: persistVariantId,
+        ingredientId,
+      };
       const run = swapQueue.current.then(() =>
-        setMealSwap({
-          mealId: persistMealId,
-          variantId: persistVariantId,
-          ingredientId,
-          name,
-        }),
+        name === null ? goWithout(choice) : setMealSwap({ ...choice, name }),
       );
       swapQueue.current = run.catch(() => {});
       run.catch(() => {
@@ -677,9 +719,19 @@ export default function VariantPage() {
   );
 
   const handlePick = useCallback(
-    (idx: number, alternative: Alternative) => {
+    (idx: number, alternative: Alternative | null) => {
       const line = ingredientLines[idx];
       if (!line) return;
+      if (meal && !alternative) {
+        if (!line.id) return;
+        persistSwap(
+          line.id,
+          ingredientOptions(line).findIndex(isWithout),
+          null,
+        );
+        return;
+      }
+      if (!alternative) return;
       if (meal) {
         if (!line.id) return;
         const optionIndex = alternativesForLine(line).findIndex(
@@ -711,8 +763,9 @@ export default function VariantPage() {
       if (meal) {
         if (!line.id) return;
         const options = alternativesForLine(line);
+        const chosen = chosenIngredients[idx]?.chosen;
         const next = adjacentAlternative(
-          chosenIngredients[idx]?.chosen.item_name ?? line.item_name,
+          chosen && !isWithout(chosen) ? chosen.item_name : line.item_name,
           options,
           direction === "next" ? 1 : -1,
         );
@@ -903,7 +956,7 @@ export default function VariantPage() {
           .filter((line) => line.swap)
           .map((line) => ({
             from: line.line.item_name,
-            to: line.chosen.item_name,
+            to: isWithout(line.chosen) ? null : line.chosen.item_name,
           })),
       }),
     );

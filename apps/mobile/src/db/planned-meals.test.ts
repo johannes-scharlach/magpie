@@ -12,8 +12,12 @@ import {
 import { decideIngredients } from "./meal-shopping";
 import { deleteRecipe } from "./recipes";
 import { MEALS_WITH_SHOPPING } from "./shopping-meals";
-import { resolveShoppingItem, setMealSwap } from "./meal-ingredients";
-import { applySwap, setItemStatus } from "./items";
+import {
+  goWithout,
+  resolveShoppingItem,
+  setMealSwap,
+} from "./meal-ingredients";
+import { applySwap, setItemStatus, skipItem } from "./items";
 import { mealIngredients, parseMealSwaps } from "@magpie/meals";
 
 const state = vi.hoisted(() => ({ db: null as DatabaseSync | null }));
@@ -91,19 +95,41 @@ it("plans another household's recipe as this household's copy, with the server's
       VALUES ('${cookies}', 'annas-recipe', '${annas}', 'Cookies', '[{"id":4,"item_name":"butter"}]', '[]', '{"eater_ids":[],"extra_portions":0}');
   `);
   const plan = (meal: string) =>
-    setPlannedMeal({ listId: bens, slotDate: date, meal, recipeId: "annas-recipe", variantId: cookies });
+    setPlannedMeal({
+      listId: bens,
+      slotDate: date,
+      meal,
+      recipeId: "annas-recipe",
+      variantId: cookies,
+    });
   await plan("treat");
   await plan("lunch");
 
-  const copy = { recipe: "01fc58b1-4257-5978-bbbd-4d174e940b41", variant: "7d6e49bd-e7fc-517a-9cc1-561c36c1f928" };
+  const copy = {
+    recipe: "01fc58b1-4257-5978-bbbd-4d174e940b41",
+    variant: "7d6e49bd-e7fc-517a-9cc1-561c36c1f928",
+  };
   expect(all("planned_meals").map((m) => [m.recipe_id, m.variant_id])).toEqual([
-    [copy.recipe, copy.variant], [copy.recipe, copy.variant],
+    [copy.recipe, copy.variant],
+    [copy.recipe, copy.variant],
   ]);
-  expect(state.db!.prepare("SELECT * FROM recipes WHERE id = ?").get(copy.recipe)).toMatchObject({
-    list_id: bens, from_url: "https://example.com/cookies", origin: null, next_ingredient_id: 5, created_by: null,
+  expect(
+    state.db!.prepare("SELECT * FROM recipes WHERE id = ?").get(copy.recipe),
+  ).toMatchObject({
+    list_id: bens,
+    from_url: "https://example.com/cookies",
+    origin: null,
+    next_ingredient_id: 5,
+    created_by: null,
   });
-  expect(state.db!.prepare("SELECT * FROM variants WHERE id = ?").get(copy.variant)).toMatchObject({
-    recipe_id: copy.recipe, list_id: bens, name: "Cookies", ingredient_lines: '[{"id":4,"item_name":"butter"}]', sized_for: null,
+  expect(
+    state.db!.prepare("SELECT * FROM variants WHERE id = ?").get(copy.variant),
+  ).toMatchObject({
+    recipe_id: copy.recipe,
+    list_id: bens,
+    name: "Cookies",
+    ingredient_lines: '[{"id":4,"item_name":"butter"}]',
+    sized_for: null,
   });
 });
 
@@ -112,7 +138,13 @@ it("deletes a recipe with all its variants, but not while a meal uses it", async
     INSERT INTO recipes (id, list_id) VALUES ('recipe', 'household');
     INSERT INTO variants (id, recipe_id, ingredient_lines) VALUES ('v1', 'recipe', '[]'), ('v2', 'recipe', '[]');
   `);
-  await setPlannedMeal({ listId, slotDate: date, meal: "lunch", recipeId: "recipe", variantId: "v1" });
+  await setPlannedMeal({
+    listId,
+    slotDate: date,
+    meal: "lunch",
+    recipeId: "recipe",
+    variantId: "v1",
+  });
   await expect(deleteRecipe("recipe")).rejects.toThrow(/meal plan/);
   expect(all("variants")).toHaveLength(2);
 
@@ -122,16 +154,53 @@ it("deletes a recipe with all its variants, but not while a meal uses it", async
 });
 
 it("keeps at-home swaps on the meal and snapshots the actual purchase before later changes", async () => {
-  const fish = [{ id: 7, item_name: "Sardines", qty_text: "3 tins", category_id: "grains",
-    swaps: [{ item_name: "Tuna", qty_text: "2 tins", prep_note: "drained", category_id: "deli" }] }];
-  state.db!.prepare("INSERT INTO variants (id, recipe_id, ingredient_lines) VALUES ('fish', 'recipe', ?)").run(JSON.stringify(fish));
-  await setPlannedMeal({ listId, slotDate: date, meal: source.slot, recipeId: "recipe", variantId: "fish" });
-  const review = { listId, mealId: sourceId, contentId: all("planned_meals")[0]!.content_id as string, variantId: "fish" };
-  const swap = { mealId: sourceId, variantId: "fish", ingredientId: 7, name: "Tuna" };
+  const fish = [
+    {
+      id: 7,
+      item_name: "Sardines",
+      qty_text: "3 tins",
+      category_id: "grains",
+      swaps: [
+        {
+          item_name: "Tuna",
+          qty_text: "2 tins",
+          prep_note: "drained",
+          category_id: "deli",
+        },
+      ],
+    },
+  ];
+  state
+    .db!.prepare(
+      "INSERT INTO variants (id, recipe_id, ingredient_lines) VALUES ('fish', 'recipe', ?)",
+    )
+    .run(JSON.stringify(fish));
+  await setPlannedMeal({
+    listId,
+    slotDate: date,
+    meal: source.slot,
+    recipeId: "recipe",
+    variantId: "fish",
+  });
+  const review = {
+    listId,
+    mealId: sourceId,
+    contentId: all("planned_meals")[0]!.content_id as string,
+    variantId: "fish",
+  };
+  const swap = {
+    mealId: sourceId,
+    variantId: "fish",
+    ingredientId: 7,
+    name: "Tuna",
+  };
   await setMealSwap(swap);
-  const choices = () => parseMealSwaps(all("planned_meals")[0]!.ingredient_swaps as string);
+  const choices = () =>
+    parseMealSwaps(all("planned_meals")[0]!.ingredient_swaps as string);
   expect(all("list_items")).toEqual([]);
-  expect(mealIngredients(fish, choices())[0]!.chosen.item_name).toBe("Tuna");
+  expect(mealIngredients(fish, choices())[0]!.chosen).toMatchObject({
+    item_name: "Tuna",
+  });
 
   // At home keeps the choice without a shopping item.
   await decideIngredients({ ...review, ingredientIds: [7], decision: "home" });
@@ -140,47 +209,129 @@ it("keeps at-home swaps on the meal and snapshots the actual purchase before lat
 
   await decideIngredients({ ...review, ingredientIds: [7], decision: "shop" });
   const itemId = all("list_items")[0]!.id as string;
-  const resolved = () => resolveShoppingItem(state.db!.prepare(`SELECT i.*, v.ingredient_lines, pm.ingredient_swaps
+  const resolved = () =>
+    resolveShoppingItem(
+      state
+        .db!.prepare(
+          `SELECT i.*, v.ingredient_lines, pm.ingredient_swaps
     FROM list_items i JOIN planned_meals pm ON pm.id = i.planned_meal_id
-    JOIN variants v ON v.id = pm.variant_id WHERE i.id = ?`).get(itemId) as unknown as Parameters<typeof resolveShoppingItem>[0]);
+    JOIN variants v ON v.id = pm.variant_id WHERE i.id = ?`,
+        )
+        .get(itemId) as unknown as Parameters<typeof resolveShoppingItem>[0],
+    );
   await applySwap(itemId, "Sardines");
   expect(choices()).toEqual({});
-  expect(resolved()).toMatchObject({ name: "Sardines", spec: "3 tins", category_id: "grains" });
+  expect(resolved()).toMatchObject({
+    name: "Sardines",
+    spec: "3 tins",
+    category_id: "grains",
+  });
   expect(all("list_items")[0]!.name).toBe("Tuna");
   await setItemStatus(itemId, "purchased");
   const purchase = all("list_items")[0]!;
-  expect(purchase).toMatchObject({ name: "Sardines", spec: "3 tins", status: "purchased", purchase_count: 1 });
+  expect(purchase).toMatchObject({
+    name: "Sardines",
+    spec: "3 tins",
+    status: "purchased",
+    purchase_count: 1,
+  });
   await setMealSwap(swap);
   expect(resolved()).toMatchObject({ name: "Sardines", spec: "3 tins" });
-  expect(resolveShoppingItem({
-    ...resolved(), ingredient_lines: "{", ingredient_swaps: "{",
-  })).toMatchObject({ name: "Sardines", spec: "3 tins" });
-  expect(mealIngredients(fish, choices())[0]!.chosen.item_name).toBe("Tuna");
+  expect(
+    resolveShoppingItem({
+      ...resolved(),
+      ingredient_lines: "{",
+      ingredient_swaps: "{",
+    }),
+  ).toMatchObject({ name: "Sardines", spec: "3 tins" });
+  expect(mealIngredients(fish, choices())[0]!.chosen).toMatchObject({
+    item_name: "Tuna",
+  });
 
-  state.db!.exec("INSERT INTO variants (id, recipe_id, ingredient_lines) VALUES ('no-fish', 'recipe', '[]'); UPDATE planned_meals SET variant_id = 'no-fish', ingredient_swaps = '{}'");
+  state.db!.exec(
+    "INSERT INTO variants (id, recipe_id, ingredient_lines) VALUES ('no-fish', 'recipe', '[]'); UPDATE planned_meals SET variant_id = 'no-fish', ingredient_swaps = '{}'",
+  );
   expect(resolved()).toMatchObject({ name: "Sardines", spec: "3 tins" });
   expect(all("list_items")[0]).toEqual(purchase);
   await expect(setMealSwap(swap)).rejects.toThrow("changed");
   await setItemStatus(itemId, "active");
-  expect(all("list_items")[0]).toMatchObject({ ingredient_id: null, name: "Sardines", status: "active" });
+  expect(all("list_items")[0]).toMatchObject({
+    ingredient_id: null,
+    name: "Sardines",
+    status: "active",
+  });
 });
 
 it("carries meal choices when moving or repeating and clears them when replacing", async () => {
-  state.db!.prepare("INSERT INTO variants (id, recipe_id, ingredient_lines) VALUES ('fish', 'recipe', ?)").run(JSON.stringify([
-    { id: 1, item_name: "Sardines", qty_text: null, swaps: [{ item_name: "Tuna", qty_text: null }] },
-  ]));
-  await setPlannedMeal({ listId, slotDate: date, meal: source.slot, recipeId: "recipe", variantId: "fish" });
-  await setMealSwap({ mealId: sourceId, variantId: "fish", ingredientId: 1, name: "Tuna" });
-  await repeatPlannedMeal(listId, { ...source, variantId: "fish" }, destination);
-  expect(all("planned_meals").map((meal) => meal.ingredient_swaps)).toEqual(['{"1":1}', '{"1":1}']);
-  await setPlannedMeal({ listId, slotDate: destination.date, meal: destination.slot, recipeId: "recipe", variantId: "fish" });
-  await decideIngredients({ listId, mealId: sourceId, contentId: all("planned_meals").find((meal) => meal.id === sourceId)!.content_id as string,
-    variantId: "fish", ingredientIds: [1], decision: "home" });
+  state
+    .db!.prepare(
+      "INSERT INTO variants (id, recipe_id, ingredient_lines) VALUES ('fish', 'recipe', ?)",
+    )
+    .run(
+      JSON.stringify([
+        {
+          id: 1,
+          item_name: "Sardines",
+          qty_text: null,
+          swaps: [{ item_name: "Tuna", qty_text: null }],
+        },
+      ]),
+    );
+  await setPlannedMeal({
+    listId,
+    slotDate: date,
+    meal: source.slot,
+    recipeId: "recipe",
+    variantId: "fish",
+  });
+  await setMealSwap({
+    mealId: sourceId,
+    variantId: "fish",
+    ingredientId: 1,
+    name: "Tuna",
+  });
+  await repeatPlannedMeal(
+    listId,
+    { ...source, variantId: "fish" },
+    destination,
+  );
+  expect(all("planned_meals").map((meal) => meal.ingredient_swaps)).toEqual([
+    '{"1":1}',
+    '{"1":1}',
+  ]);
+  await setPlannedMeal({
+    listId,
+    slotDate: destination.date,
+    meal: destination.slot,
+    recipeId: "recipe",
+    variantId: "fish",
+  });
+  await decideIngredients({
+    listId,
+    mealId: sourceId,
+    contentId: all("planned_meals").find((meal) => meal.id === sourceId)!
+      .content_id as string,
+    variantId: "fish",
+    ingredientIds: [1],
+    decision: "home",
+  });
   await movePlannedMeal(listId, { ...source, variantId: "fish" }, destination);
-  expect(all("planned_meals").find((meal) => meal.id === sourceId)).toMatchObject({ ingredient_swaps: '{}', ingredients_at_home: '[]' });
-  expect(all("planned_meals").find((meal) => meal.id === destinationId)).toMatchObject({ ingredient_swaps: '{"1":1}', ingredients_at_home: '[1]' });
-  await movePlannedMeal(listId, { date: destination.date, slot: destination.slot, variantId: "fish" }, { date: "2026-09-26", slot: "lunch" });
-  expect(all("planned_meals").find((meal) => meal.id === plannedMealId(listId, "2026-09-26", "lunch"))).toMatchObject({ ingredients_at_home: '[1]' });
+  expect(
+    all("planned_meals").find((meal) => meal.id === sourceId),
+  ).toMatchObject({ ingredient_swaps: "{}", ingredients_at_home: "[]" });
+  expect(
+    all("planned_meals").find((meal) => meal.id === destinationId),
+  ).toMatchObject({ ingredient_swaps: '{"1":1}', ingredients_at_home: "[1]" });
+  await movePlannedMeal(
+    listId,
+    { date: destination.date, slot: destination.slot, variantId: "fish" },
+    { date: "2026-09-26", slot: "lunch" },
+  );
+  expect(
+    all("planned_meals").find(
+      (meal) => meal.id === plannedMealId(listId, "2026-09-26", "lunch"),
+    ),
+  ).toMatchObject({ ingredients_at_home: "[1]" });
 });
 
 async function writeMeal() {
@@ -404,20 +555,57 @@ it("repeats a written meal without shopping and rolls back an invalid recipe cho
 });
 
 it("decides ingredients tap by tap and marks the meal reviewed once none are left", async () => {
-  state.db!.prepare("INSERT INTO variants (id, recipe_id, name, ingredient_lines) VALUES ('pasta', 'recipe', 'Pasta', ?)").run(JSON.stringify([
-    { id: 1, item_name: "Pasta", qty_text: "200g", category_id: "grains" },
-    { id: 2, item_name: "Basil", qty_text: "1 bunch", swaps: [{ item_name: "Oregano", qty_text: "1 tsp" }] },
-    { id: 3, item_name: "Parmesan", qty_text: "50g" },
-  ]));
-  await setPlannedMeal({ listId, slotDate: date, meal: source.slot, recipeId: "recipe", variantId: "pasta" });
-  const meal = { listId, mealId: sourceId, contentId: all("planned_meals")[0]!.content_id as string, variantId: "pasta" };
-  const atHome = () => JSON.parse(all("planned_meals")[0]!.ingredients_at_home as string);
-  const names = () => all("list_items").map((item) => item.name).sort();
+  state
+    .db!.prepare(
+      "INSERT INTO variants (id, recipe_id, name, ingredient_lines) VALUES ('pasta', 'recipe', 'Pasta', ?)",
+    )
+    .run(
+      JSON.stringify([
+        { id: 1, item_name: "Pasta", qty_text: "200g", category_id: "grains" },
+        {
+          id: 2,
+          item_name: "Basil",
+          qty_text: "1 bunch",
+          swaps: [{ item_name: "Oregano", qty_text: "1 tsp" }],
+        },
+        { id: 3, item_name: "Parmesan", qty_text: "50g" },
+      ]),
+    );
+  await setPlannedMeal({
+    listId,
+    slotDate: date,
+    meal: source.slot,
+    recipeId: "recipe",
+    variantId: "pasta",
+  });
+  const meal = {
+    listId,
+    mealId: sourceId,
+    contentId: all("planned_meals")[0]!.content_id as string,
+    variantId: "pasta",
+  };
+  const atHome = () =>
+    JSON.parse(all("planned_meals")[0]!.ingredients_at_home as string);
+  const names = () =>
+    all("list_items")
+      .map((item) => item.name)
+      .sort();
 
   await decideIngredients({ ...meal, ingredientIds: [1], decision: "shop" });
-  expect(all("list_items")[0]).toMatchObject({ name: "Pasta", spec: "200g", category_id: "grains", status: "active", ingredient_id: 1 });
+  expect(all("list_items")[0]).toMatchObject({
+    name: "Pasta",
+    spec: "200g",
+    category_id: "grains",
+    status: "active",
+    ingredient_id: 1,
+  });
   // Shopping for a swap buys the meal's choice.
-  await setMealSwap({ mealId: sourceId, variantId: "pasta", ingredientId: 2, name: "Oregano" });
+  await setMealSwap({
+    mealId: sourceId,
+    variantId: "pasta",
+    ingredientId: 2,
+    name: "Oregano",
+  });
   await decideIngredients({ ...meal, ingredientIds: [2], decision: "shop" });
   expect(names()).toEqual(["Oregano", "Pasta"]);
   expect(shoppingMeal(sourceId)).toMatchObject({ shopping_reviewed: 0 });
@@ -430,20 +618,102 @@ it("decides ingredients tap by tap and marks the meal reviewed once none are lef
 
   // Undoing reopens the meal; a purchase stays a purchase.
   state.db!.exec("UPDATE list_items SET status = 'purchased'");
-  await decideIngredients({ ...meal, ingredientIds: [1, 3], decision: "undecided" });
-  expect(all("list_items")).toMatchObject([{ name: "Pasta", status: "purchased" }]);
+  await decideIngredients({
+    ...meal,
+    ingredientIds: [1, 3],
+    decision: "undecided",
+  });
+  expect(all("list_items")).toMatchObject([
+    { name: "Pasta", status: "purchased" },
+  ]);
   expect(atHome()).toEqual([2]);
   expect(shoppingMeal(sourceId)).toMatchObject({ shopping_reviewed: 0 });
 
   // The same ingredient stays separate on a repeated meal.
-  await repeatPlannedMeal(listId, { ...source, variantId: "pasta" }, destination);
+  await repeatPlannedMeal(
+    listId,
+    { ...source, variantId: "pasta" },
+    destination,
+  );
   const repeated = all("planned_meals").find((m) => m.id === destinationId)!;
   expect(repeated.ingredients_at_home).toBe("[]");
-  await decideIngredients({ ...meal, mealId: destinationId, contentId: repeated.content_id as string, ingredientIds: [1], decision: "shop" });
-  expect(all("list_items").filter((item) => item.name === "Pasta")).toHaveLength(2);
+  await decideIngredients({
+    ...meal,
+    mealId: destinationId,
+    contentId: repeated.content_id as string,
+    ingredientIds: [1],
+    decision: "shop",
+  });
+  expect(
+    all("list_items").filter((item) => item.name === "Pasta"),
+  ).toHaveLength(2);
 
-  await expect(decideIngredients({ ...meal, ingredientIds: [99], decision: "shop" })).rejects.toThrow("changed");
-  await setPlannedMeal({ listId, slotDate: date, meal: source.slot, recipeId: "recipe", variantId: "pasta" });
-  expect(all("planned_meals").find((m) => m.id === sourceId)!.ingredients_at_home).toBe("[]");
-  await expect(decideIngredients({ ...meal, ingredientIds: [3], decision: "shop" })).rejects.toThrow("changed");
+  await expect(
+    decideIngredients({ ...meal, ingredientIds: [99], decision: "shop" }),
+  ).rejects.toThrow("changed");
+  await setPlannedMeal({
+    listId,
+    slotDate: date,
+    meal: source.slot,
+    recipeId: "recipe",
+    variantId: "pasta",
+  });
+  expect(
+    all("planned_meals").find((m) => m.id === sourceId)!.ingredients_at_home,
+  ).toBe("[]");
+  await expect(
+    decideIngredients({ ...meal, ingredientIds: [3], decision: "shop" }),
+  ).rejects.toThrow("changed");
+});
+
+it("goes without an ingredient: nothing left to buy, until the meal uses it again", async () => {
+  state
+    .db!.prepare(
+      "INSERT INTO variants (id, recipe_id, name, ingredient_lines) VALUES ('pasta', 'recipe', 'Pasta', ?)",
+    )
+    .run(
+      JSON.stringify([
+        { id: 1, item_name: "Pasta", qty_text: "200g" },
+        {
+          id: 2,
+          item_name: "Parsley",
+          qty_text: "1 bunch",
+          without: "Skip the garnish",
+        },
+      ]),
+    );
+  await setPlannedMeal({
+    listId,
+    slotDate: date,
+    meal: source.slot,
+    recipeId: "recipe",
+    variantId: "pasta",
+  });
+  const meal = {
+    listId,
+    mealId: sourceId,
+    contentId: all("planned_meals")[0]!.content_id as string,
+    variantId: "pasta",
+  };
+  const reviewed = () =>
+    (shoppingMeal(sourceId) as { shopping_reviewed: number }).shopping_reviewed;
+  await decideIngredients({ ...meal, ingredientIds: [1], decision: "home" });
+  await decideIngredients({ ...meal, ingredientIds: [2], decision: "shop" });
+
+  // From the Shop: the row leaves the list and the meal knows why.
+  await skipItem(all("list_items")[0]!.id as string);
+  expect(all("list_items")).toEqual([]);
+  expect(all("planned_meals")[0]!.ingredient_swaps).toBe('{"2":1}');
+  expect(reviewed()).toBe(1);
+
+  // Using it again needs a new decision; going without settles it again.
+  await setMealSwap({
+    mealId: sourceId,
+    variantId: "pasta",
+    ingredientId: 2,
+    name: "Parsley",
+  });
+  expect(reviewed()).toBe(0);
+  await goWithout({ mealId: sourceId, variantId: "pasta", ingredientId: 2 });
+  expect(reviewed()).toBe(1);
 });

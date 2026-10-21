@@ -157,9 +157,9 @@ function SeededRow({
         {art ? (
           <Image
             source={art}
-            contentFit="cover"
+            contentFit="contain"
             accessibilityIgnoresInvertColors
-            style={{ width: THUMB, height: THUMB, borderRadius: 12 }}
+            style={{ width: THUMB, height: THUMB }}
           />
         ) : null}
         <View className="flex-1 gap-0.5">

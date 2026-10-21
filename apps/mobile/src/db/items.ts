@@ -2,10 +2,15 @@ import { itemNameKey } from "@magpie/meals";
 
 import { magpieUuidV5 } from "@/lib/magpie-uuid";
 
-import { powersync } from './system';
-import { resolveShoppingItem, writeMealSwap, type MealItemContext } from './meal-ingredients';
-import type { ListItem } from './schema';
-import { parseIngredientLines } from './variants';
+import { powersync } from "./system";
+import {
+  resolveShoppingItem,
+  writeGoWithout,
+  writeMealSwap,
+  type MealItemContext,
+} from "./meal-ingredients";
+import type { ListItem } from "./schema";
+import { parseIngredientLines } from "./variants";
 
 // The dedupe key lives in @magpie/meals so the API projects the same
 // name_key; re-exported here because every item write in the app uses it.
@@ -38,10 +43,11 @@ export async function addItem(listId: string, name: string, spec?: string) {
   // UPSERT on a view — so the read and the branch happen here instead, in
   // one write transaction to keep it atomic.
   return powersync.writeTransaction(async (tx) => {
-    const existing = await tx.getOptional<{ id: string; spec: string | null; category_id: string | null }>(
-      `SELECT id, spec, category_id FROM list_items WHERE id = ?`,
-      [id],
-    );
+    const existing = await tx.getOptional<{
+      id: string;
+      spec: string | null;
+      category_id: string | null;
+    }>(`SELECT id, spec, category_id FROM list_items WHERE id = ?`, [id]);
 
     if (existing) {
       await tx.execute(
@@ -53,13 +59,22 @@ export async function addItem(listId: string, name: string, spec?: string) {
           WHERE id = ?`,
         [trimmed, spec ?? null, now, id],
       );
-      return { id, name: trimmed, spec: spec ?? existing.spec, categoryId: existing.category_id };
+      return {
+        id,
+        name: trimmed,
+        spec: spec ?? existing.spec,
+        categoryId: existing.category_id,
+      };
     }
 
     // Seeded or legacy rows may have a random id while still sharing the same
     // (list_id, name_key). Updating them keeps the local device consistent
     // and avoids the server-side partial unique violation.
-    const legacy = await tx.getOptional<{ id: string; spec: string | null; category_id: string | null }>(
+    const legacy = await tx.getOptional<{
+      id: string;
+      spec: string | null;
+      category_id: string | null;
+    }>(
       `SELECT id, spec, category_id FROM list_items
         WHERE list_id = ? AND name_key = ? AND planned_meal_id IS NULL
         LIMIT 1`,
@@ -76,7 +91,12 @@ export async function addItem(listId: string, name: string, spec?: string) {
           WHERE id = ?`,
         [trimmed, spec ?? null, now, legacy.id],
       );
-      return { id: legacy.id, name: trimmed, spec: spec ?? legacy.spec, categoryId: legacy.category_id };
+      return {
+        id: legacy.id,
+        name: trimmed,
+        spec: spec ?? legacy.spec,
+        categoryId: legacy.category_id,
+      };
     }
 
     await tx.execute(
@@ -96,7 +116,10 @@ export async function setItemSpec(id: string, spec: string) {
   );
 }
 
-export async function setItemStatus(id: string, status: 'active' | 'purchased') {
+export async function setItemStatus(
+  id: string,
+  status: "active" | "purchased",
+) {
   const now = new Date().toISOString();
 
   // purchase_count only climbs on the active -> purchased edge, so
@@ -110,8 +133,12 @@ export async function setItemStatus(id: string, status: 'active' | 'purchased') 
     );
     if (!row) return;
     const snapshot = resolveShoppingItem(row);
-    const orphan = status === 'active' && row.ingredient_id != null &&
-      !parseIngredientLines(row.ingredient_lines).some((line) => line.id === row.ingredient_id);
+    const orphan =
+      status === "active" &&
+      row.ingredient_id != null &&
+      !parseIngredientLines(row.ingredient_lines).some(
+        (line) => line.id === row.ingredient_id,
+      );
     await tx.execute(
       `UPDATE list_items
          SET status = ?,
@@ -124,7 +151,7 @@ export async function setItemStatus(id: string, status: 'active' | 'purchased') 
       [
         status,
         snapshot.name,
-        itemNameKey(snapshot.name ?? ''),
+        itemNameKey(snapshot.name ?? ""),
         snapshot.spec,
         snapshot.category_id,
         orphan ? null : row.ingredient_id,
@@ -156,17 +183,17 @@ export async function renameItem(id: string, name: string) {
 /**
  * Shopping edits the meal's choice. It never rewrites a purchased snapshot.
  */
-export async function applySwap(
-  id: string,
-  name: string,
-) {
+export async function applySwap(id: string, name: string) {
   await powersync.writeTransaction(async (tx) => {
     const item = await tx.getOptional<ListItem>(
-      "SELECT * FROM list_items WHERE id = ?", [id],
+      "SELECT * FROM list_items WHERE id = ?",
+      [id],
     );
     if (
-      !item?.planned_meal_id || !item.variant_id ||
-      item.ingredient_id == null || item.status === 'purchased'
+      !item?.planned_meal_id ||
+      !item.variant_id ||
+      item.ingredient_id == null ||
+      item.status === "purchased"
     ) {
       throw new Error(
         "This item cannot be swapped. Open its meal to choose an ingredient.",
@@ -177,6 +204,29 @@ export async function applySwap(
       variantId: item.variant_id,
       ingredientId: item.ingredient_id,
       name,
+    });
+  });
+}
+
+/** Shop's way of saying the meal goes without this ingredient. */
+export async function skipItem(id: string) {
+  await powersync.writeTransaction(async (tx) => {
+    const item = await tx.getOptional<ListItem>(
+      "SELECT * FROM list_items WHERE id = ?",
+      [id],
+    );
+    if (
+      !item?.planned_meal_id ||
+      !item.variant_id ||
+      item.ingredient_id == null ||
+      item.status === "purchased"
+    ) {
+      throw new Error("This item cannot be skipped. Open its meal instead.");
+    }
+    await writeGoWithout(tx, {
+      mealId: item.planned_meal_id,
+      variantId: item.variant_id,
+      ingredientId: item.ingredient_id,
     });
   });
 }

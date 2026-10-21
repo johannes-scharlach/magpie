@@ -1,4 +1,10 @@
-import { ingredientOptions, itemNameKey as nameKey, lineForItem, type IngredientLine } from "@magpie/meals";
+import {
+  ingredientOptions,
+  isWithout,
+  itemNameKey as nameKey,
+  lineForItem,
+  type IngredientLine,
+} from "@magpie/meals";
 import { z } from "zod";
 
 import { IngredientLineSchema } from "../../db/schemas";
@@ -18,29 +24,52 @@ export function alternativesForItem(
   raw: string | null,
   ingredientId?: number | null,
 ): Alternative[] {
+  const line = lineOfItem(name, raw, ingredientId);
+  return line ? alternativesForLine(line) : [];
+}
+
+/** The label for going without the item's ingredient, when its recipe offers it. */
+export function withoutForItem(
+  name: string,
+  raw: string | null,
+  ingredientId?: number | null,
+): string | null {
+  return lineOfItem(name, raw, ingredientId)?.without ?? null;
+}
+
+function lineOfItem(
+  name: string,
+  raw: string | null,
+  ingredientId?: number | null,
+): IngredientLine | undefined {
   let json: unknown;
   try {
     json = JSON.parse(raw ?? "[]");
   } catch {
-    return [];
+    return undefined;
   }
   const parsed = linesSchema.safeParse(json);
-  if (!parsed.success) return [];
-  const line = ingredientId != null
+  if (!parsed.success) return undefined;
+  return ingredientId != null
     ? parsed.data.find((line) => line.id === ingredientId)
     : lineForItem(name, parsed.data)?.line;
-  return line ? alternativesForLine(line) : [];
 }
 
-/** The line's own ingredient first, then its swaps, without duplicates. */
+/** The line's own ingredient first, then its swaps, without duplicates.
+ * Going without has nothing to buy, so it is never a Shop alternative. */
 export function alternativesForLine(line: IngredientLine): Alternative[] {
-  return ingredientOptions(line)
-    .map((option) => ({
-      name: option.item_name,
-      qtyText: option.qty_text,
-      prepNote: option.prep_note ?? null,
-      categoryId: option.category_id ?? null,
-    }));
+  return ingredientOptions(line).flatMap((option) =>
+    isWithout(option)
+      ? []
+      : [
+          {
+            name: option.item_name,
+            qtyText: option.qty_text,
+            prepNote: option.prep_note ?? null,
+            categoryId: option.category_id ?? null,
+          },
+        ],
+  );
 }
 
 export function adjacentAlternative(

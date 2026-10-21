@@ -29,11 +29,16 @@ import {
   setItemCategory,
   setItemSpec,
   setItemStatus,
+  skipItem,
 } from "@/db/items";
+import { decideIngredients } from "@/db/meal-shopping";
 import type { ListItem } from "@/db/schema";
 import { resolveShoppingItem } from "@/db/meal-ingredients";
 import { slotWhen } from "@/features/meals/slots";
-import { alternativesForItem } from "@/features/shop/alternatives";
+import {
+  alternativesForItem,
+  withoutForItem,
+} from "@/features/shop/alternatives";
 import { CategoryMenu } from "@/features/shop/category-menu";
 import { splitSpec } from "@/features/shop/spec";
 import { tonalPair } from "@/features/variants/tonal";
@@ -51,6 +56,7 @@ type ItemRow = ListItem & {
   variant_name: string | null;
   ingredient_lines: string | null;
   ingredient_swaps: string | null;
+  meal_content_id: string | null;
   category_name: string | null;
 };
 
@@ -68,6 +74,7 @@ export default function ShopItemSheet() {
 
   const { data: rows, isLoading } = useQuery<ItemRow>(
     `SELECT i.*, pm.slot_date AS slot_date, pm.meal AS meal, pm.ingredient_swaps,
+            pm.content_id AS meal_content_id,
             COALESCE(v.name, pm.name) AS variant_name, v.ingredient_lines AS ingredient_lines,
             c.name AS category_name
        FROM list_items i
@@ -83,13 +90,24 @@ export default function ShopItemSheet() {
     [rawItem],
   );
 
+  const recipeItem =
+    !!item?.variant_id &&
+    item.ingredient_id != null &&
+    item.status !== "purchased";
+  const without = useMemo(
+    () =>
+      recipeItem && item
+        ? withoutForItem(
+            item.name ?? "",
+            item.ingredient_lines,
+            item.ingredient_id,
+          )
+        : null,
+    [recipeItem, item],
+  );
+  const today = useToday();
   const suggestions = useMemo(() => {
-    if (
-      !item?.variant_id ||
-      item.ingredient_id == null ||
-      item.status === "purchased"
-    )
-      return [];
+    if (!recipeItem || !item) return [];
     return alternativesForItem(
       item.name ?? "",
       item.ingredient_lines,
@@ -99,7 +117,7 @@ export default function ShopItemSheet() {
         alternative.name.trim().toLowerCase() !==
         item.name?.trim().toLowerCase(),
     );
-  }, [item]);
+  }, [recipeItem, item]);
 
   const [saving, setSaving] = useState(false);
 
@@ -184,7 +202,7 @@ export default function ShopItemSheet() {
         />
       )}
 
-      {isMealDerived && suggestions.length > 0 ? (
+      {isMealDerived && (suggestions.length > 0 || without) ? (
         <View className="gap-2">
           <SectionLabel>Swap for</SectionLabel>
           <Group>
@@ -215,6 +233,15 @@ export default function ShopItemSheet() {
                 </Pressable>
               );
             })}
+            {without ? (
+              <Pressable
+                disabled={saving}
+                onPress={() => void close(() => skipItem(item.id))}
+                className="min-h-12 justify-center px-4 py-3 active:bg-accent"
+              >
+                <Text className="text-base">{without}</Text>
+              </Pressable>
+            ) : null}
           </Group>
         </View>
       ) : null}
@@ -230,14 +257,40 @@ export default function ShopItemSheet() {
             )
           }
         />
-        <Pressable
-          accessibilityRole="button"
-          disabled={saving}
-          onPress={() => void close(() => removeItem(item.id))}
-          className="min-h-11 items-center justify-center rounded-2xl active:bg-accent disabled:opacity-50"
-        >
-          <Text className="text-base text-destructive">Remove from list</Text>
-        </Pressable>
+        {/* An upcoming meal must know why its ingredient left the list. A past
+            meal is over, so its leftovers just go. */}
+        {recipeItem &&
+        item.meal_content_id &&
+        !mealAge(item.slot_date, today) ? (
+          <Pressable
+            accessibilityRole="button"
+            disabled={saving}
+            onPress={() =>
+              void close(() =>
+                decideIngredients({
+                  listId: item.list_id!,
+                  mealId: item.planned_meal_id!,
+                  contentId: item.meal_content_id!,
+                  variantId: item.variant_id!,
+                  ingredientIds: [item.ingredient_id!],
+                  decision: "home",
+                }),
+              )
+            }
+            className="min-h-11 items-center justify-center rounded-2xl active:bg-accent disabled:opacity-50"
+          >
+            <Text className="text-base text-primary">I have it at home</Text>
+          </Pressable>
+        ) : (
+          <Pressable
+            accessibilityRole="button"
+            disabled={saving}
+            onPress={() => void close(() => removeItem(item.id))}
+            className="min-h-11 items-center justify-center rounded-2xl active:bg-accent disabled:opacity-50"
+          >
+            <Text className="text-base text-destructive">Remove from list</Text>
+          </Pressable>
+        )}
       </View>
     </View>
   );

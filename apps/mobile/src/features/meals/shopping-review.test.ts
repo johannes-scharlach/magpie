@@ -121,3 +121,15 @@ it("summarises a meal's shopping as what is left to decide, then what was decide
   expect(shoppingProgress(shoppingReview(lines, items, {}, [3, 4]))).toBe("1 on the list · 1 bought · 2 at home");
   expect(shoppingProgress(shoppingReview(lines, [], {}, [1, 2, 3, 4]))).toBe("All at home");
 });
+
+it("counts going without as decided, unless it was already bought", () => {
+  const parsley = (id: number) => ({ id, item_name: "Parsley", qty_text: null, without: "Skip the garnish" });
+  const review = shoppingReview(
+    [parsley(1), parsley(2)],
+    [{ ingredient_id: 2, name: "Parsley", spec: null, status: "purchased" }],
+    { 1: 1, 2: 1 },
+  );
+  expect(review.map((entry) => entry.decision)).toEqual(["without", "bought"]);
+  expect(undecidedCount(review)).toBe(0);
+  expect(shoppingProgress(review)).toBe("1 bought · 1 skipped");
+});

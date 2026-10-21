@@ -1,5 +1,6 @@
 import {
   ingredientSpec,
+  isWithout,
   mealIngredients,
   rebaseMealSwaps,
   resolveMealItem,
@@ -21,22 +22,32 @@ export async function repointMealVariant(
     expectedSwaps?: MealSwaps;
   },
 ) {
-  const meal = (await client.query<{ ingredient_swaps: MealSwaps }>(
-    "SELECT ingredient_swaps FROM planned_meals WHERE id = $1 AND variant_id = $2 FOR UPDATE",
-    [opts.mealId, opts.expectedVariantId],
-  )).rows[0];
+  const meal = (
+    await client.query<{ ingredient_swaps: MealSwaps }>(
+      "SELECT ingredient_swaps FROM planned_meals WHERE id = $1 AND variant_id = $2 FOR UPDATE",
+      [opts.mealId, opts.expectedVariantId],
+    )
+  ).rows[0];
   if (!meal) throw new PlannedMealChangedError();
-  const previous = (await client.query<{ ingredient_lines: IngredientLine[] }>(
-    "SELECT ingredient_lines FROM variants WHERE id = $1", [opts.expectedVariantId],
-  )).rows[0];
-  const next = (await client.query<{ ingredient_lines: IngredientLine[] }>(
-    "SELECT ingredient_lines FROM variants WHERE id = $1", [opts.variantId],
-  )).rows[0];
+  const previous = (
+    await client.query<{ ingredient_lines: IngredientLine[] }>(
+      "SELECT ingredient_lines FROM variants WHERE id = $1",
+      [opts.expectedVariantId],
+    )
+  ).rows[0];
+  const next = (
+    await client.query<{ ingredient_lines: IngredientLine[] }>(
+      "SELECT ingredient_lines FROM variants WHERE id = $1",
+      [opts.variantId],
+    )
+  ).rows[0];
   if (!previous || !next) throw new Error("Variant not found");
   const swaps = (() => {
     try {
       return rebaseMealSwaps(
-        previous.ingredient_lines, meal.ingredient_swaps, next.ingredient_lines,
+        previous.ingredient_lines,
+        meal.ingredient_swaps,
+        next.ingredient_lines,
       );
     } catch (cause) {
       throw new AppError(
@@ -47,16 +58,22 @@ export async function repointMealVariant(
       );
     }
   })();
-  const items = (await client.query<ShoppingItem>(
-    `SELECT id, name, spec, category_id, status, ingredient_id FROM list_items
+  const items = (
+    await client.query<ShoppingItem>(
+      `SELECT id, name, spec, category_id, status, ingredient_id FROM list_items
      WHERE planned_meal_id = $1 ORDER BY created_at, id FOR UPDATE`,
-    [opts.mealId],
-  )).rows;
-  const currentItems = items.map((item) =>
-    resolveMealItem(item, previous.ingredient_lines, meal.ingredient_swaps),
+      [opts.mealId],
+    )
+  ).rows;
+  const currentItems = items.map(
+    (item) =>
+      resolveMealItem(item, previous.ingredient_lines, meal.ingredient_swaps) ??
+      item,
   );
-  const nextLines = mealIngredients(next.ingredient_lines, swaps).map(
-    ({ line, chosen }) => ({ ...chosen, id: line.id }),
+  // Going without leaves nothing to buy, so its unbought row is removed.
+  const nextLines = mealIngredients(next.ingredient_lines, swaps).flatMap(
+    ({ line, chosen }) =>
+      isWithout(chosen) ? [] : [{ ...chosen, id: line.id }],
   );
   const revision = shoppingRevision(currentItems, nextLines);
   const result = await client.query(
@@ -85,8 +102,9 @@ export async function repointMealVariant(
     added: [] as string[],
     removed: revision.removed.map((item) => item.name),
     updated: revision.kept
-      .filter(({ item, line }) =>
-        item.name !== line.item_name || item.spec !== ingredientSpec(line),
+      .filter(
+        ({ item, line }) =>
+          item.name !== line.item_name || item.spec !== ingredientSpec(line),
       )
       .map(({ line }) =>
         [line.qty_text, line.item_name].filter(Boolean).join(" "),

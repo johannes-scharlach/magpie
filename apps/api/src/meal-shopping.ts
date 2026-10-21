@@ -1,5 +1,13 @@
 import { randomUUID } from "node:crypto";
-import { ingredientOptions, ingredientSpec, itemNameKey, lineForItem, type IngredientLine, type MealSwaps } from "@magpie/meals";
+import {
+  ingredientOptions,
+  ingredientSpec,
+  isWithout,
+  itemNameKey,
+  lineForItem,
+  type IngredientLine,
+  type MealSwaps,
+} from "@magpie/meals";
 import type { PoolClient } from "pg";
 
 import { AppError } from "./errors.js";
@@ -42,9 +50,14 @@ export async function addMealShoppingItems(
   }
   const added: string[] = [];
   const alreadyOnList: string[] = [];
-  const lines = meal.variant_id ? (await client.query<{ ingredient_lines: IngredientLine[] }>(
-    "SELECT ingredient_lines FROM variants WHERE id = $1", [meal.variant_id],
-  )).rows[0]?.ingredient_lines ?? [] : [];
+  const lines = meal.variant_id
+    ? ((
+        await client.query<{ ingredient_lines: IngredientLine[] }>(
+          "SELECT ingredient_lines FROM variants WHERE id = $1",
+          [meal.variant_id],
+        )
+      ).rows[0]?.ingredient_lines ?? [])
+    : [];
   const swaps = { ...meal.ingredient_swaps };
   for (const item of opts.items) {
     const name = item.name.trim();
@@ -61,8 +74,12 @@ export async function addMealShoppingItems(
       alreadyOnList.push(name);
       continue;
     }
-    const optionIndex = line ? ingredientOptions(line).findIndex((option) => itemNameKey(option.item_name) === key) : 0;
-    const option = line ? ingredientOptions(line)[optionIndex] : null;
+    const options = line ? ingredientOptions(line) : [];
+    const optionIndex = options.findIndex(
+      (option) => !isWithout(option) && itemNameKey(option.item_name) === key,
+    );
+    const found = options[optionIndex];
+    const option = found && !isWithout(found) ? found : null;
     if (ingredientId != null) {
       if (optionIndex > 0) swaps[ingredientId] = optionIndex;
       else delete swaps[ingredientId];
@@ -75,7 +92,7 @@ export async function addMealShoppingItems(
         opts.listId,
         name,
         key,
-        option ? ingredientSpec(option) : item.spec ?? null,
+        option ? ingredientSpec(option) : (item.spec ?? null),
         option?.category_id ?? item.categoryId ?? null,
         meal.id,
         meal.variant_id,
@@ -84,6 +101,10 @@ export async function addMealShoppingItems(
     );
     added.push(name);
   }
-  if (meal.variant_id) await client.query("UPDATE planned_meals SET ingredient_swaps = $2::jsonb WHERE id = $1", [meal.id, JSON.stringify(swaps)]);
+  if (meal.variant_id)
+    await client.query(
+      "UPDATE planned_meals SET ingredient_swaps = $2::jsonb WHERE id = $1",
+      [meal.id, JSON.stringify(swaps)],
+    );
   return { plannedMealId: meal.id, added, alreadyOnList };
 }

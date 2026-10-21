@@ -53,6 +53,8 @@ export const IngredientLineSchema = z.object({
     .describe(
       "1:1 alternatives with own qty/prep — fresh vs jarred differs here",
     ),
+  /** The label for cooking without this line, e.g. "Skip the garnish". */
+  without: z.string().min(1).optional(),
 });
 
 /**

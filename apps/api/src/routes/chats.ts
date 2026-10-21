@@ -11,7 +11,6 @@ import {
   generateText,
   Output,
   safeValidateUIMessages,
-  stepCountIs,
   streamText,
   type UIMessage,
   type Experimental_DownloadFunction,
@@ -36,6 +35,7 @@ import {
   recipeSeed,
   type RecipeChat,
 } from "../recipe-chat.js";
+import { stepBudget } from "../step-budget.js";
 
 export const chats = new Hono<AppBindings>();
 
@@ -564,6 +564,15 @@ chats.post("/:id/messages", async (c) => {
   ]
     .filter(Boolean)
     .join("\n\n");
+  const tools = {
+    ...buildChatTools(userId, listId, {
+      chatId,
+      messageId: message.id,
+      chat,
+      today,
+    }),
+    googleSearch: google.tools.googleSearch({}),
+  };
 
   return createChatReply({
     id: assistantId,
@@ -580,17 +589,12 @@ chats.post("/:id/messages", async (c) => {
         messages: await convertToModelMessages(uiMessages, {
           ignoreIncompleteToolCalls: true,
         }),
-        tools: {
-          ...buildChatTools(userId, listId, {
-            chatId,
-            messageId: message.id,
-            chat,
-            today,
-          }),
-          googleSearch: google.tools.googleSearch({}),
-        },
-        stopWhen: stepCountIs(5),
-        abortSignal: AbortSignal.timeout(120_000),
+        tools,
+        // A week's plan is a save and a plan per meal, plus reads. A step can
+        // hold parallel calls, but Gemini often makes them one at a time.
+        ...stepBudget<typeof tools>(25, system),
+        // A step can write several full recipes. The total is only a backstop.
+        timeout: { stepMs: 90_000, totalMs: 600_000 },
         onError: () => {}, // The saved-turn stream logs and classifies model failures.
         // Local Storage URLs are private addresses; download them plainly.
         experimental_download: downloadMedia,

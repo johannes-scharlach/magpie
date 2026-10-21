@@ -38,10 +38,16 @@ import {
 } from "@/features/onboarding/setup-question";
 import { ScrollEdgeFade } from "@/features/onboarding/scroll-edge-fade";
 import { KitchenArtwork } from "@/features/onboarding/artwork";
+import { CompleteSetup } from "@/features/onboarding/complete";
 
 export function SetupFlow() {
   const { draft } = useOnboarding();
+  const { session } = useAuth();
   if (!draft) return <Redirect href="/setup" />;
+  // Saving happens on this route. Going back to Welcome first would flash it
+  // and the startup screen between the code and the household.
+  if (session && (draft.step === "email" || draft.step === "code"))
+    return <CompleteSetup />;
   return <Questions initialStep={draft.step} />;
 }
 
@@ -98,7 +104,8 @@ function Questions({ initialStep }: { initialStep: Step }) {
       if (step !== "code") await move(steps.indexOf("code"));
     },
     onEdit: () => void move(steps.indexOf("email")).catch(() => {}),
-    onVerified: () => router.replace("/setup" as never),
+    // The new session switches SetupFlow to the save screen.
+    onVerified: () => {},
   });
 
   const previous = useCallback(() => {
@@ -154,7 +161,6 @@ function Questions({ initialStep }: { initialStep: Step }) {
       setBusy(true);
       try {
         await update((d) => ({ ...d, step: "email" }));
-        router.replace("/setup" as never);
       } catch {
         // The provider displays the storage error; retain this question.
       } finally {
@@ -228,7 +234,9 @@ function Questions({ initialStep }: { initialStep: Step }) {
                 // KeyboardAwareScrollView clears the caret, not the whole
                 // multiline field. Reserve its height above the sticky footer.
                 bottomOffset={
-                  footerHeight - Math.max(insets.bottom, 14) + 36 +
+                  footerHeight -
+                  Math.max(insets.bottom, 14) +
+                  36 +
                   (pageStep === "household" ? routineInputHeight : 0)
                 }
                 style={{ width }}
@@ -252,12 +260,18 @@ function Questions({ initialStep }: { initialStep: Step }) {
                   accessibilityValue={{
                     min: 1,
                     max: session ? questionCount : steps.length,
-                    now: Math.min(pageIndex + 1, session ? questionCount : steps.length),
+                    now: Math.min(
+                      pageIndex + 1,
+                      session ? questionCount : steps.length,
+                    ),
                   }}
                   className="self-end text-sm text-muted-foreground"
                 >
-                  {Math.min(pageIndex + 1, session ? questionCount : steps.length)} of{" "}
-                  {session ? questionCount : steps.length}
+                  {Math.min(
+                    pageIndex + 1,
+                    session ? questionCount : steps.length,
+                  )}{" "}
+                  of {session ? questionCount : steps.length}
                 </Text>
                 <View className="gap-2">
                   <Text

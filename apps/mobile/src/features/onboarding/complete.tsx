@@ -89,25 +89,28 @@ export function CompleteSetup() {
     beginPreparation,
     endPreparation,
   ]);
+  // Right after sign-up, household access may still be loading or failing.
+  const shown = error ?? access.error;
   return (
     <OnboardingScreen
       action={
-        error
+        shown
           ? {
               label: "Retry save",
               onPress: () => {
+                if (access.error) access.retry();
                 setError(null);
                 setAttempt((n) => n + 1);
               },
             }
           : undefined
       }
-      subtitle={error ? "Your answers are still here." : undefined}
-      title={error ? "Couldn’t save just yet" : "Saving your kitchen"}
+      subtitle={shown ? "Your answers are still here." : undefined}
+      title={shown ? "Couldn’t save just yet" : "Saving your kitchen"}
     >
       {draft ? <KitchenArtwork profile={draft.profile} /> : null}
-      <FormError message={error} />
-      {!error ? (
+      <FormError message={shown} />
+      {!shown ? (
         <Text className="text-muted-foreground">Just a moment…</Text>
       ) : null}
     </OnboardingScreen>

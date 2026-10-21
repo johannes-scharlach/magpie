@@ -1,6 +1,6 @@
 import { householdSchema } from "@magpie/profile";
 import * as Crypto from "expo-crypto";
-import { useRouter } from "expo-router";
+import { useIsFocused, useRouter } from "expo-router";
 import { useState } from "react";
 import { Pressable, View } from "react-native";
 import { Text } from "@/components/ui/text";
@@ -18,6 +18,7 @@ import { unregisterPushDevice } from "@/features/notifications/notifications";
 
 export default function Welcome() {
   const router = useRouter();
+  const focused = useIsFocused();
   const { session, ready: authReady } = useAuth();
   const access = useHouseholdAccess();
   const { draft, ready, error, update, retry } = useOnboarding();
@@ -69,7 +70,8 @@ export default function Welcome() {
     );
   }
 
-  if (canFinish) return <CompleteSetup />;
+  // Under the questions route, which saves for itself. One save at a time.
+  if (canFinish && focused) return <CompleteSetup />;
 
   return (
     <OnboardingScreen

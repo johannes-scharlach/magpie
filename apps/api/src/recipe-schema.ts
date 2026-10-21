@@ -65,9 +65,14 @@ const SwapSchema = z.object({
 });
 
 const IngredientLineSchema = z.object({
-  id: z.number().int().positive().optional().describe(
-    "When rewriting a saved variant, preserve the ingredient's id even when swapping, scaling or changing preparation. Omit id for a genuinely new ingredient or a new recipe; the server allocates it. Never recycle an id from a removed ingredient."
-  ),
+  id: z
+    .number()
+    .int()
+    .positive()
+    .optional()
+    .describe(
+      "When rewriting a saved variant, preserve the ingredient's id even when swapping, scaling or changing preparation. Omit id for a genuinely new ingredient or a new recipe; the server allocates it. Never recycle an id from a removed ingredient.",
+    ),
   qty_text: z
     .string()
     .nullable()
@@ -112,6 +117,15 @@ const IngredientLineSchema = z.object({
         "Never offer three versions of the same idea. Fewer is better than padding, and none is right for a line with no worthwhile alternative. " +
         "Alternatives often sit in the SAME aisle as the original: where you buy something says nothing about whether swapping it is a real decision, so never pad the list with aisle-hopping for its own sake. category_id is only where the item goes on your route. " +
         "Examples, each with the reason a cook would pick it: fresh bell pepper -> jarred roasted peppers ('15 min faster, no roasting'); dried chickpeas -> canned chickpeas ('skips the soak and the hour of simmering'); green beans -> Brussels sprouts ('if your house would rather eat them'); canned tuna in olive oil -> sardines ('richer and more savoury — a different fish, not a fallback'); coriander -> flat-leaf parsley ('if cilantro tastes of soap to you'); 'chilli bean paste' -> Pixian doubanjiang, and any 'basil' in a Thai curry -> holy basil ('what the dish actually meant'); bulgur -> couscous ('cooks in five minutes').",
+    ),
+  without: z
+    .string()
+    .min(1)
+    .optional()
+    .describe(
+      "Going without this ingredient, as the cook-facing label of that choice: a few imperative words naming what the ingredient does in THIS dish, e.g. 'Skip the garnish', 'Leave out the heat', 'Skip the cheese crust'. Name the ingredient itself only when it has no smaller role ('Leave out the anchovies'). Never justify, sell or explain it. " +
+        "Offer it when the dish still cooks well without this line. The recipe gets rewritten when the cook picks it, so it may change amounts or steps, judged like any swap. Never offer it for an ingredient the dish depends on, such as the pumpkin in a pumpkin soup or the parsley in a tabbouleh. " +
+        "When importing, give it to every line the source calls optional, and keep the word 'optional' out of item_name and prep_note. Omit it otherwise.",
     ),
 });
 

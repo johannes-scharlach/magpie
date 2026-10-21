@@ -1,5 +1,6 @@
 import {
   ingredientSpec,
+  isWithout,
   mealIngredients,
   type MealSwaps,
   type IngredientLine,
@@ -114,12 +115,24 @@ const joinNames = (names: string[]) =>
 
 /** The ask, in words. The schema descriptions carry the ingredient format. */
 export function adjustPrompt({ meal, variant, eaters }: AdjustContext): string {
-  const swaps = mealIngredients(variant.ingredient_lines, meal.ingredient_swaps)
-    .filter((s) => s.swap)
-    .map((s) => {
-      const spec = ingredientSpec(s.chosen);
-      return `- Ingredient id ${s.line.id}: use "${s.chosen.item_name}"${spec ? ` (${spec})` : ""} instead of "${s.line.item_name}". Preserve id ${s.line.id}.`;
-    });
+  const choices = mealIngredients(
+    variant.ingredient_lines,
+    meal.ingredient_swaps,
+  );
+  const swaps = choices.flatMap(({ line, chosen, swap }) => {
+    if (!swap || isWithout(chosen)) return [];
+    const spec = ingredientSpec(chosen);
+    return [
+      `- Ingredient id ${line.id}: use "${chosen.item_name}"${spec ? ` (${spec})` : ""} instead of "${line.item_name}". Preserve id ${line.id}.`,
+    ];
+  });
+  const withouts = choices.flatMap(({ line, chosen }) =>
+    isWithout(chosen)
+      ? [
+          `- Ingredient id ${line.id}, "${line.item_name}" (the cook chose "${chosen.without}").`,
+        ]
+      : [],
+  );
   const who = eaters.map((p) => {
     const diet = p.diet === "other" ? p.diet_other : p.diet;
     return `${p.name} (${[p.age_group ?? "adult", diet, `${p.portion_reference} portion reference`].filter(Boolean).join(", ")})`;
@@ -145,6 +158,13 @@ export function adjustPrompt({ meal, variant, eaters }: AdjustContext): string {
       ? [
           "The meal uses these choices, whether bought or already at home. Make each the line's item_name exactly as named in the choice with its own qty_text and prep_note, list the original as one of that line's swaps, and rewrite any step name or step text that names the original:",
           ...swaps,
+          "",
+        ]
+      : []),
+    ...(withouts.length
+      ? [
+          "The meal goes without these ingredients. Remove each line, and rewrite the steps, amounts, name and description so the dish still works and nothing mentions it:",
+          ...withouts,
           "",
         ]
       : []),
