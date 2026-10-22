@@ -27,7 +27,9 @@ export function MessageMenu({
   }
 
   return (
-    <Host matchContents>
+    // The transcript already handles safe areas and keyboard avoidance. A
+    // second SwiftUI inset shifts scrolled content outside its measured row.
+    <Host matchContents ignoreSafeArea="all">
       <ContextMenu>
         <ContextMenu.Trigger>
           <RNHostView matchContents>

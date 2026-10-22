@@ -18,7 +18,7 @@ Generated as 3×3 sprite sheet grids (2048×2048 JPEG) on solid neutral mid-grey
 >
 > [Cell descriptions in row-major order]
 >
-> Handcrafted stop-motion claymation art style, matte polymer plasticine with soft rounded edges, pillowy volume, cute tactile handmade feel, soft studio lighting from top-left with gentle shadows. Solid flat uniform neutral mid-grey background, exact colour #808080, plain and seamless across all cells, no grid lines, no ground plane, no cast shadows on the background. No blue tones in any subject. No text, words, labels, lettering, brand marks, flags, borders, checkmarks, sparkles, or mascot.
+> Handcrafted stop-motion claymation art style, soft matte modeling clay with rounded edges, pillowy volume, cute tactile feel. Non-reflective, unglazed matte surface with zero specular highlights or shine. Sauces, egg whites, and toppings are sculpted from solid opaque clay, no wet or oily sheen. Soft diffused ambient lighting with gentle shadows. Solid flat uniform neutral mid-grey background, exact colour #808080, plain and seamless across all cells, no grid lines, no ground plane, no cast shadows on the background. No blue tones in any subject. No text, words, labels, lettering, brand marks, flags, borders, checkmarks, sparkles, or mascot.
 
 ### Slicing & optimization commands
 
