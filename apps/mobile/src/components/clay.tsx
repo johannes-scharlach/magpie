@@ -17,6 +17,8 @@ import { cn } from "@/lib/utils";
  * Magpie's material is clay: rounded heavy type, soft squircle tiles, art
  * that stands on the tile and spills over its edge. Fill contrast separates
  * tiles; drop shadows read as web.
+ * Selected clay surfaces use accent with primary text; plum fills belong
+ * to actions, not whole selected cards. Press feedback is scale, not colour.
  */
 // Text uses the `font-rounded` class (src/global.css); native headers need
 // the family name itself.
@@ -32,6 +34,9 @@ export const clayTile: ViewStyle = {
   borderRadius: 28,
   borderCurve: "continuous",
 };
+
+/** Resting angles, fixed so selections never reshuffle the composition. */
+export const clayTilts = [-2, 1.5, -1, 2, -1.5, 1] as const;
 
 export function SectionTitle({
   children,

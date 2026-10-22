@@ -6,16 +6,18 @@ import {
   type CookingProfile,
 } from "@magpie/profile";
 import { SymbolView } from "expo-symbols";
-import { Pressable, View } from "react-native";
+import { View } from "react-native";
 import { useResolveClassNames } from "uniwind";
 import { AddRow } from "@/components/add-row";
+import { clayTile, PressableScale } from "@/components/clay";
 import { Text } from "@/components/ui/text";
 import { Artwork, hasArtwork, type ArtworkId } from "@/features/onboarding/artwork";
 import { medley } from "@/features/profile/cuisines";
+import { cn } from "@/lib/utils";
 
 type Cupboards = Pick<CookingProfile, "keeps" | "cuisines">;
 
-/** Every cuisine opens its cupboard; a check marks the ones they cook. */
+/** Every cuisine opens its cupboard; a warm surface marks the ones they cook. */
 export function CuisineList({
   profile,
   onOpen,
@@ -29,32 +31,32 @@ export function CuisineList({
     <View className="gap-6">
       {cuisineRegions.map(({ region, cuisines }) => (
         <Section key={region} title={region}>
-          {Object.keys(cuisines).map((cuisine, index) => (
+          {Object.keys(cuisines).map((cuisine) => (
             <CuisineRow
               key={cuisine}
               cuisine={cuisine}
               profile={profile}
-              first={index === 0}
               onPress={() => onOpen(cuisine)}
             />
           ))}
         </Section>
       ))}
       <Section title="Your own">
-        {own.map(({ cuisine }, index) => (
+        {own.map(({ cuisine }) => (
           <CuisineRow
             key={cuisine}
             cuisine={cuisine}
             profile={profile}
-            first={index === 0}
             onPress={() => onOpen(cuisine)}
           />
         ))}
-        <AddRow
-          label="Add another cuisine"
-          bordered={own.length > 0}
-          onPress={() => onOpen()}
-        />
+        <View className="bg-card" style={clayTile}>
+          <AddRow
+            label="Add another cuisine"
+            bordered={false}
+            onPress={() => onOpen()}
+          />
+        </View>
       </Section>
     </View>
   );
@@ -75,12 +77,7 @@ function Section({
       >
         {title}
       </Text>
-      <View
-        className="overflow-hidden rounded-xl border border-border bg-card"
-        style={{ borderCurve: "continuous" }}
-      >
-        {children}
-      </View>
+      <View className="gap-3">{children}</View>
     </View>
   );
 }
@@ -88,15 +85,12 @@ function Section({
 function CuisineRow({
   cuisine,
   profile,
-  first,
   onPress,
 }: {
   cuisine: string;
   profile: Cupboards;
-  first: boolean;
   onPress: () => void;
 }) {
-  const primary = useResolveClassNames("text-primary").color;
   const muted = useResolveClassNames("text-muted-foreground").color;
   const entry = profile.cuisines.find((c) => c.cuisine === cuisine);
   const label = cuisineLabel(cuisine);
@@ -105,89 +99,62 @@ function CuisineRow({
     .map((id) => `ingredient-${id}`)
     .filter(hasArtwork);
   return (
-    <View>
-      {first ? null : <View className="ios:ml-4 border-t border-border" />}
-      <Pressable
-        accessibilityRole="button"
-        accessibilityLabel={entry ? `${label}, you cook this` : label}
-        accessibilityHint={kept || undefined}
-        className="min-h-14 flex-row items-center gap-4 px-4 py-3 active:bg-accent"
-        onPress={onPress}
-      >
-        {art.length ? (
-          <Medley ids={art} />
-        ) : (
-          // An empty cupboard, still to fill; keeps every label aligned.
-          <View
-            className="size-14 rounded-2xl border border-dashed border-border"
-            style={{ borderCurve: "continuous" }}
-          />
+    <PressableScale
+      accessibilityRole="button"
+      accessibilityLabel={entry ? `${label}, you cook this` : label}
+      accessibilityHint={kept || undefined}
+      onPress={onPress}
+    >
+      <View
+        className={cn(
+          "min-h-16 flex-row items-center gap-4 px-4 py-3",
+          entry ? "bg-accent" : "bg-card",
         )}
+        style={clayTile}
+      >
         <View className="flex-1 gap-0.5">
-          <Text className="font-medium">{label}</Text>
-          {kept ? (
+          <Text
+            className={cn(
+              "font-rounded font-semibold",
+              entry && "text-primary",
+            )}
+          >
+            {label}
+          </Text>
+          {entry ? (
             <Text numberOfLines={1} className="text-sm text-muted-foreground">
-              {kept}
+              {kept || "You cook this"}
             </Text>
           ) : null}
         </View>
+        {art.length ? <Medley ids={art} /> : null}
         <SymbolView
-          name={
-            entry
-              ? { ios: "checkmark.circle.fill", android: "check_circle" }
-              : { ios: "chevron.right", android: "chevron_right" }
-          }
-          size={entry ? 21 : 14}
-          tintColor={entry ? primary : muted}
+          name={{ ios: "chevron.right", android: "chevron_right" }}
+          size={14}
+          tintColor={muted}
         />
-      </Pressable>
-    </View>
+      </View>
+    </PressableScale>
   );
 }
 
-// Up to three make the composition: two at the back, one larger in front;
-// a lone ingredient takes the front size, so rows match. Any more peek in
-// from behind, smaller to sit further back, bleeding off the card's left
-// edge and a little into the rows above and below.
-const compositions = [
-  [{ left: 14, top: 14, width: 72, rotate: 0 }],
-  [
-    { left: 28, top: 32, width: 72, rotate: 5 },
-    { left: 0, top: -4, width: 64, rotate: -6 },
-  ],
-  [
-    { left: 14, top: 40, width: 72, rotate: -3 },
-    { left: 0, top: -8, width: 64, rotate: -6 },
-    { left: 36, top: -8, width: 64, rotate: 5 },
-  ],
-];
-// The square sits 16pt in from the card edge; a peek is 30pt wide, so a
-// left above -55% keeps its centre inside the card.
-const peeks = [
-  { left: -44, top: -24, width: 54, rotate: 8 },
-  { left: -44, top: 64, width: 54, rotate: -7 },
-  { left: -50, top: 20, width: 54, rotate: 4 },
-];
-
+/** Three readable objects, lightly overlapping; the artwork supplies the character. */
 function Medley({ ids }: { ids: ArtworkId[] }) {
   const shown = ids.slice(0, 3);
-  const placed = [
-    ...shown.map((id, index) => ({ id, ...compositions[shown.length - 1]![index]! })),
-    ...ids.slice(3, 3 + peeks.length).map((id, index) => ({ id, ...peeks[index]! })),
-  ];
   return (
-    <View className="size-14">
-      {/* Drawn back to front: the furthest peek first, the front ingredient last. */}
-      {placed.reverse().map(({ id, left, top, width, rotate }) => (
+    <View
+      pointerEvents="none"
+      className="h-14 flex-row items-end"
+      style={{
+        width: 48 * shown.length - 12 * (shown.length - 1),
+        maxWidth: "40%",
+      }}
+    >
+      {shown.map((id, index) => (
         <View
           key={id}
-          className="absolute"
-          style={{
-            left: `${left}%`,
-            top: `${top}%`,
-            width: `${width}%`,
-            transform: [{ rotate: `${rotate}deg` }],
-          }}
+          className="flex-1"
+          style={{ marginLeft: index === 0 ? 0 : -12 }}
         >
           <Artwork id={id} />
         </View>

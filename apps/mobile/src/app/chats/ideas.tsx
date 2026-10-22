@@ -10,8 +10,8 @@ import { SeededDeck } from "@/features/chat/seeded-deck";
  * The thirty weeknight ideas, behind one quiet link from Home: their own
  * entry point for the empty-handed night, not the front door (ADR 9).
  * Picking one starts a chat about it — the same push the entry form makes.
- * The deck speaks the Home preview's grammar: grouped sections, rows with
- * art, ingredient line, time.
+ * The full grid uses Home's cards: art, a name and time. Ingredients belong
+ * to the directions that follow, not to these starting points.
  */
 export default function IdeasSheet() {
   const router = useRouter();

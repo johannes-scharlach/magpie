@@ -186,5 +186,93 @@
       "cuisine": "Spanish",
       "pitch": "Diced cooking chorizo sizzled until it releases rich red oil, simmered with crushed tomatoes and garlic, tossed with pasta and aged manchego."
     }
+  ],
+  "White Bean & Tuna Salad": [
+    {
+      "title": "Classic Tuscan cannellini and tuna salad with lemon and parsley",
+      "cuisine": "Italian",
+      "pitch": "Creamy cannellini beans and olive-oil tuna tossed with shaved red onion, fresh parsley, and lemon juice. Crusty bread on the side to catch the oil."
+    },
+    {
+      "title": "Spanish white bean and tuna salad with piquillo peppers and sherry vinegar",
+      "cuisine": "Spanish",
+      "pitch": "Creamy white beans and flaked tuna tossed with strips of sweet piquillo peppers, fresh parsley, and sharp sherry vinegar."
+    },
+    {
+      "title": "Provençal white bean and tuna salad with capers and Dijon vinaigrette",
+      "cuisine": "French",
+      "pitch": "Tender white beans and tuna tossed with briny capers, crisp shallots, and fresh herbs in a sharp Dijon vinaigrette."
+    },
+    {
+      "title": "Greek giant bean and tuna salad with kalamata olives and oregano",
+      "cuisine": "Greek",
+      "pitch": "Tender white beans and flaked tuna tossed with briny kalamata olives, red onion, and dried oregano in a red wine vinaigrette."
+    }
+  ],
+  "Garlic & Herb Gnocchi with Crispy Pancetta": [
+    {
+      "title": "Pan-crisped gnocchi with pancetta, brown butter and sage",
+      "cuisine": "Italian",
+      "pitch": "Gnocchi pan-fried directly in rendered pancetta fat and foaming butter until golden and crisp, tossed with crackled sage leaves and parmesan."
+    },
+    {
+      "title": "Pan-crisped Schupfnudeln with sauerkraut, smoked speck and caraway",
+      "cuisine": "German",
+      "pitch": "Potato gnocchi pan-fried golden in butter in the Swabian Schupfnudeln style, tossed with tangy sauerkraut, crisp smoked speck, and caraway."
+    },
+    {
+      "title": "Pan-crisped gnocchi with browned butter, shallots and aged Comté",
+      "cuisine": "French",
+      "pitch": "Gnocchi browned in nutty butter with minced shallot and garlic, tossed with fresh chives and melted aged Comté cheese."
+    },
+    {
+      "title": "Pan-fried gnocchi with blistered cherry tomatoes and melting mozzarella",
+      "cuisine": "Italian",
+      "pitch": "Gnocchi browned in olive oil, tossed with sweet blistered tomatoes and fresh basil, topped with mozzarella that melts into gooey pockets right in the pan."
+    }
+  ],
+  "Shakshuka": [
+    {
+      "title": "Tunisian shakshuka with smoky harissa, cumin and warm feta",
+      "cuisine": "North African",
+      "pitch": "Sweet peppers and crushed tomatoes simmered with fiery harissa and cumin, eggs poached runny in the sauce with warm crumbled feta. Crusty bread to scoop."
+    },
+    {
+      "title": "Turkish menemen with sweet green peppers and pul biber",
+      "cuisine": "Turkish",
+      "pitch": "Sweet green peppers and tomatoes stewed soft in butter and pul biber, with eggs folded through off the heat into a velvety, custardy scramble. Fresh bread for dipping."
+    },
+    {
+      "title": "Green shakshuka with buttered leeks, baby spinach and dill",
+      "cuisine": "Levantine",
+      "pitch": "Sliced leeks and tender spinach wilted in olive oil with ground cumin, eggs poached directly in the greens with warm feta and fresh dill. Flatbread on the side."
+    },
+    {
+      "title": "Neapolitan eggs in purgatory with garlic, chili and pecorino",
+      "cuisine": "Italian",
+      "pitch": "Eggs poached gently in sweet San Marzano tomato sauce sizzling with garlic and dried chili, showered with sharp pecorino and fresh basil. Crusty bread for dipping."
+    }
+  ],
+  "Crispy Black Bean & Poblano Quesadillas": [
+    {
+      "title": "Crispy black bean quesadillas with roasted poblanos and oaxaca cheese",
+      "cuisine": "Mexican",
+      "pitch": "Tortillas toasted in a dry skillet with seasoned black beans, charred poblano strips, and stretchy Oaxaca cheese. Fresh salsa on the side."
+    },
+    {
+      "title": "Tex-Mex black bean and charred corn quesadillas with sharp cheddar",
+      "cuisine": "Tex-Mex",
+      "pitch": "Flour tortillas griddled crisp in butter with black beans, charred sweet corn, pickled jalapeños, and sharp melted cheddar. Cool sour cream for dipping."
+    },
+    {
+      "title": "Chorizo and black bean quesadillas with sweet peppers",
+      "cuisine": "Mexican",
+      "pitch": "Spicy Mexican chorizo browned in the skillet and mashed with black beans and sweet peppers, folded with melting cheese into a crisp tortilla."
+    },
+    {
+      "title": "Crispy sincronizadas with smoky ham, black beans and pickled jalapeños",
+      "cuisine": "Mexican",
+      "pitch": "Flour tortillas griddled crisp in butter, layered with refried black beans, smoky ham, pickled jalapeños, and bubbling cheese."
+    }
   ]
 }

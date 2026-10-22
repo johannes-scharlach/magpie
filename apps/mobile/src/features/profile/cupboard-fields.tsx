@@ -2,6 +2,7 @@ import { cuisineOptions, ingredientLabel } from "@magpie/profile";
 import { SymbolView } from "expo-symbols";
 import { Pressable, View } from "react-native";
 import { useResolveClassNames } from "uniwind";
+import { clayTilts } from "@/components/clay";
 import { Input } from "@/components/ui/input";
 import { Text } from "@/components/ui/text";
 import { type ArtworkId } from "@/features/onboarding/artwork";
@@ -42,12 +43,13 @@ export function CupboardFields({
     <View className="gap-5">
       {listed.length ? (
         <View className="flex-row flex-wrap" style={{ gap: TILE_GAP }} onLayout={onLayout}>
-          {listed.map((id) => (
+          {listed.map((id, index) => (
             <ArtTile
               key={id}
               art={`ingredient-${id}` as ArtworkId}
               title={ingredientLabel(id)}
               width={tileWidth}
+              tilt={clayTilts[index % clayTilts.length]}
               selected={keeps.includes(id)}
               onPress={() => onToggle(id)}
             />

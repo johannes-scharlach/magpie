@@ -86,7 +86,7 @@
     "vibe": "Tangy, smoky, spicy, deeply savory."
   },
   {
-    "title": "Tuscan White Bean & Tuna Salad",
+    "title": "White Bean & Tuna Salad",
     "previewTitle": "White bean & tuna salad",
     "section": "Pantry & Fast Comfort",
     "ingredients": "Canned cannellini beans, tuna in olive oil, red onion, fresh parsley, lemon",
@@ -104,14 +104,16 @@
     "vibe": "Nutty browned butter, crispy sage, salty pork, pillowy gnocchi."
   },
   {
-    "title": "North African Shakshuka",
+    "title": "Shakshuka",
+    "previewTitle": "Shakshuka",
     "section": "Skillet & Stovetop Mains",
     "ingredients": "Canned crushed tomatoes, eggs, bell pepper, ground cumin, feta (bread to serve)",
     "time": "25 min · 1 pan",
     "vibe": "Spiced, saucy, runny-yolk brunch-for-dinner."
   },
   {
-    "title": "Quesadillas with Refried Black Beans & Roasted Poblanos/Peppers",
+    "title": "Crispy Black Bean & Poblano Quesadillas",
+    "previewTitle": "Black bean quesadillas",
     "section": "Skillet & Stovetop Mains",
     "ingredients": "Flour tortillas, canned black beans, shredded cheese, green bell pepper or mild chili, jarred salsa",
     "time": "15 min · 1 skillet",

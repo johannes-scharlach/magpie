@@ -1,5 +1,4 @@
 import * as Haptics from "expo-haptics";
-import { SymbolView } from "expo-symbols";
 import { useState, useRef } from "react";
 import {
   Pressable,
@@ -8,7 +7,6 @@ import {
   type LayoutChangeEvent,
   type TextInputInstance,
 } from "react-native";
-import { useResolveClassNames } from "uniwind";
 import {
   selectionOptions,
   goalOptions,
@@ -20,10 +18,12 @@ import {
 import { PrimaryAction } from "@/components/action";
 import { AddRow } from "@/components/add-row";
 import { ChoiceList } from "@/components/choice-list";
+import { clayTile, clayTilts, PressableScale } from "@/components/clay";
 import { EditorSheet, type EditorSheetHandle } from "@/components/editor-sheet";
 import { Text } from "@/components/ui/text";
 import { Artwork, type ArtworkId } from "@/features/onboarding/artwork";
 import { Field } from "@/features/profile/form";
+import { cn } from "@/lib/utils";
 
 export function ChoiceChip({
   label,
@@ -35,19 +35,23 @@ export function ChoiceChip({
   onPress: () => void;
 }) {
   return (
-    <Pressable
+    <PressableScale
       accessibilityRole="checkbox"
+      accessibilityLabel={label}
       accessibilityState={{ checked: selected }}
       onPress={onPress}
-      className={
-        selected
-          ? "min-h-11 flex-row items-center gap-2 rounded-full border border-primary bg-accent px-4 py-2"
-          : "min-h-11 flex-row items-center gap-2 rounded-full border border-border bg-card px-4 py-2"
-      }
     >
-      {selected ? <Text className="text-primary">✓</Text> : null}
-      <Text className="flex-shrink font-medium">{label}</Text>
-    </Pressable>
+      <View
+        className={cn(
+          "min-h-12 justify-center rounded-full px-4 py-2",
+          selected ? "bg-accent" : "bg-card",
+        )}
+      >
+        <Text className={cn("shrink font-medium", selected && "text-primary")}>
+          {label}
+        </Text>
+      </View>
+    </PressableScale>
   );
 }
 
@@ -55,19 +59,19 @@ export function ArtTile({
   art,
   title,
   width,
+  tilt = 0,
   selected,
   onPress,
 }: {
   art: ArtworkId;
   title: string;
   width: number;
+  tilt?: number;
   selected: boolean;
   onPress: () => void;
 }) {
-  const primary = useResolveClassNames("text-primary").color;
-  const muted = useResolveClassNames("text-muted-foreground").color;
   return (
-    <Pressable
+    <PressableScale
       accessibilityRole="checkbox"
       accessibilityLabel={title}
       accessibilityState={{ checked: selected }}
@@ -75,33 +79,38 @@ export function ArtTile({
         void Haptics.selectionAsync().catch(() => {});
         onPress();
       }}
-      style={{ width, borderCurve: "continuous" }}
-      className={
-        selected
-          ? "gap-2 rounded-2xl border border-primary bg-accent p-2"
-          : "gap-2 rounded-2xl border border-border bg-card p-2 active:bg-secondary"
-      }
+      style={{ width }}
+      className="pt-16"
     >
-      {art.startsWith("equipment-") ? (
-        <View className="w-16 self-center">
+      {/* Selecting puts the thing on a clay tile; unselected things stand on
+          the page. The tile stays straight in the grid (tilted neighbours read
+          as broken layout), only the art sits at a hand-placed angle. */}
+      <View
+        className={cn("px-2 pb-3", selected && "bg-accent")}
+        style={clayTile}
+      >
+        <View
+          pointerEvents="none"
+          className="-mt-12 self-center"
+          style={{
+            width: Math.min(112, width - 12),
+            transform: [{ rotate: `${tilt}deg` }],
+          }}
+        >
           <Artwork id={art} />
         </View>
-      ) : (
-        <Artwork id={art} />
-      )}
-      <View className="min-h-11 flex-row items-center gap-1">
-        <Text className="flex-1 text-sm font-medium">{title}</Text>
-        <SymbolView
-          name={
-            selected
-              ? { ios: "checkmark.circle.fill", android: "check_circle" }
-              : { ios: "circle", android: "radio_button_unchecked" }
-          }
-          size={18}
-          tintColor={selected ? primary : muted}
-        />
+        <View className="min-h-11 justify-center px-0.5 pt-1">
+          <Text
+            className={cn(
+              "text-center font-rounded text-sm font-semibold",
+              selected && "text-primary",
+            )}
+          >
+            {title}
+          </Text>
+        </View>
       </View>
-    </Pressable>
+    </PressableScale>
   );
 }
 
@@ -111,10 +120,16 @@ export function useTileLayout(dense: boolean) {
   const [gridWidth, setGridWidth] = useState<number | null>(null);
   const availableWidth = gridWidth ?? width - 48;
   const columns =
-    fontScale > 1.5 ? 1 : dense && availableWidth >= 322 && fontScale <= 1.1 ? 3 : 2;
+    fontScale > 1.5
+      ? 1
+      : dense && availableWidth >= 322 && fontScale <= 1.1
+        ? 3
+        : 2;
   return {
     // Leave fractional slack rather than letting rounding wrap the last tile.
-    tileWidth: Math.floor((availableWidth - TILE_GAP * (columns - 1)) / columns),
+    tileWidth: Math.floor(
+      (availableWidth - TILE_GAP * (columns - 1)) / columns,
+    ),
     onLayout: (event: LayoutChangeEvent) =>
       setGridWidth(event.nativeEvent.layout.width),
   };
@@ -202,7 +217,12 @@ export function ChoiceTiles({
           />
         </ChoiceList>
         {adding ? (
-          <EditorSheet ref={sheet} autoFocusInput={input} title="Your goal" onDismiss={() => setAdding(false)}>
+          <EditorSheet
+            ref={sheet}
+            autoFocusInput={input}
+            title="Your goal"
+            onDismiss={() => setAdding(false)}
+          >
             <Field
               ref={input}
               label="What would help?"
@@ -242,12 +262,13 @@ export function ChoiceTiles({
   return (
     <View className="gap-4">
       <View className="flex-row flex-wrap" style={{ gap }} onLayout={onLayout}>
-        {visible.map(([key, title]) => (
+        {visible.map(([key, title], index) => (
           <ArtTile
             key={key}
             art={`${prefix}-${key}` as ArtworkId}
             title={title}
             width={tileWidth}
+            tilt={clayTilts[index % clayTilts.length]}
             selected={value[key] === true}
             onPress={() => onChange({ ...value, [key]: value[key] !== true })}
           />
