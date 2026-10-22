@@ -1,7 +1,7 @@
 import { avoidanceKinds, type IngredientAvoidance } from "@magpie/profile";
 import { SymbolView } from "expo-symbols";
 import { useRef, useState } from "react";
-import { Platform, Pressable, View, type TextInput } from "react-native";
+import { Platform, Pressable, View, type TextInputInstance } from "react-native";
 import { useResolveClassNames } from "uniwind";
 import { PrimaryAction } from "@/components/action";
 import { EditorSheet, type EditorSheetHandle } from "@/components/editor-sheet";
@@ -27,7 +27,7 @@ export function AvoidancesEditor({ value, onChange, notes, onNotes }: {
   const mutedColor = useResolveClassNames("text-muted-foreground").color;
   const [editing, setEditing] = useState<{ index: number; item: IngredientAvoidance } | null>(null);
   const [attempted, setAttempted] = useState(false);
-  const input = useRef<TextInput>(null);
+  const input = useRef<TextInputInstance>(null);
   const sheet = useRef<EditorSheetHandle>(null);
   function open(item: IngredientAvoidance, index = -1) { setAttempted(false); setEditing({ item: { ...item }, index }); }
   function save() {

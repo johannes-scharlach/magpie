@@ -4,7 +4,10 @@ import {
   ModalBottomSheet,
   type ModalBottomSheetRef,
 } from "@expo/ui/jetpack-compose";
-import { onGloballyPositioned, padding } from "@expo/ui/jetpack-compose/modifiers";
+import {
+  onGloballyPositioned,
+  padding,
+} from "@expo/ui/jetpack-compose/modifiers";
 import {
   useImperativeHandle,
   useRef,
@@ -12,7 +15,11 @@ import {
   type Ref,
   type RefObject,
 } from "react";
-import { View, useWindowDimensions, type TextInput } from "react-native";
+import {
+  View,
+  useWindowDimensions,
+  type TextInputInstance,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useResolveClassNames } from "uniwind";
 import { CloseButton } from "@/components/close-button";
@@ -30,7 +37,7 @@ export function EditorSheet({
   title: string;
   onDismiss: () => void;
   children: ReactNode;
-  autoFocusInput?: RefObject<TextInput | null>;
+  autoFocusInput?: RefObject<TextInputInstance | null>;
 }) {
   const { width } = useWindowDimensions();
   const insets = useSafeAreaInsets();

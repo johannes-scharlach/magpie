@@ -125,7 +125,9 @@ export default function ShopItemSheet() {
     return (
       <View collapsable={false} className="px-6 pt-4">
         <View className="flex-row items-center justify-between gap-4">
-          <Text className="flex-1 text-lg font-semibold">Loading item…</Text>
+          <Text className="flex-1 font-rounded text-lg font-bold">
+            Loading item…
+          </Text>
           <CloseButton onPress={() => router.back()} />
         </View>
         <ActivityIndicator className="my-6" />
@@ -136,7 +138,9 @@ export default function ShopItemSheet() {
     return (
       <View collapsable={false} className="gap-1 px-6 pt-4">
         <View className="flex-row items-center justify-between gap-4">
-          <Text className="flex-1 text-lg font-semibold">Item not found</Text>
+          <Text className="flex-1 font-rounded text-lg font-bold">
+            Item not found
+          </Text>
           <CloseButton onPress={() => router.back()} />
         </View>
         <Text variant="muted">It may have been removed on another device.</Text>

@@ -16,21 +16,21 @@ const textVariants = cva(
       variant: {
         default: "",
         h1: cn(
-          "text-center text-4xl font-extrabold tracking-tight",
+          "font-rounded text-center text-4xl font-extrabold tracking-tight",
           Platform.select({ web: "scroll-m-20 text-balance" }),
         ),
         h2: cn(
           // shadcn's h2 carries `border-b pb-2` (web-docs styling); dropped here
           // as it reads as a stray rule on mobile screens.
-          "text-3xl font-semibold tracking-tight",
+          "font-rounded text-3xl font-bold tracking-tight",
           Platform.select({ web: "scroll-m-20 first:mt-0" }),
         ),
         h3: cn(
-          "text-2xl font-semibold tracking-tight",
+          "font-rounded text-2xl font-bold tracking-tight",
           Platform.select({ web: "scroll-m-20" }),
         ),
         h4: cn(
-          "text-xl font-semibold tracking-tight",
+          "font-rounded text-xl font-bold tracking-tight",
           Platform.select({ web: "scroll-m-20" }),
         ),
         p: "mt-3 leading-7 sm:mt-6",

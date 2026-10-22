@@ -10,7 +10,7 @@ import {
   type LayoutRectangle,
   type NativeScrollEvent,
   type NativeSyntheticEvent,
-  type View,
+  type ViewInstance,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -88,7 +88,7 @@ export function useActivityVisit(
     // FlatList's TS declaration omits the host measurement methods even though
     // getNativeScrollRef returns the underlying native scroll view.
     const native = listRef.current?.getNativeScrollRef() as
-      | Pick<View, "measureInWindow">
+      | Pick<ViewInstance, "measureInWindow">
       | null;
     native?.measureInWindow((_x, y, _width, measuredHeight) => {
       frame.current = { top: y, height: measuredHeight };

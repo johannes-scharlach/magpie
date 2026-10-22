@@ -9,9 +9,12 @@ import {
   type FlatList,
   TextInput,
   View,
+  type TextInputInstance,
+  type ViewInstance,
 } from "react-native";
 import { useResolveClassNames } from "uniwind";
 
+import { SectionTitle } from "@/components/clay";
 import { Input } from "@/components/ui/input";
 import { Text } from "@/components/ui/text";
 import type { HouseholdActivity } from "@/features/activity/activities";
@@ -45,7 +48,10 @@ const HISTORY_ICON = {
 } as const;
 const ADD_ICON = { ios: "plus.circle", android: "add_circle" } as const;
 const REMOVE_ICON = { ios: "xmark", android: "close", web: "close" } as const;
-const SUBMIT_ICON = { ios: "arrow.up.circle.fill", android: "arrow_circle_up" } as const;
+const SUBMIT_ICON = {
+  ios: "arrow.up.circle.fill",
+  android: "arrow_circle_up",
+} as const;
 
 /**
  * Home starts a spontaneous meal from ingredients or a dish in mind.
@@ -71,20 +77,23 @@ export default function Home() {
   const scrollRef = useRef<FlatList<HouseholdActivity>>(null);
   const scrollY = useRef(0);
   const keyboardTop = useRef<number | null>(null);
-  const ingredientRef = useRef<TextInput>(null);
-  const dishRef = useRef<TextInput>(null);
-  const startRef = useRef<View>(null);
+  const ingredientRef = useRef<TextInputInstance>(null);
+  const dishRef = useRef<TextInputInstance>(null);
+  const startRef = useRef<ViewInstance>(null);
 
   // Typing into either field must not hide the entry block behind the keyboard.
   const revealStart = useCallback(() => {
     const top = keyboardTop.current;
     const focused = TextInput.State.currentlyFocusedInput();
     if (top === null) return;
-    if (focused !== ingredientRef.current && focused !== dishRef.current) return;
+    if (focused !== ingredientRef.current && focused !== dishRef.current)
+      return;
     startRef.current?.measureInWindow((_x, y, _width, height) => {
       const overlap = y + height + 16 - top;
       if (overlap > 0) {
-        scrollRef.current?.scrollToOffset({ offset: scrollY.current + overlap });
+        scrollRef.current?.scrollToOffset({
+          offset: scrollY.current + overlap,
+        });
       }
     });
   }, []);
@@ -154,6 +163,7 @@ export default function Home() {
     chatEntry: QueuedMessage["entry"],
     text: string,
     images: ImageAttachment[] = [],
+    idea?: string,
   ) {
     const chatId = Crypto.randomUUID();
     queueMessage({
@@ -161,6 +171,7 @@ export default function Home() {
       text,
       attachments: images,
       entry: chatEntry,
+      idea,
     });
     Keyboard.dismiss();
     setChips([]);
@@ -232,8 +243,8 @@ export default function Home() {
         <ChallengeCard />
         <WeekGlance listId={listId} />
 
-        <View className="mx-4 mt-8 gap-3">
-          <Text className="text-xl font-semibold">Spontaneous meal</Text>
+        <View className="mx-4 mt-6 gap-3">
+          <SectionTitle>Spontaneous meal</SectionTitle>
           <EntrySelector
             value={entry}
             onChange={(value) => {
@@ -245,7 +256,7 @@ export default function Home() {
           {/* What the keyboard must not cover. */}
           <View ref={startRef} onLayout={revealStart}>
             {entry === "dish" ? (
-              <View className="min-h-12 flex-row items-center rounded-2xl bg-muted pr-1">
+              <View className="min-h-12 flex-row items-center rounded-2xl border border-input bg-card pr-1">
                 <Input
                   ref={dishRef}
                   value={dish}
@@ -267,7 +278,7 @@ export default function Home() {
               <Pressable
                 onPress={() => ingredientRef.current?.focus()}
                 accessible={false}
-                className="min-h-12 flex-row items-center rounded-2xl bg-muted pl-2 pr-1"
+                className="min-h-12 flex-row items-center rounded-2xl border border-input bg-card pl-2 pr-1"
               >
                 <View className="flex-1 flex-row flex-wrap items-center gap-1.5 py-2">
                   {chips.map((chip, i) => (
@@ -277,7 +288,7 @@ export default function Home() {
                       accessibilityLabel={`Remove ${chip}`}
                       accessibilityRole="button"
                       hitSlop={{ top: 6, bottom: 6 }}
-                      className="h-8 flex-row items-center gap-1.5 rounded-full bg-card pl-3 pr-2.5 active:bg-accent"
+                      className="h-8 flex-row items-center gap-1.5 rounded-full bg-secondary pl-3 pr-2.5 active:bg-accent"
                     >
                       <Text className="text-sm">{chip}</Text>
                       <SymbolView
@@ -299,7 +310,7 @@ export default function Home() {
                       accessibilityLabel={`Remove photo ${i + 1}`}
                       accessibilityRole="button"
                       hitSlop={{ top: 6, bottom: 6 }}
-                      className="h-8 flex-row items-center gap-1.5 rounded-full bg-card pl-1 pr-2.5 active:bg-accent"
+                      className="h-8 flex-row items-center gap-1.5 rounded-full bg-secondary pl-1 pr-2.5 active:bg-accent"
                     >
                       <Image
                         source={{ uri: attachment.uri }}
@@ -340,7 +351,11 @@ export default function Home() {
                     accessibilityRole="button"
                     className="h-12 w-10 items-center justify-center self-end active:opacity-60"
                   >
-                    <SymbolView name={ADD_ICON} tintColor={iconColor} size={22} />
+                    <SymbolView
+                      name={ADD_ICON}
+                      tintColor={iconColor}
+                      size={22}
+                    />
                   </Pressable>
                 ) : (
                   <View className="h-12 w-10 items-center justify-center self-end">
@@ -362,15 +377,17 @@ export default function Home() {
           ) : null}
         </View>
 
-        <View className="mx-4 mt-8 gap-3">
+        <View className="mx-4 mt-6 gap-3">
           <View className="flex-row items-center justify-between gap-3">
-            <Text className="text-xl font-semibold">Start from an idea</Text>
+            <SectionTitle className="min-w-0 flex-1 shrink">
+              Start from an idea
+            </SectionTitle>
             <Link href="/chats/ideas" asChild>
               <Pressable
                 accessibilityRole="link"
                 accessibilityLabel="See all ideas"
                 hitSlop={12}
-                className="active:opacity-60"
+                className="shrink-0 active:opacity-60"
               >
                 <Text className="text-link">See all</Text>
               </Pressable>
@@ -378,11 +395,11 @@ export default function Home() {
           </View>
           <SeededDeck
             preview
-            onPick={(text) => {
+            onPick={(text, idea) => {
               posthog?.capture("meal_ideas_started", {
                 entry_type: "seeded_idea",
               });
-              startChat("idea", text);
+              startChat("idea", text, [], idea);
             }}
           />
         </View>

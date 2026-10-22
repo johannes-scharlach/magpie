@@ -1,6 +1,12 @@
 import { SymbolView } from "expo-symbols";
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { Pressable, ScrollView, TextInput, View } from "react-native";
+import {
+  Pressable,
+  ScrollView,
+  TextInput,
+  View,
+  type TextInputInstance,
+} from "react-native";
 import Animated, {
   Easing,
   interpolate,
@@ -176,7 +182,7 @@ export function Composer({
   preferCollapsed?: boolean;
 }) {
   const insets = useSafeAreaInsets();
-  const inputRef = useRef<TextInput>(null);
+  const inputRef = useRef<TextInputInstance>(null);
   const [text, setText] = useState("");
   const [focused, setFocused] = useState(false);
   const [attachments, setAttachments] = useState<ImageAttachment[]>([]);

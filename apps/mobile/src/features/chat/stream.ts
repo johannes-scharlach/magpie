@@ -50,6 +50,7 @@ export async function* streamReply(opts: {
   recipeContext?: QueuedMessage["recipeContext"];
   mealContext?: QueuedMessage["mealContext"];
   entry?: QueuedMessage["entry"];
+  idea?: QueuedMessage["idea"];
 }): AsyncGenerator<AssistantUIMessage> {
   const headers = await authorization();
   const chatFetch: typeof globalThis.fetch = async (...args) => {
@@ -82,6 +83,7 @@ export async function* streamReply(opts: {
         recipeContext: opts.recipeContext,
         mealContext: opts.mealContext,
         entry: opts.entry,
+        idea: opts.idea,
       },
     }),
   });

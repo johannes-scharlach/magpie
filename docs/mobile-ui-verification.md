@@ -163,7 +163,53 @@ other forms, large-text layouts, screen readers, or backend delivery.
 
 ## MCP / Maestro status
 
-Maestro CLI/MCP and `ios-simulator-mcp` were researched but **not exercised during
-this verification**. They are candidates for a separate compatibility trial, not
-prerequisites or proven replacements for the commands above. Following this guide
-does not authorize installing or starting them.
+Maestro CLI and MCP were exercised on **iPhone 17 / iOS 26.5 on 2026-10-20**
+for the first-run challenge. They confirmed native disclosure, non-navigating
+task rows, empty-week day navigation, planning entry, and opening/cancelling
+import while retaining a planning selection. An **Android API 36** emulator
+also verified the disclosure's full-width hit target. No recipes or plans
+were saved for these checks. This does not certify the earned-reward finish
+screen or other Android controls.
+
+Prefer Maestro for iOS interaction when available. Discover devices first,
+then inspect the screen before selecting controls. Use the already-running
+app with `launchApp: { stopApp: false, permissions: {} }`; do not clear state
+or change permissions as test setup. A cold launch may need an explicit
+`extendedWaitUntil` for the target screen; animation settling alone does not
+prove that app loading has finished.
+
+The MCP hierarchy intermittently failed with a maximum-depth error. The CLI
+hierarchy remained usable:
+
+```sh
+maestro --device "<booted-device-udid>" hierarchy
+```
+
+Later, MCP reported an unreachable device while CLI interaction still worked.
+Using CLI was sufficient; no service or device restart was needed:
+
+```sh
+maestro --device "<booted-device-udid>" test \
+  --test-output-dir docs/.screenshots/<design-name>/ios/round-01/maestro \
+  <flow-file.yaml>
+```
+
+In CLI flows, use relative `takeScreenshot` names. Captures land beneath the
+chosen output directory in `<timestamp>/<flow-name>/takeScreenshot/`; absolute
+paths outside that capture directory are rejected. Keep the originals and,
+if needed, copy them unchanged to stable descriptive paths for critique.
+
+The `ios-simulator-mcp` tools remain unverified. This guide does not authorize
+installing tools or starting services.
+
+### Native disclosure hit targets
+
+For full-width controls inside `@expo/ui` Host, match the content's height
+only: `matchContents={{ vertical: true }}`. Matching both axes can shrink the
+native touch area to the header's intrinsic content width. On the tested
+Android device, that left a dead area to the right of the challenge label.
+
+Verify by tapping blank space near the row's right edge, not only by selecting
+its text. The same point failed before the sizing fix and expanded/collapsed
+the real native disclosure afterward. This is a native layout behavior;
+asserting React props or styles would not verify it.

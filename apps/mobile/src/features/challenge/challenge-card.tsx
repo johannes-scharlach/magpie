@@ -1,4 +1,4 @@
-import { Collapsible, Host, RNHostView } from "@expo/ui";
+import { Collapsible, RNHostView } from "@expo/ui";
 import { useQuery } from "@powersync/react";
 import * as Haptics from "expo-haptics";
 import { Image } from "expo-image";
@@ -7,12 +7,18 @@ import { useEffect, useState } from "react";
 import { View } from "react-native";
 import { useResolveClassNames } from "uniwind";
 
+import { clayTile } from "@/components/clay";
 import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
 import { useAuth } from "@/db/provider";
 import { supabase } from "@/lib/supabase";
 
-import { challengeGoals, type ChallengeCounts, type ChallengeGoal } from "./goals";
+import { CollapsibleHost } from "./collapsible-host";
+import {
+  challengeGoals,
+  type ChallengeCounts,
+  type ChallengeGoal,
+} from "./goals";
 
 const DONE_ICON = {
   ios: "checkmark.circle.fill",
@@ -50,7 +56,9 @@ function AccountChallenge({
   const { data: rewards } = useQuery<{
     earned_at: string;
     dismissed_at: string | null;
-  }>("SELECT earned_at, dismissed_at FROM first_run_rewards WHERE id = ?", [userId]);
+  }>("SELECT earned_at, dismissed_at FROM first_run_rewards WHERE id = ?", [
+    userId,
+  ]);
   const reward = rewards[0];
   const [expanded, setExpanded] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -83,28 +91,28 @@ function AccountChallenge({
   }
 
   return (
-    <View className="mx-4 mb-6 overflow-hidden rounded-3xl bg-accent">
-      <View className="gap-1 px-5 pb-4 pt-5">
-        <Text className="text-lg font-semibold leading-6 text-accent-foreground">
-          {earned
-            ? "Your month of Pro is earned"
-            : complete
-              ? "Challenge complete"
-              : "Earn a month of Pro"}
-        </Text>
-        <Text className="text-sm leading-5 text-accent-foreground">
-          {earned
-            ? "It’s yours when Pro launches."
-            : complete
-              ? "Your reward will be saved once your changes sync."
-              : "Yours when Pro launches."}
-        </Text>
-      </View>
+    <View
+      // No clip: the art spills over the top edge.
+      className="mx-4 mb-6 mt-10 bg-accent"
+      style={clayTile}
+    >
+      {earned || complete ? (
+        <View className="gap-1 px-5 pb-3 pt-4">
+          <Text className="font-rounded text-lg font-bold leading-6 text-accent-foreground">
+            {earned ? "Your month of Pro is earned" : "Challenge complete"}
+          </Text>
+          <Text className="text-sm leading-5 text-accent-foreground">
+            {earned
+              ? "You’ll get it when Pro launches."
+              : "Your reward will be saved once your changes sync."}
+          </Text>
+        </View>
+      ) : null}
 
       {!earned && featured ? (
-        <View className="flex-row items-center gap-3 px-5">
+        <View className="flex-row items-center gap-3 px-5 pt-5">
           <View className="flex-1 gap-2">
-            <Text className="text-xl font-semibold leading-6 text-accent-foreground">
+            <Text className="font-rounded text-[22px] font-extrabold leading-6.5 text-accent-foreground">
               {featured.invitation}
             </Text>
             <Text className="text-sm leading-5 text-muted-foreground">
@@ -122,15 +130,20 @@ function AccountChallenge({
             contentFit="contain"
             accessibilityElementsHidden
             importantForAccessibility="no-hide-descendants"
-            style={{ width: 88, height: 100 }}
+            style={{
+              width: 150,
+              height: 150,
+              marginTop: -72,
+              marginRight: -28,
+            }}
           />
         </View>
       ) : null}
 
       {!earned && !complete ? (
-        <View className="px-5 pb-4 pt-4">
+        <View className="px-5 pb-4 pt-3">
           {/* Match height only: matching width shrinks the header's tap target to its label. */}
-          <Host matchContents={{ vertical: true }} seedColor={link}>
+          <CollapsibleHost seedColor={link}>
             <Collapsible
               isOpen={expanded}
               onOpenChange={setExpanded}
@@ -142,16 +155,18 @@ function AccountChallenge({
             >
               <RNHostView matchContents>
                 <View className="gap-4 pt-4">
-                  <Text className="text-sm text-accent-foreground">
-                    Try all five, in any order. No need to cook them now.
-                  </Text>
+                  <View className="gap-1">
+                    <Text className="text-sm font-medium text-accent-foreground">
+                      Finish all five to earn a month of Pro.
+                    </Text>
+                  </View>
                   {goals.map((goal) => (
                     <TaskRow key={goal.key} goal={goal} />
                   ))}
                 </View>
               </RNHostView>
             </Collapsible>
-          </Host>
+          </CollapsibleHost>
         </View>
       ) : null}
 

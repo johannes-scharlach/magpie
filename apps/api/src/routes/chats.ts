@@ -36,6 +36,7 @@ import {
   type RecipeChat,
 } from "../recipe-chat.js";
 import { stepBudget } from "../step-budget.js";
+import { twistBrief } from "../seeded-twists.js";
 
 export const chats = new Hono<AppBindings>();
 
@@ -102,7 +103,9 @@ async function generateSuggestions(
     model: google(UTILITY_MODEL),
     abortSignal: AbortSignal.timeout(10_000),
     output: Output.object({ schema: SuggestionsSchema }),
-    prompt: `You suggest quick replies in a cooking assistant chat. Below are the user's last message and the assistant's reply. Propose 2-6 short replies the user is most likely to want to send next, written in the user's voice. Only offer a reply when it makes sense for this dish and this request; never push against what the user asked for.
+    prompt: `You suggest quick replies in a cooking assistant chat. Below are the user's last message and the assistant's reply. Propose 2-6 useful follow-up replies, written in the user's voice. Only offer a reply when it makes sense for this dish and this request; never push against what the user asked for.
+
+The app renders every <idea title="..."> as a tappable card. Tapping it already chooses that idea and asks to expand it. NEVER suggest an idea's title, a shortened or paraphrased title, or a reply that simply chooses or expands an offered idea (such as "The German one" or "Tell me more about the chops"). Suggested replies must add something the cards cannot: refine the options, ask for different directions, or ask a useful question.
 
 Guidelines:
 - If the assistant pitched several ideas (<idea> tags), the user can just tap an idea to expand on it. Offer: More ideas. If the ideas sit close together in style or cuisine, offer: A wider range. If they lean on shortcuts or fusion, offer: More authentic ones.
@@ -239,6 +242,7 @@ chats.post("/:id/messages", async (c) => {
       recipeContext?: unknown;
       mealContext?: unknown;
       entry?: unknown;
+      idea?: unknown;
     }>()
     .catch(() => ({
       listId: undefined,
@@ -248,6 +252,7 @@ chats.post("/:id/messages", async (c) => {
       recipeContext: undefined,
       mealContext: undefined,
       entry: undefined,
+      idea: undefined,
     }));
   if (typeof body.listId !== "string" || !UUID.test(body.listId)) {
     return c.json(
@@ -310,6 +315,11 @@ chats.post("/:id/messages", async (c) => {
       400,
     );
   }
+  // The tapped seeded idea's title, for its twists (spec 0013).
+  const idea =
+    entry?.data === "idea" && typeof body.idea === "string"
+      ? body.idea.slice(0, 200)
+      : undefined;
   const startMealId = mealContext?.success
     ? mealContext.data.plannedMealId
     : start?.plannedMealId;
@@ -352,6 +362,7 @@ chats.post("/:id/messages", async (c) => {
   let history: MessageRow[];
   let chat: RecipeChat;
   let initialRecipeRead: UIMessage | null = null;
+  let isNewChat = false;
   const assistantId = randomUUID();
   const client = await pool.connect();
   try {
@@ -397,6 +408,7 @@ chats.post("/:id/messages", async (c) => {
       [chatId],
     );
     if (existing.rowCount === 0) {
+      isNewChat = true;
       const variant = start
         ? await readChatVariant(client, listId, start.variantId)
         : null;
@@ -557,6 +569,9 @@ chats.post("/:id/messages", async (c) => {
     parts: r.parts as AssistantUIMessage["parts"],
   }));
 
+  // A fresh seeded-idea chat opens fast: the light model fits pre-written
+  // twists to the household. Later turns take the normal path.
+  const brief = isNewChat && chat.entry === "idea" ? twistBrief(idea) : null;
   const system = [
     ASSISTANT_SYSTEM_PROMPT,
     PLAN_PROMPT,
@@ -570,6 +585,16 @@ chats.post("/:id/messages", async (c) => {
   ]
     .filter(Boolean)
     .join("\n\n");
+  const briefSystem = brief
+    ? [
+        ASSISTANT_SYSTEM_PROMPT,
+        household ? profileContext(household, userId) : null,
+        localTime ? `The user's current local time is ${localTime}.` : null,
+        brief,
+      ]
+        .filter(Boolean)
+        .join("\n\n")
+    : null;
   const tools = {
     ...buildChatTools(userId, listId, {
       chatId,
@@ -585,26 +610,33 @@ chats.post("/:id/messages", async (c) => {
     userMessageId: message.id,
     request: c.req.raw.signal,
     run: async () =>
-      streamText({
-        model: google(CHAT_MODEL),
-        // Gemini defaults to high thinking, which made every turn slow.
-        reasoning: "low",
-        system,
-        // Completed actions survive an interrupted turn. Drop only tool calls
-        // without a result, so continuation can act on what actually happened.
-        messages: await convertToModelMessages(uiMessages, {
-          ignoreIncompleteToolCalls: true,
-        }),
-        tools,
-        // A week's plan is a save and a plan per meal, plus reads. A step can
-        // hold parallel calls, but Gemini often makes them one at a time.
-        ...stepBudget<typeof tools>(25, system),
-        // A step can write several full recipes. The total is only a backstop.
-        timeout: { stepMs: 90_000, totalMs: 600_000 },
-        onError: () => {}, // The saved-turn stream logs and classifies model failures.
-        // Local Storage URLs are private addresses; download them plainly.
-        experimental_download: downloadMedia,
-      }),
+      briefSystem
+        ? streamText({
+            model: google(UTILITY_MODEL),
+            system: briefSystem,
+            messages: await convertToModelMessages(uiMessages),
+            onError: () => {},
+          })
+        : streamText({
+            model: google(CHAT_MODEL),
+            // Gemini defaults to high thinking, which made every turn slow.
+            reasoning: "low",
+            system,
+            // Completed actions survive an interrupted turn. Drop only tool calls
+            // without a result, so continuation can act on what actually happened.
+            messages: await convertToModelMessages(uiMessages, {
+              ignoreIncompleteToolCalls: true,
+            }),
+            tools,
+            // A week's plan is a save and a plan per meal, plus reads. A step can
+            // hold parallel calls, but Gemini often makes them one at a time.
+            ...stepBudget<typeof tools>(25, system),
+            // A step can write several full recipes. The total is only a backstop.
+            timeout: { stepMs: 90_000, totalMs: 600_000 },
+            onError: () => {}, // The saved-turn stream logs and classifies model failures.
+            // Local Storage URLs are private addresses; download them plainly.
+            experimental_download: downloadMedia,
+          }),
     suggestions: (text) =>
       generateSuggestions(text, {
         userText: textOf(message),

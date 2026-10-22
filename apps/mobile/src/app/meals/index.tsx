@@ -1,8 +1,9 @@
 import { useQuery } from "@powersync/react";
-import { Stack, router, useLocalSearchParams } from "expo-router";
+import { Link, Stack, router, useLocalSearchParams } from "expo-router";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   ActivityIndicator,
+  Pressable,
   ScrollView,
   useWindowDimensions,
   View,
@@ -334,6 +335,16 @@ export default function Meals() {
           title: "Meals",
           headerLargeTitle: true,
           headerBackButtonDisplayMode: "minimal",
+          headerRight: () => (
+            <Link href="/meals/plan" asChild>
+              <Pressable
+                accessibilityRole="link"
+                className="min-h-11 justify-center px-2 active:opacity-60"
+              >
+                <Text className="text-link">Plan with Magpie</Text>
+              </Pressable>
+            </Link>
+          ),
         }}
       />
       <ScrollView

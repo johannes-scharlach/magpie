@@ -108,6 +108,12 @@ const household_activity_recipients = new Table(
   },
 );
 
+/** id is the account id. Server-earned; only dismissal is client-writable. */
+const first_run_rewards = new Table({
+  earned_at: column.text,
+  dismissed_at: column.text,
+});
+
 const recipes = new Table({
   /** The household it belongs to (ADR 27). */
   list_id: column.text,
@@ -242,6 +248,7 @@ export const AppSchema = new Schema({
   household_people,
   household_activities,
   household_activity_recipients,
+  first_run_rewards,
   recipes,
   variants,
   planned_meals,

@@ -54,7 +54,9 @@ export function RecipeBrowser({
         keyboardDismissMode="on-drag"
         keyboardShouldPersistTaps="handled"
         ListHeaderComponent={
-          error ? <Text className="p-6 text-destructive">{error}</Text> : null
+          error ? (
+            <Text className="p-6 text-destructive">{error}</Text>
+          ) : undefined
         }
         ListEmptyComponent={
           isLoading ? (

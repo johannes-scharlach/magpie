@@ -1,7 +1,7 @@
 import { useQuery } from "@powersync/react";
 import * as Crypto from "expo-crypto";
 import { LinearGradient } from "expo-linear-gradient";
-import { Stack, useRouter } from "expo-router";
+import { Link, Stack, useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import {
   KeyboardAvoidingView,
@@ -11,10 +11,12 @@ import {
   TextInput,
   useColorScheme,
   View,
+  type ViewInstance,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { PrimaryAction } from "@/components/action";
+import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
 import { mealPlanMessage } from "@/features/chat/compose";
 import {
@@ -72,6 +74,10 @@ export default function PlanMeals() {
 
   const dayKeys = days.map(dateKey);
   const { listId } = useHouseholdAccess();
+  const { data: cookbook } = useQuery<{ n: number }>(
+    "SELECT count(*) AS n FROM recipes WHERE list_id = ?",
+    [listId],
+  );
   const { data: plannedMeals } = useQuery<PlannedMeal>(
     listId
       ? `SELECT p.id, p.variant_id, p.meal, p.slot_date, COALESCE(p.name, v.name) AS name
@@ -146,7 +152,7 @@ export default function PlanMeals() {
   const drag = useRef<{ paint: boolean; meal: Meal; startKey: string } | null>(
     null,
   );
-  const rowRefs = useRef<(View | null)[]>([]);
+  const rowRefs = useRef<(ViewInstance | null)[]>([]);
   const rowBoxes = useRef<Box[]>([]);
   const gesture = useRef<{ released: boolean; cancelled: boolean } | null>(
     null,
@@ -374,6 +380,23 @@ export default function PlanMeals() {
               ))}
             </View>
           </View>
+
+          {listId && cookbook[0] && cookbook[0].n < 5 ? (
+            <View className="gap-2 rounded-2xl bg-accent p-4">
+              <Text className="font-semibold text-accent-foreground">
+                Better plans start with your favorites
+              </Text>
+              <Text className="text-sm leading-5 text-accent-foreground">
+                A few recipes you love help Magpie plan meals that feel like you.
+                You can also start planning now.
+              </Text>
+              <Link href="/cookbook/import" asChild>
+                <Button variant="link" className="min-h-11 self-start px-0">
+                  <Text className="text-link">Add a favorite recipe</Text>
+                </Button>
+              </Link>
+            </View>
+          ) : null}
 
           <Text variant="large">What do you have in mind? (optional)</Text>
 

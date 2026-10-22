@@ -14,8 +14,10 @@ the boundary between visual critique and interaction verification.
 
 ## UI stack
 
-Standard-choice rule: pick the closest-to-default option, no custom design
-direction (yet). That gives:
+Standard-choice rule: pick the closest-to-default option, except where
+Magpie's clay look applies: rounded heavy section titles, squircle tiles,
+art that spills over the tile edge, no drop shadows. Those pieces live in
+`src/components/clay.tsx`. Otherwise:
 
 - **uniwind** — Tailwind CSS v4 for React Native. Not NativeWind (still v3).
   Same `className` API. Used on iOS and Android.

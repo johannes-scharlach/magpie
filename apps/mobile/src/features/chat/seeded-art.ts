@@ -1,10 +1,8 @@
-import type { ImageSourcePropType } from "react-native";
-
 /**
  * Claymation art per seeded idea, keyed by title. Style and prompts in
  * `art/README.md`. Ship transparent WebP exports from `art/optimized/`.
  */
-export const SEEDED_ART: Record<string, ImageSourcePropType | undefined> = {
+export const SEEDED_ART: Record<string, number | undefined> = {
   "Pan-Seared Pork Chops with Jammy Zwetschgen (Plums)": require("./art/optimized/pork-chops-plums.webp"),
   "Late-Summer Charred Sweet Corn, Zucchini & Feta Skillet": require("./art/optimized/corn-zucchini-feta.webp"),
   "Brown-Butter Pfifferlinge (Chanterelles) on Toasted Sourdough": require("./art/optimized/chanterelles-toast.webp"),

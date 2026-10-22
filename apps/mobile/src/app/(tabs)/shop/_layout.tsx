@@ -1,8 +1,10 @@
 import { Stack } from "expo-router";
 
+import { roundedHeader } from "@/components/clay";
+
 export default function ShopLayout() {
   return (
-    <Stack>
+    <Stack screenOptions={roundedHeader}>
       <Stack.Screen
         name="index"
         options={{

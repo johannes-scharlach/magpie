@@ -90,7 +90,7 @@ export function EditSetupPerson() {
         contentContainerClassName="pb-10"
       >
         <View className="flex-row items-center justify-between gap-4 px-6 pt-4">
-          <Text className="flex-1 text-lg font-semibold">{title}</Text>
+          <Text className="flex-1 font-rounded text-lg font-bold">{title}</Text>
           <CloseButton onPress={() => router.back()} disabled={busy} />
         </View>
         <View className="mt-4 gap-4 px-6">

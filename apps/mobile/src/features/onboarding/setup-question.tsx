@@ -5,7 +5,7 @@ import {
 } from "@magpie/profile";
 import { useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
-import { Platform, View, type TextInput } from "react-native";
+import { Platform, View, type TextInputInstance } from "react-native";
 import { AddRow } from "@/components/add-row";
 import { type Step } from "@/features/onboarding/draft";
 import { PersonRow } from "@/features/onboarding/person-row";
@@ -108,7 +108,7 @@ export function SetupQuestion({
 }) {
   const router = useRouter();
   const { draft, update } = useOnboarding();
-  const nameRef = useRef<TextInput>(null);
+  const nameRef = useRef<TextInputInstance>(null);
   const showErrors = validationAttempt > 0;
   // Mounted on the step it opens at, so resuming elsewhere stays quiet.
   const [openedHere] = useState(() => draft?.step === step);

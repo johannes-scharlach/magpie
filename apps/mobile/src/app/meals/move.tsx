@@ -104,7 +104,7 @@ export default function MoveMealSheet() {
   return (
     <View collapsable={false}>
       <View className="flex-row items-center justify-between gap-4 px-6 pt-4">
-        <Text className="flex-1 text-lg font-semibold">{repeating ? "Plan again" : "Move meal"}</Text>
+        <Text className="flex-1 font-rounded text-lg font-bold">{repeating ? "Plan again" : "Move meal"}</Text>
         <CloseButton onPress={() => router.back()} disabled={saving} />
       </View>
 

@@ -6,7 +6,7 @@ import {
   View,
   useWindowDimensions,
   type LayoutChangeEvent,
-  type TextInput,
+  type TextInputInstance,
 } from "react-native";
 import { useResolveClassNames } from "uniwind";
 import {
@@ -137,7 +137,7 @@ export function ChoiceTiles({
   const [adding, setAdding] = useState(false);
   const [custom, setCustom] = useState("");
   const [attempted, setAttempted] = useState(false);
-  const input = useRef<TextInput>(null);
+  const input = useRef<TextInputInstance>(null);
   const sheet = useRef<EditorSheetHandle>(null);
 
   function add() {

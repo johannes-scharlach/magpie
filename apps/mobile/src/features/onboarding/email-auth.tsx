@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { AppState, Pressable, View, type TextInput } from "react-native";
+import { AppState, Pressable, View, type TextInputInstance } from "react-native";
 import { type OTPInputRef } from "input-otp-native";
 import { z } from "zod";
 import { InputOTP } from "@/components/ui/input-otp";
@@ -202,7 +202,7 @@ export function EmailAuthFields({
   signup: boolean;
   state: EmailAuthState;
 }) {
-  const emailInput = useRef<TextInput>(null);
+  const emailInput = useRef<TextInputInstance>(null);
   const codeInput = useRef<OTPInputRef>(null);
   useEffect(() => {
     if (!state.focusRequest) return;

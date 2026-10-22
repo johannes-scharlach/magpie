@@ -33,6 +33,8 @@ COPY apps/api/package.json apps/api/
 COPY apps/mobile/package.json apps/mobile/
 COPY packages/profile/package.json packages/profile/
 COPY packages/meals/package.json packages/meals/
+# The lockfile records patch hashes, so pnpm reads every patch file.
+COPY patches patches
 RUN pnpm install --frozen-lockfile --filter api...
 COPY apps/api apps/api
 COPY packages/profile/src packages/profile/src

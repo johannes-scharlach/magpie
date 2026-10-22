@@ -14,6 +14,7 @@ import {
   type NativeSyntheticEvent,
 } from "react-native";
 
+import { SectionTitle } from "@/components/clay";
 import { Text } from "@/components/ui/text";
 import { useAuth } from "@/db/provider";
 import { useToday } from "@/hooks/use-today";
@@ -99,9 +100,7 @@ function ActivityFeed({
             {children}
             {preview && (shown.length > 0 || error) ? (
               <View className="mx-4 mb-2 mt-8 flex-row items-center justify-between gap-3">
-                <Text className="text-xl font-semibold">
-                  Household activity
-                </Text>
+                <SectionTitle>Household activity</SectionTitle>
                 {activities.length > 3 ? (
                   <Link href="/household-activity" asChild>
                     <Pressable
@@ -127,7 +126,7 @@ function ActivityFeed({
                   ? "Loading activity…"
                   : "No household activity yet."}
             </Text>
-          ) : null
+          ) : undefined
         }
         renderItem={({ item, index }) => {
           const text = rowText(item, today);
@@ -135,9 +134,10 @@ function ActivityFeed({
             <View
               className={cn(
                 "mx-4 overflow-hidden bg-card",
-                index === 0 && "rounded-t-2xl",
-                index === shown.length - 1 && "rounded-b-2xl",
+                index === 0 && "rounded-t-[28px]",
+                index === shown.length - 1 && "rounded-b-[28px]",
               )}
+              style={{ borderCurve: "continuous" }}
             >
               {index > 0 ? (
                 <View className="ml-18 border-t border-border" />

@@ -61,7 +61,7 @@ export default function ImportForSlotSheet() {
     <View collapsable={false}>
       <View className="gap-1 px-6 pt-4">
         <View className="flex-row items-center justify-between gap-4">
-          <Text className="flex-1 text-lg font-semibold">
+          <Text className="flex-1 font-rounded text-lg font-bold">
             Import for {slot ? SLOT_LABEL[slot] : ""}
           </Text>
           <CloseButton onPress={() => router.back()} disabled={importing} />

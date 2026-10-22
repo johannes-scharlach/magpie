@@ -12,7 +12,14 @@ import {
 } from "expo-router/react-navigation";
 import { SymbolView } from "expo-symbols";
 import { useRef, useState } from "react";
-import { Alert, Pressable, ScrollView, TextInput, View } from "react-native";
+import {
+  Alert,
+  Pressable,
+  ScrollView,
+  TextInput,
+  View,
+  type TextInputInstance,
+} from "react-native";
 import { useReanimatedKeyboardAnimation } from "react-native-keyboard-controller";
 import Animated, {
   interpolate,
@@ -56,7 +63,7 @@ export default function AddItemSheet() {
       -keyboard.height.value +
       interpolate(keyboard.progress.value, [0, 1], [bottomInset, 8]),
   }));
-  const inputRef = useRef<TextInput>(null);
+  const inputRef = useRef<TextInputInstance>(null);
   const busy = useRef(false);
   const [saving, setSaving] = useState(false);
   const [draft, setDraft] = useState("");

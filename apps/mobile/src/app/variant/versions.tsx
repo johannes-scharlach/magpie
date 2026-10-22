@@ -98,7 +98,9 @@ export default function RecipeVariants() {
         contentContainerStyle={{ paddingBottom: 32 }}
         data={variants}
         ListHeaderComponent={
-          error ? <Text className="p-6 text-destructive">{error}</Text> : null
+          error ? (
+            <Text className="p-6 text-destructive">{error}</Text>
+          ) : undefined
         }
         keyExtractor={(variant) => variant.id}
         ListEmptyComponent={

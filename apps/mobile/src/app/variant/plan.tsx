@@ -157,7 +157,7 @@ export default function PlanVariantSheet() {
     <View collapsable={false}>
       <View className="gap-1 px-6 pt-4">
         <View className="flex-row items-center justify-between gap-4">
-          <Text className="flex-1 text-lg font-semibold">
+          <Text className="flex-1 font-rounded text-lg font-bold">
             {pending ? "Save & plan" : "Add to plan"}
           </Text>
           <CloseButton onPress={() => router.back()} disabled={saving} />

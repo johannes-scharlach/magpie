@@ -13,7 +13,11 @@ import {
   type Ref,
   type RefObject,
 } from "react";
-import { View, useWindowDimensions, type TextInput } from "react-native";
+import {
+  View,
+  useWindowDimensions,
+  type TextInputInstance,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { CloseButton } from "@/components/close-button";
 import { Text } from "@/components/ui/text";
@@ -31,14 +35,18 @@ export function EditorSheet({
   title: string;
   onDismiss: () => void;
   children: ReactNode;
-  autoFocusInput?: RefObject<TextInput | null>;
+  autoFocusInput?: RefObject<TextInputInstance | null>;
 }) {
   const { width } = useWindowDimensions();
   const insets = useSafeAreaInsets();
   const bottomInset = Math.max(insets.bottom, 16);
   const [contentHeight, setContentHeight] = useState<number>(240);
   const [isPresented, setIsPresented] = useState(true);
-  useImperativeHandle(ref, () => ({ dismiss: () => setIsPresented(false) }), []);
+  useImperativeHandle(
+    ref,
+    () => ({ dismiss: () => setIsPresented(false) }),
+    [],
+  );
 
   return (
     <Host style={{ position: "absolute" }} pointerEvents="none">
@@ -52,7 +60,12 @@ export function EditorSheet({
         <Group
           modifiers={[
             frame({ maxWidth: Infinity, alignment: "topLeading" }),
-            padding({ top: 12, bottom: bottomInset, leading: 24, trailing: 24 }),
+            padding({
+              top: 12,
+              bottom: bottomInset,
+              leading: 24,
+              trailing: 24,
+            }),
             presentationDragIndicator("visible"),
             presentationDetents([{ height: Math.round(contentHeight) }]),
           ]}

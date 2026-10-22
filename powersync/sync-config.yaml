@@ -70,6 +70,12 @@ streams:
       WHERE list_members.user_id = auth.user_id()
         AND household_activity_recipients.user_id = auth.user_id()
 
+  # A personal earned fact, independent of household membership.
+  first_run_rewards:
+    auto_subscribe: true
+    priority: 2
+    query: SELECT * FROM first_run_rewards WHERE id = auth.user_id()
+
   # Recipes belong to one list (ADR 27). variants repeats list_id so both
   # keep the same one-join shape as chat_messages.
   recipes:

@@ -8,7 +8,8 @@
     Segoe UI Symbol, Noto Color Emoji;
   --font-mono:
     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
-  --font-rounded: 'SF Pro Rounded', 'Hiragino Maru Gothic ProN', Meiryo, 'MS PGothic', sans-serif;
+  /* Per platform in @layer theme below. */
+  --font-rounded: ui-rounded;
   --font-serif: Georgia, 'Times New Roman', serif;
 
   --radius: 12px;
@@ -67,6 +68,16 @@
        --color-input: #7E6F75;
        --color-ring: #EBC7B3;
        --color-link: #EBC7B3;
+    }
+
+    /* Clay titles: SF Pro Rounded on iOS; Android has no rounded system
+       font, so bundled Nunito (app.config.ts) stands in. Header titles
+       mirror this in ROUNDED (src/components/clay.tsx). */
+    @variant ios {
+      --font-rounded: ui-rounded;
+    }
+    @variant android {
+      --font-rounded: Nunito;
     }
   }
 }

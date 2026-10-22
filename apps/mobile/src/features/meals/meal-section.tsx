@@ -6,7 +6,7 @@ import { Pressable, ScrollView, View } from "react-native";
 import {
   Gesture,
   GestureDetector,
-  type PanGesture,
+  type LegacyPanGesture,
 } from "react-native-gesture-handler";
 import Animated from "react-native-reanimated";
 import { useResolveClassNames } from "uniwind";
@@ -25,7 +25,7 @@ type Recipe = DisplayRecipe;
 
 type Props = {
   title: string;
-  dayPan: PanGesture;
+  dayPan: LegacyPanGesture;
   date: string;
   slot: MealSlot;
   /** Deterministic slot id; the recipe page uses it to know which meal it is about. */

@@ -147,7 +147,7 @@ export function CupboardScreen({
       >
         <View className="flex-row items-start justify-between gap-4 px-6 pt-4">
           <View className="flex-1 gap-1">
-            <Text className="text-lg font-semibold">{title}</Text>
+            <Text className="font-rounded text-lg font-bold">{title}</Text>
             <Text className="text-muted-foreground">{subtitle}</Text>
           </View>
           <CloseButton onPress={() => router.back()} />

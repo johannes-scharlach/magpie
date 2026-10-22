@@ -1,0 +1,60 @@
+diff --git a/ios/RNSScreenStackHeaderConfig.mm b/ios/RNSScreenStackHeaderConfig.mm
+--- a/ios/RNSScreenStackHeaderConfig.mm
++++ b/ios/RNSScreenStackHeaderConfig.mm
+@@ -28,6 +28,26 @@
+ 
+ static const NSNumber *const DEFAULT_TITLE_FONT_SIZE = @17;
+ static const NSNumber *const DEFAULT_TITLE_LARGE_FONT_SIZE = @34;
++
++// RCTFont resolves families by name and doesn't know RN's `ui-rounded`
++// alias, so header titles would fall back to the plain system font.
++static UIFont *RNSHeaderFont(NSString *family, NSNumber *size, NSString *weight)
++{
++  UIFont *font = [RCTFont updateFont:nil
++                          withFamily:family
++                                size:size
++                              weight:weight
++                               style:nil
++                             variant:nil
++                     scaleMultiplier:1.0];
++  if ([family isEqualToString:@"ui-rounded"]) {
++    UIFontDescriptor *rounded = [font.fontDescriptor fontDescriptorWithDesign:UIFontDescriptorSystemDesignRounded];
++    if (rounded) {
++      font = [UIFont fontWithDescriptor:rounded size:font.pointSize];
++    }
++  }
++  return font;
++}
+ 
+ @interface RCTImageLoader (Private)
+ - (id<RCTImageCache>)imageCache;
+@@ -455,13 +475,7 @@
+     NSNumber *size = config.titleFontSize ?: [DEFAULT_TITLE_FONT_SIZE copy];
+     NSString *weight = config.titleFontWeight ?: nil;
+     if (family || weight) {
+-      attrs[NSFontAttributeName] = [RCTFont updateFont:nil
+-                                            withFamily:config.titleFontFamily
+-                                                  size:size
+-                                                weight:weight
+-                                                 style:nil
+-                                               variant:nil
+-                                       scaleMultiplier:1.0];
++      attrs[NSFontAttributeName] = RNSHeaderFont(config.titleFontFamily, size, weight);
+     } else {
+       attrs[NSFontAttributeName] = [UIFont boldSystemFontOfSize:[size floatValue]];
+     }
+@@ -483,13 +497,7 @@
+     NSNumber *largeSize = config.largeTitleFontSize ?: [DEFAULT_TITLE_LARGE_FONT_SIZE copy];
+     NSString *largeWeight = config.largeTitleFontWeight ?: nil;
+     if (largeFamily || largeWeight) {
+-      largeAttrs[NSFontAttributeName] = [RCTFont updateFont:nil
+-                                                 withFamily:largeFamily
+-                                                       size:largeSize
+-                                                     weight:largeWeight
+-                                                      style:nil
+-                                                    variant:nil
+-                                            scaleMultiplier:1.0];
++      largeAttrs[NSFontAttributeName] = RNSHeaderFont(largeFamily, largeSize, largeWeight);
+     } else {
+       largeAttrs[NSFontAttributeName] = [UIFont systemFontOfSize:[largeSize floatValue] weight:UIFontWeightBold];
+     }

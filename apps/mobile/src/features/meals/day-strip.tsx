@@ -6,6 +6,7 @@ import {
   useColorScheme,
   View,
   type ViewStyle,
+  type ScrollViewInstance,
 } from "react-native";
 import { GlassView } from "expo-glass-effect";
 import Animated, {
@@ -45,7 +46,7 @@ export function DayStrip({
   const colorScheme = useColorScheme();
   const isDark = colorScheme === "dark";
 
-  const scrollRef = useRef<ScrollView>(null);
+  const scrollRef = useRef<ScrollViewInstance>(null);
   const viewport = useRef(0);
   const didInit = useRef(false);
   const isFirstRender = useRef(true);

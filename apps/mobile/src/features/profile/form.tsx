@@ -12,7 +12,7 @@ import {
   ScrollView,
   View,
   type StyleProp,
-  type TextInput,
+  type TextInputInstance,
   type TextInputProps,
   type ViewStyle,
 } from "react-native";
@@ -65,8 +65,8 @@ export function Field({
   /** Shown under the input, where the eye already is. */
   error?: string | null;
   validationAttempt?: number;
-} & React.RefAttributes<TextInput>) {
-  const input = useRef<TextInput>(null);
+} & React.RefAttributes<TextInputInstance>) {
+  const input = useRef<TextInputInstance>(null);
   useEffect(() => {
     if (error) input.current?.focus();
   }, [error, validationAttempt]);
@@ -168,7 +168,7 @@ export function MealRoutineEditor({
   const isVarying = value === "It varies" || !isMealRoutine(value);
   const selectedValue = isVarying ? "It varies" : value;
   const detail = value === "It varies" ? "" : value;
-  const routineRef = useRef<TextInput>(null);
+  const routineRef = useRef<TextInputInstance>(null);
   const focusRoutine = useRef(false);
   const [windowFocused, setWindowFocused] = useState(true);
   // Android modals temporarily take window focus. Requesting the keyboard
@@ -242,7 +242,7 @@ export function DietEditor({
     ([key]) => allowOtherDiet || key !== "other",
   );
   const isOther = person.diet === "other";
-  const otherRef = useRef<TextInput>(null);
+  const otherRef = useRef<TextInputInstance>(null);
   const wasOther = useRef(isOther);
   useEffect(() => {
     if (isOther && !wasOther.current) otherRef.current?.focus();

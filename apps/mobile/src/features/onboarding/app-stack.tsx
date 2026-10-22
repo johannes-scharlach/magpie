@@ -1,6 +1,7 @@
 import { Stack } from "expo-router";
 import { type ReactNode, useEffect } from "react";
 import { Alert, Platform } from "react-native";
+import { roundedHeader } from "@/components/clay";
 import {
   InvitationProvider,
   useInvitation,
@@ -64,9 +65,13 @@ function InvitationStack({ children }: { children: ReactNode }) {
       <Stack
         screenOptions={
           Platform.OS === "ios"
-            ? { headerTransparent: true, headerShadowVisible: false }
-            // Match Material bottom sheets; navigation sheets default to square.
-            : { sheetCornerRadius: 28 }
+            ? {
+                ...roundedHeader,
+                headerTransparent: true,
+                headerShadowVisible: false,
+              }
+            : // Match Material bottom sheets; navigation sheets default to square.
+              { ...roundedHeader, sheetCornerRadius: 28 }
         }
       >
         <Stack.Protected guard={!!invitation.code}>

@@ -3,6 +3,8 @@ import Constants from "expo-constants";
 import * as Crypto from "expo-crypto";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
+// Named: eslint import/namespace misses this enum through the namespace.
+import { AndroidImportance } from "expo-notifications";
 import { Linking, Platform } from "react-native";
 
 import { supabase } from "@/lib/supabase";
@@ -92,7 +94,7 @@ async function ensureAndroidChannel() {
   await Notifications.setNotificationChannelAsync(HOUSEHOLD_CHANNEL, {
     name: "Household activity",
     description: "Changes to who shares your household",
-    importance: Notifications.AndroidImportance.DEFAULT,
+    importance: AndroidImportance.DEFAULT,
     // No `sound`: omitting uses the system default. A string here names a
     // bundled custom sound file and logs when it doesn't exist.
   });

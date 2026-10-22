@@ -27,7 +27,7 @@ function PersonSheet({
       contentContainerClassName="gap-6 px-6 pt-4"
     >
       <View className="flex-row items-center justify-between gap-4">
-        <Text className="flex-1 text-lg font-semibold">Household person</Text>
+        <Text className="flex-1 font-rounded text-lg font-bold">Household person</Text>
         <CloseButton onPress={() => router.back()} disabled={busy} />
       </View>
       {children}

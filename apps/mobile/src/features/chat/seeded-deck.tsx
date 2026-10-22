@@ -1,7 +1,7 @@
 import { Image } from "expo-image";
 import { SymbolView } from "expo-symbols";
 import { useState } from "react";
-import { Pressable, View } from "react-native";
+import { Pressable, ScrollView, View } from "react-native";
 import Animated, {
   Easing,
   interpolateColor,
@@ -11,6 +11,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { useResolveClassNames } from "uniwind";
 
+import { clayTile, PressableScale } from "@/components/clay";
 import { Text } from "@/components/ui/text";
 
 import { ingredientsLine } from "./ingredients-line";
@@ -37,7 +38,7 @@ function bySeason(month: number): Seeded[] {
 /**
  * The from-nothing path: thirty-odd weeknight meals you can start from
  * without pulling anything out of the fridge. Home previews a few as a
- * grouped list, with the full deck on its own screen. Bundled JSON, not
+ * shelf of clay tiles, with the full deck on its own screen. Bundled JSON, not
  * cookbook rows: they are inspiration, and the cookbook only
  * holds what was actually saved. Seasonal ones sit first while their
  * months are on, and last otherwise.
@@ -46,33 +47,16 @@ export function SeededDeck({
   onPick,
   preview = false,
 }: {
-  onPick: (text: string) => void;
+  onPick: (text: string, idea: string) => void;
   preview?: boolean;
 }) {
   const deck = bySeason(new Date().getMonth() + 1);
+  // An idea is a starting point: the reply offers directions, not a Sketch.
   function pick(meal: Seeded) {
-    const ingredients =
-      meal.ingredients.charAt(0).toLowerCase() + meal.ingredients.slice(1);
-    onPick(`Let's do ${meal.title} with ${ingredients}.`);
+    onPick(`Give me a few directions for: ${meal.title}`, meal.title);
   }
 
-  if (preview) {
-    return (
-      <View className="overflow-hidden rounded-2xl bg-card">
-        {deck.slice(0, 4).map((meal, index) => (
-          <View key={meal.title}>
-            {index > 0 ? (
-              <View
-                className="border-t border-border"
-                style={{ marginLeft: 16 + THUMB + 12 }}
-              />
-            ) : null}
-            <SeededRow meal={meal} onPick={pick} />
-          </View>
-        ))}
-      </View>
-    );
-  }
+  if (preview) return <SeededShelf deck={deck.slice(0, 6)} onPick={pick} />;
 
   // The seasonal sort scatters only when a section is out of season, so
   // same-section ideas stay adjacent: one pass into consecutive groups.
@@ -107,6 +91,63 @@ export function SeededDeck({
         </View>
       ))}
     </View>
+  );
+}
+
+const TILTS = [-2, 1.5, -1, 2, -1.5, 1];
+
+/** Clay figures standing on tiles, slightly askew, art popping out the top. */
+function SeededShelf({
+  deck,
+  onPick,
+}: {
+  deck: Seeded[];
+  onPick: (meal: Seeded) => void;
+}) {
+  return (
+    <ScrollView
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      className="-mx-4"
+      contentContainerClassName="gap-3.5 px-4 pb-3 pt-9"
+    >
+      {deck.map((meal, i) => (
+        <PressableScale
+          key={meal.title}
+          onPress={() => onPick(meal)}
+          tilt={TILTS[i % TILTS.length]}
+          accessibilityRole="button"
+          accessibilityLabel={`Explore ${meal.title}`}
+        >
+          <View
+            className="h-[200px] w-[168px] justify-end bg-card px-3.5 pb-3.5"
+            style={clayTile}
+          >
+            <Image
+              source={SEEDED_ART[meal.title]}
+              contentFit="contain"
+              accessibilityIgnoresInvertColors
+              style={{
+                position: "absolute",
+                top: -40,
+                left: 4,
+                right: 4,
+                height: 150,
+              }}
+            />
+            <Text
+              numberOfLines={2}
+              className="font-rounded text-[17px] font-bold leading-[21px]"
+            >
+              {meal.previewTitle ?? meal.title}
+            </Text>
+            <Text variant="muted" className="mt-1 font-rounded text-[13px]">
+              {meal.time}
+            </Text>
+          </View>
+        </PressableScale>
+      ))}
+    </ScrollView>
   );
 }
 

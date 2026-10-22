@@ -247,6 +247,7 @@ export default function ChatScreen() {
         recipeContext: queuedMsg?.recipeContext,
         mealContext: queuedMsg?.mealContext,
         entry: queuedMsg?.entry,
+        idea: queuedMsg?.idea,
       })) {
         lastReply = reply;
         setInFlight(reply);

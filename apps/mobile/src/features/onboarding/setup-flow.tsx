@@ -8,6 +8,7 @@ import {
   ScrollView,
   View,
   useWindowDimensions,
+  type ScrollViewInstance,
 } from "react-native";
 import {
   KeyboardAwareScrollView,
@@ -58,7 +59,7 @@ function Questions({ initialStep }: { initialStep: Step }) {
   const insets = useSafeAreaInsets();
   const { width, fontScale } = useWindowDimensions();
   const reduced = useReducedMotion();
-  const pager = useRef<ScrollView>(null);
+  const pager = useRef<ScrollViewInstance>(null);
   const moving = useRef(false);
   const [busy, setBusy] = useState(false);
   const [attempted, setAttempted] = useState(0);

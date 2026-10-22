@@ -17,13 +17,14 @@ export default function IdeasSheet() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
 
-  function start(text: string) {
+  function start(text: string, idea: string) {
     const chatId = Crypto.randomUUID();
     queueMessage({
       messageId: Crypto.randomUUID(),
       text,
       attachments: [],
       entry: "idea",
+      idea,
     });
     if (Platform.OS === "ios") {
       router.dismissTo(`/chats/${chatId}` as never);

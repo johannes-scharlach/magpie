@@ -1,5 +1,9 @@
 import { useMemo, useRef, useState } from "react";
-import type { GestureResponderEvent, LayoutRectangle, View } from "react-native";
+import type {
+  GestureResponderEvent,
+  LayoutRectangle,
+  ViewInstance,
+} from "react-native";
 import {
   cubicBezier,
   type EntryAnimationsValues,
@@ -41,9 +45,11 @@ const HEADING_FADE = {
  * Private to MealSection. Captures the chosen card before planning replaces
  * it, then coordinates the card entrance and persistent heading layers.
  */
-export function useMealSelectionTransition(plannedRecipeId: string | undefined) {
+export function useMealSelectionTransition(
+  plannedRecipeId: string | undefined,
+) {
   const reduced = useReducedMotion();
-  const contentRef = useRef<View>(null);
+  const contentRef = useRef<ViewInstance>(null);
   const measurementRequest = useRef(0);
   const [selection, setSelection] = useState<Selection | null>(null);
 

@@ -68,6 +68,24 @@ const config: ExpoConfig = {
     "expo-secure-store",
     "expo-splash-screen",
     [
+      // iOS uses the system's SF Pro Rounded; Android has no rounded system
+      // font, so Nunito stands in (ROUNDED in src/components/clay.tsx).
+      "expo-font",
+      {
+        android: {
+          fonts: [
+            {
+              fontFamily: "Nunito",
+              path: "./assets/fonts/nunito-variable.ttf",
+              fontDefinitions: [400, 500, 600, 700, 800].map((weight) => ({
+                weight,
+              })),
+            },
+          ],
+        },
+      },
+    ],
+    [
       "expo-notifications",
       {
         defaultChannel: "household-activity",

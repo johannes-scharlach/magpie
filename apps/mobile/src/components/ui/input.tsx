@@ -11,7 +11,7 @@ function Input({
   onFocus,
   onBlur,
   ...props
-}: React.ComponentProps<typeof TextInput> & React.RefAttributes<TextInput>) {
+}: React.ComponentProps<typeof TextInput>) {
   const placeholderColor = useResolveClassNames("text-muted-foreground").color;
   const [focused, setFocused] = useState(false);
   return (

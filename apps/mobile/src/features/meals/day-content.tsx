@@ -1,6 +1,6 @@
 import { SymbolView } from "expo-symbols";
 import { ActivityIndicator, Pressable, View } from "react-native";
-import type { PanGesture } from "react-native-gesture-handler";
+import type { LegacyPanGesture } from "react-native-gesture-handler";
 import { useResolveClassNames } from "uniwind";
 
 import { Button } from "@/components/ui/button";
@@ -40,7 +40,7 @@ export type DisplayPlannedMeal = DisplayRecipe & {
 type Props = {
   date: Date;
   isToday: boolean;
-  dayPan: PanGesture;
+  dayPan: LegacyPanGesture;
   list: List;
   importJobs: ImportJobs;
   plannedFor: (date: string, slot: MealSlot) => DisplayPlannedMeal | null;

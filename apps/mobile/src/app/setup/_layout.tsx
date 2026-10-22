@@ -2,11 +2,14 @@ import { Stack } from "expo-router";
 import { Platform } from "react-native";
 import { useReducedMotion } from "react-native-reanimated";
 
+import { roundedHeader } from "@/components/clay";
+
 export default function SetupLayout() {
   const reduced = useReducedMotion();
   return (
     <Stack
       screenOptions={{
+        ...roundedHeader,
         animation: reduced ? "fade" : "default",
         headerBackButtonDisplayMode: "minimal",
       }}

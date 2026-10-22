@@ -88,7 +88,7 @@ export default function EatersSheet() {
   return (
     <View collapsable={false}>
       <View className="flex-row items-center justify-between gap-4 px-6 pt-4">
-        <Text className="flex-1 text-lg font-semibold">
+        <Text className="flex-1 font-rounded text-lg font-bold">
           {mealLabel({ slot_date: date ?? null, meal: slot ?? null })}
         </Text>
         <CloseButton onPress={() => router.back()} disabled={saving} />

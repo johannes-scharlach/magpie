@@ -19,6 +19,8 @@ export type QueuedMessage = {
   };
   /** How a Home chat started; its saved recipes count for the challenge. */
   entry?: "on_hand" | "dish" | "idea";
+  /** The tapped seeded idea's title; the API opens it into twists. */
+  idea?: string;
   messageId: string;
   text: string;
   attachments: ImageAttachment[];
