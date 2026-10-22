@@ -20,5 +20,171 @@
       "cuisine": "Mexican",
       "pitch": "Plums melted down in the pan with chipotle in adobo, a pinch of Mexican oregano, and fresh lime. Sweet, smoky heat clinging to the chops, warm corn tortillas on the side."
     }
+  ],
+  "Late-Summer Charred Sweet Corn, Zucchini & Feta Skillet": [
+    {
+      "title": "Calabacitas con elote: charred corn and zucchini skillet",
+      "cuisine": "Mexican",
+      "pitch": "Corn charred hard in a hot skillet with diced zucchini and jalapeño, finished off the heat with crumbled salty cheese, fresh lime, and warm corn tortillas."
+    },
+    {
+      "title": "Charred corn and zucchini skillet with warm feta and mint",
+      "cuisine": "Greek",
+      "pitch": "Zucchini coins and sweet corn blistered in olive oil, then tossed off the heat with crumbled feta, torn fresh mint, and lemon juice. Crusty bread to scoop it up."
+    },
+    {
+      "title": "Charred corn and zucchini over cold garlic labneh with pul biber",
+      "cuisine": "Levantine",
+      "pitch": "Smoky blistered corn and zucchini spooned hot over cool, thick garlic labneh, drizzled with foaming pul biber butter. Warm flatbread for dipping."
+    },
+    {
+      "title": "Blistered corn and zucchini with sweet basil and shaved pecorino",
+      "cuisine": "Italian",
+      "pitch": "Zucchini and sweet corn charred fast in olive oil with garlic, tossed off the heat with fresh basil and sharp, salty pecorino. Crusty bread to catch the pan juices."
+    }
+  ],
+  "Brown-Butter Pfifferlinge (Chanterelles) on Toasted Sourdough": [
+    {
+      "title": "Pan-fried chanterelles with Schmand and parsley on sourdough toast",
+      "cuisine": "German",
+      "pitch": "Chanterelles seared fast in foaming butter with minced shallot, finished with a spoonful of tangy Schmand and fresh parsley. Piled hot onto thick, crusty sourdough."
+    },
+    {
+      "title": "Bistro chanterelles with garlic, thyme and a runny fried egg on toast",
+      "cuisine": "French",
+      "pitch": "Chanterelles sautéed hot in butter with crushed garlic and thyme, piled onto grilled sourdough with a runny-yolk fried egg to enrich every bite."
+    },
+    {
+      "title": "Chanterelles with crispy serrano ham and sherry vinegar on toast",
+      "cuisine": "Spanish",
+      "pitch": "Chanterelles tossed in olive oil with crisp bits of serrano ham and garlic, finished with a splash of sherry vinegar to cut the richness. Spooned over toasted bread."
+    },
+    {
+      "title": "Swedish kantarellmacka with dill and butter-fried sourdough",
+      "cuisine": "Nordic",
+      "pitch": "Chanterelles browned in generous butter with shallots and a splash of cream, tossed with fresh dill. Spooned over thick sourdough fried golden right in the pan drippings."
+    }
+  ],
+  "Sheet-Pan Roasted Sausage, Sweet Bell Peppers & New Potatoes": [
+    {
+      "title": "Salsiccia traybake with sweet peppers, crisp potatoes and rosemary",
+      "cuisine": "Italian",
+      "pitch": "Fennel salsiccia, baby potatoes and sweet peppers roasted hot on one tray with rosemary and whole garlic. The potatoes crisp in the sausage drippings while the peppers turn sweet and jammy."
+    },
+    {
+      "title": "Roasted chorizo and potatoes with sweet peppers and sherry vinegar",
+      "cuisine": "Spanish",
+      "pitch": "Fresh cooking chorizo, sweet peppers and baby potatoes roasted until sizzling in spiced red oil. A splash of sherry vinegar over the hot tray cuts the rich fat."
+    },
+    {
+      "title": "Spicy merguez traybake with sweet peppers and roasted cumin",
+      "cuisine": "North African",
+      "pitch": "Spicy lamb merguez and baby potatoes roasted with sweet peppers and cumin seeds until browned and crisp. Squeeze fresh lemon over the sizzling tray."
+    },
+    {
+      "title": "Roasted bratwurst and crispy potatoes with caraway and sweet peppers",
+      "cuisine": "German",
+      "pitch": "Coarse bratwurst, sweet peppers and new potatoes roasted with crushed caraway until browned and crisp. Served with a big spoonful of sharp mustard on the side."
+    }
+  ],
+  "Jammy Cherry Tomato & Ricotta Pasta": [
+    {
+      "title": "Rigatoni with burst cherry tomatoes, fresh ricotta and basil",
+      "cuisine": "Italian",
+      "pitch": "Cherry tomatoes blistered in olive oil with garlic until jammy, tossed with al dente rigatoni, then swirled off heat with fresh ricotta and basil into a velvety pink sauce."
+    },
+    {
+      "title": "Rigatoni with jammy cherry tomatoes, spicy 'nduja and torn burrata",
+      "cuisine": "Italian",
+      "pitch": "Cherry tomatoes cooked down with a spoonful of fiery 'nduja into a sweet, spicy pan sauce. Tossed with pasta and topped with cool, creamy burrata that melts in ribbons as you eat."
+    },
+    {
+      "title": "Rigatoni with blistered tomatoes, briny capers and ricotta salata",
+      "cuisine": "Italian",
+      "pitch": "Sweet cherry tomatoes blistered with garlic and briny capers, tossed with rigatoni and finished with a mountain of shaved salty ricotta salata and fresh basil."
+    },
+    {
+      "title": "Pasta allo scarpariello: cherry tomatoes with pecorino and parmesan",
+      "cuisine": "Italian",
+      "pitch": "Cherry tomatoes collapsed with garlic and chili, then beaten vigorously off heat with pecorino, parmesan, and pasta water until the cheese melts into a glossy, clinging red glaze."
+    }
+  ],
+  "Flammkuchen with Schmand, bacon and onions": [
+    {
+      "title": "Classic Alsatian tarte flambée with bacon and sweet onions",
+      "cuisine": "French",
+      "pitch": "Paper-thin dough spread with Schmand, scattered with smoked bacon lardons and thinly sliced sweet onions. Baked blistering hot until cracker-crisp."
+    },
+    {
+      "title": "Tarte flambée gratinée with smoked bacon, onions and bubbling Gruyère",
+      "cuisine": "French",
+      "pitch": "The classic bacon and onion base topped with grated Gruyère that melts into rich, golden, bubbling pockets at maximum oven heat."
+    },
+    {
+      "title": "Crisp Flammkuchen with goat cheese, sliced apples and rosemary honey",
+      "cuisine": "German",
+      "pitch": "Thin crust spread with Schmand, topped with tart apple slices, red onions and soft goat cheese. Drizzled with warm rosemary honey as soon as it blisters."
+    },
+    {
+      "title": "Crisp Flammkuchen with smoked salmon, red onions and fresh dill",
+      "cuisine": "German",
+      "pitch": "Paper-thin crust baked with Schmand and shaved red onion, topped hot out of the oven with silky smoked salmon, fresh dill, and lemon."
+    }
+  ],
+  "Classic Spaghetti Cacio e Pepe": [
+    {
+      "title": "Classic Roman spaghetti cacio e pepe",
+      "cuisine": "Italian",
+      "pitch": "Coarsely crushed black peppercorns bloomed in the pan, tossed with spaghetti and finely grated Pecorino Romano into a silky, emulsified cheese sauce."
+    },
+    {
+      "title": "Spaghetti alla gricia: cacio e pepe with crispy guanciale",
+      "cuisine": "Italian",
+      "pitch": "Rendered guanciale fat blooms the black pepper, tossed with al dente spaghetti, crispy pork bites, and a mountain of pecorino into a glossy sauce."
+    },
+    {
+      "title": "Roman cacio e pepe with pan-crisped artichokes",
+      "cuisine": "Italian",
+      "pitch": "Thinly sliced artichoke hearts seared until golden and crisp, spooned over spaghetti coated in a sharp, peppery pecorino emulsion."
+    },
+    {
+      "title": "Spaghetti cacio e pepe with toasted walnuts",
+      "cuisine": "Italian",
+      "pitch": "Silky pecorino and black pepper pasta finished with roughly crushed toasted walnuts for a warm, buttery crunch against the sharp cheese."
+    }
+  ],
+  "Spanish Tortilla de Patatas": [
+    {
+      "title": "The 15-minute tapas spread: potato-chip tortilla with pan con tomate and peppers",
+      "cuisine": "Spanish",
+      "pitch": "The iconic Spanish bar hack: kettle chips soaked in egg for an instant custardy tortilla, served with blistered padrón peppers and tomato-rubbed crusty bread."
+    },
+    {
+      "title": "Classic Spanish tortilla de patatas con cebolla with crisp green salad",
+      "cuisine": "Spanish",
+      "pitch": "Thinly shaved potatoes and sweet onions slow-poached in olive oil until custardy, paired with a sharp sherry-vinaigrette green salad to cut the rich oil."
+    },
+    {
+      "title": "Tortilla paisana with smoky cooking chorizo and sweet peppers",
+      "cuisine": "Spanish",
+      "pitch": "Potatoes poached with diced cooking chorizo and sweet peppers, tinting the eggs with smoky paprika oil for a hearty, all-in-one skillet dinner."
+    }
+  ],
+  "Pasta all’Amatriciana": [
+    {
+      "title": "Classic bucatini all'amatriciana with crispy guanciale",
+      "cuisine": "Italian",
+      "pitch": "Guanciale crisped until golden, simmered with sweet San Marzano tomatoes and dried chili into a rich, porky sauce clinging to hollow bucatini, finished with sharp pecorino."
+    },
+    {
+      "title": "Calabrian amatriciana with spicy 'nduja and smoked scamorza",
+      "cuisine": "Italian",
+      "pitch": "Crisped pancetta and fiery 'nduja cooked down in sweet cherry tomatoes, tossed with rigatoni and pockets of melting smoked cheese."
+    },
+    {
+      "title": "Spanish macarrones con chorizo in rich tomato sofrito",
+      "cuisine": "Spanish",
+      "pitch": "Diced cooking chorizo sizzled until it releases rich red oil, simmered with crushed tomatoes and garlic, tossed with pasta and aged manchego."
+    }
   ]
 }

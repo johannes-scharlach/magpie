@@ -64,7 +64,7 @@ export function WeekGlance({ listId }: { listId: string | null }) {
   } as const;
 
   return (
-    <View className="mx-4 gap-8">
+    <View className="mx-4 gap-10">
       {today.length ? (
         <View className="gap-3">
           <SectionTitle>Today</SectionTitle>
@@ -96,10 +96,10 @@ export function WeekGlance({ listId }: { listId: string | null }) {
             </Pressable>
           </Link>
         </View>
-        {/* Keep day links usable without reserving empty lunch/dinner positions. */}
+        {/* Visible days anchor the week; only planned meals draw meal markers. */}
         <View className="overflow-hidden bg-card" style={clayTile}>
-          <View className={cn("px-4", empty ? "py-1" : "py-3")}>
-            <View className={cn("flex-row", !empty && "gap-1.5")}>
+          <View className="px-4 py-3">
+            <View className="flex-row gap-1">
               {days.map((day, i) => {
                 const k = dateKey(day);
                 const dayPlannedCount = GRID_MEALS.filter((slot) =>
@@ -115,9 +115,10 @@ export function WeekGlance({ listId }: { listId: string | null }) {
                       accessibilityRole="link"
                       accessibilityLabel={`${i === 0 ? "Today, " : ""}${WEEKDAY_LONG[day.getDay()]}: ${dayPlannedCount} ${dayPlannedCount === 1 ? "meal" : "meals"} planned`}
                       className={cn(
-                        "flex-1 items-center gap-1 py-1 active:opacity-60",
-                        empty && "min-h-11 justify-center",
+                        "min-h-11 flex-1 items-center gap-1 rounded-xl bg-muted px-1 py-2 active:opacity-60",
+                        empty && "justify-center",
                       )}
+                      style={{ borderCurve: "continuous" }}
                       hitSlop={{ top: 8, bottom: 8 }}
                     >
                       <Text

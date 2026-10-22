@@ -243,7 +243,7 @@ export default function Home() {
         <ChallengeCard />
         <WeekGlance listId={listId} />
 
-        <View className="mx-4 mt-6 gap-3">
+        <View className="mx-4 mt-10 gap-3">
           <SectionTitle>Spontaneous meal</SectionTitle>
           <EntrySelector
             value={entry}
@@ -377,7 +377,7 @@ export default function Home() {
           ) : null}
         </View>
 
-        <View className="mx-4 mt-6 gap-3">
+        <View className="mx-4 mt-10 gap-3">
           <View className="flex-row items-center justify-between gap-3">
             <SectionTitle className="min-w-0 flex-1 shrink">
               Start from an idea

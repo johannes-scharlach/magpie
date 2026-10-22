@@ -29,15 +29,48 @@ same key `seeded-art.ts` uses):
 ```json
 {
   "Pan-Seared Pork Chops with Jammy Zwetschgen (Plums)": [
-    { "title": "…", "cuisine": "German", "pitch": "…" },
-    { "title": "…", "cuisine": "Chinese", "pitch": "…" }
+    {
+      "title": "Schweinekotelett with Zwetschgen, mustard and buttered Spätzle",
+      "cuisine": "German",
+      "pitch": "Plums collapsed right in the pan juices with coarse mustard and fresh thyme. Rich, sweet-tart pan sauce over tender, butter-tossed Spätzle."
+    },
+    {
+      "title": "Pork chops with balsamic plums, crisp sage and soft polenta",
+      "cuisine": "Italian",
+      "pitch": "Fresh sage leaves crackled in foaming butter, plums caramelized with a splash of balsamic into a glossy glaze. Spooned over warm, creamy polenta."
+    }
   ]
 }
 ```
 
-- 3–5 twists per idea, deliberately far apart: one per cuisine family, never
-  two neighbours (Spanish and Portuguese). Adapting towards a neighbour is
-  the model's job at tap time.
+- **3–4 strong, appetizing twists per idea.** Better to offer 3 clear,
+  mouthwatering directions than 5 confused ones.
+- **Weeknight simplicity:** Aim for <5 ingredients (excluding basic pantry
+  staples like oil, salt, pepper, water, butter, rice, tortillas) and under 30
+  minutes. Pragmatic home cooking, not weekend projects.
+- **Natural over forced technique:** Don't force artificial equipment or
+  process variety for its own sake. If the parent idea is a skillet dish, its
+  twists can all be skillet dishes. Spacing comes from flavor profile, cuisine
+  tradition, and table accompaniments.
+- **Cuisine coverage & authentic markers:** Cuisines come from the app's
+  supported catalog (`packages/profile`). Never pair immediate neighbors
+  (Spanish and Portuguese, Cantonese and Taiwanese) for the same idea.
+  Adventurous directions are a floor, not a ceiling: explore freely where
+  natural. For dishes deeply rooted in a single culinary tradition (such as
+  pasta), draw on distinct regional styles (e.g. Roman, Calabrian, Sicilian,
+  Neapolitan) rather than forcing awkward cross-border fusion. Ground each
+  twist in genuine culinary markers (e.g., Shaoxing wine deglaze, Spätzle,
+  sage in foaming butter, chipotle in adobo with Mexican oregano) rather than
+  generic fusion.
+- **Titles implicitly signal cuisine:** When ideas spread across cuisines, make
+  each cuisine 100% recognizable in the title itself through its authentic
+  ingredients and dish framing (*Calabacitas con elote*, *Warm feta and mint*,
+  *Crisp sage and polenta*), rather than explicitly labeling the cuisine in the
+  title.
+- **Voice:** Anchored in the assistant prompt (`apps/api/src/assistant-prompt.ts`):
+  the skilled friend on the phone. Actionable sensory mechanics, dinner
+  logistics (what catches the juices, what's on the side), no lifestyle tags
+  or marketing copy, no exclamation marks or emojis.
 - Written offline and filled incrementally. An idea may have no entry.
 - A table replaces the file only if file-based batches become a burden.
 

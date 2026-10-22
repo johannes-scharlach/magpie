@@ -1,5 +1,5 @@
 import { Redirect } from "expo-router";
-import { NativeTabs } from "expo-router/unstable-native-tabs";
+import { NativeTabs } from "expo-router/native-tabs";
 import { useResolveClassNames } from "uniwind";
 
 import { useAuth } from "@/db/provider";

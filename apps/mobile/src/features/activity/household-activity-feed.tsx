@@ -99,7 +99,7 @@ function ActivityFeed({
           <>
             {children}
             {preview && (shown.length > 0 || error) ? (
-              <View className="mx-4 mb-2 mt-8 flex-row items-center justify-between gap-3">
+              <View className="mx-4 mb-2 mt-10 flex-row items-center justify-between gap-3">
                 <SectionTitle>Household activity</SectionTitle>
                 {activities.length > 3 ? (
                   <Link href="/household-activity" asChild>

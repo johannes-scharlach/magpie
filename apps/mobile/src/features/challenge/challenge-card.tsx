@@ -93,7 +93,7 @@ function AccountChallenge({
   return (
     <View
       // No clip: the art spills over the top edge.
-      className="mx-4 mb-6 mt-10 bg-accent"
+      className="mx-4 mb-10 mt-12 bg-accent ios:mt-2"
       style={clayTile}
     >
       {earned || complete ? (

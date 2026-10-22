@@ -157,11 +157,18 @@ sheet; closing it returns to the same planning form. Planning without imports
 remains available. This explanation belongs at the point of intent, rather
 than making five imports the first step for every new user.
 
-On Home, the week keeps its seven existing day labels. When the entire week is
-empty, omit reserved meal positions; day links retain their 44-point minimum
-height. Populated weeks keep two meal positions per day. Only actual planned
-meals draw markers; empty slots have no placeholder outlines. No additional
-dates or expanded labels are added.
+On Home, the week keeps its seven existing day labels, each inside a quiet
+rounded day tile. These labelled calendar cells anchor the empty week without
+pretending there are meals waiting to load. When the entire week is empty,
+omit reserved meal positions; day links retain their 44-point minimum height.
+Populated weeks keep two meal positions per day inside the same day tiles.
+Only actual planned meals draw markers; empty meal slots have no placeholder
+outlines. No additional dates or expanded labels are added. All weekday labels
+use the same foreground color; today is distinguished only by bold weight.
+
+Major Home sections have 40-point separation, with smaller gaps within each
+section. The challenge's top spacing is tuned separately for iOS's large title
+and Android's toolbar, without changing native header or scroll insets.
 
 Meals is the everyday planning workspace. Home's "See week" link and the
 tappable "No meals planned yet." row open Meals, not the assisted-planning
