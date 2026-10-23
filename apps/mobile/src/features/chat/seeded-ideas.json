@@ -179,7 +179,8 @@
     "vibe": "Crispy skin, schmaltz-roasted potatoes, bright lemony pan juices."
   },
   {
-    "title": "Korean Stir-Fried Pork Belly with Kimchi (Jaeyuk / Duri-chigi style)",
+    "title": "Korean Stir-Fried Pork Belly with Kimchi",
+    "previewTitle": "Korean pork belly & kimchi",
     "section": "Asian-Inspired & High Flavor",
     "ingredients": "Thinly sliced pork belly, mature kimchi, gochujang, garlic, cooked short-grain rice",
     "time": "20 min · 1 pan",
@@ -193,7 +194,8 @@
     "vibe": "Sweet-savory, oniony, super comforting over fluffy rice."
   },
   {
-    "title": "Chinese Tomato & Egg Stir-Fry (Fan Qie Chao Dan)",
+    "title": "Chinese Tomato & Egg Stir-Fry",
+    "previewTitle": "Tomato & egg stir-fry",
     "section": "Asian-Inspired & High Flavor",
     "ingredients": "Ripe tomatoes, eggs, scallions, soy sauce, pinch of sugar (plus rice to serve)",
     "time": "15 min · 1 wok",
@@ -207,9 +209,10 @@
     "vibe": "Buttery, umami, slightly sweet glaze with crisp-tender beans."
   },
   {
-    "title": "Egg Fried Rice with Char Siu or Ham",
+    "title": "Egg Fried Rice with Pork",
+    "previewTitle": "Egg fried rice with pork",
     "section": "Asian-Inspired & High Flavor",
-    "ingredients": "Day-old jasmine rice, eggs, scallions, diced smoked ham/char siu, soy sauce",
+    "ingredients": "Day-old jasmine rice, eggs, scallions, diced pork or ham, soy sauce",
     "time": "15 min · 1 wok",
     "vibe": "Fast, savory fridge-clean-out with smoky little meat bites."
   },

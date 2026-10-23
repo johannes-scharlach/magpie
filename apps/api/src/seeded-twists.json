@@ -396,5 +396,149 @@
       "cuisine": "Greek",
       "pitch": "A can of tender giant white beans scattered around a block of feta with cherry tomatoes and oregano, turning the bubbling baked cheese into a hearty, protein-rich meal."
     }
+  ],
+  "Crispy Sheet-Pan Gnocchi with Bell Peppers & Mozzarella": [
+    {
+      "title": "Sheet-pan gnocchi with roasted bell peppers, red onion and mozzarella",
+      "cuisine": "Italian",
+      "pitch": "Potato gnocchi, sweet bell peppers, and red onions roasted until crisp-edged, topped with torn mozzarella that melts into golden pools, finished with fresh basil."
+    },
+    {
+      "title": "Sheet-pan gnocchi with blistered cherry tomatoes, fresh basil pesto and parmesan",
+      "cuisine": "Italian",
+      "pitch": "Gnocchi and cherry tomatoes roasted crisp on a hot tray, tossed right out of the oven with a quick fresh basil pesto that melts into the sweet tomato juices."
+    },
+    {
+      "title": "Sheet-pan gnocchi with spicy 'nduja, sweet peppers and smoked provolone",
+      "cuisine": "Italian",
+      "pitch": "Gnocchi and sweet peppers roasted in sizzling red 'nduja oil until crispy, topped with smoked provolone that bubbles into rich, melted pockets."
+    },
+    {
+      "title": "Sheet-pan gnocchi with roasted squash, crisp sage and melting gorgonzola",
+      "cuisine": "Italian",
+      "pitch": "Gnocchi and cubes of sweet squash roasted together with fresh sage until browned and crisp, finished with melting gorgonzola that pools over the hot tray."
+    }
+  ],
+  "Lemon-Herb Roasted Chicken Thighs & Baby Potatoes": [
+    {
+      "title": "Classic Greek lemon-oregano chicken thighs with schmaltz potatoes",
+      "cuisine": "Greek",
+      "pitch": "Bone-in chicken thighs and baby potatoes roasted hot with lemon juice, whole garlic, and wild Greek oregano until the skin is crackling and the potatoes are crisp in the drippings."
+    },
+    {
+      "title": "Provençal roasted chicken thighs with garlic, thyme and baby potatoes",
+      "cuisine": "French",
+      "pitch": "Chicken thighs rubbed with Dijon and thyme, roasted over baby potatoes with whole garlic cloves that turn sweet and jammy in their skins."
+    },
+    {
+      "title": "Spanish paprika roast chicken thighs and crispy potatoes with sherry vinegar",
+      "cuisine": "Spanish",
+      "pitch": "Chicken thighs and potatoes roasted in smoked pimentón and garlic oil until deep red and crisp, splashed with sharp sherry vinegar straight from the oven."
+    },
+    {
+      "title": "Sumac and za'atar roasted chicken thighs with crispy potatoes",
+      "cuisine": "Levantine",
+      "pitch": "Chicken thighs and baby potatoes tossed with tart sumac, fragrant za'atar, and sweet red onions, roasted until the skin is crisp and the pan juices are rich and tangy."
+    }
+  ],
+  "Korean Stir-Fried Pork Belly with Kimchi": [
+    {
+      "title": "Classic spicy gochujang jeyuk bokkeum with aged kimchi",
+      "cuisine": "Korean",
+      "pitch": "Thinly sliced pork belly seared until the edges turn crisp, then tossed with aged sour kimchi, gochujang, garlic, and scallions until glazed, spicy, and slicked in rendered fat."
+    },
+    {
+      "title": "Soy-garlic ganjang pork belly with caramelized kimchi",
+      "cuisine": "Korean",
+      "pitch": "Pork belly browned with sweet onions and aged kimchi in dark soy sauce, mirin, and grated garlic until rich, sticky, and deeply savory with zero chili heat."
+    },
+    {
+      "title": "Kongbul-style pork belly with crisp soybean sprouts and kimchi",
+      "cuisine": "Korean",
+      "pitch": "Thin pork belly stir-fried with sour kimchi and a mountain of fresh soybean sprouts in gochugaru and sesame oil, keeping the sprouts sweet and snappy against the rich pork."
+    },
+    {
+      "title": "Skillet dubu kimchi with pan-warmed tofu slabs",
+      "cuisine": "Korean",
+      "pitch": "Pork belly and mature kimchi braised down fast in a thick spicy chili glaze, paired right in the pan with thick slabs of firm tofu warmed in the pork fat to balance the heat."
+    }
+  ],
+  "Japanese Gyudon (Beef Rice Bowl)": [
+    {
+      "title": "Classic Tokyo dashi-mirin gyudon with sweet simmered onions",
+      "cuisine": "Japanese",
+      "pitch": "Paper-thin shaved beef and sweet onions gently simmered in dashi, soy sauce, and mirin until meltingly tender, ladled with sweet pan broth over steaming rice with an egg yolk."
+    },
+    {
+      "title": "Negi-shio gyudon with toasted sesame oil and black pepper",
+      "cuisine": "Japanese",
+      "pitch": "Shaved beef flash-seared with heaps of scallions in toasted sesame oil, coarse sea salt, and black pepper, finished with a bright squeeze of fresh lemon juice instead of sweet soy."
+    },
+    {
+      "title": "Sukiya-style gyudon with tangy kimchi and melted cheese",
+      "cuisine": "Japanese",
+      "pitch": "Sweet-soy simmered beef and tender onions topped with sharp kimchi and mild mozzarella, covered with a lid for a minute until molten and stretchy."
+    },
+    {
+      "title": "Oroshi ponzu gyudon with cool grated daikon",
+      "cuisine": "Japanese",
+      "pitch": "Simmered dashi-soy beef over hot rice, cut through with a cold mound of freshly grated daikon radish and a splash of citrusy ponzu to lift the rich beef fat."
+    }
+  ],
+  "Chinese Tomato & Egg Stir-Fry": [
+    {
+      "title": "Classic sweet-savory jammy homestyle tomato and egg",
+      "cuisine": "Chinese",
+      "pitch": "Soft scrambled egg curds set aside, ripe tomatoes simmered down with scallion whites and a pinch of sugar into a rich saucy glaze, then folded together over hot rice."
+    },
+    {
+      "title": "Sichuan garlic and doubanjiang tomato and egg stir-fry",
+      "cuisine": "Chinese",
+      "pitch": "Juicy tomatoes blistered high heat with minced garlic and fermented chili bean paste before folding in soft eggs for a savory, umami-rich sauce with gentle warmth."
+    },
+    {
+      "title": "Cantonese silky egg curds with white pepper and sesame",
+      "cuisine": "Chinese",
+      "pitch": "Custardy, barely-set scrambled eggs folded with gentle tomato wedges, finished with white pepper and toasted sesame oil for an ultra-delicate, glossy plate over jasmine rice."
+    },
+    {
+      "title": "Beijing charred-scallion tomato and egg with Chinkiang vinegar",
+      "cuisine": "Chinese",
+      "pitch": "Tomatoes and eggs stir-fried fast with lots of browned scallions, finished with a splash of dark Chinkiang vinegar around the sizzling wok rim for a roasted-sour edge."
+    }
+  ],
+  "Miso-Butter Salmon & Green Beans": [
+    {
+      "title": "Pan-seared salmon with caramelized miso-butter glaze and blistered beans",
+      "cuisine": "Japanese",
+      "pitch": "Salmon seared skin-down in foaming butter and basted with sweet white miso and mirin until sticky and caramelized, with fresh green beans blistered in the sweet-savory pan drippings."
+    },
+    {
+      "title": "Japanese hoiru-yaki salmon parcel in delicate miso-butter broth",
+      "cuisine": "Japanese",
+      "pitch": "Salmon fillets and snappy green beans sealed in parchment with white miso, butter, and ginger, steaming gently into a meltingly tender fish in its own fragrant broth with zero cleanup."
+    }
+  ],
+  "Egg Fried Rice with Pork": [
+    {
+      "title": "Classic Cantonese char siu fried rice with fragrant scallions",
+      "cuisine": "Chinese",
+      "pitch": "Cold jasmine rice stir-fried high heat with sweet caramelized char siu pork, fluffy scrambled egg ribbons, and scallions, seasoned simply with light soy sauce and white pepper."
+    },
+    {
+      "title": "Golden egg-yolk fried rice with crispy smoked pork",
+      "cuisine": "Chinese",
+      "pitch": "Cold rice tossed raw in egg yolks so every grain fries separately in gold, tossed with crispy diced smoked ham or pork and scallions for a dry, fluffy, nutty finish."
+    },
+    {
+      "title": "Yangzhou-style fried rice with sweet green peas and tender pork",
+      "cuisine": "Chinese",
+      "pitch": "Diced pork, soft egg curds, and sweet green peas stir-fried with fragrant rice, kept pale, clean, and aromatic with Shaoxing wine and sea salt rather than heavy dark soy."
+    },
+    {
+      "title": "Chili crisp and garlic butter fried rice with crispy minced pork",
+      "cuisine": "Chinese",
+      "pitch": "Savory pork crisped in the wok, tossed with jasmine rice in sizzling garlic butter and crunchy chili crisp, finished with scallion greens and toasted sesame."
+    }
   ]
 }
