@@ -1,7 +1,9 @@
 import {
+  cooks,
   cuisineLabel,
   cuisineOptions,
   ingredientLabel,
+  stapleGroups,
   type CookingProfile,
 } from "@magpie/profile";
 
@@ -14,24 +16,28 @@ function list(items: string[]) {
 
 /** Recognise the kitchen's character, independent of which artwork has arrived. */
 export function kitchenPortrait(profile: CookingProfile) {
-  const cuisines = profile.cuisines.filter((entry) => entry.cuisine !== "everyday");
-  const everyday = new Set<string>(cuisineOptions.everyday?.ingredients ?? []);
-  const specialty = profile.keeps.filter((id) => !everyday.has(id));
+  const cuisines = profile.cuisines;
+  const staples = new Set<string>(
+    stapleGroups.flatMap((group) => cuisineOptions[group]?.ingredients ?? []),
+  );
+  const specialty = profile.keeps.filter((id) => !staples.has(id));
   const ingredient = (id: string): Detail => ({
     label: ingredientLabel(id),
     artworkId: `ingredient-${id}`,
   });
   const custom = (label: string): Detail => ({ label });
-  const groups = cuisines.map((entry) => [
+  const groups = cuisines.map((cuisine) => [
     ...specialty
-      .filter((id) => cuisineOptions[entry.cuisine]?.ingredients.some((kept) => kept === id))
+      .filter((id) => cuisineOptions[cuisine]?.ingredients.some((kept) => kept === id))
       .map(ingredient),
-    ...entry.extras.map(custom),
+    ...(profile.extras[cuisine] ?? []).map(custom),
   ]);
   const assigned = new Set(groups.flat().map((detail) => detail.label.toLowerCase()));
   groups.push([
     ...specialty.map(ingredient),
-    ...profile.cuisines.flatMap((entry) => entry.extras.map(custom)),
+    ...Object.entries(profile.extras)
+      .filter(([cuisine]) => cooks(profile, cuisine))
+      .flatMap(([, extras]) => extras.map(custom)),
   ].filter((detail) => !assigned.has(detail.label.toLowerCase())));
   if (!groups.some((group) => group.length)) groups.push(profile.keeps.map(ingredient));
 
@@ -50,15 +56,15 @@ export function kitchenPortrait(profile: CookingProfile) {
   const pictured = [
     ...details,
     ...profile.keeps
-      .filter((id) => everyday.has(id))
+      .filter((id) => staples.has(id))
       .map(ingredient)
       .filter((detail) => !seen.has(detail.label.toLowerCase())),
   ];
   if (!cuisines.length && !details.length) return null;
 
   const labels = cuisines.length > 3
-    ? [...cuisines.slice(0, 2).map((entry) => cuisineLabel(entry.cuisine)), `${cuisines.length - 2} other cuisines`]
-    : cuisines.map((entry) => cuisineLabel(entry.cuisine));
+    ? [...cuisines.slice(0, 2).map(cuisineLabel), `${cuisines.length - 2} other cuisines`]
+    : cuisines.map(cuisineLabel);
   const flavours = list(details.slice(0, 3).map((detail) => detail.label));
   const caption = cuisines.length
     ? `${list(labels)} cooking${flavours ? `, with ${flavours}` : ""}.`

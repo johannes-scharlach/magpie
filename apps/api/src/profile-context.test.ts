@@ -97,12 +97,14 @@ test("cuisines show what the household keeps for each, shared items under every 
   const household = householdSchema.parse({
     profile: {
       ...newProfile(),
-      keeps: ["sesame-oil", "umeboshi", "miso", "gochujang"],
-      cuisines: [
-        { cuisine: "japanese", extras: ["Yuzu kosho"] },
-        { cuisine: "korean" },
-        { cuisine: "Georgian", extras: ["Adjika"] },
-      ],
+      keeps: ["sesame-oil", "umeboshi", "miso", "gochujang", "tofu", "frozen-peas"],
+      cuisines: ["japanese", "korean", "Georgian"],
+      extras: {
+        japanese: ["Yuzu kosho"],
+        Georgian: ["Adjika"],
+        cupboard: ["Polenta"],
+        thai: ["Fish sauce"],
+      },
     },
     people: [
       { ...newPerson("9c5b42f7-fbea-4df2-b8d3-d42d37ed9a1d"), name: "Sam" },
@@ -115,6 +117,14 @@ test("cuisines show what the household keeps for each, shared items under every 
   );
   assert.match(context, /^- Korean: Gochujang, Sesame oil$/m);
   assert.match(context, /^- Georgian: Adjika$/m);
+  // Staples are kept, not cooked, so they get their own section; a cuisine
+  // switched off says nothing.
+  assert.match(
+    context,
+    /## Staples they keep\n[^#]*^- Cupboard: Polenta\n- Fridge: Tofu\n- Freezer: Peas$/m,
+  );
+  assert.doesNotMatch(context, /Tins & jars/);
+  assert.doesNotMatch(context, /Fish sauce/);
   assert.match(
     context,
     /invitation to be used, not a request to use it every time/,
@@ -125,6 +135,14 @@ test("cuisines show what the household keeps for each, shared items under every 
     "caller",
   );
   assert.doesNotMatch(none, /Cuisines they cook/);
+  assert.doesNotMatch(none, /Staples they keep/);
+
+  const staplesOnly = profileContext(
+    { ...household, profile: { ...newProfile(), keeps: ["tofu"] } },
+    "caller",
+  );
+  assert.match(staplesOnly, /^- Fridge: Tofu$/m);
+  assert.doesNotMatch(staplesOnly, /Cuisines they cook/);
 });
 
 test("old pantry and fresh answers stay out of the assistant context", () => {

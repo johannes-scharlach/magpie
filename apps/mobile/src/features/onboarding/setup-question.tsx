@@ -37,7 +37,7 @@ export const subtitles: Record<Exclude<Step, "email" | "code">, string> = {
   restrictions: "For anyone you cook for.",
   groceries: "Your usual shop, and anywhere else you go for food.",
   kitchen: "Tap the appliances you have.",
-  cuisines: "Pick a cuisine to say what’s in your cupboard for it.",
+  cuisines: "Switch on what you cook, then tick what you keep for it.",
 };
 
 function HouseholdEditor({
@@ -220,11 +220,11 @@ export function SetupQuestion({
       {step === "cuisines" ? (
         <CuisineList
           profile={draft.profile}
-          onOpen={(cuisine) =>
-            router.push({
-              pathname: "/setup/cuisine",
-              params: cuisine ? { cuisine } : {},
-            } as never)
+          change={(edit) =>
+            void update((d) => ({
+              ...d,
+              profile: { ...d.profile, ...edit(d.profile) },
+            })).catch(() => {})
           }
         />
       ) : null}

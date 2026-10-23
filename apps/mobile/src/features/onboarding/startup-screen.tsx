@@ -38,12 +38,17 @@ export function StartupScreen({
       }}
     >
       <View className="w-full max-w-md items-center gap-6">
-        <Image
-          source={require("../../../assets/images/splash-icon.webp")}
-          accessibilityLabel="Magpie"
-          contentFit="contain"
-          style={{ width: 160, height: 160 }}
-        />
+        <View
+          className="h-40 w-40 items-center justify-center rounded-[36px] dark:bg-[#FBF8F4]"
+          style={{ borderCurve: "continuous" }}
+        >
+          <Image
+            source={require("../../../assets/images/splash-icon.webp")}
+            accessibilityLabel="Magpie"
+            contentFit="contain"
+            style={{ width: 160, height: 160 }}
+          />
+        </View>
         <View className="min-h-36 items-center gap-4">
           {timedOut ? (
             <>

@@ -1,6 +1,7 @@
-import { cuisineOptions, ingredientLabel } from "@magpie/profile";
+import { ingredientLabel } from "@magpie/profile";
 import { SymbolView } from "expo-symbols";
 import { Pressable, View } from "react-native";
+import Animated, { Easing, Keyframe, ReduceMotion } from "react-native-reanimated";
 import { useResolveClassNames } from "uniwind";
 import { clayTilts } from "@/components/clay";
 import { Input } from "@/components/ui/input";
@@ -15,60 +16,94 @@ import {
 
 const ADD_ICON = { ios: "plus.circle", android: "add_circle" } as const;
 
+// Like rows inserted into an iOS list: each line comes out from under the
+// one above it, just after it. Reduce Motion keeps the fades.
+const EASE_OUT = Easing.bezier(0.23, 1, 0.32, 1);
+// A Keyframe's setters mutate it, so each line gets its own.
+function lineIn(line: number) {
+  return new Keyframe({
+    0: { opacity: 0, transform: [{ translateY: -12 }] },
+    100: { opacity: 1, transform: [{ translateY: 0 }], easing: EASE_OUT },
+  })
+    .duration(250)
+    .delay(80 + line * 80)
+    .reduceMotion(ReduceMotion.Never);
+}
+
 /** One cuisine's cupboard: its distinctive ingredients, then the user's own words. */
 export function CupboardFields({
-  cuisine,
+  ingredients,
   keeps,
   onToggle,
   extras,
-  onExtras,
+  onRemoveExtra,
   extra,
   onExtraChange,
   onAddExtra,
 }: {
-  cuisine: string;
+  ingredients: readonly string[];
   keeps: string[];
   onToggle: (id: string) => void;
   extras: string[];
-  onExtras: (extras: string[]) => void;
+  onRemoveExtra: (extra: string) => void;
   extra: string;
   onExtraChange: (value: string) => void;
   onAddExtra: () => void;
 }) {
-  const { tileWidth, onLayout } = useTileLayout(true);
+  const { columns, tileWidth, onLayout } = useTileLayout(true);
   const iconColor = useResolveClassNames("text-foreground").color;
-  const listed = cuisineOptions[cuisine]?.ingredients ?? [];
-
+  const rows = Array.from(
+    { length: Math.ceil(ingredients.length / columns) },
+    (_, row) => ingredients.slice(row * columns, (row + 1) * columns),
+  );
   return (
     <View className="gap-5">
-      {listed.length ? (
-        <View className="flex-row flex-wrap" style={{ gap: TILE_GAP }} onLayout={onLayout}>
-          {listed.map((id, index) => (
-            <ArtTile
-              key={id}
-              art={`ingredient-${id}` as ArtworkId}
-              title={ingredientLabel(id)}
-              width={tileWidth}
-              tilt={clayTilts[index % clayTilts.length]}
-              selected={keeps.includes(id)}
-              onPress={() => onToggle(id)}
-            />
+      {rows.length ? (
+        <View style={{ gap: TILE_GAP }} onLayout={onLayout}>
+          {rows.map((row, line) => (
+            <Animated.View
+              key={row.join()}
+              entering={lineIn(line)}
+              className="flex-row"
+              style={{ gap: TILE_GAP }}
+            >
+              {row.map((id) => {
+                const index = ingredients.indexOf(id);
+                return (
+                  <ArtTile
+                    key={id}
+                    art={`ingredient-${id}` as ArtworkId}
+                    title={ingredientLabel(id)}
+                    width={tileWidth}
+                    tilt={clayTilts[index % clayTilts.length]}
+                    selected={keeps.includes(id)}
+                    onPress={() => onToggle(id)}
+                  />
+                );
+              })}
+            </Animated.View>
           ))}
         </View>
       ) : null}
       {extras.length ? (
-        <View className="flex-row flex-wrap items-start gap-2">
+        <Animated.View
+          entering={lineIn(rows.length)}
+          className="flex-row flex-wrap items-start gap-2"
+        >
           {extras.map((label) => (
             <ChoiceChip
               key={label}
               label={label}
               selected
-              onPress={() => onExtras(extras.filter((e) => e !== label))}
+              onPress={() => onRemoveExtra(label)}
             />
           ))}
-        </View>
+        </Animated.View>
       ) : null}
-      <View className="gap-2">
+      <Animated.View
+        entering={lineIn(rows.length + (extras.length ? 1 : 0))}
+        className="gap-2"
+      >
         <Text className="text-sm font-medium">Anything else you keep for it?</Text>
         <View className="min-h-12 flex-row items-center rounded-2xl bg-muted pr-1">
           <Input
@@ -92,7 +127,7 @@ export function CupboardFields({
             </Pressable>
           ) : null}
         </View>
-      </View>
+      </Animated.View>
     </View>
   );
 }

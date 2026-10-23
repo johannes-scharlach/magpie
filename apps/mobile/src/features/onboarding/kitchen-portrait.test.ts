@@ -6,17 +6,14 @@ describe("kitchen portrait", () => {
   it("names cuisines and pictures their specialties instead of the first cans", () => {
     const portrait = kitchenPortrait({
       ...newProfile(),
-      keeps: ["canned-corn", "canned-tuna", "chickpeas", "doubanjiang", "sichuan-peppercorns", "polenta"],
-      cuisines: [
-        { cuisine: "everyday", extras: [] },
-        { cuisine: "sichuan", extras: [] },
-        { cuisine: "italian", extras: [] },
-      ],
+      // Staples from every group: cupboard, fridge and freezer.
+      keeps: ["canned-corn", "tofu", "doubanjiang", "sichuan-peppercorns", "polenta", "frozen-peas"],
+      cuisines: ["sichuan", "italian"],
     });
     // The caption names three; the picture shows everything, staples last.
     expect(portrait?.artworkIds).toEqual([
       "ingredient-doubanjiang", "ingredient-polenta", "ingredient-sichuan-peppercorns",
-      "ingredient-canned-corn", "ingredient-canned-tuna", "ingredient-chickpeas",
+      "ingredient-canned-corn", "ingredient-tofu", "ingredient-frozen-peas",
     ]);
     expect(portrait?.caption).toBe(
       "Sichuan and Italian cooking, with Doubanjiang, Polenta and Sichuan peppercorns.",
@@ -26,7 +23,9 @@ describe("kitchen portrait", () => {
   it("includes their own cuisines and ingredients without inventing artwork", () => {
     const portrait = kitchenPortrait({
       ...newProfile(),
-      cuisines: [{ cuisine: "Family favourites", extras: ["Nan’s chilli oil"] }],
+      cuisines: ["Family favourites"],
+      // Thai is switched off, so what they wrote for it stays out of the picture.
+      extras: { "Family favourites": ["Nan’s chilli oil"], thai: ["Fish sauce"] },
     });
     expect(portrait).toEqual({
       artworkIds: [],
@@ -38,15 +37,13 @@ describe("kitchen portrait", () => {
     const portrait = kitchenPortrait({
       ...newProfile(),
       keeps: ["soy-sauce", "miso"],
-      cuisines: [
-        { cuisine: "japanese", extras: ["Miso"] },
-        { cuisine: "cantonese", extras: [] },
-      ],
+      cuisines: ["japanese", "cantonese"],
+      extras: { japanese: ["Miso"] },
     });
     expect(portrait?.caption).toBe("Japanese and Cantonese cooking, with Soy sauce and Miso.");
   });
 
-  it("can celebrate an everyday cupboard without adding default equipment", () => {
+  it("can celebrate a kitchen of staples without adding default equipment", () => {
     expect(kitchenPortrait({ ...newProfile(), keeps: ["chickpeas"] })).toEqual({
       artworkIds: ["ingredient-chickpeas"],
       caption: "A kitchen stocked with Chickpeas.",

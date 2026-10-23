@@ -213,3 +213,28 @@ Verify by tapping blank space near the row's right edge, not only by selecting
 its text. The same point failed before the sizing fix and expanded/collapsed
 the real native disclosure afterward. This is a native layout behavior;
 asserting React props or styles would not verify it.
+
+### Chat context-menu layout
+
+Verified on **iPhone 17 / iOS 26.5 on 2026-10-22**, light theme, default text
+size, software keyboard hidden. Native captures are 1206×2622 pixels.
+
+The chat's iOS `MessageMenu` host applied a second safe-area inset as rows
+scrolled behind the header. Its contents moved down 116 points without changing
+the measured row height, overlapping the next message. `ignoreSafeArea="all"`
+leaves safe-area and keyboard handling with the React Native transcript.
+
+- Before the fix, native hierarchy bounds showed the idea card ending at y=323
+  and the following message text starting at y=269: a 54-point overlap.
+- After the fix at the same scroll position, the card ended at y=207, its pager
+  ended at y=231, and the message text still started at y=269.
+- Scrolling in both directions, including across the header, retained the gap.
+  User and assistant long-press menus both showed Copy / Share and dismissed.
+- No messages were sent or saved data changed. The composer took focus, but the
+  software keyboard did not appear; keyboard-open layout remains unverified.
+  Android was not exercised; its message-menu implementation is unchanged.
+
+This is a native layout check, not a mocked React regression test. Full-screen
+captures and native hierarchy snapshots are gitignored under
+`docs/.screenshots/chat-rendering/ios/`: `round-02-before`, `round-03-after`,
+`round-04-scroll`, and `round-08-header-boundary`.

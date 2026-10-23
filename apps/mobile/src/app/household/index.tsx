@@ -1,10 +1,12 @@
 import { Host } from "@expo/ui";
 import {
   cuisineLabel,
+  keptLabels,
   dietOptions,
   selectionLabels,
   avoidanceKinds,
   shopAccessOptions,
+  stapleGroups,
   type SelectionField,
 } from "@magpie/profile";
 import { useNavigation, useRouter } from "expo-router";
@@ -154,12 +156,15 @@ export default function ProfileScreen() {
           ))}
           <SettingsRow
             detail={
-              household.profile.cuisines
-                .map((c) => cuisineLabel(c.cuisine))
-                .join(", ") || "None selected"
+              [
+                ...household.profile.cuisines.map(cuisineLabel),
+                ...stapleGroups.filter(
+                  (group) => keptLabels(household.profile, group).length,
+                ).map(cuisineLabel),
+              ].join(", ") || "None selected"
             }
             onPress={() => router.push("/household-cuisines")}
-            title="Cuisines"
+            title="Cuisines & staples"
           />
         </SettingsSection>
         <SettingsSection title="Shopping">

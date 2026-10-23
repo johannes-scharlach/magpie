@@ -5,7 +5,46 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { test } from "node:test";
 import sharp from "sharp";
-import { sliceSpritesheet } from "./slice-spritesheet.mjs";
+import { filterBorderArtifacts, sliceSpritesheet } from "./slice-spritesheet.mjs";
+
+test("filterBorderArtifacts removes disconnected border lines touching cell perimeter", () => {
+  const width = 100;
+  const height = 100;
+  const data = Buffer.alloc(width * height * 4, 0);
+
+  // 1. Draw a main subject in the center (40x40 = 1600 px)
+  for (let y = 30; y < 70; y++) {
+    for (let x = 30; x < 70; x++) {
+      const idx = (y * width + x) * 4;
+      data[idx] = 120;
+      data[idx + 1] = 60;
+      data[idx + 2] = 40;
+      data[idx + 3] = 255;
+    }
+  }
+
+  // 2. Draw a stray border line along x = 0 (1px wide, 50px long)
+  for (let y = 0; y < 50; y++) {
+    const idx = (y * width + 0) * 4;
+    data[idx] = 255;
+    data[idx + 1] = 255;
+    data[idx + 2] = 255;
+    data[idx + 3] = 255;
+  }
+
+  // 3. Draw a tiny noise speck at (80, 80)
+  data[(80 * width + 80) * 4 + 3] = 255;
+
+  filterBorderArtifacts(data, width, height);
+
+  // Main subject should still be intact
+  assert.equal(data[(50 * width + 50) * 4 + 3], 255);
+  // Stray border line should be zeroed out
+  assert.equal(data[(10 * width + 0) * 4 + 3], 0);
+  assert.equal(data[(0 * width + 0) * 4 + 3], 0);
+  // Tiny noise speck should be zeroed out
+  assert.equal(data[(80 * width + 80) * 4 + 3], 0);
+});
 
 test("slices a 3x3 transparent sprite sheet into 9 cropped assets", async (t) => {
   const dir = await mkdtemp(join(tmpdir(), "magpie-spritesheet-"));

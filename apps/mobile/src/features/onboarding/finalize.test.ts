@@ -19,7 +19,7 @@ const sqlite = new DatabaseSync(":memory:");
 sqlite.exec(`
   CREATE TABLE lists (id TEXT PRIMARY KEY, name TEXT, invite_code TEXT, created_by TEXT, created_at TEXT, updated_at TEXT);
   CREATE TABLE list_members (id TEXT PRIMARY KEY, list_id TEXT, user_id TEXT, joined_at TEXT, UNIQUE(list_id, user_id));
-  CREATE TABLE household_profiles (id TEXT PRIMARY KEY, goals TEXT, kitchen_equipment TEXT, pantry TEXT, fresh_ingredients TEXT, restrictions TEXT, ingredient_avoidances TEXT, shops TEXT, keeps TEXT, cuisines TEXT, meals_at_home TEXT, main_supermarket TEXT, other_shops TEXT, created_at TEXT, updated_at TEXT);
+  CREATE TABLE household_profiles (id TEXT PRIMARY KEY, goals TEXT, kitchen_equipment TEXT, pantry TEXT, fresh_ingredients TEXT, restrictions TEXT, ingredient_avoidances TEXT, shops TEXT, keeps TEXT, cuisines TEXT, extras TEXT, meals_at_home TEXT, main_supermarket TEXT, other_shops TEXT, created_at TEXT, updated_at TEXT);
   CREATE TABLE household_people (id TEXT PRIMARY KEY, list_id TEXT, user_id TEXT, name TEXT, age_group TEXT, diet TEXT, diet_other TEXT, meal_times TEXT, portion_reference REAL, created_at TEXT, updated_at TEXT, UNIQUE(list_id, user_id));
 `);
 const tx = {
@@ -63,7 +63,8 @@ function setup() {
     { ingredient: "Coriander", kind: "dislike", detail: "" },
   ];
   draft.profile.keeps = ["miso", "umeboshi"];
-  draft.profile.cuisines = [{ cuisine: "japanese", extras: ["Yuzu kosho"] }];
+  draft.profile.cuisines = ["japanese"];
+  draft.profile.extras = { japanese: ["Yuzu kosho"] };
   return draft;
 }
 afterEach(() =>
@@ -102,11 +103,13 @@ it("replays completion without duplicates or overwriting subsequent edits", asyn
     ingredient_avoidances: string;
     keeps: string;
     cuisines: string;
+    extras: string;
   }>(
-    "SELECT shops, ingredient_avoidances, keeps, cuisines FROM household_profiles",
+    "SELECT shops, ingredient_avoidances, keeps, cuisines, extras FROM household_profiles",
   );
   expect(JSON.parse(saved!.keeps)).toEqual(draft.profile.keeps);
   expect(JSON.parse(saved!.cuisines)).toEqual(draft.profile.cuisines);
+  expect(JSON.parse(saved!.extras)).toEqual(draft.profile.extras);
   expect(JSON.parse(saved!.shops)).toEqual(draft.profile.shops);
   expect(JSON.parse(saved!.ingredient_avoidances)).toEqual(
     draft.profile.ingredient_avoidances,

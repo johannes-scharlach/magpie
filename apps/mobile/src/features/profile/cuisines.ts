@@ -1,64 +1,54 @@
 import { cuisineOptions, type CookingProfile } from "@magpie/profile";
 
-type Cupboards = Pick<CookingProfile, "keeps" | "cuisines">;
+export type Cupboards = Pick<CookingProfile, "keeps" | "cuisines" | "extras">;
 
-/** Every change saves at once; anything added to a cuisine means they cook it. */
-export function cookCuisine(profile: Cupboards, cuisine: string): Cupboards {
-  if (profile.cuisines.some((c) => c.cuisine === cuisine)) return profile;
+/** Cooking is its own fact: switching off forgets nothing they kept for it. */
+export function setCooking(profile: Cupboards, cuisine: string, on: boolean): Cupboards {
+  if (profile.cuisines.includes(cuisine) === on) return profile;
   return {
     ...profile,
-    cuisines: [...profile.cuisines, { cuisine, extras: [] }],
+    cuisines: on
+      ? [...profile.cuisines, cuisine]
+      : profile.cuisines.filter((c) => c !== cuisine),
   };
 }
 
 /** A tick is one shared fact: it shows, and unticks, under every cuisine. */
-export function toggleKept(
-  profile: Cupboards,
-  cuisine: string,
-  id: string,
-): Cupboards {
-  if (profile.keeps.includes(id)) {
-    return { ...profile, keeps: profile.keeps.filter((k) => k !== id) };
-  }
-  return cookCuisine({ ...profile, keeps: [...profile.keeps, id] }, cuisine);
+export function toggleKept(profile: Cupboards, id: string): Cupboards {
+  return {
+    ...profile,
+    keeps: profile.keeps.includes(id)
+      ? profile.keeps.filter((k) => k !== id)
+      : [...profile.keeps, id],
+  };
 }
 
-export function setExtras(
-  profile: Cupboards,
-  cuisine: string,
-  extras: string[],
-): Cupboards {
-  const cooked = cookCuisine(profile, cuisine);
-  return {
-    ...cooked,
-    cuisines: cooked.cuisines.map((c) =>
-      c.cuisine === cuisine ? { cuisine, extras } : c,
-    ),
-  };
+function setExtras(profile: Cupboards, cuisine: string, extras: string[]): Cupboards {
+  const { [cuisine]: _, ...rest } = profile.extras;
+  return { ...profile, extras: extras.length ? { ...rest, [cuisine]: extras } : rest };
 }
 
 export function addExtra(profile: Cupboards, cuisine: string, input: string): Cupboards {
   const typed = input.trim();
-  const extras = profile.cuisines.find((c) => c.cuisine === cuisine)?.extras ?? [];
+  const extras = profile.extras[cuisine] ?? [];
   if (!typed || extras.some((extra) => extra.toLowerCase() === typed.toLowerCase())) {
     return profile;
   }
   return setExtras(profile, cuisine, [...extras, typed]);
 }
 
-export function removeCuisine(profile: Cupboards, cuisine: string): Cupboards {
-  return {
-    keeps: profile.keeps,
-    cuisines: profile.cuisines.filter((c) => c.cuisine !== cuisine),
-  };
+export function removeExtra(profile: Cupboards, cuisine: string, label: string): Cupboards {
+  return setExtras(
+    profile,
+    cuisine,
+    (profile.extras[cuisine] ?? []).filter((extra) => extra !== label),
+  );
 }
 
-/** The ingredients a cuisine's picture shows: what they keep for it, in catalog order. */
-export function medley(profile: Cupboards, cuisine: string): string[] {
-  // A shared tick says nothing about a cuisine they don't cook.
-  if (!profile.cuisines.some((c) => c.cuisine === cuisine)) return [];
-  const listed: readonly string[] = cuisineOptions[cuisine]?.ingredients ?? [];
-  return listed.filter((id) => profile.keeps.includes(id));
+/** Cuisines of their own, kept listed while switched off if anything is written for them. */
+export function ownCuisines(profile: Cupboards): string[] {
+  const named = [...profile.cuisines, ...Object.keys(profile.extras)];
+  return [...new Set(named)].filter((cuisine) => !(cuisine in cuisineOptions));
 }
 
 /** A typed name matches a catalog label or one of their own before it becomes new. */
@@ -67,7 +57,7 @@ export function cuisineId(profile: Cupboards, name: string): string {
   const same = (label: string) => label.toLowerCase() === typed.toLowerCase();
   return (
     Object.keys(cuisineOptions).find((id) => same(cuisineOptions[id]!.label)) ??
-    profile.cuisines.find((c) => same(c.cuisine))?.cuisine ??
+    ownCuisines(profile).find(same) ??
     typed
   );
 }

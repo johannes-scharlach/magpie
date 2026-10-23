@@ -85,8 +85,9 @@ export function ArtTile({
       {/* Selecting puts the thing on a clay tile; unselected things stand on
           the page. The tile stays straight in the grid (tilted neighbours read
           as broken layout), only the art sits at a hand-placed angle. */}
+      {/* Always a background: Android drops the radius from one added later. */}
       <View
-        className={cn("px-2 pb-3", selected && "bg-accent")}
+        className={cn("px-2 pb-3", selected ? "bg-accent" : "bg-background")}
         style={clayTile}
       >
         <View
@@ -126,6 +127,7 @@ export function useTileLayout(dense: boolean) {
         ? 3
         : 2;
   return {
+    columns,
     // Leave fractional slack rather than letting rounding wrap the last tile.
     tileWidth: Math.floor(
       (availableWidth - TILE_GAP * (columns - 1)) / columns,

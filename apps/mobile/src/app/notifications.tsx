@@ -1,9 +1,10 @@
-import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
+import { Stack, useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
-import { ActivityIndicator, Platform, ScrollView, View } from "react-native";
+import { ActivityIndicator, AppState, Platform, ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { Action, PrimaryAction } from "@/components/action";
+import { CloseButton } from "@/components/close-button";
 import { Text } from "@/components/ui/text";
 import { useAuth } from "@/db/provider";
 import { FormError } from "@/features/profile/form";
@@ -31,15 +32,32 @@ export default function NotificationsScreen() {
   }, [prompted, session]);
   useFocusEffect(
     useCallback(() => {
-      void notificationState()
-        .then(setState)
-        .catch((cause) => {
-          setError(
-            cause instanceof Error
-              ? cause.message
-              : "Could not load notification settings.",
-          );
-        });
+      let active = true;
+      function refresh() {
+        void notificationState()
+          .then((next) => {
+            if (!active) return;
+            setState(next);
+            setError(null);
+          })
+          .catch((cause) => {
+            if (!active) return;
+            setError(
+              cause instanceof Error
+                ? cause.message
+                : "Could not load notification settings.",
+            );
+          });
+      }
+      refresh();
+      // Returning from system Settings doesn't refocus the route.
+      const subscription = AppState.addEventListener("change", (next) => {
+        if (next === "active") refresh();
+      });
+      return () => {
+        active = false;
+        subscription.remove();
+      };
     }, []),
   );
   async function finish() {
@@ -47,10 +65,11 @@ export default function NotificationsScreen() {
     router.back();
   }
   async function allow() {
+    if (busy || !state) return;
     setBusy(true);
     setError(null);
     try {
-      if (state === "disabled") {
+      if (state !== "not-asked") {
         await openNotificationSettings();
         return;
       }
@@ -67,73 +86,72 @@ export default function NotificationsScreen() {
       setBusy(false);
     }
   }
-  if (!state) {
-    return (
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        contentContainerClassName="items-center justify-center px-6 py-12"
-      >
-        <ActivityIndicator />
-      </ScrollView>
-    );
-  }
+  const title =
+    state === "enabled"
+      ? "Notifications are on"
+      : state === "disabled"
+        ? "Notifications are off"
+        : state === "not-asked"
+          ? "Turn on notifications?"
+          : "Notifications";
+
   return (
-    <ScrollView
-      contentInsetAdjustmentBehavior="automatic"
-      contentContainerClassName="gap-6 px-6 pt-4"
-      contentContainerStyle={
-        Platform.OS === "android"
-          ? { paddingBottom: Math.max(insets.bottom, 12) }
-          : undefined
-      }
-    >
-      <View className="gap-3">
-        <Text className="text-lg leading-7 text-muted-foreground">
-          Get a notification when someone joins your household.
-        </Text>
-        {state === "enabled" ? (
-          <Text className="text-muted-foreground">
-            Notifications are on. To turn them off, use the notification
-            settings on this device.
+    <>
+      <ScrollView
+        className="bg-background"
+        contentInsetAdjustmentBehavior="automatic"
+        contentContainerClassName="gap-6 px-6 pt-4 pb-6"
+        contentContainerStyle={
+          Platform.OS === "android"
+            ? { paddingBottom: Math.max(insets.bottom, 24) }
+            : undefined
+        }
+      >
+        {state ? (
+          <Text selectable className="text-lg leading-7">
+            {state === "enabled"
+              ? "You can change them in Settings."
+              : state === "disabled"
+                ? "You can turn them on in Settings."
+                : "We’ll send you meal reminders and let you know when a reply is ready or someone joins your household."}
           </Text>
+        ) : !error ? (
+          <ActivityIndicator className="my-8" />
         ) : null}
-        {state === "disabled" ? (
-          <Text className="text-muted-foreground">
-            Notifications are off in system settings. You can turn them on
-            there.
-          </Text>
-        ) : null}
-      </View>
-      <FormError message={error} />
-      <View className="gap-3">
-        {state === "enabled" ? (
-          <>
-            <PrimaryAction label="Done" onPress={() => router.back()} />
-            <Action
-              label="Turn off"
-              onPress={() => void openNotificationSettings()}
-            />
-          </>
-        ) : (
-          <>
+        <FormError message={error} />
+        {state ? (
+          <View className="gap-3">
             <PrimaryAction
               disabled={busy}
               label={
-                busy
-                  ? "Enabling…"
-                  : state === "disabled"
-                    ? "Open settings"
-                    : "Allow notifications"
+                state === "not-asked"
+                  ? busy
+                    ? "Turning on…"
+                    : "Turn on notifications"
+                  : busy
+                    ? "Opening Settings…"
+                    : "Open Settings"
               }
               onPress={() => void allow()}
             />
-            <Action
-              label={prompted ? "Not now" : "Cancel"}
-              onPress={() => void finish()}
-            />
-          </>
-        )}
-      </View>
-    </ScrollView>
+            {state === "not-asked" ? (
+              <Action
+                disabled={busy}
+                label="Not now"
+                onPress={() => void finish()}
+              />
+            ) : null}
+          </View>
+        ) : null}
+      </ScrollView>
+      <Stack.Screen
+        options={{
+          title,
+          headerRight: () => (
+            <CloseButton disabled={busy} onPress={() => void finish()} />
+          ),
+        }}
+      />
+    </>
   );
 }

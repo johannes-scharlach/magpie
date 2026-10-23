@@ -81,13 +81,9 @@ export default function RootLayout() {
                     <Stack.Screen
                       name="household-cuisines"
                       options={{
-                        title: "Cuisines",
+                        title: "Cuisines & staples",
                         headerBackButtonDisplayMode: "minimal",
                       }}
-                    />
-                    <Stack.Screen
-                      name="household-cuisine"
-                      options={{ headerBackButtonDisplayMode: "minimal" }}
                     />
                     <Stack.Screen
                       name="household-activity"
@@ -99,19 +95,15 @@ export default function RootLayout() {
                     <Stack.Screen
                       name="notifications"
                       options={{
-                        title: "Household updates",
+                        title: "Notifications",
                         presentation: "formSheet",
                         sheetAllowedDetents: "fitToContents",
                         sheetGrabberVisible: true,
                         headerShown: true,
-                        headerTransparent: Platform.OS === "ios",
+                        headerTransparent: false,
                         headerShadowVisible: false,
-                        // iOS supplies the glass surface; Android keeps the
-                        // stack's themed background, including inset areas.
-                        contentStyle:
-                          Platform.OS === "ios"
-                            ? { backgroundColor: "transparent" }
-                            : undefined,
+                        // Keep text contrast independent of the presenting screen.
+                        contentStyle: { backgroundColor: theme.colors.background },
                       }}
                     />
                     {/* No variant/_layout.tsx by design: [id] must sit above (tabs)

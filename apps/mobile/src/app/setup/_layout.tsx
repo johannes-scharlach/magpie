@@ -39,19 +39,6 @@ export default function SetupLayout() {
             : { headerShown: false }
         }
       />
-      <Stack.Screen
-        name="cuisine"
-        options={
-          Platform.OS === "ios"
-            ? {
-                headerShown: false,
-                presentation: "formSheet",
-                sheetAllowedDetents: [1],
-                sheetGrabberVisible: true,
-              }
-            : { headerShown: false }
-        }
-      />
       <Stack.Screen name="sign-in" options={{ headerShown: false }} />
     </Stack>
   );

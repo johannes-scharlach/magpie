@@ -274,5 +274,127 @@
       "cuisine": "Mexican",
       "pitch": "Flour tortillas griddled crisp in butter, layered with refried black beans, smoky ham, pickled jalapeños, and bubbling cheese."
     }
+  ],
+  "Pan-Seared Pork Chops with Apples & Mustard Cream Sauce": [
+    {
+      "title": "Normandy pork chops with caramelized apples and cider cream",
+      "cuisine": "French",
+      "pitch": "Seared chops with tart apples browned in butter, deglazed with dry cider and swirled with crème fraîche and Dijon into a rich pan sauce."
+    },
+    {
+      "title": "Pork chops with caramelized apples, sage and English mustard",
+      "cuisine": "British",
+      "pitch": "Chops seared in butter with sweet apple wedges and fresh sage, pan juices reduced with sharp English mustard and cider. Mashed or boiled potatoes alongside."
+    },
+    {
+      "title": "Skillet pork chops with fried apples and cider vinegar pan sauce",
+      "cuisine": "US Southern & BBQ",
+      "pitch": "Bone-in chops seared in a hot skillet, tart apples fried tender in the drippings with black pepper and a splash of cider vinegar to balance the sweetness."
+    }
+  ],
+  "Spinach & Rice Pilaf": [
+    {
+      "title": "Classic Greek spanakorizo with fresh dill, lemon and feta",
+      "cuisine": "Greek",
+      "pitch": "Medium-grain rice simmered with tender spinach and scallions, finished with fresh dill, lots of lemon juice, and a thick slab of salty feta."
+    },
+    {
+      "title": "Spanakorizo kokkinisto: Greek spinach and tomato rice with feta",
+      "cuisine": "Greek",
+      "pitch": "Rice and spinach simmered with sweet crushed tomatoes, olive oil, and spring onions, finished with lemon and warm crumbled feta."
+    },
+    {
+      "title": "Greek spinach and chickpea rice pilaf with lemon and dill",
+      "cuisine": "Greek",
+      "pitch": "Tender chickpeas simmered in one pot with rice, mounds of spinach, and fresh dill, topped with crumbled feta and lemon for an all-in-one pantry dinner."
+    },
+    {
+      "title": "Persian sabzi polo: fragrant herb and spinach basmati rice",
+      "cuisine": "Persian",
+      "pitch": "Fragrant basmati rice steamed with mounds of fresh dill, parsley, and tender spinach, finished with garlic butter and fresh lime juice."
+    }
+  ],
+  "Crispy Glazed Tofu & Steamed Broccoli": [
+    {
+      "title": "Crispy satay tofu with peanut-lime glaze and broccoli",
+      "cuisine": "Indonesian & Malaysian",
+      "pitch": "Golden-crisped tofu and tender steamed broccoli tossed in a rich peanut glaze balanced with soy sauce, fresh ginger, and lime. Steamed jasmine rice alongside."
+    },
+    {
+      "title": "Crispy teriyaki tofu with toasted sesame and steamed broccoli",
+      "cuisine": "Japanese",
+      "pitch": "Tofu pan-fried until crackling, glazed with a sweet-savory soy, mirin and ginger reduction, tossed with steamed broccoli and toasted sesame over rice."
+    },
+    {
+      "title": "Sweet and spicy garlic-crisped tofu with broccoli",
+      "cuisine": "Sichuan",
+      "pitch": "Crisp-edged tofu and broccoli tossed in a glossy dark glaze of soy sauce, Chinkiang black vinegar, garlic, and chili crisp. Served hot over steamed rice."
+    },
+    {
+      "title": "Crispy gochujang-glazed tofu with sesame and broccoli",
+      "cuisine": "Korean",
+      "pitch": "Tofu seared crisp and lacquered in a sweet, spicy gochujang, honey, and sesame glaze, paired with clean steamed broccoli to cool the heat."
+    }
+  ],
+  "Smoked Trout, Potato & Horseradish Hash": [
+    {
+      "title": "Nordic smoked trout and potato hash with dill and runny egg",
+      "cuisine": "Nordic",
+      "pitch": "Diced potatoes browned crisp in butter, tossed with flaked smoked trout and fresh dill, topped with a runny-yolk fried egg and sharp horseradish cream."
+    },
+    {
+      "title": "Black Forest smoked trout gröstl with Schmand, chives and kren",
+      "cuisine": "German",
+      "pitch": "Sliced potatoes crisped golden in butter with sweet onions, folded with flaked smoked trout, fiery grated horseradish, fresh chives, and cool Schmand."
+    },
+    {
+      "title": "Scottish smoked trout and crispy potato hash with sharp mustard",
+      "cuisine": "British",
+      "pitch": "Boiled new potatoes crushed and fried crisp in butter with scallions, folded with warm flaked smoked trout and sharp English mustard pan juices."
+    },
+    {
+      "title": "Skillet smoked trout hash with sunny fried egg and pickled red onions",
+      "cuisine": "US Southern & BBQ",
+      "pitch": "Diced potatoes and onions browned crisp in a hot skillet, topped with flaked smoked trout, a sunny-side-up egg, and pickled red onions to cut through the rich fish."
+    }
+  ],
+  "Roasted Sausage, Fennel & Sweet Potato Traybake": [
+    {
+      "title": "Fennel salsiccia traybake with sweet potatoes, rosemary and lemon",
+      "cuisine": "Italian",
+      "pitch": "Fennel salsiccia, sweet potatoes, and fennel wedges roasted hot with whole garlic and rosemary, finished straight out of the oven with fresh lemon and chopped fennel fronds."
+    },
+    {
+      "title": "Roast pork sausage traybake with sweet potatoes, fennel and wholegrain mustard",
+      "cuisine": "British",
+      "pitch": "Peppery pork sausages roasted alongside sweet potatoes, fennel, and tart apple wedges, served with a big spoonful of sharp wholegrain mustard on the side."
+    },
+    {
+      "title": "Harissa sausage traybake with fennel, crispy chickpeas and sweet potatoes",
+      "cuisine": "North African",
+      "pitch": "Spiced sausage, sweet potatoes, and fennel roasted hot with chickpeas that turn crunchy on the tray, tossed with harissa and finished with a squeeze of fresh lemon."
+    }
+  ],
+  "Baked Feta with Cherry Tomatoes": [
+    {
+      "title": "Classic Greek bouyiourdi: spicy baked feta with tomatoes and peppers",
+      "cuisine": "Greek",
+      "pitch": "The iconic Macedonian meze: a block of feta baked until molten with sweet tomatoes, sliced green peppers, olive oil, and spicy chili flakes. Crusty bread to scoop."
+    },
+    {
+      "title": "Baked feta with cherry tomatoes, kalamata olives and rosemary",
+      "cuisine": "Greek",
+      "pitch": "A block of feta baked until soft in olive oil with sweet cherry tomatoes, whole kalamata olives, garlic, and fresh rosemary, creating a rich briny pan sauce for bread."
+    },
+    {
+      "title": "Baked feta with cherry tomatoes, toasted sesame and Greek honey",
+      "cuisine": "Greek",
+      "pitch": "In the feta me meli tradition: feta baked soft with cherry tomatoes and fresh thyme, finished with toasted sesame seeds and warm honey to contrast the salty cheese."
+    },
+    {
+      "title": "Baked feta with giant white beans, cherry tomatoes and oregano",
+      "cuisine": "Greek",
+      "pitch": "A can of tender giant white beans scattered around a block of feta with cherry tomatoes and oregano, turning the bubbling baked cheese into a hearty, protein-rich meal."
+    }
   ]
 }

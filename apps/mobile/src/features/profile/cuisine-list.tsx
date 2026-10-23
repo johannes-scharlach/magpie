@@ -1,67 +1,97 @@
+import { Host, Switch } from "@expo/ui";
 import {
+  cooks,
   cuisineLabel,
   cuisineOptions,
   cuisineRegions,
-  keptLabels,
-  type CookingProfile,
+  stapleGroups,
 } from "@magpie/profile";
-import { SymbolView } from "expo-symbols";
-import { View } from "react-native";
+import { Children, isValidElement, useState } from "react";
+import { Pressable, StyleSheet, View } from "react-native";
+import Animated, {
+  Easing,
+  FadeOut,
+  LayoutAnimationConfig,
+  LinearTransition,
+  ReduceMotion,
+} from "react-native-reanimated";
 import { useResolveClassNames } from "uniwind";
-import { AddRow } from "@/components/add-row";
-import { clayTile, PressableScale } from "@/components/clay";
+import { SectionTitle } from "@/components/clay";
+import { Input } from "@/components/ui/input";
 import { Text } from "@/components/ui/text";
-import { Artwork, hasArtwork, type ArtworkId } from "@/features/onboarding/artwork";
-import { medley } from "@/features/profile/cuisines";
+import {
+  addExtra,
+  cuisineId,
+  ownCuisines,
+  removeExtra,
+  setCooking,
+  toggleKept,
+  type Cupboards,
+} from "@/features/profile/cuisines";
+import { CupboardFields } from "@/features/profile/cupboard-fields";
 import { cn } from "@/lib/utils";
 
-type Cupboards = Pick<CookingProfile, "keeps" | "cuisines">;
+type Change = (edit: (profile: Cupboards) => Cupboards) => void;
 
-/** Every cuisine opens its cupboard; a warm surface marks the ones they cook. */
+// Like iOS inserting rows under a switch: the cupboard fades in line by line
+// while everything below slides down; closing fades it fast as the rows close over it.
+const EASE_IN_OUT = Easing.bezier(0.77, 0, 0.175, 1);
+const EASE_OUT = Easing.bezier(0.23, 1, 0.32, 1);
+const REFLOW = LinearTransition.duration(300)
+  .easing(EASE_IN_OUT)
+  .reduceMotion(ReduceMotion.System);
+// Reduce Motion keeps the fade, but drops the slide. The cupboard staggers
+// its own lines in.
+const CLOSE = FadeOut.duration(150)
+  .easing(EASE_OUT)
+  .reduceMotion(ReduceMotion.Never);
+
+/** Every cuisine answers here: a switch says they cook it, and its cupboard opens in place. */
 export function CuisineList({
   profile,
-  onOpen,
+  change,
 }: {
   profile: Cupboards;
-  /** No cuisine: a cuisine of their own. */
-  onOpen: (cuisine?: string) => void;
+  /** Applies the edit to the latest saved cupboards and saves the result. */
+  change: Change;
 }) {
-  const own = profile.cuisines.filter((c) => !(c.cuisine in cuisineOptions));
   return (
-    <View className="gap-6">
-      {cuisineRegions.map(({ region, cuisines }) => (
-        <Section key={region} title={region}>
-          {Object.keys(cuisines).map((cuisine) => (
+    // Cupboards already open when the screen appears don't fade in.
+    <LayoutAnimationConfig skipEntering>
+      <View className="gap-6">
+        {cuisineRegions.map(({ region, cuisines }) => (
+          <Section key={region} title={region}>
+            {Object.keys(cuisines).map((cuisine) => (
+              <CuisineRow
+                key={cuisine}
+                cuisine={cuisine}
+                profile={profile}
+                change={change}
+              />
+            ))}
+          </Section>
+        ))}
+        <Section title="Your own">
+          {ownCuisines(profile).map((cuisine) => (
             <CuisineRow
               key={cuisine}
               cuisine={cuisine}
               profile={profile}
-              onPress={() => onOpen(cuisine)}
+              change={change}
             />
           ))}
+          <AddOwn
+            onAdd={(name) =>
+              change((p) => setCooking(p, cuisineId(p, name), true))
+            }
+          />
         </Section>
-      ))}
-      <Section title="Your own">
-        {own.map(({ cuisine }) => (
-          <CuisineRow
-            key={cuisine}
-            cuisine={cuisine}
-            profile={profile}
-            onPress={() => onOpen(cuisine)}
-          />
-        ))}
-        <View className="bg-card" style={clayTile}>
-          <AddRow
-            label="Add another cuisine"
-            bordered={false}
-            onPress={() => onOpen()}
-          />
-        </View>
-      </Section>
-    </View>
+      </View>
+    </LayoutAnimationConfig>
   );
 }
 
+/** Rows stand on the page, like an iOS list; only ticked things get a tile. */
 function Section({
   title,
   children,
@@ -70,95 +100,114 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <View className="gap-2">
-      <Text
-        accessibilityRole="header"
-        className="px-1 text-sm font-medium text-muted-foreground"
-      >
-        {title}
-      </Text>
-      <View className="gap-3">{children}</View>
-    </View>
+    <Animated.View layout={REFLOW} className="gap-1">
+      <SectionTitle>{title}</SectionTitle>
+      {Children.toArray(children).map((row, index) => (
+        <Animated.View key={isValidElement(row) ? row.key : index} layout={REFLOW}>
+          {/* Like iOS: from the text's start, through the 24pt gutter to the edge. */}
+          {index > 0 ? (
+            <View
+              className="-mr-6 bg-border"
+              style={{ height: StyleSheet.hairlineWidth }}
+            />
+          ) : null}
+          {row}
+        </Animated.View>
+      ))}
+    </Animated.View>
   );
 }
 
 function CuisineRow({
   cuisine,
   profile,
-  onPress,
+  change,
 }: {
   cuisine: string;
   profile: Cupboards;
-  onPress: () => void;
+  change: Change;
 }) {
-  const muted = useResolveClassNames("text-muted-foreground").color;
-  const entry = profile.cuisines.find((c) => c.cuisine === cuisine);
+  const [extra, setExtra] = useState("");
+  const seedColor = useResolveClassNames("bg-primary").backgroundColor;
   const label = cuisineLabel(cuisine);
-  const kept = entry ? keptLabels(profile, entry).join(", ") : "";
-  const art = medley(profile, cuisine)
-    .map((id) => `ingredient-${id}`)
-    .filter(hasArtwork);
+  const on = cooks(profile, cuisine);
+  // Staples are kept, never cooked: always open, nothing to switch.
+  const staples = stapleGroups.includes(cuisine);
+
+  function saveExtra() {
+    if (!extra.trim()) return;
+    change((p) => addExtra(p, cuisine, extra));
+    setExtra("");
+  }
+
   return (
-    <PressableScale
-      accessibilityRole="button"
-      accessibilityLabel={entry ? `${label}, you cook this` : label}
-      accessibilityHint={kept || undefined}
-      onPress={onPress}
-    >
-      <View
-        className={cn(
-          "min-h-16 flex-row items-center gap-4 px-4 py-3",
-          entry ? "bg-accent" : "bg-card",
-        )}
-        style={clayTile}
-      >
-        <View className="flex-1 gap-0.5">
+    <View className={cn("gap-4", on && "pb-6")}>
+      {staples ? (
+        <Text className="min-h-14 py-4 font-rounded font-semibold">{label}</Text>
+      ) : (
+        <Pressable
+          accessibilityRole="switch"
+          accessibilityLabel={`I cook ${label}`}
+          accessibilityState={{ checked: on }}
+          onPress={() => change((p) => setCooking(p, cuisine, !on))}
+          className="min-h-14 flex-row items-center gap-4 py-2"
+        >
           <Text
-            className={cn(
-              "font-rounded font-semibold",
-              entry && "text-primary",
-            )}
+            className={cn("flex-1 font-rounded font-semibold", on && "text-primary")}
           >
             {label}
           </Text>
-          {entry ? (
-            <Text numberOfLines={1} className="text-sm text-muted-foreground">
-              {kept || "You cook this"}
-            </Text>
-          ) : null}
-        </View>
-        {art.length ? <Medley ids={art} /> : null}
-        <SymbolView
-          name={{ ios: "chevron.right", android: "chevron_right" }}
-          size={14}
-          tintColor={muted}
-        />
-      </View>
-    </PressableScale>
+          {/* The row carries the switch's touch and its accessibility. */}
+          <View
+            pointerEvents="none"
+            accessibilityElementsHidden
+            importantForAccessibility="no-hide-descendants"
+          >
+            {/* Scrolled under the status bar, SwiftUI would push the switch
+                down to keep it out of the safe area. */}
+            <Host matchContents ignoreSafeArea="all" seedColor={seedColor}>
+              <Switch value={on} onValueChange={() => {}} />
+            </Host>
+          </View>
+        </Pressable>
+      )}
+      {on ? (
+        <Animated.View exiting={CLOSE}>
+          <CupboardFields
+            ingredients={cuisineOptions[cuisine]?.ingredients ?? []}
+            keeps={profile.keeps}
+            onToggle={(id) => change((p) => toggleKept(p, id))}
+            extras={profile.extras[cuisine] ?? []}
+            onRemoveExtra={(item) => change((p) => removeExtra(p, cuisine, item))}
+            extra={extra}
+            onExtraChange={setExtra}
+            onAddExtra={saveExtra}
+          />
+        </Animated.View>
+      ) : null}
+    </View>
   );
 }
 
-/** Three readable objects, lightly overlapping; the artwork supplies the character. */
-function Medley({ ids }: { ids: ArtworkId[] }) {
-  const shown = ids.slice(0, 3);
+function AddOwn({ onAdd }: { onAdd: (name: string) => void }) {
+  const [name, setName] = useState("");
   return (
-    <View
-      pointerEvents="none"
-      className="h-14 flex-row items-end"
-      style={{
-        width: 48 * shown.length - 12 * (shown.length - 1),
-        maxWidth: "40%",
-      }}
-    >
-      {shown.map((id, index) => (
-        <View
-          key={id}
-          className="flex-1"
-          style={{ marginLeft: index === 0 ? 0 : -12 }}
-        >
-          <Artwork id={id} />
-        </View>
-      ))}
+    <View className="py-3">
+      <Input
+        accessibilityLabel="Add another cuisine"
+        placeholder="Add another cuisine"
+        className="h-12 min-h-0 rounded-2xl border-0 bg-muted px-3.5 py-1"
+        value={name}
+        onChangeText={setName}
+        autoCapitalize="words"
+        returnKeyType="done"
+        submitBehavior="submit"
+        onSubmitEditing={() => {
+          if (!name.trim()) return;
+          onAdd(name);
+          setName("");
+        }}
+      />
     </View>
   );
 }

@@ -23,6 +23,7 @@ export function decodeHousehold(
     "shops",
     "keeps",
     "cuisines",
+    "extras",
   ]) {
     if (typeof profile[key] === "string")
       profile[key] = JSON.parse(profile[key]);

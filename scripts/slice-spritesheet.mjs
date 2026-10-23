@@ -20,6 +20,82 @@ function keyBlue(data) {
   }
 }
 
+export function filterBorderArtifacts(data, width, height) {
+  const visited = new Uint8Array(width * height);
+  const components = [];
+
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      const idx = y * width + x;
+      if (visited[idx] || data[idx * 4 + 3] <= 10) continue;
+
+      let minX = x;
+      let maxX = x;
+      let minY = y;
+      let maxY = y;
+      const pixels = [];
+      const queue = [idx];
+      visited[idx] = 1;
+
+      while (queue.length > 0) {
+        const curr = queue.pop();
+        pixels.push(curr);
+        const cy = Math.floor(curr / width);
+        const cx = curr % width;
+        if (cx < minX) minX = cx;
+        if (cx > maxX) maxX = cx;
+        if (cy < minY) minY = cy;
+        if (cy > maxY) maxY = cy;
+
+        for (const [dy, dx] of [[-1, 0], [1, 0], [0, -1], [0, 1]]) {
+          const ny = cy + dy;
+          const nx = cx + dx;
+          if (ny >= 0 && ny < height && nx >= 0 && nx < width) {
+            const nidx = ny * width + nx;
+            if (!visited[nidx] && data[nidx * 4 + 3] > 10) {
+              visited[nidx] = 1;
+              queue.push(nidx);
+            }
+          }
+        }
+      }
+
+      const compW = maxX - minX + 1;
+      const compH = maxY - minY + 1;
+      const nearPerimeter = minX <= 4 || maxX >= width - 5 || minY <= 4 || maxY >= height - 5;
+      const avgR = pixels.reduce((s, p) => s + data[p * 4], 0) / pixels.length;
+      components.push({
+        pixels,
+        size: pixels.length,
+        compW,
+        compH,
+        nearPerimeter,
+        avgR,
+      });
+    }
+  }
+
+  if (components.length <= 1) return;
+  components.sort((a, b) => b.size - a.size);
+  const largest = components[0];
+
+  for (let i = 1; i < components.length; i++) {
+    const comp = components[i];
+    const isTinyNoise = comp.size < 20;
+    const isBorderLine = comp.nearPerimeter && (
+      Math.min(comp.compW, comp.compH) <= 4 ||
+      comp.size < largest.size * 0.05 ||
+      comp.avgR > 210
+    );
+
+    if (isTinyNoise || isBorderLine) {
+      for (const p of comp.pixels) {
+        data[p * 4 + 3] = 0;
+      }
+    }
+  }
+}
+
 export async function sliceSpritesheet({
   inputPath,
   outputDir = defaultOutputDir,
@@ -127,6 +203,8 @@ export async function sliceSpritesheet({
           cellData = cropped.data;
           cellInfo = cropped.info;
         }
+
+        filterBorderArtifacts(cellData, cellWidth, cellHeight);
 
         let minX = cellWidth;
         let maxX = 0;

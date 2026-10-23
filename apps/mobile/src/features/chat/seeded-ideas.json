@@ -127,14 +127,16 @@
     "vibe": "Sweet-tangy, creamy pan sauce over juicy seared chops."
   },
   {
-    "title": "Greek Spanakorizo (Spinach & Rice Pilaf)",
+    "title": "Spinach & Rice Pilaf",
+    "previewTitle": "Spinach & rice pilaf",
     "section": "Skillet & Stovetop Mains",
     "ingredients": "Fresh baby spinach, medium-grain rice, spring onions, fresh dill, lemon juice",
     "time": "30 min · 1 pot",
     "vibe": "Herbaceous, lemony, soothing and light."
   },
   {
-    "title": "Crispy Tofu with Peanut-Soy Glaze & Steamed Broccoli",
+    "title": "Crispy Glazed Tofu & Steamed Broccoli",
+    "previewTitle": "Crispy glazed tofu & broccoli",
     "section": "Skillet & Stovetop Mains",
     "ingredients": "Extra-firm tofu, peanut butter, soy sauce, fresh ginger, broccoli florets",
     "time": "20 min · pan + steamer",
@@ -155,7 +157,8 @@
     "vibe": "Sweet caramelized roots, anise-y fennel, juicy herby sausage."
   },
   {
-    "title": "Baked Feta with Cherry Tomatoes & Kalamata Olives",
+    "title": "Baked Feta with Cherry Tomatoes",
+    "previewTitle": "Baked feta with tomatoes",
     "section": "Oven & Sheet-Pan Essentials",
     "ingredients": "Feta block, cherry tomatoes, Kalamata olives, dried oregano, baguette",
     "time": "25 min · oven",

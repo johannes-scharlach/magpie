@@ -49,6 +49,7 @@ const household_profiles = new Table({
   shops: column.text,
   keeps: column.text,
   cuisines: column.text,
+  extras: column.text,
   meals_at_home: column.text,
   main_supermarket: column.text,
   other_shops: column.text,

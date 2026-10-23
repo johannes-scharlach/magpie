@@ -58,7 +58,7 @@ export async function insertProfile(
   now: string,
 ): Promise<void> {
   await tx.execute(
-    "INSERT INTO household_profiles (id, goals, kitchen_equipment, pantry, fresh_ingredients, restrictions, meals_at_home, main_supermarket, other_shops, ingredient_avoidances, shops, keeps, cuisines, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    "INSERT INTO household_profiles (id, goals, kitchen_equipment, pantry, fresh_ingredients, restrictions, meals_at_home, main_supermarket, other_shops, ingredient_avoidances, shops, keeps, cuisines, extras, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
     [
       listId,
       JSON.stringify(p.goals),
@@ -73,6 +73,7 @@ export async function insertProfile(
       JSON.stringify(p.shops),
       JSON.stringify(p.keeps),
       JSON.stringify(p.cuisines),
+      JSON.stringify(p.extras),
       now,
       now,
     ],

@@ -115,7 +115,7 @@ export function WeekGlance({ listId }: { listId: string | null }) {
                       accessibilityRole="link"
                       accessibilityLabel={`${i === 0 ? "Today, " : ""}${WEEKDAY_LONG[day.getDay()]}: ${dayPlannedCount} ${dayPlannedCount === 1 ? "meal" : "meals"} planned`}
                       className={cn(
-                        "min-h-11 flex-1 items-center gap-1 rounded-xl bg-muted px-1 py-2 active:opacity-60",
+                        "min-h-11 flex-1 items-center gap-1 rounded-xl bg-background px-1 py-2 active:opacity-60",
                         empty && "justify-center",
                       )}
                       style={{ borderCurve: "continuous" }}

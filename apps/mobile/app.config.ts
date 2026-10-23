@@ -66,7 +66,18 @@ const config: ExpoConfig = {
   plugins: [
     "expo-router",
     "expo-secure-store",
-    "expo-splash-screen",
+    [
+      "expo-splash-screen",
+      {
+        image: "./assets/images/splash-icon.png",
+        imageWidth: 160,
+        backgroundColor: "#FBF8F4",
+        dark: {
+          image: "./assets/images/splash-icon-dark.png",
+          backgroundColor: "#201B1E",
+        },
+      },
+    ],
     [
       // iOS uses the system's SF Pro Rounded; Android has no rounded system
       // font, so Nunito stands in (ROUNDED in src/components/clay.tsx).

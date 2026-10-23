@@ -10,6 +10,7 @@ const JSON_COLUMNS: Record<string, readonly string[]> = {
     "shops",
     "keeps",
     "cuisines",
+    "extras",
   ],
 };
 

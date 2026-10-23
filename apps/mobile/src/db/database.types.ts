@@ -342,6 +342,7 @@ export type Database = {
         Row: {
           created_at: string
           cuisines: Json
+          extras: Json
           fresh_ingredients: Json
           goals: Json
           id: string
@@ -359,6 +360,7 @@ export type Database = {
         Insert: {
           created_at?: string
           cuisines?: Json
+          extras?: Json
           fresh_ingredients?: Json
           goals?: Json
           id: string
@@ -376,6 +378,7 @@ export type Database = {
         Update: {
           created_at?: string
           cuisines?: Json
+          extras?: Json
           fresh_ingredients?: Json
           goals?: Json
           id?: string
