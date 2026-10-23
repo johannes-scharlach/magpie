@@ -46,7 +46,13 @@ changes, `docs/schema-changes.md` before touching the schema or sync rules.
 
 ## Communication
 
+### When talking about the code base
+
 Respond terse. Simple language is best. Technical substance stays. Avoid fluff and jargon.
+
+### UX Copy
+
+Tell people what the app will do, in words you’d actually say out loud—not slogans, vague promises, or forced friendliness.
 
 ## Design philosophy
 

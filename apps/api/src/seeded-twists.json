@@ -540,5 +540,88 @@
       "cuisine": "Chinese",
       "pitch": "Savory pork crisped in the wok, tossed with jasmine rice in sizzling garlic butter and crunchy chili crisp, finished with scallion greens and toasted sesame."
     }
+  ],
+  "Crispy Roman Pinsa": [
+    {
+      "title": "Smoky ajvar pinsa with cool burrata and prosciutto crudo",
+      "cuisine": "Italian",
+      "pitch": "Pinsa baked shatter-crisp with sweet-smoky ajvar, topped out of the oven with cool torn burrata, ribbons of prosciutto crudo, and fresh peppery baby arugula."
+    },
+    {
+      "title": "Roman street-food pinsa with mortadella, stracciatella, and pistachios",
+      "cuisine": "Italian",
+      "pitch": "Crisp baked pinsa crust draped with delicate folds of warm mortadella, creamy milky stracciatella, and toasted crushed pistachios with black pepper."
+    },
+    {
+      "title": "Pinsa bianca with rosemary potatoes and crispy pancetta",
+      "cuisine": "Italian",
+      "pitch": "Paper-thin potato slices, olive oil, and fresh rosemary baked directly onto the dough with diced pancetta until the crust is blistered and the potatoes are golden-crisp."
+    },
+    {
+      "title": "Calabrian 'nduja and melted scamorza pinsa",
+      "cuisine": "Italian",
+      "pitch": "Pinsa baked with tomato passata, spicy melting 'nduja, and smoky scamorza cheese until bubbling and charred at the edges, cooled with fresh basil."
+    }
+  ],
+  "Thai Curry Noodles with Salmon": [
+    {
+      "title": "Thai red curry noodles with salmon and sugar snap peas",
+      "cuisine": "Thai",
+      "pitch": "Red curry paste bloomed in rich coconut cream, simmered with quick noodles, crisp sugar snaps, and tender poached salmon chunks, finished with fresh lime juice and cilantro."
+    },
+    {
+      "title": "Fragrant Thai green curry noodles with sweet basil and salmon",
+      "cuisine": "Thai",
+      "pitch": "Herbal green curry paste and coconut milk simmered with tender salmon fillets, sugar snaps, and handfuls of peppery Thai holy basil leaves over slurpable noodles."
+    },
+    {
+      "title": "Northern Thai Khao Soi yellow curry noodles with salmon",
+      "cuisine": "Thai",
+      "pitch": "Golden turmeric-ginger coconut broth poured over egg noodles and gentle salmon flakes, topped with crisp sliced shallots and a squeeze of fresh lime to cut through the richness."
+    },
+    {
+      "title": "Thick Panang curry noodles with lime leaf ribbons and flaked salmon",
+      "cuisine": "Thai",
+      "pitch": "A richer, velvety dried-chili curry with a hint of peanut that clings tightly to noodles, tossed with poached salmon and paper-thin kaffir lime leaf slivers."
+    }
+  ],
+  "Sheet-Pan Halloumi & Gnocchi": [
+    {
+      "title": "Sun-dried tomato red pesto gnocchi with roasted zucchini and caramelized halloumi",
+      "cuisine": "Mediterranean",
+      "pitch": "Shelf-stable gnocchi tossed dry with jarred red pesto, zucchini coins, and cherry tomatoes, roasted at high heat until the gnocchi crisp and cubes of halloumi turn deeply caramelized at the corners."
+    },
+    {
+      "title": "Spicy harissa gnocchi with bursting cherry tomatoes and golden halloumi",
+      "cuisine": "North African",
+      "pitch": "Gnocchi slicked in fiery jarred harissa paste and olive oil, roasted with sweet cherry tomatoes that burst into a spicy jam over squeaky, browned halloumi cubes."
+    },
+    {
+      "title": "Smoky ajvar gnocchi with sweet roasted bell peppers and crispy halloumi",
+      "cuisine": "Balkan",
+      "pitch": "Gnocchi and thick bell pepper slices coated in mild roasted ajvar, baked until charred at the edges with crispy golden halloumi and dried oregano."
+    }
+  ],
+  "Silky White Bean & Sausage Skillet": [
+    {
+      "title": "Balkan smoky ajvar and spicy merguez butter bean skillet",
+      "cuisine": "Balkan",
+      "pitch": "Sizzling lamb merguez coins rendered in a skillet, stirred with sweet-smoky ajvar and creamy butter beans until thick and spoonable, finished with wilted spinach and salty crumbled feta."
+    },
+    {
+      "title": "Italian fennel salsiccia, rosemary, and cannellini bean stew",
+      "cuisine": "Italian",
+      "pitch": "Crumbled fennel sausage browned with garlic and fresh rosemary, simmered down fast with cannellini beans and tomato passata, finished with shaved pecorino."
+    },
+    {
+      "title": "Spanish chorizo and smoked paprika butter beans with wilted greens",
+      "cuisine": "Spanish",
+      "pitch": "Spicy cured chorizo crisped in its own red paprika oil, tossed with creamy butter beans and tender greens, splashed with a dash of sharp sherry vinegar off the heat."
+    },
+    {
+      "title": "French bistro sausage, Dijon, and thyme white bean ragout",
+      "cuisine": "French",
+      "pitch": "Browned sausage slices simmered with tender white beans, a spoonful of sharp Dijon mustard, and fresh thyme into a silky, savory pan sauce eaten with crusty bread."
+    }
   ]
 }

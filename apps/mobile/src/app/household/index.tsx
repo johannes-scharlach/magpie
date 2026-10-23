@@ -6,6 +6,7 @@ import {
   selectionLabels,
   avoidanceKinds,
   shopAccessOptions,
+  profileShops,
   stapleGroups,
   type SelectionField,
 } from "@magpie/profile";
@@ -169,14 +170,9 @@ export default function ProfileScreen() {
         </SettingsSection>
         <SettingsSection title="Shopping">
           <SettingsRow
-            detail={household.profile.main_supermarket || "Not specified"}
-            onPress={() => router.push("/household/shops")}
-            title="Main shop"
-          />
-          <SettingsRow
             detail={
               [
-                ...household.profile.shops.map(
+                ...profileShops(household.profile).map(
                   (shop) => `${shop.name} · ${shopAccessOptions[shop.access]}`,
                 ),
                 household.profile.other_shops,
@@ -185,7 +181,7 @@ export default function ProfileScreen() {
                 .join(", ") || "Not specified"
             }
             onPress={() => router.push("/household/shops")}
-            title="Other shops and routine"
+            title="Shops"
           />
         </SettingsSection>
         <SettingsSection title="Account">

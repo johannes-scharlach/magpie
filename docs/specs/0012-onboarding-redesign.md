@@ -62,7 +62,7 @@ Native navigation/selection symbols are not artwork requests.
 - The assistant receives usual pantry items, regular fresh purchases, and legacy
   categories separately. All are habits, not confirmed inventory.
 - Shops guide sourcing, without claims about live stock. Special-trip ingredients
-  should be optional, with main-shop alternatives.
+  should be optional, with alternatives from easier-to-reach shops when possible.
 - Section saves must only write supplied fields. Schema defaults must not reset
   another section during an edit.
 
@@ -70,6 +70,29 @@ Changing a person's reference affects subsequent recipe generation/adjustments;
 it does not rewrite existing recipes or reinterpret extra portions. Existing
 `sized_for` metadata still records eater IDs and extra portions, not historical
 appetite snapshots (same boundary as existing diet/age edits).
+
+## Household shopping settings update (2026-10-23)
+
+Household settings show one Shops list. Each shop has the same Easy to get to,
+Small detour, or Special trip choices, regardless of its size or type. The editor
+explains how Magpie uses these answers to suggest recipes and ingredient swaps.
+Add a shop starts with an empty name and examples as a placeholder, not
+retailer-type shortcuts saved as names.
+Onboarding's existing copy and main/other entry remain unchanged.
+
+An existing `main_supermarket` appears in the list as Easy to get to. If it is
+already listed, keep its explicit access rating rather than duplicating it.
+Saving the shops section stores the combined list in `shops` and clears the
+legacy field; cancelling leaves saved answers unchanged. No schema change is
+needed. Recipe context also uses the combined list, without a privileged main
+shop, and retains existing shopping notes.
+
+Verified the shared editor on Android API 36, light theme, default text size
+(1080×2400): empty-name feedback, adding a named shop as Special trip, changing
+it to Small detour, and removal. The test shop was removed from the existing
+onboarding draft. Native captures are gitignored under
+`docs/.screenshots/household-shops/android/round-01/`. Settings-only copy/layout,
+household persistence, and iOS were not exercised.
 
 ## Native behaviour and verification
 

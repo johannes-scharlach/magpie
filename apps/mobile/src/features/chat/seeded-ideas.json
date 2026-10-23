@@ -217,32 +217,36 @@
     "vibe": "Fast, savory fridge-clean-out with smoky little meat bites."
   },
   {
-    "title": "Smoky Ajvar & Burrata Pinsa with Prosciutto",
+    "title": "Crispy Roman Pinsa",
+    "previewTitle": "Crispy Roman pinsa",
     "section": "Shortcut-Based Ideas",
-    "ingredients": "Pinsa base, mild ajvar, burrata, prosciutto, fresh arugula",
+    "ingredients": "Pinsa base, mild ajvar or tomato passata, burrata or mozzarella, prosciutto or mortadella, fresh herbs",
     "time": "15 min · oven",
-    "vibe": "Airy crisp crust, sweet-smoky pepper base, cool creamy cheese, salty ham."
+    "vibe": "Airy shatter-crisp crust with hot-baked or cool fresh toppings."
   },
   {
-    "title": "Weeknight Red Thai Curry Noodles with Salmon & Sugar Snaps",
+    "title": "Thai Curry Noodles with Salmon",
+    "previewTitle": "Thai curry noodles with salmon",
     "section": "Shortcut-Based Ideas",
-    "ingredients": "Red curry paste, coconut milk, salmon fillets, sugar snap peas, quick-cook noodles",
+    "ingredients": "Thai curry paste (red, green, or yellow), coconut milk, salmon fillets, sugar snap peas, quick-cook noodles",
     "time": "15 min · 1 pot",
     "vibe": "Fragrant, silky, gently spicy broth with tender fish and crunchy peas."
   },
   {
-    "title": "Sheet-Pan Red Pesto Gnocchi with Roasted Zucchini & Halloumi",
+    "title": "Sheet-Pan Halloumi & Gnocchi",
+    "previewTitle": "Sheet-pan halloumi & gnocchi",
     "section": "Shortcut-Based Ideas",
-    "ingredients": "Potato gnocchi, jarred red pesto, zucchini, halloumi, cherry tomatoes",
+    "ingredients": "Potato gnocchi, halloumi, zucchini or cherry tomatoes, jarred sauce (red pesto, harissa, or ajvar), olive oil",
     "time": "25 min · oven",
-    "vibe": "Crispy-chewy gnocchi, caramelized halloumi, sweet-roasty veg, intense pesto."
+    "vibe": "Crispy-chewy gnocchi, caramelized halloumi, sweet-roasty veg, intense jarred sauce."
   },
   {
-    "title": "Silky White Bean & Ajvar Skillet with Crispy Merguez / Salsiccia",
+    "title": "Silky White Bean & Sausage Skillet",
+    "previewTitle": "White bean & sausage skillet",
     "section": "Shortcut-Based Ideas",
-    "ingredients": "Merguez or salsiccia, ajvar, canned cannellini or butter beans, baby spinach, feta",
+    "ingredients": "Coarse sausage (merguez, salsiccia, or chorizo), canned white beans, jarred sauce or aromatics, baby greens",
     "time": "15 min · 1 skillet",
-    "vibe": "Rustic, spoonable, sweet-smoky sauce coating creamy beans and greens."
+    "vibe": "Rustic, spoonable, deeply savory sauce coating creamy beans and greens."
   },
   {
     "title": "Crispy Hummus & Spiced Lamb/Beef Flatbreads (Lahmacun-Style)",

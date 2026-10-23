@@ -5,8 +5,11 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useResolveClassNames } from "uniwind";
 import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
+import { useColorScheme } from "@/hooks/use-color-scheme";
 
 const STARTUP_TIMEOUT_MS = 15_000;
+const SPLASH_LIGHT = require("../../../assets/images/splash-icon.webp");
+const SPLASH_DARK = require("../../../assets/images/splash-icon-dark.webp");
 
 export function StartupScreen({
   error,
@@ -16,6 +19,7 @@ export function StartupScreen({
   onRetry: () => void;
 }) {
   const insets = useSafeAreaInsets();
+  const colorScheme = useColorScheme();
   const indicatorColor = useResolveClassNames("text-primary").color;
   const [timedOut, setTimedOut] = useState(false);
   const [attempt, setAttempt] = useState(0);
@@ -38,17 +42,12 @@ export function StartupScreen({
       }}
     >
       <View className="w-full max-w-md items-center gap-6">
-        <View
-          className="h-40 w-40 items-center justify-center rounded-[36px] dark:bg-[#FBF8F4]"
-          style={{ borderCurve: "continuous" }}
-        >
-          <Image
-            source={require("../../../assets/images/splash-icon.webp")}
-            accessibilityLabel="Magpie"
-            contentFit="contain"
-            style={{ width: 160, height: 160 }}
-          />
-        </View>
+        <Image
+          source={colorScheme === "dark" ? SPLASH_DARK : SPLASH_LIGHT}
+          accessibilityLabel="Magpie"
+          contentFit="contain"
+          style={{ width: 160, height: 160 }}
+        />
         <View className="min-h-36 items-center gap-4">
           {timedOut ? (
             <>

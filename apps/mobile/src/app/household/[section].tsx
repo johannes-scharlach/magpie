@@ -1,4 +1,5 @@
 import {
+  profileShops,
   selectionOptions,
   type CookingProfile,
   type SelectionField,
@@ -22,7 +23,7 @@ const titles: Record<string, string> = {
   kitchen_equipment: "Equipment",
   restrictions: "Household restrictions",
   meals_at_home: "Meals at home",
-  shops: "Shopping routine",
+  shops: "Where do you shop?",
 };
 
 function SectionSheet({
@@ -88,7 +89,11 @@ function SectionEditor({
   section: string;
 }) {
   const router = useRouter();
-  const [draft, setDraft] = useState(initial);
+  const [draft, setDraft] = useState(() =>
+    section === "shops"
+      ? { ...initial, main_supermarket: "", shops: profileShops(initial) }
+      : initial,
+  );
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const selection =
@@ -153,10 +158,18 @@ function SectionEditor({
         />
       )}
       {section === "shops" && (
-        <ShopsEditor
-          profile={draft}
-          onChange={(changes) => setDraft((d) => ({ ...d, ...changes }))}
-        />
+        <View className="gap-6">
+          <Text className="text-base leading-6 text-muted-foreground">
+            Add the shops you use and how easy each one is to get to. We’ll suggest
+            recipes with ingredients you’re likely to find there, and offer swaps
+            for anything that would mean a special trip.
+          </Text>
+          <ShopsEditor
+            profile={draft}
+            context="household"
+            onChange={(changes) => setDraft((d) => ({ ...d, ...changes }))}
+          />
+        </View>
       )}
       <PrimaryAction
         label={busy ? "Saving…" : "Save"}

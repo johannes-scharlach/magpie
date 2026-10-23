@@ -1119,6 +1119,20 @@ export function selectionLabels(
   ];
 }
 
+/** The former main shop is just another easy-to-reach shop. */
+export function profileShops(
+  profile: Pick<CookingProfile, "main_supermarket" | "shops">,
+): Shop[] {
+  const name = profile.main_supermarket.trim();
+  if (
+    !name ||
+    profile.shops.some(
+      (shop) => shop.name.trim().toLowerCase() === name.toLowerCase(),
+    )
+  ) return profile.shops;
+  return [{ name, access: "easy" }, ...profile.shops];
+}
+
 type Cupboards = Pick<CookingProfile, "keeps" | "cuisines" | "extras">;
 
 export function cooks(profile: Pick<CookingProfile, "cuisines">, cuisine: string): boolean {
@@ -1178,7 +1192,7 @@ export function profileContext(household: Household, userId: string): string {
     "Flexitarian means plant-forward and still regularly eats meat and fish; it does not mean vegetarian.",
     "Count each household person once for the serving baseline. Sum the selected eaters' portion_reference values and add the meal's extra portions. One reference portion is a regular adult helping; do not reduce it again based on age. Use their attendance and the current request to decide who is eating; do not add the caller again. The current request can override the usual meal routine or attendance without changing the Profile.",
     "Only declared equipment is available. An empty equipment list means none declared; do not invent a stove or oven. Offer feasible alternatives or ask.",
-    "Shops inform sourcing and substitutions, not permissible cuisines. Use the actual main shop as sourcing context, without claiming live stock knowledge. Additional shops marked easy are convenient; detour means a small detour; trip means a special trip. Keep extra-trip ingredients optional and offer a main-shop alternative.",
+    "Shops inform sourcing and substitutions, not permissible cuisines. Use the named shops as sourcing context, without claiming live stock knowledge. Shops marked easy are convenient; detour means a small detour; trip means a special trip. Access is about the trip, not the shop's size or type. Keep special-trip ingredients optional and offer alternatives from easier-to-reach shops when possible.",
     "ingredient_avoidances distinguishes allergies, must-avoid restrictions and dislikes. Respect all of them, preserving who each detail applies to; do not turn a dislike into an allergy. Legacy household_restrictions notes remain binding.",
     JSON.stringify({
       people: people.map((p) => ({
@@ -1195,9 +1209,8 @@ export function profileContext(household: Household, userId: string): string {
         "kitchen_equipment",
         profile.kitchen_equipment,
       ),
-      main_supermarket: profile.main_supermarket,
-      other_shops: profile.other_shops,
-      shops: profile.shops,
+      shopping_notes: profile.other_shops,
+      shops: profileShops(profile),
     }),
   ]
     .filter(Boolean)

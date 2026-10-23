@@ -11,10 +11,13 @@ import { Field } from "@/features/profile/form";
 
 const shopSuggestions = ["Asian grocer", "Market", "Butcher"] as const;
 
-export function ShopsEditor({ profile, onChange }: {
+export function ShopsEditor({ profile, onChange, context = "onboarding" }: {
   profile: CookingProfile;
   onChange: (changes: Partial<CookingProfile>) => void;
+  /** Onboarding keeps its existing entry; household settings use one list. */
+  context?: "onboarding" | "household";
 }) {
+  const isOnboarding = context === "onboarding";
   const mutedColor = useResolveClassNames("text-muted-foreground").color;
   const [editing, setEditing] = useState<{ index: number; shop: Shop } | null>(null);
   const [attempted, setAttempted] = useState(false);
@@ -28,14 +31,14 @@ export function ShopsEditor({ profile, onChange }: {
     onChange({ shops: editing.index < 0 ? [...profile.shops, shop] : profile.shops.map((entry, index) => index === editing.index ? shop : entry) });
     sheet.current?.dismiss();
   }
-  const remainingSuggestions = shopSuggestions.filter(
+  const remainingSuggestions = isOnboarding ? shopSuggestions.filter(
     (name) => !profile.shops.some((shop) => shop.name.toLowerCase() === name.toLowerCase()),
-  );
+  ) : [];
   return (
     <View className="gap-7">
-      <Field label="Main shop" value={profile.main_supermarket} onChangeText={(main_supermarket) => onChange({ main_supermarket })} placeholder="e.g. Aldi, Rewe, Tesco" returnKeyType="done" />
+      {isOnboarding ? <Field label="Main shop" value={profile.main_supermarket} onChangeText={(main_supermarket) => onChange({ main_supermarket })} placeholder="e.g. Aldi, Rewe, Tesco" returnKeyType="done" /> : null}
       <View className="gap-3">
-        <Text className="text-lg font-semibold">Other shops</Text>
+        {isOnboarding ? <Text className="text-lg font-semibold">Other shops</Text> : null}
         {profile.shops.length ? (
           <View
             className="overflow-hidden rounded-xl border border-border bg-card"
@@ -94,10 +97,10 @@ export function ShopsEditor({ profile, onChange }: {
           </Pressable>
         </View>
       </View>
-      {profile.other_shops ? <Field label="Your existing shopping notes" multiline value={profile.other_shops} onChangeText={(other_shops) => onChange({ other_shops })} /> : null}
+      {profile.other_shops ? <Field label={isOnboarding ? "Your existing shopping notes" : "Shopping notes"} multiline value={profile.other_shops} onChangeText={(other_shops) => onChange({ other_shops })} /> : null}
       {editing ? (
         <EditorSheet ref={sheet} autoFocusInput={!editing.shop.name ? input : undefined} title={editing.index < 0 ? "Add a shop" : "Edit shop"} onDismiss={() => setEditing(null)}>
-          <Field ref={input} label="Shop name" value={editing.shop.name} onChangeText={(name) => setEditing({ ...editing, shop: { ...editing.shop, name } })} autoFocus={!editing.shop.name} returnKeyType="done" error={attempted && !editing.shop.name.trim() ? "Enter a shop name." : null} />
+          <Field ref={input} label="Shop name" placeholder={isOnboarding ? undefined : "e.g. Aldi, Rewe, Saturday market"} value={editing.shop.name} onChangeText={(name) => setEditing({ ...editing, shop: { ...editing.shop, name } })} autoFocus={!editing.shop.name} returnKeyType="done" error={attempted && !editing.shop.name.trim() ? "Enter a shop name." : null} />
           <View className="gap-2">
             <Text className="font-medium">How easy is it to get there?</Text>
             <ChoiceList

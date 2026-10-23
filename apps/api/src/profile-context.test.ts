@@ -49,8 +49,49 @@ test("household context preserves restrictions and routines without inventing eq
     data.meals_at_home,
     "Weekday dinners, lunches and dinners on weekends",
   );
-  assert.equal(data.other_shops, "The Asian shop takes a special trip");
+  assert.equal(data.shopping_notes, "The Asian shop takes a special trip");
   assert.match(context, /allergies and restrictions over preferences/);
+});
+
+test("shopping context uses one list, with the former main shop treated as easy to reach", () => {
+  const profile = newProfile();
+  profile.main_supermarket = " Aldi ";
+  profile.shops = [
+    { name: "Rewe", access: "easy" },
+    { name: "Market", access: "detour" },
+    { name: "Asian supermarket", access: "trip" },
+  ];
+  const context = profileContext({ profile, people: [] }, "caller");
+  const data = JSON.parse(context.slice(context.indexOf('{"people"')));
+
+  assert.deepEqual(data.shops, [
+    { name: "Aldi", access: "easy" },
+    { name: "Rewe", access: "easy" },
+    { name: "Market", access: "detour" },
+    { name: "Asian supermarket", access: "trip" },
+  ]);
+  assert.equal("main_supermarket" in data, false);
+  assert.equal("other_shops" in data, false);
+  assert.doesNotMatch(context, /main[- ]shop|additional shops/i);
+  assert.match(context, /special-trip ingredients optional/);
+  assert.match(context, /easier-to-reach shops/);
+});
+
+test("an explicit shop access rating takes precedence over the former main shop", () => {
+  const household = householdSchema.parse({
+    profile: {
+      ...newProfile(),
+      main_supermarket: " ALDI ",
+      shops: [{ name: "Aldi", access: "trip" }],
+    },
+    people: [
+      { ...newPerson("9c5b42f7-fbea-4df2-b8d3-d42d37ed9a1d"), name: "Sam" },
+    ],
+  });
+  const context = profileContext(household, "caller");
+  const data = JSON.parse(context.slice(context.indexOf('{"people"')));
+
+  assert.deepEqual(data.shops, [{ name: "Aldi", access: "trip" }]);
 });
 
 test("onboarding choices retain their meaning through validation and assistant context", () => {
