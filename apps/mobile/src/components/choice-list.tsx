@@ -46,6 +46,14 @@ export function ChoiceList({
           >
             <SymbolView
               name={{
+                ios:
+                  selection === "single"
+                    ? selected
+                      ? "largecircle.fill.circle"
+                      : "circle"
+                    : selected
+                      ? "checkmark.square.fill"
+                      : "square",
                 android:
                   selection === "single"
                     ? selected

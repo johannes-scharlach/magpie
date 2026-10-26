@@ -1,3 +1,4 @@
+import { profileShops } from "@magpie/profile";
 import * as Haptics from "expo-haptics";
 import { Redirect, useFocusEffect, useRouter } from "expo-router";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -40,6 +41,7 @@ import {
 import { ScrollEdgeFade } from "@/features/onboarding/scroll-edge-fade";
 import { KitchenArtwork } from "@/features/onboarding/artwork";
 import { CompleteSetup } from "@/features/onboarding/complete";
+import { shopsHaveRules } from "@/features/profile/shop-entry";
 
 export function SetupFlow() {
   const { draft } = useOnboarding();
@@ -137,7 +139,10 @@ function Questions({ initialStep }: { initialStep: Step }) {
   const person = draft.people.find((p) => p.id === draft.onboarding_person_id)!;
   const valid =
     (step !== "name" || !!person.name.trim()) &&
-    (step !== "diet" || person.diet !== "other" || !!person.diet_other.trim());
+    (step !== "diet" ||
+      person.diet !== "other" ||
+      !!person.diet_other.trim()) &&
+    (step !== "groceries" || shopsHaveRules(profileShops(draft.profile)));
   const isAuth = step === "email" || step === "code";
   const finishing = !!session && (step === lastQuestion || isAuth);
   const locked = busy || auth.busy;
@@ -304,6 +309,7 @@ function Questions({ initialStep }: { initialStep: Step }) {
                 ) : (
                   <SetupQuestion
                     step={pageStep}
+                    active={pageIndex === index && pageIndex === settledIndex}
                     onNext={() => void next()}
                     validationAttempt={pageIndex === index ? attempted : 0}
                     onRoutineInputHeightChange={setRoutineInputHeight}

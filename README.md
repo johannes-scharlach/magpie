@@ -1,6 +1,24 @@
 # Magpie
 
-Shared shopping lists that work offline.
+Magpie helps you take back control of your food, from choosing meals to
+planning, shopping and cooking.
+
+The product promise has three parts:
+
+1. **You decide for yourself.** You set what matters to you, what must be
+   respected, and where you want room to explore.
+2. **Your decisions are put into practice.** Magpie uses those choices when
+   suggesting recipes, planning meals and choosing ingredients.
+3. **Nothing overwhelms you.** Magpie handles planning and coordination so
+   control does not mean organising every detail yourself.
+
+Onboarding establishes this relationship: you tell Magpie how it should work
+for you, with clear consequences for each choice. It is not just a profile
+questionnaire, and it should not require you to configure every detail.
+
+## How it works
+
+Shared shopping lists work offline.
 
 **Stack:** Expo (React Native) · PowerSync · Supabase · Supabase Edge Functions
 
@@ -84,18 +102,18 @@ working off Wi-Fi.
 
 ## Everyday commands
 
-| Command | Does |
-| --- | --- |
-| `pnpm dev` | Metro bundler |
-| `pnpm stack:up` / `stack:down` | Supabase + PowerSync containers |
-| `pnpm stack:logs` | Tail the PowerSync service |
-| `pnpm db:reset` | Rebuild Postgres from migrations + seed |
-| `pnpm db:diff <name>` | Capture Studio changes as a migration |
-| `pnpm db:types` | Regenerate Postgres types |
-| `pnpm sync:reload` | Restart PowerSync after editing sync rules |
-| `pnpm fn:serve` | Edge functions with hot reload |
-| `pnpm api` | API server with hot reload (port 8787) |
-| `pnpm api:deploy` | Ship the API server to Fly.io |
+| Command                        | Does                                       |
+| ------------------------------ | ------------------------------------------ |
+| `pnpm dev`                     | Metro bundler                              |
+| `pnpm stack:up` / `stack:down` | Supabase + PowerSync containers            |
+| `pnpm stack:logs`              | Tail the PowerSync service                 |
+| `pnpm db:reset`                | Rebuild Postgres from migrations + seed    |
+| `pnpm db:diff <name>`          | Capture Studio changes as a migration      |
+| `pnpm db:types`                | Regenerate Postgres types                  |
+| `pnpm sync:reload`             | Restart PowerSync after editing sync rules |
+| `pnpm fn:serve`                | Edge functions with hot reload             |
+| `pnpm api`                     | API server with hot reload (port 8787)     |
+| `pnpm api:deploy`              | Ship the API server to Fly.io              |
 
 ## API server
 

@@ -1,0 +1,13 @@
+# Prettier also skips everything in .gitignore.
+
+# Deno: formatted by `deno fmt` with supabase/functions/deno.json.
+supabase/
+
+# Generated.
+pnpm-lock.yaml
+apps/mobile/src/uniwind-types.d.ts
+
+# Agent tooling, not app code.
+.claude/
+.agents/
+.commandcode/

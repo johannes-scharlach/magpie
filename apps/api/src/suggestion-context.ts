@@ -1,11 +1,16 @@
 import {
   dietOptions,
   selectionLabels,
+  shopRulesContext,
   type Household,
   type IngredientAvoidance,
 } from "@magpie/profile";
 
-function avoidanceLabel({ ingredient, kind, detail }: IngredientAvoidance): string {
+function avoidanceLabel({
+  ingredient,
+  kind,
+  detail,
+}: IngredientAvoidance): string {
   const notes = [kind === "allergy" ? "allergy" : "", detail.trim()].filter(
     Boolean,
   );
@@ -53,6 +58,7 @@ export function suggestionContext(household: Household | null): string {
     profile.restrictions.trim()
       ? `Other food restrictions: ${profile.restrictions.trim()}`
       : null,
+    shopRulesContext(profile),
   ]
     .filter(Boolean)
     .join("\n");

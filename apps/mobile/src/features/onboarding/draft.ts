@@ -2,6 +2,7 @@ import {
   newPerson,
   newProfile,
   profileSchema,
+  profileShops,
   personSchema,
   type CookingProfile,
   type HouseholdPerson,
@@ -95,6 +96,8 @@ export function restoreDraft(raw: string | null): OnboardingDraft | null {
     const value = profileSchema.shape[key].safeParse(saved.profile[key]);
     if (value.success) Object.assign(profile, { [key]: value.data });
   }
+  profile.shops = profileShops(profile);
+  profile.main_supermarket = "";
   const people = saved.people.flatMap((value) => {
     const person = incompletePerson.safeParse(value);
     return person.success ? [person.data] : [];

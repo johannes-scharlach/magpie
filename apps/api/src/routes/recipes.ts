@@ -1,20 +1,28 @@
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
-import { generateText, Output } from "ai";
+import { generateText, Output, type UserContent } from "ai";
 import { Hono } from "hono";
 import { z } from "zod";
 
 import type { AppBindings } from "../auth.js";
 import { env } from "../env.js";
-import {
-  CATEGORIES,
-  localeNames,
-  locales,
-  RecipeSchema,
-  type Locale,
-} from "../recipe-schema.js";
+import { locales, RecipeSchema, type Locale } from "../recipe-schema.js";
 import { MEAL_SLOTS } from "../plan.js";
 import { findCompletedImport, saveImport } from "../import-and-plan.js";
+import { contentSource } from "../import-identity.js";
+import type { ImportRequest } from "../import-request.js";
 import { AppError } from "../errors.js";
+import { posthogApiLogger } from "../posthog-logs.js";
+import {
+  fetchRecipePage,
+  geminiSeesOnlyAShell,
+  recipePageText,
+} from "../recipe-page.js";
+import { importSource } from "../recipe-source.js";
+import {
+  extractedRecipe,
+  extractionInstructions,
+  respond,
+} from "../recipe-extraction.js";
 
 const google = createGoogleGenerativeAI({ apiKey: env.googleApiKey });
 
@@ -33,6 +41,17 @@ const FromUrlSchema = z.object({
   locale: z.enum(locales).optional().default("en"),
 });
 
+const MAX_TEXT = 50_000;
+const MAX_PHOTOS = 6;
+const MAX_PHOTO_BYTES = 10_000_000;
+
+const FromContentSchema = z.object({
+  operationId: z.uuid(),
+  listId: z.uuid(),
+  text: z.string().trim().max(MAX_TEXT).optional(),
+  locale: z.enum(locales).optional().default("en"),
+});
+
 export const recipes = new Hono<AppBindings>();
 
 recipes.post("/import-from-url", async (c) => {
@@ -47,44 +66,223 @@ recipes.post("/import-from-url", async (c) => {
     );
   }
   const request = parsed.data;
-  const { url, context, locale } = request;
-  const userId = c.get("user").id;
-  const existing = await findCompletedImport(userId, request);
-  if (existing) return c.json(existing);
-  const effectiveLocale: Locale = (locale as Locale) ?? "en";
+  return c.json(
+    await logFailure(
+      {
+        operation_id: request.operationId,
+        source: "url",
+        target: request.plan ? "plan" : "cookbook",
+        url_host: new URL(request.url).host,
+      },
+      () => importFromUrl(c.get("user").id, request),
+    ),
+  );
+});
 
-  const result = await generateText({
+/** Pasted text, photos of one recipe in page order, or both. */
+recipes.post("/import-from-content", async (c) => {
+  const body = await c.req.parseBody({ all: true }).catch(() => null);
+  const parsed = FromContentSchema.safeParse(body);
+  const photos = [body?.photos ?? []].flat();
+  if (
+    !parsed.success ||
+    (!parsed.data.text && photos.length === 0) ||
+    photos.length > MAX_PHOTOS ||
+    !photos.every(
+      (p) =>
+        p instanceof File &&
+        p.type.startsWith("image/") &&
+        p.size <= MAX_PHOTO_BYTES,
+    )
+  ) {
+    throw new AppError(
+      "INVALID_REQUEST",
+      `Paste a recipe or choose up to ${MAX_PHOTOS} photos of it.`,
+      400,
+    );
+  }
+  const files = photos as File[];
+  const request = parsed.data;
+  return c.json(
+    await logFailure(
+      {
+        operation_id: request.operationId,
+        source: files.length ? "photos" : "text",
+        target: "cookbook",
+        text_length: request.text?.length ?? 0,
+        photo_count: files.length,
+        photo_bytes: files.reduce((sum, p) => sum + p.size, 0),
+      },
+      () => importFromContent(c.get("user").id, request, files),
+    ),
+  );
+});
+
+/** Logs a failed import with the reason, then lets the error through. */
+async function logFailure<T>(
+  attributes: Record<string, string | number>,
+  run: () => Promise<T>,
+): Promise<T> {
+  const startedAt = Date.now();
+  try {
+    return await run();
+  } catch (error) {
+    posthogApiLogger.warn("recipe import failed", {
+      operation: "recipe_import",
+      outcome: "failure",
+      ...attributes,
+      code: error instanceof AppError ? error.code : "INTERNAL_ERROR",
+      reason: failureReason(error),
+      duration_ms: Date.now() - startedAt,
+    });
+    throw error;
+  }
+}
+
+/** Gemini's own words for extraction failures; the error message otherwise. */
+function failureReason(error: unknown): string {
+  if (!(error instanceof Error)) return String(error);
+  return typeof error.cause === "string" ? error.cause : error.message;
+}
+
+async function importFromUrl(
+  userId: string,
+  { url, ...rest }: z.infer<typeof FromUrlSchema>,
+) {
+  const request: ImportRequest = { ...rest, source: url };
+  const existing = await findCompletedImport(userId, request);
+  if (existing) return existing;
+  const locale: Locale = request.locale;
+
+  const instructions = extractionInstructions(locale, request.context);
+  const fetchItself = (gemini: Record<string, string>) => {
+    posthogApiLogger.info("recipe import fetched the page itself", {
+      operation: "recipe_import",
+      operation_id: request.operationId,
+      url_host: new URL(url).host,
+      ...gemini,
+    });
+    return fetchRecipePage(url).then((html) =>
+      generateRecipe(
+        `Extract the recipe from the page content below into the recipe fields. ${instructions}\n\nURL: ${url}\n\nPage content:\n${recipePageText(html)}\n\n${respond(locale)}`,
+        { fetchUrl: false },
+      ),
+    );
+  };
+
+  let result;
+  if (geminiSeesOnlyAShell(url)) {
+    result = await fetchItself({ gemini_retrieval: "skipped" });
+  } else {
+    result = await generateRecipe(
+      `Fetch the recipe content from the following URL and extract it into the recipe fields. ${instructions}\n\nURL: ${url}\n\n${respond(locale)}`,
+      { fetchUrl: true },
+    );
+    // Some sites block Google's fetcher but not an ordinary request, and some
+    // show it a page without the recipe.
+    const retrieval = urlRetrievalStatus(result);
+    // Reading output after a refusal throws, so only a finished answer counts.
+    const geminiError =
+      result.finishReason === "stop" ? modelError(result.output) : undefined;
+    if (retrieval !== "URL_RETRIEVAL_STATUS_SUCCESS" || geminiError) {
+      result = await fetchItself({
+        gemini_retrieval: retrieval ?? "none",
+        gemini_error: geminiError ?? "none",
+      });
+    }
+  }
+
+  const recipe = extractedRecipe(
+    result,
+    "Could not read a recipe from that URL.",
+  );
+  return saveImport(userId, request, {
+    ...recipe,
+    from: importSource(url, recipe.from),
+  });
+}
+
+async function importFromContent(
+  userId: string,
+  { text, ...fields }: z.infer<typeof FromContentSchema>,
+  files: File[],
+) {
+  const photos = await Promise.all(
+    files.map(async (file) => ({
+      data: new Uint8Array(await file.arrayBuffer()),
+      mediaType: file.type,
+    })),
+  );
+  const request: ImportRequest = {
+    ...fields,
+    source: contentSource(
+      text,
+      photos.map((p) => p.data),
+    ),
+  };
+  const existing = await findCompletedImport(userId, request);
+  if (existing) return existing;
+
+  const shown = [
+    photos.length
+      ? "The photos may show a cookbook page, a screenshot or a handwritten card; several photos are pages of one recipe in order."
+      : null,
+    text
+      ? `${photos.length ? "The cook added this note" : "The cook pasted this text, such as a recipe from a message or a social media caption"}:\n${text}`
+      : null,
+  ]
+    .filter(Boolean)
+    .join("\n\n");
+  const result = await generateRecipe(
+    [
+      {
+        type: "text",
+        text: `Extract the recipe the cook gave you into the recipe fields. ${shown}\n\n${extractionInstructions(request.locale, undefined)}\nFor from, give the book, author or account the content names, if any, and no url.\n\n${respond(request.locale)}`,
+      },
+      ...photos.map((p) => ({ type: "file" as const, ...p })),
+    ],
+    { fetchUrl: false },
+  );
+  const recipe = extractedRecipe(
+    result,
+    photos.length
+      ? "Could not read a recipe from those photos."
+      : "Could not read a recipe from that text.",
+  );
+  return saveImport(userId, request, {
+    ...recipe,
+    from: importSource(undefined, recipe.from),
+  });
+}
+
+function generateRecipe(
+  content: string | UserContent,
+  { fetchUrl }: { fetchUrl: boolean },
+) {
+  return generateText({
     model: google("gemini-flash-lite-latest"),
     output: Output.object({
       schema: RecipeSchema.or(z.object({ error: z.string() })),
     }),
-    prompt:
-      `Fetch the recipe content from the following URL and extract it into the recipe fields. Put every ingredient in recipeIngredient and all ordered cooking steps in recipeInstructions. Use contentMarkdown only for useful recipe-specific context that has no dedicated field, such as serving ideas, adaptations, equipment notes, or other contextual sections from the source. Do not repeat ingredients or step-by-step instructions in contentMarkdown; omit it if there is no useful extra context. Preserve the source's useful cooking details in the structured fields. Write the recipe in ${localeNames[effectiveLocale]} and set the \`locale\` field to "${effectiveLocale}". If the page contains multiple recipes, pick the one that seems most relevant based on this additional context: ${context ?? ""}` +
-      `\n\nFor recipeIngredient, return an array of {qty_text, item_name, prep_note, category_id, shopping_hint, swaps, without} objects:` +
-      `\n- qty_text: amount with unit (e.g. "150g", "1-2 tins", "1/2 tsp", null if none like "Freshly ground black pepper").` +
-      `\n- item_name: ingredient name WITHOUT qty or preparation actions (e.g. "garlic" not "1 clove garlic thinly sliced"). Keep purchase distinctions from the source, such as "canned tomatoes", "frozen spinach", or "medium or coarse bulgur", in the name.` +
-      `\n- prep_note: preserve preparation details from the source ingredient line here (e.g. "thinly sliced", "rough-chopped", "drained"). Leave preparation in the source instructions in recipeInstructions; do not move or duplicate it into ingredient lines. Omit prep_note when absent; never write placeholders such as "none" or "N/A". Preserve the source's preparation details and where they appear, even when it repeats them in both ingredients and instructions.` +
-      `\n- category_id: REQUIRED for every purchasable ingredient — the supermarket aisle where you BUY the raw item BEFORE prepping. Must be one of ${CATEGORIES.join(",")}. Choose the most specific: garlic/lemon/herbs=produce, bulgur/pasta/rice=grains, olives/olive oil/spices/canned tomatoes=spices, feta/parmesan/salami/tofu=deli, milk/butter/yogurt/cream=dairy, raw poultry/beef/fish=meat, coffee/oats/jam=breakfast. Ignore the prep when picking the aisle. "1 clove garlic, thinly sliced" is produce, not other. Only omit category_id for truly non-purchasable items like "leftovers". Use "other" only as last resort, not default.` +
-      `\n- shopping_hint: REQUIRED for each ingredient. Choose check_at_home only when this is an everyday cooking basic the cook should check before buying (e.g. a little salt, oil, water or common dried seasoning). Otherwise use likely_purchase, including when unsure. This does not assert what the household owns; it is independent of the shopping aisle category_id.` +
-      `\nFor swaps, follow the swaps schema description — it is the single source of those rules. The one extra rule here: when the source itself lists an alternative, keep it, and preserve the source's own prep note along with any reason the source gives for it.\nFor without, follow its schema description. The source's optional ingredients always get one.` +
-      `\n\nURL: ${url}\n\nRespond with the extracted recipe in JSON format according to the provided schema. If you fail to extract a recipe, respond with {"error": "reason for failure"}.`,
-    tools: {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      urlContext: (google.tools as any).urlContext({}),
-    },
+    messages: [{ role: "user", content }],
+    tools: fetchUrl
+      ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        { urlContext: (google.tools as any).urlContext({}) }
+      : undefined,
   });
+}
 
-  const output = result.output as
-    | z.infer<typeof RecipeSchema>
-    | { error: string }
-    | undefined;
-  if (!output || "error" in output) {
-    throw new AppError(
-      "RECIPE_EXTRACTION_FAILED",
-      "Could not read a recipe from that URL.",
-      422,
-    );
-  }
-  const saved = await saveImport(userId, request, output);
-  return c.json(saved);
-});
+export function urlRetrievalStatus(
+  result: Awaited<ReturnType<typeof generateRecipe>>,
+): string | undefined {
+  const metadata = result.finalStep.providerMetadata?.google
+    ?.urlContextMetadata as
+    { urlMetadata?: { urlRetrievalStatus?: string }[] } | null | undefined;
+  return metadata?.urlMetadata?.[0]?.urlRetrievalStatus;
+}
+
+function modelError(output: unknown): string | undefined {
+  return output && typeof output === "object" && "error" in output
+    ? String(output.error)
+    : undefined;
+}

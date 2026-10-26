@@ -6,14 +6,21 @@ import {
 import { MenuView } from "@expo/ui/community/menu";
 import { useQuery } from "@powersync/react";
 import * as Haptics from "expo-haptics";
-import { Stack, useLocalSearchParams } from "expo-router";
+import { router, Stack, useLocalSearchParams } from "expo-router";
 import { SymbolView, type SymbolViewProps } from "expo-symbols";
 import { useMemo, useState } from "react";
-import { ActivityIndicator, Platform, ScrollView, View } from "react-native";
+import {
+  ActivityIndicator,
+  Platform,
+  Pressable,
+  ScrollView,
+  View,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useResolveClassNames } from "uniwind";
 
 import { Action } from "@/components/action";
+import { CloseButton } from "@/components/close-button";
 import { Text } from "@/components/ui/text";
 import { goWithout, setMealSwap } from "@/db/meal-ingredients";
 import { decideIngredients, parseAtHome } from "@/db/meal-shopping";
@@ -65,24 +72,50 @@ export default function MealShopping() {
     }
   }, [meal]);
 
-  if (isLoading || itemsLoading)
-    return <ActivityIndicator className="flex-1" />;
-  if (!meal || !parsed) {
-    return (
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        className="flex-1 bg-background"
-        contentContainerStyle={{ padding: 24 }}
-      >
-        <Text>
-          {meal
-            ? "The recipe hasn't synced yet. Open its ingredients again shortly."
-            : "This meal is no longer planned."}
-        </Text>
-      </ScrollView>
-    );
-  }
-  return <IngredientReview meal={meal} lines={parsed} items={items} />;
+  return (
+    <>
+      {/* Each platform's way out of a sheet; both just close it. */}
+      <Stack.Screen
+        options={
+          Platform.OS === "ios"
+            ? {
+                headerRight: () => (
+                  <Pressable
+                    onPress={() => router.back()}
+                    hitSlop={12}
+                    accessibilityRole="button"
+                    className="px-2 py-1"
+                  >
+                    <Text className="text-base font-semibold text-primary">
+                      Done
+                    </Text>
+                  </Pressable>
+                ),
+              }
+            : {
+                headerLeft: () => <CloseButton onPress={() => router.back()} />,
+              }
+        }
+      />
+      {isLoading || itemsLoading ? (
+        <ActivityIndicator className="flex-1" />
+      ) : !meal || !parsed ? (
+        <ScrollView
+          contentInsetAdjustmentBehavior="automatic"
+          className="flex-1 bg-background"
+          contentContainerStyle={{ padding: 24 }}
+        >
+          <Text>
+            {meal
+              ? "The recipe hasn't synced yet. Open its ingredients again shortly."
+              : "This meal is no longer planned."}
+          </Text>
+        </ScrollView>
+      ) : (
+        <IngredientReview meal={meal} lines={parsed} items={items} />
+      )}
+    </>
+  );
 }
 
 function IngredientReview({

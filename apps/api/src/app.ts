@@ -7,6 +7,8 @@ import { type AppBindings, requireUser } from "./auth.js";
 import { chats } from "./routes/chats.js";
 import { items } from "./routes/items.js";
 import { AppError } from "./errors.js";
+import { loggablePath } from "./loggable-path.js";
+import { posthogApiLogger } from "./posthog-logs.js";
 import { plannedMeals } from "./routes/planned-meals.js";
 import { recipes } from "./routes/recipes.js";
 import { invitations } from "./routes/invitations.js";
@@ -15,12 +17,10 @@ import { sharedRecipes } from "./routes/shared-recipes.js";
 export const app = new Hono<AppBindings>();
 
 // Invitation and share paths contain a bearer secret. Keep them out of logs.
-app.use(
-  "*",
-  (c, next) =>
-    c.req.path.startsWith("/join/") || c.req.path.startsWith("/r/")
-      ? next()
-      : logger()(c, next),
+app.use("*", (c, next) =>
+  c.req.path.startsWith("/join/") || c.req.path.startsWith("/r/")
+    ? next()
+    : logger()(c, next),
 );
 
 // The native app is not subject to CORS; Expo web and browser testing are.
@@ -47,7 +47,7 @@ app.route("/v1/recipes", recipes);
 app.route("/v1/planned-meals", plannedMeals);
 
 app.notFound((c) =>
-  c.json({ error: { code: "NOT_FOUND", message: "Not found" } }, 404)
+  c.json({ error: { code: "NOT_FOUND", message: "Not found" } }, 404),
 );
 
 app.onError((err, c) => {
@@ -70,6 +70,13 @@ app.onError((err, c) => {
   }
 
   console.error(err);
+  posthogApiLogger.error("unexpected api error", {
+    method: c.req.method,
+    path: loggablePath(c.req.path),
+    error_name: err.name,
+    error_message: err.message,
+    stack: err.stack ?? "",
+  });
   return c.json(
     {
       error: {

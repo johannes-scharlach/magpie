@@ -1,7 +1,11 @@
 import { ingredientLabel } from "@magpie/profile";
 import { SymbolView } from "expo-symbols";
 import { Pressable, View } from "react-native";
-import Animated, { Easing, Keyframe, ReduceMotion } from "react-native-reanimated";
+import Animated, {
+  Easing,
+  Keyframe,
+  ReduceMotion,
+} from "react-native-reanimated";
 import { useResolveClassNames } from "uniwind";
 import { clayTilts } from "@/components/clay";
 import { Input } from "@/components/ui/input";
@@ -104,7 +108,9 @@ export function CupboardFields({
         entering={lineIn(rows.length + (extras.length ? 1 : 0))}
         className="gap-2"
       >
-        <Text className="text-sm font-medium">Anything else you keep for it?</Text>
+        <Text className="text-sm font-medium">
+          Anything else you keep for it?
+        </Text>
         <View className="min-h-12 flex-row items-center rounded-2xl bg-muted pr-1">
           <Input
             accessibilityLabel="Anything else you keep for it?"
@@ -115,6 +121,8 @@ export function CupboardFields({
             returnKeyType="done"
             submitBehavior="submit"
             onSubmitEditing={onAddExtra}
+            // Continue or Back dismisses the keyboard; what's typed still counts.
+            onBlur={onAddExtra}
           />
           {extra.trim() ? (
             <Pressable

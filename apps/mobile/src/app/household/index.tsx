@@ -5,7 +5,7 @@ import {
   dietOptions,
   selectionLabels,
   avoidanceKinds,
-  shopAccessOptions,
+  shopRuleSummaries,
   profileShops,
   stapleGroups,
   type SelectionField,
@@ -159,9 +159,11 @@ export default function ProfileScreen() {
             detail={
               [
                 ...household.profile.cuisines.map(cuisineLabel),
-                ...stapleGroups.filter(
-                  (group) => keptLabels(household.profile, group).length,
-                ).map(cuisineLabel),
+                ...stapleGroups
+                  .filter(
+                    (group) => keptLabels(household.profile, group).length,
+                  )
+                  .map(cuisineLabel),
               ].join(", ") || "None selected"
             }
             onPress={() => router.push("/household-cuisines")}
@@ -173,14 +175,15 @@ export default function ProfileScreen() {
             detail={
               [
                 ...profileShops(household.profile).map(
-                  (shop) => `${shop.name} · ${shopAccessOptions[shop.access]}`,
+                  (shop) =>
+                    `${shop.name} · ${shop.rule ? shopRuleSummaries[shop.rule] : "Choose a rule"}`,
                 ),
                 household.profile.other_shops,
               ]
                 .filter(Boolean)
                 .join(", ") || "Not specified"
             }
-            onPress={() => router.push("/household/shops")}
+            onPress={() => router.push("/household-shops")}
             title="Shops"
           />
         </SettingsSection>

@@ -4,8 +4,35 @@ Expo + PowerSync + Supabase. Read `docs/decisions/` before architectural
 changes, `docs/schema-changes.md` before touching the schema or sync rules.
 `CLAUDE.md` is a symlink to this file.
 
+## Product promise
+
+Magpie exists to return control over food to the user. Control means three
+things, and all three must hold together:
+
+1. **You decide for yourself.** The user sets the boundaries, defaults and
+   priorities. Magpie helps carry out those choices rather than substituting
+   its own idea of how the user should eat.
+2. **Your decisions are put into practice.** Choices must guide actual
+   suggestions, meal plans and ingredient sourcing, not just be stored as
+   profile data. Better wording alone does not fulfil this promise.
+3. **Nothing overwhelms you.** Magpie takes on planning and coordination.
+   More settings, questions or manual work do not automatically mean more
+   control.
+
+Onboarding establishes this relationship. Treat it as the user setting how
+Magpie should work, not merely filling out a profile. Ask directly for the
+intended behaviour where possible instead of collecting a proxy and guessing
+the rule. Each answer should make clear: "Because I chose this, Magpie will..."
+
+Facts and firm boundaries still matter: equipment, household portions and
+allergies do not need to become preference settings. Use the smallest useful
+question, explain its consequence, and avoid making users configure every
+detail.
+
 ## Commands
 
+- Format with `pnpm format`: Prettier defaults, plus `deno fmt` for
+  `supabase/functions` (needs a global `deno`).
 - Verify with `pnpm typecheck` and `pnpm lint`. Mobile tests:
   `pnpm --filter mobile test`. Read `docs/testing.md` before adding or
   restructuring tests.

@@ -44,6 +44,8 @@ Crisp-edged gnocchi, burst tomatoes, torn basil. One tray, no stirring.
 
 Everything else — the opening hook, tweaks, suggestions, plain conversation — stays normal Markdown outside the tags.
 
+Use standard Markdown. Write temperatures, fractions, and calculations using ordinary text and Unicode symbols, for example: °C = (°F − 32) × 5/9. Never use LaTeX or math delimiters.
+
 ## What a recipe is
 
 A recipe here is one evening's cooking, not one dish. It usually holds several things — a main, a side or two, a sauce — cooked together in one kitchen.

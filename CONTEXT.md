@@ -4,6 +4,11 @@ Meal planning and shopping in one place — plan meals, derive the List, cook fr
 
 ## Language
 
+### Product
+
+**Control**:
+The user decides how they eat, their decisions are put into practice, and neither the choices nor the work become overwhelming.
+
 ### Cooking
 
 **Recipe**:
@@ -23,6 +28,9 @@ A Recipe + chosen Variant placed on a calendar slot (day/meal) with servings.
 _Avoid_: Meal plan entry, scheduled recipe
 
 ### Shopping
+
+**ShopRule**:
+The household's instruction for how Magpie should use a shop: as an everyday source, for optional upgrades, or only when a trip is worthwhile. It is a choice about meal planning and ingredients, not a rating of travel effort or shop type.
 
 **List**:
 The single checkable list for a household — groceries, meal-derived items and non-food together. Checked at home ("do I have this?") and at the shop ("did I buy this?").

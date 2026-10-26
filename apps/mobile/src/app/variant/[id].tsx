@@ -265,7 +265,8 @@ function IngredientRow({
       className={`flex-1 py-2.5 ${last ? "" : "border-b border-border/70"}`}
     >
       <Animated.View className="gap-0.5" style={animatedStyle}>
-        <View className="flex-row flex-wrap items-baseline gap-x-1.5">
+        {/* Native menu hosts don't expose the label's text baseline. */}
+        <View className="flex-row flex-wrap items-start gap-x-1.5">
           {row.qtyText && !row.skipped ? (
             <Text className="font-semibold">{prettyQuantity(row.qtyText)}</Text>
           ) : null}

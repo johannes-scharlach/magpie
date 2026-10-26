@@ -6,8 +6,13 @@ import {
   cuisineRegions,
   stapleGroups,
 } from "@magpie/profile";
-import { Children, isValidElement, useState } from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { Children, isValidElement, useRef, useState } from "react";
+import {
+  Pressable,
+  StyleSheet,
+  View,
+  type TextInputInstance,
+} from "react-native";
 import Animated, {
   Easing,
   FadeOut,
@@ -16,8 +21,9 @@ import Animated, {
   ReduceMotion,
 } from "react-native-reanimated";
 import { useResolveClassNames } from "uniwind";
+import { PrimaryAction } from "@/components/action";
 import { SectionTitle } from "@/components/clay";
-import { Input } from "@/components/ui/input";
+import { EditorSheet, type EditorSheetHandle } from "@/components/editor-sheet";
 import { Text } from "@/components/ui/text";
 import {
   addExtra,
@@ -29,6 +35,7 @@ import {
   type Cupboards,
 } from "@/features/profile/cuisines";
 import { CupboardFields } from "@/features/profile/cupboard-fields";
+import { Field } from "@/features/profile/form";
 import { cn } from "@/lib/utils";
 
 type Change = (edit: (profile: Cupboards) => Cupboards) => void;
@@ -103,7 +110,10 @@ function Section({
     <Animated.View layout={REFLOW} className="gap-1">
       <SectionTitle>{title}</SectionTitle>
       {Children.toArray(children).map((row, index) => (
-        <Animated.View key={isValidElement(row) ? row.key : index} layout={REFLOW}>
+        <Animated.View
+          key={isValidElement(row) ? row.key : index}
+          layout={REFLOW}
+        >
           {/* Like iOS: from the text's start, through the 24pt gutter to the edge. */}
           {index > 0 ? (
             <View
@@ -143,7 +153,9 @@ function CuisineRow({
   return (
     <View className={cn("gap-4", on && "pb-6")}>
       {staples ? (
-        <Text className="min-h-14 py-4 font-rounded font-semibold">{label}</Text>
+        <Text className="min-h-14 py-4 font-rounded font-semibold">
+          {label}
+        </Text>
       ) : (
         <Pressable
           accessibilityRole="switch"
@@ -153,7 +165,10 @@ function CuisineRow({
           className="min-h-14 flex-row items-center gap-4 py-2"
         >
           <Text
-            className={cn("flex-1 font-rounded font-semibold", on && "text-primary")}
+            className={cn(
+              "flex-1 font-rounded font-semibold",
+              on && "text-primary",
+            )}
           >
             {label}
           </Text>
@@ -178,7 +193,9 @@ function CuisineRow({
             keeps={profile.keeps}
             onToggle={(id) => change((p) => toggleKept(p, id))}
             extras={profile.extras[cuisine] ?? []}
-            onRemoveExtra={(item) => change((p) => removeExtra(p, cuisine, item))}
+            onRemoveExtra={(item) =>
+              change((p) => removeExtra(p, cuisine, item))
+            }
             extra={extra}
             onExtraChange={setExtra}
             onAddExtra={saveExtra}
@@ -189,25 +206,61 @@ function CuisineRow({
   );
 }
 
+/** A sheet, so the new cuisine lands on the page with its cupboard open. */
 function AddOwn({ onAdd }: { onAdd: (name: string) => void }) {
+  const [adding, setAdding] = useState(false);
   const [name, setName] = useState("");
+  const [attempted, setAttempted] = useState(false);
+  const input = useRef<TextInputInstance>(null);
+  const sheet = useRef<EditorSheetHandle>(null);
+
+  function add() {
+    if (!name.trim()) {
+      setAttempted(true);
+      input.current?.focus();
+      return;
+    }
+    onAdd(name);
+    sheet.current?.dismiss();
+  }
+
   return (
-    <View className="py-3">
-      <Input
-        accessibilityLabel="Add another cuisine"
-        placeholder="Add another cuisine"
-        className="h-12 min-h-0 rounded-2xl border-0 bg-muted px-3.5 py-1"
-        value={name}
-        onChangeText={setName}
-        autoCapitalize="words"
-        returnKeyType="done"
-        submitBehavior="submit"
-        onSubmitEditing={() => {
-          if (!name.trim()) return;
-          onAdd(name);
+    <>
+      <Pressable
+        accessibilityRole="button"
+        onPress={() => {
           setName("");
+          setAttempted(false);
+          setAdding(true);
         }}
-      />
-    </View>
+        className="min-h-14 flex-row items-center gap-4 py-2 active:opacity-60"
+      >
+        <Text className="flex-1 font-rounded font-semibold text-primary">
+          Add a cuisine
+        </Text>
+        <Text className="text-2xl text-primary">+</Text>
+      </Pressable>
+      {adding ? (
+        <EditorSheet
+          ref={sheet}
+          autoFocusInput={input}
+          title="Add a cuisine"
+          onDismiss={() => setAdding(false)}
+        >
+          <Field
+            ref={input}
+            label="What do you cook?"
+            value={name}
+            onChangeText={setName}
+            autoFocus
+            autoCapitalize="words"
+            error={attempted && !name.trim() ? "Enter a few words." : null}
+            returnKeyType="done"
+            onSubmitEditing={add}
+          />
+          <PrimaryAction label="Add" onPress={add} />
+        </EditorSheet>
+      ) : null}
+    </>
   );
 }

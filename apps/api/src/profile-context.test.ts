@@ -53,7 +53,7 @@ test("household context preserves restrictions and routines without inventing eq
   assert.match(context, /allergies and restrictions over preferences/);
 });
 
-test("shopping context uses one list, with the former main shop treated as easy to reach", () => {
+test("legacy shop access stays readable without being turned into a sourcing rule", () => {
   const profile = newProfile();
   profile.main_supermarket = " Aldi ";
   profile.shops = [
@@ -73,8 +73,37 @@ test("shopping context uses one list, with the former main shop treated as easy 
   assert.equal("main_supermarket" in data, false);
   assert.equal("other_shops" in data, false);
   assert.doesNotMatch(context, /main[- ]shop|additional shops/i);
-  assert.match(context, /special-trip ingredients optional/);
-  assert.match(context, /easier-to-reach shops/);
+  assert.equal(
+    data.shops.some((shop: { rule?: string }) => shop.rule),
+    false,
+  );
+  assert.match(
+    context,
+    /Legacy access ratings describe travel effort, not sourcing rules/,
+  );
+});
+
+test("chosen shop rules survive validation and guide everyday meals, upgrades and worthwhile trips", () => {
+  const shops = [
+    { name: "Butcher", rule: "everyday" },
+    { name: "Aldi", rule: "upgrade" },
+    { name: "Asian supermarket", rule: "worth-trip" },
+  ];
+  const profile = { ...newProfile(), ...profileChangesSchema.parse({ shops }) };
+  assert.deepEqual(profile.shops, shops);
+
+  const context = profileContext({ profile, people: [] }, "caller");
+  const data = JSON.parse(context.slice(context.indexOf('{"people"')));
+  assert.deepEqual(data.shops, shops);
+  assert.match(context, /everyday.*baseline/i);
+  assert.match(context, /optional upgrades/i);
+  assert.match(context, /meaningful improvement/i);
+  assert.match(context, /across meals/i);
+  assert.match(
+    context,
+    /Never make a meal or plan depend on an optional source/,
+  );
+  assert.match(context, /Do not infer a rule from a shop's name or type/);
 });
 
 test("an explicit shop access rating takes precedence over the former main shop", () => {
@@ -138,7 +167,14 @@ test("cuisines show what the household keeps for each, shared items under every 
   const household = householdSchema.parse({
     profile: {
       ...newProfile(),
-      keeps: ["sesame-oil", "umeboshi", "miso", "gochujang", "tofu", "frozen-peas"],
+      keeps: [
+        "sesame-oil",
+        "umeboshi",
+        "miso",
+        "gochujang",
+        "tofu",
+        "frozen-peas",
+      ],
       cuisines: ["japanese", "korean", "Georgian"],
       extras: {
         japanese: ["Yuzu kosho"],
@@ -190,7 +226,11 @@ test("old pantry and fresh answers stay out of the assistant context", () => {
   const household = householdSchema.parse({
     profile: {
       ...newProfile(),
-      pantry: { cannedFoods: true, "canned-tomatoes": true, other: ["Polenta"] },
+      pantry: {
+        cannedFoods: true,
+        "canned-tomatoes": true,
+        other: ["Polenta"],
+      },
       fresh_ingredients: { "greek-yoghurt": true, other: ["Chinese cabbage"] },
     },
     people: [

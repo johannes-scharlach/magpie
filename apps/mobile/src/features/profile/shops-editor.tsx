@@ -1,117 +1,167 @@
-import { shopAccessOptions, type CookingProfile, type Shop } from "@magpie/profile";
+import { profileShops, shopRuleSummaries } from "@magpie/profile";
 import { SymbolView } from "expo-symbols";
 import { useRef, useState } from "react";
-import { Platform, Pressable, View, type TextInputInstance } from "react-native";
+import { Platform, Pressable, View } from "react-native";
 import { useResolveClassNames } from "uniwind";
-import { PrimaryAction } from "@/components/action";
-import { ChoiceList } from "@/components/choice-list";
-import { EditorSheet, type EditorSheetHandle } from "@/components/editor-sheet";
 import { Text } from "@/components/ui/text";
-import { Field } from "@/features/profile/form";
+import { PrimaryAction } from "@/components/action";
+import { EditorSheet, type EditorSheetHandle } from "@/components/editor-sheet";
+import { Field, FormError } from "@/features/profile/form";
+import type { ShopsProfile } from "@/features/profile/shop-entry";
 
-const shopSuggestions = ["Asian grocer", "Market", "Butcher"] as const;
+const shopSuggestions = [
+  "Butcher",
+  "Asian supermarket",
+  "Weekly market",
+] as const;
 
-export function ShopsEditor({ profile, onChange, context = "onboarding" }: {
-  profile: CookingProfile;
-  onChange: (changes: Partial<CookingProfile>) => void;
-  /** Onboarding keeps its existing entry; household settings use one list. */
-  context?: "onboarding" | "household";
+export function ShopsEditor({
+  profile,
+  onSaveNotes,
+  onEdit,
+  onAdd,
+  validationAttempt = 0,
+}: {
+  profile: ShopsProfile;
+  onSaveNotes: (notes: string) => void | Promise<void>;
+  onEdit: (index: number) => void;
+  onAdd: (name?: string) => void;
+  validationAttempt?: number;
 }) {
-  const isOnboarding = context === "onboarding";
+  const shops = profileShops(profile);
   const mutedColor = useResolveClassNames("text-muted-foreground").color;
-  const [editing, setEditing] = useState<{ index: number; shop: Shop } | null>(null);
-  const [attempted, setAttempted] = useState(false);
-  const input = useRef<TextInputInstance>(null);
-  const sheet = useRef<EditorSheetHandle>(null);
-  function open(shop: Shop, index = -1) { setAttempted(false); setEditing({ shop: { ...shop }, index }); }
-  function save() {
-    if (!editing) return;
-    if (!editing.shop.name.trim()) { setAttempted(true); input.current?.focus(); return; }
-    const shop = { ...editing.shop, name: editing.shop.name.trim() };
-    onChange({ shops: editing.index < 0 ? [...profile.shops, shop] : profile.shops.map((entry, index) => index === editing.index ? shop : entry) });
-    sheet.current?.dismiss();
+  const notesSheet = useRef<EditorSheetHandle>(null);
+  const [notes, setNotes] = useState<string | null>(null);
+  const [notesError, setNotesError] = useState<string | null>(null);
+  const [savingNotes, setSavingNotes] = useState(false);
+  async function saveNotes() {
+    if (notes === null || savingNotes) return;
+    setSavingNotes(true);
+    setNotesError(null);
+    try {
+      await onSaveNotes(notes);
+      notesSheet.current?.dismiss();
+    } catch {
+      setNotesError("Could not save your notes. Try again.");
+    } finally {
+      setSavingNotes(false);
+    }
   }
-  const remainingSuggestions = isOnboarding ? shopSuggestions.filter(
-    (name) => !profile.shops.some((shop) => shop.name.toLowerCase() === name.toLowerCase()),
-  ) : [];
+  const remainingSuggestions = shopSuggestions.filter(
+    (name) =>
+      !shops.some((shop) => shop.name.toLowerCase() === name.toLowerCase()),
+  );
   return (
     <View className="gap-7">
-      {isOnboarding ? <Field label="Main shop" value={profile.main_supermarket} onChangeText={(main_supermarket) => onChange({ main_supermarket })} placeholder="e.g. Aldi, Rewe, Tesco" returnKeyType="done" /> : null}
-      <View className="gap-3">
-        {isOnboarding ? <Text className="text-lg font-semibold">Other shops</Text> : null}
-        {profile.shops.length ? (
-          <View
-            className="overflow-hidden rounded-xl border border-border bg-card"
-            style={{ borderCurve: "continuous" }}
-          >
-            {profile.shops.map((shop, index) => (
-              <View key={index}>
-                {index > 0 ? (
-                  <View
-                    className={
-                      Platform.OS === "ios"
-                        ? "ml-4 border-t border-border"
-                        : "border-t border-border"
-                    }
-                  />
-                ) : null}
+      {shops.length ? (
+        <View
+          className="overflow-hidden rounded-xl border border-border bg-card"
+          style={{ borderCurve: "continuous" }}
+        >
+          {shops.map((shop, index) => (
+            <View key={index}>
+              {index > 0 ? (
+                <View
+                  className={
+                    Platform.OS === "ios"
+                      ? "ml-4 border-t border-border"
+                      : "border-t border-border"
+                  }
+                />
+              ) : null}
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel={`Edit ${shop.name}, ${shop.rule ? shopRuleSummaries[shop.rule] : "Choose a rule"}`}
+                className="min-h-16 flex-row items-center gap-3 px-4 py-3 active:bg-accent"
+                onPress={() => onEdit(index)}
+              >
+                <View className="flex-1 gap-1">
+                  <Text className="text-[17px] font-medium">{shop.name}</Text>
+                  <Text className="text-sm leading-5 text-muted-foreground">
+                    {shop.rule ? shopRuleSummaries[shop.rule] : "Choose a rule"}
+                  </Text>
+                </View>
+                <SymbolView
+                  name={{ ios: "chevron.right", android: "chevron_right" }}
+                  size={16}
+                  tintColor={mutedColor}
+                />
+              </Pressable>
+            </View>
+          ))}
+        </View>
+      ) : null}
+      {validationAttempt > 0 && shops.some((shop) => !shop.rule) ? (
+        <FormError message="Choose a rule for each shop. Tap a shop to change it." />
+      ) : null}
+      <View className="gap-4">
+        <Pressable
+          accessibilityRole="button"
+          className="min-h-11 self-start justify-center"
+          onPress={() => onAdd()}
+        >
+          <Text className="font-medium text-primary">
+            + {shops.length ? "Add another shop" : "Add a shop"}
+          </Text>
+        </Pressable>
+        {shops.some((shop) => shop.rule) && remainingSuggestions.length ? (
+          <View className="gap-2">
+            <Text className="text-sm text-muted-foreground">
+              Other places you buy food
+            </Text>
+            <View className="flex-row flex-wrap gap-2">
+              {remainingSuggestions.map((name) => (
                 <Pressable
+                  key={name}
                   accessibilityRole="button"
-                  accessibilityLabel={`Edit ${shop.name}, ${shopAccessOptions[shop.access]}`}
-                  className="min-h-16 flex-row items-center gap-3 px-4 py-3 active:bg-accent"
-                  onPress={() => open(shop, index)}
+                  accessibilityLabel={`Add ${name}`}
+                  className="min-h-11 justify-center rounded-full border border-border px-3 py-2 active:bg-accent"
+                  onPress={() => onAdd(name)}
                 >
-                  <View className="flex-1 gap-1">
-                    <Text className="text-[17px] font-medium">{shop.name}</Text>
-                    <Text className="text-sm leading-5 text-muted-foreground">
-                      {shopAccessOptions[shop.access]}
-                    </Text>
-                  </View>
-                  <SymbolView
-                    name={{ ios: "chevron.right", android: "edit" }}
-                    size={16}
-                    tintColor={mutedColor}
-                  />
+                  <Text className="text-sm text-primary">+ {name}</Text>
                 </Pressable>
-              </View>
-            ))}
+              ))}
+            </View>
           </View>
         ) : null}
-        <View className="flex-row flex-wrap items-start gap-2">
-          {remainingSuggestions.map((name) => (
-            <Pressable
-              key={name}
-              accessibilityRole="button"
-              className="min-h-11 justify-center rounded-full border border-border bg-card px-4 py-2"
-              onPress={() => open({ name, access: "easy" })}
-            >
-              <Text>{name}</Text>
-            </Pressable>
-          ))}
-          <Pressable
-            accessibilityRole="button"
-            className="min-h-11 justify-center rounded-full border border-border bg-card px-4 py-2"
-            onPress={() => open({ name: "", access: "easy" })}
-          >
-            <Text className="font-medium text-primary">+ Add a shop</Text>
-          </Pressable>
-        </View>
       </View>
-      {profile.other_shops ? <Field label={isOnboarding ? "Your existing shopping notes" : "Shopping notes"} multiline value={profile.other_shops} onChangeText={(other_shops) => onChange({ other_shops })} /> : null}
-      {editing ? (
-        <EditorSheet ref={sheet} autoFocusInput={!editing.shop.name ? input : undefined} title={editing.index < 0 ? "Add a shop" : "Edit shop"} onDismiss={() => setEditing(null)}>
-          <Field ref={input} label="Shop name" placeholder={isOnboarding ? undefined : "e.g. Aldi, Rewe, Saturday market"} value={editing.shop.name} onChangeText={(name) => setEditing({ ...editing, shop: { ...editing.shop, name } })} autoFocus={!editing.shop.name} returnKeyType="done" error={attempted && !editing.shop.name.trim() ? "Enter a shop name." : null} />
-          <View className="gap-2">
-            <Text className="font-medium">How easy is it to get there?</Text>
-            <ChoiceList
-              choices={Object.entries(shopAccessOptions).map(([key, title]) => ({ key, title }))}
-              selectedKeys={[editing.shop.access]}
-              selection="single"
-              onSelect={(access) => setEditing({ ...editing, shop: { ...editing.shop, access: access as Shop["access"] } })}
-            />
-          </View>
-          <PrimaryAction label={editing.index < 0 ? "Add shop" : "Save"} onPress={save} />
-          {editing.index >= 0 ? <Pressable accessibilityRole="button" className="min-h-11 items-center justify-center" onPress={() => { onChange({ shops: profile.shops.filter((_, index) => index !== editing.index) }); sheet.current?.dismiss(); }}><Text className="font-medium text-destructive">Remove shop</Text></Pressable> : null}
+      {profile.other_shops ? (
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Edit shopping notes"
+          className="gap-2 py-3"
+          onPress={() => {
+            setNotesError(null);
+            setNotes(profile.other_shops);
+          }}
+        >
+          <Text className="font-medium">Shopping notes</Text>
+          <Text
+            className="text-sm leading-5 text-muted-foreground"
+            numberOfLines={3}
+          >
+            {profile.other_shops}
+          </Text>
+        </Pressable>
+      ) : null}
+      {notes !== null ? (
+        <EditorSheet
+          ref={notesSheet}
+          title="Shopping notes"
+          onDismiss={() => setNotes(null)}
+        >
+          <Field
+            label="Notes"
+            multiline
+            value={notes}
+            onChangeText={setNotes}
+          />
+          <FormError message={notesError} />
+          <PrimaryAction
+            label={savingNotes ? "Saving…" : "Save"}
+            disabled={savingNotes}
+            onPress={() => void saveNotes()}
+          />
         </EditorSheet>
       ) : null}
     </View>

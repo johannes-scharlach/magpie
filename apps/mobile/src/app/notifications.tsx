@@ -1,6 +1,17 @@
-import { Stack, useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
+import {
+  Stack,
+  useFocusEffect,
+  useLocalSearchParams,
+  useRouter,
+} from "expo-router";
 import { useCallback, useEffect, useState } from "react";
-import { ActivityIndicator, AppState, Platform, ScrollView, View } from "react-native";
+import {
+  ActivityIndicator,
+  AppState,
+  Platform,
+  ScrollView,
+  View,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { Action, PrimaryAction } from "@/components/action";
@@ -98,7 +109,8 @@ export default function NotificationsScreen() {
   return (
     <>
       <ScrollView
-        className="bg-background"
+        className={Platform.OS === "android" ? "bg-background" : undefined}
+        alwaysBounceVertical={false}
         contentInsetAdjustmentBehavior="automatic"
         contentContainerClassName="gap-6 px-6 pt-4 pb-6"
         contentContainerStyle={

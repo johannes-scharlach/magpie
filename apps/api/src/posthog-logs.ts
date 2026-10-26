@@ -11,4 +11,7 @@ export const posthogApiLogger = {
   warn(body: string, attributes: LogAttributes) {
     logger.emit({ severityText: "WARN", body, attributes });
   },
+  error(body: string, attributes: LogAttributes) {
+    logger.emit({ severityText: "ERROR", body, attributes });
+  },
 };

@@ -60,245 +60,279 @@ export default function RootLayout() {
         <PostHogRoot>
           <SystemProvider>
             <HouseholdAccessProvider>
-            <OnboardingProvider>
-              <NotificationProvider>
-                <ThemeProvider value={theme}>
-                  <NotificationPrompt />
-                  <AppStack>
-                    <Stack.Screen
-                      name="(tabs)"
-                      options={{ headerShown: false }}
-                    />
-                    <Stack.Screen
-                      name="household"
-                      options={{
-                        title: "Household",
-                        headerBackButtonDisplayMode: "minimal",
-                      }}
-                    />
-                    {/* Pushed from household settings. Nested in household/,
+              <OnboardingProvider>
+                <NotificationProvider>
+                  <ThemeProvider value={theme}>
+                    <NotificationPrompt />
+                    <AppStack>
+                      <Stack.Screen
+                        name="(tabs)"
+                        options={{ headerShown: false }}
+                      />
+                      <Stack.Screen
+                        name="household"
+                        options={{
+                          title: "Household",
+                          headerBackButtonDisplayMode: "minimal",
+                        }}
+                      />
+                      {/* Pushed from household settings. Nested in household/,
                         they would sit under that stack's parent header. */}
-                    <Stack.Screen
-                      name="household-cuisines"
-                      options={{
-                        title: "Cuisines & staples",
-                        headerBackButtonDisplayMode: "minimal",
-                      }}
-                    />
-                    <Stack.Screen
-                      name="household-activity"
-                      options={{
-                        title: "Household activity",
-                        headerBackButtonDisplayMode: "minimal",
-                      }}
-                    />
-                    <Stack.Screen
-                      name="notifications"
-                      options={{
-                        title: "Notifications",
-                        presentation: "formSheet",
-                        sheetAllowedDetents: "fitToContents",
-                        sheetGrabberVisible: true,
-                        headerShown: true,
-                        headerTransparent: false,
-                        headerShadowVisible: false,
-                        // Keep text contrast independent of the presenting screen.
-                        contentStyle: { backgroundColor: theme.colors.background },
-                      }}
-                    />
-                    {/* No variant/_layout.tsx by design: [id] must sit above (tabs)
+                      <Stack.Screen
+                        name="household-cuisines"
+                        options={{
+                          title: "Cuisines & staples",
+                          headerBackButtonDisplayMode: "minimal",
+                        }}
+                      />
+                      <Stack.Screen
+                        name="household-shops"
+                        options={{
+                          title: "Shops",
+                          presentation: "card",
+                          headerBackButtonDisplayMode: "minimal",
+                        }}
+                      />
+                      <Stack.Screen
+                        name="household-shop"
+                        options={{
+                          title: "Shop",
+                          presentation: "formSheet",
+                          sheetAllowedDetents: [0.75, 1],
+                          sheetInitialDetentIndex: 0,
+                          sheetGrabberVisible: true,
+                          sheetCornerRadius:
+                            Platform.OS === "android" ? 28 : undefined,
+                          headerShown: Platform.OS === "ios",
+                          headerTransparent: false,
+                        }}
+                      />
+                      <Stack.Screen
+                        name="household-activity"
+                        options={{
+                          title: "Household activity",
+                          headerBackButtonDisplayMode: "minimal",
+                        }}
+                      />
+                      <Stack.Screen
+                        name="notifications"
+                        options={{
+                          title: "Notifications",
+                          presentation: "formSheet",
+                          sheetAllowedDetents: "fitToContents",
+                          sheetGrabberVisible: true,
+                          headerShown: true,
+                          // Clear, not overlaid: fitToContents must count the header.
+                          headerTransparent: false,
+                          headerStyle:
+                            Platform.OS === "ios"
+                              ? { backgroundColor: "transparent" }
+                              : undefined,
+                          headerShadowVisible: false,
+                          // iOS supplies the sheet material; Android keeps an
+                          // opaque surface, including the safe-area insets.
+                          contentStyle:
+                            Platform.OS === "ios"
+                              ? { backgroundColor: "transparent" }
+                              : undefined,
+                        }}
+                      />
+                      {/* No variant/_layout.tsx by design: [id] must sit above (tabs)
                 in this same stack to get the system back button + swipe-back.
                 Push-time chrome for its sub-screens is declared here. */}
-                    <Stack.Screen
-                      name="variant/[id]"
-                      options={{
-                        // Set here so the first pushed frame already has the
-                        // transparent header; the screen adds the rest.
-                        headerTransparent: true,
-                        headerShadowVisible: false,
-                        headerBackButtonDisplayMode: "minimal",
-                        headerTitleAlign:
-                          process.env.EXPO_OS === "ios" ? "center" : "left",
-                      }}
-                    />
-                    <Stack.Screen
-                      name="shared/[id]"
-                      options={{
-                        title: "",
-                        headerBackButtonDisplayMode: "minimal",
-                      }}
-                    />
-                    <Stack.Screen
-                      name="variant/versions"
-                      options={{
-                        title: "Variants",
-                        headerBackButtonDisplayMode: "minimal",
-                      }}
-                    />
-                    <Stack.Screen
-                      name="variant/plan"
-                      options={{
-                        presentation: "formSheet",
-                        sheetAllowedDetents: "fitToContents",
-                        sheetGrabberVisible: true,
-                        headerShown: false,
-                      }}
-                    />
-                    <Stack.Screen
-                      name="meals/index"
-                      options={{
-                        title: "Meals",
-                        headerLargeTitle: true,
-                        headerBackButtonDisplayMode: "minimal",
-                      }}
-                    />
-                    <Stack.Screen
-                      name="meals/import"
-                      options={{
-                        presentation: "formSheet",
-                        sheetAllowedDetents: "fitToContents",
-                        sheetGrabberVisible: true,
-                        headerShown: false,
-                      }}
-                    />
-                    <Stack.Screen
-                      name="meals/eaters"
-                      options={{
-                        presentation: "formSheet",
-                        sheetAllowedDetents: "fitToContents",
-                        sheetGrabberVisible: true,
-                        headerShown: false,
-                      }}
-                    />
-                    <Stack.Screen
-                      name="meals/move"
-                      options={{
-                        presentation: "formSheet",
-                        sheetAllowedDetents: "fitToContents",
-                        sheetGrabberVisible: true,
-                        headerShown: false,
-                      }}
-                    />
-                    <Stack.Screen
-                      name="meals/write"
-                      options={{
-                        presentation: "formSheet",
-                        sheetAllowedDetents: "fitToContents",
-                        sheetGrabberVisible: true,
-                        headerShown: false,
-                      }}
-                    />
-                    <Stack.Screen
-                      name="meals/written"
-                      options={{
-                        title: "Meal",
-                        headerBackButtonDisplayMode: "minimal",
-                      }}
-                    />
-                    <Stack.Screen
-                      name="meals/shopping"
-                      options={{
-                        // The screen sets its meal's slot ("Today · Dinner").
-                        title: "",
-                        headerBackButtonDisplayMode: "minimal",
-                      }}
-                    />
-                    <Stack.Screen
-                      name="shop/meals"
-                      options={{
-                        title: "Shop for meals",
-                        headerBackButtonDisplayMode: "minimal",
-                      }}
-                    />
-                    <Stack.Screen
-                      name="meals/pick"
-                      options={{
-                        presentation: "card",
-                        headerShown: true,
-                        title: "From cookbook",
-                        headerBackButtonDisplayMode: "minimal",
-                      }}
-                    />
-                    <Stack.Screen
-                      name="cookbook/import"
-                      options={{
-                        presentation: "formSheet",
-                        sheetAllowedDetents: "fitToContents",
-                        sheetGrabberVisible: true,
-                        headerShown: false,
-                      }}
-                    />
-                    <Stack.Screen
-                      name="shop/item"
-                      options={{
-                        presentation: "formSheet",
-                        sheetAllowedDetents: "fitToContents",
-                        sheetGrabberVisible: true,
-                        headerShown: false,
-                      }}
-                    />
-                    <Stack.Screen
-                      name="shop/add"
-                      options={{
-                        presentation: "pageSheet",
-                        headerShown: true,
-                        title: "Add items",
-                        // iOS supplies the sheet surface; Android needs an
-                        // opaque screen so content cannot overlap during pushes.
-                        contentStyle:
-                          Platform.OS === "ios"
-                            ? { backgroundColor: "transparent" }
-                            : undefined,
-                      }}
-                    />
-                    {/* The conversation: pushed from the Home entry, no tab bar.
+                      <Stack.Screen
+                        name="variant/[id]"
+                        options={{
+                          // Set here so the first pushed frame already has the
+                          // transparent header; the screen adds the rest.
+                          headerTransparent: true,
+                          headerShadowVisible: false,
+                          headerBackButtonDisplayMode: "minimal",
+                          headerTitleAlign:
+                            process.env.EXPO_OS === "ios" ? "center" : "left",
+                        }}
+                      />
+                      <Stack.Screen
+                        name="shared/[id]"
+                        options={{
+                          title: "",
+                          headerBackButtonDisplayMode: "minimal",
+                        }}
+                      />
+                      <Stack.Screen
+                        name="variant/versions"
+                        options={{
+                          title: "Variants",
+                          headerBackButtonDisplayMode: "minimal",
+                        }}
+                      />
+                      <Stack.Screen
+                        name="variant/plan"
+                        options={{
+                          presentation: "formSheet",
+                          sheetAllowedDetents: "fitToContents",
+                          sheetGrabberVisible: true,
+                          headerShown: false,
+                        }}
+                      />
+                      <Stack.Screen
+                        name="meals/index"
+                        options={{
+                          title: "Meals",
+                          headerLargeTitle: true,
+                          headerBackButtonDisplayMode: "minimal",
+                        }}
+                      />
+                      <Stack.Screen
+                        name="meals/import"
+                        options={{
+                          presentation: "formSheet",
+                          sheetAllowedDetents: "fitToContents",
+                          sheetGrabberVisible: true,
+                          headerShown: false,
+                        }}
+                      />
+                      <Stack.Screen
+                        name="meals/eaters"
+                        options={{
+                          presentation: "formSheet",
+                          sheetAllowedDetents: "fitToContents",
+                          sheetGrabberVisible: true,
+                          headerShown: false,
+                        }}
+                      />
+                      <Stack.Screen
+                        name="meals/move"
+                        options={{
+                          presentation: "formSheet",
+                          sheetAllowedDetents: "fitToContents",
+                          sheetGrabberVisible: true,
+                          headerShown: false,
+                        }}
+                      />
+                      <Stack.Screen
+                        name="meals/write"
+                        options={{
+                          presentation: "formSheet",
+                          sheetAllowedDetents: "fitToContents",
+                          sheetGrabberVisible: true,
+                          headerShown: false,
+                        }}
+                      />
+                      <Stack.Screen
+                        name="meals/written"
+                        options={{
+                          title: "Meal",
+                          headerBackButtonDisplayMode: "minimal",
+                        }}
+                      />
+                      <Stack.Screen
+                        name="meals/shopping"
+                        options={{
+                          // A task, not a place: it opens as a sheet and closes
+                          // with Done. Decisions save as they're made.
+                          presentation: "pageSheet",
+                          headerShown: true,
+                          // The screen sets its meal's slot ("Today · Dinner").
+                          title: "",
+                        }}
+                      />
+                      <Stack.Screen
+                        name="shop/meals"
+                        options={{
+                          title: "Shop for meals",
+                          headerBackButtonDisplayMode: "minimal",
+                        }}
+                      />
+                      <Stack.Screen
+                        name="meals/pick"
+                        options={{
+                          presentation: "card",
+                          headerShown: true,
+                          title: "From cookbook",
+                          headerBackButtonDisplayMode: "minimal",
+                        }}
+                      />
+                      <Stack.Screen
+                        name="cookbook/import"
+                        options={{
+                          presentation: "formSheet",
+                          sheetAllowedDetents: "fitToContents",
+                          sheetGrabberVisible: true,
+                          headerShown: false,
+                        }}
+                      />
+                      <Stack.Screen
+                        name="shop/item"
+                        options={{
+                          presentation: "formSheet",
+                          sheetAllowedDetents: "fitToContents",
+                          sheetGrabberVisible: true,
+                          headerShown: false,
+                        }}
+                      />
+                      <Stack.Screen
+                        name="shop/add"
+                        options={{
+                          presentation: "pageSheet",
+                          headerShown: true,
+                          title: "Add items",
+                          // iOS supplies the sheet surface; Android needs an
+                          // opaque screen so content cannot overlap during pushes.
+                          contentStyle:
+                            Platform.OS === "ios"
+                              ? { backgroundColor: "transparent" }
+                              : undefined,
+                        }}
+                      />
+                      {/* The conversation: pushed from the Home entry, no tab bar.
                 Back is the only chrome — history lives on Home. */}
-                    <Stack.Screen
-                      name="chats/[id]"
-                      options={{
-                        presentation: "card",
-                        // The linked-recipe banner sits above the transcript,
-                        // outside any scroll view, so the header stays solid.
-                        headerTransparent: false,
-                      }}
-                    />
-                    <Stack.Screen
-                      name="chats/ideas"
-                      options={{
-                        presentation: "pageSheet",
-                        headerShown: true,
-                        title: "Start from an idea",
-                        contentStyle:
-                          Platform.OS === "ios"
-                            ? { backgroundColor: "transparent" }
-                            : undefined,
-                      }}
-                    />
-                    <Stack.Screen
-                      name="chats/history"
-                      options={{
-                        presentation: "pageSheet",
-                        headerShown: true,
-                        title: "Chats",
-                        contentStyle:
-                          Platform.OS === "ios"
-                            ? { backgroundColor: "transparent" }
-                            : undefined,
-                      }}
-                    />
-                    <Stack.Screen
-                      name="variant/cook"
-                      options={{
-                        headerShown: false,
-                        presentation: "fullScreenModal",
-                        animation: "fade_from_bottom",
-                      }}
-                    />
-                  </AppStack>
-                  <StatusBar style="auto" />
-                </ThemeProvider>
-              </NotificationProvider>
-            </OnboardingProvider>
+                      <Stack.Screen
+                        name="chats/[id]"
+                        options={{
+                          presentation: "card",
+                          // The linked-recipe banner sits above the transcript,
+                          // outside any scroll view, so the header stays solid.
+                          headerTransparent: false,
+                        }}
+                      />
+                      <Stack.Screen
+                        name="chats/ideas"
+                        options={{
+                          presentation: "pageSheet",
+                          headerShown: true,
+                          title: "Start from an idea",
+                          contentStyle:
+                            Platform.OS === "ios"
+                              ? { backgroundColor: "transparent" }
+                              : undefined,
+                        }}
+                      />
+                      <Stack.Screen
+                        name="chats/history"
+                        options={{
+                          presentation: "pageSheet",
+                          headerShown: true,
+                          title: "Chats",
+                          contentStyle:
+                            Platform.OS === "ios"
+                              ? { backgroundColor: "transparent" }
+                              : undefined,
+                        }}
+                      />
+                      <Stack.Screen
+                        name="variant/cook"
+                        options={{
+                          headerShown: false,
+                          presentation: "fullScreenModal",
+                          animation: "fade_from_bottom",
+                        }}
+                      />
+                    </AppStack>
+                    <StatusBar style="auto" />
+                  </ThemeProvider>
+                </NotificationProvider>
+              </OnboardingProvider>
             </HouseholdAccessProvider>
           </SystemProvider>
         </PostHogRoot>

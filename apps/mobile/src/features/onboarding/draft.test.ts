@@ -51,6 +51,27 @@ describe("onboarding draft recovery", () => {
       other: ["Camping burner"],
     });
   });
+  it("moves the old main shop into the classified list without bringing it back after removal", () => {
+    const draft = createDraft(personId, listId);
+    draft.step = "groceries";
+    draft.profile.main_supermarket = " Aldi ";
+    draft.profile.shops = [{ name: "Asian supermarket", access: "trip" }];
+    draft.profile.other_shops = "Market on Saturdays";
+
+    const restored = restoreDraft(JSON.stringify(draft))!;
+    expect(restored.step).toBe("groceries");
+    expect(restored.profile.main_supermarket).toBe("");
+    expect(restored.profile.shops).toEqual([
+      { name: "Aldi", access: "easy" },
+      { name: "Asian supermarket", access: "trip" },
+    ]);
+    expect(restored.profile.other_shops).toBe("Market on Saturdays");
+
+    restored.profile.shops = [{ name: "Asian supermarket", access: "trip" }];
+    expect(restoreDraft(JSON.stringify(restored))?.profile.shops).toEqual([
+      { name: "Asian supermarket", access: "trip" },
+    ]);
+  });
   it("restores old categories without turning them into items, and retains new choices", () => {
     const draft = createDraft(personId, listId);
     const raw = JSON.parse(JSON.stringify(draft));

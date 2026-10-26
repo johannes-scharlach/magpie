@@ -77,3 +77,19 @@ test("undeclared equipment stays unknown and empty sections are omitted", () => 
 test("a missing household adds no profile context", () => {
   assert.equal(suggestionContext(null), "");
 });
+
+test("follow-up suggestions receive the chosen shop rules, not just the main cook", () => {
+  const profile = newProfile();
+  profile.shops = [
+    { name: "Aldi", rule: "everyday" },
+    { name: "Asian supermarket", rule: "worth-trip" },
+  ];
+  const context = suggestionContext({ profile, people: [] });
+  assert.match(context, /Aldi/);
+  assert.match(context, /worth-trip/);
+  assert.match(context, /across meals/);
+  assert.match(
+    context,
+    /Never make a meal or plan depend on an optional source/,
+  );
+});

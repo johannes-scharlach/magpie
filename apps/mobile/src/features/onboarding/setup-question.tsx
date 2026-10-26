@@ -1,9 +1,10 @@
 import {
   dietOptions,
+  profileShops,
   type CookingProfile,
   type HouseholdPerson,
 } from "@magpie/profile";
-import { useRouter } from "expo-router";
+import { useIsFocused, useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import { Platform, View, type TextInputInstance } from "react-native";
 import { AddRow } from "@/components/add-row";
@@ -35,7 +36,8 @@ export const subtitles: Record<Exclude<Step, "email" | "code">, string> = {
   diet: "Start with yourself. You can set a different diet for each person.",
   household: "Add the people you regularly cook for.",
   restrictions: "For anyone you cook for.",
-  groceries: "Your usual shop, and anywhere else you go for food.",
+  groceries:
+    "Choose which shops to plan around and when to suggest something extra.",
   kitchen: "Tap the appliances you have.",
   cuisines: "Switch on what you cook, then tick what you keep for it.",
 };
@@ -99,22 +101,40 @@ export function SetupQuestion({
   onNext,
   validationAttempt,
   onRoutineInputHeightChange,
+  active,
 }: {
   step: Step;
   onNext: () => void;
   /** Continue was tapped with a required answer missing. */
   validationAttempt: number;
   onRoutineInputHeightChange?: (height: number) => void;
+  active: boolean;
 }) {
   const router = useRouter();
-  const { draft, update } = useOnboarding();
+  const focused = useIsFocused();
+  const { draft, update, commit } = useOnboarding();
   const nameRef = useRef<TextInputInstance>(null);
+  const openedFirstShop = useRef(false);
   const showErrors = validationAttempt > 0;
   // Mounted on the step it opens at, so resuming elsewhere stays quiet.
   const [openedHere] = useState(() => draft?.step === step);
   useEffect(() => {
     if (showErrors && step === "name") nameRef.current?.focus();
   }, [showErrors, step, validationAttempt]);
+  useEffect(() => {
+    if (
+      step !== "groceries" ||
+      !active ||
+      !focused ||
+      !draft ||
+      openedFirstShop.current ||
+      profileShops(draft.profile).length
+    )
+      return;
+    // Enter the first detail once, not the pager's look-ahead page or again after Cancel.
+    openedFirstShop.current = true;
+    router.push("/setup/shop");
+  }, [active, focused, draft, router, step]);
   if (!draft) return null;
   const person = draft.people.find((p) => p.id === draft.onboarding_person_id)!;
   function editProfile(changes: Partial<CookingProfile>) {
@@ -208,7 +228,22 @@ export function SetupQuestion({
         />
       ) : null}
       {step === "groceries" ? (
-        <ShopsEditor profile={draft.profile} onChange={editProfile} />
+        <ShopsEditor
+          profile={draft.profile}
+          onSaveNotes={(other_shops) =>
+            commit((d) => ({ ...d, profile: { ...d.profile, other_shops } }))
+          }
+          onEdit={(index) =>
+            router.push({ pathname: "/setup/shop", params: { index } })
+          }
+          onAdd={(name) =>
+            router.push({
+              pathname: "/setup/shop",
+              params: name ? { name } : {},
+            })
+          }
+          validationAttempt={validationAttempt}
+        />
       ) : null}
       {step === "kitchen" ? (
         <ChoiceTiles

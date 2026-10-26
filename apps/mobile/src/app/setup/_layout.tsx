@@ -39,6 +39,19 @@ export default function SetupLayout() {
             : { headerShown: false }
         }
       />
+      <Stack.Screen
+        name="shop"
+        options={{
+          title: "Shop",
+          presentation: "formSheet",
+          sheetAllowedDetents: [0.75, 1],
+          sheetInitialDetentIndex: 0,
+          sheetGrabberVisible: true,
+          sheetCornerRadius: Platform.OS === "android" ? 28 : undefined,
+          headerShown: Platform.OS === "ios",
+          headerTransparent: false,
+        }}
+      />
       <Stack.Screen name="sign-in" options={{ headerShown: false }} />
     </Stack>
   );

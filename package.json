@@ -31,7 +31,9 @@
     "assets:matting:test": "node --test scripts/chroma-key.test.mjs",
     "assets:slice:test": "node --test scripts/slice-spritesheet.test.mjs",
     "typecheck": "pnpm -r typecheck",
-    "lint": "pnpm -r lint"
+    "lint": "pnpm -r lint",
+    "format": "prettier --write . && deno fmt --config supabase/functions/deno.json supabase/functions",
+    "format:check": "prettier --check . && deno fmt --check --config supabase/functions/deno.json supabase/functions"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
@@ -45,6 +47,7 @@
     }
   },
   "devDependencies": {
+    "prettier": "^3.9.10",
     "sharp": "^0.35.5",
     "supabase": "^2.115.0",
     "typescript": "~6.0.3"

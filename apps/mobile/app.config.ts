@@ -106,8 +106,9 @@ const config: ExpoConfig = {
       "expo-image-picker",
       {
         cameraPermission:
-          "Put what you have on the table and take a picture to get some ideas.",
-        photosPermission: "Pick a photo of what you have to get some ideas.",
+          "Take a photo of what you have to get ideas, or of a recipe to import it.",
+        photosPermission:
+          "Pick a photo of what you have to get ideas, or of a recipe to import it.",
       },
     ],
   ],

@@ -2,8 +2,10 @@ import { z } from "zod";
 
 import { powersync } from "@/db/system";
 import { env } from "@/lib/env";
+import { posthogLogger } from "@/lib/posthog-logs";
 import { supabase } from "@/lib/supabase";
-import { ImportFailure } from "./import-failure";
+import type { ImageAttachment } from "@/features/chat/image-attachment";
+import { ImportFailure, importFailure } from "./import-failure";
 import type { ImportRequest, ImportResult, ImportTarget } from "./import-jobs";
 
 const ImportResultSchema = z.object({
@@ -21,9 +23,89 @@ const permanentErrors = new Set([
   "RECIPE_EXTRACTION_FAILED",
 ]);
 
-export async function importRecipe(
-  request: Omit<ImportRequest, "plan"> &
-    ({ plan: ImportTarget } | { listId: string }),
+type ImportRecipeRequest = Omit<ImportRequest, "plan"> &
+  ({ plan: ImportTarget } | { listId: string });
+
+/** Every attempt is logged, so retries show up as separate entries. */
+export function importRecipe(
+  request: ImportRecipeRequest,
+): Promise<ImportResult> {
+  return logged(
+    {
+      operation_id: request.operationId,
+      source: "url",
+      target: "plan" in request ? "plan" : "cookbook",
+    },
+    () =>
+      requestImport("import-from-url", {
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(request),
+      }),
+  );
+}
+
+/** Pasted text, photos of one recipe in page order, or both, into the
+ *  household's cookbook. */
+export function importRecipeFromContent(request: {
+  operationId: string;
+  listId: string;
+  text?: string;
+  photos: ImageAttachment[];
+}): Promise<ImportResult> {
+  const body = new FormData();
+  body.append("operationId", request.operationId);
+  body.append("listId", request.listId);
+  if (request.text) body.append("text", request.text);
+  request.photos.forEach((photo, index) => {
+    // React Native uploads a { uri, name, type } entry as a file.
+    body.append("photos", {
+      uri: photo.uri,
+      name: `photo-${index + 1}.${photo.mediaType === "image/png" ? "png" : "jpg"}`,
+      type: photo.mediaType,
+    } as unknown as Blob);
+  });
+  return logged(
+    {
+      operation_id: request.operationId,
+      source: request.photos.length ? "photos" : "text",
+      target: "cookbook",
+      photo_count: request.photos.length,
+    },
+    () => requestImport("import-from-content", { body }),
+  );
+}
+
+async function logged(
+  attributes: Record<string, string | number>,
+  run: () => Promise<ImportResult>,
+): Promise<ImportResult> {
+  const startedAt = Date.now();
+  const base = { operation: "recipe_import", ...attributes };
+  try {
+    const result = await run();
+    posthogLogger.info("recipe import completed", {
+      ...base,
+      outcome: "success",
+      duration_ms: Date.now() - startedAt,
+    });
+    return result;
+  } catch (error) {
+    const failure = importFailure(error);
+    posthogLogger.warn("recipe import failed", {
+      ...base,
+      outcome: "failure",
+      code: failure.code,
+      message: failure.message,
+      retryable: failure.retryable,
+      duration_ms: Date.now() - startedAt,
+    });
+    throw error;
+  }
+}
+
+async function requestImport(
+  path: "import-from-url" | "import-from-content",
+  init: { headers?: Record<string, string>; body: string | FormData },
 ): Promise<ImportResult> {
   const { data } = await supabase.auth.getSession();
   if (!data.session)
@@ -35,14 +117,14 @@ export async function importRecipe(
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 120000);
   try {
-    const response = await fetch(`${env.apiUrl}/v1/recipes/import-from-url`, {
+    const response = await fetch(`${env.apiUrl}/v1/recipes/${path}`, {
       signal: controller.signal,
       method: "POST",
       headers: {
-        "content-type": "application/json",
+        ...init.headers,
         authorization: `Bearer ${data.session.access_token}`,
       },
-      body: JSON.stringify(request),
+      body: init.body,
     });
     const body: unknown = await response.json();
     if (!response.ok) {
