@@ -17,7 +17,7 @@ import { ChoiceTiles } from "@/features/profile/choice-tiles";
 import { AvoidancesEditor } from "@/features/profile/avoidances-editor";
 
 const titles: Record<string, string> = {
-  goals: "Goals",
+  goals: "Cooking rules",
   kitchen_equipment: "Equipment",
   restrictions: "Household restrictions",
   meals_at_home: "Meals at home",

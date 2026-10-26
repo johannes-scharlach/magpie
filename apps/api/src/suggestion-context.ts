@@ -1,5 +1,6 @@
 import {
   dietOptions,
+  goalRulesContext,
   selectionLabels,
   shopRulesContext,
   type Household,
@@ -25,7 +26,6 @@ export function suggestionContext(household: Household | null): string {
     "kitchen_equipment",
     profile.kitchen_equipment,
   );
-  const goals = selectionLabels("goals", profile.goals);
   const diets = [
     ...new Set(
       people
@@ -48,7 +48,7 @@ export function suggestionContext(household: Household | null): string {
 
   return [
     `Available equipment: ${equipment.length ? equipment.join(", ") : "none declared"}`,
-    goals.length ? `Cooking goals: ${goals.join("; ")}` : null,
+    goalRulesContext(profile),
     people.some((p) => p.age_group === "Child" || p.age_group === "Toddler")
       ? "Household: includes a child"
       : null,

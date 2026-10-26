@@ -19,12 +19,13 @@ rather than repeating it in introductory paragraphs.
 
 Keep firm boundaries, defaults, priorities and permission to explore distinct;
 these are design distinctions, not terminology users need to learn. Do not force
-every question into the shops' three-choice pattern. The direction for the
-other questions is agreed, but their interface changes are not implemented:
+every question into the shops' three-choice pattern. Goals and shops now use
+this approach. The direction for the remaining questions is agreed, but their
+interface changes are not implemented:
 
-- Goals should guide decisions: keep weekday cooking quick, reuse ingredients
-  across meals, favour affordable ingredients. They are priorities, not just
-  aspirations, and need clear meaning when they compete.
+- Cooking rules should guide decisions and have a cost: quicker meals, lower
+  spending, more explanation or less multitasking. A benefit without a meaningful
+  trade-off belongs in Magpie's defaults, not a checkbox.
 - Diet should communicate behaviour, not depend on an identity label alone:
   e.g. put vegetables at the centre while still including meat and fish.
   Firm dietary exclusions remain firm.
@@ -51,7 +52,9 @@ The flow retains name, goals, diet, household, avoidances, shops, equipment,
 pantry, fresh, email, and code. Household add/edit remains a native form sheet on
 iOS, with editable creator details and a scrollable keyboard-aware layout.
 
-- Goals: illustrated multi-select tiles and custom entries.
+- Goals: seven multi-select rows, each pairing a request with how Magpie will
+  act on it. Custom entries remain possible; no preselection, ranking or extra
+  configuration step.
 - Diet: compact single-select tiles; explain only the selected diet.
 - Household: names, ages, diets, portion references, attendance, and normal meals.
 - Avoidances: separate allergies/must-avoids from dislikes on one screen.
@@ -84,6 +87,10 @@ Native navigation/selection symbols are not artwork requests.
 
 ## Persisted meaning
 
+- `household_profiles.goals` keeps its JSON preset-booleans/`other` array shape.
+  Existing keys adopt the clearer instructions described below. New goals are
+  unselected; retired choices for cooking with what is available, balanced meals
+  and using up purchases become custom entries.
 - `household_people.portion_reference`: 0.25–4 regular adult portions in quarter
   steps, default 1. The creator and other people use the same editor. Recipe
   generation sums the selected people's references, then adds per-meal extra
@@ -116,6 +123,108 @@ Changing a person's reference affects subsequent recipe generation/adjustments;
 it does not rewrite existing recipes or reinterpret extra portions. Existing
 `sized_for` metadata still records eater IDs and extra portions, not historical
 appetite snapshots (same boundary as existing diet/age edits).
+
+## Goals: requests and cooking approaches (2026-10-26)
+
+"Set your cooking rules" is the first substantive instruction the user
+gives Magpie. Each row has two layers: what the user wants and how Magpie will
+help achieve it. The second line names an action, not praise for the approach.
+Every rule must cost something; otherwise it should be Magpie's default. Show
+the cost through a limit or comparison in the second line. Do not spell out
+costs people can work out themselves or add a separate cost explanation.
+These are two layers within a choice, not two rounds of questions. There is no
+long introduction, generated response or separate explanation after selection.
+
+| Request                        | Approach shown beneath it                                                          |
+| ------------------------------ | ---------------------------------------------------------------------------------- |
+| Keep weeknights quick          | Choose meals with under 30 minutes of prep and hands-on cooking.                   |
+| Spend less on food             | Suggest cheaper cuts. Plan meals that share ingredients.                           |
+| Help me reduce calories        | Use leaner proteins, more vegetables and less added oil or cream.                  |
+| Teach me as I cook             | Explain heat, timing and seasoning, not just the steps.                            |
+| Help me cook with children     | Split the steps into children’s jobs and jobs that need an adult.                  |
+| Make cooking less overwhelming | Prep everything first, then one task at a time. Takes a little longer overall.     |
+| Try new cuisines               | Offer one dish from a cuisine I don’t usually cook, alongside familiar meal ideas. |
+
+The subtitle is "Magpie will follow these when planning meals and writing
+cooking steps." "Add a rule" opens the existing custom-entry editor, which asks
+"What should Magpie do?" Every second line remains visible before selection; selecting
+does not navigate or open another question. Continue finishes the question.
+The same rows and meanings appear under "Cooking rules" in household settings. Checkbox accessibility
+labels include both the request and its approach.
+
+Goals must change meal ideas, planning and recipe steps, not just the tone of
+the reply. The cook and follow-up suggestions receive the same shared goal
+instructions. Current requests can override usual priorities; firm dietary
+boundaries, equipment limits and shop rules still apply. The order of selected
+goals is not a ranking. A real conflict should produce a visible trade-off.
+
+Balanced meals and using up purchases are defaults, not selectable rules. The
+assistant prompt and its canonical document require vegetables, a protein source
+and something starchy within the chosen diet, without adding pans or side dishes
+just to cover food groups. Balance does not imply calorie reduction. Planning
+several meals accounts for pack/bunch remainders across distinct meals. Available
+ingredients should be used without treating usual staples or purchases as
+confirmed stock. Frozen vegetables are not assumed to be cheaper.
+
+- Quick means under 30 minutes of preparation and hands-on work, including mise
+  en place. Unattended cooking may take longer; active and elapsed time are
+  distinct. Do not meet the limit by overlapping hands-on tasks when calmer
+  cooking is also selected.
+- Less-overwhelming cooking begins with complete mise en place and keeps
+  hands-on tasks sequential. It overrides the cook's default prep-as-you-go and
+  multitasking advice. Unattended cooking can overlap one hands-on task.
+- Reducing calories does not supply a numerical target or put other household
+  members, especially children, on a weight-loss plan. Target configuration is
+  deferred: a future target is a saved personal daily target, not per-meal entry.
+- Teaching happens through techniques and observable cues in the relevant
+  cooking step, not a lecture or an assumption that the user is a beginner.
+- Cooking with children means participation, not merely meals children will eat.
+  Separate supervised jobs from steps requiring an adult; use known ages and
+  abilities without assuming knife/heat safety.
+- Exploration goes beyond cuisines the household normally cooks, not just to
+  another dish within a familiar cuisine. Declared cuisines give a starting
+  point, not a whitelist or proof that every unlisted cuisine is unfamiliar.
+  Follow-up suggestions receive that starting point when exploration is chosen.
+  Shop rules still govern sourcing; exploration does not permit extra trips.
+
+### Existing answers
+
+Use a generous intent-preserving migration, without re-onboarding or extra
+confirmation. Keep the persisted keys for quick meals, budget, confidence and
+exploration. They now mean, respectively, quick weeknights (including the
+active-time default), spending less, teaching while cooking and trying new
+cuisines.
+
+"Cook with what I have", "Make meals balanced" and "Use up what I buy" remain
+as selected custom entries. Do not duplicate an existing custom entry with the
+same text, ignoring case. Remove the former preset keys from the normalized
+value so deleting those custom entries does not bring them back on the next
+read. Other custom wishes remain unchanged.
+
+Calorie reduction, cooking with children and less-overwhelming cooking are not
+inferred from earlier answers. Missing new keys remain unselected.
+
+The shared profile parser applies this to saved households and recovered local
+drafts. Reading does not rewrite database rows; normal goal saves persist the
+normalized value. No database migration, sync-rule change or bulk rewrite is
+needed. Automated checks cover profile compatibility, draft recovery/removal,
+the unconditional cooking defaults, and the chosen instructions reaching both
+suggestion paths. They do not prove model adherence or certify native layout and
+screen readers.
+
+### Cooking-rules visual check (2026-10-26)
+
+Android API 36, light theme, font scale 1.0, keyboard hidden: two native captures
+confirmed the updated heading/subtitle, readable two-line choices, and scrolling
+to the last choice and Add a rule above the fixed navigation controls. No goal
+selections or saved household answers were changed. The draft was left at the
+top of the same question. Captures and context are gitignored under
+`docs/.screenshots/onboarding-goals/android/round-01-cooking-rules/`.
+This was a layout/scroll check, not a repeat of selection or persistence tests.
+The captures precede removal of the two default-behaviour presets and the later
+cost-focused copy changes; they do not show the final seven-row list. No repeat
+device check was made for that cleanup. iOS, larger text and screen readers
+remain device-unverified.
 
 ## Shop sourcing rules (2026-10-26)
 

@@ -66,14 +66,14 @@ see the trial below before changing prompts or replacing assets.
    both light and dark backgrounds before accepting a master.
 
 2b. **Sprite Sheet Slicing (Budget Saver)**:
-   To save request quota, multiple items can be generated in a 3×3 or 2×2 sprite sheet on a neutral mid-grey (`#808080`) or chroma blue backdrop.
-   Run the sheet slicer to matte, segment, and crop each cell into individual masters:
+To save request quota, multiple items can be generated in a 3×3 or 2×2 sprite sheet on a neutral mid-grey (`#808080`) or chroma blue backdrop.
+Run the sheet slicer to matte, segment, and crop each cell into individual masters:
 
-   ```bash
-   pnpm assets:slice <spritesheet.png|jpg> --ids id1,id2,id3,id4,id5,id6,id7,id8,id9 --rows 3 --cols 3
-   ```
+```bash
+pnpm assets:slice <spritesheet.png|jpg> --ids id1,id2,id3,id4,id5,id6,id7,id8,id9 --rows 3 --cols 3
+```
 
-   This applies foreground matting via `rembg`, isolates each cell's foreground bounds with 16px padding, and exports individual `<id>.png` masters directly into this folder. Run unit tests with `pnpm assets:slice:test`.
+This applies foreground matting via `rembg`, isolates each cell's foreground bounds with 16px padding, and exports individual `<id>.png` masters directly into this folder. Run unit tests with `pnpm assets:slice:test`.
 
 3. **Optimize for the app**:
    From the repo root, run:
@@ -234,9 +234,11 @@ appealing while shopping. Keep the composition readable at phone width.
 
 > A friendly stop-motion claymation magpie mascot matching the character from `apps/mobile/assets/images/icon.png` (plump black-and-white plasticine body, large expressive round white cartoon eyes with black pupils, friendly curved short dark-grey beak, chunky dark grey clay feet) has found a beautiful purple clay aubergine at a small food market and is lifting it into its woven clay shopping basket with obvious delight. The basket already contains clay tomatoes and a packet of pasta, suggesting a meal that can accommodate the new find. One simple rustic wooden clay crate beside it, no busy background. Wide 3:2 composition with the claymation bird and aubergine as the focal point, generous 15% margin around them. Handcrafted matte polymer clay, soft rounded handmade forms, soft top-left studio lighting and gentle shadows, flat background #FBF8F4 (or chroma blue #0047FF for keying). Strictly no small beady realistic bird eyes, no sharp long crow beak, no text, lettering, labels, borders, checkmarks, or sparkles.
 
-## Goal tiles
+## Earlier goal artwork (not used on the current screen)
 
-Food illustrates the choice, rather than adding a generic icon above it.
+The current cooking-rules screen uses two-line checkbox rows, not artwork.
+These earlier prompts are retained for the existing assets; they do not define
+the current choices or request new illustrations.
 
 ### goal-cook-with-what-you-have
 
@@ -485,6 +487,7 @@ are referenced by runtime code; PNG masters do not enter Metro's asset graph.
 Individual ingredients are produced in 4×4 grid sprite sheets (16 items per sheet, 2048×2048 JPEG) on `#808080` neutral mid-grey, sliced with `scripts/slice-spritesheet.mjs` (via `scripts/art-matting.py` neural alpha matting), and optimized with `pnpm assets:optimize`.
 
 ### Delivered Sheets (1–5)
+
 - `spritesheet-japanese-1.jpg`: 16 Japanese cupboard items (delivered & wired).
 - `spritesheet-mexican-1.jpg`: 16 Mexican & Americas items (delivered & wired).
 - `spritesheet-levantine-1.jpg`: 16 Levantine & Mediterranean items (delivered & wired).
@@ -492,6 +495,7 @@ Individual ingredients are produced in 4×4 grid sprite sheets (16 items per she
 - `spritesheet-european-1.jpg`: 16 Italian & Spanish items (delivered & wired).
 
 ### In-Flight Sheets (6–10)
+
 - `spritesheet-south-asian-1.jpg`: 16 South Asian items (sliced to PNG masters).
 - `spritesheet-southeast-asian-1.jpg`: 16 Southeast Asian items (sliced to PNG masters).
 - `spritesheet-french-british-1.jpg`: 16 French & British items (sliced to PNG masters).

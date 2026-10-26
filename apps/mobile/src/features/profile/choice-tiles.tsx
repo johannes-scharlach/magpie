@@ -10,10 +10,12 @@ import {
 import {
   selectionOptions,
   goalOptions,
+  goalDescriptions,
   legacyPantryOptions,
   legacyFreshOptions,
   type Selection,
   type SelectionField,
+  type Goal,
 } from "@magpie/profile";
 import { PrimaryAction } from "@/components/action";
 import { AddRow } from "@/components/add-row";
@@ -178,6 +180,7 @@ export function ChoiceTiles({
     const presetChoices = Object.entries(goalOptions).map(([key, title]) => ({
       key,
       title,
+      detail: goalDescriptions[key as Goal],
     }));
     const customChoices = value.other.map((title, index) => ({
       key: `other:${index}`,
@@ -209,7 +212,7 @@ export function ChoiceTiles({
           }}
         >
           <AddRow
-            label="Add a goal"
+            label="Add a rule"
             bordered={false}
             onPress={() => {
               setCustom("");
@@ -222,12 +225,12 @@ export function ChoiceTiles({
           <EditorSheet
             ref={sheet}
             autoFocusInput={input}
-            title="Your goal"
+            title="Add a rule"
             onDismiss={() => setAdding(false)}
           >
             <Field
               ref={input}
-              label="What would help?"
+              label="What should Magpie do?"
               value={custom}
               onChangeText={setCustom}
               autoFocus

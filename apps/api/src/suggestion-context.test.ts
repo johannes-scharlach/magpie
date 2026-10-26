@@ -4,7 +4,7 @@ import { newPerson, newProfile } from "@magpie/profile";
 
 import { suggestionContext } from "./suggestion-context.js";
 
-test("suggestions get a small cooking brief, not the whole profile", () => {
+test("suggestions receive the chosen goal instructions without the whole profile", () => {
   const profile = newProfile();
   profile.kitchen_equipment = {
     "air-fryer": true,
@@ -13,6 +13,9 @@ test("suggestions get a small cooking brief, not the whole profile", () => {
   };
   profile.goals = {
     "fast-weeknight-dinners": true,
+    "less-overwhelming-cooking": true,
+    "reduce-calories": true,
+    "explore-new-cuisines": true,
     other: ["Less washing up"],
   };
   profile.ingredient_avoidances = [
@@ -42,25 +45,37 @@ test("suggestions get a small cooking brief, not the whole profile", () => {
     diet_other: "Vegetarian, eggs and dairy are fine",
   };
 
-  assert.equal(
-    suggestionContext({
-      profile,
-      people: [
-        adult,
-        { ...adult, id: "other-adult-id", user_id: null, name: "Ben" },
-        child,
-      ],
-    }),
-    [
-      "Available equipment: Air fryer, Wok",
-      "Cooking goals: Fast weeknight dinners; Less washing up",
-      "Household: includes a child",
-      "Household diets: Flexitarian (plant-forward, includes meat and fish); Vegetarian, eggs and dairy are fine",
-      "Must avoid: Peanuts (allergy; Child only); Alcohol (Including cooking)",
-      "Dislikes: Mushrooms (Texture)",
-      "Other food restrictions: No grapefruit with medication",
-    ].join("\n"),
+  const context = suggestionContext({
+    profile,
+    people: [
+      adult,
+      { ...adult, id: "other-adult-id", user_id: null, name: "Ben" },
+      child,
+    ],
+  });
+  for (const line of [
+    "Available equipment: Air fryer, Wok",
+    "Household: includes a child",
+    "Household diets: Flexitarian (plant-forward, includes meat and fish); Vegetarian, eggs and dairy are fine",
+    "Must avoid: Peanuts (allergy; Child only); Alcohol (Including cooking)",
+    "Dislikes: Mushrooms (Texture)",
+    "Other food restrictions: No grapefruit with medication",
+  ]) {
+    assert.ok(context.includes(line), `Missing cooking brief: ${line}`);
+  }
+  assert.match(context, /Keep weeknights quick/);
+  assert.match(context, /under 30 minutes of prep and hands-on cooking/);
+  assert.match(context, /Start with complete mise en place/);
+  assert.match(context, /overrides default advice to prep while cooking/);
+  assert.match(context, /No calorie target is supplied/);
+  assert.match(
+    context,
+    /Do not put children or other household members on a weight-loss plan/,
   );
+  assert.match(context, /familiar starting points, not a whitelist/);
+  assert.match(context, /Japanese/);
+  assert.match(context, /Less washing up/);
+  assert.doesNotMatch(context, /Anna|Sam|Ben|Yuzu kosho|\bmiso\b/);
 });
 
 test("undeclared equipment stays unknown and empty sections are omitted", () => {

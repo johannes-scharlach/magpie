@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { profileContext } from "@magpie/profile";
 import { bindDraft, createDraft, restoreDraft } from "./draft";
 
 const personId = "a17c9a92-784c-4dfe-b282-20bcfd877b11";
@@ -49,6 +50,53 @@ describe("onboarding draft recovery", () => {
       oven: false,
       stove: false,
       other: ["Camping burner"],
+    });
+  });
+  it("resumes quick, calmer cooking with its instructions and does not restore a removed former goal", () => {
+    const draft = createDraft(personId, listId);
+    draft.step = "goals";
+    draft.profile.goals = {
+      "fast-weeknight-dinners": true,
+      "less-overwhelming-cooking": true,
+      "reduce-calories": false,
+      "cook-with-what-you-have": true,
+      "fresh-healthy-meals": true,
+      "use-up-what-you-buy": true,
+      other: [
+        "Less washing up",
+        "COOK WITH WHAT I HAVE",
+        "make meals balanced",
+      ],
+    };
+
+    const restored = restoreDraft(JSON.stringify(draft))!;
+    expect(restored.step).toBe("goals");
+    expect(restored.profile.goals).toEqual({
+      "fast-weeknight-dinners": true,
+      "less-overwhelming-cooking": true,
+      "reduce-calories": false,
+      other: [
+        "Less washing up",
+        "COOK WITH WHAT I HAVE",
+        "make meals balanced",
+        "Use up what I buy",
+      ],
+    });
+    const context = profileContext(restored, "caller");
+    expect(context).toContain("under 30 minutes");
+    expect(context).toContain("mise en place");
+    expect(context).toContain(
+      "Prep everything first, then one task at a time. Takes a little longer overall.",
+    );
+    expect(context).toContain("Unattended cooking can still overlap");
+
+    restored.profile.goals["fast-weeknight-dinners"] = false;
+    restored.profile.goals.other = ["Less washing up"];
+    expect(restoreDraft(JSON.stringify(restored))?.profile.goals).toEqual({
+      "fast-weeknight-dinners": false,
+      "less-overwhelming-cooking": true,
+      "reduce-calories": false,
+      other: ["Less washing up"],
     });
   });
   it("moves the old main shop into the classified list without bringing it back after removal", () => {

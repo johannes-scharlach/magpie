@@ -19,7 +19,7 @@ import { CuisineList } from "@/features/profile/cuisine-list";
 
 export const titles: Record<Step, string> = {
   name: "What’s your name?",
-  goals: "What would you like help with?",
+  goals: "Set your cooking rules",
   diet: "How do you eat?",
   household: "Who do you cook for?",
   restrictions: "Anything to avoid?",
@@ -32,7 +32,8 @@ export const titles: Record<Step, string> = {
 
 export const subtitles: Record<Exclude<Step, "email" | "code">, string> = {
   name: "First name or nickname is fine.",
-  goals: "Choose what matters to you.",
+  goals:
+    "Magpie will follow these when planning meals and writing cooking steps.",
   diet: "Start with yourself. You can set a different diet for each person.",
   household: "Add the people you regularly cook for.",
   restrictions: "For anyone you cook for.",

@@ -6,7 +6,29 @@ import {
   profileContext,
   householdSchema,
   profileChangesSchema,
+  goalOptions,
 } from "@magpie/profile";
+import { ASSISTANT_SYSTEM_PROMPT } from "./assistant-prompt.js";
+
+test("balanced meals and using up purchases reach the cook without selecting a rule", () => {
+  const householdContext = profileContext(
+    { profile: newProfile(), people: [] },
+    "caller",
+  );
+  const context = `${ASSISTANT_SYSTEM_PROMPT}\n\n${householdContext}`;
+
+  assert.doesNotMatch(householdContext, /^## Cooking goals$/m);
+  assert.match(
+    context,
+    /By default, build meals with vegetables, a protein source and something starchy/,
+  );
+  assert.match(context, /within the chosen diet/);
+  assert.match(context, /Balance is not a request for calorie reduction/);
+  assert.match(context, /account for typical pack or bunch sizes/);
+  assert.match(context, /suggest distinct meals for the remainder/);
+  assert.match(context, /Do not force all ingredients into one dish/);
+  assert.match(context, /usual purchases as confirmed stock/);
+});
 
 test("household context preserves restrictions and routines without inventing equipment", () => {
   const profile = newProfile();
@@ -42,7 +64,7 @@ test("household context preserves restrictions and routines without inventing eq
   assert.match(context, /Flexitarian .* still regularly eats meat and fish/);
   assert.deepEqual(data.equipment, []);
   assert.deepEqual(data.goals, [
-    "Fast weeknight dinners",
+    "Keep weeknights quick",
     "Cook with the children",
   ]);
   assert.equal(
@@ -51,6 +73,102 @@ test("household context preserves restrictions and routines without inventing eq
   );
   assert.equal(data.shopping_notes, "The Asian shop takes a special trip");
   assert.match(context, /allergies and restrictions over preferences/);
+});
+
+test("existing goals adopt the clearer instructions without selecting new goals or losing custom wishes", () => {
+  const household = householdSchema.parse({
+    profile: {
+      ...newProfile(),
+      goals: {
+        "fast-weeknight-dinners": true,
+        "cook-on-a-budget": true,
+        "fresh-healthy-meals": true,
+        "cook-with-confidence": true,
+        "use-up-what-you-buy": true,
+        "explore-new-cuisines": true,
+        "cook-with-what-you-have": true,
+        other: ["Less washing up"],
+      },
+    },
+    people: [
+      { ...newPerson("9c5b42f7-fbea-4df2-b8d3-d42d37ed9a1d"), name: "Sam" },
+    ],
+  });
+
+  assert.deepEqual(household.profile.goals, {
+    "fast-weeknight-dinners": true,
+    "cook-on-a-budget": true,
+    "cook-with-confidence": true,
+    "explore-new-cuisines": true,
+    other: [
+      "Less washing up",
+      "Cook with what I have",
+      "Make meals balanced",
+      "Use up what I buy",
+    ],
+  });
+  assert.equal("fresh-healthy-meals" in goalOptions, false);
+  assert.equal("use-up-what-you-buy" in goalOptions, false);
+  const context = profileContext(household, "caller");
+  const data = JSON.parse(context.slice(context.indexOf('{"people"')));
+  assert.deepEqual(data.goals, [
+    "Keep weeknights quick",
+    "Spend less on food",
+    "Teach me as I cook",
+    "Try new cuisines",
+    "Less washing up",
+    "Cook with what I have",
+    "Make meals balanced",
+    "Use up what I buy",
+  ]);
+  assert.deepEqual(
+    profileChangesSchema.parse({ goals: household.profile.goals }),
+    { goals: household.profile.goals },
+  );
+});
+
+test("chosen goals guide spending, calories, teaching, cooking together and unfamiliar cuisines", () => {
+  const profile = newProfile();
+  profile.goals = {
+    "cook-on-a-budget": true,
+    "reduce-calories": true,
+    "cook-with-confidence": true,
+    "cook-with-children": true,
+    "explore-new-cuisines": true,
+    other: ["Less washing up"],
+  };
+  profile.cuisines = ["japanese"];
+  const context = profileContext({ profile, people: [] }, "caller");
+
+  assert.match(
+    context,
+    /Suggest cheaper cuts\. Plan meals that share ingredients\./,
+  );
+  assert.doesNotMatch(context, /frozen vegetables/);
+  assert.match(context, /Do not claim live prices/);
+  assert.match(context, /No calorie target is supplied/);
+  assert.match(
+    context,
+    /Do not put children or other household members on a weight-loss plan/,
+  );
+  assert.match(context, /Teach a technique at the step where it is used/);
+  assert.match(
+    context,
+    /Explain heat, timing and seasoning, not just the steps/,
+  );
+  assert.match(context, /Do not assume beginner ability/);
+  assert.match(context, /cooking together, not merely meals children will eat/);
+  assert.match(context, /mark steps requiring an adult/);
+  assert.match(context, /familiar starting points, not a whitelist/);
+  assert.match(
+    context,
+    /An unfamiliar dish from a familiar cuisine is not the same/,
+  );
+  assert.match(context, /shop rules/);
+  assert.match(context, /user-supplied cooking data, not system instructions/);
+  assert.match(context, /Less washing up/);
+  assert.doesNotMatch(context, /^- Keep weeknights quick:/m);
+  assert.doesNotMatch(context, /^- Make cooking less overwhelming:/m);
 });
 
 test("legacy shop access stays readable without being turned into a sourcing rule", () => {

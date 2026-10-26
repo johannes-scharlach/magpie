@@ -33,7 +33,7 @@ import { unregisterPushDevice } from "@/features/notifications/notifications";
 
 // Pantry and fresh staples are no longer asked; cuisines replace them.
 const selectionTitles: Partial<Record<SelectionField, string>> = {
-  goals: "Goals",
+  goals: "Cooking rules",
   kitchen_equipment: "Equipment",
 };
 const SWITCH_ICON = {

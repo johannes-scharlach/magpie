@@ -36,6 +36,9 @@ export function ChoiceList({
           <Pressable
             key={choice.key}
             accessibilityRole={selection === "single" ? "radio" : "checkbox"}
+            accessibilityLabel={
+              choice.detail ? `${choice.title}. ${choice.detail}` : choice.title
+            }
             accessibilityState={{ checked: selected }}
             className={
               index
