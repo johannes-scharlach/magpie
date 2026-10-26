@@ -31,7 +31,7 @@ import {
   takeQueuedMessage,
 } from "@/features/chat/message-queue";
 import {
-  uploadImageAttachment,
+  uploadAttachment,
   type ImageAttachment,
 } from "@/features/chat/image-attachment";
 import {
@@ -227,7 +227,7 @@ export default function ChatScreen() {
         );
       }
       while (turn.attachments.length) {
-        const file = await uploadImageAttachment(
+        const file = await uploadAttachment(
           conversationListId,
           turn.attachments[0]!,
         );

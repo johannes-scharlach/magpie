@@ -16,7 +16,8 @@ import { cn } from "@/lib/utils";
 
 import { Markdown } from "./markdown";
 import { MessageMenu } from "./message-menu";
-import { imageParts } from "./image-attachment";
+import { audioParts, imageParts } from "./image-attachment";
+import { VoiceMessage } from "./voice-message";
 import { messageText, type Parts } from "./stream";
 import { parseSegments, readableMessage, type Idea } from "./tags";
 import { recipeResults } from "./recipe-results";
@@ -32,8 +33,12 @@ export function UserMessage({ parts }: { parts: Parts }) {
   const { width: windowWidth } = useWindowDimensions();
   const text = messageText(parts);
   const images = imageParts(parts);
+  const recordings = audioParts(parts);
   return (
     <View className="mx-5 items-end gap-2">
+      {recordings.map((recording) => (
+        <VoiceMessage key={recording.url} url={recording.url} />
+      ))}
       {images.map((img) => (
         <Image
           key={img.url}

@@ -18,6 +18,7 @@ import {
 } from "@/features/chat/image-attachment";
 import { ImageAttachmentMenu } from "@/features/chat/image-attachment-menu";
 import { ImageAttachmentStrip } from "@/features/chat/image-attachment-strip";
+import { queueMessage } from "@/features/chat/message-queue";
 import {
   importRecipe,
   importRecipeFromContent,
@@ -27,6 +28,7 @@ import {
   pastedImport,
   type PastedImport,
 } from "@/features/meals/pasted-import";
+import { VoiceRecorder } from "@/features/meals/voice-recorder";
 import { useHouseholdAccess } from "@/features/onboarding/access";
 import { posthog } from "@/lib/posthog";
 
@@ -35,7 +37,9 @@ type Content =
 
 /** Native formSheet: detents, grabber, swipe-to-dismiss. Unmounts on close,
  *  so nothing carries over. Same pattern as variant/plan. The rows name where
- *  recipes come from; pasting imports at once, photos get a review first. */
+ *  recipes come from; pasting imports at once, photos get a review first.
+ *  A recipe told from memory goes to chat, where Magpie's guesses get
+ *  checked before anything is saved (ADR 32). */
 export default function ImportRecipeSheet() {
   const router = useRouter();
   const { listId } = useHouseholdAccess();
@@ -45,6 +49,7 @@ export default function ImportRecipeSheet() {
   const [picking, setPicking] = useState(false);
   const [reading, setReading] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [telling, setTelling] = useState(false);
   const busy = picking || reading !== null;
   const muted = useResolveClassNames("text-muted-foreground").color;
 
@@ -106,6 +111,17 @@ export default function ImportRecipeSheet() {
     }
   }
 
+  function sendRecording(recording: ImageAttachment) {
+    const chatId = Crypto.randomUUID();
+    queueMessage({
+      messageId: Crypto.randomUUID(),
+      text: "Here's a recipe I know.",
+      attachments: [recording],
+    });
+    posthog?.capture("recipe_told");
+    router.replace(`/chats/${chatId}` as never);
+  }
+
   function onPaste(text: string) {
     const content = pastedImport(text);
     if (content) void run(content);
@@ -116,7 +132,7 @@ export default function ImportRecipeSheet() {
     <View collapsable={false}>
       <View className="flex-row items-center justify-between gap-4 px-6 pt-4">
         <Text className="flex-1 font-rounded text-lg font-bold">
-          Import recipe
+          {telling ? "Tell Magpie a recipe" : "Import recipe"}
         </Text>
         <CloseButton
           onPress={() => router.back()}
@@ -124,7 +140,9 @@ export default function ImportRecipeSheet() {
         />
       </View>
 
-      {reading !== null ? (
+      {telling ? (
+        <VoiceRecorder onSend={sendRecording} />
+      ) : reading !== null ? (
         <View className="mt-6 flex-row items-center gap-3 px-6 pb-10">
           <ActivityIndicator />
           <Text variant="muted" numberOfLines={1} className="flex-1">
@@ -191,6 +209,12 @@ export default function ImportRecipeSheet() {
             icon={{ ios: "photo.on.rectangle", android: "photo_library" }}
             label="Choose screenshots or photos"
             onPress={() => void addPhotos("library")}
+            disabled={busy}
+          />
+          <SourceRow
+            icon={{ ios: "mic", android: "mic" }}
+            label="Tell Magpie a recipe you know"
+            onPress={() => setTelling(true)}
             disabled={busy}
             last
           />

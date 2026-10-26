@@ -12,6 +12,11 @@ become overwhelming. It is a briefing for Magpie, not merely a profile
 questionnaire. For every answer, the user should understand: "Because I chose
 this, Magpie will..." More settings and more questions are not more control.
 
+Prefer useful information throughout setup. Empty states should invite an
+answer, not encourage leaving it blank. That does not make every answer
+mandatory. Show the effect through meaningful controls and the resulting list,
+rather than repeating it in introductory paragraphs.
+
 Keep firm boundaries, defaults, priorities and permission to explore distinct;
 these are design distinctions, not terminology users need to learn. Do not force
 every question into the shops' three-choice pattern. The direction for the
@@ -124,8 +129,9 @@ Onboarding and household settings share one Shops list. Each entry answers
   reuse across meals when planning several meals.
 
 No rule is preselected or inferred from a shop's name, size, type or old access
-rating. Multiple shops can be everyday sources. Household settings explain the
-planning behaviour in more detail; onboarding uses shorter instructions.
+rating. Multiple shops can be everyday sources. The rule choices explain their
+effect directly. The household Shops page is just the list and add actions,
+without an introductory explanation or a page-level Save button.
 
 The household Shops editor opens as a normal pushed page, like Cuisines &
 staples. The list contains compact name/rule rows, never an open shop form.
@@ -145,7 +151,8 @@ automatically reopen the editor. Returning to an existing list never opens a
 blank next entry. Each shop opens a single native form sheet above the normal
 question/settings page, never above another sheet. It starts at a stable
 three-quarter-height detent, can be expanded to full height, and does not resize
-to its content or automatically expand when the form scrolls. The name field
+to its content. Native sheet gestures expand to the larger detent first;
+content can scroll when it still does not fit at full height. The name field
 does not take focus on arrival: the keyboard stays hidden until the user chooses
 to type. Contents scroll for smaller screens, larger text and the keyboard;
 Save stays at the bottom. The editor still makes sense when the background
@@ -165,16 +172,20 @@ Typing and changing a rule only update the editor's local state. An incomplete
 Save shows inline feedback and never adds or removes a shop. Removal is an
 explicit action for an existing shop. Onboarding publishes the changed list
 only after the device-local save succeeds; a failed Save keeps the editor open
-with its input intact. Shops remain optional. In household settings, saving an
-entry updates the page's unsaved draft; the page's Save still writes only the
-shop fields, and leaving that page without saving does not edit the household.
+with its input intact. Shops remain optional, but the interface invites adding
+information rather than advertising that it can be skipped. In household
+settings, saving or removing a shop writes that change directly and returns to
+the live list. There is no second Save on the page and no page-wide draft.
+Existing shopping notes open their own small editor and are saved explicitly;
+they are not left as an unsaved inline field on the list.
 
 An existing `main_supermarket` remains readable as a legacy shop. If it is
 already listed, keep the explicit entry rather than duplicating it.
 Recovering an onboarding draft also folds the old field into `shops` and clears
-it, so removing that shop does not bring it back on resume. Saving the household
-shops section stores the combined list in `shops` and clears the legacy field;
-cancelling leaves saved answers unchanged. Old access ratings stay intact until
+it, so removing that shop does not bring it back on resume. Saving a household
+shop stores the combined list in `shops` and clears the legacy field; cancelling
+leaves saved answers unchanged. Shop writes do not replace shopping notes or
+other profile fields. Old access ratings stay intact until
 edited and do not silently become new instructions. Users choose rules when
 editing these shops. No database column or sync-rule change is needed: rules
 use the existing JSON array. The cook and its follow-up suggestions receive the
@@ -231,7 +242,8 @@ rule choices, and Save visible. No shop data was entered or saved. The working
 capture is gitignored at
 `docs/.screenshots/household-shops/android/round-07-form-sheet/01-sheet-context.png`.
 The prior Save/Cancel functional flow was not rerun; iOS and keyboard-open sheet
-layout remain device-unverified.
+layout remain device-unverified. This capture predates the empty-state copy
+cleanup and documents sheet sizing/context, not the final empty-state wording.
 
 ## Native behaviour and verification
 

@@ -20,6 +20,7 @@ import { z } from "zod";
 
 import { ASSISTANT_SYSTEM_PROMPT } from "../assistant-prompt.js";
 import type { AppBindings } from "../auth.js";
+import { isSignedStorageUrl } from "../chat-media.js";
 import { buildChatTools } from "../chat-tools.js";
 import { createChatReply, type AssistantUIMessage } from "../chat-reply.js";
 import { pool } from "../db.js";
@@ -138,16 +139,16 @@ ${assistantText.slice(-4000)}`,
 // The AI SDK's default media downloader refuses loopback/private IP hosts (an
 // SSRF guard), which blocks local Supabase storage URLs in dev. This mirrors the
 // default behaviour — download only what the model can't fetch itself, pass
-// model-supported URLs straight through — but without the host restriction.
-//
-// In production the model still can't fetch our Supabase URLs, so the bytes are
-// downloaded either way; this adds no extra production cost, it only unblocks
-// localhost.
+// model-supported URLs straight through — but only from our own storage, which
+// is the guard that works in dev and production alike.
 export const downloadMedia: Experimental_DownloadFunction = (requests) =>
   Promise.all(
     requests.map(async ({ url, isUrlSupportedByModel }) => {
       if (isUrlSupportedByModel) return null;
-      const res = await fetch(url);
+      if (!isSignedStorageUrl(url, env.supabaseUrl)) {
+        throw new Error(`Refusing to download ${url.origin}${url.pathname}`);
+      }
+      const res = await fetch(url, { redirect: "error" });
       if (!res.ok) {
         throw new Error(`Failed to download ${url.href}: ${res.status}`);
       }

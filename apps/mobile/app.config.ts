@@ -99,6 +99,8 @@ const config: ExpoConfig = {
     [
       "expo-notifications",
       {
+        icon: "./assets/images/notification-icon.png",
+        color: "#492F40",
         defaultChannel: "household-activity",
       },
     ],
@@ -109,6 +111,13 @@ const config: ExpoConfig = {
           "Take a photo of what you have to get ideas, or of a recipe to import it.",
         photosPermission:
           "Pick a photo of what you have to get ideas, or of a recipe to import it.",
+      },
+    ],
+    [
+      "expo-audio",
+      {
+        microphonePermission:
+          "Tell Magpie a recipe you know, and it writes it down for you.",
       },
     ],
   ],

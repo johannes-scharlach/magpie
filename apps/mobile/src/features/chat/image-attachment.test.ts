@@ -2,9 +2,9 @@ import * as ImagePicker from "expo-image-picker";
 import { Alert } from "react-native";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { pickImageAttachments } from "./image-attachment";
+import { pickImageAttachments, storageTarget } from "./image-attachment";
 
-vi.mock("expo-crypto", () => ({}));
+vi.mock("expo-crypto", () => ({ randomUUID: () => "uuid" }));
 vi.mock("@/lib/supabase", () => ({}));
 vi.mock("expo-image-picker", () => ({
   PermissionStatus: { GRANTED: "granted", DENIED: "denied" },
@@ -18,7 +18,14 @@ vi.mock("react-native", () => ({
 
 const result: ImagePicker.ImagePickerResult = {
   canceled: false,
-  assets: [{ uri: "file:///photo.jpg", mimeType: "image/jpeg", width: 100, height: 100 }],
+  assets: [
+    {
+      uri: "file:///photo.jpg",
+      mimeType: "image/jpeg",
+      width: 100,
+      height: 100,
+    },
+  ],
 };
 
 beforeEach(() => {
@@ -37,10 +44,12 @@ describe("pickImageAttachments", () => {
   it("returns an image taken with the camera", async () => {
     const attachments = pickImageAttachments("camera");
 
-    await expect(attachments).resolves.toEqual([{
-      uri: "file:///photo.jpg",
-      mediaType: "image/jpeg",
-    }]);
+    await expect(attachments).resolves.toEqual([
+      {
+        uri: "file:///photo.jpg",
+        mediaType: "image/jpeg",
+      },
+    ]);
     expect(ImagePicker.launchCameraAsync).toHaveBeenCalledOnce();
     expect(ImagePicker.launchImageLibraryAsync).not.toHaveBeenCalled();
     expect(Alert.alert).not.toHaveBeenCalled();
@@ -50,8 +59,18 @@ describe("pickImageAttachments", () => {
     vi.mocked(ImagePicker.launchImageLibraryAsync).mockResolvedValue({
       canceled: false,
       assets: [
-        { uri: "file:///fridge.jpg", mimeType: "image/jpeg", width: 100, height: 100 },
-        { uri: "file:///cupboard.png", mimeType: "image/png", width: 100, height: 100 },
+        {
+          uri: "file:///fridge.jpg",
+          mimeType: "image/jpeg",
+          width: 100,
+          height: 100,
+        },
+        {
+          uri: "file:///cupboard.png",
+          mimeType: "image/png",
+          width: 100,
+          height: 100,
+        },
       ],
     });
     const attachments = pickImageAttachments("library");
@@ -68,11 +87,20 @@ describe("pickImageAttachments", () => {
     expect(Alert.alert).not.toHaveBeenCalled();
   });
 
-  it.each(["camera", "library"] as const)("treats %s cancellation as no attachment", async (source) => {
-    vi.mocked(ImagePicker.launchCameraAsync).mockResolvedValue({ canceled: true, assets: null });
-    vi.mocked(ImagePicker.launchImageLibraryAsync).mockResolvedValue({ canceled: true, assets: null });
-    await expect(pickImageAttachments(source)).resolves.toEqual([]);
-  });
+  it.each(["camera", "library"] as const)(
+    "treats %s cancellation as no attachment",
+    async (source) => {
+      vi.mocked(ImagePicker.launchCameraAsync).mockResolvedValue({
+        canceled: true,
+        assets: null,
+      });
+      vi.mocked(ImagePicker.launchImageLibraryAsync).mockResolvedValue({
+        canceled: true,
+        assets: null,
+      });
+      await expect(pickImageAttachments(source)).resolves.toEqual([]);
+    },
+  );
 
   it("reports denied camera permission without opening the camera", async () => {
     vi.mocked(ImagePicker.requestCameraPermissionsAsync).mockResolvedValue({
@@ -94,5 +122,18 @@ describe("pickImageAttachments", () => {
     const attachments = pickImageAttachments("library");
 
     await expect(attachments).rejects.toBe(error);
+  });
+});
+
+describe("storageTarget", () => {
+  it("keeps voice messages apart from photos, in the household's folder", () => {
+    expect(storageTarget("list", "audio/mp4")).toEqual({
+      bucket: "chat-voice",
+      path: expect.stringMatching(/^list\/.+\.m4a$/),
+    });
+    expect(storageTarget("list", "image/png")).toEqual({
+      bucket: "chat-images",
+      path: expect.stringMatching(/^list\/.+\.png$/),
+    });
   });
 });
