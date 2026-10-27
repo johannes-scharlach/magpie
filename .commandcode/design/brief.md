@@ -29,7 +29,7 @@ spinner; optimistic UI is the established pattern (see `pending` state in
 ## Product purpose
 
 Meal planning and shopping in one place: plan meals, derive the List,
-cook from variants. Domain vocabulary is fixed in `CONTEXT.md` — Recipe,
+cook from variants. Domain vocabulary is fixed in `GLOSSARY.md` — Recipe,
 Variant, IngredientLine, PlannedMeal, List, ListItem, Swap, SwapSuggestion.
 Use these words in the UI, never the avoided synonyms.
 
@@ -210,4 +210,4 @@ require user approval; familiar horizontal swiping and paging are allowed.
 4. **One voice, intentional color.** Follow the CSS palette and approved
    visual direction consistently, with brand expression in the content layer.
 5. **Domain words only.** Recipe, Variant, List, Swap — the vocabulary in
-   `CONTEXT.md` is the UI copy vocabulary.
+   `GLOSSARY.md` is the UI copy vocabulary.
