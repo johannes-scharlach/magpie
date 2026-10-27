@@ -1,5 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { AppState, Pressable, View, type TextInputInstance } from "react-native";
+import {
+  AppState,
+  Pressable,
+  View,
+  type TextInputInstance,
+} from "react-native";
 import { type OTPInputRef } from "input-otp-native";
 import { z } from "zod";
 import { InputOTP } from "@/components/ui/input-otp";
@@ -176,7 +181,7 @@ export function useEmailAuth({
           onPress: () => void verify(code),
         }
       : {
-          label: busy ? "Sending…" : "Continue",
+          label: busy ? "Sending…" : "Send code",
           disabled: busy,
           onPress: () => void send(),
         },

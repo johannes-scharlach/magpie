@@ -4,7 +4,7 @@ import { newPerson, newProfile } from "@magpie/profile";
 
 import { suggestionContext } from "./suggestion-context.js";
 
-test("suggestions receive the chosen goal instructions without the whole profile", () => {
+test("suggestions receive cooking rules and the household's food guidance", () => {
   const profile = newProfile();
   profile.kitchen_equipment = {
     "air-fryer": true,
@@ -56,10 +56,6 @@ test("suggestions receive the chosen goal instructions without the whole profile
   for (const line of [
     "Available equipment: Air fryer, Wok",
     "Household: includes a child",
-    "Household diets: Flexitarian (plant-forward, includes meat and fish); Vegetarian, eggs and dairy are fine",
-    "Must avoid: Peanuts (allergy; Child only); Alcohol (Including cooking)",
-    "Dislikes: Mushrooms (Texture)",
-    "Other food restrictions: No grapefruit with medication",
   ]) {
     assert.ok(context.includes(line), `Missing cooking brief: ${line}`);
   }
@@ -75,7 +71,12 @@ test("suggestions receive the chosen goal instructions without the whole profile
   assert.match(context, /familiar starting points, not a whitelist/);
   assert.match(context, /Japanese/);
   assert.match(context, /Less washing up/);
-  assert.doesNotMatch(context, /Anna|Sam|Ben|Yuzu kosho|\bmiso\b/);
+  assert.match(context, /Anna|Sam|Ben/);
+  assert.match(context, /Child only/);
+  assert.match(context, /Including cooking/);
+  assert.match(context, /Texture/);
+  assert.match(context, /No grapefruit with medication/);
+  assert.match(context, /Yuzu kosho/);
 });
 
 test("undeclared equipment stays unknown and empty sections are omitted", () => {
@@ -83,10 +84,47 @@ test("undeclared equipment stays unknown and empty sections are omitted", () => 
   profile.kitchen_equipment = { other: [] };
   const adult = { ...newPerson("adult-id"), diet: "omnivore" as const };
 
-  assert.equal(
-    suggestionContext({ profile, people: [adult] }),
-    "Available equipment: none declared",
-  );
+  const context = suggestionContext({ profile, people: [adult] });
+  assert.match(context, /Available equipment: none declared/);
+  assert.doesNotMatch(context, /## Food boundaries/);
+});
+
+test("follow-ups retain per-person diets, allergy handling, familiar cooking and usual ingredients", () => {
+  const sam = {
+    ...newPerson("sam-id"),
+    name: "Sam",
+    diet: "vegetarian" as const,
+    meal_times: "Weekday dinners",
+    portion_reference: 0.75,
+  };
+  const lee = {
+    ...newPerson("lee-id"),
+    name: "Lee",
+    diet: "omnivore" as const,
+  };
+  const profile = newProfile();
+  profile.ingredient_avoidances = [
+    {
+      ingredient: "Soy",
+      kind: "allergy",
+      person_ids: [sam.id],
+      trace_policy: "may-contain-okay",
+      detail: "No tofu; soy sauce is okay",
+    },
+  ];
+  profile.cuisines = ["japanese"];
+  profile.keeps = ["miso", "frozen-peas"];
+  const context = suggestionContext({ profile, people: [sam, lee] });
+  assert.match(context, /sam-id/);
+  assert.match(context, /Weekday dinners/);
+  assert.match(context, /0.75/);
+  assert.match(context, /No tofu; soy sauce is okay/);
+  assert.match(context, /may-contain-okay/);
+  assert.match(context, /not permission to use the allergen as an ingredient/);
+  assert.match(context, /not confirmed stock/);
+  assert.match(context, /familiar starting points, not a whitelist/);
+  assert.match(context, /Japanese:.*Miso/);
+  assert.match(context, /Freezer: Peas/);
 });
 
 test("a missing household adds no profile context", () => {

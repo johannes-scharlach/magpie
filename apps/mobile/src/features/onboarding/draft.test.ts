@@ -1,11 +1,23 @@
 import { describe, expect, it } from "vitest";
 import { profileContext } from "@magpie/profile";
-import { bindDraft, createDraft, restoreDraft } from "./draft";
+import {
+  bindDraft,
+  createDraft,
+  lastQuestion,
+  restoreDraft,
+  steps,
+} from "./draft";
 
 const personId = "a17c9a92-784c-4dfe-b282-20bcfd877b11";
 const listId = "e6169ef8-eb42-4fd3-ae4d-2932d9372381";
 
 describe("onboarding draft recovery", () => {
+  it("asks staples before cuisines and finishes questions only after their cuisine cupboards", () => {
+    expect(
+      steps.slice(steps.indexOf("kitchen"), steps.indexOf("email") + 1),
+    ).toEqual(["kitchen", "staples", "cuisines", "email"]);
+    expect(lastQuestion).toBe("cuisines");
+  });
   it("keeps answers and stable identities while recovering an invalid step and clearing OTP", () => {
     const draft = createDraft(personId, listId);
     draft.people[0]!.name = "Sam";

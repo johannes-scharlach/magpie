@@ -80,7 +80,7 @@ export default function Welcome() {
           ? "Opening…"
           : session
             ? "Set up your household"
-            : "Get started",
+            : "Set up meal planning",
         disabled: busy,
         onPress: () => void start(),
       }}
@@ -94,11 +94,11 @@ export default function Welcome() {
           accessibilityRole="header"
           className="text-4xl font-bold leading-11 tracking-tight"
         >
-          Magpie is the meal plan that adapts to your life.
+          Tell Magpie how to plan your meals.
         </Text>
         <Text className="text-xl leading-6 text-muted-foreground">
-          Move meals around whenever your day changes. Magpie suggests what
-          suits you: from your own cookbook, or from what&apos;s on hand.
+          Choose who to cook for, what to leave out and where to shop. Magpie
+          plans around your answers.
         </Text>
       </View>
       <FormError message={error ?? access.error} />

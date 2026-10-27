@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import Animated, {
   Easing,
+  FadeIn,
   interpolate,
   Keyframe,
   LayoutAnimationConfig,
@@ -29,6 +30,7 @@ import { useResolveClassNames } from "uniwind";
 import { Text } from "@/components/ui/text";
 import { cn } from "@/lib/utils";
 
+import { composerTrailing } from "./composer-trailing";
 import {
   pickImageAttachments,
   type ImageAttachment,
@@ -36,11 +38,15 @@ import {
 } from "./image-attachment";
 import { ImageAttachmentMenu } from "./image-attachment-menu";
 import { ImageAttachmentStrip } from "./image-attachment-strip";
+import { recordingAttachment, useVoiceRecording } from "./use-voice-recording";
+import { formatDuration } from "./voice-message";
 
 const SEND_ICON = {
   ios: "arrow.up.circle.fill",
   android: "arrow_circle_up",
 } as const;
+const MIC_ICON = { ios: "mic", android: "mic" } as const;
+const TRASH_ICON = { ios: "trash", android: "delete" } as const;
 const CHAT_ICON = {
   ios: "bubble.left",
   android: "chat_bubble_outline",
@@ -156,8 +162,8 @@ function ComposerBackground({
 }
 
 /**
- * Text and image attachments. Keyboard dictation already covers voice. Suggested
- * replies sit above the bar: actions live here, never in the content, and
+ * Text, images and voice messages (ADR 33). Suggested replies sit above the
+ * bar: actions live here, never in the content, and
  * tapping one just sends it (ADR 9).
  */
 export function Composer({
@@ -190,11 +196,19 @@ export function Composer({
   // A draft claims the space until Send, even if it is subsequently emptied.
   const [draftStarted, setDraftStarted] = useState(false);
   const [pickingImages, setPickingImages] = useState(false);
+  const voice = useVoiceRecording();
+  const voiceOn = voice.active || !!voice.recording;
   const placeholderColor = useResolveClassNames("text-muted-foreground").color;
   const primaryColor = useResolveClassNames("text-primary").color;
-  const canSend = (text.trim().length > 0 || attachments.length > 0) && !busy;
-  const showEmptyAction =
-    !focused && !text.trim() && !attachments.length && !!emptyAction;
+  const trailing = composerTrailing({
+    text,
+    attachmentCount: attachments.length,
+    focused,
+    hasEmptyAction: !!emptyAction,
+    recording: voiceOn,
+  });
+  const showEmptyAction = trailing === "emptyAction";
+  const canSend = trailing === "send" && !busy;
   const collapsed =
     preferCollapsed &&
     !!collapsedAction &&
@@ -209,6 +223,7 @@ export function Composer({
   const reducedFade = useSharedValue(collapsed ? 0 : 1);
   const iconMix = useSharedValue(collapsed ? 0 : 1);
   const actionPresence = useSharedValue(showEmptyAction ? 1 : 0);
+  const micMix = useSharedValue(trailing === "mic" ? 1 : 0);
   const barWidth = useSharedValue(0);
 
   useEffect(() => {
@@ -242,8 +257,24 @@ export function Composer({
     );
   }, [collapsed, iconMix]);
 
-  const chatIconStyle = useAnimatedStyle(() => ({ opacity: 1 - iconMix.get() }));
+  const chatIconStyle = useAnimatedStyle(() => ({
+    opacity: 1 - iconMix.get(),
+  }));
   const cameraIconStyle = useAnimatedStyle(() => ({ opacity: iconMix.get() }));
+
+  // Mic and Send share one slot and crossfade, like the icons above.
+  useEffect(() => {
+    micMix.set(
+      withTiming(trailing === "mic" ? 1 : 0, {
+        duration: 150,
+        easing: EASE_OUT,
+        reduceMotion: ReduceMotion.Never,
+      }),
+    );
+  }, [micMix, trailing]);
+
+  const sendIconStyle = useAnimatedStyle(() => ({ opacity: 1 - micMix.get() }));
+  const micIconStyle = useAnimatedStyle(() => ({ opacity: micMix.get() }));
 
   useEffect(() => {
     actionPresence.set(
@@ -306,6 +337,33 @@ export function Composer({
     onSend(trimmed, attachments);
   }
 
+  async function startVoice() {
+    if (busy) return;
+    // The timer takes the field's place, so the keyboard goes.
+    inputRef.current?.blur();
+    setFocused(false);
+    setDraftStarted(true);
+    setAttachmentError(null);
+    try {
+      await voice.start();
+    } catch {
+      setAttachmentError("Could not start recording. Try again.");
+    }
+  }
+
+  async function sendVoice() {
+    if (busy) return;
+    try {
+      const recording = await voice.take();
+      if (!recording) return;
+      setDraftStarted(false);
+      onSend("", [recordingAttachment(recording)]);
+    } catch {
+      await voice.discard();
+      setAttachmentError("Could not record. Try again.");
+    }
+  }
+
   async function addAttachments(source: ImageSource) {
     if (busy) return;
     setAttachmentError(null);
@@ -332,7 +390,7 @@ export function Composer({
           : Math.max(insets.bottom, 8),
       }}
     >
-      {suggestions.length && !busy ? (
+      {suggestions.length && !busy && !voiceOn ? (
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -447,53 +505,125 @@ export function Composer({
                 )}
               >
                 <Animated.View style={cameraIconStyle}>
-                  <ImageAttachmentMenu
-                    onSelect={(source) => void addAttachments(source)}
-                    disabled={busy}
-                  />
+                  {voiceOn ? (
+                    <Pressable
+                      onPress={() => void voice.discard()}
+                      accessibilityRole="button"
+                      accessibilityLabel="Delete recording"
+                      className="size-12 items-center justify-center active:opacity-60"
+                    >
+                      <SymbolView
+                        name={TRASH_ICON}
+                        tintColor={placeholderColor}
+                        size={22}
+                      />
+                    </Pressable>
+                  ) : (
+                    <ImageAttachmentMenu
+                      onSelect={(source) => void addAttachments(source)}
+                      disabled={busy}
+                    />
+                  )}
                 </Animated.View>
                 <Animated.View
                   className="flex-1 flex-row items-end"
                   style={expandedContentStyle}
                 >
-                  <TextInput
-                    ref={inputRef}
-                    value={text}
-                    onChangeText={(value) => {
-                      setText(value);
-                      if (value.length) setDraftStarted(true);
-                    }}
-                    onFocus={() => setFocused(true)}
-                    onBlur={() => setFocused(false)}
-                    placeholder={placeholder}
-                    placeholderTextColor={placeholderColor}
-                    multiline
-                    returnKeyType="send"
-                    submitBehavior="blurAndSubmit"
-                    onSubmitEditing={submit}
-                    style={{
-                      includeFontPadding: false,
-                      textAlignVertical: "center",
-                    }}
-                    className="max-h-32 min-h-12 flex-1 py-3.5 text-base leading-5 text-foreground"
-                  />
-                  {/* Send sits inside the field; emptyAction replaces it outside while idle. */}
+                  {voiceOn ? (
+                    <Animated.View
+                      entering={FadeIn.duration(150)}
+                      accessible
+                      accessibilityLabel={
+                        voice.active ? "Recording" : "Recording stopped"
+                      }
+                      className="min-h-12 flex-1 flex-row items-center gap-2"
+                    >
+                      <View
+                        className={cn(
+                          "size-2.5 rounded-full",
+                          voice.active
+                            ? "bg-destructive"
+                            : "bg-muted-foreground",
+                        )}
+                      />
+                      <Text className="text-base tabular-nums">
+                        {formatDuration(
+                          voice.active
+                            ? voice.elapsed
+                            : (voice.recording?.seconds ?? 0),
+                        )}
+                      </Text>
+                      {voice.active ? null : (
+                        <Text variant="muted">Stopped at 5 minutes</Text>
+                      )}
+                    </Animated.View>
+                  ) : (
+                    <TextInput
+                      ref={inputRef}
+                      value={text}
+                      onChangeText={(value) => {
+                        setText(value);
+                        if (value.length) setDraftStarted(true);
+                      }}
+                      onFocus={() => setFocused(true)}
+                      onBlur={() => setFocused(false)}
+                      placeholder={placeholder}
+                      placeholderTextColor={placeholderColor}
+                      multiline
+                      returnKeyType="send"
+                      submitBehavior="blurAndSubmit"
+                      onSubmitEditing={submit}
+                      style={{
+                        includeFontPadding: false,
+                        textAlignVertical: "center",
+                      }}
+                      className="max-h-32 min-h-12 flex-1 py-3.5 text-base leading-5 text-foreground"
+                    />
+                  )}
+                  {/* Send (or the mic while there is nothing to send) sits
+                      inside the field; emptyAction replaces it outside while idle. */}
                   {showEmptyAction ? null : (
                     <Animated.View entering={swapIn} exiting={swapOut}>
                       <Pressable
-                        onPress={submit}
-                        disabled={!canSend}
-                        accessibilityLabel="Send"
+                        onPress={() =>
+                          void (trailing === "mic"
+                            ? startVoice()
+                            : voiceOn
+                              ? sendVoice()
+                              : submit())
+                        }
+                        disabled={trailing === "mic" ? busy : !canSend}
+                        accessibilityLabel={
+                          trailing === "mic" ? "Record voice message" : "Send"
+                        }
                         accessibilityRole="button"
                         hitSlop={{ right: 4 }}
                         className="h-12 w-10 items-center justify-center active:opacity-60"
-                        style={canSend ? undefined : { opacity: 0.35 }}
+                        style={
+                          (trailing === "mic" ? busy : !canSend)
+                            ? { opacity: 0.35 }
+                            : undefined
+                        }
                       >
-                        <SymbolView
-                          name={SEND_ICON}
-                          tintColor={canSend ? primaryColor : placeholderColor}
-                          size={26}
-                        />
+                        <Animated.View style={sendIconStyle}>
+                          <SymbolView
+                            name={SEND_ICON}
+                            tintColor={
+                              canSend ? primaryColor : placeholderColor
+                            }
+                            size={26}
+                          />
+                        </Animated.View>
+                        <Animated.View
+                          style={micIconStyle}
+                          className="absolute inset-0 items-center justify-center"
+                        >
+                          <SymbolView
+                            name={MIC_ICON}
+                            tintColor={placeholderColor}
+                            size={22}
+                          />
+                        </Animated.View>
                       </Pressable>
                     </Animated.View>
                   )}

@@ -2,14 +2,11 @@ import { newPerson, personSchema, type HouseholdPerson } from "@magpie/profile";
 import * as Crypto from "expo-crypto";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
-import { Platform, ScrollView, View } from "react-native";
-import { CloseButton } from "@/components/close-button";
 import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
-import { OnboardingScreen } from "@/features/onboarding/onboarding-screen";
 import { useOnboarding } from "@/features/onboarding/provider";
-import { FormError, PersonFields } from "@/features/profile/form";
-import { PrimaryAction } from "@/components/action";
+import { PersonFields } from "@/features/profile/form";
+import { ProfileEntryScreen } from "@/features/profile/profile-entry-screen";
 
 export function EditSetupPerson() {
   const { id } = useLocalSearchParams<{ id?: string }>();
@@ -66,12 +63,7 @@ export function EditSetupPerson() {
     }
   }
 
-  const title = existing ? "Edit a person" : "Add a person";
-  const actionLabel = busy
-    ? "Saving…"
-    : existing
-      ? "Save changes"
-      : "Add person";
+  const title = existing ? `${existing.name}’s meals` : "Add a person";
   const removeButton =
     existing && existing.id !== draft?.onboarding_person_id ? (
       <Button variant="ghost" disabled={busy} onPress={() => void remove()}>
@@ -79,60 +71,20 @@ export function EditSetupPerson() {
       </Button>
     ) : null;
 
-  if (Platform.OS === "ios") {
-    return (
-      <ScrollView
-        style={{ flex: 1 }}
-        automaticallyAdjustKeyboardInsets
-        contentInsetAdjustmentBehavior="automatic"
-        keyboardShouldPersistTaps="handled"
-        keyboardDismissMode="interactive"
-        contentContainerClassName="pb-10"
-      >
-        <View className="flex-row items-center justify-between gap-4 px-6 pt-4">
-          <Text className="flex-1 font-rounded text-lg font-bold">{title}</Text>
-          <CloseButton onPress={() => router.back()} disabled={busy} />
-        </View>
-        <View className="mt-4 gap-4 px-6">
-          <FormError message={error} />
-          <PersonFields
-            person={person}
-            onChange={setPerson}
-            autoFocusName={!existing}
-            errors={fieldErrors}
-            validationAttempt={validationAttempt}
-          />
-          <PrimaryAction
-            label={actionLabel}
-            disabled={busy}
-            onPress={() => void save()}
-          />
-          {removeButton}
-        </View>
-      </ScrollView>
-    );
-  }
-
   return (
-    <OnboardingScreen
-      action={{
-        label: actionLabel,
-        disabled: busy,
-        onPress: () => void save(),
-      }}
-      onBack={() => router.back()}
-      subtitle="So Magpie can tailor portions and recipes to your household."
+    <ProfileEntryScreen
       title={title}
+      busy={busy}
+      error={error}
+      onSave={() => void save()}
     >
-      <FormError message={error} />
       <PersonFields
         person={person}
         onChange={setPerson}
-        autoFocusName={!existing}
         errors={fieldErrors}
         validationAttempt={validationAttempt}
       />
       {removeButton}
-    </OnboardingScreen>
+    </ProfileEntryScreen>
   );
 }

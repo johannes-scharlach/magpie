@@ -28,18 +28,25 @@ export function kitchenPortrait(profile: CookingProfile) {
   const custom = (label: string): Detail => ({ label });
   const groups = cuisines.map((cuisine) => [
     ...specialty
-      .filter((id) => cuisineOptions[cuisine]?.ingredients.some((kept) => kept === id))
+      .filter((id) =>
+        cuisineOptions[cuisine]?.ingredients.some((kept) => kept === id),
+      )
       .map(ingredient),
     ...(profile.extras[cuisine] ?? []).map(custom),
   ]);
-  const assigned = new Set(groups.flat().map((detail) => detail.label.toLowerCase()));
-  groups.push([
-    ...specialty.map(ingredient),
-    ...Object.entries(profile.extras)
-      .filter(([cuisine]) => cooks(profile, cuisine))
-      .flatMap(([, extras]) => extras.map(custom)),
-  ].filter((detail) => !assigned.has(detail.label.toLowerCase())));
-  if (!groups.some((group) => group.length)) groups.push(profile.keeps.map(ingredient));
+  const assigned = new Set(
+    groups.flat().map((detail) => detail.label.toLowerCase()),
+  );
+  groups.push(
+    [
+      ...specialty.map(ingredient),
+      ...Object.entries(profile.extras)
+        .filter(([cuisine]) => cooks(profile, cuisine))
+        .flatMap(([, extras]) => extras.map(custom)),
+    ].filter((detail) => !assigned.has(detail.label.toLowerCase())),
+  );
+  if (!groups.some((group) => group.length))
+    groups.push(profile.keeps.map(ingredient));
 
   const details: Detail[] = [];
   const seen = new Set<string>();
@@ -62,15 +69,21 @@ export function kitchenPortrait(profile: CookingProfile) {
   ];
   if (!cuisines.length && !details.length) return null;
 
-  const labels = cuisines.length > 3
-    ? [...cuisines.slice(0, 2).map(cuisineLabel), `${cuisines.length - 2} other cuisines`]
-    : cuisines.map(cuisineLabel);
+  const labels =
+    cuisines.length > 3
+      ? [
+          ...cuisines.slice(0, 2).map(cuisineLabel),
+          `${cuisines.length - 2} other cuisines`,
+        ]
+      : cuisines.map(cuisineLabel);
   const flavours = list(details.slice(0, 3).map((detail) => detail.label));
   const caption = cuisines.length
-    ? `${list(labels)} cooking${flavours ? `, with ${flavours}` : ""}.`
-    : `A kitchen stocked with ${flavours}.`;
+    ? [list(labels), flavours].filter(Boolean).join(" · ")
+    : `Usual ingredients: ${flavours}.`;
   return {
-    artworkIds: pictured.flatMap((detail) => detail.artworkId ? [detail.artworkId] : []),
+    artworkIds: pictured.flatMap((detail) =>
+      detail.artworkId ? [detail.artworkId] : [],
+    ),
     caption,
   };
 }

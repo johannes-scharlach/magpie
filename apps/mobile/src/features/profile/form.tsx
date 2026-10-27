@@ -2,6 +2,7 @@ import {
   ageGroups,
   dietDescriptions,
   dietOptions,
+  dietRequests,
   portionReferenceRange,
   type HouseholdPerson,
 } from "@magpie/profile";
@@ -11,6 +12,7 @@ import {
   Platform,
   ScrollView,
   View,
+  useWindowDimensions,
   type StyleProp,
   type TextInputInstance,
   type TextInputProps,
@@ -120,8 +122,15 @@ export function PickerRow({
   onValueChange: (value: string) => void;
   grouped?: boolean;
 }) {
+  const { fontScale } = useWindowDimensions();
   const row = (
-    <View className="min-h-14 flex-row items-center justify-between gap-4 px-4 py-3">
+    <View
+      className={
+        fontScale > 1.2
+          ? "min-h-14 items-start gap-2 px-4 py-3"
+          : "min-h-14 flex-row items-center justify-between gap-4 px-4 py-3"
+      }
+    >
       <Text className="flex-1 font-medium">{label}</Text>
       <MenuPicker
         label={label}
@@ -197,7 +206,7 @@ export function MealRoutineEditor({
   return (
     <View className="gap-3">
       <PickerRow
-        label="Meals at home"
+        label="Meals to plan"
         choices={mealRoutineChoices}
         selectedValue={selectedValue}
         onValueChange={(next) => {
@@ -211,13 +220,16 @@ export function MealRoutineEditor({
           onLayout={(event) =>
             onInputHeightChange?.(event.nativeEvent.layout.height)
           }
-          label="Tell us about your routine"
+          label="Which meals should Magpie plan?"
           multiline
           value={detail}
           onChangeText={(next) => onChange(next || "It varies")}
           placeholder="Weekday dinners, lunches and dinners on weekends"
         />
       ) : null}
+      <Text className="text-sm leading-5 text-muted-foreground">
+        Use this as the usual plan. Change it for any week.
+      </Text>
     </View>
   );
 }
@@ -239,7 +251,9 @@ export function DietEditor({
   validationAttempt?: number;
 }) {
   const entries = Object.entries(dietOptions).filter(
-    ([key]) => allowOtherDiet || key !== "other",
+    ([key]) =>
+      (allowOtherDiet || key !== "other") &&
+      (key !== "meat-heavy" || person.diet === "meat-heavy"),
   );
   const isOther = person.diet === "other";
   const otherRef = useRef<TextInputInstance>(null);
@@ -252,14 +266,17 @@ export function DietEditor({
     <View className="gap-3">
       {compact ? (
         <PickerRow
-          label="Diet"
+          label="Food rule"
           grouped={grouped}
-          choices={entries.map(([, title]) => title)}
-          selectedValue={dietOptions[person.diet]}
+          choices={entries.map(
+            ([key]) => dietRequests[key as keyof typeof dietOptions],
+          )}
+          selectedValue={dietRequests[person.diet]}
           onValueChange={(title) => {
-            const key = entries.find(([, t]) => t === title)?.[0] as
-              | HouseholdPerson["diet"]
-              | undefined;
+            const key = entries.find(
+              ([key]) =>
+                dietRequests[key as keyof typeof dietOptions] === title,
+            )?.[0] as HouseholdPerson["diet"] | undefined;
             if (!key) return;
             onChange({
               ...person,
@@ -270,9 +287,9 @@ export function DietEditor({
         />
       ) : (
         <ChoiceList
-          choices={entries.map(([key, title]) => ({
+          choices={entries.map(([key]) => ({
             key,
-            title,
+            title: dietRequests[key as keyof typeof dietOptions],
             detail: dietDescriptions[key as keyof typeof dietOptions],
           }))}
           selectedKeys={[person.diet]}
@@ -289,8 +306,8 @@ export function DietEditor({
       {isOther && (
         <Field
           ref={otherRef}
-          label="Describe your diet"
-          placeholder="e.g. Halal, kosher, low FODMAP"
+          label="What should Magpie change?"
+          placeholder="e.g. Halal meat only. No alcohol, including in sauces."
           error={otherError}
           validationAttempt={validationAttempt}
           value={person.diet_other}
@@ -298,6 +315,11 @@ export function DietEditor({
           returnKeyType="done"
         />
       )}
+      {compact && !isOther ? (
+        <Text className="text-sm leading-5 text-muted-foreground">
+          {dietDescriptions[person.diet]}
+        </Text>
+      ) : null}
     </View>
   );
 }
@@ -314,38 +336,6 @@ export function PersonFields({
   errors?: Record<string, string>;
   validationAttempt?: number;
 }) {
-  const ageAndDiet = (
-    <>
-      <PickerRow
-        label="Age group"
-        grouped={Platform.OS === "ios"}
-        choices={ageGroups}
-        selectedValue={person.age_group}
-        onValueChange={(age_group) =>
-          onChange({
-            ...person,
-            age_group: age_group as HouseholdPerson["age_group"],
-          })
-        }
-      />
-      {Platform.OS === "ios" ? (
-        <View className="ml-4 border-t border-border" />
-      ) : null}
-      <DietEditor
-        person={person}
-        onChange={onChange}
-        allowOtherDiet
-        compact
-        grouped={Platform.OS === "ios"}
-        otherError={
-          errors?.diet_other && !person.diet_other.trim()
-            ? errors.diet_other
-            : null
-        }
-        validationAttempt={validationAttempt}
-      />
-    </>
-  );
   return (
     <>
       <Field
@@ -358,51 +348,38 @@ export function PersonFields({
         autoFocus={autoFocusName}
         returnKeyType="done"
       />
-      {Platform.OS === "ios" && person.diet !== "other" ? (
-        <View
-          className="overflow-hidden rounded-xl border border-border bg-card"
-          style={{ borderCurve: "continuous" }}
-        >
-          {ageAndDiet}
-        </View>
-      ) : (
-        <>
-          <PickerRow
-            label="Age group"
-            choices={ageGroups}
-            selectedValue={person.age_group}
-            onValueChange={(age_group) =>
-              onChange({
-                ...person,
-                age_group: age_group as HouseholdPerson["age_group"],
-              })
-            }
-          />
-          <DietEditor
-            person={person}
-            onChange={onChange}
-            allowOtherDiet
-            compact
-            otherError={
-              errors?.diet_other && !person.diet_other.trim()
-                ? errors.diet_other
-                : null
-            }
-            validationAttempt={validationAttempt}
-          />
-        </>
-      )}
+      <PickerRow
+        label="Age group"
+        choices={ageGroups}
+        selectedValue={person.age_group}
+        onValueChange={(age_group) =>
+          onChange({
+            ...person,
+            age_group: age_group as HouseholdPerson["age_group"],
+          })
+        }
+      />
+      <DietEditor
+        person={person}
+        onChange={onChange}
+        allowOtherDiet
+        compact
+        otherError={
+          errors?.diet_other && !person.diet_other.trim()
+            ? errors.diet_other
+            : null
+        }
+        validationAttempt={validationAttempt}
+      />
       <PortionReference
         value={person.portion_reference}
         onChange={(portion_reference) =>
           onChange({ ...person, portion_reference })
         }
       />
-      <Field
-        label="Which meals are they usually here for?"
+      <AttendanceEditor
         value={person.meal_times}
-        onChangeText={(meal_times) => onChange({ ...person, meal_times })}
-        returnKeyType="done"
+        onChange={(meal_times) => onChange({ ...person, meal_times })}
       />
     </>
   );
@@ -423,14 +400,14 @@ function PortionReference({
   return (
     <View className="gap-2">
       <View className="flex-row items-center justify-between gap-4">
-        <Text className="font-medium">Usual portion</Text>
-        <Text className="font-semibold tabular-nums">{value}</Text>
+        <Text className="font-medium">How much to cook</Text>
+        <Text className="font-semibold tabular-nums">{value}×</Text>
       </View>
       <View
         accessible
         accessibilityRole="adjustable"
-        accessibilityLabel="Usual portion"
-        accessibilityHint="1 is a regular adult portion"
+        accessibilityLabel="How much to cook for this person"
+        accessibilityHint="1 is a regular adult helping. Magpie scales ingredients to match."
         accessibilityValue={{
           min: portionReferenceRange.min,
           max: portionReferenceRange.max,
@@ -463,8 +440,52 @@ function PortionReference({
         />
       </View>
       <Text className="text-sm text-muted-foreground">
-        1 = a regular adult portion
+        1× is a regular adult helping. Magpie scales ingredients to match.
       </Text>
+    </View>
+  );
+}
+
+function AttendanceEditor({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: (value: string) => void;
+}) {
+  const choices = [
+    "All planned meals",
+    "Dinner only",
+    "Lunch and dinner",
+    "It varies",
+  ];
+  const all =
+    value === "All meals" ||
+    value === "Always" ||
+    value === "All planned meals";
+  const selected = all
+    ? "All planned meals"
+    : choices.includes(value)
+      ? value
+      : "It varies";
+  return (
+    <View className="gap-3">
+      <PickerRow
+        label="Include in"
+        choices={choices}
+        selectedValue={selected}
+        onValueChange={(next) =>
+          onChange(next === "All planned meals" ? "All meals" : next)
+        }
+      />
+      {selected === "It varies" ? (
+        <Field
+          label="When should Magpie include them?"
+          placeholder="e.g. Weekday dinners and every other weekend"
+          value={value === "It varies" ? "" : value}
+          onChangeText={(text) => onChange(text || "It varies")}
+        />
+      ) : null}
     </View>
   );
 }

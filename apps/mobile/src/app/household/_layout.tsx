@@ -49,9 +49,10 @@ export default function HouseholdLayout() {
         name="person"
         options={{
           presentation: "formSheet",
-          sheetAllowedDetents: [0.5, 1],
+          sheetAllowedDetents: [0.85, 1],
           sheetGrabberVisible: true,
-          headerShown: false,
+          headerShown: Platform.OS === "ios",
+          headerTransparent: false,
         }}
       />
     </Stack>

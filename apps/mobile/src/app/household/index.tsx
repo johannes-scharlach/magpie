@@ -2,9 +2,8 @@ import { Host } from "@expo/ui";
 import {
   cuisineLabel,
   keptLabels,
-  dietOptions,
+  dietRequests,
   selectionLabels,
-  avoidanceKinds,
   shopRuleSummaries,
   profileShops,
   stapleGroups,
@@ -30,6 +29,7 @@ import {
 } from "@/features/profile/settings-list";
 import { useHousehold } from "@/features/profile/use-household";
 import { unregisterPushDevice } from "@/features/notifications/notifications";
+import { avoidanceSummary } from "@/features/profile/avoidance-entry";
 
 // Pantry and fresh staples are no longer asked; cuisines replace them.
 const selectionTitles: Partial<Record<SelectionField, string>> = {
@@ -78,7 +78,7 @@ export default function ProfileScreen() {
     return (
       <FormScreen>
         <FormError message={error} />
-        <Text>Loading your Profile…</Text>
+        <Text>Loading your household…</Text>
       </FormScreen>
     );
   return (
@@ -88,7 +88,7 @@ export default function ProfileScreen() {
       useViewportSizeMeasurement
     >
       <SettingsList>
-        <SettingsSection title="People">
+        <SettingsSection title="People to plan for">
           {household.people.map((p) => (
             <SettingsRow
               key={p.id}
@@ -100,8 +100,8 @@ export default function ProfileScreen() {
               }
               detail={[
                 p.age_group,
-                `${p.portion_reference} portion${p.portion_reference === 1 ? "" : "s"}`,
-                p.diet === "other" ? p.diet_other : dietOptions[p.diet],
+                `${p.portion_reference}× helping`,
+                p.diet === "other" ? p.diet_other : dietRequests[p.diet],
                 // "Always" is the default; only say it when it's not.
                 p.meal_times && p.meal_times !== "Always"
                   ? `Usually here: ${p.meal_times}`
@@ -129,20 +129,20 @@ export default function ProfileScreen() {
               [
                 ...household.profile.ingredient_avoidances.map(
                   (item) =>
-                    `${item.ingredient} (${avoidanceKinds[item.kind]}${item.detail ? `: ${item.detail}` : ""})`,
+                    `${item.ingredient} (${avoidanceSummary(item, household.people)})`,
                 ),
                 household.profile.restrictions,
               ]
                 .filter(Boolean)
-                .join(", ") || "Nothing to avoid"
+                .join(", ") || "None added"
             }
-            onPress={() => router.push("/household/restrictions")}
-            title="Household restrictions"
+            onPress={() => router.push("/household-avoidances")}
+            title="Foods to leave out"
           />
           <SettingsRow
             detail={household.profile.meals_at_home || "Not specified"}
             onPress={() => router.push("/household/meals_at_home")}
-            title="Meals at home"
+            title="Meals to plan"
           />
           {(Object.keys(selectionTitles) as SelectionField[]).map((key) => (
             <SettingsRow
@@ -157,17 +157,29 @@ export default function ProfileScreen() {
           ))}
           <SettingsRow
             detail={
-              [
-                ...household.profile.cuisines.map(cuisineLabel),
-                ...stapleGroups
-                  .filter(
-                    (group) => keptLabels(household.profile, group).length,
-                  )
-                  .map(cuisineLabel),
-              ].join(", ") || "None selected"
+              household.profile.cuisines.map(cuisineLabel).join(", ") ||
+              "None added"
             }
             onPress={() => router.push("/household-cuisines")}
-            title="Cuisines & staples"
+            title="Familiar cooking"
+          />
+          <SettingsRow
+            detail={
+              [
+                ...new Set(
+                  [...stapleGroups, ...household.profile.cuisines].flatMap(
+                    (group) => keptLabels(household.profile, group),
+                  ),
+                ),
+              ].join(", ") || "None added"
+            }
+            onPress={() =>
+              router.push({
+                pathname: "/household-cuisines",
+                params: { part: "staples" },
+              })
+            }
+            title="Usual ingredients"
           />
         </SettingsSection>
         <SettingsSection title="Shopping">

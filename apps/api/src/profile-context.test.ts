@@ -7,8 +7,18 @@ import {
   householdSchema,
   profileChangesSchema,
   goalOptions,
+  dietDescriptions,
+  selectionLabels,
 } from "@magpie/profile";
 import { ASSISTANT_SYSTEM_PROMPT } from "./assistant-prompt.js";
+
+test("new setup does not choose a food reduction or invent available appliances", () => {
+  assert.equal(newPerson("person-id").diet, "omnivore");
+  assert.deepEqual(
+    selectionLabels("kitchen_equipment", newProfile().kitchen_equipment),
+    [],
+  );
+});
 
 test("balanced meals and using up purchases reach the cook without selecting a rule", () => {
   const householdContext = profileContext(
@@ -362,6 +372,20 @@ test("old pantry and fresh answers stay out of the assistant context", () => {
   );
 });
 
+test("an ingredient written under staples also informs its selected cuisine without duplicate labels", () => {
+  const profile = newProfile();
+  profile.cuisines = ["italian"];
+  profile.extras = {
+    fridge: ["pArMeSaN"],
+    "tins-and-jars": ["Borlotti beans"],
+  };
+  const context = profileContext({ profile, people: [] }, "caller");
+  assert.match(context, /^- Italian: Parmesan$/m);
+  assert.match(context, /^- Fridge: pArMeSaN$/m);
+  assert.match(context, /^- Cupboard: Borlotti beans$/m);
+  assert.doesNotMatch(context, /Parmesan, Parmesan/);
+});
+
 test("editing one profile section never inserts defaults into other sections", () => {
   assert.deepEqual(profileChangesSchema.parse({ main_supermarket: "Aldi" }), {
     main_supermarket: "Aldi",
@@ -370,4 +394,70 @@ test("editing one profile section never inserts defaults into other sections", (
   assert.deepEqual(profileChangesSchema.parse({ keeps: ["miso"] }), {
     keeps: ["miso"],
   });
+});
+
+test("food rules and allergy exceptions stay attached to the people they are for", () => {
+  const sam = {
+    ...newPerson("9c5b42f7-fbea-4df2-b8d3-d42d37ed9a1d"),
+    name: "Sam",
+    diet: "vegetarian",
+  };
+  const lee = {
+    ...newPerson("f748aee7-247b-4bf3-b89f-a42d0eaa9157"),
+    name: "Lee",
+    diet: "omnivore",
+  };
+  const soy = {
+    ingredient: "Soy",
+    kind: "allergy",
+    person_ids: [sam.id],
+    trace_policy: "may-contain-okay",
+    detail: "No tofu. Soy sauce is okay under our clinician's guidance.",
+  };
+  const household = householdSchema.parse({
+    profile: {
+      ...newProfile(),
+      ingredient_avoidances: [
+        soy,
+        {
+          ingredient: "Peanuts",
+          kind: "allergy",
+          person_ids: [],
+          trace_policy: "avoid",
+          detail: "",
+        },
+        {
+          ingredient: "Tomatoes",
+          kind: "dislike",
+          person_ids: [lee.id],
+          detail: "Raw only; cooked is fine",
+        },
+      ],
+    },
+    people: [sam, lee],
+  });
+  assert.deepEqual(household.profile.ingredient_avoidances[0], soy);
+  const context = profileContext(household, "caller");
+  assert.match(context, /Do not infer allergy severity or tolerance/);
+  assert.match(
+    context,
+    /may-contain-okay.*not permission to use the allergen as an ingredient/,
+  );
+  assert.match(context, /Do not expand a person's food rule to everyone/);
+  assert.match(context, /cooked is fine/);
+  assert.match(dietDescriptions.vegetarian, /stocks and sauces/);
+  assert.match(dietDescriptions.flexitarian, /meat and fish/);
+  // Legacy notes remain unstructured; reading never invents a trace policy or scope.
+  assert.deepEqual(
+    profileChangesSchema.parse({
+      ingredient_avoidances: [
+        { ingredient: "Soy", kind: "allergy", detail: "Only Sam" },
+      ],
+    }),
+    {
+      ingredient_avoidances: [
+        { ingredient: "Soy", kind: "allergy", detail: "Only Sam" },
+      ],
+    },
+  );
 });

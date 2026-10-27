@@ -1,5 +1,15 @@
-import { ingredientLabel } from "@magpie/profile";
+import {
+  cuisineLabel,
+  cuisineOptions,
+  ingredientGroup,
+  ingredientId,
+  ingredientLabel,
+  isStapleGroup,
+  keptExtras,
+  keepsIngredient,
+} from "@magpie/profile";
 import { SymbolView } from "expo-symbols";
+import { useState } from "react";
 import { Pressable, View } from "react-native";
 import Animated, {
   Easing,
@@ -17,6 +27,13 @@ import {
   TILE_GAP,
   useTileLayout,
 } from "@/features/profile/choice-tiles";
+import {
+  addExtra,
+  removeExtra,
+  toggleKept,
+  type CupboardChange,
+  type Cupboards,
+} from "@/features/profile/cuisines";
 
 const ADD_ICON = { ios: "plus.circle", android: "add_circle" } as const;
 
@@ -34,26 +51,27 @@ function lineIn(line: number) {
     .reduceMotion(ReduceMotion.Never);
 }
 
-/** One cuisine's cupboard: its distinctive ingredients, then the user's own words. */
+/** The same ingredient picker for staple groups and cuisines. */
 export function CupboardFields({
-  ingredients,
-  keeps,
-  onToggle,
-  extras,
-  onRemoveExtra,
-  extra,
-  onExtraChange,
-  onAddExtra,
+  group,
+  profile,
+  change,
 }: {
-  ingredients: readonly string[];
-  keeps: string[];
-  onToggle: (id: string) => void;
-  extras: string[];
-  onRemoveExtra: (extra: string) => void;
-  extra: string;
-  onExtraChange: (value: string) => void;
-  onAddExtra: () => void;
+  group: string;
+  profile: Cupboards;
+  change: CupboardChange;
 }) {
+  const [extra, setExtra] = useState("");
+  const ingredients = cuisineOptions[ingredientGroup(group)]?.ingredients ?? [];
+  // A recognised name already in this group's grid is represented by its tick.
+  const extras = keptExtras(profile, group).filter(
+    (label) => !ingredients.some((id) => ingredientId(label, group) === id),
+  );
+  function saveExtra() {
+    if (!extra.trim()) return;
+    change((p) => addExtra(p, group, extra));
+    setExtra("");
+  }
   const { columns, tileWidth, onLayout } = useTileLayout(true);
   const iconColor = useResolveClassNames("text-foreground").color;
   const rows = Array.from(
@@ -80,8 +98,8 @@ export function CupboardFields({
                     title={ingredientLabel(id)}
                     width={tileWidth}
                     tilt={clayTilts[index % clayTilts.length]}
-                    selected={keeps.includes(id)}
-                    onPress={() => onToggle(id)}
+                    selected={keepsIngredient(profile, id)}
+                    onPress={() => change((p) => toggleKept(p, id))}
                   />
                 );
               })}
@@ -99,7 +117,7 @@ export function CupboardFields({
               key={label}
               label={label}
               selected
-              onPress={() => onRemoveExtra(label)}
+              onPress={() => change((p) => removeExtra(p, group, label))}
             />
           ))}
         </Animated.View>
@@ -109,26 +127,28 @@ export function CupboardFields({
         className="gap-2"
       >
         <Text className="text-sm font-medium">
-          Anything else you keep for it?
+          {isStapleGroup(group)
+            ? "Anything else you usually keep?"
+            : "Anything else you keep for it?"}
         </Text>
         <View className="min-h-12 flex-row items-center rounded-2xl bg-muted pr-1">
           <Input
-            accessibilityLabel="Anything else you keep for it?"
+            accessibilityLabel={`Other ${cuisineLabel(group)} ingredients`}
             placeholder="Add an ingredient"
             className="h-12 min-h-0 flex-1 border-0 bg-transparent px-3.5 py-1"
             value={extra}
-            onChangeText={onExtraChange}
+            onChangeText={setExtra}
             returnKeyType="done"
             submitBehavior="submit"
-            onSubmitEditing={onAddExtra}
+            onSubmitEditing={saveExtra}
             // Continue or Back dismisses the keyboard; what's typed still counts.
-            onBlur={onAddExtra}
+            onBlur={saveExtra}
           />
           {extra.trim() ? (
             <Pressable
               accessibilityRole="button"
               accessibilityLabel="Add ingredient"
-              onPress={onAddExtra}
+              onPress={saveExtra}
               className="h-12 w-10 items-center justify-center self-end active:opacity-60"
             >
               <SymbolView name={ADD_ICON} tintColor={iconColor} size={22} />

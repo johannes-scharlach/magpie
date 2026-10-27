@@ -1,6 +1,7 @@
 # Onboarding: useful choices, native controls
 
-Implemented 2026-10-13. This supersedes the presentation, restriction entry,
+Implemented 2026-10-13; remaining household/setup screens revised 2026-10-27.
+This supersedes the presentation, restriction entry,
 shopping entry, staple options/defaults, and portion model in spec 0003.
 The separate hands-on first-run experience in spec 0011 remains out of scope.
 
@@ -19,9 +20,8 @@ rather than repeating it in introductory paragraphs.
 
 Keep firm boundaries, defaults, priorities and permission to explore distinct;
 these are design distinctions, not terminology users need to learn. Do not force
-every question into the shops' three-choice pattern. Goals and shops now use
-this approach. The direction for the remaining questions is agreed, but their
-interface changes are not implemented:
+every question into the shops' three-choice pattern. Cooking rules, shops and
+the remaining household/setup questions use this approach:
 
 - Cooking rules should guide decisions and have a cost: quicker meals, lower
   spending, more explanation or less multitasking. A benefit without a meaningful
@@ -48,33 +48,51 @@ clay artwork style. Large artwork belongs on welcome; equipment and ingredient
 artwork belongs inside the choices. No decorative banners above busy questions,
 generated response paragraphs, sparkles, or written summary at signup.
 
-The flow retains name, goals, diet, household, avoidances, shops, equipment,
-pantry, fresh, email, and code. Household add/edit remains a native form sheet on
-iOS, with editable creator details and a scrollable keyboard-aware layout.
+Clay artwork serves recognition first, makes setup feel less like filling in a
+form second, and carries the visual identity third. Use a plainer representation
+when it genuinely improves recognition, not merely to pack in more choices. Keep
+clay large enough for its material quality to register; tiny clay icons are not
+the compact alternative. Staples and cuisines use the same ingredient tiles,
+artwork size, selection feedback and custom-entry interaction, so staples teach
+the pattern used on the next screen.
+
+The flow is name, cooking rules, food rule, people and meal routine, foods to
+leave out, shops, equipment, usual ingredients, familiar cooking, email and code.
+Staples introduce ingredient selection in three open groups; cuisines then pair
+each chosen cuisine with the ingredients kept for it. Household add/edit uses a native
+form sheet on both platforms, including the creator's details.
 
 - Goals: seven multi-select rows, each pairing a request with how Magpie will
   act on it. Custom entries remain possible; no preselection, ranking or extra
   configuration step.
-- Diet: compact single-select tiles; explain only the selected diet.
+- Diet: single-select instruction rows with their practical meaning visible
+  before selection. A new person starts with no diet-based reduction or swaps;
+  existing answers keep their saved meaning.
 - Household: names, ages, diets, portion references, attendance, and normal meals.
 - Avoidances: separate allergies/must-avoids from dislikes on one screen.
-  Common shortcuts and a native editor record ingredient, reason, and optional
-  detail (including who it applies to). Continue always reads Continue; the empty
-  state explicitly says it is fine to continue with nothing to avoid.
+  Ingredient shortcuts open an editor, not a selected answer. Record the food,
+  reason, people it applies to, and any forms/preparation/exceptions. Allergies
+  can specify precautionary-label guidance without a severity scale. Save
+  finishes one entry; Continue finishes the question. The empty list invites
+  adding information, without encouraging people to skip it.
 - Shops: one list of named sources, each with a user-chosen sourcing rule:
   everyday meals, optional upgrades, or only when a trip is worthwhile. The
   first arrival opens one form sheet over the question; Save returns to the list. Butcher,
   Asian supermarket, and Weekly market are secondary prompts for other sources.
   No separate main shop or compulsory retailer-type field.
-- Equipment: illustrated two-column grid. Oven/stove start selected and can be
-  deselected. Custom equipment remains possible.
-- Pantry: concrete items the household nearly always keeps.
-- Fresh: concrete foods bought regularly, describing rotation and household
-  habits rather than simultaneous stock. Greek and plain yoghurt are separate.
-- Both staple screens: six initial suggestions, More ingredients, and custom
-  items. Nothing preselected, no minimum required. Selected extra items stay
-  visible when revisiting the screen. Existing category answers remain available
-  under Earlier selections and can be removed; they never become specific foods.
+- Equipment: illustrated two-column grid and custom equipment. Nothing starts
+  selected for a new setup: availability is a fact, not a guessed preference.
+  Saved equipment selections are unchanged.
+- Usual ingredients: three open groups, Cupboard, Fridge and Freezer, using the
+  same illustrated ingredient picker as cuisines. Cupboard includes tins and
+  jars. Nothing preselected, no minimum, no separate expand/collapse task.
+  These describe habits, not confirmed stock or ingredients required in every
+  meal; Magpie handles that distinction without another question or paragraph.
+- Familiar cooking: regional cuisine switch rows and the user's own cooking.
+  Selecting a cuisine reveals its ingredient picker directly beneath it and
+  leaves it visible while selected. These are starting points, not a whitelist
+  or a request for more of every selected cuisine. Shared ingredients remain
+  one selection across groups; Greek and plain yoghurt stay separate.
 - Email: a small composition of the user's selected ingredient/equipment artwork.
   Six-digit email verification, returning-account handling, local drafts, and
   retry-safe finalization remain. No account request before explicit email submit.
@@ -91,12 +109,13 @@ Native navigation/selection symbols are not artwork requests.
   Existing keys adopt the clearer instructions described below. New goals are
   unselected; retired choices for cooking with what is available, balanced meals
   and using up purchases become custom entries.
-- `household_people.portion_reference`: 0.25–4 regular adult portions in quarter
+- `household_people.portion_reference`: 0.25–2 regular adult helpings in 0.05
   steps, default 1. The creator and other people use the same editor. Recipe
   generation sums the selected people's references, then adds per-meal extra
   portions. Do not reduce an explicit reference again based on age.
 - `household_profiles.ingredient_avoidances`: JSON array of
-  `{ ingredient, kind: allergy | restriction | dislike, detail }`.
+  `{ ingredient, kind: allergy | restriction | dislike, detail,
+person_ids?, trace_policy? }`. The optional fields are described below.
 - `household_profiles.shops`: JSON array of
   `{ name, rule: everyday | upgrade | worth-trip }`. Older `access` ratings
   remain readable but do not imply a sourcing rule. A new entry stays local to
@@ -106,11 +125,10 @@ Native navigation/selection symbols are not artwork requests.
 - Existing `restrictions` and `other_shops` strings remain readable/editable
   notes. No attempt to guess or parse their meaning into the new structured
   choices. The assistant receives both.
-- Pantry/fresh keep their existing JSON selection shape. New item keys and old
-  category keys are distinct except eggs, which was already an exact ingredient.
-  Missing keys remain unselected; custom strings remain supported.
-- The assistant receives usual pantry items, regular fresh purchases, and legacy
-  categories separately. All are habits, not confirmed inventory.
+- The older pantry/fresh columns remain stored but are no longer asked or sent
+  to the assistant. Current cuisine/ingredient answers use `cuisines`, `keeps`
+  and `extras`; reading does not infer specific foods from old categories.
+  All current ingredient answers are habits, not confirmed inventory.
 - Shops guide sourcing, without claims about live stock or restrictions on
   cuisines. Everyday sources form the baseline. Upgrades stay optional; trips
   need a meaningful improvement and, in a multi-meal plan, should make use of
@@ -354,6 +372,156 @@ The prior Save/Cancel functional flow was not rerun; iOS and keyboard-open sheet
 layout remain device-unverified. This capture predates the empty-state copy
 cleanup and documents sheet sizing/context, not the final empty-state wording.
 
+## People, food boundaries and familiar cooking (2026-10-27)
+
+### Food rules belong to people
+
+The food-rule question asks how Magpie should plan the onboarding person's
+meals. The same instructions appear in every person's editor, not just setup.
+Keep the persisted diet keys; the visible choices state what to do:
+
+| Choice                      | Practical meaning                                                                             |
+| --------------------------- | --------------------------------------------------------------------------------------------- |
+| More plants, less meat      | Keep meat and fish in the mix. Make more meals plant-based.                                   |
+| Include all foods           | No diet-based swaps. Still follow allergies, dislikes and cooking rules.                      |
+| Replace meat, keep fish     | Use fish, seafood and vegetarian ingredients instead of meat, including in stocks and sauces. |
+| Replace meat and fish       | Use vegetarian ingredients, including in stocks and sauces. Eggs and dairy are fine.          |
+| Replace all animal products | Use plant-based alternatives to meat, fish, dairy, eggs and honey.                            |
+| Set a different food rule   | Say what to reduce, leave out or replace.                                                     |
+
+The custom field asks “What should Magpie change?” and requires useful text
+before continuing/saving. The former Meat heavy key remains readable/editable
+as “Protein with every meal” for a person who already has it; it is not offered
+as a new reduction/replacement rule. Its saved meaning still allows another
+protein source, not only meat. New people start at Include all foods rather
+than being silently assigned a reduction in meat. Existing people and drafts
+keep their actual saved diet, portions and equipment.
+
+Magpie must apply each food rule to the person it belongs to. A reduction is not
+an exclusion. When people eat differently, prefer one shared base with practical
+adaptations, rather than making everyone follow one person's diet or defaulting
+to separate meals. The cook and follow-up suggestions receive the same meanings
+and individual people, not a deduplicated household-wide diet label.
+
+### Who and how much to plan for
+
+“Who should Magpie plan for?” shows the usual eaters and each person's food
+rule, helping reference and attendance. It does not require an account for each
+person or assume everyone lives together. “Meals to plan” sets the household's
+usual meal coverage; “It varies” takes a free-text pattern.
+
+The person editor sets name, age group, food rule, “How much to cook” and
+“Include in”. One reference helping is an adult helping; the assistant scales
+ingredients to the saved reference instead of reducing it again from age.
+Attendance is a flexible default for the assistant, not a fixed schedule or a
+change to the manual plan picker's everyone-selected default. A person's absence
+also does not establish that shared preparation is safe for an allergy.
+
+Person editors start without focusing a field and use a scrollable native form
+sheet, with Save kept at the visible bottom. Save accepts one person; Cancel,
+Back and native dismissal discard unsaved edits. Changes affect future planning
+and explicit recipe adjustments, not existing recipes. An existing person's
+food rule/portion can be changed without having to repeat setup.
+
+### Boundaries carry their exceptions
+
+Allergies/must-avoids and dislikes stay in distinct lists. A shortcut names a
+food only; it does not infer an allergy from “Soy” or “Milk”. New boundary entries
+require a food and reason before Save. Dislike add actions prefill that reason,
+which can still be changed. The editor also records:
+
+- **Who is this for?** Everyone or named people. `person_ids: []` explicitly
+  means everyone. A missing field on an older entry leaves the original notes
+  in charge; neither reading nor a cancelled edit invents a scope. Missing-person
+  references remain visible as “Person no longer listed” rather than being
+  silently dropped or broadened to everyone.
+- **Traces**, for allergies only: Avoid “may contain” too; “May contain” labels
+  are okay; or Check with me. No policy is inferred from the allergen. The last
+  choice leaves `trace_policy` absent. The other choices store `avoid` or
+  `may-contain-okay`. Changing away from Allergy clears allergy-specific trace
+  handling, without deleting the ingredient, people or notes.
+- **Forms, preparation or exceptions**: free text, such as raw tomatoes versus
+  cooked tomatoes, a tolerated ingredient form, or separate utensils. This is
+  not a symptom questionnaire, allergy severity scale or guessed safe quantity.
+
+The interface asks people to follow their existing allergy guidance and says
+Magpie cannot check labels or kitchen safety. Permitting precautionary labels
+does not permit using the allergen as an ingredient or imply that cross-contact
+is safe. With no trace guidance, the assistant excludes the allergen and asks
+about traces when relevant; it never assumes traces are okay. Explicit food-form
+exceptions stay attached to their people. Contradictory guidance needs a question,
+not a guess. Neither a dislike nor a usual purchase overrides an allergy.
+
+Both assistant paths receive these instructions and the original structured
+entries. Legacy notes remain editable and binding. Household food-boundary saves
+and removals persist directly to the list; there is no second page-wide Save or
+nested sheet. Setup saves to the existing local draft before closing an entry.
+Failed saves retain input and stay open. No SQL, sync-rule or bulk data migration
+is needed: the additional optional fields live inside the existing JSON array.
+
+### Staples teach the cuisine ingredient picker
+
+“What do you usually keep?” comes first, with Cupboard, Fridge and Freezer open.
+It introduces the same clay ingredient tiles and selection behaviour used on
+the cuisine screen, not a separate compact or text-only variant. Each group
+also accepts the user's own ingredients.
+
+“Which cuisines should Magpie start with?” then establishes starting points for
+meal ideas. The regional catalogue uses switch rows. Choosing a cuisine shows
+its ingredients immediately below it: “I cook Japanese, and these are the things
+I keep for it.” There is no separate ingredient accordion. Unselected cuisines
+are neither forbidden nor necessarily new. The separate exploration cooking rule
+governs trying beyond those starting points. Shop sourcing rules still apply.
+
+Tapping an ingredient records one shared fact wherever it appears. A recognised
+name typed in another group carries through without choosing a cuisine for the
+user: Parmesan under Fridge is already ticked when Italian is selected later.
+Known names match ignoring case and outer whitespace; custom ingredients retain
+their original group. Generic names outside Freezer do not imply frozen food.
+Unticking a recognised ingredient clears both its stored ID and matching typed
+entries, so reading the answers cannot bring it back. Earlier tins/jars entries
+appear under Cupboard without rewriting saved profiles or becoming a custom
+cuisine.
+
+Switching off a cuisine preserves its ingredients and notes, but does not make
+the assistant treat it as familiar cooking. The assistant accounts for missing
+ingredients rather than turning a habit into confirmed stock. Household
+settings expose Familiar cooking and Usual ingredients as separate rows, using
+the same editors as setup.
+
+Welcome describes the setup decisions. The email handoff explains why an email
+is needed and says Send code, rather than disguising that action as Continue.
+It does not submit an email or create an account just by arriving.
+
+### Staples/cuisines native check (2026-10-27)
+
+Android API 36, light theme, font scale 1.0, 1080×2400: native captures confirmed
+the same three-column clay ingredient tiles on staples and beneath a selected
+cuisine, without reducing the artwork size. Cupboard, Fridge and Freezer stayed
+open while scrolling. Continue from staples reached cuisines. Typing Parmesan
+under Fridge left Italian off; selecting Italian immediately showed Parmesan
+ticked. Unticking its Italian tile removed the Fridge entry too, and Back kept
+it absent.
+
+Temporary ingredients, cuisine selections, the preview person and food-boundary
+entries were removed. The original person and answers were retained, and reload
+and resume returned to the original restrictions question with no temporary
+food-boundary entries. No email was submitted; saved households and iOS were
+not operated. Native captures and hierarchy snapshots are gitignored under
+`docs/.screenshots/profile-redesign/android/round-03-staples-cuisines/`.
+
+Maestro flows were interrupted by device-connection errors; ADB interactions
+with fresh native hierarchies verified the results above. This is not a passing
+end-to-end Maestro suite or a new independent visual critique. Household saves,
+iOS, large text, screen readers and actual model adherence remain unverified.
+Automated checks cover ingredient recognition/removal, legacy group handling,
+draft question order and both assistant-context paths.
+
+A follow-up Android capture confirmed filled Material check circles on selected
+clay tiles, replacing the outlined symbol-font glyph at the same size. The
+current screen and selections were left untouched. This was a visual-only check;
+its capture is under `android/round-04-filled-check/` beside the earlier round.
+
 ## Native behaviour and verification
 
 Continue remains enabled for missing answers. On tap, show an inline error and
@@ -369,6 +537,8 @@ below them when the keyboard is open. Their native hosts ignore keyboard safe
 areas so only the shared container adjusts their position. Keyboard-aware
 scrolling clears focused inputs above the controls. Large text reflows choices and navigation.
 Selection never advances automatically; native paging and reduced motion remain.
+Selected clay tiles use filled check circles: Material on Android and the filled
+SF Symbol on iOS.
 
 Automated checks cover draft compatibility, durable finalization of structured
 choices, profile-context meanings, section-edit isolation, and portion sizing.

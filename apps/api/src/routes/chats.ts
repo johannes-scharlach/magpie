@@ -20,7 +20,7 @@ import { z } from "zod";
 
 import { ASSISTANT_SYSTEM_PROMPT } from "../assistant-prompt.js";
 import type { AppBindings } from "../auth.js";
-import { isSignedStorageUrl } from "../chat-media.js";
+import { ownStorageUrl } from "../chat-media.js";
 import { buildChatTools } from "../chat-tools.js";
 import { createChatReply, type AssistantUIMessage } from "../chat-reply.js";
 import { pool } from "../db.js";
@@ -145,12 +145,13 @@ export const downloadMedia: Experimental_DownloadFunction = (requests) =>
   Promise.all(
     requests.map(async ({ url, isUrlSupportedByModel }) => {
       if (isUrlSupportedByModel) return null;
-      if (!isSignedStorageUrl(url, env.supabaseUrl)) {
+      const own = ownStorageUrl(url, env.supabaseUrl);
+      if (!own) {
         throw new Error(`Refusing to download ${url.origin}${url.pathname}`);
       }
-      const res = await fetch(url, { redirect: "error" });
+      const res = await fetch(own, { redirect: "error" });
       if (!res.ok) {
-        throw new Error(`Failed to download ${url.href}: ${res.status}`);
+        throw new Error(`Failed to download ${own.pathname}: ${res.status}`);
       }
       return {
         data: new Uint8Array(await res.arrayBuffer()),

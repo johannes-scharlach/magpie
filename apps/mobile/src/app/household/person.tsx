@@ -1,39 +1,15 @@
 import { newPerson, personSchema, type HouseholdPerson } from "@magpie/profile";
 import * as Crypto from "expo-crypto";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useState, type ReactNode } from "react";
-import { Alert, ScrollView, View } from "react-native";
-import { CloseButton } from "@/components/close-button";
+import { useState } from "react";
+import { Alert } from "react-native";
 import { Text } from "@/components/ui/text";
 import { removePerson, savePerson } from "@/db/profiles";
 import { useHouseholdAccess } from "@/features/onboarding/access";
-import { FormError, PersonFields } from "@/features/profile/form";
+import { FormError, FormScreen, PersonFields } from "@/features/profile/form";
 import { useHousehold } from "@/features/profile/use-household";
-import { Action, PrimaryAction } from "@/components/action";
-
-function PersonSheet({
-  busy = false,
-  children,
-}: {
-  busy?: boolean;
-  children: ReactNode;
-}) {
-  const router = useRouter();
-  return (
-    <ScrollView
-      contentInsetAdjustmentBehavior="automatic"
-      automaticallyAdjustKeyboardInsets
-      keyboardShouldPersistTaps="handled"
-      contentContainerClassName="gap-6 px-6 pt-4"
-    >
-      <View className="flex-row items-center justify-between gap-4">
-        <Text className="flex-1 font-rounded text-lg font-bold">Household person</Text>
-        <CloseButton onPress={() => router.back()} disabled={busy} />
-      </View>
-      {children}
-    </ScrollView>
-  );
-}
+import { Action } from "@/components/action";
+import { ProfileEntryScreen } from "@/features/profile/profile-entry-screen";
 
 export default function ProfilePerson() {
   const { id } = useLocalSearchParams<{ id?: string }>();
@@ -41,17 +17,17 @@ export default function ProfilePerson() {
   const { household, error } = useHousehold(listId);
   if (!household || !listId)
     return (
-      <PersonSheet>
+      <FormScreen>
         <FormError message={error} />
         <Text>Loading…</Text>
-      </PersonSheet>
+      </FormScreen>
     );
   const person = household.people.find((p) => p.id === id);
   if (id && !person)
     return (
-      <PersonSheet>
+      <FormScreen>
         <Text>This person is no longer in the household.</Text>
-      </PersonSheet>
+      </FormScreen>
     );
   return (
     <PersonEditor
@@ -104,19 +80,17 @@ function PersonEditor({
     }
   }
   return (
-    <PersonSheet busy={busy}>
-      <FormError message={error} />
+    <ProfileEntryScreen
+      title={initial ? `${initial.name}’s meals` : "Add a person"}
+      busy={busy}
+      error={error}
+      onSave={() => void commit()}
+    >
       <PersonFields
         person={person}
         onChange={setPerson}
-        autoFocusName={!initial}
         errors={fieldErrors}
         validationAttempt={validationAttempt}
-      />
-      <PrimaryAction
-        label={busy ? "Saving…" : "Save person"}
-        disabled={busy}
-        onPress={() => void commit()}
       />
       {initial && (
         <Action
@@ -126,7 +100,7 @@ function PersonEditor({
           onPress={() =>
             Alert.alert(
               "Remove this person?",
-              `${person.name} will no longer be included in the household's cooking setup.`,
+              `${person.name} will no longer be included when Magpie plans meals. Existing recipes and plans stay unchanged.`,
               [
                 { text: "Cancel", style: "cancel" },
                 {
@@ -139,6 +113,6 @@ function PersonEditor({
           }
         />
       )}
-    </PersonSheet>
+    </ProfileEntryScreen>
   );
 }

@@ -28,16 +28,23 @@ export default function SetupLayout() {
       />
       <Stack.Screen
         name="person"
-        options={
-          Platform.OS === "ios"
-            ? {
-                headerShown: false,
-                presentation: "formSheet",
-                sheetAllowedDetents: "fitToContents",
-                sheetGrabberVisible: true,
-              }
-            : { headerShown: false }
-        }
+        options={{
+          headerShown: Platform.OS === "ios",
+          presentation: "formSheet",
+          sheetAllowedDetents: [0.85, 1],
+          sheetGrabberVisible: true,
+          headerTransparent: false,
+        }}
+      />
+      <Stack.Screen
+        name="avoidance"
+        options={{
+          headerShown: Platform.OS === "ios",
+          headerTransparent: false,
+          presentation: "formSheet",
+          sheetAllowedDetents: [0.85, 1],
+          sheetGrabberVisible: true,
+        }}
       />
       <Stack.Screen
         name="shop"

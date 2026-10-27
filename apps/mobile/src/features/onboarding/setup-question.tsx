@@ -1,5 +1,5 @@
 import {
-  dietOptions,
+  dietRequests,
   profileShops,
   type CookingProfile,
   type HouseholdPerson,
@@ -16,17 +16,19 @@ import { ChoiceTiles } from "@/features/profile/choice-tiles";
 import { AvoidancesEditor } from "@/features/profile/avoidances-editor";
 import { ShopsEditor } from "@/features/profile/shops-editor";
 import { CuisineList } from "@/features/profile/cuisine-list";
+import { StaplesEditor } from "@/features/profile/staples-editor";
 
 export const titles: Record<Step, string> = {
   name: "What’s your name?",
   goals: "Set your cooking rules",
-  diet: "How do you eat?",
-  household: "Who do you cook for?",
-  restrictions: "Anything to avoid?",
+  diet: "How should Magpie plan your meals?",
+  household: "Who should Magpie plan for?",
+  restrictions: "What should Magpie leave out?",
   groceries: "Where do you shop?",
-  kitchen: "What equipment do you have?",
-  cuisines: "How do you cook?",
-  email: "Save your kitchen",
+  kitchen: "What can you cook with?",
+  cuisines: "Which cuisines should Magpie start with?",
+  staples: "What do you usually keep?",
+  email: "Save your cooking setup",
   code: "Check your inbox",
 };
 
@@ -34,13 +36,15 @@ export const subtitles: Record<Exclude<Step, "email" | "code">, string> = {
   name: "First name or nickname is fine.",
   goals:
     "Magpie will follow these when planning meals and writing cooking steps.",
-  diet: "Start with yourself. You can set a different diet for each person.",
-  household: "Add the people you regularly cook for.",
-  restrictions: "For anyone you cook for.",
+  diet: "Set what to include, cut back or replace. Each person can have their own rule.",
+  household: "Add the usual eaters. Change who’s eating for any meal.",
+  restrictions:
+    "Allergies, foods to avoid and things you don’t enjoy need different handling.",
   groceries:
     "Choose which shops to plan around and when to suggest something extra.",
-  kitchen: "Tap the appliances you have.",
-  cuisines: "Switch on what you cook, then tick what you keep for it.",
+  kitchen: "Magpie will choose cooking methods that work with this equipment.",
+  cuisines: "Choose cuisines you cook, then ingredients you keep for each.",
+  staples: "Magpie will reach for these when they fit a meal.",
 };
 
 function HouseholdEditor({
@@ -66,8 +70,8 @@ function HouseholdEditor({
         const diet =
           person.diet === "other"
             ? person.diet_other
-            : dietOptions[person.diet];
-        const detail = `${person.age_group} · ${diet} · ${person.portion_reference} portion${person.portion_reference === 1 ? "" : "s"} · ${person.meal_times}`;
+            : dietRequests[person.diet];
+        const detail = `${diet} · ${person.portion_reference}× helping · ${person.meal_times === "All meals" || person.meal_times === "Always" ? "All planned meals" : person.meal_times}`;
         return (
           <View key={person.id}>
             {index > 0 ? (
@@ -138,6 +142,7 @@ export function SetupQuestion({
   }, [active, focused, draft, router, step]);
   if (!draft) return null;
   const person = draft.people.find((p) => p.id === draft.onboarding_person_id)!;
+  const CuisineEditor = step === "staples" ? StaplesEditor : CuisineList;
   function editProfile(changes: Partial<CookingProfile>) {
     void update((d) => ({ ...d, profile: { ...d.profile, ...changes } })).catch(
       () => {},
@@ -187,7 +192,7 @@ export function SetupQuestion({
           validationAttempt={validationAttempt}
           otherError={
             showErrors && person.diet === "other" && !person.diet_other.trim()
-              ? "Describe your diet in a few words."
+              ? "Say what Magpie should reduce, leave out or replace."
               : null
           }
         />
@@ -221,11 +226,23 @@ export function SetupQuestion({
       {step === "restrictions" ? (
         <AvoidancesEditor
           value={draft.profile.ingredient_avoidances}
-          onChange={(ingredient_avoidances) =>
-            editProfile({ ingredient_avoidances })
+          people={draft.people}
+          onEdit={(index) =>
+            router.push({ pathname: "/setup/avoidance", params: { index } })
+          }
+          onAdd={(ingredient, kind) =>
+            router.push({
+              pathname: "/setup/avoidance",
+              params: {
+                ...(ingredient ? { ingredient } : {}),
+                ...(kind ? { kind } : {}),
+              },
+            })
           }
           notes={draft.profile.restrictions}
-          onNotes={(restrictions) => editProfile({ restrictions })}
+          onSaveNotes={(restrictions) =>
+            commit((d) => ({ ...d, profile: { ...d.profile, restrictions } }))
+          }
         />
       ) : null}
       {step === "groceries" ? (
@@ -253,8 +270,8 @@ export function SetupQuestion({
           onChange={(kitchen_equipment) => editProfile({ kitchen_equipment })}
         />
       ) : null}
-      {step === "cuisines" ? (
-        <CuisineList
+      {step === "cuisines" || step === "staples" ? (
+        <CuisineEditor
           profile={draft.profile}
           change={(edit) =>
             void update((d) => ({

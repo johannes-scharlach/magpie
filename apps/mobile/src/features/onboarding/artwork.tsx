@@ -386,11 +386,19 @@ function stillLife(count: number) {
   // A caption without art: cuisines switched on with nothing ticked yet.
   if (count === 0) return { aspectRatio: PILE_ASPECT, items: [] };
   if (count === 1) {
-    return { aspectRatio: 1.7, items: [{ left: 18, top: 0, width: 64, rotate: 0 }] };
+    return {
+      aspectRatio: 1.7,
+      items: [{ left: 18, top: 0, width: 64, rotate: 0 }],
+    };
   }
   // Start large and shrink until the whole pile fits the box.
   for (let front = 46; ; front -= 2) {
-    const items: { left: number; top: number; width: number; rotate: number }[] = [];
+    const items: {
+      left: number;
+      top: number;
+      width: number;
+      rotate: number;
+    }[] = [];
     let top = 100 - front * PILE_ASPECT;
     for (let row = 0; items.length < count; row++) {
       const width = front * 0.84 ** row;
@@ -399,8 +407,10 @@ function stillLife(count: number) {
       const capacity = Math.max(1, Math.floor((span - width) / step) + 1);
       const inRow = Math.min(capacity, count - items.length);
       // Fill from the middle outward: centre, right, left, further right…
-      const slots = Array.from({ length: inRow }, (_, i) => i - (inRow - 1) / 2)
-        .sort((a, b) => Math.abs(a) - Math.abs(b) || b - a);
+      const slots = Array.from(
+        { length: inRow },
+        (_, i) => i - (inRow - 1) / 2,
+      ).sort((a, b) => Math.abs(a) - Math.abs(b) || b - a);
       for (const slot of slots) {
         const index = items.length;
         const size = width * (1 + 0.1 * jitter(index, 1));
@@ -429,9 +439,8 @@ export function KitchenArtwork({ profile }: { profile: CookingProfile }) {
   return (
     <View className="gap-3">
       {ids.length ? (
-        // Bleeds through the screen's 24pt gutters; the caption keeps them.
         <View
-          className="-mx-6"
+          className="w-60 max-w-full self-center"
           style={{ aspectRatio }}
           accessible={false}
           importantForAccessibility="no-hide-descendants"

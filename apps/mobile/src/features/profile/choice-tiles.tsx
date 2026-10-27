@@ -1,4 +1,7 @@
+import { Host, Icon } from "@expo/ui";
 import * as Haptics from "expo-haptics";
+import { SymbolView } from "expo-symbols";
+import { useResolveClassNames } from "uniwind";
 import { useState, useRef } from "react";
 import {
   Pressable,
@@ -27,6 +30,11 @@ import { Artwork, type ArtworkId } from "@/features/onboarding/artwork";
 import { Field } from "@/features/profile/form";
 import { cn } from "@/lib/utils";
 
+const SELECTED_ICON = Icon.select({
+  ios: "checkmark.circle.fill",
+  android: require("../../../assets/icons/check-circle-filled.xml"),
+});
+
 export function ChoiceChip({
   label,
   selected,
@@ -36,6 +44,7 @@ export function ChoiceChip({
   selected: boolean;
   onPress: () => void;
 }) {
+  const primary = useResolveClassNames("text-primary").color;
   return (
     <PressableScale
       accessibilityRole="checkbox"
@@ -45,10 +54,17 @@ export function ChoiceChip({
     >
       <View
         className={cn(
-          "min-h-12 justify-center rounded-full px-4 py-2",
+          "min-h-12 flex-row items-center justify-center gap-2 rounded-full px-4 py-2",
           selected ? "bg-accent" : "bg-card",
         )}
       >
+        {selected ? (
+          <SymbolView
+            name={{ ios: "checkmark", android: "check" }}
+            size={16}
+            tintColor={primary}
+          />
+        ) : null}
         <Text className={cn("shrink font-medium", selected && "text-primary")}>
           {label}
         </Text>
@@ -72,6 +88,7 @@ export function ArtTile({
   selected: boolean;
   onPress: () => void;
 }) {
+  const primary = useResolveClassNames("text-primary").color;
   return (
     <PressableScale
       accessibilityRole="checkbox"
@@ -102,6 +119,13 @@ export function ArtTile({
         >
           <Artwork id={art} />
         </View>
+        {selected ? (
+          <View className="absolute right-2 top-2" pointerEvents="none">
+            <Host matchContents ignoreSafeArea="all">
+              <Icon name={SELECTED_ICON} size={21} color={primary} />
+            </Host>
+          </View>
+        ) : null}
         <View className="min-h-11 justify-center px-0.5 pt-1">
           <Text
             className={cn(
@@ -328,7 +352,11 @@ export function ChoiceTiles({
             setAdding(true);
           }}
         >
-          <Text className="font-medium text-primary">+ Add something</Text>
+          <Text className="font-medium text-primary">
+            {field === "kitchen_equipment"
+              ? "+ Add equipment"
+              : "+ Add an ingredient"}
+          </Text>
         </Pressable>
       </View>
       {adding ? (

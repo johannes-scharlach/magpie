@@ -1,152 +1,178 @@
-import { avoidanceKinds, type IngredientAvoidance } from "@magpie/profile";
+import {
+  type HouseholdPerson,
+  type IngredientAvoidance,
+} from "@magpie/profile";
 import { SymbolView } from "expo-symbols";
 import { useRef, useState } from "react";
-import { Platform, Pressable, View, type TextInputInstance } from "react-native";
+import { Pressable, View } from "react-native";
 import { useResolveClassNames } from "uniwind";
 import { PrimaryAction } from "@/components/action";
+import { AddRow } from "@/components/add-row";
 import { EditorSheet, type EditorSheetHandle } from "@/components/editor-sheet";
 import { Text } from "@/components/ui/text";
-import { Field, PickerRow } from "@/features/profile/form";
+import { avoidanceSummary } from "@/features/profile/avoidance-entry";
+import { Field, FormError } from "@/features/profile/form";
 
-const suggestions: IngredientAvoidance[] = [
-  { ingredient: "Peanuts", kind: "allergy", detail: "" },
-  { ingredient: "Shellfish", kind: "allergy", detail: "" },
-  { ingredient: "Gluten", kind: "restriction", detail: "" },
-  { ingredient: "Dairy", kind: "restriction", detail: "" },
-  { ingredient: "Coriander", kind: "dislike", detail: "" },
-  { ingredient: "Mushrooms", kind: "dislike", detail: "" },
-  { ingredient: "Olives", kind: "dislike", detail: "" },
-];
-
-export function AvoidancesEditor({ value, onChange, notes, onNotes }: {
+export function AvoidancesEditor({
+  value,
+  people,
+  onAdd,
+  onEdit,
+  notes,
+  onSaveNotes,
+}: {
   value: IngredientAvoidance[];
-  onChange: (value: IngredientAvoidance[]) => void;
+  people: HouseholdPerson[];
+  onAdd: (ingredient?: string, kind?: IngredientAvoidance["kind"]) => void;
+  onEdit: (index: number) => void;
   notes: string;
-  onNotes: (notes: string) => void;
+  onSaveNotes: (notes: string) => void | Promise<void>;
 }) {
-  const mutedColor = useResolveClassNames("text-muted-foreground").color;
-  const [editing, setEditing] = useState<{ index: number; item: IngredientAvoidance } | null>(null);
-  const [attempted, setAttempted] = useState(false);
-  const input = useRef<TextInputInstance>(null);
+  const muted = useResolveClassNames("text-muted-foreground").color;
+  const [editingNotes, setEditingNotes] = useState(false);
+  const [text, setText] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const sheet = useRef<EditorSheetHandle>(null);
-  function open(item: IngredientAvoidance, index = -1) { setAttempted(false); setEditing({ item: { ...item }, index }); }
-  function save() {
-    if (!editing) return;
-    if (!editing.item.ingredient.trim()) { setAttempted(true); input.current?.focus(); return; }
-    const item = { ...editing.item, ingredient: editing.item.ingredient.trim(), detail: editing.item.detail.trim() };
-    onChange(editing.index < 0 ? [...value, item] : value.map((entry, index) => index === editing.index ? item : entry));
-    sheet.current?.dismiss();
+  async function saveNotes() {
+    if (busy) return;
+    setBusy(true);
+    try {
+      await onSaveNotes(text);
+      sheet.current?.dismiss();
+    } catch {
+      setError("Could not save your notes. Try again.");
+    } finally {
+      setBusy(false);
+    }
   }
   return (
     <View className="gap-8">
       {[false, true].map((dislikes) => {
-        const saved = value
+        const entries = value
           .map((item, index) => ({ item, index }))
           .filter(({ item }) => (item.kind === "dislike") === dislikes);
-        const remaining = suggestions.filter(
-          (item) =>
-            (item.kind === "dislike") === dislikes &&
+        const suggestions = (
+          dislikes
+            ? ["Coriander", "Mushrooms", "Olives"]
+            : ["Soy", "Peanuts", "Milk", "Gluten"]
+        ).filter(
+          (name) =>
             !value.some(
-              (entry) =>
-                entry.ingredient.toLowerCase() === item.ingredient.toLowerCase(),
+              (item) => item.ingredient.toLowerCase() === name.toLowerCase(),
             ),
         );
         return (
           <View key={String(dislikes)} className="gap-3">
-            <Text className="text-lg font-semibold">
-              {dislikes ? "Things you don’t enjoy" : "Allergies & must-avoids"}
-            </Text>
-            {saved.length ? (
-              <View
-                className="overflow-hidden rounded-xl border border-border bg-card"
-                style={{ borderCurve: "continuous" }}
+            <View className="gap-1">
+              <Text
+                accessibilityRole="header"
+                className="font-rounded text-xl font-bold"
               >
-                {saved.map(({ item, index }, rowIndex) => {
-                  const detail = [avoidanceKinds[item.kind], item.detail]
-                    .filter(Boolean)
-                    .join(" · ");
-                  return (
-                    <View key={index}>
-                      {rowIndex > 0 ? (
-                        <View
-                          className={
-                            Platform.OS === "ios"
-                              ? "ml-4 border-t border-border"
-                              : "border-t border-border"
-                          }
-                        />
-                      ) : null}
-                      <Pressable
-                        accessibilityRole="button"
-                        accessibilityLabel={`Edit ${item.ingredient}, ${avoidanceKinds[item.kind]}${item.detail ? `, ${item.detail}` : ""}`}
-                        className="min-h-16 flex-row items-center gap-3 px-4 py-3 active:bg-accent"
-                        onPress={() => open(item, index)}
-                      >
-                        <View className="flex-1 gap-1">
-                          <Text className="text-[17px] font-medium">
-                            {item.ingredient}
-                          </Text>
-                          <Text className="text-sm leading-5 text-muted-foreground">
-                            {detail}
-                          </Text>
-                        </View>
-                        <SymbolView
-                          name={{ ios: "chevron.right", android: "edit" }}
-                          size={16}
-                          tintColor={mutedColor}
-                        />
-                      </Pressable>
+                {dislikes
+                  ? "Things you don’t enjoy"
+                  : "Allergies & must-avoids"}
+              </Text>
+              <Text className="text-sm leading-5 text-muted-foreground">
+                {dislikes
+                  ? "Replace them, or keep only the forms you enjoy."
+                  : "Set what to leave out, who it affects and any exceptions."}
+              </Text>
+            </View>
+            <View
+              className="overflow-hidden rounded-xl border border-border bg-card"
+              style={{ borderCurve: "continuous" }}
+            >
+              {entries.map(({ item, index }) => {
+                const summary = avoidanceSummary(item, people);
+                return (
+                  <Pressable
+                    key={index}
+                    accessibilityRole="button"
+                    accessibilityLabel={`Edit ${item.ingredient}. ${summary}`}
+                    className="min-h-16 flex-row items-center gap-3 border-b border-border px-4 py-3 active:bg-accent"
+                    onPress={() => onEdit(index)}
+                  >
+                    <View className="flex-1 gap-1">
+                      <Text className="font-medium">{item.ingredient}</Text>
+                      <Text className="text-sm leading-5 text-muted-foreground">
+                        {summary}
+                      </Text>
                     </View>
-                  );
-                })}
+                    <SymbolView
+                      name={{ ios: "chevron.right", android: "chevron_right" }}
+                      size={16}
+                      tintColor={muted}
+                    />
+                  </Pressable>
+                );
+              })}
+              <AddRow
+                bordered={false}
+                label={
+                  dislikes ? "Add a dislike" : "Add an allergy or restriction"
+                }
+                onPress={() =>
+                  onAdd(undefined, dislikes ? "dislike" : undefined)
+                }
+              />
+            </View>
+            {suggestions.length ? (
+              <View className="flex-row flex-wrap gap-2">
+                {suggestions.map((name) => (
+                  <Pressable
+                    key={name}
+                    accessibilityRole="button"
+                    accessibilityLabel={`Add ${name}`}
+                    onPress={() =>
+                      onAdd(name, dislikes ? "dislike" : undefined)
+                    }
+                    className="min-h-11 justify-center rounded-full border border-border px-3.5 py-2"
+                  >
+                    <Text className="text-sm text-muted-foreground">
+                      + {name}
+                    </Text>
+                  </Pressable>
+                ))}
               </View>
             ) : null}
-            <View className="flex-row flex-wrap items-start gap-2">
-              {remaining.map((item) => (
-                <Pressable
-                  key={item.ingredient}
-                  accessibilityRole="button"
-                  accessibilityLabel={`Add ${item.ingredient}`}
-                  className="min-h-11 justify-center rounded-full border border-border bg-card px-4 py-2"
-                  onPress={() => open(item)}
-                >
-                  <Text>{item.ingredient}</Text>
-                </Pressable>
-              ))}
-              <Pressable
-                accessibilityRole="button"
-                className="min-h-11 justify-center rounded-full border border-border bg-card px-4 py-2"
-                onPress={() =>
-                  open({
-                    ingredient: "",
-                    kind: dislikes ? "dislike" : "restriction",
-                    detail: "",
-                  })
-                }
-              >
-                <Text className="font-medium text-primary">+ Add something</Text>
-              </Pressable>
-            </View>
           </View>
         );
       })}
-      {notes ? <Field label="Your existing notes" multiline value={notes} onChangeText={onNotes} /> : null}
-      {!value.length && !notes.trim() ? <Text className="text-sm text-muted-foreground">Nothing to avoid? Just continue.</Text> : null}
-      {editing ? (
-        <EditorSheet ref={sheet} autoFocusInput={!editing.item.ingredient ? input : undefined} title={editing.index < 0 ? "Add an ingredient" : "Edit ingredient"} onDismiss={() => setEditing(null)}>
-          <Field ref={input} label="Ingredient" value={editing.item.ingredient} onChangeText={(ingredient) => setEditing({ ...editing, item: { ...editing.item, ingredient } })} autoFocus={!editing.item.ingredient} error={attempted && !editing.item.ingredient.trim() ? "Enter an ingredient." : null} />
-          <PickerRow
-            label="Reason"
-            choices={Object.values(avoidanceKinds)}
-            selectedValue={avoidanceKinds[editing.item.kind]}
-            onValueChange={(label) => {
-              const kind = (Object.keys(avoidanceKinds) as IngredientAvoidance["kind"][]).find((key) => avoidanceKinds[key] === label)!;
-              setEditing({ ...editing, item: { ...editing.item, kind } });
-            }}
+      {notes.trim() ? (
+        <Pressable
+          accessibilityRole="button"
+          className="gap-1 py-2"
+          onPress={() => {
+            setText(notes);
+            setError(null);
+            setEditingNotes(true);
+          }}
+        >
+          <Text className="font-medium text-primary">Earlier food notes</Text>
+          <Text className="text-sm leading-5 text-muted-foreground">
+            {notes}
+          </Text>
+        </Pressable>
+      ) : null}
+      {editingNotes ? (
+        <EditorSheet
+          ref={sheet}
+          title="Food notes"
+          onDismiss={() => setEditingNotes(false)}
+        >
+          <Field
+            label="What should Magpie follow?"
+            multiline
+            value={text}
+            onChangeText={setText}
           />
-          <Field label="Details (optional)" placeholder="e.g. Only Sam" value={editing.item.detail} onChangeText={(detail) => setEditing({ ...editing, item: { ...editing.item, detail } })} />
-          <PrimaryAction label={editing.index < 0 ? "Add" : "Save"} onPress={save} />
-          {editing.index >= 0 ? <Pressable accessibilityRole="button" className="min-h-11 items-center justify-center" onPress={() => { onChange(value.filter((_, index) => index !== editing.index)); sheet.current?.dismiss(); }}><Text className="font-medium text-destructive">Remove ingredient</Text></Pressable> : null}
+          <FormError message={error} />
+          <PrimaryAction
+            label={busy ? "Saving…" : "Save"}
+            disabled={busy}
+            onPress={() => void saveNotes()}
+          />
         </EditorSheet>
       ) : null}
     </View>

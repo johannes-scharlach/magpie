@@ -81,7 +81,7 @@ export default function RootLayout() {
                       <Stack.Screen
                         name="household-cuisines"
                         options={{
-                          title: "Cuisines & staples",
+                          title: "Familiar cooking",
                           headerBackButtonDisplayMode: "minimal",
                         }}
                       />
@@ -103,6 +103,24 @@ export default function RootLayout() {
                           sheetGrabberVisible: true,
                           sheetCornerRadius:
                             Platform.OS === "android" ? 28 : undefined,
+                          headerShown: Platform.OS === "ios",
+                          headerTransparent: false,
+                        }}
+                      />
+                      <Stack.Screen
+                        name="household-avoidances"
+                        options={{
+                          title: "Foods to leave out",
+                          headerBackButtonDisplayMode: "minimal",
+                        }}
+                      />
+                      <Stack.Screen
+                        name="household-avoidance"
+                        options={{
+                          title: "Food boundary",
+                          presentation: "formSheet",
+                          sheetAllowedDetents: [0.85, 1],
+                          sheetGrabberVisible: true,
                           headerShown: Platform.OS === "ios",
                           headerTransparent: false,
                         }}
