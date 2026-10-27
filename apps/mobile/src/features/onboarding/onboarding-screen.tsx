@@ -79,7 +79,7 @@ export function OnboardingScreen({
             <View className="gap-2">
               <Text
                 accessibilityRole="header"
-                className="text-[28px] font-bold leading-[34px] tracking-tight"
+                className="font-rounded text-[28px] font-bold leading-8.5 tracking-tight"
               >
                 {title}
               </Text>
@@ -109,7 +109,11 @@ export function OnboardingScreen({
         {onBack ? (
           <View
             pointerEvents="box-none"
-            style={{ left: 16, position: "absolute", top: insets.top + backTopGap }}
+            style={{
+              left: 16,
+              position: "absolute",
+              top: insets.top + backTopGap,
+            }}
           >
             <Pressable
               accessibilityLabel="Back"

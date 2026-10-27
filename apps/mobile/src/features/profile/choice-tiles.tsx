@@ -10,6 +10,12 @@ import {
   type LayoutChangeEvent,
   type TextInputInstance,
 } from "react-native";
+import Animated, {
+  Easing,
+  Keyframe,
+  ReduceMotion,
+  useReducedMotion,
+} from "react-native-reanimated";
 import {
   selectionOptions,
   goalOptions,
@@ -23,7 +29,7 @@ import {
 import { PrimaryAction } from "@/components/action";
 import { AddRow } from "@/components/add-row";
 import { ChoiceList } from "@/components/choice-list";
-import { clayTile, clayTilts, PressableScale } from "@/components/clay";
+import { ClayPebble, clayTilts, PressableScale } from "@/components/clay";
 import { EditorSheet, type EditorSheetHandle } from "@/components/editor-sheet";
 import { Text } from "@/components/ui/text";
 import { Artwork, type ArtworkId } from "@/features/onboarding/artwork";
@@ -34,6 +40,31 @@ const SELECTED_ICON = Icon.select({
   ios: "checkmark.circle.fill",
   android: require("../../../assets/icons/check-circle-filled.xml"),
 });
+const SELECTED_SIZE = 21;
+
+// The tick is pressed into the clay: it grows into place as the pebble appears,
+// and shrinks away faster than it came. Reduced motion keeps only the fade.
+const EASE_OUT = Easing.bezier(0.23, 1, 0.32, 1);
+const TICK_IN = new Keyframe({
+  0: { opacity: 0, transform: [{ scale: 0.6 }] },
+  100: { opacity: 1, transform: [{ scale: 1 }], easing: EASE_OUT },
+}).duration(180);
+const TICK_OUT = new Keyframe({
+  0: { opacity: 1, transform: [{ scale: 1 }] },
+  100: { opacity: 0, transform: [{ scale: 0.8 }], easing: EASE_OUT },
+}).duration(120);
+const TICK_IN_REDUCED = new Keyframe({
+  0: { opacity: 0 },
+  100: { opacity: 1, easing: EASE_OUT },
+})
+  .duration(180)
+  .reduceMotion(ReduceMotion.Never);
+const TICK_OUT_REDUCED = new Keyframe({
+  0: { opacity: 1 },
+  100: { opacity: 0, easing: EASE_OUT },
+})
+  .duration(120)
+  .reduceMotion(ReduceMotion.Never);
 
 export function ChoiceChip({
   label,
@@ -89,6 +120,9 @@ export function ArtTile({
   onPress: () => void;
 }) {
   const primary = useResolveClassNames("text-primary").color;
+  const reduced = useReducedMotion();
+  const artSize = Math.min(112, width - 12);
+  const pebbleWidth = Math.min(132, width - 4);
   return (
     <PressableScale
       accessibilityRole="checkbox"
@@ -101,32 +135,53 @@ export function ArtTile({
       style={{ width }}
       className="pt-16"
     >
-      {/* Selecting puts the thing on a clay tile; unselected things stand on
-          the page. The tile stays straight in the grid (tilted neighbours read
-          as broken layout), only the art sits at a hand-placed angle. */}
-      {/* Always a background: Android drops the radius from one added later. */}
-      <View
-        className={cn("px-2 pb-3", selected ? "bg-accent" : "bg-background")}
-        style={clayTile}
-      >
+      {/* A clay backing, not a box: the illustration rises above the pebble,
+          while the label stays on the page. Selection never changes layout. */}
+      <View className="px-2">
         <View
           pointerEvents="none"
           className="-mt-12 self-center"
-          style={{
-            width: Math.min(112, width - 12),
-            transform: [{ rotate: `${tilt}deg` }],
-          }}
+          style={{ width: artSize }}
         >
-          <Artwork id={art} />
-        </View>
-        {selected ? (
-          <View className="absolute right-2 top-2" pointerEvents="none">
-            <Host matchContents ignoreSafeArea="all">
-              <Icon name={SELECTED_ICON} size={21} color={primary} />
-            </Host>
+          {selected ? (
+            <View
+              className="absolute"
+              style={{
+                left: (artSize - pebbleWidth) / 2,
+                bottom: -2,
+                width: pebbleWidth,
+                height: artSize * 0.75,
+              }}
+            >
+              <ClayPebble seed={art} />
+            </View>
+          ) : null}
+          <View style={{ transform: [{ rotate: `${tilt}deg` }] }}>
+            <Artwork id={art} />
           </View>
-        ) : null}
-        <View className="min-h-11 justify-center px-0.5 pt-1">
+          {selected ? (
+            <Animated.View
+              entering={reduced ? TICK_IN_REDUCED : TICK_IN}
+              exiting={reduced ? TICK_OUT_REDUCED : TICK_OUT}
+              className="absolute bottom-1 right-0"
+              pointerEvents="none"
+            >
+              {/* A fixed size: matchContents mounts at zero width, so the icon
+                  lands one frame off and jumps once SwiftUI measures it. */}
+              <Host
+                ignoreSafeArea="all"
+                style={{ width: SELECTED_SIZE, height: SELECTED_SIZE }}
+              >
+                <Icon
+                  name={SELECTED_ICON}
+                  size={SELECTED_SIZE}
+                  color={primary}
+                />
+              </Host>
+            </Animated.View>
+          ) : null}
+        </View>
+        <View className="min-h-11 justify-start px-0.5 pt-1">
           <Text
             className={cn(
               "text-center font-rounded text-sm font-semibold",

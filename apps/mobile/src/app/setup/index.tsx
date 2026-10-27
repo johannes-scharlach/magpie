@@ -86,13 +86,13 @@ export default function Welcome() {
       }}
     >
       <View className="gap-5 pb-3">
-        <Text className="text-[25px] font-semibold tracking-tight text-primary">
+        <Text className="font-rounded text-[25px] font-semibold tracking-tight text-primary">
           magpie
         </Text>
         <Artwork id="welcome-market-find" hero />
         <Text
           accessibilityRole="header"
-          className="text-4xl font-bold leading-11 tracking-tight"
+          className="font-rounded text-4xl font-bold leading-11 tracking-tight"
         >
           Tell Magpie how to plan your meals.
         </Text>

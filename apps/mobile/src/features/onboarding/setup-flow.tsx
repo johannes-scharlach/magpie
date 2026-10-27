@@ -282,7 +282,7 @@ function Questions({ initialStep }: { initialStep: Step }) {
                 <View className="gap-2">
                   <Text
                     accessibilityRole="header"
-                    className="text-[28px] font-bold leading-8.5 tracking-tight"
+                    className="font-rounded text-[28px] font-bold leading-8.5 tracking-tight"
                   >
                     {titles[pageStep]}
                   </Text>

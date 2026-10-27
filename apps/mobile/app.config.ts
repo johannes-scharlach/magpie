@@ -88,9 +88,14 @@ const config: ExpoConfig = {
             {
               fontFamily: "Nunito",
               path: "./assets/fonts/nunito-variable.ttf",
-              fontDefinitions: [400, 500, 600, 700, 800].map((weight) => ({
-                weight,
-              })),
+              // Visually calibrated anchors at 400/600/800; interpolate 500/700.
+              fontDefinitions: [
+                { weight: 400, axes: { wght: 550 } },
+                { weight: 500, axes: { wght: 637.5 } },
+                { weight: 600, axes: { wght: 725 } },
+                { weight: 700, axes: { wght: 825 } },
+                { weight: 800, axes: { wght: 925 } },
+              ],
             },
           ],
         },
