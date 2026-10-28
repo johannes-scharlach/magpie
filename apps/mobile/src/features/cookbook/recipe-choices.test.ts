@@ -104,6 +104,20 @@ describe("recipe choices", () => {
     },
   );
 
+  it("finds an older variant by text in its steps", () => {
+    const withSteps = variants.map((variant) => ({
+      ...variant,
+      instructions:
+        variant.id === "bulgur-2" ? '[{"text":"Toast the cumin."}]' : null,
+    }));
+    const choices = recipeChoices(recipes, withSteps, " TOAST THE CUMIN ");
+    expect(choices).toHaveLength(1);
+    expect(choices[0]).toMatchObject({
+      variant: { id: "bulgur-2" },
+      olderVariant: true,
+    });
+  });
+
   it("breaks equal timestamps consistently without depending on sync order", () => {
     const tied = variants.map((v) => ({ ...v, created_at: "2026-09-23" }));
     expect(recipeChoices(recipes, tied)).toEqual(

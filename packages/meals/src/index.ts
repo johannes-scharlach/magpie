@@ -1,11 +1,13 @@
 /**
- * Rules shared by the app and the API for meal-owned ingredient choices,
- * stable ingredient identity and purchase snapshots (ADR 20). Plain types,
+ * Rules shared by the app and the API for cookbook search, meal-owned ingredient
+ * choices, stable ingredient identity and purchase snapshots (ADR 20). Plain types,
  * no zod: each app validates at its boundary and passes the parsed shapes in.
  *
  * One file on purpose. The API type-checks this source under nodenext and
  * Metro bundles it; a single module needs no internal import extensions.
  */
+
+import { cuisineLabel, equipmentOptions } from "@magpie/profile";
 
 export type Swap = {
   qty_text: string | null;
@@ -263,4 +265,67 @@ export function effortLabel(effort: string | null | undefined): string | null {
   return effort && effort in effortLevels
     ? effortLevels[effort as Effort]
     : null;
+}
+
+/** Recipe-owned classification alongside one variant's searchable content. */
+export type RecipeSearchData = {
+  name: string | null;
+  description: string | null;
+  cuisine: string | null;
+  tags: readonly string[] | null;
+  equipment: readonly string[] | null;
+  effort: string | null;
+  ingredient_lines: readonly unknown[] | null;
+  instructions: readonly unknown[] | null;
+};
+
+export type RecipeSearchMatch = { field: string; text: string };
+
+/** The cookbook and both chat searches share this literal, case-insensitive rule.
+ * Null means no match; [] means an empty query, which matches every variant.
+ * Callers own grouping, limits and the size of any excerpts they show. */
+export function matchRecipeSearch(
+  recipe: RecipeSearchData,
+  search: string,
+): RecipeSearchMatch[] | null {
+  const query = search.trim().toLowerCase();
+  if (!query) return [];
+  const fields: (RecipeSearchMatch & { alias?: string | null })[] = [
+    { field: "name", text: recipe.name ?? "" },
+    { field: "description", text: recipe.description ?? "" },
+    {
+      field: "cuisine",
+      text: cuisineLabel(recipe.cuisine ?? ""),
+      alias: recipe.cuisine,
+    },
+    ...(recipe.tags ?? []).map((text, index) => ({
+      field: `tags[${index}]`,
+      text,
+    })),
+    ...(recipe.equipment ?? []).map((id, index) => ({
+      field: `equipment[${index}]`,
+      text: (equipmentOptions as Record<string, string>)[id] ?? id,
+      alias: id,
+    })),
+    {
+      field: "effort",
+      text: effortLabel(recipe.effort) ?? "",
+      alias: recipe.effort,
+    },
+    ...(recipe.ingredient_lines ?? []).map((line, index) => ({
+      field: `ingredients[${index}]`,
+      text: JSON.stringify(line) ?? "",
+    })),
+    ...(recipe.instructions ?? []).map((step, index) => ({
+      field: `steps[${index}]`,
+      text: JSON.stringify(step) ?? "",
+    })),
+  ];
+  const matches = fields.flatMap(({ field, text, alias }) => {
+    const match = [text, alias].find((value) =>
+      value?.toLowerCase().includes(query),
+    );
+    return match ? [{ field, text: match }] : [];
+  });
+  return matches.length ? matches : null;
 }

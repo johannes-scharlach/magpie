@@ -1,5 +1,5 @@
-import { effortLabel } from "@magpie/meals";
-import { cuisineLabel, equipmentOptions } from "@magpie/profile";
+import { matchRecipeSearch } from "@magpie/meals";
+import { cuisineLabel } from "@magpie/profile";
 
 import type { Recipe, Variant } from "@/db/schema";
 
@@ -19,7 +19,6 @@ export function recipeChoices(
   variants: Variant[],
   search = "",
 ): RecipeChoice[] {
-  const query = search.trim().toLocaleLowerCase();
   const groups = new Map<string, Variant[]>();
   for (const variant of variants) {
     if (!variant.recipe_id) continue;
@@ -40,24 +39,23 @@ export function recipeChoices(
         a.id.localeCompare(b.id),
     );
     const cuisine = recipe.cuisine ? cuisineLabel(recipe.cuisine) : null;
-    const matches = (texts: (string | null | undefined)[]) =>
-      texts.some((text) => text?.toLocaleLowerCase().includes(query));
-    const recipeMatches = !query || matches([cuisine, recipe.tags]);
-    const variant = alternatives.find((v) => {
-      if (recipeMatches) return true;
-      const equipment: string[] = JSON.parse(v.equipment ?? "[]");
-      return matches([
-        v.name,
-        v.description,
-        v.ingredient_lines,
-        v.equipment,
-        ...equipment.map(
-          (id) => (equipmentOptions as Record<string, string>)[id] ?? id,
-        ),
-        v.effort,
-        effortLabel(v.effort),
-      ]);
-    });
+    const tags: string[] = JSON.parse(recipe.tags ?? "[]");
+    const variant = alternatives.find(
+      (v) =>
+        matchRecipeSearch(
+          {
+            name: v.name,
+            description: v.description,
+            cuisine: recipe.cuisine,
+            tags,
+            equipment: JSON.parse(v.equipment ?? "[]"),
+            effort: v.effort,
+            ingredient_lines: JSON.parse(v.ingredient_lines ?? "[]"),
+            instructions: JSON.parse(v.instructions ?? "[]"),
+          },
+          search,
+        ) !== null,
+    );
     return variant
       ? [
           {

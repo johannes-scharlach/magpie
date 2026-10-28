@@ -1,10 +1,9 @@
 import { randomUUID } from "node:crypto";
 
-import { cuisineLabel, cuisineOptions } from "@magpie/profile";
 import { tool } from "ai";
 import { z } from "zod";
 
-import { pool, inTransaction } from "./db.js";
+import { inTransaction } from "./db.js";
 import { UnknownHouseholdPersonError } from "./errors.js";
 import {
   readChatMeal,
@@ -83,7 +82,7 @@ export function buildChatTools(
     }),
     searchVariants: tool({
       description:
-        "Search saved variants by literal text in names, descriptions, ingredients and steps. Results include matching excerpts, creation date, yield and recorded sizing. Scope to a recipeId to browse its versions; an empty query lists newest first. Use readVariant for full content.",
+        "Search the cookbook by literal text in names, descriptions, ingredients, steps, cuisine, tags, equipment and effort, including readable labels. Without recipeId, return the newest matching variant per recipe; limit counts recipes. With recipeId, browse its matching variants; limit counts variants. matchingVariantCount includes the returned variant. hasMore uses the same unit as limit. Results include excerpts, creation date, yield and recorded sizing; an empty query lists newest first. Use readVariant for full content.",
       inputSchema: z.object({
         query: z.string().max(200).default(""),
         recipeId: z.uuid().optional(),
@@ -260,48 +259,9 @@ export function buildChatTools(
 
     searchSavedRecipes: tool({
       description:
-        "Look up recipes in the user's cookbook by name, ingredient, cuisine or tag. Use before writing a sauce, dressing or dough the user may have their own version of.",
-      inputSchema: z.object({ query: z.string().min(1) }),
-      execute: async ({ query }) => {
-        const like = `%${query}%`;
-        const matchingCuisines = Object.keys(cuisineOptions).filter((id) =>
-          cuisineLabel(id)
-            .toLocaleLowerCase()
-            .includes(query.toLocaleLowerCase()),
-        );
-        const rows = await pool.query<{
-          id: string;
-          name: string | null;
-          description: string | null;
-          total_time: string | null;
-          cuisine: string | null;
-          tags: string[];
-          equipment: string[];
-          effort: string | null;
-          ingredient_lines: { item_name: string }[];
-        }>(
-          `SELECT v.id, v.name, v.description, v.total_time, r.cuisine, r.tags, v.equipment, v.effort, v.ingredient_lines
-             FROM variants v JOIN recipes r ON r.id = v.recipe_id
-           WHERE v.list_id = $2
-              AND (v.name ILIKE $1 OR v.description ILIKE $1
-                   OR r.cuisine ILIKE $1 OR r.cuisine = ANY($3::text[])
-                   OR r.tags::text ILIKE $1 OR v.ingredient_lines::text ILIKE $1)
-            ORDER BY v.created_at DESC LIMIT 10`,
-          [like, listId, matchingCuisines],
-        );
-        return rows.rows.map((r) => ({
-          variantId: r.id,
-          name: r.name,
-          description: r.description,
-          totalTime: r.total_time,
-          cuisine: r.cuisine && cuisineLabel(r.cuisine),
-          tags: r.tags,
-          equipment: r.equipment,
-          effort: r.effort,
-          ingredients: r.ingredient_lines.map((l) => l.item_name),
-          url: variantUrl(r.id),
-        }));
-      },
+        "Look up recipes with the same matching rules as searchVariants. Returns up to 10 distinct recipes, their newest matching variant and matchingVariantCount (including that variant); hasMore means more recipes match. Scope searchVariants to a recipeId to explore its variants, and use readVariant for full content. Use before writing a sauce, dressing or dough the user may have their own version of.",
+      inputSchema: z.object({ query: z.string().min(1).max(200) }),
+      execute: ({ query }) => searchChatVariants(listId, { query, limit: 10 }),
     }),
   };
 }

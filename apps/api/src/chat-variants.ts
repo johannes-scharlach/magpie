@@ -1,9 +1,12 @@
 import {
+  matchRecipeSearch,
   mealIngredients,
   resolveMealItem,
   type MealSwaps,
+  type RecipeSearchMatch,
   type SizedFor,
 } from "@magpie/meals";
+import { cuisineLabel } from "@magpie/profile";
 import type { Client } from "pg";
 
 import { inTransaction, pool } from "./db.js";
@@ -39,11 +42,14 @@ type VariantRow = {
   effort: string | null;
 };
 
-const dbFields = `id, recipe_id, name, description, created_at, recipe_yield,
-  total_time, sized_for, ingredient_lines, instructions, locale,
-  content_markdown, equipment, effort,
+type SearchVariantRow = Omit<VariantRow, "locale" | "content_markdown">;
+
+const searchFields = `id, recipe_id, name, description, created_at, recipe_yield,
+  total_time, sized_for, ingredient_lines, instructions,
+  equipment, effort,
   (SELECT cuisine FROM recipes WHERE recipes.id = variants.recipe_id) AS cuisine,
   (SELECT tags FROM recipes WHERE recipes.id = variants.recipe_id) AS tags`;
+const dbFields = `${searchFields}, locale, content_markdown`;
 
 async function sizing(client: Client, listId: string, value: SizedFor | null) {
   if (!value) return null;
@@ -58,7 +64,7 @@ async function sizing(client: Client, listId: string, value: SizedFor | null) {
   };
 }
 
-async function summary(client: Client, listId: string, row: VariantRow) {
+async function summary(client: Client, listId: string, row: SearchVariantRow) {
   return {
     variantId: row.id,
     recipeId: row.recipe_id,
@@ -97,55 +103,63 @@ export async function readChatVariant(
   };
 }
 
-/** A bounded literal search. Matches carry their field and excerpt, alongside
- * metadata; reading a complete version is a separate operation. */
+/** Match with the cookbook's rule. Discovery spends its limit on recipes;
+ * a recipeId expands variants instead. Other matches contribute counts only. */
 export async function searchChatVariants(
   listId: string,
   opts: { query: string; recipeId?: string; limit: number },
 ) {
   const client = await pool.connect();
   try {
-    const pattern = `%${opts.query.replace(/[\\%_]/g, "\\$&")}%`;
-    const rows = await client.query<VariantRow>(
-      `SELECT ${dbFields} FROM variants
-       WHERE list_id = $4 AND ($1::uuid IS NULL OR recipe_id = $1)
-         AND (name ILIKE $2 OR description ILIKE $2 OR ingredient_lines::text ILIKE $2 OR instructions::text ILIKE $2)
-       ORDER BY created_at DESC, id LIMIT $3`,
-      [opts.recipeId ?? null, pattern, opts.limit + 1, listId],
+    // Fetch search fields, not full recipe context. Filtering and limiting in
+    // SQL would duplicate the shared rule and could discard matching recipes.
+    const rows = await client.query<SearchVariantRow>(
+      `SELECT ${searchFields} FROM variants
+        WHERE list_id = $1 AND ($2::uuid IS NULL OR recipe_id = $2)
+        ORDER BY created_at DESC, id`,
+      [listId, opts.recipeId ?? null],
     );
-    const query = opts.query.toLowerCase();
-    const matches = await Promise.all(
-      rows.rows.slice(0, opts.limit).map(async (row) => {
-        const fields = [
-          { field: "name", text: row.name },
-          { field: "description", text: row.description ?? "" },
-          ...row.ingredient_lines.map((line, index) => ({
-            field: `ingredients[${index}]`,
-            text: JSON.stringify(line),
-          })),
-          ...row.instructions.map((step, index) => ({
-            field: `steps[${index}]`,
-            text: JSON.stringify(step),
-          })),
-        ];
+    const counts = new Map<
+      string,
+      { variantCount: number; matchingVariantCount: number }
+    >();
+    const seen = new Set<string>();
+    const candidates: {
+      row: SearchVariantRow;
+      matches: RecipeSearchMatch[];
+    }[] = [];
+    for (const row of rows.rows) {
+      const count = counts.get(row.recipe_id) ?? {
+        variantCount: 0,
+        matchingVariantCount: 0,
+      };
+      counts.set(row.recipe_id, count);
+      count.variantCount++;
+      const matches = matchRecipeSearch(row, opts.query);
+      if (matches === null) continue;
+      count.matchingVariantCount++;
+      if (!opts.recipeId && seen.has(row.recipe_id)) continue;
+      seen.add(row.recipe_id);
+      candidates.push({ row, matches });
+    }
+    const query = opts.query.trim().toLowerCase();
+    const variants = await Promise.all(
+      candidates.slice(0, opts.limit).map(async ({ row, matches }) => {
         return {
           ...(await summary(client, listId, row)),
-          matches: query
-            ? fields
-                .filter(({ text }) => text.toLowerCase().includes(query))
-                .slice(0, 4)
-                .map(({ field, text }) => {
-                  const start = Math.max(
-                    0,
-                    text.toLowerCase().indexOf(query) - 60,
-                  );
-                  return { field, excerpt: text.slice(start, start + 240) };
-                })
-            : [],
+          cuisine: row.cuisine && cuisineLabel(row.cuisine),
+          tags: row.tags,
+          equipment: row.equipment,
+          effort: row.effort,
+          ...counts.get(row.recipe_id)!,
+          matches: matches.slice(0, 4).map(({ field, text }) => {
+            const start = Math.max(0, text.toLowerCase().indexOf(query) - 60);
+            return { field, excerpt: text.slice(start, start + 240) };
+          }),
         };
       }),
     );
-    return { variants: matches, hasMore: rows.rows.length > opts.limit };
+    return { variants, hasMore: candidates.length > opts.limit };
   } finally {
     client.release();
   }
