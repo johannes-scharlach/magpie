@@ -63,7 +63,8 @@ export function lineForItem<L extends IngredientLine>(
   let found: { index: number; line: L } | null = null;
   for (const [index, line] of lines.entries()) {
     const names = [line, ...(line.swaps ?? [])];
-    if (!names.some((option) => itemNameKey(option.item_name) === key)) continue;
+    if (!names.some((option) => itemNameKey(option.item_name) === key))
+      continue;
     if (found) return null;
     found = { index, line };
   }
@@ -117,8 +118,11 @@ export function parseMealSwaps(raw: string | null | undefined): MealSwaps {
     !value ||
     typeof value !== "object" ||
     Array.isArray(value) ||
-    Object.entries(value).some(([id, option]) =>
-      !/^[1-9]\d*$/.test(id) || !Number.isSafeInteger(option) || Number(option) < 0,
+    Object.entries(value).some(
+      ([id, option]) =>
+        !/^[1-9]\d*$/.test(id) ||
+        !Number.isSafeInteger(option) ||
+        Number(option) < 0,
     )
   ) {
     throw new Error("Invalid meal ingredient choices");
@@ -150,7 +154,9 @@ export function mealIngredients<L extends IngredientLine>(
     const optionIndex = line.id == null ? 0 : (swaps[line.id] ?? 0);
     const chosen = ingredientOptions(line)[optionIndex];
     if (!chosen) {
-      throw new Error("This meal's ingredient choices no longer match its recipe");
+      throw new Error(
+        "This meal's ingredient choices no longer match its recipe",
+      );
     }
     return { line, optionIndex, swap: optionIndex ? chosen : null, chosen };
   });
@@ -191,11 +197,9 @@ export function ingredientSpec(line: Swap): string | null {
 
 /** Active items follow the meal. Purchases and unlinked items are snapshots.
  * Null when the meal goes without the ingredient: nothing to buy. */
-export function resolveMealItem<I extends MealItem & { category_id: string | null }>(
-  item: I,
-  lines: readonly IngredientLine[],
-  swaps: MealSwaps,
-): I | null {
+export function resolveMealItem<
+  I extends MealItem & { category_id: string | null },
+>(item: I, lines: readonly IngredientLine[], swaps: MealSwaps): I | null {
   if (item.status === "purchased" || item.ingredient_id == null) return item;
   const line = lines.find((line) => line.id === item.ingredient_id);
   if (!line) return item;
@@ -220,7 +224,9 @@ export function assignIngredientIds<L extends IngredientLine>(
   const assigned = lines.map((line) => {
     const id = line.id ?? nextId++;
     if (
-      !Number.isSafeInteger(id) || id < 1 || used.has(id) ||
+      !Number.isSafeInteger(id) ||
+      id < 1 ||
+      used.has(id) ||
       (line.id != null && !allowed.has(id))
     ) {
       throw new Error(
@@ -240,4 +246,21 @@ function sameEaters(a: SizedFor, b: SizedFor): boolean {
     ids.size === new Set(b.eater_ids).size &&
     b.eater_ids.every((id) => ids.has(id))
   );
+}
+
+/** How much a recipe asks of the cook, from nothing to a project (ADR 36). */
+export const effortLevels = {
+  "no-cooking": "No cooking",
+  easy: "Easy",
+  normal: "Normal",
+  "more-work": "More work",
+  "big-project": "Big project",
+} as const;
+export type Effort = keyof typeof effortLevels;
+export const efforts = Object.keys(effortLevels) as [Effort, ...Effort[]];
+/** Older recipes have no effort yet. */
+export function effortLabel(effort: string | null | undefined): string | null {
+  return effort && effort in effortLevels
+    ? effortLevels[effort as Effort]
+    : null;
 }

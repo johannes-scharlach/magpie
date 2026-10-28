@@ -10,7 +10,9 @@ type Tx = {
 // Twin of public.copy_variant (ADR 27): same ids, so a copy made offline and
 // one made by the server or another device are the same rows.
 export function copiedVariantId(listId: string, sourceVariantId: string) {
-  return magpieUuidV5(JSON.stringify(["variant-copy", listId, sourceVariantId]));
+  return magpieUuidV5(
+    JSON.stringify(["variant-copy", listId, sourceVariantId]),
+  );
 }
 
 function copiedRecipeId(listId: string, sourceVariantId: string) {
@@ -38,20 +40,45 @@ export async function variantInList(
     source.recipe_id,
   ])) as Recipe | null;
   const now = new Date().toISOString();
-  if (!(await tx.getOptional("SELECT id FROM recipes WHERE id = ?", [recipeId])))
+  if (
+    !(await tx.getOptional("SELECT id FROM recipes WHERE id = ?", [recipeId]))
+  )
     await tx.execute(
-      `INSERT INTO recipes (id, list_id, from_name, from_url, next_ingredient_id, created_at, updated_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?)`,
-      [recipeId, listId, recipe?.from_name ?? null, recipe?.from_url ?? null,
-        recipe?.next_ingredient_id ?? 1, now, now],
+      `INSERT INTO recipes (id, list_id, from_name, from_url, next_ingredient_id, cuisine, tags, created_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        recipeId,
+        listId,
+        recipe?.from_name ?? null,
+        recipe?.from_url ?? null,
+        recipe?.next_ingredient_id ?? 1,
+        recipe?.cuisine ?? null,
+        recipe?.tags ?? "[]",
+        now,
+        now,
+      ],
     );
   await tx.execute(
     `INSERT INTO variants (id, recipe_id, list_id, name, description, locale, total_time, recipe_yield,
-       content_markdown, recipe_category, recipe_cuisine, ingredient_lines, instructions, created_at, updated_at)
+       content_markdown, equipment, effort, ingredient_lines, instructions, created_at, updated_at)
      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-    [variantId, recipeId, listId, source.name, source.description, source.locale,
-      source.total_time, source.recipe_yield, source.content_markdown, source.recipe_category,
-      source.recipe_cuisine, source.ingredient_lines, source.instructions, now, now],
+    [
+      variantId,
+      recipeId,
+      listId,
+      source.name,
+      source.description,
+      source.locale,
+      source.total_time,
+      source.recipe_yield,
+      source.content_markdown,
+      source.equipment ?? "[]",
+      source.effort,
+      source.ingredient_lines,
+      source.instructions,
+      now,
+      now,
+    ],
   );
   return { recipeId, variantId };
 }

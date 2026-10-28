@@ -201,6 +201,3 @@ export function DayStrip({
     </ScrollView>
   );
 }
-
-
-

@@ -20,7 +20,6 @@ import { mealLabel } from "@/features/meals/variant-meals";
 import { useActiveList } from "@/features/onboarding/access";
 import { useToday } from "@/hooks/use-today";
 
-
 export default function ShopMeals() {
   const list = useActiveList();
   const today = useToday();

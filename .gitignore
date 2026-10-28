@@ -42,3 +42,6 @@ supabase/snippets/
 *.p12
 *.keystore
 !debug.keystore
+
+# Terminal output of `pnpm dev` and `pnpm api`, for agents to read.
+.logs/

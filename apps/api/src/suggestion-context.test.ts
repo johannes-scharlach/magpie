@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { newPerson, newProfile } from "@magpie/profile";
+import { newPerson, newProfile, profileContext } from "@magpie/profile";
 
 import { suggestionContext } from "./suggestion-context.js";
 
@@ -129,6 +129,25 @@ test("follow-ups retain per-person diets, allergy handling, familiar cooking and
 
 test("a missing household adds no profile context", () => {
   assert.equal(suggestionContext(null), "");
+});
+
+test("the cook and follow-ups use chosen units even when import conversion is off", () => {
+  const profile = newProfile();
+  profile.measurements = {
+    system: "us",
+    temperature: "celsius",
+    convert_imports: false,
+  };
+  const household = { profile, people: [] };
+  for (const context of [
+    profileContext(household, "caller"),
+    suggestionContext(household),
+  ]) {
+    assert.match(context, /US customary \(oz, lb, cups\)/);
+    assert.match(context, /Celsius \(°C\)/);
+    assert.match(context, /Keep teaspoons and tablespoons for small amounts/);
+    assert.match(context, /normal cooking conventions/);
+  }
 });
 
 test("follow-up suggestions receive the chosen shop rules, not just the main cook", () => {

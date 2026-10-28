@@ -13,7 +13,9 @@ export const pool = new Pool({
  * uploads. Transaction-local; the connection keeps its own role.
  */
 export async function actAs(client: PoolClient, userId: string): Promise<void> {
-  await client.query("SELECT set_config('request.jwt.claim.sub', $1, true)", [userId]);
+  await client.query("SELECT set_config('request.jwt.claim.sub', $1, true)", [
+    userId,
+  ]);
 }
 
 /** The outer operation owns the transaction; persistence functions receive it. */

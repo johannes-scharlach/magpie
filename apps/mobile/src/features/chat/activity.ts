@@ -8,10 +8,7 @@ export type ActivityStep = {
   status: ActivityStatus;
 };
 
-const TOOL_LABELS: Record<
-  string,
-  { running: string; completed: string }
-> = {
+const TOOL_LABELS: Record<string, { running: string; completed: string }> = {
   addMealShoppingItems: {
     running: "Updating your shopping list",
     completed: "Updated your shopping list",
@@ -70,7 +67,10 @@ function hasOutputError(output: unknown) {
 }
 
 /** Activity describes progress and completed work, not internal failed attempts. */
-export function activitySteps(parts: Parts, streaming: boolean): ActivityStep[] {
+export function activitySteps(
+  parts: Parts,
+  streaming: boolean,
+): ActivityStep[] {
   const steps = new Map<string, ActivityStep>();
 
   parts.forEach((part, index) => {
@@ -80,11 +80,15 @@ export function activitySteps(parts: Parts, streaming: boolean): ActivityStep[] 
     const id = toolPart.toolCallId ?? `${tool}-${index}`;
     let status: ActivityStatus;
 
-    if (toolPart.state === "output-available" && !hasOutputError(toolPart.output)) {
+    if (
+      toolPart.state === "output-available" &&
+      !hasOutputError(toolPart.output)
+    ) {
       status = "completed";
     } else if (
       streaming &&
-      (toolPart.state === "input-streaming" || toolPart.state === "input-available")
+      (toolPart.state === "input-streaming" ||
+        toolPart.state === "input-available")
     ) {
       status = "running";
     } else {

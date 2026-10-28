@@ -40,8 +40,9 @@ export function sharedRecipePage(
           <title>${name} on Magpie</title>
           <meta
             name="description"
-            content="${recipe.description ??
-            "A recipe shared with you on Magpie."}"
+            content="${
+              recipe.description ?? "A recipe shared with you on Magpie."
+            }"
           />
           <style>
             :root {
@@ -116,14 +117,20 @@ export function sharedRecipePage(
               into your cookbook.
             </p>
             <div class="install">
-              ${ios
-                ? html`<a href="${ios}" rel="noreferrer">Install on iPhone</a>`
-                : ""}
-              ${android
-                ? html`<a href="${android}" rel="noreferrer"
-                    >Install on Android</a
-                  >`
-                : ""}
+              ${
+                ios
+                  ? html`<a href="${ios}" rel="noreferrer"
+                      >Install on iPhone</a
+                    >`
+                  : ""
+              }
+              ${
+                android
+                  ? html`<a href="${android}" rel="noreferrer"
+                      >Install on Android</a
+                    >`
+                  : ""
+              }
             </div>
           </main>
         </body>

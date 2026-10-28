@@ -24,7 +24,8 @@ export class SwapSession {
   }
 
   select(option: Alternative) {
-    if (this.disposed || this.checking || !this.options.includes(option)) return;
+    if (this.disposed || this.checking || !this.options.includes(option))
+      return;
     this.selected = option;
     this.callbacks.change(option);
     const generation = this.generation;

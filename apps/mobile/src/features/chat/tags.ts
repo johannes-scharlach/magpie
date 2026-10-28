@@ -63,13 +63,18 @@ export function parseSegments(text: string): Segment[] {
     const bodyStart = m.index + m[0].length;
     const closeTag = `</${tag}>`;
     const close = text.indexOf(closeTag, bodyStart);
-    const body = close === -1 ? text.slice(bodyStart) : text.slice(bodyStart, close);
+    const body =
+      close === -1 ? text.slice(bodyStart) : text.slice(bodyStart, close);
 
     if (tag === "ideas") {
       const ideas = parseIdeas(body);
       if (ideas.length) segments.push({ type: "ideas", ideas });
     } else {
-      segments.push({ type: "sketch", title: attr(m[2], "title"), body: body.trim() });
+      segments.push({
+        type: "sketch",
+        title: attr(m[2], "title"),
+        body: body.trim(),
+      });
     }
 
     pos = close === -1 ? text.length : close + closeTag.length;
@@ -87,7 +92,9 @@ export function readableMessage(text: string): string {
         case "markdown":
           return segment.text;
         case "ideas":
-          return segment.ideas.map((idea) => [idea.title, idea.body].filter(Boolean).join("\n\n"));
+          return segment.ideas.map((idea) =>
+            [idea.title, idea.body].filter(Boolean).join("\n\n"),
+          );
         case "sketch":
           return [segment.title, segment.body].filter(Boolean).join("\n\n");
       }

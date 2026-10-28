@@ -40,7 +40,12 @@ export function ImageAttachmentStrip({
             accessibilityRole="button"
             className="absolute -right-2 -top-2 size-6 items-center justify-center rounded-full bg-muted"
           >
-            <SymbolView name={REMOVE_ICON} tintColor={mutedColor} size={11} weight="bold" />
+            <SymbolView
+              name={REMOVE_ICON}
+              tintColor={mutedColor}
+              size={11}
+              weight="bold"
+            />
           </Pressable>
         </View>
       ))}

@@ -236,7 +236,7 @@ export default function Meals() {
   }
 
   function openImport(date: string, slot: MealSlot) {
-    router.push({ pathname: "/meals/import", params: { slot, date } });
+    router.push({ pathname: "/cookbook/import", params: { slot, date } });
   }
 
   function editEaters(

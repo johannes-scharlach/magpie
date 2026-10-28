@@ -18,7 +18,10 @@ export default function TabsLayout() {
     <NativeTabs
       tintColor={tintColor}
       iconColor={{ default: mutedColor, selected: tintColor }}
-      labelStyle={{ default: { color: mutedColor }, selected: { color: tintColor } }}
+      labelStyle={{
+        default: { color: mutedColor },
+        selected: { color: tintColor },
+      }}
       backgroundColor={backgroundColor}
       indicatorColor={indicatorColor}
       rippleColor={indicatorColor}

@@ -20,14 +20,22 @@ export function ImageAttachmentMenu({
   const iconColor = useResolveClassNames("text-muted-foreground").color;
 
   return (
-    <View pointerEvents={disabled ? "none" : "auto"} className={disabled ? "opacity-40" : undefined}>
+    <View
+      pointerEvents={disabled ? "none" : "auto"}
+      className={disabled ? "opacity-40" : undefined}
+    >
       <MenuView
         actions={[
           { id: "camera", title: "Take photo", attributes: { disabled } },
-          { id: "library", title: "Choose from library", attributes: { disabled } },
+          {
+            id: "library",
+            title: "Choose from library",
+            attributes: { disabled },
+          },
         ]}
         onPressAction={({ nativeEvent: { event } }) => {
-          if (!disabled && (event === "camera" || event === "library")) onSelect(event);
+          if (!disabled && (event === "camera" || event === "library"))
+            onSelect(event);
         }}
       >
         <View

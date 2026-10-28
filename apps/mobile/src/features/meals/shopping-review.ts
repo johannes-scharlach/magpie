@@ -15,11 +15,7 @@ export function probablyAtHome(line: IngredientLine): boolean {
 }
 
 export type IngredientDecision =
-  | "undecided"
-  | "shop"
-  | "bought"
-  | "home"
-  | "without";
+  "undecided" | "shop" | "bought" | "home" | "without";
 
 /** Shopping selection and ingredient choice are independent, joined by identity.
  * A shopping row decides an ingredient; then going without; then the meal's

@@ -89,6 +89,20 @@ export const equipmentOptions = {
   "food-processor": "Food processor",
   "rice-cooker": "Rice cooker",
 } as const;
+export const measurementSystemOptions = {
+  metric: "Metric",
+  us: "US customary",
+} as const;
+export const temperatureOptions = {
+  celsius: "°C",
+  fahrenheit: "°F",
+} as const;
+export const measurementsSchema = z.object({
+  system: z.enum(["metric", "us"]).default("metric"),
+  temperature: z.enum(["celsius", "fahrenheit"]).default("celsius"),
+  convert_imports: z.boolean().default(true),
+});
+export type Measurements = z.infer<typeof measurementsSchema>;
 /** Read old selections honestly: a category never implies its example items. */
 export const legacyPantryOptions = {
   cannedFoods: "Canned foods",
@@ -1125,6 +1139,7 @@ export const profileSchema = z.object({
     return goals;
   }),
   kitchen_equipment: selectionSchema(equipmentOptions),
+  measurements: measurementsSchema.default(() => measurementsSchema.parse({})),
   pantry: selectionSchema({ ...legacyPantryOptions, ...pantryOptions }),
   fresh_ingredients: selectionSchema({
     ...legacyFreshOptions,
@@ -1155,6 +1170,7 @@ export const profileChangesSchema = profileSchema.partial().extend({
   cuisines: profileSchema.shape.cuisines.removeDefault().optional(),
   extras: profileSchema.shape.extras.removeDefault().optional(),
   meals_at_home: profileSchema.shape.meals_at_home.removeDefault().optional(),
+  measurements: profileSchema.shape.measurements.removeDefault().optional(),
 });
 export const personSchema = z
   .object({
@@ -1204,6 +1220,7 @@ export function newProfile(): CookingProfile {
   return {
     goals: { other: [] },
     kitchen_equipment: { other: [] },
+    measurements: measurementsSchema.parse({}),
     pantry: { other: [] },
     fresh_ingredients: { other: [] },
     restrictions: "",
@@ -1234,6 +1251,17 @@ export function selectionLabels(
       .map(([, label]) => label),
     ...value.other,
   ];
+}
+
+/** Shared by recipe writing and import; these are cooking conventions, not strict SI. */
+export function measurementContext(measurements: Measurements): string {
+  const amounts =
+    measurements.system === "metric"
+      ? "metric (g, kg, ml, l)"
+      : "US customary (oz, lb, cups)";
+  const temperature =
+    measurements.temperature === "celsius" ? "Celsius (°C)" : "Fahrenheit (°F)";
+  return `Use ${amounts} for amounts and ${temperature} for temperatures throughout ingredients, steps and notes. Follow normal cooking conventions, not mechanical unit replacement. Keep teaspoons and tablespoons for small amounts where convenient. Use sensible precision and do not invent uncertain conversions.`;
 }
 
 /** The screen's promises and their practical meaning, shared by both suggestion paths. */
@@ -1434,6 +1462,8 @@ export function foodBoundariesContext({ profile }: Household): string | null {
 export function profileContext(household: Household, userId: string): string {
   const { profile, people } = household;
   return [
+    "## Measurements",
+    measurementContext(profile.measurements),
     cuisinesContext(profile),
     staplesContext(profile),
     goalRulesContext(profile),

@@ -1,11 +1,11 @@
-import { PowerSyncDatabase } from '@powersync/react-native';
+import { PowerSyncDatabase } from "@powersync/react-native";
 
-import { SupabaseConnector } from './connector';
-import { AppSchema } from './schema';
+import { SupabaseConnector } from "./connector";
+import { AppSchema } from "./schema";
 
 export const powersync = new PowerSyncDatabase({
   schema: AppSchema,
-  database: { dbFilename: 'magpie.db' },
+  database: { dbFilename: "magpie.db" },
 });
 
 export const connector = new SupabaseConnector();

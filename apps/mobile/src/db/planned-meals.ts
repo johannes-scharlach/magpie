@@ -68,7 +68,11 @@ export async function setPlannedMeal(opts: {
     if (!source || source.recipe_id !== opts.recipeId)
       throw new Error("Recipe variant not found");
     // Another household's recipe is planned as this one's copy (ADR 27).
-    const { recipeId, variantId: vId } = await variantInList(tx, source, listId);
+    const { recipeId, variantId: vId } = await variantInList(
+      tx,
+      source,
+      listId,
+    );
     const eaterIds = JSON.stringify(
       opts.eaterIds ?? (await householdEaterIds(tx, listId)),
     );
@@ -242,7 +246,7 @@ export async function repeatPlannedMeal(
         to.slot,
         eaters,
         source.extra_portions,
-        source.ingredient_swaps ?? '{}',
+        source.ingredient_swaps ?? "{}",
         now,
         now,
       ],
@@ -287,8 +291,8 @@ export async function movePlannedMeal(
           source.eater_ids,
           source.extra_portions,
           source.shopping_reviewed_variant_id,
-          source.ingredient_swaps ?? '{}',
-          source.ingredients_at_home ?? '[]',
+          source.ingredient_swaps ?? "{}",
+          source.ingredients_at_home ?? "[]",
           now,
           toId,
         ],
@@ -303,8 +307,8 @@ export async function movePlannedMeal(
           target.eater_ids,
           target.extra_portions,
           target.shopping_reviewed_variant_id,
-          target.ingredient_swaps ?? '{}',
-          target.ingredients_at_home ?? '[]',
+          target.ingredient_swaps ?? "{}",
+          target.ingredients_at_home ?? "[]",
           now,
           fromId,
         ],
@@ -331,8 +335,8 @@ export async function movePlannedMeal(
           source.eater_ids,
           source.extra_portions,
           source.shopping_reviewed_variant_id,
-          source.ingredient_swaps ?? '{}',
-          source.ingredients_at_home ?? '[]',
+          source.ingredient_swaps ?? "{}",
+          source.ingredients_at_home ?? "[]",
           now,
           now,
         ],

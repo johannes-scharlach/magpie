@@ -1,4 +1,7 @@
+import { efforts } from "@magpie/meals";
 import { z } from "zod";
+
+import { equipmentIds, recipeCuisineIds } from "./recipe-tags.js";
 
 /**
  * One recipe shape for every way a variant gets written: URL import, the
@@ -213,11 +216,27 @@ export const RecipeSchema = z.object({
     .describe(
       "ordered cooking steps. Keep each step to an action in one place; give concurrent jobs separate steps and say what each runs alongside. There is no minimum or maximum number of steps, so a simple recipe can have as few as one step and a complex recipe can have many.",
     ),
-  recipeCategory: z.string().optional().describe('e.g. "Dinner", "Lunch"'),
   recipeCuisine: z
     .string()
-    .optional()
-    .describe('e.g. "Mediterranean", "Vietnamese"'),
+    .min(1)
+    .describe(
+      `REQUIRED: the one cuisine the dish comes from or is closest to. Use one of these ids when it fits: ${recipeCuisineIds.join(", ")}. A regional style of one of them takes its id: Sicilian is italian. Otherwise use the household's own cuisine word when given, and only then a short name of your own.`,
+    ),
+  tags: z
+    .array(z.string().min(1))
+    .describe(
+      'one or two short tags in the recipe\'s language for what kind of dish this is, the way a cook would name it: pasta pomodoro is "pasta", a pasta bake is "pasta" and "bake", Flammkuchen is "flatbread". Name what the dish is, never what it resembles. A cook finds similar dishes by them, so reuse a household tag that means the same rather than adding a synonym: if they say "bake", do not add "casserole". Never repeat the cuisine, the equipment or the effort as a tag.',
+    ),
+  equipment: z
+    .array(z.string().min(1))
+    .describe(
+      `the appliances this version needs. Use these ids when they fit: ${equipmentIds.join(", ")}. Otherwise use the household's own equipment word when given, such as "sous vide" or "grill", and only then a short name of your own. Leave out pots, pans and knives.`,
+    ),
+  effort: z
+    .enum(efforts)
+    .describe(
+      'how much the dish asks of the cook, judged by its hands-on work, the pans and the cleanup. Judge the dish, not how the recipe is written: the same dish split into more, smaller steps takes the same effort. Not the total time either: a long unattended braise can be "easy". no-cooking: assembled without heat, such as a salad, overnight oats or burrata with peaches. easy: few ingredients and simple, familiar steps, even with a pot and a pan, such as pasta with tomato sauce, an omelette, a tray bake or a soup that simmers by itself. normal: some prep and a few parts to time together, such as a curry from scratch with plenty of chopping, a risotto stirred throughout, or burgers with sides. more-work: several components, techniques that need attention or many pans, such as fresh pasta, a lasagne with two sauces or a roast with sides. big-project: hours of work or several days, such as croissants or a cassoulet.',
+    ),
   from: z
     .object({
       name: z.string().min(1).describe("source name"),

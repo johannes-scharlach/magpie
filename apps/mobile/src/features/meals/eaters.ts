@@ -21,7 +21,8 @@ export function toEaters(
 
 /** Local SQLite holds the JSON array as text; anything unreadable is nobody. */
 export function parseEaterIds(raw: unknown): string[] {
-  if (Array.isArray(raw)) return raw.filter((x): x is string => typeof x === "string");
+  if (Array.isArray(raw))
+    return raw.filter((x): x is string => typeof x === "string");
   if (typeof raw !== "string") return [];
   try {
     return parseEaterIds(JSON.parse(raw));
@@ -39,7 +40,9 @@ export function whoIsEating(people: Eater[], eaterIds: string[]) {
 
 export function isValidExtraPortions(value: number): boolean {
   // Compare a decimal round-trip, not value * 100 (e.g. 0.29 * 100 is inexact).
-  return Number.isFinite(value) && value >= 0 && Number(value.toFixed(2)) === value;
+  return (
+    Number.isFinite(value) && value >= 0 && Number(value.toFixed(2)) === value
+  );
 }
 
 export function parseExtraPortions(text: string): number | null {
@@ -72,6 +75,8 @@ export function eatersLabel(opts: {
       ? eating.map((p) => (p.self ? "Me" : p.name)).join(", ")
       : "Nobody";
   const extra =
-    opts.extraPortions > 0 ? ` +${formatExtraPortions(opts.extraPortions)} extra` : "";
+    opts.extraPortions > 0
+      ? ` +${formatExtraPortions(opts.extraPortions)} extra`
+      : "";
   return `${who}${extra}`;
 }

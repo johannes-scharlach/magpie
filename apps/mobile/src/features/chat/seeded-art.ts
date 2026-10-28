@@ -14,7 +14,7 @@ export const SEEDED_ART: Record<string, number | undefined> = {
   "Pasta all’Amatriciana": require("./art/optimized/amatriciana.webp"),
   "White Bean & Tuna Salad": require("./art/optimized/white-bean-tuna.webp"),
   "Garlic & Herb Gnocchi with Crispy Pancetta": require("./art/optimized/gnocchi-pancetta.webp"),
-  "Shakshuka": require("./art/optimized/shakshuka.webp"),
+  Shakshuka: require("./art/optimized/shakshuka.webp"),
   "Crispy Black Bean & Poblano Quesadillas": require("./art/optimized/bean-quesadillas.webp"),
   "Pan-Seared Pork Chops with Apples & Mustard Cream Sauce": require("./art/optimized/pork-apples-mustard.webp"),
   "Spinach & Rice Pilaf": require("./art/optimized/spanakorizo.webp"),

@@ -45,15 +45,25 @@ describe("chat activity", () => {
     });
     const interrupted = tool("searchVariants", "input-available");
 
-    expect(activitySteps(parts(returnedError, thrownError, interrupted), false)).toEqual([]);
+    expect(
+      activitySteps(parts(returnedError, thrownError, interrupted), false),
+    ).toEqual([]);
   });
 
   it("uses plain language and falls back safely for unknown actions", () => {
     expect(
-      activityLabel({ id: "search-1", tool: "searchSavedRecipes", status: "running" }),
+      activityLabel({
+        id: "search-1",
+        tool: "searchSavedRecipes",
+        status: "running",
+      }),
     ).toBe("Searching your cookbook");
-    expect(activityLabel({ id: "unknown-1", tool: "privateTool", status: "completed" })).toBe(
-      "Finished a step",
-    );
+    expect(
+      activityLabel({
+        id: "unknown-1",
+        tool: "privateTool",
+        status: "completed",
+      }),
+    ).toBe("Finished a step");
   });
 });

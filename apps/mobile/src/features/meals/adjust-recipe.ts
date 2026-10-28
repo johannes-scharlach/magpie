@@ -28,7 +28,11 @@ export async function adjustPlannedMeal(request: {
 }): Promise<{ recipeId: string; variantId: string }> {
   const { data } = await supabase.auth.getSession();
   if (!data.session)
-    throw new ImportFailure("UNAUTHORIZED", "Sign in to adjust a recipe.", true);
+    throw new ImportFailure(
+      "UNAUTHORIZED",
+      "Sign in to adjust a recipe.",
+      true,
+    );
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 120000);
   let result: { recipeId: string; variantId: string };

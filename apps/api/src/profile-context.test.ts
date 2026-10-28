@@ -396,6 +396,23 @@ test("editing one profile section never inserts defaults into other sections", (
   });
 });
 
+test("measurement choices are independent and import conversion defaults on", () => {
+  assert.deepEqual(newProfile().measurements, {
+    system: "metric",
+    temperature: "celsius",
+    convert_imports: true,
+  });
+  const measurements = {
+    system: "us",
+    temperature: "celsius",
+    convert_imports: false,
+  };
+  assert.deepEqual(profileChangesSchema.parse({ measurements }), {
+    measurements,
+  });
+  assert.deepEqual(profileChangesSchema.parse({ shops: [] }), { shops: [] });
+});
+
 test("food rules and allergy exceptions stay attached to the people they are for", () => {
   const sam = {
     ...newPerson("9c5b42f7-fbea-4df2-b8d3-d42d37ed9a1d"),

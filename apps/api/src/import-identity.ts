@@ -25,6 +25,18 @@ export function deriveVariantIdForImport(
   );
 }
 
+/** One per recipe found by an import that waited for review (ADR 35), so a
+ *  repeated confirm cannot save a recipe twice. */
+export function deriveVariantIdForReview(
+  userId: string,
+  operationId: string,
+  index: number,
+): string {
+  return magpieUuidV5(
+    JSON.stringify(["recipe-import-review", userId, operationId, index]),
+  );
+}
+
 /** Stands in for the URL when the recipe comes from pasted text or photos.
  *  Photos count in their order. */
 export function contentSource(

@@ -37,7 +37,9 @@ export function EatersPicker({
 
   function toggle(id: string) {
     onEaterIdsChange(
-      eaterIds.includes(id) ? eaterIds.filter((x) => x !== id) : [...eaterIds, id],
+      eaterIds.includes(id)
+        ? eaterIds.filter((x) => x !== id)
+        : [...eaterIds, id],
     );
   }
 
@@ -57,7 +59,11 @@ export function EatersPicker({
           people.map((p) => {
             const on = eaterIds.includes(p.id);
             const check = (
-              <SymbolView name={on ? CHECKED_ICON : UNCHECKED_ICON} tintColor={on ? primary : muted} size={22} />
+              <SymbolView
+                name={on ? CHECKED_ICON : UNCHECKED_ICON}
+                tintColor={on ? primary : muted}
+                size={22}
+              />
             );
             return (
               <Pressable
@@ -69,7 +75,11 @@ export function EatersPicker({
               >
                 {/* Material puts the checkbox first; iOS puts the mark last. */}
                 {Platform.OS === "android" ? check : null}
-                <Text className={on ? "text-base" : "text-base text-muted-foreground"}>
+                <Text
+                  className={
+                    on ? "text-base" : "text-base text-muted-foreground"
+                  }
+                >
                   {p.self ? "Me" : p.name}
                 </Text>
                 {Platform.OS === "ios" ? check : null}

@@ -20,9 +20,13 @@ export function DecisionPicker({
   disabled = false,
 }: DecisionPickerProps) {
   const seedColor = useResolveClassNames("text-primary").color;
-  const activeContainerColor = useResolveClassNames("bg-accent").backgroundColor;
-  const activeContentColor = useResolveClassNames("text-accent-foreground").color;
-  const inactiveContainerColor = useResolveClassNames("bg-card").backgroundColor;
+  const activeContainerColor =
+    useResolveClassNames("bg-accent").backgroundColor;
+  const activeContentColor = useResolveClassNames(
+    "text-accent-foreground",
+  ).color;
+  const inactiveContainerColor =
+    useResolveClassNames("bg-card").backgroundColor;
   const inactiveContentColor = useResolveClassNames("text-foreground").color;
   const borderColor = useResolveClassNames("border-border").borderColor;
   const colors = {

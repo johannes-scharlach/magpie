@@ -102,43 +102,43 @@ export function AndroidMenuOverlay({
               }}
             >
               <ScrollView showsVerticalScrollIndicator={false}>
-              {actions.map((action) => (
-                <Pressable
-                  key={action.id}
-                  accessibilityRole="menuitem"
-                  android_ripple={{ borderless: false }}
-                  onPress={() => {
-                    onDismiss();
-                    action.onSelect();
-                  }}
-                  className="min-h-[48px] flex-row items-center gap-3 px-3"
-                >
-                  {action.icon ? (
-                    <SymbolView
-                      name={action.icon}
-                      tintColor={
-                        action.destructive ? destructiveColor : iconColor
-                      }
-                      size={20}
-                    />
-                  ) : null}
-                  <Text
-                    className={cn(
-                      "flex-1 text-sm",
-                      action.destructive && "text-destructive",
-                    )}
+                {actions.map((action) => (
+                  <Pressable
+                    key={action.id}
+                    accessibilityRole="menuitem"
+                    android_ripple={{ borderless: false }}
+                    onPress={() => {
+                      onDismiss();
+                      action.onSelect();
+                    }}
+                    className="min-h-[48px] flex-row items-center gap-3 px-3"
                   >
-                    {action.title}
-                  </Text>
-                  {action.selected ? (
-                    <SymbolView
-                      name={CHECK_ICON}
-                      tintColor={iconColor}
-                      size={16}
-                    />
-                  ) : null}
-                </Pressable>
-              ))}
+                    {action.icon ? (
+                      <SymbolView
+                        name={action.icon}
+                        tintColor={
+                          action.destructive ? destructiveColor : iconColor
+                        }
+                        size={20}
+                      />
+                    ) : null}
+                    <Text
+                      className={cn(
+                        "flex-1 text-sm",
+                        action.destructive && "text-destructive",
+                      )}
+                    >
+                      {action.title}
+                    </Text>
+                    {action.selected ? (
+                      <SymbolView
+                        name={CHECK_ICON}
+                        tintColor={iconColor}
+                        size={16}
+                      />
+                    ) : null}
+                  </Pressable>
+                ))}
               </ScrollView>
             </View>
           </Animated.View>

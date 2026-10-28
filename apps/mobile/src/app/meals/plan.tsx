@@ -387,8 +387,8 @@ export default function PlanMeals() {
                 Better plans start with your favorites
               </Text>
               <Text className="text-sm leading-5 text-accent-foreground">
-                A few recipes you love help Magpie plan meals that feel like you.
-                You can also start planning now.
+                A few recipes you love help Magpie plan meals that feel like
+                you. You can also start planning now.
               </Text>
               <Link href="/cookbook/import" asChild>
                 <Button variant="link" className="min-h-11 self-start px-0">

@@ -36,7 +36,7 @@ streams:
         )
 
   household_profiles:
-    # SELECT * includes ingredient_avoidances, shops, keeps, cuisines and extras (onboarding choices).
+    # SELECT * includes measurements and the other onboarding choices.
     auto_subscribe: true
     priority: 2
     query: |
@@ -69,6 +69,16 @@ streams:
         INNER JOIN list_members ON list_members.list_id = household_activity_recipients.list_id
       WHERE list_members.user_id = auth.user_id()
         AND household_activity_recipients.user_id = auth.user_id()
+
+  # Imports waiting for the cook to choose which recipes to keep (ADR 35).
+  # Personal, like the import itself. A row leaves once it is saved or
+  # cancelled.
+  import_reviews:
+    auto_subscribe: true
+    priority: 3
+    query: |
+      SELECT operation_id AS id, review, created_at FROM import_operations
+      WHERE user_id = auth.user_id() AND outcome = 'review'
 
   # A personal earned fact, independent of household membership.
   first_run_rewards:

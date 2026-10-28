@@ -23,20 +23,58 @@ invitations.get("/:code", (c) => {
     <!doctype html>
     <html lang="en">
       <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
         <title>Join your household on Magpie</title>
-        <meta name="description"
-          content="Share meals, shopping, recipes, and chats with your household.">
+        <meta
+          name="description"
+          content="Share meals, shopping, recipes, and chats with your household."
+        />
         <style>
-            :root { color-scheme: light dark; font-family: system-ui, sans-serif; }
-            body { margin: 0; padding: 32px 24px; min-height: 80vh; display: grid; place-items: center; }
-            main { max-width: 420px; } h1 { font-size: 32px; line-height: 1.15; }
-            p { line-height: 1.6; } a { color: inherit; } .brand { font-weight: 700; }
-            .open { display: block; text-align: center; padding: 16px; margin: 28px 0; border-radius: 12px;
-              background: light-dark(#18181b, #fafafa); color: light-dark(#fafafa, #18181b); text-decoration: none; font-weight: 600; }
-            .install { display: flex; gap: 24px; flex-wrap: wrap; }
-          </style>
+          :root {
+            color-scheme: light dark;
+            font-family: system-ui, sans-serif;
+          }
+          body {
+            margin: 0;
+            padding: 32px 24px;
+            min-height: 80vh;
+            display: grid;
+            place-items: center;
+          }
+          main {
+            max-width: 420px;
+          }
+          h1 {
+            font-size: 32px;
+            line-height: 1.15;
+          }
+          p {
+            line-height: 1.6;
+          }
+          a {
+            color: inherit;
+          }
+          .brand {
+            font-weight: 700;
+          }
+          .open {
+            display: block;
+            text-align: center;
+            padding: 16px;
+            margin: 28px 0;
+            border-radius: 12px;
+            background: light-dark(#18181b, #fafafa);
+            color: light-dark(#fafafa, #18181b);
+            text-decoration: none;
+            font-weight: 600;
+          }
+          .install {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+          }
+        </style>
       </head>
       <body>
         <main>
@@ -45,18 +83,31 @@ invitations.get("/:code", (c) => {
           <p>Share meals, shopping, recipes, and chats with your family.</p>
           <a class="open" href="${`magpie://join?code=${code}`}">Open Magpie</a>
           <h2>Don’t have Magpie yet?</h2>
-          <p>Install Magpie, then tap this invitation in your family chat again.</p>
+          <p>
+            Install Magpie, then tap this invitation in your family chat again.
+          </p>
           <div class="install">
-            ${ios
-              ? html`<a href="${ios}" rel="noreferrer">Install on iPhone</a>`
-              : ""}
-            ${android
-              ? html`<a href="${android}" rel="noreferrer">Install on Android</a>`
-              : ""}
+            ${
+              ios
+                ? html`<a href="${ios}" rel="noreferrer">Install on iPhone</a>`
+                : ""
+            }
+            ${
+              android
+                ? html`<a href="${android}" rel="noreferrer"
+                    >Install on Android</a
+                  >`
+                : ""
+            }
           </div>
-          ${!ios || !android
-            ? html`<p>If an installation link for your phone isn’t listed, ask the person who invited you for one.</p>`
-            : ""}
+          ${
+            !ios || !android
+              ? html`<p>
+                  If an installation link for your phone isn’t listed, ask the
+                  person who invited you for one.
+                </p>`
+              : ""
+          }
         </main>
       </body>
     </html>

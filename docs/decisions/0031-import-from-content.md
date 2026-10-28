@@ -1,7 +1,7 @@
 # 31. Import from pasted text and photos
 
 Date: 2026-10-26
-Status: Accepted
+Status: Accepted, amended by 35 (many recipes per import)
 Builds on: 10 (the API owns import), 30 (facts exact, prose rewritten)
 
 ## Context
@@ -34,7 +34,8 @@ When the model cannot extract a recipe, it writes the reason for the cook
 and that is the error message, for links as well. A refusal has no reason,
 so it gets the general message.
 
-Content imports go into the cookbook only, not straight into a meal slot.
+Content imports can also plan the recipe into a meal slot, like a link
+(ADR 34).
 
 ## Consequences
 

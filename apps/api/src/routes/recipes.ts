@@ -1,13 +1,21 @@
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
-import { generateText, Output, type UserContent } from "ai";
+import { generateText, Output } from "ai";
 import { Hono } from "hono";
 import { z } from "zod";
 
 import type { AppBindings } from "../auth.js";
+import { pool } from "../db.js";
 import { env } from "../env.js";
 import { locales, RecipeSchema, type Locale } from "../recipe-schema.js";
 import { MEAL_SLOTS } from "../plan.js";
-import { findCompletedImport, saveImport } from "../import-and-plan.js";
+import {
+  cancelImport,
+  completeImport,
+  confirmImport,
+  findCompletedImport,
+  readImportMeasurements,
+  readImportVocabulary,
+} from "../import-and-plan.js";
 import { contentSource } from "../import-identity.js";
 import type { ImportRequest } from "../import-request.js";
 import { AppError } from "../errors.js";
@@ -20,8 +28,11 @@ import {
 import { importSource } from "../recipe-source.js";
 import {
   extractedRecipe,
+  extractedRecipes,
   extractionInstructions,
+  RecipesFoundSchema,
   respond,
+  respondWithRecipes,
 } from "../recipe-extraction.js";
 
 const google = createGoogleGenerativeAI({ apiKey: env.googleApiKey });
@@ -41,8 +52,9 @@ const FromUrlSchema = z.object({
   locale: z.enum(locales).optional().default("en"),
 });
 
-const MAX_TEXT = 50_000;
-const MAX_PHOTOS = 6;
+// Enough for a short cookbook pasted whole, or a sitting's worth of pages.
+const MAX_TEXT = 200_000;
+const MAX_PHOTOS = 20;
 const MAX_PHOTO_BYTES = 10_000_000;
 
 const FromContentSchema = z.object({
@@ -50,6 +62,9 @@ const FromContentSchema = z.object({
   listId: z.uuid(),
   text: z.string().trim().max(MAX_TEXT).optional(),
   locale: z.enum(locales).optional().default("en"),
+  // Both or neither: the meal slot to plan the recipe into.
+  date: z.iso.date().optional(),
+  slot: z.enum(MEAL_SLOTS).optional(),
 });
 
 export const recipes = new Hono<AppBindings>();
@@ -79,13 +94,15 @@ recipes.post("/import-from-url", async (c) => {
   );
 });
 
-/** Pasted text, photos of one recipe in page order, or both. */
+/** Pasted text, photos of pages in order, or both. One complete recipe is
+ *  saved; more wait for review (ADR 35). */
 recipes.post("/import-from-content", async (c) => {
   const body = await c.req.parseBody({ all: true }).catch(() => null);
   const parsed = FromContentSchema.safeParse(body);
   const photos = [body?.photos ?? []].flat();
   if (
     !parsed.success ||
+    !parsed.data.date !== !parsed.data.slot ||
     (!parsed.data.text && photos.length === 0) ||
     photos.length > MAX_PHOTOS ||
     !photos.every(
@@ -97,7 +114,7 @@ recipes.post("/import-from-content", async (c) => {
   ) {
     throw new AppError(
       "INVALID_REQUEST",
-      `Paste a recipe or choose up to ${MAX_PHOTOS} photos of it.`,
+      `Paste recipes or choose up to ${MAX_PHOTOS} photos.`,
       400,
     );
   }
@@ -108,13 +125,37 @@ recipes.post("/import-from-content", async (c) => {
       {
         operation_id: request.operationId,
         source: files.length ? "photos" : "text",
-        target: "cookbook",
+        target: request.slot ? "plan" : "cookbook",
         text_length: request.text?.length ?? 0,
         photo_count: files.length,
         photo_bytes: files.reduce((sum, p) => sum + p.size, 0),
       },
       () => importFromContent(c.get("user").id, request, files),
     ),
+  );
+});
+
+/** Stops an import from being saved, on whichever machine it runs. The model
+ *  call is not interrupted. Reports the recipe if the save came first. */
+recipes.post("/imports/:operationId/cancel", async (c) => {
+  const operationId = z.uuid().safeParse(c.req.param("operationId"));
+  if (!operationId.success)
+    throw new AppError("INVALID_REQUEST", "Unknown import.", 400);
+  return c.json(await cancelImport(c.get("user").id, operationId.data));
+});
+
+/** Saves the recipes the cook kept from a review. Discarding is a cancel. */
+recipes.post("/imports/:operationId/confirm", async (c) => {
+  const operationId = z.uuid().safeParse(c.req.param("operationId"));
+  const body = z
+    .object({ keep: z.array(z.number().int().min(0)).min(1) })
+    .safeParse(await c.req.json().catch(() => null));
+  if (!operationId.success || !body.success)
+    throw new AppError("INVALID_REQUEST", "Choose at least one recipe.", 400);
+  return c.json(
+    await confirmImport(c.get("user").id, operationId.data, [
+      ...new Set(body.data.keep),
+    ]),
   );
 });
 
@@ -154,7 +195,9 @@ async function importFromUrl(
   if (existing) return existing;
   const locale: Locale = request.locale;
 
-  const instructions = extractionInstructions(locale, request.context);
+  const measurements = await readImportMeasurements(pool, userId, request);
+  const vocabulary = await readImportVocabulary(pool, userId, request);
+  const instructions = `${extractionInstructions(locale, measurements, vocabulary)}\nIf the source contains multiple recipes, pick the one that seems most relevant based on this additional context: ${request.context ?? ""}`;
   const fetchItself = (gemini: Record<string, string>) => {
     posthogApiLogger.info("recipe import fetched the page itself", {
       operation: "recipe_import",
@@ -196,15 +239,14 @@ async function importFromUrl(
     result,
     "Could not read a recipe from that URL.",
   );
-  return saveImport(userId, request, {
-    ...recipe,
-    from: importSource(url, recipe.from),
+  return completeImport(userId, request, {
+    save: { ...recipe, from: importSource(url, recipe.from) },
   });
 }
 
 async function importFromContent(
   userId: string,
-  { text, ...fields }: z.infer<typeof FromContentSchema>,
+  { text, date, slot, ...fields }: z.infer<typeof FromContentSchema>,
   files: File[],
 ) {
   const photos = await Promise.all(
@@ -215,6 +257,7 @@ async function importFromContent(
   );
   const request: ImportRequest = {
     ...fields,
+    plan: date && slot ? { listId: fields.listId, date, slot } : undefined,
     source: contentSource(
       text,
       photos.map((p) => p.data),
@@ -223,42 +266,68 @@ async function importFromContent(
   const existing = await findCompletedImport(userId, request);
   if (existing) return existing;
 
+  const measurements = await readImportMeasurements(pool, userId, request);
+  const vocabulary = await readImportVocabulary(pool, userId, request);
   const shown = [
     photos.length
-      ? "The photos may show a cookbook page, a screenshot or a handwritten card; several photos are pages of one recipe in order."
+      ? "The photos show pages in order, such as cookbook pages, screenshots or handwritten cards. A recipe may run across several pages, and one page may hold several recipes or only part of one."
       : null,
     text
-      ? `${photos.length ? "The cook added this note" : "The cook pasted this text, such as a recipe from a message or a social media caption"}:\n${text}`
+      ? `${photos.length ? "The cook added this note" : "The cook pasted this text, such as a recipe from a message, a social media caption or a whole recipe collection"}:\n${text}`
       : null,
   ]
     .filter(Boolean)
     .join("\n\n");
-  const result = await generateRecipe(
-    [
+  const result = await generateText({
+    model: google("gemini-flash-lite-latest"),
+    output: Output.object({
+      schema: RecipesFoundSchema.or(z.object({ error: z.string() })),
+    }),
+    messages: [
       {
-        type: "text",
-        text: `Extract the recipe the cook gave you into the recipe fields. ${shown}\n\n${extractionInstructions(request.locale, undefined)}\nFor from, give the book, author or account the content names, if any, and no url.\n\n${respond(request.locale)}`,
+        role: "user",
+        content: [
+          {
+            type: "text",
+            text: `Extract every recipe the cook gave you, each into its own recipe fields. Skip pages that are no recipe, such as an introduction or a table of contents. ${shown}\n\n${extractionInstructions(request.locale, measurements, vocabulary)}\nFor from, give the book, author or account the content names, if any, and no url.\n\n${respondWithRecipes(request.locale)}`,
+          },
+          ...photos.flatMap((p, i) => [
+            { type: "text" as const, text: `Photo ${i + 1}` },
+            { type: "file" as const, ...p },
+          ]),
+        ],
       },
-      ...photos.map((p) => ({ type: "file" as const, ...p })),
     ],
-    { fetchUrl: false },
-  );
-  const recipe = extractedRecipe(
+  });
+  const found = extractedRecipes(
     result,
     photos.length
       ? "Could not read a recipe from those photos."
       : "Could not read a recipe from that text.",
   );
-  return saveImport(userId, request, {
-    ...recipe,
-    from: importSource(undefined, recipe.from),
-  });
+  return completeImport(
+    userId,
+    request,
+    "save" in found
+      ? {
+          save: {
+            ...found.save,
+            from: importSource(undefined, found.save.from),
+          },
+        }
+      : {
+          review: {
+            ...found.review,
+            recipes: found.review.recipes.map((recipe) => ({
+              ...recipe,
+              from: importSource(undefined, recipe.from),
+            })),
+          },
+        },
+  );
 }
 
-function generateRecipe(
-  content: string | UserContent,
-  { fetchUrl }: { fetchUrl: boolean },
-) {
+function generateRecipe(content: string, { fetchUrl }: { fetchUrl: boolean }) {
   return generateText({
     model: google("gemini-flash-lite-latest"),
     output: Output.object({

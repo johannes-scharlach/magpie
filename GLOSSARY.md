@@ -23,9 +23,22 @@ _Avoid_: Version, fork
 One row in a Variant — `qty_text` + `item_name` + optional `prep_note` (e.g. item "roasted peppers", qty "1 jar", prep "drained" — rendered as "1 jar roasted peppers, drained" in the recipe, projected as "1 jar roasted peppers" on the List).
 _Avoid_: Ingredient, item
 
+**Tag**:
+A short word Magpie gives a Recipe for the kind of dish it is ("pasta", "bake", "flatbread"), in the household's language. It names what the dish is, never what it resembles. Magpie owns tags and reuses the household's existing ones. A Recipe also has a cuisine; a Variant has its equipment and Effort.
+_Avoid_: Category, label
+
+**Effort**:
+How much a Variant asks of the cook, on a fixed scale: No cooking, Easy, Normal, More work, Big project. Judged by the work, not the total time.
+_Avoid_: Difficulty, time
+
 **PlannedMeal**:
 A Recipe + chosen Variant placed on a calendar slot (day/meal) with servings.
 _Avoid_: Meal plan entry, scheduled recipe
+
+### Household
+
+**Staple**:
+An ingredient the household keeps at home, ticked from the staple groups. The app calls them "Usual ingredients"; code and prompts call them staples.
 
 ### Shopping
 

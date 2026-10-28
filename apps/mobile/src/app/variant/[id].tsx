@@ -1,4 +1,5 @@
 import {
+  effortLabel,
   ingredientOptions,
   isWithout,
   itemNameKey,
@@ -6,6 +7,7 @@ import {
   mealSync,
   parseMealSwaps,
 } from "@magpie/meals";
+import { cuisineLabel } from "@magpie/profile";
 import { useQuery } from "@powersync/react";
 import * as Crypto from "expo-crypto";
 import {
@@ -903,7 +905,8 @@ export default function VariantPage() {
   const meta = [
     variant.total_time,
     meal ? null : variant.recipe_yield,
-    variant.recipe_cuisine || variant.recipe_category,
+    recipe?.cuisine && cuisineLabel(recipe.cuisine),
+    effortLabel(variant.effort),
   ]
     .filter(Boolean)
     // The dot is tied to the fact after it, so a wrap never leaves it

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { InstructionSchema } from "./schemas";
+import { ImportReviewSchema, InstructionSchema } from "./schemas";
 
 describe("InstructionSchema", () => {
   it("keeps each step's own share of an ingredient", () => {
@@ -23,5 +23,40 @@ describe("InstructionSchema", () => {
       text: "Simmer until tender.",
     });
     expect(step.ingredients).toEqual(["2 cans chickpeas, drained"]);
+  });
+});
+
+describe("ImportReviewSchema", () => {
+  it("keeps source references from synced review JSON for both recipe lists", () => {
+    const review = {
+      listId: "household",
+      recipes: [{ name: "Miso beans", sourceReference: "Pages 36–37" }],
+      skipped: [
+        {
+          name: "Aubergine pasta",
+          reason: "The steps are cut off.",
+          sourceReference: "Photo 3",
+        },
+      ],
+    };
+    expect(
+      ImportReviewSchema.parse(JSON.parse(JSON.stringify(review))),
+    ).toEqual(review);
+  });
+
+  it("still reads older reviews and text with no page reference", () => {
+    const review = {
+      listId: "household",
+      recipes: [{ name: "Miso beans" }],
+      skipped: [{ name: "Aubergine pasta", reason: "The steps are cut off." }],
+    };
+    expect(ImportReviewSchema.parse(review)).toEqual(review);
+
+    const unpaged = {
+      ...review,
+      recipes: [{ ...review.recipes[0], sourceReference: null }],
+      skipped: [{ ...review.skipped[0], sourceReference: null }],
+    };
+    expect(ImportReviewSchema.parse(unpaged)).toEqual(unpaged);
   });
 });

@@ -102,6 +102,18 @@ export function saveAndPlanMessage(
   return `Save this and plan it for ${dayName(opts.day, today)} ${slot}. Eating: ${who}${extra}.`;
 }
 
+/** A recipe told from memory. Started from a meal slot, it asks for that
+ *  slot too, since the chat confirms and saves before it can plan. */
+export function toldRecipeMessage(
+  plan?: { date: string; slot: MealSlot },
+  today: Date = new Date(),
+): string {
+  const told = "Here's a recipe I know.";
+  if (!plan) return told;
+  const slot = SLOT_LABEL[plan.slot].toLowerCase();
+  return `${told} Once it's saved, plan it for ${dayName(plan.date, today)} ${slot}.`;
+}
+
 /** Adjust is an explicit request assembled from the meal the user can see. */
 export function adjustRecipeMessage(opts: {
   date: string;

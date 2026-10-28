@@ -13,6 +13,10 @@ test("add-to-cookbook accepts optional household sizing metadata", () => {
     locale: "en",
     totalTime: "30 minutes",
     recipeYield: "2 adults",
+    recipeCuisine: "levantine",
+    tags: ["stew"],
+    equipment: ["stove"],
+    effort: "easy",
     recipeIngredient: [
       {
         qty_text: "2 cans",
@@ -76,7 +80,8 @@ test("unrelated tool failures do not expose internal error details", () => {
 });
 
 test("expected ingredient validation failures explain how to retry without exposing their cause", () => {
-  const message = "Preserve unique ingredient ids from the base variant. Omit ids only for new ingredients.";
+  const message =
+    "Preserve unique ingredient ids from the base variant. Omit ids only for new ingredients.";
   const error = new AppError("INVALID_INGREDIENT_IDS", message, 422, {
     cause: new Error("internal details"),
   });

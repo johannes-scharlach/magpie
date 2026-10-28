@@ -6,10 +6,14 @@ export function visibleActivityIds(
   cells: readonly ActivityCellLayout[],
   viewport: { top: number; bottom: number },
 ): string[] {
-  return cells.filter((cell) => {
-    const visible = Math.min(cell.top + cell.height, viewport.bottom) - Math.max(cell.top, viewport.top);
-    return cell.height > 0 && visible >= cell.height / 2;
-  }).map((cell) => cell.id);
+  return cells
+    .filter((cell) => {
+      const visible =
+        Math.min(cell.top + cell.height, viewport.bottom) -
+        Math.max(cell.top, viewport.top);
+      return cell.height > 0 && visible >= cell.height / 2;
+    })
+    .map((cell) => cell.id);
 }
 
 type Screen = {
@@ -35,7 +39,8 @@ export class ActivityVisit {
         this.initiallyNew.set(activity.id, activity.seen_at === null);
       }
       if (this.initiallyNew.get(activity.id)) newIds.add(activity.id);
-      if (activity.seen_at || !screen.visibleIds.includes(activity.id)) continue;
+      if (activity.seen_at || !screen.visibleIds.includes(activity.id))
+        continue;
       const since = this.exposedSince.get(activity.id) ?? now;
       exposed.set(activity.id, since);
       if (now - since >= 1000) seenIds.push(activity.id);

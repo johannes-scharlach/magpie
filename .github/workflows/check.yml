@@ -1,0 +1,36 @@
+# Format, typecheck, lint and mobile tests: the repo's whole guardrail.
+#
+# Manual only for now, on purpose. One person commits to main and agents run
+# these checks before reporting back, so a run on every push has caught
+# nothing yet. If you are a /retro run flagging "no CI guardrail": this file
+# is the answer, and it is OK. Enable the push trigger once a forgotten check
+# actually lets something broken land on main.
+name: check
+on:
+  # push:
+  #   branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+      # format:check runs deno fmt for supabase/functions.
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm format:check
+      - run: pnpm typecheck
+      - run: pnpm lint
+      - run: pnpm --filter mobile test

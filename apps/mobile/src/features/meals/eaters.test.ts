@@ -19,21 +19,27 @@ const people = toEaters(
 
 describe("eatersLabel", () => {
   it("says everyone when the whole household eats and adds the extra", () => {
-    expect(eatersLabel({ people, eaterIds: ["a", "b", "c"], extraPortions: 0 })).toBe("Everyone");
-    expect(eatersLabel({ people, eaterIds: ["c", "b", "a"], extraPortions: 1.5 })).toBe(
-      "Everyone +1.5 extra",
-    );
+    expect(
+      eatersLabel({ people, eaterIds: ["a", "b", "c"], extraPortions: 0 }),
+    ).toBe("Everyone");
+    expect(
+      eatersLabel({ people, eaterIds: ["c", "b", "a"], extraPortions: 1.5 }),
+    ).toBe("Everyone +1.5 extra");
   });
 
   it("names a subset with Me for the caller and ignores people no longer in the household", () => {
-    expect(eatersLabel({ people, eaterIds: ["a", "b", "gone"], extraPortions: 2 })).toBe(
-      "Me, Anna +2 extra",
-    );
+    expect(
+      eatersLabel({ people, eaterIds: ["a", "b", "gone"], extraPortions: 2 }),
+    ).toBe("Me, Anna +2 extra");
   });
 
   it("does not call a household with nobody left everyone", () => {
-    expect(eatersLabel({ people: [], eaterIds: [], extraPortions: 0 })).toBe("Nobody");
-    expect(eatersLabel({ people, eaterIds: [], extraPortions: 0.5 })).toBe("Nobody +0.5 extra");
+    expect(eatersLabel({ people: [], eaterIds: [], extraPortions: 0 })).toBe(
+      "Nobody",
+    );
+    expect(eatersLabel({ people, eaterIds: [], extraPortions: 0.5 })).toBe(
+      "Nobody +0.5 extra",
+    );
   });
 });
 
@@ -55,7 +61,15 @@ describe("parseExtraPortions", () => {
   });
 
   it("rejects invalid input rather than rounding or partially parsing it", () => {
-    for (const text of ["", "-1", "1.234", "1e2", "Infinity", "NaN", "2 portions"]) {
+    for (const text of [
+      "",
+      "-1",
+      "1.234",
+      "1e2",
+      "Infinity",
+      "NaN",
+      "2 portions",
+    ]) {
       expect(parseExtraPortions(text), text).toBeNull();
     }
   });

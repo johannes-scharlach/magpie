@@ -29,7 +29,9 @@ export function PendingShare({ showApp }: { showApp: boolean }) {
       if (id) void AsyncStorage.setItem(KEY, id).catch(() => {});
     };
     void Linking.getInitialURL().then(keep);
-    const subscription = Linking.addEventListener("url", ({ url }) => keep(url));
+    const subscription = Linking.addEventListener("url", ({ url }) =>
+      keep(url),
+    );
     return () => subscription.remove();
   }, []);
 

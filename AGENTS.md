@@ -44,6 +44,10 @@ detail.
   alpha — dev convenience only). Native dev builds use op-sqlite: `pnpm ios`
   once, then `pnpm dev`.
 - Seeded login: `dev@magpie.local` / `magpie-dev`.
+- `pnpm dev` and `pnpm api` record their terminal to `.logs/metro.log` and
+  `.logs/api.log`, fresh on each start. Read those for Metro and API output.
+  Local edge functions run inside `supabase start`: read them with
+  `docker logs supabase_edge_runtime_magpie`.
 - `pnpm api` runs the Hono server (`apps/api`); `pnpm api:deploy` ships it
   to Fly.io from the repo root, which is where the Docker context has to be.
 

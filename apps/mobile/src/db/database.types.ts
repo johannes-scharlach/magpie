@@ -351,6 +351,7 @@ export type Database = {
           kitchen_equipment: Json
           main_supermarket: string
           meals_at_home: string
+          measurements: Json
           other_shops: string
           pantry: Json
           restrictions: string
@@ -369,6 +370,7 @@ export type Database = {
           kitchen_equipment?: Json
           main_supermarket?: string
           meals_at_home?: string
+          measurements?: Json
           other_shops?: string
           pantry?: Json
           restrictions?: string
@@ -387,6 +389,7 @@ export type Database = {
           kitchen_equipment?: Json
           main_supermarket?: string
           meals_at_home?: string
+          measurements?: Json
           other_shops?: string
           pantry?: Json
           restrictions?: string
@@ -402,6 +405,33 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      import_operations: {
+        Row: {
+          created_at: string
+          operation_id: string
+          outcome: string
+          review: Json | null
+          user_id: string
+          variant_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          operation_id: string
+          outcome: string
+          review?: Json | null
+          user_id: string
+          variant_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          operation_id?: string
+          outcome?: string
+          review?: Json | null
+          user_id?: string
+          variant_id?: string | null
+        }
+        Relationships: []
       }
       list_items: {
         Row: {
@@ -549,6 +579,7 @@ export type Database = {
           device_id: string
           expo_ticket_id: string | null
           id: string
+          import_operation_id: string | null
           last_error: string | null
           lease_id: string | null
           lease_until: string | null
@@ -571,6 +602,7 @@ export type Database = {
           device_id: string
           expo_ticket_id?: string | null
           id?: string
+          import_operation_id?: string | null
           last_error?: string | null
           lease_id?: string | null
           lease_until?: string | null
@@ -593,6 +625,7 @@ export type Database = {
           device_id?: string
           expo_ticket_id?: string | null
           id?: string
+          import_operation_id?: string | null
           last_error?: string | null
           lease_id?: string | null
           lease_until?: string | null
@@ -627,6 +660,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "push_devices"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notification_deliveries_import_operation_fkey"
+            columns: ["user_id", "import_operation_id"]
+            isOneToOne: false
+            referencedRelation: "import_operations"
+            referencedColumns: ["user_id", "operation_id"]
           },
           {
             foreignKeyName: "notification_deliveries_list_id_fkey"
@@ -767,34 +807,40 @@ export type Database = {
         Row: {
           created_at: string
           created_by: string | null
+          cuisine: string | null
           from_name: string | null
           from_url: string | null
           id: string
           list_id: string
           next_ingredient_id: number
           origin: string | null
+          tags: Json
           updated_at: string
         }
         Insert: {
           created_at?: string
           created_by?: string | null
+          cuisine?: string | null
           from_name?: string | null
           from_url?: string | null
           id?: string
           list_id: string
           next_ingredient_id?: number
           origin?: string | null
+          tags?: Json
           updated_at?: string
         }
         Update: {
           created_at?: string
           created_by?: string | null
+          cuisine?: string | null
           from_name?: string | null
           from_url?: string | null
           id?: string
           list_id?: string
           next_ingredient_id?: number
           origin?: string | null
+          tags?: Json
           updated_at?: string
         }
         Relationships: [
@@ -812,6 +858,8 @@ export type Database = {
           content_markdown: string | null
           created_at: string
           description: string | null
+          effort: string | null
+          equipment: Json
           id: string
           ingredient_lines: Json
           instructions: Json
@@ -830,6 +878,8 @@ export type Database = {
           content_markdown?: string | null
           created_at?: string
           description?: string | null
+          effort?: string | null
+          equipment?: Json
           id?: string
           ingredient_lines?: Json
           instructions?: Json
@@ -848,6 +898,8 @@ export type Database = {
           content_markdown?: string | null
           created_at?: string
           description?: string | null
+          effort?: string | null
+          equipment?: Json
           id?: string
           ingredient_lines?: Json
           instructions?: Json
@@ -895,6 +947,7 @@ export type Database = {
           expo_ticket_id: string
           household_name: string
           id: string
+          import_operation_id: string
           item_names: Json
           items_to_buy: number
           kind: string
@@ -904,7 +957,9 @@ export type Database = {
           previous_meal: string
           previous_meal_name: string
           previous_slot_date: string
+          recipe_count: number
           reply_parts: Json
+          skipped_count: number
           slot_date: string
           status: string
           ticket_sent_at: string
@@ -943,6 +998,10 @@ export type Database = {
       preview_household_invite: { Args: { code: string }; Returns: Json }
       queue_chat_reply: {
         Args: { asker_id: string; message_id: string }
+        Returns: undefined
+      }
+      queue_import_review: {
+        Args: { importer_id: string; review_operation_id: string }
         Returns: undefined
       }
       queue_meal_reminders: { Args: { now_at?: string }; Returns: undefined }
@@ -1116,3 +1175,4 @@ export const Constants = {
     Enums: {},
   },
 } as const
+

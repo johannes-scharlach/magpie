@@ -1,6 +1,9 @@
 import { useRouter } from "expo-router";
 import { Linking } from "react-native";
-import { EnrichedMarkdownText, type MarkdownStyle } from "react-native-enriched-markdown";
+import {
+  EnrichedMarkdownText,
+  type MarkdownStyle,
+} from "react-native-enriched-markdown";
 import { useResolveClassNames } from "uniwind";
 
 const APP_SCHEME = "magpie://";
@@ -35,15 +38,52 @@ export function Markdown({
   const s = SIZES[size];
 
   const style: MarkdownStyle = {
-    paragraph: { fontSize: s.font, lineHeight: s.line, color: foreground, marginBottom: s.gap },
-    h1: { fontSize: s.font + 6, lineHeight: s.line + 6, color: foreground, fontWeight: "600", marginTop: s.gap, marginBottom: s.gap / 2 },
-    h2: { fontSize: s.font + 4, lineHeight: s.line + 4, color: foreground, fontWeight: "600", marginTop: s.gap, marginBottom: s.gap / 2 },
-    h3: { fontSize: s.font + 2, lineHeight: s.line + 2, color: foreground, fontWeight: "600", marginTop: s.gap, marginBottom: s.gap / 2 },
-    list: { fontSize: s.font, lineHeight: s.line, color: foreground, bulletColor: muted, marginBottom: s.gap },
+    paragraph: {
+      fontSize: s.font,
+      lineHeight: s.line,
+      color: foreground,
+      marginBottom: s.gap,
+    },
+    h1: {
+      fontSize: s.font + 6,
+      lineHeight: s.line + 6,
+      color: foreground,
+      fontWeight: "600",
+      marginTop: s.gap,
+      marginBottom: s.gap / 2,
+    },
+    h2: {
+      fontSize: s.font + 4,
+      lineHeight: s.line + 4,
+      color: foreground,
+      fontWeight: "600",
+      marginTop: s.gap,
+      marginBottom: s.gap / 2,
+    },
+    h3: {
+      fontSize: s.font + 2,
+      lineHeight: s.line + 2,
+      color: foreground,
+      fontWeight: "600",
+      marginTop: s.gap,
+      marginBottom: s.gap / 2,
+    },
+    list: {
+      fontSize: s.font,
+      lineHeight: s.line,
+      color: foreground,
+      bulletColor: muted,
+      marginBottom: s.gap,
+    },
     strong: { color: foreground, fontWeight: "bold" },
     em: { color: foreground },
     link: { color: primary },
-    blockquote: { fontSize: s.font, lineHeight: s.line, color: muted, borderColor: muted },
+    blockquote: {
+      fontSize: s.font,
+      lineHeight: s.line,
+      color: muted,
+      borderColor: muted,
+    },
   };
 
   return (
@@ -53,7 +93,8 @@ export function Markdown({
       streamingAnimation={streaming}
       onLinkPress={({ url }) => {
         // The cook links saved recipes as magpie://variant/<id>.
-        if (url.startsWith(APP_SCHEME)) router.push(`/${url.slice(APP_SCHEME.length)}` as never);
+        if (url.startsWith(APP_SCHEME))
+          router.push(`/${url.slice(APP_SCHEME.length)}` as never);
         else void Linking.openURL(url);
       }}
       allowTrailingMargin={false}

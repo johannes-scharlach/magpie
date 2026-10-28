@@ -7,6 +7,14 @@ Use native screenshots for [design critique](design-screenshot-critique.md).
 Use actual interactions and observable results to verify behavior. A screenshot
 or a successful tap command does not prove that a control works.
 
+## Choose the feedback loop
+
+Use the [mobile app's native-verification rule](../apps/mobile/AGENTS.md#native-verification)
+to decide whether a final device pass is needed. For visual tuning, agree who
+judges the result and which comparison will resolve the choice. When the user
+owns rebuilding and visual judgement, their feedback completes each iteration.
+Present candidates together when that avoids repeated builds.
+
 ## Before operating a device
 
 - Use the user's already-running app, development server, and booted devices.
@@ -142,24 +150,31 @@ adb -s "$ANDROID_DEVICE" exec-out screencap -p > "$CAPTURE_DIR/00-shop-editor.pn
 sips -g pixelWidth -g pixelHeight "$CAPTURE_DIR/00-shop-editor.png"
 ```
 
-## Verification and capture discipline
+## Verification
 
 - After each meaningful action, inspect the new screen. Confirm the changed
   selection, validation error, saved value, or dismissed sheet—not just exit code 0.
 - Check the behavior relevant to the change: selection, save, cancel, and keyboard
   open/closed. Verify each claimed platform separately; don't infer Android success
   from iOS success or vice versa.
-- Keep full-screen native PNG originals. Record device/OS, image dimensions, theme,
-  text size, keyboard state, and the state being captured alongside the images.
-- Use stable names in `docs/.screenshots/<design-name>/`, separated by platform and
-  round when needed. This directory is gitignored. Give critics explicit file paths;
-  do not rely on searching ignored captures or on transient inline images.
 - Report interaction results separately from visual critique. A design score—even
   9/10—says nothing about whether save, dismiss, or persistence works.
 
 The [onboarding verification notes](profile-onboarding-verification.md) record the
 shop-editor checks and remaining acceptance work. This guide does not certify the
 other forms, large-text layouts, screen readers, or backend delivery.
+
+## Capture artifacts
+
+- Keep full-screen native PNG originals in `docs/.screenshots/<design-name>/`,
+  separated by platform and round when needed, with stable descriptive names.
+- Store only images and a compact capture manifest there: device/OS, original
+  dimensions, theme, text size, keyboard state and the UI state shown.
+- Put temporary flows, runner logs, raw hierarchies, diagnostic scripts and
+  prototype archives in the session's approved temporary directory.
+- Give critics explicit image paths; ignored captures are read by path.
+- Report verification results and critiques in chat. Keep lasting decisions at
+  their existing source of truth, with rationale only where it adds information.
 
 ## MCP / Maestro status
 
@@ -178,8 +193,8 @@ or change permissions as test setup. A cold launch may need an explicit
 `extendedWaitUntil` for the target screen; animation settling alone does not
 prove that app loading has finished.
 
-The MCP hierarchy intermittently failed with a maximum-depth error. The CLI
-hierarchy remained usable:
+Code Mode can reject nested values with a 32-level depth error even without
+Maestro. If that blocks MCP inspection, the CLI hierarchy is a read-only fallback:
 
 ```sh
 maestro --device "<booted-device-udid>" hierarchy
@@ -190,14 +205,15 @@ Using CLI was sufficient; no service or device restart was needed:
 
 ```sh
 maestro --device "<booted-device-udid>" test \
-  --test-output-dir docs/.screenshots/<design-name>/ios/round-01/maestro \
-  <flow-file.yaml>
+  --test-output-dir "<session-temp-dir>/maestro" \
+  "<session-temp-dir>/flow.yaml"
 ```
 
 In CLI flows, use relative `takeScreenshot` names. Captures land beneath the
 chosen output directory in `<timestamp>/<flow-name>/takeScreenshot/`; absolute
 paths outside that capture directory are rejected. Keep the originals and,
-if needed, copy them unchanged to stable descriptive paths for critique.
+for critique, copy only the PNGs unchanged to the screenshot directory. Leave
+the rest of the runner output in the temporary directory.
 
 The `ios-simulator-mcp` tools remain unverified. This guide does not authorize
 installing tools or starting services.

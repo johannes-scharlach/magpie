@@ -17,13 +17,20 @@ import {
 export const MEAL_SLOTS = ["lunch", "dinner", "treat"] as const;
 export type MealSlot = (typeof MEAL_SLOTS)[number];
 
-export function plannedMealId(listId: string, slotDate: string, meal: string): string {
+export function plannedMealId(
+  listId: string,
+  slotDate: string,
+  meal: string,
+): string {
   return magpieUuidV5(`${listId}:${slotDate}:${meal}`);
 }
 
 type Person = { id: string; name: string };
 
-async function householdPeople(client: PoolClient, listId: string): Promise<Person[]> {
+async function householdPeople(
+  client: PoolClient,
+  listId: string,
+): Promise<Person[]> {
   const rows = await client.query<Person>(
     "SELECT id, name FROM household_people WHERE list_id = $1 ORDER BY created_at, id",
     [listId],
@@ -35,46 +42,73 @@ async function householdPeople(client: PoolClient, listId: string): Promise<Pers
  * A planned meal is who from the household is eating plus extra portions
  * (ADR 12). Eaters default to the whole household, extra to none.
  */
-export async function setPlannedMeal(client: PoolClient, opts: {
-  listId: string;
-  slotDate: string;
-  meal: MealSlot;
-  variantId: string;
-  eaterIds?: string[];
-  extraPortions?: number;
-  ifOccupied: "reject" | "replace";
-}): Promise<{ plannedMealId: string; name: string | null; items: string[] }> {
+export async function setPlannedMeal(
+  client: PoolClient,
+  opts: {
+    listId: string;
+    slotDate: string;
+    meal: MealSlot;
+    variantId: string;
+    eaterIds?: string[];
+    extraPortions?: number;
+    ifOccupied: "reject" | "replace";
+  },
+): Promise<{ plannedMealId: string; name: string | null; items: string[] }> {
   const { listId, slotDate, meal } = opts;
   const extraPortions = opts.extraPortions ?? 0;
-  if (!Number.isFinite(extraPortions) || extraPortions < 0 || Number(extraPortions.toFixed(2)) !== extraPortions) {
-    throw new Error("Extra portions must be zero or more with at most two decimal places");
+  if (
+    !Number.isFinite(extraPortions) ||
+    extraPortions < 0 ||
+    Number(extraPortions.toFixed(2)) !== extraPortions
+  ) {
+    throw new Error(
+      "Extra portions must be zero or more with at most two decimal places",
+    );
   }
   const people = await householdPeople(client, listId);
   const eaterIds = opts.eaterIds ?? people.map((p) => p.id);
   const known = new Set(people.map((p) => p.id));
-  if (eaterIds.some((id) => !known.has(id))) throw new UnknownHouseholdPersonError();
+  if (eaterIds.some((id) => !known.has(id)))
+    throw new UnknownHouseholdPersonError();
 
   const id = plannedMealId(listId, slotDate, meal);
   const source = await readVariant(client, opts.variantId);
   if (!source) throw new VariantNotFoundError();
   // Another list's recipe is planned as this list's copy of it (ADR 27).
-  const variant = source.list_id === listId
-    ? source
-    : (await readVariant(client, await copyVariantToList(client, source.id, listId)))!;
+  const variant =
+    source.list_id === listId
+      ? source
+      : (await readVariant(
+          client,
+          await copyVariantToList(client, source.id, listId),
+        ))!;
 
   const written = await client.query(
     `INSERT INTO planned_meals (id, list_id, recipe_id, variant_id, slot_date, meal, eater_ids, extra_portions)
      VALUES ($1, $2, $3, $4, $5, $6, $7::jsonb, $8)
-     ${opts.ifOccupied === "reject" ? "ON CONFLICT (id) DO NOTHING" : `ON CONFLICT (id) DO UPDATE
+     ${
+       opts.ifOccupied === "reject"
+         ? "ON CONFLICT (id) DO NOTHING"
+         : `ON CONFLICT (id) DO UPDATE
         SET recipe_id = EXCLUDED.recipe_id, variant_id = EXCLUDED.variant_id, name = NULL,
             shopping_reviewed_variant_id = NULL,
             ingredient_swaps = '{}'::jsonb,
             ingredients_at_home = '[]'::jsonb,
            content_id = EXCLUDED.content_id,
            eater_ids = EXCLUDED.eater_ids, extra_portions = EXCLUDED.extra_portions,
-           updated_at = now()`}
+           updated_at = now()`
+     }
      RETURNING id`,
-    [id, listId, variant.recipe_id, variant.id, slotDate, meal, JSON.stringify(eaterIds), extraPortions],
+    [
+      id,
+      listId,
+      variant.recipe_id,
+      variant.id,
+      slotDate,
+      meal,
+      JSON.stringify(eaterIds),
+      extraPortions,
+    ],
   );
 
   if (!written.rowCount) throw new MealSlotOccupiedError();
@@ -84,7 +118,11 @@ export async function setPlannedMeal(client: PoolClient, opts: {
 }
 
 /** Idempotent public.copy_variant_to_list; derived ids, so repeats reuse the copy. */
-async function copyVariantToList(client: PoolClient, variantId: string, listId: string) {
+async function copyVariantToList(
+  client: PoolClient,
+  variantId: string,
+  listId: string,
+) {
   const copied = await client.query<{ id: string }>(
     "SELECT copy_variant_to_list($1, $2) AS id",
     [variantId, listId],
@@ -93,17 +131,26 @@ async function copyVariantToList(client: PoolClient, variantId: string, listId: 
 }
 
 async function readVariant(client: PoolClient, id: string) {
-  const v = await client.query<{ id: string; recipe_id: string; list_id: string; name: string | null }>(
-    "SELECT id, recipe_id, list_id, name FROM variants WHERE id = $1",
-    [id],
-  );
+  const v = await client.query<{
+    id: string;
+    recipe_id: string;
+    list_id: string;
+    name: string | null;
+  }>("SELECT id, recipe_id, list_id, name FROM variants WHERE id = $1", [id]);
   return v.rows[0];
 }
 
-export async function clearPlannedMeal(client: PoolClient, listId: string, slotDate: string, meal: MealSlot): Promise<boolean> {
+export async function clearPlannedMeal(
+  client: PoolClient,
+  listId: string,
+  slotDate: string,
+  meal: MealSlot,
+): Promise<boolean> {
   const id = plannedMealId(listId, slotDate, meal);
   await client.query("DELETE FROM list_items WHERE planned_meal_id = $1", [id]);
-  const res = await client.query("DELETE FROM planned_meals WHERE id = $1", [id]);
+  const res = await client.query("DELETE FROM planned_meals WHERE id = $1", [
+    id,
+  ]);
   return (res.rowCount ?? 0) > 0;
 }
 

@@ -87,3 +87,18 @@ export const InstructionSchema = z.object({
 });
 
 export type IngredientLine = z.infer<typeof IngredientLineSchema>;
+
+/** Recipes waiting for review arrive as JSON through sync (ADR 35). */
+export const ImportReviewSchema = z.object({
+  listId: z.string(),
+  recipes: z.array(
+    z.object({ name: z.string(), sourceReference: z.string().nullish() }),
+  ),
+  skipped: z.array(
+    z.object({
+      name: z.string(),
+      reason: z.string(),
+      sourceReference: z.string().nullish(),
+    }),
+  ),
+});

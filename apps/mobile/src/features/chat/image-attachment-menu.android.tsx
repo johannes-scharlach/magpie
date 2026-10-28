@@ -36,7 +36,10 @@ export function ImageAttachmentMenu({
   }
 
   return (
-    <View pointerEvents={disabled ? "none" : "auto"} className={disabled ? "opacity-40" : undefined}>
+    <View
+      pointerEvents={disabled ? "none" : "auto"}
+      className={disabled ? "opacity-40" : undefined}
+    >
       <Pressable
         accessibilityRole="button"
         accessibilityLabel={label ?? accessibilityLabel}

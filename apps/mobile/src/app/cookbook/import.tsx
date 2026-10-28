@@ -1,9 +1,8 @@
-import { useRouter } from "expo-router";
-import * as Haptics from "expo-haptics";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import * as Crypto from "expo-crypto";
 import { SymbolView } from "expo-symbols";
-import { useRef, useState } from "react";
-import { ActivityIndicator, Pressable, View } from "react-native";
+import { useState } from "react";
+import { Pressable, View } from "react-native";
 import { useResolveClassNames } from "uniwind";
 
 import { PrimaryAction } from "@/components/action";
@@ -11,6 +10,7 @@ import { CloseButton } from "@/components/close-button";
 import { SheetActions } from "@/components/sheet-actions";
 import { Input } from "@/components/ui/input";
 import { Text } from "@/components/ui/text";
+import { dayName, toldRecipeMessage } from "@/features/chat/compose";
 import {
   pickImageAttachments,
   type ImageAttachment,
@@ -19,47 +19,50 @@ import {
 import { ImageAttachmentMenu } from "@/features/chat/image-attachment-menu";
 import { ImageAttachmentStrip } from "@/features/chat/image-attachment-strip";
 import { queueMessage } from "@/features/chat/message-queue";
-import {
-  importRecipe,
-  importRecipeFromContent,
-} from "@/features/meals/import-adapters";
+import type { ImportPlan, ImportSource } from "@/features/meals/import-jobs";
 import { PasteButton } from "@/features/meals/paste-button";
-import {
-  pastedImport,
-  type PastedImport,
-} from "@/features/meals/pasted-import";
+import { pastedImport } from "@/features/meals/pasted-import";
+import { SLOT_LABEL, type MealSlot } from "@/features/meals/slots";
+import { useImportJobs } from "@/features/meals/use-import-jobs";
 import { VoiceRecorder } from "@/features/meals/voice-recorder";
 import { useHouseholdAccess } from "@/features/onboarding/access";
 import { posthog } from "@/lib/posthog";
 
-type Content =
-  PastedImport | { kind: "photos"; photos: ImageAttachment[]; note: string };
+/** What one import reads; more pages are another import (ADR 35). */
+const MAX_PHOTOS = 20;
 
 /** Native formSheet: detents, grabber, swipe-to-dismiss. Unmounts on close,
  *  so nothing carries over. Same pattern as variant/plan. The rows name where
  *  recipes come from; pasting imports at once, photos get a review first.
- *  A recipe told from memory goes to chat, where Magpie's guesses get
- *  checked before anything is saved (ADR 32). */
+ *  Opened from a meal slot, every way in also plans the recipe there.
+ *  Imports run as jobs (ADR 34): the sheet closes once one starts, and its
+ *  progress shows where the recipe will land. A recipe told from memory goes
+ *  to chat, where Magpie's guesses get checked before anything is saved
+ *  (ADR 32). An import that finds several recipes waits for review (ADR 35). */
 export default function ImportRecipeSheet() {
   const router = useRouter();
+  const params = useLocalSearchParams<{ date?: string; slot?: MealSlot }>();
+  const plan: ImportPlan | undefined =
+    params.date && params.slot
+      ? { date: params.date, slot: params.slot }
+      : undefined;
   const { listId } = useHouseholdAccess();
-  const operation = useRef<{ input: string; operationId: string } | null>(null);
+  const importJobs = useImportJobs();
   const [photos, setPhotos] = useState<ImageAttachment[]>([]);
   const [note, setNote] = useState("");
   const [picking, setPicking] = useState(false);
-  const [reading, setReading] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [telling, setTelling] = useState(false);
-  const busy = picking || reading !== null;
   const muted = useResolveClassNames("text-muted-foreground").color;
 
   async function addPhotos(source: ImageSource) {
-    if (busy) return;
+    if (picking) return;
     setPicking(true);
     setError(null);
     try {
       const picked = await pickImageAttachments(source);
-      if (picked.length) setPhotos((current) => [...current, ...picked]);
+      if (picked.length)
+        setPhotos((current) => [...current, ...picked].slice(0, MAX_PHOTOS));
     } catch (e) {
       setError(e instanceof Error ? e.message : "Could not add photos.");
     } finally {
@@ -67,55 +70,17 @@ export default function ImportRecipeSheet() {
     }
   }
 
-  async function run(content: Content) {
-    if (!listId || busy) return;
-    setReading(readingLabel(content));
-    setError(null);
-    try {
-      // A retry of the same content reuses the operation, so it finds a save
-      // that completed after the request timed out.
-      const input = JSON.stringify(
-        content.kind === "photos"
-          ? [content.photos.map((p) => p.uri), content.note.trim()]
-          : content,
-      );
-      if (operation.current?.input !== input) {
-        operation.current = { input, operationId: Crypto.randomUUID() };
-      }
-      const { operationId } = operation.current;
-      if (content.kind === "link") {
-        await importRecipe({ url: content.url, operationId, listId });
-      } else if (content.kind === "text") {
-        await importRecipeFromContent({
-          operationId,
-          listId,
-          text: content.text,
-          photos: [],
-        });
-      } else {
-        await importRecipeFromContent({
-          operationId,
-          listId,
-          text: content.note.trim() || undefined,
-          photos: content.photos,
-        });
-      }
-
-      posthog?.capture("recipe_imported", { source: content.kind });
-      void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-      router.back();
-    } catch (e) {
-      void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-      setError(e instanceof Error ? e.message : String(e));
-      setReading(null);
-    }
+  function run(source: ImportSource) {
+    if (!listId || picking) return;
+    void importJobs.start(listId, source, plan);
+    router.back();
   }
 
   function sendRecording(recording: ImageAttachment) {
     const chatId = Crypto.randomUUID();
     queueMessage({
       messageId: Crypto.randomUUID(),
-      text: "Here's a recipe I know.",
+      text: toldRecipeMessage(plan),
       attachments: [recording],
     });
     posthog?.capture("recipe_told");
@@ -124,31 +89,33 @@ export default function ImportRecipeSheet() {
 
   function onPaste(text: string) {
     const content = pastedImport(text);
-    if (content) void run(content);
+    if (content) run(content);
     else setError("There's nothing to paste. Copy a link or recipe first.");
   }
 
   return (
     <View collapsable={false}>
-      <View className="flex-row items-center justify-between gap-4 px-6 pt-4">
-        <Text className="flex-1 font-rounded text-lg font-bold">
-          {telling ? "Tell Magpie a recipe" : "Import recipe"}
-        </Text>
-        <CloseButton
-          onPress={() => router.back()}
-          disabled={reading !== null}
-        />
+      <View className="gap-1 px-6 pt-4">
+        <View className="flex-row items-center justify-between gap-4">
+          <Text className="flex-1 font-rounded text-lg font-bold">
+            {telling
+              ? "Tell Magpie a recipe"
+              : plan
+                ? `Import for ${SLOT_LABEL[plan.slot].toLowerCase()}`
+                : "Import recipe"}
+          </Text>
+          <CloseButton onPress={() => router.back()} />
+        </View>
+        {plan ? (
+          <Text variant="muted" className="text-sm">
+            Magpie saves it to your cookbook and plans it for{" "}
+            {dayName(plan.date)} {SLOT_LABEL[plan.slot].toLowerCase()}.
+          </Text>
+        ) : null}
       </View>
 
       {telling ? (
         <VoiceRecorder onSend={sendRecording} />
-      ) : reading !== null ? (
-        <View className="mt-6 flex-row items-center gap-3 px-6 pb-10">
-          <ActivityIndicator />
-          <Text variant="muted" numberOfLines={1} className="flex-1">
-            {reading}
-          </Text>
-        </View>
       ) : photos.length ? (
         <>
           <View className="mt-6 gap-3 px-6">
@@ -159,14 +126,21 @@ export default function ImportRecipeSheet() {
               }
               size={80}
             />
-            <View className="self-start">
-              <ImageAttachmentMenu
-                onSelect={(source) => void addPhotos(source)}
-                disabled={busy}
-                accessibilityLabel="Add another page"
-                label={picking ? "Opening photos…" : "Add another page"}
-              />
-            </View>
+            {photos.length < MAX_PHOTOS ? (
+              <View className="self-start">
+                <ImageAttachmentMenu
+                  onSelect={(source) => void addPhotos(source)}
+                  disabled={picking}
+                  accessibilityLabel="Add another page"
+                  label={picking ? "Opening photos…" : "Add another page"}
+                />
+              </View>
+            ) : (
+              <Text variant="muted" className="text-sm">
+                {MAX_PHOTOS} pages is the most for one import. Import these,
+                then the next {MAX_PHOTOS}.
+              </Text>
+            )}
             <Input
               value={note}
               onChangeText={setNote}
@@ -178,8 +152,8 @@ export default function ImportRecipeSheet() {
           <SheetActions>
             <PrimaryAction
               label="Import"
-              onPress={() => void run({ kind: "photos", photos, note })}
-              disabled={busy}
+              onPress={() => run({ kind: "photos", photos, note })}
+              disabled={picking}
             />
           </SheetActions>
         </>
@@ -194,28 +168,28 @@ export default function ImportRecipeSheet() {
             <View className="flex-1 gap-0.5">
               <Text className="font-medium">Paste link or recipe text</Text>
               <Text variant="muted" className="text-sm">
-                From a website, Instagram or a message
+                From a website, a message or your own collection
               </Text>
             </View>
-            <PasteButton onPaste={onPaste} disabled={busy} />
+            <PasteButton onPaste={onPaste} disabled={picking} />
           </View>
           <SourceRow
             icon={{ ios: "camera", android: "photo_camera" }}
-            label="Take a photo of a cookbook page"
+            label="Take photos of cookbook pages"
             onPress={() => void addPhotos("camera")}
-            disabled={busy}
+            disabled={picking}
           />
           <SourceRow
             icon={{ ios: "photo.on.rectangle", android: "photo_library" }}
             label="Choose screenshots or photos"
             onPress={() => void addPhotos("library")}
-            disabled={busy}
+            disabled={picking}
           />
           <SourceRow
             icon={{ ios: "mic", android: "mic" }}
             label="Tell Magpie a recipe you know"
             onPress={() => setTelling(true)}
-            disabled={busy}
+            disabled={picking}
             last
           />
           <View className="px-6">
@@ -225,18 +199,6 @@ export default function ImportRecipeSheet() {
       )}
     </View>
   );
-}
-
-function readingLabel(content: Content): string {
-  if (content.kind === "link") {
-    return `Reading ${new URL(content.url).hostname.replace(/^www\./, "")}…`;
-  }
-  if (content.kind === "text") {
-    return `Reading “${content.text.split("\n")[0]}”…`;
-  }
-  return content.photos.length === 1
-    ? "Reading your photo…"
-    : `Reading ${content.photos.length} photos…`;
 }
 
 function SourceRow({

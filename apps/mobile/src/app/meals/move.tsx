@@ -73,8 +73,8 @@ export default function MoveMealSheet() {
       !slot ||
       saving ||
       isSame ||
-      hasImport
-      || (repeating && !!destination)
+      hasImport ||
+      (repeating && !!destination)
     )
       return;
     setSaving(true);
@@ -96,7 +96,9 @@ export default function MoveMealSheet() {
       router.back();
     } catch (caught) {
       void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-      setError(caught instanceof Error ? caught.message : "Could not move meal.");
+      setError(
+        caught instanceof Error ? caught.message : "Could not move meal.",
+      );
       setSaving(false);
     }
   }
@@ -104,7 +106,9 @@ export default function MoveMealSheet() {
   return (
     <View collapsable={false}>
       <View className="flex-row items-center justify-between gap-4 px-6 pt-4">
-        <Text className="flex-1 font-rounded text-lg font-bold">{repeating ? "Plan again" : "Move meal"}</Text>
+        <Text className="flex-1 font-rounded text-lg font-bold">
+          {repeating ? "Plan again" : "Move meal"}
+        </Text>
         <CloseButton onPress={() => router.back()} disabled={saving} />
       </View>
 
@@ -150,7 +154,9 @@ export default function MoveMealSheet() {
           <View className="gap-1">
             <Text className="font-medium">This slot already has a meal</Text>
             <Text variant="muted">
-              {repeating ? `${destinationName ?? "A meal"} is planned here. Choose an empty slot.` : `${destinationName ?? "Planned meal"} will move to the original slot.`}
+              {repeating
+                ? `${destinationName ?? "A meal"} is planned here. Choose an empty slot.`
+                : `${destinationName ?? "Planned meal"} will move to the original slot.`}
             </Text>
           </View>
         ) : (
@@ -169,12 +175,15 @@ export default function MoveMealSheet() {
           label={
             saving
               ? "Saving…"
-              : repeating ? "Plan again"
-              : destination && !isSame
-                ? "Swap meals"
-                : "Move meal"
+              : repeating
+                ? "Plan again"
+                : destination && !isSame
+                  ? "Swap meals"
+                  : "Move meal"
           }
-          disabled={saving || isSame || hasImport || (repeating && !!destination)}
+          disabled={
+            saving || isSame || hasImport || (repeating && !!destination)
+          }
           onPress={() => void confirm()}
         />
       </SheetActions>

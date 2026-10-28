@@ -45,7 +45,11 @@ describe("first-run challenge", () => {
 
   it("has no next task once all five goals are met", () => {
     const result = challengeGoals({
-      import: 5, on_hand: 1, dish: 1, idea: 1, recipeChats: 1,
+      import: 5,
+      on_hand: 1,
+      dish: 1,
+      idea: 1,
+      recipeChats: 1,
     });
     expect(result.featured).toBeNull();
     expect(result.completedCount).toBe(5);

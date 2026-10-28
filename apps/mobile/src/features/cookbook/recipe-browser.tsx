@@ -1,7 +1,8 @@
+import { effortLabel } from "@magpie/meals";
 import { Link, Stack, router } from "expo-router";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { ActivityIndicator, FlatList, Pressable, View } from "react-native";
 import { useResolveClassNames } from "uniwind";
 import { Text } from "@/components/ui/text";
@@ -19,12 +20,15 @@ export function RecipeBrowser({
   disabled,
   target,
   error,
+  header,
   onImport,
 }: {
   onSelect?: (variant: Variant) => void;
   disabled?: boolean;
   target?: { date: string; slot: MealSlot };
   error?: string | null;
+  /** Above the list, such as imports still on their way. */
+  header?: ReactNode;
   onImport: () => void;
 }) {
   const [search, setSearch] = useState("");
@@ -54,9 +58,12 @@ export function RecipeBrowser({
         keyboardDismissMode="on-drag"
         keyboardShouldPersistTaps="handled"
         ListHeaderComponent={
-          error ? (
-            <Text className="p-6 text-destructive">{error}</Text>
-          ) : undefined
+          <>
+            {header}
+            {error ? (
+              <Text className="p-6 text-destructive">{error}</Text>
+            ) : null}
+          </>
         }
         ListEmptyComponent={
           isLoading ? (
@@ -88,7 +95,9 @@ export function RecipeBrowser({
             </View>
           )
         }
-        renderItem={({ item: { variant, olderVariant, variantCount } }) => {
+        renderItem={({
+          item: { cuisine, variant, olderVariant, variantCount },
+        }) => {
           const openVariants = () =>
             router.push({
               pathname: "/variant/versions",
@@ -119,11 +128,7 @@ export function RecipeBrowser({
                   {variant.name ?? "…"}
                 </Text>
                 <Text variant="muted" className="text-sm" numberOfLines={2}>
-                  {[
-                    variant.recipe_cuisine,
-                    variant.total_time,
-                    variant.recipe_yield,
-                  ]
+                  {[cuisine, effortLabel(variant.effort), variant.total_time]
                     .filter(Boolean)
                     .join(" · ") || variant.description}
                 </Text>

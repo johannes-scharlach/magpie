@@ -17,6 +17,7 @@ export function decodeHousehold(
   for (const key of [
     "goals",
     "kitchen_equipment",
+    "measurements",
     "pantry",
     "fresh_ingredients",
     "ingredient_avoidances",

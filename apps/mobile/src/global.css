@@ -1,16 +1,17 @@
-@import 'tailwindcss';
-@import 'uniwind';
-@import 'tw-animate-css';
+@import "tailwindcss";
+@import "uniwind";
+@import "tw-animate-css";
 
 @theme {
   --font-display:
-    Spline Sans, Inter, ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji,
-    Segoe UI Symbol, Noto Color Emoji;
+    Spline Sans, Inter, ui-sans-serif, system-ui, sans-serif, Apple Color Emoji,
+    Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
   --font-mono:
-    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono,
+    Courier New, monospace;
   /* Per platform in @layer theme below. */
   --font-rounded: ui-rounded;
-  --font-serif: Georgia, 'Times New Roman', serif;
+  --font-serif: Georgia, "Times New Roman", serif;
 
   --radius: 12px;
   --radius-sm: calc(var(--radius) - 4px);
@@ -24,50 +25,50 @@
 @layer theme {
   :root {
     @variant light {
-       --color-background: #FBF8F4;
-       --color-foreground: #2E2C29;
-       --color-card: #FFFFFF;
-       --color-card-foreground: #2E2C29;
-       --color-popover: #FFFFFF;
-       --color-popover-foreground: #2E2C29;
-       --color-primary: #492F40;
-       --color-primary-foreground: #FFFFFF;
-       --color-secondary: #F1ECE6;
-       --color-secondary-foreground: #2E2C29;
-       --color-muted: #F1ECE6;
-       --color-muted-foreground: #5F5C57;
-       --color-accent: #F3E0D5;
-       --color-accent-foreground: #492F40;
-       --color-destructive: #B42318;
-       --color-destructive-foreground: #FFFFFF;
-       --color-border: #E3DAD2;
-       --color-input: #E3DAD2;
-       --color-ring: #492F40;
-       /* Tappable text and glyphs; primary is too dark to read as a tint at text size. */
-       --color-link: #8A4F74;
+      --color-background: #fbf8f4;
+      --color-foreground: #2e2c29;
+      --color-card: #ffffff;
+      --color-card-foreground: #2e2c29;
+      --color-popover: #ffffff;
+      --color-popover-foreground: #2e2c29;
+      --color-primary: #492f40;
+      --color-primary-foreground: #ffffff;
+      --color-secondary: #f1ece6;
+      --color-secondary-foreground: #2e2c29;
+      --color-muted: #f1ece6;
+      --color-muted-foreground: #5f5c57;
+      --color-accent: #f3e0d5;
+      --color-accent-foreground: #492f40;
+      --color-destructive: #b42318;
+      --color-destructive-foreground: #ffffff;
+      --color-border: #e3dad2;
+      --color-input: #e3dad2;
+      --color-ring: #492f40;
+      /* Tappable text and glyphs; primary is too dark to read as a tint at text size. */
+      --color-link: #8a4f74;
     }
 
     @variant dark {
-       --color-background: #201B1E;
-       --color-foreground: #FAF7F2;
-       --color-card: #2C2529;
-       --color-card-foreground: #FAF7F2;
-       --color-popover: #2C2529;
-       --color-popover-foreground: #FAF7F2;
-       --color-primary: #EBC7B3;
-       --color-primary-foreground: #492F40;
-       --color-secondary: #3B3238;
-       --color-secondary-foreground: #FAF7F2;
-       --color-muted: #3B3238;
-       --color-muted-foreground: #D5CBC6;
-       --color-accent: #513D49;
-       --color-accent-foreground: #FAF7F2;
-       --color-destructive: #FFB4AB;
-       --color-destructive-foreground: #690005;
-       --color-border: #7E6F75;
-       --color-input: #7E6F75;
-       --color-ring: #EBC7B3;
-       --color-link: #EBC7B3;
+      --color-background: #201b1e;
+      --color-foreground: #faf7f2;
+      --color-card: #2c2529;
+      --color-card-foreground: #faf7f2;
+      --color-popover: #2c2529;
+      --color-popover-foreground: #faf7f2;
+      --color-primary: #ebc7b3;
+      --color-primary-foreground: #492f40;
+      --color-secondary: #3b3238;
+      --color-secondary-foreground: #faf7f2;
+      --color-muted: #3b3238;
+      --color-muted-foreground: #d5cbc6;
+      --color-accent: #513d49;
+      --color-accent-foreground: #faf7f2;
+      --color-destructive: #ffb4ab;
+      --color-destructive-foreground: #690005;
+      --color-border: #7e6f75;
+      --color-input: #7e6f75;
+      --color-ring: #ebc7b3;
+      --color-link: #ebc7b3;
     }
 
     /* Clay titles: SF Pro Rounded on iOS; Android has no rounded system

@@ -14,7 +14,6 @@ import { Field, FormError } from "@/features/profile/form";
 import { useHousehold } from "@/features/profile/use-household";
 import { cn } from "@/lib/utils";
 
-
 type Naming = { kind: "rename" | "create"; name: string };
 
 /** Switch the active household, rename it, or start a new one. */

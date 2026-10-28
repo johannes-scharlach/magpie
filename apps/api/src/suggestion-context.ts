@@ -2,6 +2,7 @@ import {
   cuisinesContext,
   goalRulesContext,
   householdRulesContext,
+  measurementContext,
   selectionLabels,
   shopRulesContext,
   staplesContext,
@@ -17,6 +18,7 @@ export function suggestionContext(household: Household | null): string {
     profile.kitchen_equipment,
   );
   return [
+    measurementContext(profile.measurements),
     `Available equipment: ${equipment.length ? equipment.join(", ") : "none declared"}`,
     goalRulesContext(profile),
     people.some((p) => p.age_group === "Child" || p.age_group === "Toddler")

@@ -17,11 +17,7 @@ type Recipient = {
 };
 
 export type HouseholdActivity = Recipient &
-  (
-    | { kind: "member_joined"; actor_name: string }
-    | MealActivity
-    | ListActivity
-  );
+  ({ kind: "member_joined"; actor_name: string } | MealActivity | ListActivity);
 
 export function isListActivity(
   activity: HouseholdActivity,
@@ -30,7 +26,9 @@ export function isListActivity(
 }
 
 /** SQLite holds `item_names` as JSON text. */
-type Row = Omit<HouseholdActivity, "item_names"> & { item_names: string | null };
+type Row = Omit<HouseholdActivity, "item_names"> & {
+  item_names: string | null;
+};
 
 export function useActivities(
   listId: string | null,

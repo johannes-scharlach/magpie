@@ -1,22 +1,22 @@
-import { assertEquals } from "jsr:@std/assert@^1";
-import { type ClaimedDelivery, pushMessage } from "./notification-delivery.ts";
+import { assertEquals } from 'jsr:@std/assert@^1';
+import { type ClaimedDelivery, pushMessage } from './notification-delivery.ts';
 
-const now = new Date("2026-10-07T10:00:00Z");
+const now = new Date('2026-10-07T10:00:00Z');
 const join: ClaimedDelivery = {
-  id: "delivery-1",
-  activity_id: "activity-1",
-  list_id: "list-1",
-  user_id: "user-1",
-  device_id: "device-1",
-  expo_push_token: "ExpoPushToken[ben]",
-  status: "pending",
+  id: 'delivery-1',
+  activity_id: 'activity-1',
+  list_id: 'list-1',
+  user_id: 'user-1',
+  device_id: 'device-1',
+  expo_push_token: 'ExpoPushToken[ben]',
+  status: 'pending',
   attempt_count: 0,
   expo_ticket_id: null,
   ticket_sent_at: null,
-  time_zone: "Europe/Berlin",
-  household_name: "Family",
-  kind: "member_joined",
-  actor_name: "Anna",
+  time_zone: 'Europe/Berlin',
+  household_name: 'Family',
+  kind: 'member_joined',
+  actor_name: 'Anna',
   meal_name: null,
   slot_date: null,
   meal: null,
@@ -29,22 +29,26 @@ const join: ClaimedDelivery = {
   chat_id: null,
   chat_title: null,
   reply_parts: null,
+  import_operation_id: null,
+  recipe_count: null,
+  skipped_count: null,
 };
 
-Deno.test("a join names the household", () => {
+Deno.test('a join names the household', () => {
   const message = pushMessage(join, now);
   assertEquals(
     [message.title, message.body],
-    ["Family", "Anna joined your household."],
+    ['Family', 'Anna joined your household.'],
   );
   assertEquals(message.data, {
-    type: "household_activity",
-    listId: "list-1",
-    activityId: "activity-1",
-    userId: "user-1",
-    kind: "member_joined",
+    type: 'household_activity',
+    listId: 'list-1',
+    activityId: 'activity-1',
+    userId: 'user-1',
+    kind: 'member_joined',
     slotDate: null,
     chatId: null,
+    operationId: null,
   });
 });
 
@@ -54,74 +58,74 @@ Deno.test(
     const message = pushMessage(
       {
         ...join,
-        kind: "meal_planned",
-        meal_name: "Lasagne",
-        slot_date: "2026-10-08",
-        meal: "dinner",
+        kind: 'meal_planned',
+        meal_name: 'Lasagne',
+        slot_date: '2026-10-08',
+        meal: 'dinner',
       },
       now,
     );
     assertEquals(
       [message.title, message.body],
-      ["Tomorrow's dinner", "Lasagne · Anna"],
+      ["Tomorrow's dinner", 'Lasagne · Anna'],
     );
-    assertEquals(message.data.kind, "meal_planned");
-    assertEquals(message.data.slotDate, "2026-10-08");
+    assertEquals(message.data.kind, 'meal_planned');
+    assertEquals(message.data.slotDate, '2026-10-08');
   },
 );
 
-Deno.test("a list push names what was added", () => {
+Deno.test('a list push names what was added', () => {
   const message = pushMessage(
-    { ...join, kind: "items_added", item_names: ["Milk", "eggs"] },
+    { ...join, kind: 'items_added', item_names: ['Milk', 'eggs'] },
     now,
   );
   assertEquals(
     [message.title, message.body],
-    ["Added to the List", "Milk, eggs · Anna"],
+    ['Added to the List', 'Milk, eggs · Anna'],
   );
-  assertEquals(message.data.kind, "items_added");
+  assertEquals(message.data.kind, 'items_added');
 });
 
-Deno.test("a reminder opens its day and has no activity", () => {
+Deno.test('a reminder opens its day and has no activity', () => {
   const message = pushMessage(
     {
       ...join,
       activity_id: null,
-      kind: "meal_reminder",
+      kind: 'meal_reminder',
       actor_name: null,
-      slot_date: "2026-10-07",
-      day_meals: [{ meal: "dinner", name: "Lasagne" }],
+      slot_date: '2026-10-07',
+      day_meals: [{ meal: 'dinner', name: 'Lasagne' }],
       items_to_buy: 2,
     },
     now,
   );
   assertEquals(
     [message.title, message.body],
-    ["Today's dinner", "Lasagne · 2 items still to buy"],
+    ["Today's dinner", 'Lasagne · 2 items still to buy'],
   );
   assertEquals(message.data.activityId, null);
-  assertEquals(message.data.slotDate, "2026-10-07");
+  assertEquals(message.data.slotDate, '2026-10-07');
 });
 
-Deno.test("a chat reply opens its chat", () => {
+Deno.test('a chat reply opens its chat', () => {
   const message = pushMessage(
     {
       ...join,
       activity_id: null,
-      kind: "chat_reply",
+      kind: 'chat_reply',
       actor_name: null,
-      chat_id: "chat-1",
-      chat_title: "Green soup",
+      chat_id: 'chat-1',
+      chat_title: 'Green soup',
       reply_parts: [
-        { type: "text", text: "Here is a green soup." },
-        { type: "data-turn", data: { status: "completed" } },
+        { type: 'text', text: 'Here is a green soup.' },
+        { type: 'data-turn', data: { status: 'completed' } },
       ],
     },
     now,
   );
   assertEquals(
     [message.title, message.body],
-    ["Green soup", "Here is a green soup."],
+    ['Green soup', 'Here is a green soup.'],
   );
-  assertEquals(message.data.chatId, "chat-1");
+  assertEquals(message.data.chatId, 'chat-1');
 });

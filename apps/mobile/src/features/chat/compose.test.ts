@@ -6,6 +6,7 @@ import {
   entryMessage,
   mealPlanMessage,
   saveAndPlanMessage,
+  toldRecipeMessage,
 } from "./compose";
 import { toEaters } from "@/features/meals/eaters";
 import { SLOT_LABEL, addDays, dateKey } from "@/features/meals/slots";
@@ -125,6 +126,20 @@ describe("mealPlanMessage", () => {
       }),
     ).toBe(
       "Help me draft a meal plan for these meals:\n- 2026-09-07: dinner\nI've attached an image.",
+    );
+  });
+});
+
+describe("toldRecipeMessage", () => {
+  it("names the slot the cook started from, so the saved recipe gets planned", () => {
+    expect(toldRecipeMessage()).toBe("Here's a recipe I know.");
+    expect(
+      toldRecipeMessage(
+        { date: dateKey(new Date(2026, 8, 11)), slot: "dinner" },
+        TODAY,
+      ),
+    ).toBe(
+      "Here's a recipe I know. Once it's saved, plan it for Friday dinner.",
     );
   });
 });

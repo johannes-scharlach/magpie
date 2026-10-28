@@ -36,9 +36,11 @@ export function InvitationProvider({ children }: { children: ReactNode }) {
   const [attempt, setAttempt] = useState(0);
   const writes = useRef(Promise.resolve());
   const save = useCallback((next: string | null) => {
-    const write = writes.current.catch(() => {}).then(() =>
-      next ? AsyncStorage.setItem(KEY, next) : AsyncStorage.removeItem(KEY)
-    );
+    const write = writes.current
+      .catch(() => {})
+      .then(() =>
+        next ? AsyncStorage.setItem(KEY, next) : AsyncStorage.removeItem(KEY),
+      );
     writes.current = write;
     return write;
   }, []);
@@ -48,11 +50,13 @@ export function InvitationProvider({ children }: { children: ReactNode }) {
     const accept = (next: string) => {
       current.current = next;
       setCode(next);
-      void save(next).then(() => setError(null)).catch(() =>
-        setError(
-          "Could not save this invitation. Keep the original link to try again.",
-        )
-      );
+      void save(next)
+        .then(() => setError(null))
+        .catch(() =>
+          setError(
+            "Could not save this invitation. Keep the original link to try again.",
+          ),
+        );
     };
     const subscription = Linking.addEventListener("url", ({ url }) => {
       const next = invitationCode(url);

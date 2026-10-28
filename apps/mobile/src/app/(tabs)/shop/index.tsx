@@ -44,8 +44,7 @@ const MEALS_ICON = require("../../../../assets/icons/restaurant.xml");
 const EMPTY_SHOP_ICON = require("../../../../assets/images/spot/empty-shop.webp");
 type Held = Browse & { hold: HeldPosition };
 type Entry = { key: string } & (
-  | { kind: "header"; title: string }
-  | { kind: "item"; item: ShopRow }
+  { kind: "header"; title: string } | { kind: "item"; item: ShopRow }
 );
 
 export default function Shop() {
@@ -305,10 +304,10 @@ function ListScreen({
           />
           <Text variant="muted" className="text-center">
             {active.length === 0
-          ? mealsToReview > 0
-            ? "Nothing to buy yet. Open Meals to choose what to buy, or add an item."
-            : "Nothing to buy. Plan a meal to choose what to buy for it, or add an item."
-          : `${active.length} to buy${checked.length ? ` · ${checked.length} checked` : ""}`}
+              ? mealsToReview > 0
+                ? "Nothing to buy yet. Open Meals to choose what to buy, or add an item."
+                : "Nothing to buy. Plan a meal to choose what to buy for it, or add an item."
+              : `${active.length} to buy${checked.length ? ` · ${checked.length} checked` : ""}`}
           </Text>
         </View>
       ) : (

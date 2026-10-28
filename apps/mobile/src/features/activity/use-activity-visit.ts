@@ -1,6 +1,12 @@
 import { useFocusEffect } from "expo-router";
 import { useHeaderHeight } from "expo-router/react-navigation";
-import { useCallback, useEffect, useRef, useState, type RefObject } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type RefObject,
+} from "react";
 import {
   AppState,
   Keyboard,
@@ -45,36 +51,43 @@ export function useActivityVisit(
   const pending = useRef(new Set<string>());
   const retryAfter = useRef(0);
 
-  const markSeen = useCallback((ids: readonly string[]) => {
-    if (!listId || !userId) return;
-    const fresh = ids.filter((id) => !pending.current.has(id));
-    if (!fresh.length) return;
-    fresh.forEach((id) => pending.current.add(id));
-    void markActivitiesSeen(fresh, listId, userId)
-      .catch((error: unknown) => {
-        retryAfter.current = Date.now() + 5000;
-        console.error("Could not mark household activity seen", error);
-      })
-      .finally(() => fresh.forEach((id) => pending.current.delete(id)));
-  }, [listId, userId]);
+  const markSeen = useCallback(
+    (ids: readonly string[]) => {
+      if (!listId || !userId) return;
+      const fresh = ids.filter((id) => !pending.current.has(id));
+      if (!fresh.length) return;
+      fresh.forEach((id) => pending.current.add(id));
+      void markActivitiesSeen(fresh, listId, userId)
+        .catch((error: unknown) => {
+          retryAfter.current = Date.now() + 5000;
+          console.error("Could not mark household activity seen", error);
+        })
+        .finally(() => fresh.forEach((id) => pending.current.delete(id)));
+    },
+    [listId, userId],
+  );
 
   const check = useCallback(() => {
     const now = Date.now();
     const viewport = frame.current;
-    const visibleIds = viewport && !keyboardOpen.current && windowFocused.current
-      ? visibleActivityIds([...cells.current.values()], {
-          top: offset.current + Math.max(0, bounds.current.top - viewport.top),
-          bottom: offset.current + Math.min(
-            viewport.height,
-            bounds.current.bottom - viewport.top,
-          ),
-        })
-      : [];
-    const result = visit.update({
-      activities: rows.current,
-      visibleIds,
-      active: focused.current && foreground.current,
-    }, now);
+    const visibleIds =
+      viewport && !keyboardOpen.current && windowFocused.current
+        ? visibleActivityIds([...cells.current.values()], {
+            top:
+              offset.current + Math.max(0, bounds.current.top - viewport.top),
+            bottom:
+              offset.current +
+              Math.min(viewport.height, bounds.current.bottom - viewport.top),
+          })
+        : [];
+    const result = visit.update(
+      {
+        activities: rows.current,
+        visibleIds,
+        active: focused.current && foreground.current,
+      },
+      now,
+    );
     setNewIds((previous) =>
       previous.size === result.newIds.size &&
       [...previous].every((id) => result.newIds.has(id))
@@ -87,9 +100,10 @@ export function useActivityVisit(
   const measureViewport = useCallback(() => {
     // FlatList's TS declaration omits the host measurement methods even though
     // getNativeScrollRef returns the underlying native scroll view.
-    const native = listRef.current?.getNativeScrollRef() as
-      | Pick<ViewInstance, "measureInWindow">
-      | null;
+    const native = listRef.current?.getNativeScrollRef() as Pick<
+      ViewInstance,
+      "measureInWindow"
+    > | null;
     native?.measureInWindow((_x, y, _width, measuredHeight) => {
       frame.current = { top: y, height: measuredHeight };
       check();
@@ -137,45 +151,54 @@ export function useActivityVisit(
     };
   }, [check]);
 
-  useFocusEffect(useCallback(() => {
-    focused.current = true;
-    foreground.current = AppState.currentState === "active";
-    keyboardOpen.current = Keyboard.isVisible();
-    measureViewport();
-    check();
-    const timer = setInterval(check, 250);
-    const appState = AppState.addEventListener("change", (state) => {
-      foreground.current = state === "active";
+  useFocusEffect(
+    useCallback(() => {
+      focused.current = true;
+      foreground.current = AppState.currentState === "active";
+      keyboardOpen.current = Keyboard.isVisible();
+      measureViewport();
       check();
-    });
-    const keyboardShow = Keyboard.addListener("keyboardDidShow", () => {
-      keyboardOpen.current = true;
-      check();
-    });
-    const keyboardHide = Keyboard.addListener("keyboardDidHide", () => {
-      keyboardOpen.current = false;
-      check();
-    });
-    return () => {
-      focused.current = false;
-      clearInterval(timer);
-      appState.remove();
-      keyboardShow.remove();
-      keyboardHide.remove();
-      check();
-    };
-  }, [check, measureViewport]));
+      const timer = setInterval(check, 250);
+      const appState = AppState.addEventListener("change", (state) => {
+        foreground.current = state === "active";
+        check();
+      });
+      const keyboardShow = Keyboard.addListener("keyboardDidShow", () => {
+        keyboardOpen.current = true;
+        check();
+      });
+      const keyboardHide = Keyboard.addListener("keyboardDidHide", () => {
+        keyboardOpen.current = false;
+        check();
+      });
+      return () => {
+        focused.current = false;
+        clearInterval(timer);
+        appState.remove();
+        keyboardShow.remove();
+        keyboardHide.remove();
+        check();
+      };
+    }, [check, measureViewport]),
+  );
 
-  const onScroll = useCallback((event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    offset.current = event.nativeEvent.contentOffset.y;
-    check();
-  }, [check]);
+  const onScroll = useCallback(
+    (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+      offset.current = event.nativeEvent.contentOffset.y;
+      check();
+    },
+    [check],
+  );
 
-  const onCellLayout = useCallback((id: string, layout: LayoutRectangle | null) => {
-    if (layout) cells.current.set(id, { id, top: layout.y, height: layout.height });
-    else cells.current.delete(id);
-    check();
-  }, [check]);
+  const onCellLayout = useCallback(
+    (id: string, layout: LayoutRectangle | null) => {
+      if (layout)
+        cells.current.set(id, { id, top: layout.y, height: layout.height });
+      else cells.current.delete(id);
+      check();
+    },
+    [check],
+  );
 
   return { newIds, markSeen, onScroll, onLayout, onCellLayout };
 }

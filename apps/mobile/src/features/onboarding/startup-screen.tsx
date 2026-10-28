@@ -51,7 +51,10 @@ export function StartupScreen({
         <View className="min-h-36 items-center gap-4">
           {timedOut ? (
             <>
-              <Text accessibilityLiveRegion="polite" className="text-center font-medium">
+              <Text
+                accessibilityLiveRegion="polite"
+                className="text-center font-medium"
+              >
                 This is taking longer than usual.
               </Text>
               {error ? (
@@ -77,7 +80,9 @@ export function StartupScreen({
               className="flex-row items-center gap-3"
             >
               <ActivityIndicator color={indicatorColor} />
-              <Text className="text-muted-foreground">Getting things ready…</Text>
+              <Text className="text-muted-foreground">
+                Getting things ready…
+              </Text>
             </View>
           )}
         </View>

@@ -23,6 +23,7 @@ Generated as 3×3 sprite sheet grids (2048×2048 JPEG) on solid neutral mid-grey
 ### Slicing & optimization commands
 
 1. Slice sprite sheet:
+
 ```bash
 pnpm assets:slice apps/mobile/src/features/chat/art/spritesheet-ideas-N.jpg \
   --rows 3 --cols 3 \
@@ -31,14 +32,17 @@ pnpm assets:slice apps/mobile/src/features/chat/art/spritesheet-ideas-N.jpg \
 ```
 
 2. Export tiny WebP assets for bundling:
+
 ```bash
 pnpm assets:optimize
 ```
+
 (Exports to `apps/mobile/src/features/chat/art/optimized/*.webp`. `../seeded-art.ts` bundles only these WebPs, keeping PNGs as masters.)
 
 ## Delivered Sheets
 
 ### Sheet 1 (`spritesheet-ideas-1.jpg`)
+
 1. `pork-chops-plums` — Pan-Seared Pork Chops with Jammy Zwetschgen (Plums)
 2. `corn-zucchini-feta` — Late-Summer Charred Sweet Corn, Zucchini & Feta Skillet
 3. `chanterelles-toast` — Brown-Butter Pfifferlinge (Chanterelles) on Toasted Sourdough
@@ -50,6 +54,7 @@ pnpm assets:optimize
 9. `amatriciana` — Pasta all’Amatriciana
 
 ### Sheet 2 (`spritesheet-ideas-2.jpg`)
+
 1. `white-bean-tuna` — Tuscan White Bean & Tuna Salad
 2. `gnocchi-pancetta` — Garlic & Herb Gnocchi with Crispy Pancetta
 3. `shakshuka` — North African Shakshuka
@@ -61,6 +66,7 @@ pnpm assets:optimize
 9. `sausage-fennel-traybake` — Roasted Sausage, Fennel & Sweet Potato Traybake
 
 ### Sheet 3 (`spritesheet-ideas-3.jpg`)
+
 1. `baked-feta` — Baked Feta with Cherry Tomatoes & Kalamata Olives
 2. `sheet-pan-gnocchi` — Crispy Sheet-Pan Gnocchi with Bell Peppers & Mozzarella
 3. `lemon-chicken-potatoes` — Lemon-Herb Roasted Chicken Thighs & Baby Potatoes
@@ -72,6 +78,7 @@ pnpm assets:optimize
 9. `ajvar-pinsa` — Smoky Ajvar & Burrata Pinsa with Prosciutto
 
 ### Sheet 4 (`spritesheet-ideas-4.jpg`)
+
 1. `thai-curry-noodles` — Weeknight Red Thai Curry Noodles with Salmon & Sugar Snaps
 2. `red-pesto-gnocchi` — Sheet-Pan Red Pesto Gnocchi with Roasted Zucchini & Halloumi
 3. `bean-ajvar-merguez` — Silky White Bean & Ajvar Skillet with Crispy Merguez / Salsiccia

@@ -2,7 +2,7 @@
 
 Date: 2026-09-08
 Status: Accepted
-Amended by: 27 (the recipe belongs to the planned or cookbook list), 30 (fetch fallback), 31 (pasted text and photos)
+Amended by: 27 (the recipe belongs to the planned or cookbook list), 30 (fetch fallback), 31 (pasted text and photos), 34 (operation outcomes), 35 (review)
 
 Shopping amendment: [ADR 16](0016-intentional-meal-shopping.md) removes automatic
 ingredient additions. Import still saves and plans atomically.
@@ -21,10 +21,13 @@ app termination. This is not a durable background job system.
 Retries reuse an operation UUID on the import request, separate from its
 optional plan target. The exact imported variant ID is derived from the caller,
 operation UUID, and import inputs via `magpieUuidV5`. Recipes remain random
-grouping IDs. Looking up that exact variant recognizes a completed import even
-if the recipe later has additional variants. This applies to cookbook imports
-as well as import and plan. Concurrent
-retries serialize before writing. Imports only fill empty server slots; an
+grouping IDs. The per-user operation outcome, not the existence of that variant,
+recognizes a completed import (ADRs 34, 35). Every automatic completion locks
+the operation and reads its outcome before writing: an earlier save or review
+is returned unchanged, and a cancellation is refused. Only explicit confirmation
+can turn a review into a save. Extraction stays outside the transaction. This
+applies to cookbook imports as well as import and plan.
+Imports only fill empty server slots; an
 occupied slot causes the whole transaction to roll back. This checks committed
 server state, not pending offline changes on other devices.
 

@@ -17,6 +17,7 @@ import { AvoidancesEditor } from "@/features/profile/avoidances-editor";
 import { ShopsEditor } from "@/features/profile/shops-editor";
 import { CuisineList } from "@/features/profile/cuisine-list";
 import { StaplesEditor } from "@/features/profile/staples-editor";
+import { MeasurementsEditor } from "@/features/profile/measurements-editor";
 
 export const titles: Record<Step, string> = {
   name: "What’s your name?",
@@ -26,6 +27,7 @@ export const titles: Record<Step, string> = {
   restrictions: "What should Magpie leave out?",
   groceries: "Where do you shop?",
   kitchen: "What can you cook with?",
+  measurements: "Which measurements should Magpie use?",
   cuisines: "Which cuisines should Magpie start with?",
   staples: "What do you usually keep?",
   email: "Save your cooking setup",
@@ -43,6 +45,7 @@ export const subtitles: Record<Exclude<Step, "email" | "code">, string> = {
   groceries:
     "Choose which shops to plan around and when to suggest something extra.",
   kitchen: "Magpie will choose cooking methods that work with this equipment.",
+  measurements: "Magpie will use these units when writing recipes.",
   cuisines: "Choose cuisines you cook, then ingredients you keep for each.",
   staples: "Magpie will reach for these when they fit a meal.",
 };
@@ -268,6 +271,12 @@ export function SetupQuestion({
           field="kitchen_equipment"
           value={draft.profile.kitchen_equipment}
           onChange={(kitchen_equipment) => editProfile({ kitchen_equipment })}
+        />
+      ) : null}
+      {step === "measurements" ? (
+        <MeasurementsEditor
+          value={draft.profile.measurements}
+          onChange={(measurements) => editProfile({ measurements })}
         />
       ) : null}
       {step === "cuisines" || step === "staples" ? (

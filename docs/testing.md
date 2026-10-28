@@ -73,5 +73,6 @@ not evidence of more confidence.
 - Artwork processing command (real image/filesystem checks): `pnpm assets:test`
 - Opt-in matting experiment (requires uv; supplied masks, no model weights): `pnpm assets:matting:test`
 - Mobile tests: `pnpm --filter mobile test`
-- API unit tests (no database): `pnpm --filter api test`
+- API tests: `pnpm --filter api test`. Database tests run against the local
+  Supabase from `apps/api/.env` and skip without it.
 - Shared rules: `pnpm --filter @magpie/meals test`

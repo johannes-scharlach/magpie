@@ -14,10 +14,12 @@ import { useHouseholdAccess } from "@/features/onboarding/access";
 import { FormError, MealRoutineEditor } from "@/features/profile/form";
 import { useHousehold } from "@/features/profile/use-household";
 import { ChoiceTiles } from "@/features/profile/choice-tiles";
+import { MeasurementsEditor } from "@/features/profile/measurements-editor";
 
 const titles: Record<string, string> = {
   goals: "Cooking rules",
   kitchen_equipment: "Equipment",
+  measurements: "Measurements",
   meals_at_home: "Meals to plan",
 };
 
@@ -99,7 +101,9 @@ function SectionEditor({
     try {
       const changes = selection
         ? { [selection]: draft[selection] }
-        : { meals_at_home: draft.meals_at_home };
+        : section === "measurements"
+          ? { measurements: draft.measurements }
+          : { meals_at_home: draft.meals_at_home };
       await saveProfileSection(listId, changes);
       router.back();
     } catch (e) {
@@ -135,6 +139,19 @@ function SectionEditor({
           }
         />
       )}
+      {section === "measurements" ? (
+        <>
+          <Text className="text-muted-foreground">
+            Magpie will use these units when writing recipes.
+          </Text>
+          <MeasurementsEditor
+            value={draft.measurements}
+            onChange={(measurements) =>
+              setDraft((d) => ({ ...d, measurements }))
+            }
+          />
+        </>
+      ) : null}
       <PrimaryAction
         label={busy ? "Saving…" : "Save"}
         disabled={busy}

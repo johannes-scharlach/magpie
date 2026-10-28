@@ -11,7 +11,11 @@ export function useToday() {
   useFocusEffect(refresh);
   useEffect(() => {
     const now = new Date();
-    const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+    const midnight = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate() + 1,
+    );
     const timer = setTimeout(refresh, midnight.getTime() - now.getTime());
     const subscription = AppState.addEventListener("change", (state) => {
       if (state === "active") refresh();

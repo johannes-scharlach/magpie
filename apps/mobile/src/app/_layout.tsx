@@ -202,15 +202,6 @@ export default function RootLayout() {
                         }}
                       />
                       <Stack.Screen
-                        name="meals/import"
-                        options={{
-                          presentation: "formSheet",
-                          sheetAllowedDetents: "fitToContents",
-                          sheetGrabberVisible: true,
-                          headerShown: false,
-                        }}
-                      />
-                      <Stack.Screen
                         name="meals/eaters"
                         options={{
                           presentation: "formSheet",
@@ -278,6 +269,18 @@ export default function RootLayout() {
                           sheetAllowedDetents: "fitToContents",
                           sheetGrabberVisible: true,
                           headerShown: false,
+                        }}
+                      />
+                      <Stack.Screen
+                        name="cookbook/review"
+                        options={{
+                          presentation: "pageSheet",
+                          headerShown: true,
+                          title: "Found recipes",
+                          contentStyle:
+                            Platform.OS === "ios"
+                              ? { backgroundColor: "transparent" }
+                              : undefined,
                         }}
                       />
                       <Stack.Screen

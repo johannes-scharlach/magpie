@@ -1,6 +1,11 @@
 import { expect, it } from "vitest";
 import { IngredientLineSchema } from "../../db/schemas";
-import { probablyAtHome, shoppingProgress, shoppingReview, undecidedCount } from "./shopping-review";
+import {
+  probablyAtHome,
+  shoppingProgress,
+  shoppingReview,
+  undecidedCount,
+} from "./shopping-review";
 
 it("uses the recipe's shopping hint, never the ingredient name or aisle", () => {
   const lines = [
@@ -34,7 +39,12 @@ it("uses the recipe's shopping hint, never the ingredient name or aisle", () => 
 });
 
 it("matches purchases by identity even after quantities change", () => {
-  const bought = { ingredient_id: 2, name: "Tomato", spec: "2", status: "purchased" };
+  const bought = {
+    ingredient_id: 2,
+    name: "Tomato",
+    spec: "2",
+    status: "purchased",
+  };
   const review = shoppingReview(
     [
       { id: 1, item_name: "Tomato", qty_text: "2" },
@@ -46,14 +56,28 @@ it("matches purchases by identity even after quantities change", () => {
 });
 
 it("keeps identical ingredient lines distinct", () => {
-  const bought = { ingredient_id: 1, name: "Tomato", spec: "1", status: "purchased" };
+  const bought = {
+    ingredient_id: 1,
+    name: "Tomato",
+    spec: "1",
+    status: "purchased",
+  };
   const line = { id: 1, item_name: "Tomato", qty_text: "1" };
-  expect(shoppingReview([line, { ...line, id: 2 }], [bought]).map((entry) => entry.item)).toEqual([bought, null]);
+  expect(
+    shoppingReview([line, { ...line, id: 2 }], [bought]).map(
+      (entry) => entry.item,
+    ),
+  ).toEqual([bought, null]);
 });
 
 it("does not confuse another ingredient with an optional swap", () => {
   const rice = { id: 2, item_name: "Rice", qty_text: "200g" };
-  const bought = { ingredient_id: 2, name: "Rice", spec: "200g", status: "purchased" };
+  const bought = {
+    ingredient_id: 2,
+    name: "Rice",
+    spec: "200g",
+    status: "purchased",
+  };
   const review = shoppingReview(
     [{ id: 1, item_name: "Bulgur", qty_text: "200g", swaps: [rice] }, rice],
     [bought],
@@ -62,8 +86,18 @@ it("does not confuse another ingredient with an optional swap", () => {
 });
 
 it("recognises bought swaps and consumes an existing row only once for repeated recipe lines", () => {
-  const bought = { ingredient_id: 1, name: "Orzo", spec: "200g", status: "purchased" };
-  const tomato = { ingredient_id: 2, name: "Tomato", spec: "1", status: "active" };
+  const bought = {
+    ingredient_id: 1,
+    name: "Orzo",
+    spec: "200g",
+    status: "purchased",
+  };
+  const tomato = {
+    ingredient_id: 2,
+    name: "Tomato",
+    spec: "1",
+    status: "active",
+  };
   const review = shoppingReview(
     [
       {
@@ -97,7 +131,11 @@ it("shows the meal choice even without a shopping item", () => {
 });
 
 it("decides each ingredient from its shopping row first, then the meal's at-home marks", () => {
-  const line = (id: number) => ({ id, item_name: `Item ${id}`, qty_text: null });
+  const line = (id: number) => ({
+    id,
+    item_name: `Item ${id}`,
+    qty_text: null,
+  });
   const review = shoppingReview(
     [line(1), line(2), line(3), line(4)],
     [
@@ -107,23 +145,43 @@ it("decides each ingredient from its shopping row first, then the meal's at-home
     {},
     [1, 3],
   );
-  expect(review.map((entry) => entry.decision)).toEqual(["shop", "bought", "home", "undecided"]);
+  expect(review.map((entry) => entry.decision)).toEqual([
+    "shop",
+    "bought",
+    "home",
+    "undecided",
+  ]);
   expect(undecidedCount(review)).toBe(1);
 });
 
 it("summarises a meal's shopping as what is left to decide, then what was decided", () => {
-  const lines = [1, 2, 3, 4].map((id) => ({ id, item_name: `Item ${id}`, qty_text: null }));
+  const lines = [1, 2, 3, 4].map((id) => ({
+    id,
+    item_name: `Item ${id}`,
+    qty_text: null,
+  }));
   const items = [
     { ingredient_id: 1, name: "Item 1", spec: null, status: "active" },
     { ingredient_id: 2, name: "Item 2", spec: null, status: "purchased" },
   ];
-  expect(shoppingProgress(shoppingReview(lines, items, {}, [3]))).toBe("1 to decide");
-  expect(shoppingProgress(shoppingReview(lines, items, {}, [3, 4]))).toBe("1 on the list · 1 bought · 2 at home");
-  expect(shoppingProgress(shoppingReview(lines, [], {}, [1, 2, 3, 4]))).toBe("All at home");
+  expect(shoppingProgress(shoppingReview(lines, items, {}, [3]))).toBe(
+    "1 to decide",
+  );
+  expect(shoppingProgress(shoppingReview(lines, items, {}, [3, 4]))).toBe(
+    "1 on the list · 1 bought · 2 at home",
+  );
+  expect(shoppingProgress(shoppingReview(lines, [], {}, [1, 2, 3, 4]))).toBe(
+    "All at home",
+  );
 });
 
 it("counts going without as decided, unless it was already bought", () => {
-  const parsley = (id: number) => ({ id, item_name: "Parsley", qty_text: null, without: "Skip the garnish" });
+  const parsley = (id: number) => ({
+    id,
+    item_name: "Parsley",
+    qty_text: null,
+    without: "Skip the garnish",
+  });
   const review = shoppingReview(
     [parsley(1), parsley(2)],
     [{ ingredient_id: 2, name: "Parsley", spec: null, status: "purchased" }],

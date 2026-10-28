@@ -33,6 +33,8 @@ export async function sharedRecipeToOpen(
   if (error?.code === "P0002")
     throw new Error("This recipe is no longer available.");
   if (error || !data || !(await waitForVariant(data)))
-    throw new Error("Couldn't save the recipe. Check your connection and try again.");
+    throw new Error(
+      "Couldn't save the recipe. Check your connection and try again.",
+    );
   return data;
 }

@@ -3,10 +3,7 @@ import { useEffect } from "react";
 
 import { useAuth } from "@/db/provider";
 import { useHouseholdAccess } from "@/features/onboarding/access";
-import {
-  notificationState,
-  wasNotificationPrompted,
-} from "./notifications";
+import { notificationState, wasNotificationPrompted } from "./notifications";
 
 export function NotificationPrompt() {
   const router = useRouter();
@@ -29,7 +26,9 @@ export function NotificationPrompt() {
           router.push("/notifications" as never);
         }
       })
-      .catch((error) => console.error("Could not prepare notification prompt", error));
+      .catch((error) =>
+        console.error("Could not prepare notification prompt", error),
+      );
     return () => {
       active = false;
     };

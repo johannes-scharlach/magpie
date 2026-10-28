@@ -7,6 +7,10 @@ or web-parity code.
 
 ## Native verification
 
+A device check is one final pass, for changes whose result only shows on the
+device: layout, gestures, motion, native widgets. Text, colour and other
+changes that can't go wrong in a hidden way are finished without one.
+
 Before operating simulators or capturing UI screenshots, read
 `docs/mobile-ui-verification.md` from the repository root. It documents the
 working DeviceHub/cliclick and ADB paths, coordinate pitfalls, app reload, and
@@ -16,7 +20,9 @@ the boundary between visual critique and interaction verification.
 
 Standard-choice rule: pick the closest-to-default option, except where
 Magpie's clay look applies: rounded heavy section titles, squircle tiles,
-art that spills over the tile edge, no drop shadows. Those pieces live in
+art that spills over the tile edge, no drop shadows. Clay is _tactile_: things
+look pressed and placed, like the pebble behind each tile, and a change of
+state feels handled rather than switched. Those pieces live in
 `src/components/clay.tsx`. Otherwise:
 
 - **uniwind** — Tailwind CSS v4 for React Native. Not NativeWind (still v3).
@@ -39,6 +45,9 @@ art that spills over the tile edge, no drop shadows. Those pieces live in
 - `src/uniwind-types.d.ts` — generated. After changing theme/tokens run:
   `pnpm --filter mobile exec uniwind generate-artifacts --css ./src/global.css --dts ./src/uniwind-types.d.ts`
 - `src/lib/utils.ts` — `cn()` (clsx + tailwind-merge).
+- Global `fetch` is `expo/fetch` (Expo 58 replaces React Native's). A
+  `FormData` file part must be a `Blob`, such as `expo-file-system`'s `File`;
+  React Native's `{ uri, name, type }` part throws before anything is sent.
 - `components.json` — rnr CLI config (pre-created so `add` runs non-interactive).
 
 ## Adding a component

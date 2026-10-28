@@ -1,4 +1,9 @@
-import { mealIngredients, resolveMealItem, type MealSwaps, type SizedFor } from "@magpie/meals";
+import {
+  mealIngredients,
+  resolveMealItem,
+  type MealSwaps,
+  type SizedFor,
+} from "@magpie/meals";
 import type { Client } from "pg";
 
 import { inTransaction, pool } from "./db.js";
@@ -28,13 +33,17 @@ type VariantRow = {
   instructions: CookRecipeInput["recipeInstructions"];
   locale: string;
   content_markdown: string | null;
-  recipe_category: string | null;
-  recipe_cuisine: string | null;
+  cuisine: string | null;
+  tags: string[];
+  equipment: string[];
+  effort: string | null;
 };
 
 const dbFields = `id, recipe_id, name, description, created_at, recipe_yield,
   total_time, sized_for, ingredient_lines, instructions, locale,
-  content_markdown, recipe_category, recipe_cuisine`;
+  content_markdown, equipment, effort,
+  (SELECT cuisine FROM recipes WHERE recipes.id = variants.recipe_id) AS cuisine,
+  (SELECT tags FROM recipes WHERE recipes.id = variants.recipe_id) AS tags`;
 
 async function sizing(client: Client, listId: string, value: SizedFor | null) {
   if (!value) return null;
@@ -81,8 +90,10 @@ export async function readChatVariant(
     recipeInstructions: row.instructions,
     locale: row.locale,
     contentMarkdown: row.content_markdown,
-    recipeCategory: row.recipe_category,
-    recipeCuisine: row.recipe_cuisine,
+    recipeCuisine: row.cuisine,
+    tags: row.tags,
+    equipment: row.equipment,
+    effort: row.effort,
   };
 }
 
@@ -174,7 +185,9 @@ export async function readChatMeal(
       [meal.id],
     )
   ).rows;
-  const variant = meal.variant_id ? await readChatVariant(client, listId, meal.variant_id) : null;
+  const variant = meal.variant_id
+    ? await readChatVariant(client, listId, meal.variant_id)
+    : null;
   const lines = variant?.recipeIngredient ?? [];
   return {
     ...meal,
@@ -183,7 +196,9 @@ export async function readChatMeal(
       eater_ids: meal.eater_ids,
       extra_portions: meal.extra_portions,
     }),
-    items: items.map((item) => resolveMealItem(item, lines, meal.ingredient_swaps)),
+    items: items.map((item) =>
+      resolveMealItem(item, lines, meal.ingredient_swaps),
+    ),
   };
 }
 
@@ -244,13 +259,22 @@ export async function writeChatVariant(opts: {
     let shopping: Awaited<ReturnType<typeof repointMealVariant>> | null = null;
     if (opts.chat.planned_meal_id && opts.chat.recipe_id === base.recipeId) {
       const meal = (
-        await client.query<{ id: string; slot_date: string; meal: string; variant_id: string }>(
+        await client.query<{
+          id: string;
+          slot_date: string;
+          meal: string;
+          variant_id: string;
+        }>(
           "SELECT id, slot_date, meal, variant_id FROM planned_meals WHERE id = $1 AND list_id = $2 AND recipe_id = $3 AND slot_date >= $4 FOR UPDATE",
           [opts.chat.planned_meal_id, opts.listId, base.recipeId, opts.today],
         )
       ).rows[0];
       if (meal) {
-        shopping = await repointMealVariant(client, { mealId: meal.id, variantId, expectedVariantId: meal.variant_id });
+        shopping = await repointMealVariant(client, {
+          mealId: meal.id,
+          variantId,
+          expectedVariantId: meal.variant_id,
+        });
         plannedMeal = { id: meal.id, date: meal.slot_date, meal: meal.meal };
       }
     }

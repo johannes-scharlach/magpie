@@ -57,7 +57,8 @@ artwork size, selection feedback and custom-entry interaction, so staples teach
 the pattern used on the next screen.
 
 The flow is name, cooking rules, food rule, people and meal routine, foods to
-leave out, shops, equipment, usual ingredients, familiar cooking, email and code.
+leave out, shops, equipment, measurements, usual ingredients, familiar cooking,
+email and code.
 Staples introduce ingredient selection in three open groups; cuisines then pair
 each chosen cuisine with the ingredients kept for it. Household add/edit uses a native
 form sheet on both platforms, including the creator's details.
@@ -141,6 +142,59 @@ Changing a person's reference affects subsequent recipe generation/adjustments;
 it does not rewrite existing recipes or reinterpret extra portions. Existing
 `sized_for` metadata still records eater IDs and extra portions, not historical
 appetite snapshots (same boundary as existing diet/age edits).
+
+## Measurements (2026-10-27)
+
+After equipment, “Which measurements should Magpie use?” sets Measurements
+(Metric / US customary), Temperature (°C / °F), and “Automatically convert
+imported recipes”. The subtitle is “Magpie will use these units when writing
+recipes.” The import switch explains “Use these units for new imports.
+Existing recipes won’t change.” Do not explain teaspoons or tablespoons in
+user-facing copy.
+
+These are household-wide choices, also editable under Measurements in household
+settings. `household_profiles.measurements` is a JSON object containing `system`
+(`metric` / `us`), `temperature` (`celsius` / `fahrenheit`), and `convert_imports`
+(boolean). Defaults are metric, Celsius, and conversion on. The two unit choices
+are independent. Section saves must not reset another section or rewrite recipes.
+
+Recipe writing, explicit recipe adjustments and follow-up suggestions use these
+units instead of inferring them from timezone. Import reads the destination
+household's saved choices and converts only when enabled, for links, text and
+photos, with or without planning.
+The prompt asks for normal cooking conventions rather than mechanical unit
+replacement: retain teaspoons and tablespoons for convenient small amounts, use
+sensible precision and do not invent uncertain conversions.
+
+**Converted imports retain no separate source measurements.** Return only the
+converted measurements, consistently throughout ingredients, instructions and
+notes. Do not retain source measurements in parentheses, notes, extra fields or
+a separate original variant. Normal source attribution remains; there is no
+checking workflow or second measurement display.
+
+Migration: `20261027110000_household_measurements.sql`, with the client schema,
+JSON upload decoding and type mirror. Sync already selects `household_profiles.*`.
+Apply through the user's normal migration/sync workflow; implementation does not
+apply migrations or restart services.
+
+The 2026-10-28 default-on change uses
+`20261028130000_import_conversion_default.sql`. New setups and drafts missing
+measurement preferences default conversion on; saved off choices stay off.
+
+### Measurements native check (2026-10-27)
+
+Android API 36 and iPhone 17 / iOS 26.5, light theme and unchanged text size:
+both pickers and the import switch worked. Choosing US customary left Celsius
+unchanged; Fahrenheit and conversion on survived Back/Continue. Tapping the
+switch side turned conversion off. Metric, Celsius, conversion off and each
+device's original draft question were restored, and both apps returned to
+Welcome. No account, live import or saved-household edit was made.
+
+Native captures are gitignored under `docs/.screenshots/measurements/`, separated
+by platform. These checks cover onboarding controls, not household Save, large
+text, screen readers or actual model conversions. Automated checks cover draft
+recovery, finalization/upload, isolated profile changes, destination-household
+lookup and the instructions supplied to import, recipe writing and adjustments.
 
 ## Goals: requests and cooking approaches (2026-10-26)
 

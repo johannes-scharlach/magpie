@@ -18,7 +18,13 @@ const SHARE_ICON = { ios: "square.and.arrow.up", android: "share" } as const;
  * long-press), so: one gesture-handler long-press — stationary or it
  * fails — opening a small overlay where the finger is.
  */
-export function MessageMenu({ text, children }: { text: string; children: ReactNode }) {
+export function MessageMenu({
+  text,
+  children,
+}: {
+  text: string;
+  children: ReactNode;
+}) {
   const [anchor, setAnchor] = useState<AndroidMenuAnchor | null>(null);
   const openRef = useRef(false);
   if (!text.trim()) return children;
@@ -28,7 +34,10 @@ export function MessageMenu({ text, children }: { text: string; children: ReactN
       if (action === "copy") await Clipboard.setStringAsync(text);
       if (action === "share") await Share.share({ message: text });
     } catch {
-      Alert.alert("Couldn't " + (action === "copy" ? "copy" : "share") + " message", "Please try again.");
+      Alert.alert(
+        "Couldn't " + (action === "copy" ? "copy" : "share") + " message",
+        "Please try again.",
+      );
     }
   }
 
@@ -45,7 +54,9 @@ export function MessageMenu({ text, children }: { text: string; children: ReactN
     .onStart((e) => {
       if (openRef.current) return;
       openRef.current = true;
-      void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
+      void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(
+        () => {},
+      );
       setAnchor({ x: e.absoluteX, y: e.absoluteY });
     });
 

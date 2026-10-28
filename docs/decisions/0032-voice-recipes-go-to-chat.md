@@ -18,7 +18,8 @@ records audio with `expo-audio`: tap to start, tap to stop, up to five
 minutes, mono AAC in an m4a file at 64 kbps.
 
 Sending starts a new chat, not an import. The first message is "Here's a
-recipe I know." plus the recording. Recordings are attachments like photos:
+recipe I know." plus the recording. Started from a meal slot, it also asks
+for the recipe to be planned there once saved (ADR 34). Recordings are attachments like photos:
 a private `chat-voice` bucket, objects under the list's id, readable and
 writable by its members, and a signed URL in the message part that every
 member's phone plays and the API downloads for the chat model. Gemini reads

@@ -6,6 +6,11 @@ import {
   type IngredientLine,
 } from "@magpie/meals";
 import type { PoolClient } from "pg";
+import {
+  measurementContext,
+  measurementsSchema,
+  type Measurements,
+} from "@magpie/profile";
 
 import { inTransaction, pool } from "./db.js";
 import { PlannedMealNotFoundError, VariantNotFoundError } from "./errors.js";
@@ -41,8 +46,10 @@ type VariantRow = {
   total_time: string | null;
   recipe_yield: string | null;
   content_markdown: string | null;
-  recipe_category: string | null;
-  recipe_cuisine: string | null;
+  cuisine: string | null;
+  tags: string[];
+  equipment: string[];
+  effort: string | null;
   ingredient_lines: IngredientLine[];
   instructions: unknown[];
 };
@@ -59,6 +66,7 @@ export type AdjustContext = {
   meal: MealRow;
   variant: VariantRow;
   eaters: Person[];
+  measurements: Measurements;
 };
 
 export type AdjustResult = { recipeId: string; variantId: string };
@@ -87,8 +95,8 @@ export async function loadAdjustContext(
     const variant = (
       await client.query<VariantRow>(
         `SELECT name, description, locale, total_time, recipe_yield, content_markdown,
-                recipe_category, recipe_cuisine, ingredient_lines, instructions
-         FROM variants WHERE id = $1`,
+                r.cuisine, r.tags, equipment, effort, ingredient_lines, instructions
+         FROM variants JOIN recipes r ON r.id = variants.recipe_id WHERE variants.id = $1`,
         [meal.variant_id],
       )
     ).rows[0];
@@ -102,7 +110,14 @@ export async function loadAdjustContext(
     ).rows;
     // People removed from the household since are not eating anymore.
     const eaters = people.filter((p) => meal.eater_ids.includes(p.id));
-    return { context: { meal, variant, eaters } };
+    const profile = await client.query<{ measurements: unknown }>(
+      "SELECT measurements FROM household_profiles WHERE id = $1",
+      [meal.list_id],
+    );
+    const measurements = measurementsSchema.parse(
+      profile.rows[0]?.measurements ?? {},
+    );
+    return { context: { meal, variant, eaters, measurements } };
   } finally {
     client.release();
   }
@@ -114,7 +129,12 @@ const joinNames = (names: string[]) =>
     : `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}`;
 
 /** The ask, in words. The schema descriptions carry the ingredient format. */
-export function adjustPrompt({ meal, variant, eaters }: AdjustContext): string {
+export function adjustPrompt({
+  meal,
+  variant,
+  eaters,
+  measurements,
+}: AdjustContext): string {
   const choices = mealIngredients(
     variant.ingredient_lines,
     meal.ingredient_swaps,
@@ -145,6 +165,7 @@ export function adjustPrompt({ meal, variant, eaters }: AdjustContext): string {
 
   return [
     "You are adjusting a saved recipe to the meal it is planned for. Return the complete recipe in the same JSON shape.",
+    measurementContext(measurements),
     "Preserve each continuing ingredient's id, including substitutions and quantity changes. Omit id only for genuinely new ingredients. Do not renumber ingredients when reordering or removing them.",
     "",
     `Keep the language (locale "${variant.locale}"), the voice, the structure and the order of steps, and every detail you are not told to change. Keep the dish name unless a swap replaces an ingredient the name mentions; then rename the dish to match. The name, description and instructions must agree with the ingredient lines you return: nothing may still name an ingredient that was swapped out. contentMarkdown is only for useful context not covered by the structured fields; do not put ingredients or steps there, and update contextual notes if a swap makes them inaccurate.`,
@@ -179,8 +200,10 @@ export function adjustPrompt({ meal, variant, eaters }: AdjustContext): string {
         contentMarkdown: variant.content_markdown,
         recipeIngredient: variant.ingredient_lines,
         recipeInstructions: variant.instructions,
-        recipeCategory: variant.recipe_category,
-        recipeCuisine: variant.recipe_cuisine,
+        recipeCuisine: variant.cuisine,
+        tags: variant.tags,
+        equipment: variant.equipment,
+        effort: variant.effort,
       },
       null,
       2,
@@ -217,7 +240,11 @@ export async function saveAdjusted(opts: {
     await insertVariant(client, {
       recipeId,
       variantId,
-      recipe,
+      // Swaps and portions never change the dish, so its cuisine stays.
+      recipe: {
+        ...recipe,
+        recipeCuisine: context.variant.cuisine ?? recipe.recipeCuisine,
+      },
       baseVariantId: oldVariantId,
       sizedFor: {
         eater_ids: context.meal.eater_ids,

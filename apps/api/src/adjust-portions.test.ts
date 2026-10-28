@@ -7,15 +7,59 @@ test("recipe adjustment sizes named eaters using their references plus extra foo
   process.env.DATABASE_URL ??= "postgres://unused:unused@localhost/unused";
   const { adjustPrompt } = await import("./adjust-planned-meal.js");
   const prompt = adjustPrompt({
-    meal: { id: "meal", list_id: "list", recipe_id: "recipe", variant_id: "variant", slot_date: "2026-10-13", meal: "dinner", eater_ids: ["sam", "alex"], extra_portions: 1.5, ingredient_swaps: {} },
+    measurements: {
+      system: "metric",
+      temperature: "fahrenheit",
+      convert_imports: false,
+    },
+    meal: {
+      id: "meal",
+      list_id: "list",
+      recipe_id: "recipe",
+      variant_id: "variant",
+      slot_date: "2026-10-13",
+      meal: "dinner",
+      eater_ids: ["sam", "alex"],
+      extra_portions: 1.5,
+      ingredient_swaps: {},
+    },
     eaters: [
-      { id: "sam", name: "Sam", age_group: "Child", diet: "vegetarian", diet_other: "", portion_reference: 0.75 },
-      { id: "alex", name: "Alex", age_group: "Adult", diet: "vegetarian", diet_other: "", portion_reference: 1.25 },
+      {
+        id: "sam",
+        name: "Sam",
+        age_group: "Child",
+        diet: "vegetarian",
+        diet_other: "",
+        portion_reference: 0.75,
+      },
+      {
+        id: "alex",
+        name: "Alex",
+        age_group: "Adult",
+        diet: "vegetarian",
+        diet_other: "",
+        portion_reference: 1.25,
+      },
     ],
-    variant: { name: "Pasta", description: null, locale: "en", total_time: null, recipe_yield: "2 portions", content_markdown: null, recipe_category: null, recipe_cuisine: null, ingredient_lines: [], instructions: [] },
+    variant: {
+      name: "Pasta",
+      description: null,
+      locale: "en",
+      total_time: null,
+      recipe_yield: "2 portions",
+      content_markdown: null,
+      cuisine: null,
+      tags: [],
+      equipment: [],
+      effort: null,
+      ingredient_lines: [],
+      instructions: [],
+    },
   });
   assert.match(prompt, /Sam .*0.75/);
   assert.match(prompt, /Alex .*1.25/);
   assert.match(prompt, /3.5 regular adult portions/);
   assert.doesNotMatch(prompt, /A child eats less/);
+  assert.match(prompt, /metric \(g, kg, ml, l\)/);
+  assert.match(prompt, /Fahrenheit \(°F\)/);
 });

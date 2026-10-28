@@ -24,6 +24,12 @@ describe("notification route", () => {
     ).toEqual({ pathname: "/chats/[id]", params: { id: "chat-1" } });
   });
 
+  it("opens the review an import push is about", () => {
+    expect(
+      notificationRoute({ kind: "import_review", operationId: "op-1" }, "n1"),
+    ).toEqual({ pathname: "/cookbook/review", params: { operationId: "op-1" } });
+  });
+
   it("opens Household activity for joins and pushes from older servers", () => {
     expect(notificationRoute({ kind: "member_joined" }, "n1")).toBe(
       "/household-activity",

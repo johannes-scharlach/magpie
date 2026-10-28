@@ -26,7 +26,10 @@ export default function SharedRecipe() {
         if (!active) return;
         posthog?.capture("shared_recipe_opened", { saved: variantId !== id });
         void clearPendingShare(id).catch(() => {});
-        router.replace({ pathname: "/variant/[id]", params: { id: variantId } });
+        router.replace({
+          pathname: "/variant/[id]",
+          params: { id: variantId },
+        });
       })
       .catch((e: unknown) => {
         if (active) setError(e instanceof Error ? e.message : String(e));

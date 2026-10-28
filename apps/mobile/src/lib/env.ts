@@ -14,16 +14,16 @@ function required(name: string, value: string | undefined): string {
 
 export const env = {
   supabaseUrl: required(
-    'EXPO_PUBLIC_SUPABASE_URL',
+    "EXPO_PUBLIC_SUPABASE_URL",
     process.env.EXPO_PUBLIC_SUPABASE_URL,
   ),
   supabasePublishableKey: required(
-    'EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY',
+    "EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY",
     process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
   ),
   powersyncUrl: required(
-    'EXPO_PUBLIC_POWERSYNC_URL',
+    "EXPO_PUBLIC_POWERSYNC_URL",
     process.env.EXPO_PUBLIC_POWERSYNC_URL,
   ),
-  apiUrl: process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:8787',
+  apiUrl: process.env.EXPO_PUBLIC_API_URL ?? "http://localhost:8787",
 } as const;

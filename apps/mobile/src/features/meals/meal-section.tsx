@@ -138,7 +138,11 @@ export function MealSection({
             importantForAccessibility={planned ? "auto" : "no-hide-descendants"}
             className="flex-row items-center gap-1"
           >
-            <SymbolView name={isPast ? PAST_ICON : CHECK_ICON} tintColor={muted} size={12} />
+            <SymbolView
+              name={isPast ? PAST_ICON : CHECK_ICON}
+              tintColor={muted}
+              size={12}
+            />
             <Text className="text-xs text-muted-foreground">
               {isPast ? "Past meal" : "Planned"}
             </Text>

@@ -7,6 +7,8 @@ import {
   shopRuleSummaries,
   profileShops,
   stapleGroups,
+  measurementSystemOptions,
+  temperatureOptions,
   type SelectionField,
 } from "@magpie/profile";
 import { useNavigation, useRouter } from "expo-router";
@@ -155,6 +157,11 @@ export default function ProfileScreen() {
               title={selectionTitles[key]!}
             />
           ))}
+          <SettingsRow
+            detail={`${measurementSystemOptions[household.profile.measurements.system]} · ${temperatureOptions[household.profile.measurements.temperature]}`}
+            onPress={() => router.push("/household/measurements")}
+            title="Measurements"
+          />
           <SettingsRow
             detail={
               household.profile.cuisines.map(cuisineLabel).join(", ") ||

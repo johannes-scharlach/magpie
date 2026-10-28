@@ -1,17 +1,24 @@
-import { assignIngredientIds, type IngredientLine, type SizedFor } from "@magpie/meals";
+import {
+  assignIngredientIds,
+  type IngredientLine,
+  type SizedFor,
+} from "@magpie/meals";
+import { cuisineLabel } from "@magpie/profile";
 import { randomUUID } from "node:crypto";
 import type { Client, PoolClient } from "pg";
 
 import type { ChatEntry } from "./recipe-chat.js";
 import type { RecipeInput } from "./recipe-schema.js";
 import { AppError } from "./errors.js";
+import { readTagVocabulary, settleTags } from "./recipe-tags.js";
 
 export async function findVariantIdentity(
   client: Client,
   variantId: string,
 ): Promise<{ recipeId: string; variantId: string } | null> {
   const result = await client.query<{ recipe_id: string }>(
-    "SELECT recipe_id FROM variants WHERE id = $1", [variantId],
+    "SELECT recipe_id FROM variants WHERE id = $1",
+    [variantId],
   );
   const row = result.rows[0];
   return row ? { recipeId: row.recipe_id, variantId } : null;
@@ -40,7 +47,8 @@ export async function createRecipe(
   return recipeId;
 }
 
-/** A variant always belongs to an existing recipe grouping. */
+/** A variant always belongs to an existing recipe grouping. The first one
+ *  tags the recipe; one in another cuisine is a new recipe (ADR 36). */
 export async function insertVariant(
   client: PoolClient,
   opts: {
@@ -54,23 +62,41 @@ export async function insertVariant(
 ): Promise<{ recipeId: string; variantId: string }> {
   const { recipeId, variantId, recipe, sizedFor } = opts;
   const owner = (
-    await client.query<{ next_ingredient_id: number; list_id: string }>(
-      "SELECT next_ingredient_id, list_id FROM recipes WHERE id = $1 FOR UPDATE",
+    await client.query<{
+      next_ingredient_id: number;
+      list_id: string;
+      cuisine: string | null;
+    }>(
+      "SELECT next_ingredient_id, list_id, cuisine FROM recipes WHERE id = $1 FOR UPDATE",
       [recipeId],
     )
   ).rows[0];
   if (!owner) throw new Error("Recipe not found");
+  const { cuisine, tags, equipment } = settleTags(
+    recipe,
+    await readTagVocabulary(client, owner.list_id),
+  );
+  if (owner.cuisine && cuisine && cuisine !== owner.cuisine)
+    throw new AppError(
+      "DIFFERENT_RECIPE",
+      `This changes the cuisine from ${cuisineLabel(owner.cuisine)} to ${cuisineLabel(cuisine)}, which makes it a new recipe. Save it with addToCookbook instead.`,
+      422,
+    );
   const base = opts.baseVariantId
-    ? (await client.query<{ ingredient_lines: IngredientLine[] }>(
-        "SELECT ingredient_lines FROM variants WHERE id = $1 AND recipe_id = $2",
-        [opts.baseVariantId, recipeId],
-      )).rows[0]
+    ? (
+        await client.query<{ ingredient_lines: IngredientLine[] }>(
+          "SELECT ingredient_lines FROM variants WHERE id = $1 AND recipe_id = $2",
+          [opts.baseVariantId, recipeId],
+        )
+      ).rows[0]
     : undefined;
   if (opts.baseVariantId && !base) throw new Error("Base variant not found");
   const allocated = (() => {
     try {
       return assignIngredientIds(
-        recipe.recipeIngredient, owner.next_ingredient_id, base?.ingredient_lines,
+        recipe.recipeIngredient,
+        owner.next_ingredient_id,
+        base?.ingredient_lines,
       );
     } catch (cause) {
       throw new AppError(
@@ -82,12 +108,16 @@ export async function insertVariant(
     }
   })();
   await client.query(
-    "UPDATE recipes SET next_ingredient_id = $2 WHERE id = $1",
-    [recipeId, allocated.nextId],
+    owner.cuisine
+      ? "UPDATE recipes SET next_ingredient_id = $2 WHERE id = $1"
+      : "UPDATE recipes SET next_ingredient_id = $2, cuisine = $3, tags = $4::jsonb WHERE id = $1",
+    owner.cuisine
+      ? [recipeId, allocated.nextId]
+      : [recipeId, allocated.nextId, cuisine, JSON.stringify(tags)],
   );
   await client.query(
-    `INSERT INTO variants (id, recipe_id, list_id, name, description, locale, total_time, recipe_yield, content_markdown, recipe_category, recipe_cuisine, ingredient_lines, instructions, sized_for)
-     VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12::jsonb,$13::jsonb,$14::jsonb)`,
+    `INSERT INTO variants (id, recipe_id, list_id, name, description, locale, total_time, recipe_yield, content_markdown, equipment, effort, ingredient_lines, instructions, sized_for)
+     VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10::jsonb,$11,$12::jsonb,$13::jsonb,$14::jsonb)`,
     [
       variantId,
       recipeId,
@@ -98,8 +128,8 @@ export async function insertVariant(
       recipe.totalTime,
       recipe.recipeYield,
       recipe.contentMarkdown ?? null,
-      recipe.recipeCategory ?? null,
-      recipe.recipeCuisine ?? null,
+      JSON.stringify(equipment),
+      recipe.effort,
       JSON.stringify(allocated.lines),
       JSON.stringify(recipe.recipeInstructions),
       sizedFor ? JSON.stringify(sizedFor) : null,

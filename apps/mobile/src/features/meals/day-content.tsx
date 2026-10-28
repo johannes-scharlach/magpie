@@ -1,9 +1,8 @@
 import { SymbolView } from "expo-symbols";
-import { ActivityIndicator, Pressable, View } from "react-native";
+import { Pressable, View } from "react-native";
 import type { LegacyPanGesture } from "react-native-gesture-handler";
 import { useResolveClassNames } from "uniwind";
 
-import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
 import { plannedMealId } from "@/db/planned-meals";
 import type { List } from "@/db/schema";
@@ -17,6 +16,7 @@ import {
   type MealSlot,
 } from "@/features/meals/slots";
 import type { ImportJobs } from "@/features/meals/import-jobs";
+import { ImportJobStatus } from "@/features/meals/import-job-status";
 import { mealIsPast } from "@/features/meals/variant-meals";
 import { useToday } from "@/hooks/use-today";
 
@@ -109,36 +109,7 @@ export function DayContent({
                 accessibilityLiveRegion="polite"
               >
                 <Text variant="muted">{SLOT_LABEL[slot]}</Text>
-                {job.status === "error" ? (
-                  <>
-                    <Text className="text-destructive">
-                      {job.error.message}
-                    </Text>
-                    {job.error.retryable ? (
-                      <Button
-                        variant="outline"
-                        onPress={() => void importJobs.retry(target)}
-                      >
-                        <Text>Retry</Text>
-                      </Button>
-                    ) : null}
-                    <Button
-                      variant="ghost"
-                      onPress={() => importJobs.dismiss(target)}
-                    >
-                      <Text>Dismiss</Text>
-                    </Button>
-                  </>
-                ) : (
-                  <View className="flex-row items-center gap-3">
-                    <ActivityIndicator />
-                    <Text>
-                      {job.status === "syncing"
-                        ? "Syncing meal…"
-                        : "Importing & planning…"}
-                    </Text>
-                  </View>
-                )}
+                <ImportJobStatus job={job} importJobs={importJobs} />
               </View>
             );
           }

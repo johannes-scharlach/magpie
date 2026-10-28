@@ -25,9 +25,10 @@ export default function InviteHousehold() {
       const code = await householdInviteCode(list.id, resetLink);
       if (resetLink) setReset(true);
       await Share.share({
-        message: `Join ${list.name} on Magpie:\n${
-          invitationUrl(env.apiUrl, code)
-        }`,
+        message: `Join ${list.name} on Magpie:\n${invitationUrl(
+          env.apiUrl,
+          code,
+        )}`,
       });
       posthog?.capture("household_invite_shared", {
         invite_link_reset: resetLink,
@@ -60,16 +61,14 @@ export default function InviteHousehold() {
         </Text>
       </View>
       <FormError message={error} />
-      {reset
-        ? (
-          <Text
-            className="text-sm text-muted-foreground"
-            accessibilityLiveRegion="polite"
-          >
-            The old link no longer works. Existing members keep their access.
-          </Text>
-        )
-        : null}
+      {reset ? (
+        <Text
+          className="text-sm text-muted-foreground"
+          accessibilityLiveRegion="polite"
+        >
+          The old link no longer works. Existing members keep their access.
+        </Text>
+      ) : null}
       <PrimaryAction
         label={busy ? "Preparing…" : "Share invite link"}
         disabled={busy || !list}
@@ -83,11 +82,15 @@ export default function InviteHousehold() {
           Alert.alert(
             "Reset invite link?",
             "The old link will stop working. People who already joined will keep their access.",
-            [{ text: "Cancel", style: "cancel" }, {
-              text: "Reset and share",
-              onPress: () => void share(true),
-            }],
-          )}
+            [
+              { text: "Cancel", style: "cancel" },
+              {
+                text: "Reset and share",
+                onPress: () => void share(true),
+              },
+            ],
+          )
+        }
       >
         <Text className="text-sm text-muted-foreground">Reset link</Text>
       </Pressable>

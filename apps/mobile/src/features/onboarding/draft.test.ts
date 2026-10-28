@@ -15,8 +15,28 @@ describe("onboarding draft recovery", () => {
   it("asks staples before cuisines and finishes questions only after their cuisine cupboards", () => {
     expect(
       steps.slice(steps.indexOf("kitchen"), steps.indexOf("email") + 1),
-    ).toEqual(["kitchen", "staples", "cuisines", "email"]);
+    ).toEqual(["kitchen", "measurements", "staples", "cuisines", "email"]);
     expect(lastQuestion).toBe("cuisines");
+  });
+  it("defaults conversion on for older drafts while keeping a saved off choice", () => {
+    const draft = createDraft(personId, listId);
+    draft.step = "measurements";
+    draft.profile.measurements = {
+      system: "metric",
+      temperature: "fahrenheit",
+      convert_imports: false,
+    };
+    const restored = restoreDraft(JSON.stringify(draft))!;
+    expect(restored.step).toBe("measurements");
+    expect(restored.profile.measurements).toEqual(draft.profile.measurements);
+
+    const old = JSON.parse(JSON.stringify(draft));
+    delete old.profile.measurements;
+    expect(restoreDraft(JSON.stringify(old))?.profile.measurements).toEqual({
+      system: "metric",
+      temperature: "celsius",
+      convert_imports: true,
+    });
   });
   it("keeps answers and stable identities while recovering an invalid step and clearing OTP", () => {
     const draft = createDraft(personId, listId);

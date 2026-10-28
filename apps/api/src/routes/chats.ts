@@ -36,6 +36,7 @@ import {
   recipeSeed,
   type RecipeChat,
 } from "../recipe-chat.js";
+import { readTagVocabulary, tagVocabularyContext } from "../recipe-tags.js";
 import { stepBudget } from "../step-budget.js";
 import { twistBrief } from "../seeded-twists.js";
 import { suggestionContext } from "../suggestion-context.js";
@@ -590,8 +591,9 @@ chats.post("/:id/messages", async (c) => {
     PLAN_PROMPT,
     recipeChatPrompt(chat),
     household ? profileContext(household, userId) : null,
+    tagVocabularyContext(await readTagVocabulary(pool, listId)),
     localTime
-      ? `The user's current local time is ${localTime}. The timezone reflects their broad region — use it for seasonal produce and measurement defaults, not as an exact location.`
+      ? `The user's current local time is ${localTime}. The timezone reflects their broad region — use it for seasonal produce${household ? "" : " and measurement defaults"}, not as an exact location.`
       : null,
     "The url returned by addToCookbook or updateRecipe opens the recipe in the app. Share it as a Markdown link on the recipe name.",
     "A previous reply may have been interrupted after actions completed. Its successful tool results are facts: on a request to continue, only finish what is missing. Never repeat a completed save or plan. Read the current state if needed.",

@@ -15,10 +15,7 @@ import { useResolveClassNames } from "uniwind";
 
 import { useColorScheme } from "@/hooks/use-color-scheme";
 
-import {
-  ACTION_HEIGHT,
-  type ActionProps,
-} from "./action-shared";
+import { ACTION_HEIGHT, type ActionProps } from "./action-shared";
 
 export function PrimaryAction({
   label,

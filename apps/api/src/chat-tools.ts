@@ -1,5 +1,6 @@
 import { randomUUID } from "node:crypto";
 
+import { cuisineLabel, cuisineOptions } from "@magpie/profile";
 import { tool } from "ai";
 import { z } from "zod";
 
@@ -44,21 +45,39 @@ export function buildChatTools(
 ) {
   return {
     addMealShoppingItems: tool({
-      description: "Add requested shopping items to this conversation's planned meal, including a written-in meal with no recipe. Preserves existing and purchased items; does not save a recipe. Use when the user asks to add items, not merely when suggesting them.",
+      description:
+        "Add requested shopping items to this conversation's planned meal, including a written-in meal with no recipe. Preserves existing and purchased items; does not save a recipe. Use when the user asks to add items, not merely when suggesting them.",
       inputSchema: z.object({
-        items: z.array(z.object({
-          name: z.string().trim().min(1).max(200),
-          spec: z.string().max(300).optional().describe("Quantity or shopping note, e.g. 1 head or 200g"),
-          categoryId: z.enum(CATEGORIES).optional(),
-        })).min(1).max(50),
+        items: z
+          .array(
+            z.object({
+              name: z.string().trim().min(1).max(200),
+              spec: z
+                .string()
+                .max(300)
+                .optional()
+                .describe("Quantity or shopping note, e.g. 1 head or 200g"),
+              categoryId: z.enum(CATEGORIES).optional(),
+            }),
+          )
+          .min(1)
+          .max(50),
       }),
       execute: async ({ items }) => {
         const plannedMealId = context.chat.planned_meal_id;
         const expectedContentId = context.chat.initial_meal_content_id;
-        if (!plannedMealId || !expectedContentId) return { error: "Open a planned meal's shopping chat to add items to it." };
+        if (!plannedMealId || !expectedContentId)
+          return {
+            error: "Open a planned meal's shopping chat to add items to it.",
+          };
         return inTransaction(userId, async (client) => {
           await assertListMemberUntilCommit(client, userId, listId);
-          return addMealShoppingItems(client, { listId, plannedMealId, expectedContentId, items });
+          return addMealShoppingItems(client, {
+            listId,
+            plannedMealId,
+            expectedContentId,
+            items,
+          });
         });
       },
     }),
@@ -77,7 +96,9 @@ export function buildChatTools(
         "Read the complete saved variant by id, including ingredients, instructions, creation date and sizing.",
       inputSchema: z.object({ variantId: z.uuid() }),
       execute: ({ variantId }) =>
-        inTransaction(userId, (client) => readChatVariant(client, listId, variantId)),
+        inTransaction(userId, (client) =>
+          readChatVariant(client, listId, variantId),
+        ),
     }),
     readPlannedMeal: tool({
       description:
@@ -124,10 +145,9 @@ export function buildChatTools(
           context.chat.planned_meal_id === plannedMealId(listId, date, meal)
         ) {
           return {
-            error:
-              context.chat.recipe_id
-                ? "Use updateRecipe to revise this conversation's meal; it preserves bought items and updates the meal automatically."
-                : "This written meal is already planned. Use addMealShoppingItems for shopping; it needs no recipe.",
+            error: context.chat.recipe_id
+              ? "Use updateRecipe to revise this conversation's meal; it preserves bought items and updates the meal automatically."
+              : "This written meal is already planned. Use addMealShoppingItems for shopping; it needs no recipe.",
           };
         }
         try {
@@ -240,28 +260,44 @@ export function buildChatTools(
 
     searchSavedRecipes: tool({
       description:
-        "Look up recipes in the user's cookbook by name or ingredient. Use before writing a sauce, dressing or dough the user may have their own version of.",
+        "Look up recipes in the user's cookbook by name, ingredient, cuisine or tag. Use before writing a sauce, dressing or dough the user may have their own version of.",
       inputSchema: z.object({ query: z.string().min(1) }),
       execute: async ({ query }) => {
         const like = `%${query}%`;
+        const matchingCuisines = Object.keys(cuisineOptions).filter((id) =>
+          cuisineLabel(id)
+            .toLocaleLowerCase()
+            .includes(query.toLocaleLowerCase()),
+        );
         const rows = await pool.query<{
           id: string;
           name: string | null;
           description: string | null;
           total_time: string | null;
+          cuisine: string | null;
+          tags: string[];
+          equipment: string[];
+          effort: string | null;
           ingredient_lines: { item_name: string }[];
         }>(
-          `SELECT id, name, description, total_time, ingredient_lines FROM variants
-           WHERE list_id = $2
-             AND (name ILIKE $1 OR description ILIKE $1 OR ingredient_lines::text ILIKE $1)
-           ORDER BY created_at DESC LIMIT 10`,
-          [like, listId],
+          `SELECT v.id, v.name, v.description, v.total_time, r.cuisine, r.tags, v.equipment, v.effort, v.ingredient_lines
+             FROM variants v JOIN recipes r ON r.id = v.recipe_id
+           WHERE v.list_id = $2
+              AND (v.name ILIKE $1 OR v.description ILIKE $1
+                   OR r.cuisine ILIKE $1 OR r.cuisine = ANY($3::text[])
+                   OR r.tags::text ILIKE $1 OR v.ingredient_lines::text ILIKE $1)
+            ORDER BY v.created_at DESC LIMIT 10`,
+          [like, listId, matchingCuisines],
         );
         return rows.rows.map((r) => ({
           variantId: r.id,
           name: r.name,
           description: r.description,
           totalTime: r.total_time,
+          cuisine: r.cuisine && cuisineLabel(r.cuisine),
+          tags: r.tags,
+          equipment: r.equipment,
+          effort: r.effort,
           ingredients: r.ingredient_lines.map((l) => l.item_name),
           url: variantUrl(r.id),
         }));

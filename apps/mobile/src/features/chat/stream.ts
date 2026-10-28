@@ -20,7 +20,10 @@ export type Parts = AssistantUIMessage["parts"];
 
 /** A rejection before acceptance is different from an uncertain connection. */
 export class ChatRequestRejected extends Error {
-  constructor(message: string, readonly retryable = false) {
+  constructor(
+    message: string,
+    readonly retryable = false,
+  ) {
     super(message);
   }
 }
@@ -40,7 +43,8 @@ async function authorization() {
  * the live preview on screen until the completed or failed row has synced.
  * Running rows are checkpoints, not a replacement for fresher streamed text.
  *
- * expo/fetch, not global fetch: React Native's fetch has no streaming body.
+ * expo/fetch by name: since Expo 58 it is also the global fetch, but the
+ * explicit import keeps the streaming body this needs from depending on that.
  */
 export async function* streamReply(opts: {
   chatId: string;
@@ -54,10 +58,18 @@ export async function* streamReply(opts: {
 }): AsyncGenerator<AssistantUIMessage> {
   const headers = await authorization();
   const chatFetch: typeof globalThis.fetch = async (...args) => {
-    const response = await (expoFetch as unknown as typeof globalThis.fetch)(...args);
+    const response = await (expoFetch as unknown as typeof globalThis.fetch)(
+      ...args,
+    );
     if (response.status === 202) throw new MessageAlreadyReceived();
-    if (response.status >= 400 && response.status < 500 && response.status !== 408) {
-      const body = await response.json().catch(() => null) as { error?: { code?: string; message?: string } } | null;
+    if (
+      response.status >= 400 &&
+      response.status < 500 &&
+      response.status !== 408
+    ) {
+      const body = (await response.json().catch(() => null)) as {
+        error?: { code?: string; message?: string };
+      } | null;
       throw new ChatRequestRejected(
         body?.error?.message ?? "Your message couldn't be sent.",
         response.status === 429 || body?.error?.code === "CHAT_BUSY",

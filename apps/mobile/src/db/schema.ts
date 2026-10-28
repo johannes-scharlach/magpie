@@ -42,6 +42,7 @@ const list_members = new Table(
 const household_profiles = new Table({
   goals: column.text,
   kitchen_equipment: column.text,
+  measurements: column.text,
   pantry: column.text,
   fresh_ingredients: column.text,
   restrictions: column.text,
@@ -123,6 +124,10 @@ const recipes = new Table({
   from_url: column.text,
   /** 'import' | 'on_hand' | 'dish' | 'idea'; null before spec 0011. */
   origin: column.text,
+  /** What the dish is (ADR 36): a catalog cuisine id or the household's word, */
+  cuisine: column.text,
+  /** and a JSON array of the household's tags for the kind of dish. */
+  tags: column.text,
   created_by: column.text,
   created_at: column.text,
   updated_at: column.text,
@@ -138,8 +143,9 @@ const variants = new Table({
   total_time: column.text,
   recipe_yield: column.text,
   content_markdown: column.text,
-  recipe_category: column.text,
-  recipe_cuisine: column.text,
+  /** JSON array of the appliances this version needs (ADR 36). */
+  equipment: column.text,
+  effort: column.text,
   /** JSON array of {id, qty_text, item_name, prep_note, category_id, shopping_hint?, swaps:[{qty_text,item_name,prep_note,category_id}]} */
   ingredient_lines: column.text,
   instructions: column.text,
@@ -241,6 +247,13 @@ const chat_messages = new Table(
   { indexes: { by_chat: ["chat_id", "created_at"] } },
 );
 
+/** Imports waiting for review (ADR 35), keyed by operation id. Written by
+ *  the API only; `review` is JSON. Gone once saved or cancelled. */
+const import_operations = new Table({
+  review: column.text,
+  created_at: column.text,
+});
+
 export const AppSchema = new Schema({
   categories,
   lists,
@@ -256,6 +269,7 @@ export const AppSchema = new Schema({
   list_items,
   chats,
   chat_messages,
+  import_operations,
 });
 
 export type Database = (typeof AppSchema)["types"];

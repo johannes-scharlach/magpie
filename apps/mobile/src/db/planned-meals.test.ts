@@ -66,9 +66,9 @@ beforeEach(() => {
   state.db.exec(`
     CREATE TABLE household_people (id TEXT, list_id TEXT, created_at TEXT);
     INSERT INTO household_people VALUES ('person', 'household', '2026-01-01');
-    CREATE TABLE recipes (id TEXT PRIMARY KEY, list_id TEXT, from_name TEXT, from_url TEXT, origin TEXT, next_ingredient_id INTEGER, created_by TEXT, created_at TEXT, updated_at TEXT);
+    CREATE TABLE recipes (id TEXT PRIMARY KEY, list_id TEXT, from_name TEXT, from_url TEXT, origin TEXT, next_ingredient_id INTEGER, cuisine TEXT, tags TEXT, created_by TEXT, created_at TEXT, updated_at TEXT);
     CREATE TABLE variants (id TEXT PRIMARY KEY, recipe_id TEXT, list_id TEXT DEFAULT 'household', name TEXT, description TEXT, locale TEXT, total_time TEXT, recipe_yield TEXT,
-      content_markdown TEXT, recipe_category TEXT, recipe_cuisine TEXT, ingredient_lines TEXT, instructions TEXT, sized_for TEXT, created_at TEXT, updated_at TEXT);
+      content_markdown TEXT, equipment TEXT, effort TEXT, ingredient_lines TEXT, instructions TEXT, sized_for TEXT, created_at TEXT, updated_at TEXT);
     CREATE TABLE planned_meals (
       id TEXT PRIMARY KEY, list_id TEXT, recipe_id TEXT, variant_id TEXT, name TEXT, content_id TEXT NOT NULL,
       slot_date TEXT, meal TEXT, eater_ids TEXT, extra_portions REAL, shopping_reviewed_variant_id TEXT, ingredient_swaps TEXT DEFAULT '{}', ingredients_at_home TEXT DEFAULT '[]', created_at TEXT, updated_at TEXT,

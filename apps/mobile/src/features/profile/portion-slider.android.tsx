@@ -10,14 +10,19 @@ export function PortionSlider({
   inactiveColor,
 }: PortionSliderProps) {
   return (
-    <Host matchContents={{ vertical: true }} style={{ width: "100%", height: 32 }}>
+    <Host
+      matchContents={{ vertical: true }}
+      style={{ width: "100%", height: 32 }}
+    >
       <Slider
         min={portionReferenceRange.min}
         max={portionReferenceRange.max}
-        steps={Math.round(
-          (portionReferenceRange.max - portionReferenceRange.min) /
-            portionReferenceRange.step,
-        ) - 1}
+        steps={
+          Math.round(
+            (portionReferenceRange.max - portionReferenceRange.min) /
+              portionReferenceRange.step,
+          ) - 1
+        }
         value={value}
         onValueChange={onValueChange}
         colors={{

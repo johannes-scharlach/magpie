@@ -8,11 +8,14 @@ import { powersync } from "./system";
 export async function deleteRecipe(recipeId: string) {
   await powersync.writeTransaction(async (tx) => {
     if (
-      await tx.getOptional("SELECT id FROM planned_meals WHERE recipe_id = ? LIMIT 1", [
-        recipeId,
-      ])
+      await tx.getOptional(
+        "SELECT id FROM planned_meals WHERE recipe_id = ? LIMIT 1",
+        [recipeId],
+      )
     )
-      throw new Error("This recipe is on your meal plan, so it can't be deleted.");
+      throw new Error(
+        "This recipe is on your meal plan, so it can't be deleted.",
+      );
     await tx.execute("DELETE FROM variants WHERE recipe_id = ?", [recipeId]);
     await tx.execute("DELETE FROM recipes WHERE id = ?", [recipeId]);
   });

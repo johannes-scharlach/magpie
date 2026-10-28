@@ -26,7 +26,9 @@ describe("swap exploration", () => {
   it("keeps choices in place until a new browsing session starts", () => {
     const strip = orderedAlternatives("Yogurt", options);
     expect(strip.map((option) => option.name)).toEqual([
-      "Yogurt", "Creme fraiche", "Sour cream",
+      "Yogurt",
+      "Creme fraiche",
+      "Sour cream",
     ]);
     expect(strip[strip.indexOf(options[0]!) + 1]).toBeUndefined();
     expect(orderedAlternatives("Sour cream", strip)).toEqual(options);
@@ -47,10 +49,12 @@ describe("swap exploration", () => {
   it("checks the incoming ingredient after all requested swaps have saved", async () => {
     const first = Promise.withResolvers<void>();
     const saved: string[] = [];
-    const { session, release } = setup(vi.fn(async (option) => {
-      if (option === options[1]) await first.promise;
-      saved.push(option.name);
-    }));
+    const { session, release } = setup(
+      vi.fn(async (option) => {
+        if (option === options[1]) await first.promise;
+        saved.push(option.name);
+      }),
+    );
     session.select(options[1]!);
     session.select(options[2]!);
     const purchase = vi.fn(async () => {
@@ -66,9 +70,11 @@ describe("swap exploration", () => {
   });
 
   it("does not check the old ingredient or execute queued swaps after a failure", async () => {
-    const { session, save, error } = setup(vi.fn(async () => {
-      throw new Error("write failed");
-    }));
+    const { session, save, error } = setup(
+      vi.fn(async () => {
+        throw new Error("write failed");
+      }),
+    );
     session.select(options[1]!);
     session.select(options[2]!);
     const purchase = vi.fn(async () => {});
