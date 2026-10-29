@@ -381,7 +381,7 @@ export default function Home() {
           <Link href="/dinner-turntable" asChild>
             <Pressable
               accessibilityRole="link"
-              accessibilityLabel="Play the dinner turntable"
+              accessibilityLabel="Spin for a meal"
               className="min-h-12 flex-row items-center gap-3 rounded-2xl bg-secondary px-4 py-3 active:bg-accent"
             >
               <SymbolView
@@ -390,7 +390,7 @@ export default function Home() {
                 size={24}
               />
               <View className="min-w-0 flex-1">
-                <Text className="font-rounded font-bold">Spin for dinner</Text>
+                <Text className="font-rounded font-bold">Spin for a meal</Text>
                 <Text className="text-sm text-muted-foreground">
                   Keep what sounds good. Change the rest.
                 </Text>

@@ -18,7 +18,7 @@ const pasta: Dinner = {
     protein: "Veggie",
     flavor: "Zingy",
     cuisine: "Italian",
-    fam: "Classic",
+    veg: "No veg",
   },
 };
 const rice: Dinner = {
@@ -40,7 +40,7 @@ const salad: Dinner = {
     protein: "Chicken",
     flavor: "Savory",
     cuisine: "Greek",
-    fam: "A twist",
+    veg: "Raw",
   },
 };
 const dinners = [pasta, rice, salad];
@@ -111,7 +111,7 @@ describe("dinner turntable", () => {
         "Rice simmered in coconut milk.\n" +
         "Keep: Creamy (texture).\n" +
         "Rule out: Pasta (base).\n" +
-        "Expand this dinner rather than offering more ideas.",
+        "Expand this meal rather than offering more ideas.",
     );
   });
 

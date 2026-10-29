@@ -8,7 +8,12 @@ import {
   useRef,
 } from "react";
 import { useColorScheme, useWindowDimensions, View } from "react-native";
-import { GestureDetector, usePanGesture } from "react-native-gesture-handler";
+import {
+  GestureDetector,
+  GestureStateManager,
+  State,
+  usePanGesture,
+} from "react-native-gesture-handler";
 import Animated, {
   cancelAnimation,
   FadeIn,
@@ -16,6 +21,7 @@ import Animated, {
   useAnimatedStyle,
   useReducedMotion,
   useSharedValue,
+  withDecay,
   withSpring,
 } from "react-native-reanimated";
 import Svg, { Circle, Path } from "react-native-svg";
@@ -28,6 +34,7 @@ import { cn } from "@/lib/utils";
 
 import { DinnerFood } from "./dinner-food";
 import { axes, type Axis, type Dinner, type Marks } from "./game";
+import { angularVelocity, isTangential, rotationDelta } from "./wheel-motion";
 
 const ARRIVE = FadeIn.duration(140).reduceMotion(ReduceMotion.System);
 const TILTS = [-1.2, 0.8, -0.6, 1.1, 0.7, -1, 1.2, -0.7] as const;
@@ -87,11 +94,6 @@ function useWheelColors() {
   };
 }
 
-function project(velocity: number) {
-  "worklet";
-  return ((velocity / 1000) * 0.998) / (1 - 0.998);
-}
-
 function point(radius: number, angle: number) {
   const radians = (angle * Math.PI) / 180;
   return `${200 + radius * Math.cos(radians)} ${200 + radius * Math.sin(radians)}`;
@@ -141,7 +143,7 @@ function QualityToken({
       tilt={TILTS[index]!}
       style={{ width }}
     >
-      <View className="min-h-[60px] justify-center px-1 py-1.5">
+      <View className="min-h-[72px] justify-center px-1 py-1.5">
         <View
           pointerEvents="none"
           className="absolute inset-0 rounded-[19px]"
@@ -153,7 +155,7 @@ function QualityToken({
         />
         <View
           className={cn(
-            "min-h-[54px] items-center justify-center gap-0.5 rounded-[18px] border px-1 py-1.5",
+            "min-h-[60px] items-center justify-center gap-0.5 rounded-[18px] border px-1 py-1.5",
             avoided && "border-dashed",
           )}
           style={{
@@ -168,7 +170,7 @@ function QualityToken({
         >
           <Text
             numberOfLines={1}
-            className="text-center text-[8px] font-semibold uppercase tracking-[0.2px]"
+            className="text-center text-[10px] font-semibold uppercase tracking-[0.2px]"
             style={{ color: colors.muted }}
           >
             {axis.name}
@@ -176,7 +178,7 @@ function QualityToken({
           <Animated.View key={value} entering={ARRIVE}>
             <Text
               className={cn(
-                "text-center font-rounded text-[12px] font-extrabold leading-4",
+                "text-center font-rounded text-sm font-extrabold leading-5",
                 avoided && "line-through",
               )}
               style={{
@@ -228,13 +230,17 @@ export const ClayWheel = forwardRef<ClayWheelHandle, ClayWheelProps>(
     const { width: windowWidth, fontScale } = useWindowDimensions();
     const colors = useWheelColors();
     const dark = useColorScheme() === "dark";
-    const size = Math.min(windowWidth - 8, 400);
-    const tokenWidth = size * 0.245;
-    const tokenHeight = 60;
-    const radius = size * 0.365;
-    const expanded = windowWidth < 360 || fontScale > 1.25;
+    const size = Math.min(windowWidth + 64, 520);
+    const tokenWidth = size * 0.21;
+    const tokenHeight = 72;
+    // Keep the controls on-screen while the rim extends beyond the viewport.
+    const radius = size * 0.335;
+    const expanded = windowWidth < 390 || fontScale > 1.25;
     const rotation = useSharedValue(0);
-    const grabbedAt = useSharedValue(0);
+    const startPoint = useSharedValue({ x: 0, y: 0 });
+    const lastPoint = useSharedValue({ x: 0, y: 0 });
+    const travel = useSharedValue(0);
+    const dragState = useSharedValue<"idle" | "held" | "turning">("idle");
     const leaving = useSharedValue(false);
     const foodScale = useSharedValue(1);
     const previousDinner = useRef(dinner.title);
@@ -244,31 +250,42 @@ export const ClayWheel = forwardRef<ClayWheelHandle, ClayWheelProps>(
       onSpin();
     }, [leaving, onSpin]);
 
-    const animateSpin = useCallback(
-      (direction: 1 | -1, velocity = 0) => {
+    const snap = useCallback(
+      (commit: boolean) => {
         "worklet";
-        leaving.set(true);
-        const angle = rotation.get();
-        const target =
-          direction > 0
-            ? (Math.floor(angle / 135) + 1) * 135
-            : (Math.ceil(angle / 135) - 1) * 135;
+        // A gentle detent keeps the colors centered beneath the fixed labels.
+        const target = Math.round(rotation.get() / 45) * 45;
         rotation.set(
           withSpring(
             target,
             {
               duration: 400,
               dampingRatio: 0.8,
-              velocity,
               reduceMotion: ReduceMotion.System,
             },
             (finished) => {
-              if (finished) scheduleOnRN(settle);
+              if (finished && commit) scheduleOnRN(settle);
             },
           ),
         );
       },
-      [leaving, rotation, settle],
+      [rotation, settle],
+    );
+
+    const coast = useCallback(
+      (velocity: number) => {
+        "worklet";
+        leaving.set(true);
+        rotation.set(
+          withDecay(
+            { velocity, reduceMotion: ReduceMotion.System },
+            (finished) => {
+              if (finished) snap(true);
+            },
+          ),
+        );
+      },
+      [leaving, rotation, snap],
     );
 
     const spin = useCallback(() => {
@@ -277,8 +294,8 @@ export const ClayWheel = forwardRef<ClayWheelHandle, ClayWheelProps>(
         onSpin();
         return;
       }
-      animateSpin(1);
-    }, [animateSpin, canSpin, leaving, onSpin, reduced]);
+      coast(720);
+    }, [canSpin, coast, leaving, onSpin, reduced]);
 
     useImperativeHandle(ref, () => ({ spin }), [spin]);
 
@@ -302,38 +319,75 @@ export const ClayWheel = forwardRef<ClayWheelHandle, ClayWheelProps>(
     }, [dinner.title, foodScale, leaving, reduced, rotation]);
 
     const gesture = usePanGesture({
-      activeOffsetX: [-10, 10],
-      failOffsetY: [-12, 12],
+      manualActivation: true,
       maxPointers: 1,
-      onActivate: () => {
+      onBegin: (event) => {
+        dragState.set("idle");
+        const point = { x: event.x - size / 2, y: event.y - size / 2 };
+        const distance = Math.hypot(point.x, point.y);
+        if (distance < size * 0.2 || distance > size * 0.49) {
+          GestureStateManager.fail(event.handlerTag);
+          return;
+        }
+        // Catch a moving wheel on touch-down, not after the drag threshold.
         cancelAnimation(rotation);
         leaving.set(false);
-        grabbedAt.set(rotation.get());
+        dragState.set("held");
+        startPoint.set(point);
+        lastPoint.set(point);
+        travel.set(0);
+      },
+      onTouchesMove: (event) => {
+        if (event.state !== State.BEGAN || dragState.get() !== "held") return;
+        const touch = event.allTouches[0];
+        if (!touch) return;
+        const start = startPoint.get();
+        const movement = {
+          x: touch.x - size / 2 - start.x,
+          y: touch.y - size / 2 - start.y,
+        };
+        if (Math.hypot(movement.x, movement.y) < 6) return;
+        if (isTangential(start, movement)) {
+          GestureStateManager.activate(event.handlerTag);
+        } else {
+          // A radial drag belongs to the page's ScrollView.
+          GestureStateManager.fail(event.handlerTag);
+        }
+      },
+      onActivate: () => {
+        dragState.set("turning");
       },
       onUpdate: (event) => {
-        if (!reduced) rotation.set(grabbedAt.get() + event.translationX * 0.65);
+        const point = { x: event.x - size / 2, y: event.y - size / 2 };
+        const previous = lastPoint.get();
+        lastPoint.set(point);
+        if (Math.hypot(point.x, point.y) < size * 0.2) return;
+        const delta = rotationDelta(previous, point);
+        travel.set(travel.get() + delta);
+        if (!reduced) rotation.set(rotation.get() + delta);
       },
       onDeactivate: (event) => {
-        const projected = event.translationX + project(event.velocityX);
-        const commit = canSpin && !event.canceled && Math.abs(projected) > 42;
-        const direction = projected < 0 ? -1 : 1;
-        if (commit) {
-          if (reduced) {
-            scheduleOnRN(onSpin);
-            return;
-          }
-          animateSpin(direction, event.velocityX * 0.65);
-        } else {
-          rotation.set(
-            withSpring(grabbedAt.get(), {
-              duration: 400,
-              dampingRatio: 0.8,
-              velocity: event.velocityX * 0.65,
-              reduceMotion: ReduceMotion.System,
-            }),
-          );
-          if (!canSpin && !event.canceled) scheduleOnRN(onSpin);
+        const point = { x: event.x - size / 2, y: event.y - size / 2 };
+        const velocity =
+          Math.hypot(point.x, point.y) < size * 0.2
+            ? 0
+            : angularVelocity(point, {
+                x: event.velocityX,
+                y: event.velocityY,
+              });
+        const commit =
+          !event.canceled &&
+          (Math.abs(travel.get()) >= 12 || Math.abs(velocity) >= 90);
+        if (!commit || !canSpin || reduced) {
+          snap(false);
+          if (commit) scheduleOnRN(onSpin);
+          return;
         }
+        coast(velocity);
+      },
+      onFinalize: () => {
+        if (dragState.get() === "held") snap(false);
+        dragState.set("idle");
       },
     });
 
@@ -362,154 +416,159 @@ export const ClayWheel = forwardRef<ClayWheelHandle, ClayWheelProps>(
 
     return (
       <View className="gap-2">
-        <View className="self-center" style={{ width: size, height: size }}>
-          <GestureDetector gesture={gesture}>
-            <Animated.View
-              accessible
-              accessibilityRole="adjustable"
-              accessibilityLabel="Dinner turntable"
-              accessibilityValue={{
-                text: `${dinner.name}, ${dinner.activeMinutes} minutes hands-on, ${dinner.totalMinutes} minutes total`,
-              }}
-              accessibilityHint="Flick left or right to spin for another dinner."
-              accessibilityActions={[
-                { name: "increment" },
-                { name: "decrement" },
-              ]}
-              onAccessibilityAction={spin}
-              style={{ width: size, height: size }}
-            >
-              <Svg width={size} height={size} viewBox="0 0 400 400">
-                <Circle cx={200} cy={205} r={192} fill={colors.underside} />
-                <Circle cx={200} cy={200} r={192} fill={colors.disc} />
-              </Svg>
+        <View className="items-center overflow-hidden">
+          <View style={{ width: size, height: size }}>
+            <GestureDetector gesture={gesture}>
               <Animated.View
-                pointerEvents="none"
-                className="absolute inset-0"
-                style={rimStyle}
-              >
-                <Svg width={size} height={size} viewBox="0 0 400 400">
-                  {WEDGES.map((_, index) => (
-                    <Path
-                      key={index}
-                      d={wedge(index)}
-                      fill={(dark ? DARK_WEDGES : WEDGES)[index]}
-                    />
-                  ))}
-                  <Circle
-                    cx={200}
-                    cy={200}
-                    r={188}
-                    fill="none"
-                    stroke={colors.shine}
-                    strokeOpacity={0.3}
-                    strokeWidth={3}
-                  />
-                  <Circle cx={200} cy={16} r={5} fill={colors.ink} />
-                </Svg>
-              </Animated.View>
-              <View pointerEvents="none" className="absolute inset-0">
-                <Svg width={size} height={size} viewBox="0 0 400 400">
-                  <Circle cx={200} cy={200} r={149} fill={colors.disc} />
-                  <Circle
-                    cx={200}
-                    cy={200}
-                    r={146}
-                    fill="none"
-                    stroke={colors.shine}
-                    strokeOpacity={0.3}
-                    strokeWidth={2}
-                  />
-                </Svg>
-              </View>
-              <View
-                pointerEvents="none"
-                className="absolute"
-                style={{
-                  left: size * 0.2,
-                  top: size * 0.29,
-                  width: size * 0.6,
-                  height: size * 0.46,
+                accessible
+                accessibilityRole="adjustable"
+                accessibilityLabel="Meal turntable"
+                accessibilityValue={{
+                  text: `${dinner.name}, ${dinner.activeMinutes} minutes hands-on, ${dinner.totalMinutes} minutes total`,
                 }}
-              >
-                <Svg width="100%" height="100%" viewBox="0 0 400 304">
-                  <Path
-                    d="M49 66 C82 22 150 13 213 21 C282 7 349 40 370 92 C397 151 370 222 319 254 C267 289 197 286 137 277 C74 278 27 239 24 181 C4 133 20 99 49 66 Z"
-                    fill={colors.underside}
-                    transform="translate(0 7)"
-                  />
-                  <Path
-                    d="M49 59 C82 15 150 6 213 14 C282 0 349 33 370 85 C397 144 370 215 319 247 C267 282 197 279 137 270 C74 271 27 232 24 174 C4 126 20 92 49 59 Z"
-                    fill={plate}
-                  />
-                  <Path
-                    d="M62 71 C98 34 153 28 210 33 C273 20 330 48 350 91"
-                    fill="none"
-                    stroke={colors.shine}
-                    strokeOpacity={0.32}
-                    strokeWidth={5}
-                    strokeLinecap="round"
-                  />
-                </Svg>
-              </View>
-              <Animated.View
-                key={dinner.title}
-                entering={ARRIVE}
-                pointerEvents="none"
-                className="absolute items-center"
-                style={[
-                  {
-                    left: size * 0.16,
-                    top: size * 0.255,
-                    width: size * 0.68,
-                  },
-                  foodStyle,
+                accessibilityHint="Turn the rim, then let go to spin for another meal."
+                accessibilityActions={[
+                  { name: "increment" },
+                  { name: "decrement" },
                 ]}
+                onAccessibilityAction={spin}
+                style={{ width: size, height: size }}
               >
-                <DinnerFood
-                  dinner={dinner}
-                  width={size * 0.68}
-                  height={size * 0.68 * 0.72}
-                />
+                <Svg width={size} height={size} viewBox="0 0 400 400">
+                  <Circle cx={200} cy={205} r={192} fill={colors.underside} />
+                  <Circle cx={200} cy={200} r={192} fill={colors.disc} />
+                </Svg>
+                <Animated.View
+                  pointerEvents="none"
+                  className="absolute inset-0"
+                  style={rimStyle}
+                >
+                  <Svg width={size} height={size} viewBox="0 0 400 400">
+                    {WEDGES.map((_, index) => (
+                      <Path
+                        key={index}
+                        d={wedge(index)}
+                        fill={(dark ? DARK_WEDGES : WEDGES)[index]}
+                      />
+                    ))}
+                    <Circle
+                      cx={200}
+                      cy={200}
+                      r={188}
+                      fill="none"
+                      stroke={colors.shine}
+                      strokeOpacity={0.3}
+                      strokeWidth={3}
+                    />
+                    <Circle cx={200} cy={16} r={5} fill={colors.ink} />
+                  </Svg>
+                </Animated.View>
+                <View pointerEvents="none" className="absolute inset-0">
+                  <Svg width={size} height={size} viewBox="0 0 400 400">
+                    <Circle cx={200} cy={200} r={149} fill={colors.disc} />
+                    <Circle
+                      cx={200}
+                      cy={200}
+                      r={146}
+                      fill="none"
+                      stroke={colors.shine}
+                      strokeOpacity={0.3}
+                      strokeWidth={2}
+                    />
+                  </Svg>
+                </View>
+                <View
+                  pointerEvents="none"
+                  className="absolute"
+                  style={{
+                    left: size * 0.2,
+                    top: size * 0.29,
+                    width: size * 0.6,
+                    height: size * 0.46,
+                  }}
+                >
+                  <Svg width="100%" height="100%" viewBox="0 0 400 304">
+                    <Path
+                      d="M49 66 C82 22 150 13 213 21 C282 7 349 40 370 92 C397 151 370 222 319 254 C267 289 197 286 137 277 C74 278 27 239 24 181 C4 133 20 99 49 66 Z"
+                      fill={colors.underside}
+                      transform="translate(0 7)"
+                    />
+                    <Path
+                      d="M49 59 C82 15 150 6 213 14 C282 0 349 33 370 85 C397 144 370 215 319 247 C267 282 197 279 137 270 C74 271 27 232 24 174 C4 126 20 92 49 59 Z"
+                      fill={plate}
+                    />
+                    <Path
+                      d="M62 71 C98 34 153 28 210 33 C273 20 330 48 350 91"
+                      fill="none"
+                      stroke={colors.shine}
+                      strokeOpacity={0.32}
+                      strokeWidth={5}
+                      strokeLinecap="round"
+                    />
+                  </Svg>
+                </View>
+                <Animated.View
+                  key={dinner.title}
+                  entering={ARRIVE}
+                  pointerEvents="none"
+                  className="absolute items-center"
+                  style={[
+                    {
+                      left: size * 0.16,
+                      top: size * 0.255,
+                      width: size * 0.68,
+                    },
+                    foodStyle,
+                  ]}
+                >
+                  <DinnerFood
+                    dinner={dinner}
+                    width={size * 0.68}
+                    height={size * 0.68 * 0.72}
+                  />
+                </Animated.View>
               </Animated.View>
-            </Animated.View>
-          </GestureDetector>
+            </GestureDetector>
 
-          {!expanded
-            ? axes.map((axis, index) => {
-                const angle = ((-90 + index * 45) * Math.PI) / 180;
-                return (
-                  <View
-                    key={axis.id}
-                    className="absolute"
-                    style={{
-                      left:
-                        size / 2 + radius * Math.cos(angle) - tokenWidth / 2,
-                      top:
-                        size / 2 + radius * Math.sin(angle) - tokenHeight / 2,
-                    }}
-                  >
-                    {token(axis, index, tokenWidth)}
-                  </View>
-                );
-              })
-            : null}
+            {!expanded
+              ? axes.map((axis, index) => {
+                  const angle = ((-90 + (index + 0.5) * 45) * Math.PI) / 180;
+                  return (
+                    <View
+                      key={axis.id}
+                      className="absolute"
+                      style={{
+                        left:
+                          size / 2 + radius * Math.cos(angle) - tokenWidth / 2,
+                        top:
+                          size / 2 + radius * Math.sin(angle) - tokenHeight / 2,
+                      }}
+                    >
+                      {token(axis, index, tokenWidth)}
+                    </View>
+                  );
+                })
+              : null}
+          </View>
         </View>
 
         <Animated.View
           key={dinner.title}
           entering={ARRIVE}
-          className="gap-0.5 px-5"
+          className="gap-2 px-6"
         >
-          <Text className="text-center font-rounded text-[27px] font-extrabold leading-8 text-primary">
+          <Text className="text-center font-rounded text-3xl font-extrabold leading-9 text-primary">
             {dinner.name}
           </Text>
           <Text
-            className="text-center text-xs text-muted-foreground"
+            className="text-center text-sm text-muted-foreground"
             style={{ fontVariant: "tabular-nums" }}
           >
             {dinner.activeMinutes} min hands-on · {dinner.totalMinutes} min
             total
+          </Text>
+          <Text className="text-center text-base leading-6">
+            {dinner.pitch}
           </Text>
         </Animated.View>
 

@@ -13,7 +13,7 @@
         "protein": "Pork",
         "flavor": "Sweet-tart",
         "cuisine": "German",
-        "fam": "Classic"
+        "veg": "No veg"
       },
       "cuisine": "German",
       "pitch": "Plums collapsed right in the pan juices with coarse mustard and fresh thyme. Rich, sweet-tart pan sauce over tender, butter-tossed Spätzle."
@@ -31,7 +31,7 @@
         "protein": "Pork",
         "flavor": "Sweet-tart",
         "cuisine": "Italian",
-        "fam": "A twist"
+        "veg": "No veg"
       },
       "cuisine": "Italian",
       "pitch": "Fresh sage leaves crackled in foaming butter, plums caramelized with a splash of balsamic into a glossy glaze. Spooned over warm, creamy polenta."
@@ -49,7 +49,7 @@
         "protein": "Pork",
         "flavor": "Sweet-tart",
         "cuisine": "Chinese",
-        "fam": "A twist"
+        "veg": "No veg"
       },
       "cuisine": "Cantonese",
       "pitch": "Chops seared hard, then deglazed with Shaoxing wine and simmered in plums, soy, and fresh ginger until glossy and sticky. Steamed jasmine rice to soak it up."
@@ -67,7 +67,7 @@
         "protein": "Pork",
         "flavor": "Smoky",
         "cuisine": "Mexican",
-        "fam": "A twist"
+        "veg": "No veg"
       },
       "cuisine": "Mexican",
       "pitch": "Plums melted down in the pan with chipotle in adobo, a pinch of Mexican oregano, and fresh lime. Sweet, smoky heat clinging to the chops, warm corn tortillas on the side."
@@ -87,7 +87,7 @@
         "protein": "Veggie",
         "flavor": "Smoky",
         "cuisine": "Mexican",
-        "fam": "Classic"
+        "veg": "Roasted"
       },
       "cuisine": "Mexican",
       "pitch": "Corn charred hard in a hot skillet with diced zucchini and jalapeño, finished off the heat with crumbled salty cheese, fresh lime, and warm corn tortillas."
@@ -105,7 +105,7 @@
         "protein": "Veggie",
         "flavor": "Herby",
         "cuisine": "Greek",
-        "fam": "A twist"
+        "veg": "Roasted"
       },
       "cuisine": "Greek",
       "pitch": "Zucchini coins and sweet corn blistered in olive oil, then tossed off the heat with crumbled feta, torn fresh mint, and lemon juice. Crusty bread to scoop it up."
@@ -123,7 +123,7 @@
         "protein": "Veggie",
         "flavor": "Spiced",
         "cuisine": "Levantine",
-        "fam": "A twist"
+        "veg": "Roasted"
       },
       "cuisine": "Levantine",
       "pitch": "Smoky blistered corn and zucchini spooned hot over cool, thick garlic labneh, drizzled with foaming pul biber butter. Warm flatbread for dipping."
@@ -141,7 +141,7 @@
         "protein": "Veggie",
         "flavor": "Herby",
         "cuisine": "Italian",
-        "fam": "A twist"
+        "veg": "Roasted"
       },
       "cuisine": "Italian",
       "pitch": "Zucchini and sweet corn charred fast in olive oil with garlic, tossed off the heat with fresh basil and sharp, salty pecorino. Crusty bread to catch the pan juices."
@@ -161,7 +161,7 @@
         "protein": "Veggie",
         "flavor": "Savory",
         "cuisine": "German",
-        "fam": "Classic"
+        "veg": "Roasted"
       },
       "cuisine": "German",
       "pitch": "Chanterelles seared fast in foaming butter with minced shallot, finished with a spoonful of tangy Schmand and fresh parsley. Piled hot onto thick, crusty sourdough."
@@ -179,7 +179,7 @@
         "protein": "Egg",
         "flavor": "Herby",
         "cuisine": "French",
-        "fam": "Classic"
+        "veg": "Roasted"
       },
       "cuisine": "French",
       "pitch": "Chanterelles sautéed hot in butter with crushed garlic and thyme, piled onto grilled sourdough with a runny-yolk fried egg to enrich every bite."
@@ -197,7 +197,7 @@
         "protein": "Pork",
         "flavor": "Tangy",
         "cuisine": "Spanish",
-        "fam": "A twist"
+        "veg": "Roasted"
       },
       "cuisine": "Spanish",
       "pitch": "Chanterelles tossed in olive oil with crisp bits of serrano ham and garlic, finished with a splash of sherry vinegar to cut the richness. Spooned over toasted bread."
@@ -215,7 +215,7 @@
         "protein": "Veggie",
         "flavor": "Herby",
         "cuisine": "Nordic",
-        "fam": "Classic"
+        "veg": "Roasted"
       },
       "cuisine": "Nordic",
       "pitch": "Chanterelles browned in generous butter with shallots and a splash of cream, tossed with fresh dill. Spooned over thick sourdough fried golden right in the pan drippings."
@@ -235,7 +235,7 @@
         "protein": "Pork",
         "flavor": "Herby",
         "cuisine": "Italian",
-        "fam": "Classic"
+        "veg": "Roasted"
       },
       "cuisine": "Italian",
       "pitch": "Fennel salsiccia, baby potatoes and sweet peppers roasted hot on one tray with rosemary and whole garlic. The potatoes crisp in the sausage drippings while the peppers turn sweet and jammy."
@@ -253,7 +253,7 @@
         "protein": "Pork",
         "flavor": "Smoky",
         "cuisine": "Spanish",
-        "fam": "Classic"
+        "veg": "Roasted"
       },
       "cuisine": "Spanish",
       "pitch": "Fresh cooking chorizo, sweet peppers and baby potatoes roasted until sizzling in spiced red oil. A splash of sherry vinegar over the hot tray cuts the rich fat."
@@ -271,7 +271,7 @@
         "protein": "Lamb",
         "flavor": "Spiced",
         "cuisine": "North African",
-        "fam": "A twist"
+        "veg": "Roasted"
       },
       "cuisine": "North African",
       "pitch": "Spicy lamb merguez and baby potatoes roasted with sweet peppers and cumin seeds until browned and crisp. Squeeze fresh lemon over the sizzling tray."
@@ -289,7 +289,7 @@
         "protein": "Pork",
         "flavor": "Savory",
         "cuisine": "German",
-        "fam": "Classic"
+        "veg": "Roasted"
       },
       "cuisine": "German",
       "pitch": "Coarse bratwurst, sweet peppers and new potatoes roasted with crushed caraway until browned and crisp. Served with a big spoonful of sharp mustard on the side."
@@ -309,7 +309,7 @@
         "protein": "Veggie",
         "flavor": "Herby",
         "cuisine": "Italian",
-        "fam": "Classic"
+        "veg": "Roasted"
       },
       "cuisine": "Italian",
       "pitch": "Cherry tomatoes blistered in olive oil with garlic until jammy, tossed with al dente rigatoni, then swirled off heat with fresh ricotta and basil into a velvety pink sauce."
@@ -327,7 +327,7 @@
         "protein": "Pork",
         "flavor": "Spiced",
         "cuisine": "Italian",
-        "fam": "A twist"
+        "veg": "Roasted"
       },
       "cuisine": "Italian",
       "pitch": "Cherry tomatoes cooked down with a spoonful of fiery 'nduja into a sweet, spicy pan sauce. Tossed with pasta and topped with cool, creamy burrata that melts in ribbons as you eat."
@@ -345,7 +345,7 @@
         "protein": "Veggie",
         "flavor": "Briny",
         "cuisine": "Italian",
-        "fam": "Classic"
+        "veg": "Pickled"
       },
       "cuisine": "Italian",
       "pitch": "Sweet cherry tomatoes blistered with garlic and briny capers, tossed with rigatoni and finished with a mountain of shaved salty ricotta salata and fresh basil."
@@ -363,7 +363,7 @@
         "protein": "Veggie",
         "flavor": "Savory",
         "cuisine": "Italian",
-        "fam": "Classic"
+        "veg": "Roasted"
       },
       "cuisine": "Italian",
       "pitch": "Cherry tomatoes collapsed with garlic and chili, then beaten vigorously off heat with pecorino, parmesan, and pasta water until the cheese melts into a glossy, clinging red glaze."
@@ -383,7 +383,7 @@
         "protein": "Pork",
         "flavor": "Smoky",
         "cuisine": "French",
-        "fam": "Classic"
+        "veg": "No veg"
       },
       "cuisine": "French",
       "pitch": "Paper-thin dough spread with Schmand, scattered with smoked bacon lardons and thinly sliced sweet onions. Baked blistering hot until cracker-crisp."
@@ -401,7 +401,7 @@
         "protein": "Pork",
         "flavor": "Savory",
         "cuisine": "French",
-        "fam": "Classic"
+        "veg": "No veg"
       },
       "cuisine": "French",
       "pitch": "The classic bacon and onion base topped with grated Gruyère that melts into rich, golden, bubbling pockets at maximum oven heat."
@@ -419,7 +419,7 @@
         "protein": "Veggie",
         "flavor": "Sweet-tart",
         "cuisine": "German",
-        "fam": "A twist"
+        "veg": "No veg"
       },
       "cuisine": "German",
       "pitch": "Thin crust spread with Schmand, topped with tart apple slices, red onions and soft goat cheese. Drizzled with warm rosemary honey as soon as it blisters."
@@ -437,7 +437,7 @@
         "protein": "Fish",
         "flavor": "Smoky",
         "cuisine": "German",
-        "fam": "A twist"
+        "veg": "No veg"
       },
       "cuisine": "German",
       "pitch": "Paper-thin crust baked with Schmand and shaved red onion, topped hot out of the oven with silky smoked salmon, fresh dill, and lemon."
@@ -457,7 +457,7 @@
         "protein": "Veggie",
         "flavor": "Peppery",
         "cuisine": "Italian",
-        "fam": "Classic"
+        "veg": "No veg"
       },
       "cuisine": "Italian",
       "pitch": "Coarsely crushed black peppercorns bloomed in the pan, tossed with spaghetti and finely grated Pecorino Romano into a silky, emulsified cheese sauce."
@@ -475,7 +475,7 @@
         "protein": "Pork",
         "flavor": "Peppery",
         "cuisine": "Italian",
-        "fam": "Classic"
+        "veg": "No veg"
       },
       "cuisine": "Italian",
       "pitch": "Rendered guanciale fat blooms the black pepper, tossed with al dente spaghetti, crispy pork bites, and a mountain of pecorino into a glossy sauce."
@@ -493,7 +493,7 @@
         "protein": "Veggie",
         "flavor": "Peppery",
         "cuisine": "Italian",
-        "fam": "A twist"
+        "veg": "Roasted"
       },
       "cuisine": "Italian",
       "pitch": "Thinly sliced artichoke hearts seared until golden and crisp, spooned over spaghetti coated in a sharp, peppery pecorino emulsion."
@@ -511,7 +511,7 @@
         "protein": "Veggie",
         "flavor": "Nutty",
         "cuisine": "Italian",
-        "fam": "A twist"
+        "veg": "No veg"
       },
       "cuisine": "Italian",
       "pitch": "Silky pecorino and black pepper pasta finished with roughly crushed toasted walnuts for a warm, buttery crunch against the sharp cheese."
@@ -531,7 +531,7 @@
         "protein": "Egg",
         "flavor": "Savory",
         "cuisine": "Spanish",
-        "fam": "A twist"
+        "veg": "Raw"
       },
       "cuisine": "Spanish",
       "pitch": "The iconic Spanish bar hack: kettle chips soaked in egg for an instant custardy tortilla, served with blistered padrón peppers and tomato-rubbed crusty bread."
@@ -549,7 +549,7 @@
         "protein": "Egg",
         "flavor": "Mellow",
         "cuisine": "Spanish",
-        "fam": "Classic"
+        "veg": "Raw"
       },
       "cuisine": "Spanish",
       "pitch": "Thinly shaved potatoes and sweet onions slow-poached in olive oil until custardy, paired with a sharp sherry-vinaigrette green salad to cut the rich oil."
@@ -567,7 +567,7 @@
         "protein": "Egg & pork",
         "flavor": "Smoky",
         "cuisine": "Spanish",
-        "fam": "Classic"
+        "veg": "Roasted"
       },
       "cuisine": "Spanish",
       "pitch": "Potatoes poached with diced cooking chorizo and sweet peppers, tinting the eggs with smoky paprika oil for a hearty, all-in-one skillet dinner."
@@ -587,7 +587,7 @@
         "protein": "Pork",
         "flavor": "Smoky",
         "cuisine": "Italian",
-        "fam": "Classic"
+        "veg": "No veg"
       },
       "cuisine": "Italian",
       "pitch": "Guanciale crisped until golden, simmered with sweet San Marzano tomatoes and dried chili into a rich, porky sauce clinging to hollow bucatini, finished with sharp pecorino."
@@ -605,7 +605,7 @@
         "protein": "Pork",
         "flavor": "Spiced",
         "cuisine": "Italian",
-        "fam": "A twist"
+        "veg": "No veg"
       },
       "cuisine": "Italian",
       "pitch": "Crisped pancetta and fiery 'nduja cooked down in sweet cherry tomatoes, tossed with rigatoni and pockets of melting smoked cheese."
@@ -623,7 +623,7 @@
         "protein": "Pork",
         "flavor": "Smoky",
         "cuisine": "Spanish",
-        "fam": "Classic"
+        "veg": "No veg"
       },
       "cuisine": "Spanish",
       "pitch": "Diced cooking chorizo sizzled until it releases rich red oil, simmered with crushed tomatoes and garlic, tossed with pasta and aged manchego."
@@ -643,7 +643,7 @@
         "protein": "Fish",
         "flavor": "Zingy",
         "cuisine": "Italian",
-        "fam": "Classic"
+        "veg": "Raw"
       },
       "cuisine": "Italian",
       "pitch": "Creamy cannellini beans and olive-oil tuna tossed with shaved red onion, fresh parsley, and lemon juice. Crusty bread on the side to catch the oil."
@@ -661,7 +661,7 @@
         "protein": "Fish",
         "flavor": "Tangy",
         "cuisine": "Spanish",
-        "fam": "Classic"
+        "veg": "Raw"
       },
       "cuisine": "Spanish",
       "pitch": "Creamy white beans and flaked tuna tossed with strips of sweet piquillo peppers, fresh parsley, and sharp sherry vinegar."
@@ -679,7 +679,7 @@
         "protein": "Fish",
         "flavor": "Briny",
         "cuisine": "French",
-        "fam": "Classic"
+        "veg": "Pickled"
       },
       "cuisine": "French",
       "pitch": "Tender white beans and tuna tossed with briny capers, crisp shallots, and fresh herbs in a sharp Dijon vinaigrette."
@@ -697,7 +697,7 @@
         "protein": "Fish",
         "flavor": "Briny",
         "cuisine": "Greek",
-        "fam": "Classic"
+        "veg": "Pickled"
       },
       "cuisine": "Greek",
       "pitch": "Tender white beans and flaked tuna tossed with briny kalamata olives, red onion, and dried oregano in a red wine vinaigrette."
@@ -717,7 +717,7 @@
         "protein": "Pork",
         "flavor": "Nutty",
         "cuisine": "Italian",
-        "fam": "Classic"
+        "veg": "No veg"
       },
       "cuisine": "Italian",
       "pitch": "Gnocchi pan-fried directly in rendered pancetta fat and foaming butter until golden and crisp, tossed with crackled sage leaves and parmesan."
@@ -735,7 +735,7 @@
         "protein": "Pork",
         "flavor": "Tangy",
         "cuisine": "German",
-        "fam": "Classic"
+        "veg": "Pickled"
       },
       "cuisine": "German",
       "pitch": "Potato gnocchi pan-fried golden in butter in the Swabian Schupfnudeln style, tossed with tangy sauerkraut, crisp smoked speck, and caraway."
@@ -753,7 +753,7 @@
         "protein": "Veggie",
         "flavor": "Nutty",
         "cuisine": "French",
-        "fam": "A twist"
+        "veg": "No veg"
       },
       "cuisine": "French",
       "pitch": "Gnocchi browned in nutty butter with minced shallot and garlic, tossed with fresh chives and melted aged Comté cheese."
@@ -771,7 +771,7 @@
         "protein": "Veggie",
         "flavor": "Savory",
         "cuisine": "Italian",
-        "fam": "Classic"
+        "veg": "Roasted"
       },
       "cuisine": "Italian",
       "pitch": "Gnocchi browned in olive oil, tossed with sweet blistered tomatoes and fresh basil, topped with mozzarella that melts into gooey pockets right in the pan."
@@ -791,7 +791,7 @@
         "protein": "Egg",
         "flavor": "Spiced",
         "cuisine": "North African",
-        "fam": "Classic"
+        "veg": "Roasted"
       },
       "cuisine": "North African",
       "pitch": "Sweet peppers and crushed tomatoes simmered with fiery harissa and cumin, eggs poached runny in the sauce with warm crumbled feta. Crusty bread to scoop."
@@ -809,7 +809,7 @@
         "protein": "Egg",
         "flavor": "Spiced",
         "cuisine": "Turkish",
-        "fam": "Classic"
+        "veg": "Roasted"
       },
       "cuisine": "Turkish",
       "pitch": "Sweet green peppers and tomatoes stewed soft in butter and pul biber, with eggs folded through off the heat into a velvety, custardy scramble. Fresh bread for dipping."
@@ -827,7 +827,7 @@
         "protein": "Egg",
         "flavor": "Herby",
         "cuisine": "Levantine",
-        "fam": "A twist"
+        "veg": "Greens"
       },
       "cuisine": "Levantine",
       "pitch": "Sliced leeks and tender spinach wilted in olive oil with ground cumin, eggs poached directly in the greens with warm feta and fresh dill. Flatbread on the side."
@@ -845,7 +845,7 @@
         "protein": "Egg",
         "flavor": "Spiced",
         "cuisine": "Italian",
-        "fam": "Classic"
+        "veg": "Roasted"
       },
       "cuisine": "Italian",
       "pitch": "Eggs poached gently in sweet San Marzano tomato sauce sizzling with garlic and dried chili, showered with sharp pecorino and fresh basil. Crusty bread for dipping."
@@ -865,7 +865,7 @@
         "protein": "Veggie",
         "flavor": "Smoky",
         "cuisine": "Mexican",
-        "fam": "Classic"
+        "veg": "Roasted"
       },
       "cuisine": "Mexican",
       "pitch": "Tortillas toasted in a dry skillet with seasoned black beans, charred poblano strips, and stretchy Oaxaca cheese. Fresh salsa on the side."
@@ -883,7 +883,7 @@
         "protein": "Veggie",
         "flavor": "Savory",
         "cuisine": "Tex-Mex",
-        "fam": "Classic"
+        "veg": "Roasted"
       },
       "cuisine": "Tex-Mex",
       "pitch": "Flour tortillas griddled crisp in butter with black beans, charred sweet corn, pickled jalapeños, and sharp melted cheddar. Cool sour cream for dipping."
@@ -901,7 +901,7 @@
         "protein": "Pork",
         "flavor": "Spiced",
         "cuisine": "Mexican",
-        "fam": "Classic"
+        "veg": "Roasted"
       },
       "cuisine": "Mexican",
       "pitch": "Spicy Mexican chorizo browned in the skillet and mashed with black beans and sweet peppers, folded with melting cheese into a crisp tortilla."
@@ -919,7 +919,7 @@
         "protein": "Pork",
         "flavor": "Tangy",
         "cuisine": "Mexican",
-        "fam": "Classic"
+        "veg": "Pickled"
       },
       "cuisine": "Mexican",
       "pitch": "Flour tortillas griddled crisp in butter, layered with refried black beans, smoky ham, pickled jalapeños, and bubbling cheese."
@@ -939,7 +939,7 @@
         "protein": "Pork",
         "flavor": "Sweet-tart",
         "cuisine": "French",
-        "fam": "Classic"
+        "veg": "No veg"
       },
       "cuisine": "French",
       "pitch": "Seared chops with tart apples browned in butter, deglazed with dry cider and swirled with crème fraîche and Dijon into a rich pan sauce."
@@ -957,7 +957,7 @@
         "protein": "Pork",
         "flavor": "Tangy",
         "cuisine": "British",
-        "fam": "Classic"
+        "veg": "No veg"
       },
       "cuisine": "British",
       "pitch": "Chops seared in butter with sweet apple wedges and fresh sage, pan juices reduced with sharp English mustard and cider. Mashed or boiled potatoes alongside."
@@ -975,7 +975,7 @@
         "protein": "Pork",
         "flavor": "Sweet-tart",
         "cuisine": "US Southern",
-        "fam": "Classic"
+        "veg": "No veg"
       },
       "cuisine": "US Southern & BBQ",
       "pitch": "Bone-in chops seared in a hot skillet, tart apples fried tender in the drippings with black pepper and a splash of cider vinegar to balance the sweetness."
@@ -995,7 +995,7 @@
         "protein": "Veggie",
         "flavor": "Herby",
         "cuisine": "Greek",
-        "fam": "Classic"
+        "veg": "Greens"
       },
       "cuisine": "Greek",
       "pitch": "Medium-grain rice simmered with tender spinach and scallions, finished with fresh dill, lots of lemon juice, and a thick slab of salty feta."
@@ -1013,7 +1013,7 @@
         "protein": "Veggie",
         "flavor": "Zingy",
         "cuisine": "Greek",
-        "fam": "Classic"
+        "veg": "Greens"
       },
       "cuisine": "Greek",
       "pitch": "Rice and spinach simmered with sweet crushed tomatoes, olive oil, and spring onions, finished with lemon and warm crumbled feta."
@@ -1031,7 +1031,7 @@
         "protein": "Veggie",
         "flavor": "Herby",
         "cuisine": "Greek",
-        "fam": "A twist"
+        "veg": "Greens"
       },
       "cuisine": "Greek",
       "pitch": "Tender chickpeas simmered in one pot with rice, mounds of spinach, and fresh dill, topped with crumbled feta and lemon for an all-in-one pantry dinner."
@@ -1049,7 +1049,7 @@
         "protein": "Veggie",
         "flavor": "Herby",
         "cuisine": "Persian",
-        "fam": "Classic"
+        "veg": "Greens"
       },
       "cuisine": "Persian",
       "pitch": "Fragrant basmati rice steamed with mounds of fresh dill, parsley, and tender spinach, finished with garlic butter and fresh lime juice."
@@ -1069,7 +1069,7 @@
         "protein": "Tofu",
         "flavor": "Nutty",
         "cuisine": "SE Asian",
-        "fam": "A twist"
+        "veg": "Greens"
       },
       "cuisine": "Indonesian & Malaysian",
       "pitch": "Golden-crisped tofu and tender steamed broccoli tossed in a rich peanut glaze balanced with soy sauce, fresh ginger, and lime. Steamed jasmine rice alongside."
@@ -1087,7 +1087,7 @@
         "protein": "Tofu",
         "flavor": "Umami",
         "cuisine": "Japanese",
-        "fam": "A twist"
+        "veg": "Greens"
       },
       "cuisine": "Japanese",
       "pitch": "Tofu pan-fried until crackling, glazed with a sweet-savory soy, mirin and ginger reduction, tossed with steamed broccoli and toasted sesame over rice."
@@ -1105,7 +1105,7 @@
         "protein": "Tofu",
         "flavor": "Spiced",
         "cuisine": "Chinese",
-        "fam": "A twist"
+        "veg": "Greens"
       },
       "cuisine": "Sichuan",
       "pitch": "Crisp-edged tofu and broccoli tossed in a glossy dark glaze of soy sauce, Chinkiang black vinegar, garlic, and chili crisp. Served hot over steamed rice."
@@ -1123,7 +1123,7 @@
         "protein": "Tofu",
         "flavor": "Sweet-heat",
         "cuisine": "Korean",
-        "fam": "A twist"
+        "veg": "Greens"
       },
       "cuisine": "Korean",
       "pitch": "Tofu seared crisp and lacquered in a sweet, spicy gochujang, honey, and sesame glaze, paired with clean steamed broccoli to cool the heat."
@@ -1143,7 +1143,7 @@
         "protein": "Fish & egg",
         "flavor": "Smoky",
         "cuisine": "Nordic",
-        "fam": "Classic"
+        "veg": "No veg"
       },
       "cuisine": "Nordic",
       "pitch": "Diced potatoes browned crisp in butter, tossed with flaked smoked trout and fresh dill, topped with a runny-yolk fried egg and sharp horseradish cream."
@@ -1161,7 +1161,7 @@
         "protein": "Fish",
         "flavor": "Tangy",
         "cuisine": "German",
-        "fam": "Classic"
+        "veg": "No veg"
       },
       "cuisine": "German",
       "pitch": "Sliced potatoes crisped golden in butter with sweet onions, folded with flaked smoked trout, fiery grated horseradish, fresh chives, and cool Schmand."
@@ -1179,7 +1179,7 @@
         "protein": "Fish",
         "flavor": "Tangy",
         "cuisine": "British",
-        "fam": "Classic"
+        "veg": "No veg"
       },
       "cuisine": "British",
       "pitch": "Boiled new potatoes crushed and fried crisp in butter with scallions, folded with warm flaked smoked trout and sharp English mustard pan juices."
@@ -1197,7 +1197,7 @@
         "protein": "Fish & egg",
         "flavor": "Tangy",
         "cuisine": "US Southern",
-        "fam": "A twist"
+        "veg": "Pickled"
       },
       "cuisine": "US Southern & BBQ",
       "pitch": "Diced potatoes and onions browned crisp in a hot skillet, topped with flaked smoked trout, a sunny-side-up egg, and pickled red onions to cut through the rich fish."
@@ -1217,7 +1217,7 @@
         "protein": "Pork",
         "flavor": "Herby",
         "cuisine": "Italian",
-        "fam": "Classic"
+        "veg": "Roasted"
       },
       "cuisine": "Italian",
       "pitch": "Fennel salsiccia, sweet potatoes, and fennel wedges roasted hot with whole garlic and rosemary, finished straight out of the oven with fresh lemon and chopped fennel fronds."
@@ -1235,7 +1235,7 @@
         "protein": "Pork",
         "flavor": "Tangy",
         "cuisine": "British",
-        "fam": "Classic"
+        "veg": "Roasted"
       },
       "cuisine": "British",
       "pitch": "Peppery pork sausages roasted alongside sweet potatoes, fennel, and tart apple wedges, served with a big spoonful of sharp wholegrain mustard on the side."
@@ -1253,7 +1253,7 @@
         "protein": "Pork",
         "flavor": "Spiced",
         "cuisine": "North African",
-        "fam": "A twist"
+        "veg": "Roasted"
       },
       "cuisine": "North African",
       "pitch": "Spiced sausage, sweet potatoes, and fennel roasted hot with chickpeas that turn crunchy on the tray, tossed with harissa and finished with a squeeze of fresh lemon."
@@ -1273,7 +1273,7 @@
         "protein": "Veggie",
         "flavor": "Spiced",
         "cuisine": "Greek",
-        "fam": "Classic"
+        "veg": "Roasted"
       },
       "cuisine": "Greek",
       "pitch": "The iconic Macedonian meze: a block of feta baked until molten with sweet tomatoes, sliced green peppers, olive oil, and spicy chili flakes. Crusty bread to scoop."
@@ -1291,7 +1291,7 @@
         "protein": "Veggie",
         "flavor": "Briny",
         "cuisine": "Greek",
-        "fam": "Classic"
+        "veg": "Pickled"
       },
       "cuisine": "Greek",
       "pitch": "A block of feta baked until soft in olive oil with sweet cherry tomatoes, whole kalamata olives, garlic, and fresh rosemary, creating a rich briny pan sauce for bread."
@@ -1309,7 +1309,7 @@
         "protein": "Veggie",
         "flavor": "Sweet-tart",
         "cuisine": "Greek",
-        "fam": "A twist"
+        "veg": "Roasted"
       },
       "cuisine": "Greek",
       "pitch": "In the feta me meli tradition: feta baked soft with cherry tomatoes and fresh thyme, finished with toasted sesame seeds and warm honey to contrast the salty cheese."
@@ -1327,7 +1327,7 @@
         "protein": "Veggie",
         "flavor": "Herby",
         "cuisine": "Greek",
-        "fam": "A twist"
+        "veg": "Roasted"
       },
       "cuisine": "Greek",
       "pitch": "A can of tender giant white beans scattered around a block of feta with cherry tomatoes and oregano, turning the bubbling baked cheese into a hearty, protein-rich meal."
@@ -1347,7 +1347,7 @@
         "protein": "Veggie",
         "flavor": "Savory",
         "cuisine": "Italian",
-        "fam": "A twist"
+        "veg": "Roasted"
       },
       "cuisine": "Italian",
       "pitch": "Potato gnocchi, sweet bell peppers, and red onions roasted until crisp-edged, topped with torn mozzarella that melts into golden pools, finished with fresh basil."
@@ -1365,7 +1365,7 @@
         "protein": "Veggie",
         "flavor": "Herby",
         "cuisine": "Italian",
-        "fam": "A twist"
+        "veg": "Raw"
       },
       "cuisine": "Italian",
       "pitch": "Gnocchi and cherry tomatoes roasted crisp on a hot tray, tossed right out of the oven with a quick fresh basil pesto that melts into the sweet tomato juices."
@@ -1383,7 +1383,7 @@
         "protein": "Pork",
         "flavor": "Spiced",
         "cuisine": "Italian",
-        "fam": "A twist"
+        "veg": "Roasted"
       },
       "cuisine": "Italian",
       "pitch": "Gnocchi and sweet peppers roasted in sizzling red 'nduja oil until crispy, topped with smoked provolone that bubbles into rich, melted pockets."
@@ -1401,7 +1401,7 @@
         "protein": "Veggie",
         "flavor": "Savory",
         "cuisine": "Italian",
-        "fam": "A twist"
+        "veg": "Roasted"
       },
       "cuisine": "Italian",
       "pitch": "Gnocchi and cubes of sweet squash roasted together with fresh sage until browned and crisp, finished with melting gorgonzola that pools over the hot tray."
@@ -1421,7 +1421,7 @@
         "protein": "Chicken",
         "flavor": "Zingy",
         "cuisine": "Greek",
-        "fam": "Classic"
+        "veg": "No veg"
       },
       "cuisine": "Greek",
       "pitch": "Bone-in chicken thighs and baby potatoes roasted hot with lemon juice, whole garlic, and wild Greek oregano until the skin is crackling and the potatoes are crisp in the drippings."
@@ -1439,7 +1439,7 @@
         "protein": "Chicken",
         "flavor": "Herby",
         "cuisine": "French",
-        "fam": "Classic"
+        "veg": "No veg"
       },
       "cuisine": "French",
       "pitch": "Chicken thighs rubbed with Dijon and thyme, roasted over baby potatoes with whole garlic cloves that turn sweet and jammy in their skins."
@@ -1457,7 +1457,7 @@
         "protein": "Chicken",
         "flavor": "Smoky",
         "cuisine": "Spanish",
-        "fam": "Classic"
+        "veg": "No veg"
       },
       "cuisine": "Spanish",
       "pitch": "Chicken thighs and potatoes roasted in smoked pimentón and garlic oil until deep red and crisp, splashed with sharp sherry vinegar straight from the oven."
@@ -1475,7 +1475,7 @@
         "protein": "Chicken",
         "flavor": "Tangy",
         "cuisine": "Levantine",
-        "fam": "A twist"
+        "veg": "No veg"
       },
       "cuisine": "Levantine",
       "pitch": "Chicken thighs and baby potatoes tossed with tart sumac, fragrant za'atar, and sweet red onions, roasted until the skin is crisp and the pan juices are rich and tangy."
@@ -1495,7 +1495,7 @@
         "protein": "Pork",
         "flavor": "Spiced",
         "cuisine": "Korean",
-        "fam": "Classic"
+        "veg": "Pickled"
       },
       "cuisine": "Korean",
       "pitch": "Thinly sliced pork belly seared until the edges turn crisp, then tossed with aged sour kimchi, gochujang, garlic, and scallions until glazed, spicy, and slicked in rendered fat."
@@ -1513,7 +1513,7 @@
         "protein": "Pork",
         "flavor": "Umami",
         "cuisine": "Korean",
-        "fam": "Classic"
+        "veg": "Pickled"
       },
       "cuisine": "Korean",
       "pitch": "Pork belly browned with sweet onions and aged kimchi in dark soy sauce, mirin, and grated garlic until rich, sticky, and deeply savory with zero chili heat."
@@ -1531,7 +1531,7 @@
         "protein": "Pork",
         "flavor": "Spiced",
         "cuisine": "Korean",
-        "fam": "Classic"
+        "veg": "Pickled"
       },
       "cuisine": "Korean",
       "pitch": "Thin pork belly stir-fried with sour kimchi and a mountain of fresh soybean sprouts in gochugaru and sesame oil, keeping the sprouts sweet and snappy against the rich pork."
@@ -1549,7 +1549,7 @@
         "protein": "Pork",
         "flavor": "Spiced",
         "cuisine": "Korean",
-        "fam": "Classic"
+        "veg": "Pickled"
       },
       "cuisine": "Korean",
       "pitch": "Pork belly and mature kimchi braised down fast in a thick spicy chili glaze, paired right in the pan with thick slabs of firm tofu warmed in the pork fat to balance the heat."
@@ -1569,7 +1569,7 @@
         "protein": "Beef",
         "flavor": "Umami",
         "cuisine": "Japanese",
-        "fam": "Classic"
+        "veg": "No veg"
       },
       "cuisine": "Japanese",
       "pitch": "Paper-thin shaved beef and sweet onions gently simmered in dashi, soy sauce, and mirin until meltingly tender, ladled with sweet pan broth over steaming rice with an egg yolk."
@@ -1587,7 +1587,7 @@
         "protein": "Beef",
         "flavor": "Peppery",
         "cuisine": "Japanese",
-        "fam": "Classic"
+        "veg": "No veg"
       },
       "cuisine": "Japanese",
       "pitch": "Shaved beef flash-seared with heaps of scallions in toasted sesame oil, coarse sea salt, and black pepper, finished with a bright squeeze of fresh lemon juice instead of sweet soy."
@@ -1605,7 +1605,7 @@
         "protein": "Beef",
         "flavor": "Tangy",
         "cuisine": "Japanese",
-        "fam": "A twist"
+        "veg": "Pickled"
       },
       "cuisine": "Japanese",
       "pitch": "Sweet-soy simmered beef and tender onions topped with sharp kimchi and mild mozzarella, covered with a lid for a minute until molten and stretchy."
@@ -1623,7 +1623,7 @@
         "protein": "Beef",
         "flavor": "Zingy",
         "cuisine": "Japanese",
-        "fam": "Classic"
+        "veg": "Raw"
       },
       "cuisine": "Japanese",
       "pitch": "Simmered dashi-soy beef over hot rice, cut through with a cold mound of freshly grated daikon radish and a splash of citrusy ponzu to lift the rich beef fat."
@@ -1643,7 +1643,7 @@
         "protein": "Egg",
         "flavor": "Mellow",
         "cuisine": "Chinese",
-        "fam": "Classic"
+        "veg": "Roasted"
       },
       "cuisine": "Chinese",
       "pitch": "Soft scrambled egg curds set aside, ripe tomatoes simmered down with scallion whites and a pinch of sugar into a rich saucy glaze, then folded together over hot rice."
@@ -1661,7 +1661,7 @@
         "protein": "Egg",
         "flavor": "Spiced",
         "cuisine": "Chinese",
-        "fam": "A twist"
+        "veg": "Roasted"
       },
       "cuisine": "Chinese",
       "pitch": "Juicy tomatoes blistered high heat with minced garlic and fermented chili bean paste before folding in soft eggs for a savory, umami-rich sauce with gentle warmth."
@@ -1679,7 +1679,7 @@
         "protein": "Egg",
         "flavor": "Mellow",
         "cuisine": "Chinese",
-        "fam": "Classic"
+        "veg": "Roasted"
       },
       "cuisine": "Chinese",
       "pitch": "Custardy, barely-set scrambled eggs folded with gentle tomato wedges, finished with white pepper and toasted sesame oil for an ultra-delicate, glossy plate over jasmine rice."
@@ -1697,7 +1697,7 @@
         "protein": "Egg",
         "flavor": "Tangy",
         "cuisine": "Chinese",
-        "fam": "A twist"
+        "veg": "Roasted"
       },
       "cuisine": "Chinese",
       "pitch": "Tomatoes and eggs stir-fried fast with lots of browned scallions, finished with a splash of dark Chinkiang vinegar around the sizzling wok rim for a roasted-sour edge."
@@ -1717,7 +1717,7 @@
         "protein": "Fish",
         "flavor": "Umami",
         "cuisine": "Japanese",
-        "fam": "A twist"
+        "veg": "Greens"
       },
       "cuisine": "Japanese",
       "pitch": "Salmon seared skin-down in foaming butter and basted with sweet white miso and mirin until sticky and caramelized, with fresh green beans blistered in the sweet-savory pan drippings."
@@ -1735,7 +1735,7 @@
         "protein": "Fish",
         "flavor": "Umami",
         "cuisine": "Japanese",
-        "fam": "Classic"
+        "veg": "Greens"
       },
       "cuisine": "Japanese",
       "pitch": "Salmon fillets and snappy green beans sealed in parchment with white miso, butter, and ginger, steaming gently into a meltingly tender fish in its own fragrant broth with zero cleanup."
@@ -1755,7 +1755,7 @@
         "protein": "Egg & pork",
         "flavor": "Savory",
         "cuisine": "Chinese",
-        "fam": "Classic"
+        "veg": "No veg"
       },
       "cuisine": "Chinese",
       "pitch": "Cold jasmine rice stir-fried high heat with sweet caramelized char siu pork, fluffy scrambled egg ribbons, and scallions, seasoned simply with light soy sauce and white pepper."
@@ -1773,7 +1773,7 @@
         "protein": "Egg & pork",
         "flavor": "Smoky",
         "cuisine": "Chinese",
-        "fam": "Classic"
+        "veg": "No veg"
       },
       "cuisine": "Chinese",
       "pitch": "Cold rice tossed raw in egg yolks so every grain fries separately in gold, tossed with crispy diced smoked ham or pork and scallions for a dry, fluffy, nutty finish."
@@ -1791,7 +1791,7 @@
         "protein": "Egg & pork",
         "flavor": "Mellow",
         "cuisine": "Chinese",
-        "fam": "Classic"
+        "veg": "Greens"
       },
       "cuisine": "Chinese",
       "pitch": "Diced pork, soft egg curds, and sweet green peas stir-fried with fragrant rice, kept pale, clean, and aromatic with Shaoxing wine and sea salt rather than heavy dark soy."
@@ -1809,7 +1809,7 @@
         "protein": "Egg & pork",
         "flavor": "Spiced",
         "cuisine": "Chinese",
-        "fam": "A twist"
+        "veg": "No veg"
       },
       "cuisine": "Chinese",
       "pitch": "Savory pork crisped in the wok, tossed with jasmine rice in sizzling garlic butter and crunchy chili crisp, finished with scallion greens and toasted sesame."
@@ -1829,7 +1829,7 @@
         "protein": "Pork",
         "flavor": "Smoky",
         "cuisine": "Italian",
-        "fam": "A twist"
+        "veg": "Raw"
       },
       "cuisine": "Italian",
       "pitch": "Pinsa baked shatter-crisp with sweet-smoky ajvar, topped out of the oven with cool torn burrata, ribbons of prosciutto crudo, and fresh peppery baby arugula."
@@ -1847,7 +1847,7 @@
         "protein": "Pork",
         "flavor": "Nutty",
         "cuisine": "Italian",
-        "fam": "Classic"
+        "veg": "No veg"
       },
       "cuisine": "Italian",
       "pitch": "Crisp baked pinsa crust draped with delicate folds of warm mortadella, creamy milky stracciatella, and toasted crushed pistachios with black pepper."
@@ -1865,7 +1865,7 @@
         "protein": "Pork",
         "flavor": "Herby",
         "cuisine": "Italian",
-        "fam": "Classic"
+        "veg": "No veg"
       },
       "cuisine": "Italian",
       "pitch": "Paper-thin potato slices, olive oil, and fresh rosemary baked directly onto the dough with diced pancetta until the crust is blistered and the potatoes are golden-crisp."
@@ -1883,7 +1883,7 @@
         "protein": "Pork",
         "flavor": "Spiced",
         "cuisine": "Italian",
-        "fam": "A twist"
+        "veg": "Roasted"
       },
       "cuisine": "Italian",
       "pitch": "Pinsa baked with tomato passata, spicy melting 'nduja, and smoky scamorza cheese until bubbling and charred at the edges, cooled with fresh basil."
@@ -1903,7 +1903,7 @@
         "protein": "Fish",
         "flavor": "Spiced",
         "cuisine": "Thai",
-        "fam": "Classic"
+        "veg": "Greens"
       },
       "cuisine": "Thai",
       "pitch": "Red curry paste bloomed in rich coconut cream, simmered with quick noodles, crisp sugar snaps, and tender poached salmon chunks, finished with fresh lime juice and cilantro."
@@ -1921,7 +1921,7 @@
         "protein": "Fish",
         "flavor": "Herby",
         "cuisine": "Thai",
-        "fam": "A twist"
+        "veg": "Greens"
       },
       "cuisine": "Thai",
       "pitch": "Herbal green curry paste and coconut milk simmered with tender salmon fillets, sugar snaps, and handfuls of peppery Thai holy basil leaves over slurpable noodles."
@@ -1939,7 +1939,7 @@
         "protein": "Fish",
         "flavor": "Spiced",
         "cuisine": "Thai",
-        "fam": "A twist"
+        "veg": "Pickled"
       },
       "cuisine": "Thai",
       "pitch": "Golden turmeric-ginger coconut broth poured over egg noodles and gentle salmon flakes, topped with crisp sliced shallots and a squeeze of fresh lime to cut through the richness."
@@ -1957,7 +1957,7 @@
         "protein": "Fish",
         "flavor": "Nutty",
         "cuisine": "Thai",
-        "fam": "A twist"
+        "veg": "Greens"
       },
       "cuisine": "Thai",
       "pitch": "A richer, velvety dried-chili curry with a hint of peanut that clings tightly to noodles, tossed with poached salmon and paper-thin kaffir lime leaf slivers."
@@ -1977,7 +1977,7 @@
         "protein": "Veggie",
         "flavor": "Savory",
         "cuisine": "Mediterranean",
-        "fam": "A twist"
+        "veg": "Roasted"
       },
       "cuisine": "Mediterranean",
       "pitch": "Shelf-stable gnocchi tossed dry with jarred red pesto, zucchini coins, and cherry tomatoes, roasted at high heat until the gnocchi crisp and cubes of halloumi turn deeply caramelized at the corners."
@@ -1995,7 +1995,7 @@
         "protein": "Veggie",
         "flavor": "Spiced",
         "cuisine": "North African",
-        "fam": "A twist"
+        "veg": "Roasted"
       },
       "cuisine": "North African",
       "pitch": "Gnocchi slicked in fiery jarred harissa paste and olive oil, roasted with sweet cherry tomatoes that burst into a spicy jam over squeaky, browned halloumi cubes."
@@ -2013,7 +2013,7 @@
         "protein": "Veggie",
         "flavor": "Smoky",
         "cuisine": "Balkan",
-        "fam": "A twist"
+        "veg": "Roasted"
       },
       "cuisine": "Balkan",
       "pitch": "Gnocchi and thick bell pepper slices coated in mild roasted ajvar, baked until charred at the edges with crispy golden halloumi and dried oregano."
@@ -2033,7 +2033,7 @@
         "protein": "Lamb",
         "flavor": "Smoky",
         "cuisine": "Balkan",
-        "fam": "A twist"
+        "veg": "Greens"
       },
       "cuisine": "Balkan",
       "pitch": "Sizzling lamb merguez coins rendered in a skillet, stirred with sweet-smoky ajvar and creamy butter beans until thick and spoonable, finished with wilted spinach and salty crumbled feta."
@@ -2051,7 +2051,7 @@
         "protein": "Pork",
         "flavor": "Herby",
         "cuisine": "Italian",
-        "fam": "Classic"
+        "veg": "Roasted"
       },
       "cuisine": "Italian",
       "pitch": "Crumbled fennel sausage browned with garlic and fresh rosemary, simmered down fast with cannellini beans and tomato passata, finished with shaved pecorino."
@@ -2069,7 +2069,7 @@
         "protein": "Pork",
         "flavor": "Smoky",
         "cuisine": "Spanish",
-        "fam": "Classic"
+        "veg": "Greens"
       },
       "cuisine": "Spanish",
       "pitch": "Spicy cured chorizo crisped in its own red paprika oil, tossed with creamy butter beans and tender greens, splashed with a dash of sharp sherry vinegar off the heat."
@@ -2087,10 +2087,140 @@
         "protein": "Pork",
         "flavor": "Tangy",
         "cuisine": "French",
-        "fam": "Classic"
+        "veg": "No veg"
       },
       "cuisine": "French",
       "pitch": "Browned sausage slices simmered with tender white beans, a spoonful of sharp Dijon mustard, and fresh thyme into a silky, savory pan sauce eaten with crusty bread."
+    }
+  ],
+  "Spiced Meat & Flatbreads": [
+    {
+      "title": "Turkish Lahmacun-style flatbread with crunchy cucumber-sumac salad",
+      "dinner": {
+        "name": "Lahmacun & cucumber salad",
+        "activeMinutes": 15,
+        "totalMinutes": 20,
+        "temp": "Warming",
+        "weight": "Hearty",
+        "texture": "Crispy",
+        "base": "Bread",
+        "protein": "Lamb",
+        "flavor": "Spiced",
+        "cuisine": "Turkish",
+        "veg": "Raw"
+      },
+      "cuisine": "Turkish",
+      "pitch": "Minced lamb spiced with cumin and Aleppo pepper baked directly on thin flatbread until crisp, rolled with a cold, crunchy chopped cucumber, sumac, and fresh herb salad."
+    },
+    {
+      "title": "Levantine Hummus b'Lahmeh flatbread with buttery pine nuts",
+      "dinner": {
+        "name": "Hummus b’lahmeh pita",
+        "activeMinutes": 12,
+        "totalMinutes": 15,
+        "temp": "Warming",
+        "weight": "Rich",
+        "texture": "Creamy",
+        "base": "Bread",
+        "protein": "Lamb",
+        "flavor": "Nutty",
+        "cuisine": "Levantine",
+        "veg": "No veg"
+      },
+      "cuisine": "Levantine",
+      "pitch": "Warm toasted pita slathered with cool garlic hummus, topped with sizzling minced lamb spiced with cinnamon and allspice, scattered with golden toasted pine nuts."
+    },
+    {
+      "title": "Beiruti Arayes: crisp meat-stuffed pita pockets with garlic yogurt",
+      "dinner": {
+        "name": "Crispy arayes pita pockets",
+        "activeMinutes": 15,
+        "totalMinutes": 20,
+        "temp": "Warming",
+        "weight": "Hearty",
+        "texture": "Crispy",
+        "base": "Bread",
+        "protein": "Beef",
+        "flavor": "Savory",
+        "cuisine": "Levantine",
+        "veg": "No veg"
+      },
+      "cuisine": "Levantine",
+      "pitch": "Pita pockets stuffed with spiced minced beef, parsley, and onions, then griddled in olive oil until the meat is juicy and the bread is shatter-crisp, dipped in cool garlic yogurt."
+    },
+    {
+      "title": "Spiced lamb kofta flatbread with warm wilted spinach and feta",
+      "dinner": {
+        "name": "Lamb kofta & wilted spinach",
+        "activeMinutes": 15,
+        "totalMinutes": 20,
+        "temp": "Warming",
+        "weight": "Hearty",
+        "texture": "Tender",
+        "base": "Bread",
+        "protein": "Lamb",
+        "flavor": "Herby",
+        "cuisine": "Levantine",
+        "veg": "Greens"
+      },
+      "cuisine": "Levantine",
+      "pitch": "Quick-seared spiced lamb patties served over warm flatbread with tender garlic-wilted baby spinach and salty crumbled feta."
+    }
+  ],
+  "Harissa Chicken & Couscous": [
+    {
+      "title": "Sticky apricot-harissa roast chicken thighs with lemon couscous",
+      "dinner": {
+        "name": "Apricot harissa chicken",
+        "activeMinutes": 10,
+        "totalMinutes": 40,
+        "temp": "Warming",
+        "weight": "Hearty",
+        "texture": "Sticky",
+        "base": "Couscous",
+        "protein": "Chicken",
+        "flavor": "Sweet-heat",
+        "cuisine": "North African",
+        "veg": "No veg"
+      },
+      "cuisine": "North African",
+      "pitch": "Chicken thighs baked until the skin is sticky, dark, and bubbling with apricot-harissa lacquer; pan drippings poured over quick lemon-almond couscous."
+    },
+    {
+      "title": "Moroccan tagine-style chicken thighs braised with green olives and zucchini",
+      "dinner": {
+        "name": "Harissa olive & zucchini chicken",
+        "activeMinutes": 15,
+        "totalMinutes": 35,
+        "temp": "Warming",
+        "weight": "Hearty",
+        "texture": "Saucy",
+        "base": "Couscous",
+        "protein": "Chicken",
+        "flavor": "Briny",
+        "cuisine": "North African",
+        "veg": "Roasted"
+      },
+      "cuisine": "North African",
+      "pitch": "Chicken thighs braised in a shallow pan with harissa, green olives, garlic, and tender zucchini coins; spooned with rich spiced broth over steaming couscous."
+    },
+    {
+      "title": "Sheet-pan harissa chicken with sweet peppers and crispy chickpeas",
+      "dinner": {
+        "name": "Harissa chicken & crisp chickpeas",
+        "activeMinutes": 10,
+        "totalMinutes": 40,
+        "temp": "Warming",
+        "weight": "Hearty",
+        "texture": "Crispy",
+        "base": "Couscous",
+        "protein": "Chicken",
+        "flavor": "Smoky",
+        "cuisine": "North African",
+        "veg": "Roasted"
+      },
+      "cuisine": "North African",
+      "pitch": "Chicken thighs, sweet bell pepper strips, and whole chickpeas roasted together in harissa oil until the peppers are jammy and the chickpeas turn crunchy."
     }
   ]
 }

@@ -64,7 +64,7 @@ export function cookDinnerMessage(dinner: Dinner, marks: Marks): string {
     dinner.ingredients ? `Ingredients: ${dinner.ingredients}.` : "",
     kept.length ? `Keep: ${kept.join(", ")}.` : "",
     avoided.length ? `Rule out: ${avoided.join(", ")}.` : "",
-    "Expand this dinner rather than offering more ideas.",
+    "Expand this meal rather than offering more ideas.",
   ]
     .filter(Boolean)
     .join("\n");

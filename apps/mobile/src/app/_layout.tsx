@@ -332,8 +332,7 @@ export default function RootLayout() {
                       <Stack.Screen
                         name="dinner-turntable"
                         options={{
-                          title: "What’s for dinner?",
-                          headerTransparent: false,
+                          title: "What’s cooking?",
                           headerBackButtonDisplayMode: "minimal",
                         }}
                       />

@@ -12,7 +12,7 @@
       "protein": "Pork",
       "flavor": "Sweet-tart",
       "cuisine": "Homestyle",
-      "fam": "A twist"
+      "veg": "No veg"
     },
     "previewTitle": "Pork chops with jammy plums",
     "section": "Seasonal Late-Summer Specials",
@@ -20,7 +20,11 @@
     "previewIngredients": "Pork chops, plums, red onion, balsamic, rosemary",
     "time": "20 min · 1 skillet",
     "vibe": "Sweet-tart plum sauce, caramelized pork, autumn-on-the-horizon energy.",
-    "months": [8, 9, 10]
+    "months": [
+      8,
+      9,
+      10
+    ]
   },
   {
     "title": "Late-Summer Charred Sweet Corn, Zucchini & Feta Skillet",
@@ -35,7 +39,7 @@
       "protein": "Veggie",
       "flavor": "Smoky",
       "cuisine": "Mediterranean",
-      "fam": "A twist"
+      "veg": "Roasted"
     },
     "previewTitle": "Corn, zucchini & feta skillet",
     "section": "Seasonal Late-Summer Specials",
@@ -43,7 +47,11 @@
     "previewIngredients": "Corn, zucchini, feta, basil, lime",
     "time": "15 min · 1 skillet",
     "vibe": "Sweet, smoky, salty, bright; perfect with bread or tortillas.",
-    "months": [8, 9, 10]
+    "months": [
+      8,
+      9,
+      10
+    ]
   },
   {
     "title": "Brown-Butter Pfifferlinge (Chanterelles) on Toasted Sourdough",
@@ -58,7 +66,7 @@
       "protein": "Veggie",
       "flavor": "Nutty",
       "cuisine": "Homestyle",
-      "fam": "Classic"
+      "veg": "Roasted"
     },
     "previewTitle": "Mushrooms on toast",
     "section": "Seasonal Late-Summer Specials",
@@ -66,7 +74,11 @@
     "previewIngredients": "Chanterelles, sourdough, butter, shallot, parsley",
     "time": "12 min · pan + toaster",
     "vibe": "Deeply earthy, nutty, woodsy; peak forest-in-a-good-way.",
-    "months": [8, 9, 10]
+    "months": [
+      8,
+      9,
+      10
+    ]
   },
   {
     "title": "Sheet-Pan Roasted Sausage, Sweet Bell Peppers & New Potatoes",
@@ -81,7 +93,7 @@
       "protein": "Pork",
       "flavor": "Savory",
       "cuisine": "Homestyle",
-      "fam": "Classic"
+      "veg": "Roasted"
     },
     "previewTitle": "Sausage, peppers & potatoes",
     "section": "Seasonal Late-Summer Specials",
@@ -89,7 +101,11 @@
     "previewIngredients": "Sausage, peppers, potatoes, garlic, herbs",
     "time": "40 min · oven",
     "vibe": "Sweet caramelized peppers, crispy potatoes, juicy herb sausage.",
-    "months": [8, 9, 10]
+    "months": [
+      8,
+      9,
+      10
+    ]
   },
   {
     "title": "Jammy Cherry Tomato & Ricotta Pasta",
@@ -104,7 +120,7 @@
       "protein": "Veggie",
       "flavor": "Zingy",
       "cuisine": "Italian",
-      "fam": "Classic"
+      "veg": "Roasted"
     },
     "previewTitle": "Tomato & ricotta pasta",
     "section": "Seasonal Late-Summer Specials",
@@ -112,7 +128,11 @@
     "previewIngredients": "Tomatoes, pasta, ricotta, garlic, basil",
     "time": "15 min · pan + pot",
     "vibe": "Creamy, sweet, bright tomato emulsion clinging to big pasta tubes.",
-    "months": [8, 9, 10]
+    "months": [
+      8,
+      9,
+      10
+    ]
   },
   {
     "title": "Flammkuchen with Schmand, bacon and onions",
@@ -127,7 +147,7 @@
       "protein": "Pork",
       "flavor": "Smoky",
       "cuisine": "German",
-      "fam": "Classic"
+      "veg": "No veg"
     },
     "previewTitle": "Flammkuchen with bacon & onions",
     "section": "Pantry & Fast Comfort",
@@ -149,7 +169,7 @@
       "protein": "Veggie",
       "flavor": "Peppery",
       "cuisine": "Italian",
-      "fam": "Classic"
+      "veg": "No veg"
     },
     "previewTitle": "Spaghetti cacio e pepe",
     "section": "Pantry & Fast Comfort",
@@ -171,7 +191,7 @@
       "protein": "Egg",
       "flavor": "Mellow",
       "cuisine": "Spanish",
-      "fam": "Classic"
+      "veg": "No veg"
     },
     "previewTitle": "Spanish potato tortilla",
     "section": "Pantry & Fast Comfort",
@@ -193,7 +213,7 @@
       "protein": "Pork",
       "flavor": "Smoky",
       "cuisine": "Italian",
-      "fam": "Classic"
+      "veg": "No veg"
     },
     "previewTitle": "Pasta all’Amatriciana",
     "section": "Pantry & Fast Comfort",
@@ -215,7 +235,7 @@
       "protein": "Fish",
       "flavor": "Zingy",
       "cuisine": "Italian",
-      "fam": "Classic"
+      "veg": "Raw"
     },
     "previewTitle": "White bean & tuna salad",
     "section": "Pantry & Fast Comfort",
@@ -237,7 +257,7 @@
       "protein": "Pork",
       "flavor": "Nutty",
       "cuisine": "Italian",
-      "fam": "Classic"
+      "veg": "No veg"
     },
     "previewTitle": "Gnocchi with crispy pancetta",
     "section": "Pantry & Fast Comfort",
@@ -259,7 +279,7 @@
       "protein": "Egg",
       "flavor": "Spiced",
       "cuisine": "North African",
-      "fam": "Classic"
+      "veg": "Roasted"
     },
     "previewTitle": "Shakshuka",
     "section": "Skillet & Stovetop Mains",
@@ -280,7 +300,7 @@
       "protein": "Veggie",
       "flavor": "Smoky",
       "cuisine": "Mexican",
-      "fam": "Classic"
+      "veg": "Roasted"
     },
     "previewTitle": "Black bean quesadillas",
     "section": "Skillet & Stovetop Mains",
@@ -301,7 +321,7 @@
       "protein": "Pork",
       "flavor": "Sweet-tart",
       "cuisine": "French",
-      "fam": "Classic"
+      "veg": "No veg"
     },
     "section": "Skillet & Stovetop Mains",
     "ingredients": "Bone-in pork chops, tart apples, Dijon mustard, heavy cream, fresh thyme",
@@ -321,7 +341,7 @@
       "protein": "Veggie",
       "flavor": "Herby",
       "cuisine": "Greek",
-      "fam": "Classic"
+      "veg": "Greens"
     },
     "previewTitle": "Spinach & rice pilaf",
     "section": "Skillet & Stovetop Mains",
@@ -342,7 +362,7 @@
       "protein": "Tofu",
       "flavor": "Nutty",
       "cuisine": "SE Asian",
-      "fam": "A twist"
+      "veg": "Greens"
     },
     "previewTitle": "Crispy glazed tofu & broccoli",
     "section": "Skillet & Stovetop Mains",
@@ -363,7 +383,7 @@
       "protein": "Fish",
       "flavor": "Smoky",
       "cuisine": "Nordic",
-      "fam": "Classic"
+      "veg": "No veg"
     },
     "section": "Skillet & Stovetop Mains",
     "ingredients": "Smoked trout fillets, pre-boiled waxy potatoes, sour cream/Schmand, prepared horseradish, fresh chives",
@@ -383,7 +403,7 @@
       "protein": "Pork",
       "flavor": "Herby",
       "cuisine": "Italian",
-      "fam": "Classic"
+      "veg": "Roasted"
     },
     "section": "Oven & Sheet-Pan Essentials",
     "ingredients": "Salsiccia or coarse bratwurst, fennel bulbs, sweet potatoes, garlic cloves, fresh rosemary",
@@ -403,7 +423,7 @@
       "protein": "Veggie",
       "flavor": "Briny",
       "cuisine": "Greek",
-      "fam": "Classic"
+      "veg": "Roasted"
     },
     "previewTitle": "Baked feta with tomatoes",
     "section": "Oven & Sheet-Pan Essentials",
@@ -424,7 +444,7 @@
       "protein": "Veggie",
       "flavor": "Savory",
       "cuisine": "Italian",
-      "fam": "A twist"
+      "veg": "Roasted"
     },
     "section": "Oven & Sheet-Pan Essentials",
     "ingredients": "Shelf-stable/fresh gnocchi, bell peppers, red onion, mini mozzarella balls, fresh basil",
@@ -444,7 +464,7 @@
       "protein": "Chicken",
       "flavor": "Zingy",
       "cuisine": "Mediterranean",
-      "fam": "Classic"
+      "veg": "No veg"
     },
     "section": "Oven & Sheet-Pan Essentials",
     "ingredients": "Bone-in skin-on chicken thighs, baby potatoes, whole lemons, garlic heads, fresh thyme",
@@ -464,7 +484,7 @@
       "protein": "Pork",
       "flavor": "Spiced",
       "cuisine": "Korean",
-      "fam": "Classic"
+      "veg": "Pickled"
     },
     "previewTitle": "Korean pork belly & kimchi",
     "section": "Asian-Inspired & High Flavor",
@@ -485,7 +505,7 @@
       "protein": "Beef",
       "flavor": "Umami",
       "cuisine": "Japanese",
-      "fam": "Classic"
+      "veg": "No veg"
     },
     "section": "Asian-Inspired & High Flavor",
     "ingredients": "Thinly sliced beef, sliced onion, soy sauce, mirin, short-grain rice",
@@ -505,7 +525,7 @@
       "protein": "Egg",
       "flavor": "Mellow",
       "cuisine": "Chinese",
-      "fam": "Classic"
+      "veg": "Roasted"
     },
     "previewTitle": "Tomato & egg stir-fry",
     "section": "Asian-Inspired & High Flavor",
@@ -526,7 +546,7 @@
       "protein": "Fish",
       "flavor": "Umami",
       "cuisine": "Japanese",
-      "fam": "A twist"
+      "veg": "Greens"
     },
     "section": "Asian-Inspired & High Flavor",
     "ingredients": "Salmon fillets, white miso paste, butter, fresh green beans, soy sauce",
@@ -546,7 +566,7 @@
       "protein": "Egg & pork",
       "flavor": "Savory",
       "cuisine": "Chinese",
-      "fam": "Classic"
+      "veg": "No veg"
     },
     "previewTitle": "Egg fried rice with pork",
     "section": "Asian-Inspired & High Flavor",
@@ -567,7 +587,7 @@
       "protein": "Pork",
       "flavor": "Smoky",
       "cuisine": "Italian",
-      "fam": "A twist"
+      "veg": "Roasted"
     },
     "previewTitle": "Crispy Roman pinsa",
     "section": "Shortcut-Based Ideas",
@@ -588,7 +608,7 @@
       "protein": "Fish",
       "flavor": "Spiced",
       "cuisine": "Thai",
-      "fam": "A twist"
+      "veg": "Greens"
     },
     "previewTitle": "Thai curry noodles with salmon",
     "section": "Shortcut-Based Ideas",
@@ -609,7 +629,7 @@
       "protein": "Veggie",
       "flavor": "Savory",
       "cuisine": "Mediterranean",
-      "fam": "A twist"
+      "veg": "Roasted"
     },
     "previewTitle": "Sheet-pan halloumi & gnocchi",
     "section": "Shortcut-Based Ideas",
@@ -630,7 +650,7 @@
       "protein": "Pork",
       "flavor": "Savory",
       "cuisine": "Homestyle",
-      "fam": "Classic"
+      "veg": "Greens"
     },
     "previewTitle": "White bean & sausage skillet",
     "section": "Shortcut-Based Ideas",
@@ -639,11 +659,11 @@
     "vibe": "Rustic, spoonable, deeply savory sauce coating creamy beans and greens."
   },
   {
-    "title": "Crispy Hummus & Spiced Lamb/Beef Flatbreads (Lahmacun-Style)",
+    "title": "Spiced Meat & Flatbreads",
     "dinner": {
-      "name": "Spiced meat & hummus flatbread",
+      "name": "Spiced meat flatbreads",
       "activeMinutes": 15,
-      "totalMinutes": 25,
+      "totalMinutes": 20,
       "temp": "Warming",
       "weight": "Hearty",
       "texture": "Crispy",
@@ -651,19 +671,20 @@
       "protein": "Lamb",
       "flavor": "Spiced",
       "cuisine": "Levantine",
-      "fam": "A twist"
+      "veg": "Raw"
     },
+    "previewTitle": "Spiced meat flatbreads",
     "section": "Shortcut-Based Ideas",
-    "ingredients": "Pita flatbreads, hummus, ground lamb or beef, ground sumac/cumin, flat-leaf parsley or baby spinach",
-    "time": "12 min · pan + oven",
-    "vibe": "Charred, street-food vibes: crisp bread, creamy hummus, spiced meat, fresh herbs."
+    "ingredients": "Flatbreads or pita, ground lamb or beef, cumin, cucumber or fresh herbs, hummus or yogurt",
+    "time": "15 min · skillet or oven",
+    "vibe": "Charred, street-food energy: crisp bread, spiced savory meat, cool herbs and dips."
   },
   {
-    "title": "Harissa & Apricot Glazed Chicken Thighs with Steamed Couscous",
+    "title": "Harissa Chicken & Couscous",
     "dinner": {
       "name": "Harissa chicken & couscous",
-      "activeMinutes": 15,
-      "totalMinutes": 45,
+      "activeMinutes": 10,
+      "totalMinutes": 40,
       "temp": "Warming",
       "weight": "Hearty",
       "texture": "Sticky",
@@ -671,12 +692,13 @@
       "protein": "Chicken",
       "flavor": "Sweet-heat",
       "cuisine": "North African",
-      "fam": "A twist"
+      "veg": "No veg"
     },
+    "previewTitle": "Harissa chicken & couscous",
     "section": "Shortcut-Based Ideas",
-    "ingredients": "Chicken thighs, mild harissa paste, apricot jam (or honey), quick-cooking couscous, lemon",
-    "time": "30 min · oven",
-    "vibe": "Sticky, sweet-heat glaze, fluffy couscous catching all the pan juices."
+    "ingredients": "Chicken thighs, mild harissa paste, couscous, lemon, sweet glaze or fresh veg",
+    "time": "35 min · oven or skillet",
+    "vibe": "Sweet-heat or savory-spiced chicken with pan juices soaking into fluffy couscous."
   },
   {
     "title": "Charred Sweet Corn & Kimchi Quesadillas",
@@ -691,7 +713,7 @@
       "protein": "Veggie",
       "flavor": "Tangy",
       "cuisine": "Korean",
-      "fam": "A twist"
+      "veg": "Pickled"
     },
     "section": "Shortcut-Based Ideas",
     "ingredients": "Flour tortillas, chopped kimchi, canned/fresh corn, shredded mozzarella/Gouda, butter or mayo",
@@ -711,7 +733,7 @@
       "protein": "Pork",
       "flavor": "Sweet-heat",
       "cuisine": "Korean",
-      "fam": "A twist"
+      "veg": "Raw"
     },
     "section": "Shortcut-Based Ideas",
     "ingredients": "Thinly sliced pork belly, gochujang, honey, mini cucumbers, toasted sesame oil/seeds",
@@ -731,7 +753,7 @@
       "protein": "Veggie",
       "flavor": "Umami",
       "cuisine": "Japanese",
-      "fam": "Classic"
+      "veg": "Roasted"
     },
     "section": "Shortcut-Based Ideas",
     "ingredients": "Eggplants, white miso paste, mirin (or honey/sugar), short-grain rice, scallions",

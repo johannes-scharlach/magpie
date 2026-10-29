@@ -6,7 +6,7 @@ export const axes = [
   { id: "protein", name: "Protein" },
   { id: "flavor", name: "Flavor" },
   { id: "cuisine", name: "Cuisine" },
-  { id: "fam", name: "Familiarity" },
+  { id: "veg", name: "Veg" },
 ] as const;
 
 export type Axis = (typeof axes)[number]["id"];
