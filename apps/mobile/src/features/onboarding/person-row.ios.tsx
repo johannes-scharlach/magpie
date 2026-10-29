@@ -24,9 +24,11 @@ export function PersonRow({ name, detail, onEdit, onRemove }: PersonRowProps) {
     >
       <View className="flex-1 gap-1">
         <Text className="text-[17px] font-medium">{name}</Text>
-        <Text className="text-sm leading-5 text-muted-foreground">
-          {detail}
-        </Text>
+        {detail ? (
+          <Text className="text-sm leading-5 text-muted-foreground">
+            {detail}
+          </Text>
+        ) : null}
       </View>
       <SymbolView name="chevron.right" size={16} tintColor={mutedColor} />
     </Pressable>

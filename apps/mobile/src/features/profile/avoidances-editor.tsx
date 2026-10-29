@@ -68,7 +68,7 @@ export function AvoidancesEditor({
               accessibilityRole="header"
               className="font-rounded text-xl font-bold"
             >
-              {dislikes ? "Things you don’t enjoy" : "Allergies & must-avoids"}
+              {dislikes ? "Dislikes" : "Allergies & must-avoids"}
             </Text>
             <View
               className="overflow-hidden rounded-xl border border-border bg-card"

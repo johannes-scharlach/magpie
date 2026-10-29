@@ -142,7 +142,7 @@ function AddCuisine({ onAdd }: { onAdd: (name: string) => void }) {
         <EditorSheet
           ref={sheet}
           autoFocusInput={input}
-          title="Add familiar cooking"
+          title="Add a cuisine or cooking style"
           onDismiss={() => setAdding(false)}
         >
           <Field
@@ -155,7 +155,7 @@ function AddCuisine({ onAdd }: { onAdd: (name: string) => void }) {
             autoCapitalize="words"
             error={
               attempted && !name.trim()
-                ? "Name the cooking you want Magpie to start from."
+                ? "Enter a cuisine or cooking style."
                 : null
             }
             returnKeyType="done"

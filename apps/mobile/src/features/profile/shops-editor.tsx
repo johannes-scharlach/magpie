@@ -105,23 +105,18 @@ export function ShopsEditor({
           </Text>
         </Pressable>
         {shops.some((shop) => shop.rule) && remainingSuggestions.length ? (
-          <View className="gap-2">
-            <Text className="text-sm text-muted-foreground">
-              Other places you buy food
-            </Text>
-            <View className="flex-row flex-wrap gap-2">
-              {remainingSuggestions.map((name) => (
-                <Pressable
-                  key={name}
-                  accessibilityRole="button"
-                  accessibilityLabel={`Add ${name}`}
-                  className="min-h-11 justify-center rounded-full border border-border px-3 py-2 active:bg-accent"
-                  onPress={() => onAdd(name)}
-                >
-                  <Text className="text-sm text-primary">+ {name}</Text>
-                </Pressable>
-              ))}
-            </View>
+          <View className="flex-row flex-wrap gap-2">
+            {remainingSuggestions.map((name) => (
+              <Pressable
+                key={name}
+                accessibilityRole="button"
+                accessibilityLabel={`Add ${name}`}
+                className="min-h-11 justify-center rounded-full border border-border px-3 py-2 active:bg-accent"
+                onPress={() => onAdd(name)}
+              >
+                <Text className="text-sm text-primary">+ {name}</Text>
+              </Pressable>
+            ))}
           </View>
         ) : null}
       </View>

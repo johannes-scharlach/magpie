@@ -4,7 +4,6 @@ import {
   ingredientGroup,
   ingredientId,
   ingredientLabel,
-  isStapleGroup,
   keptExtras,
   keepsIngredient,
 } from "@magpie/profile";
@@ -19,7 +18,6 @@ import Animated, {
 import { useResolveClassNames } from "uniwind";
 import { clayTilts } from "@/components/clay";
 import { Input } from "@/components/ui/input";
-import { Text } from "@/components/ui/text";
 import { type ArtworkId } from "@/features/onboarding/artwork";
 import {
   ArtTile,
@@ -126,11 +124,6 @@ export function CupboardFields({
         entering={lineIn(rows.length + (extras.length ? 1 : 0))}
         className="gap-2"
       >
-        <Text className="text-sm font-medium">
-          {isStapleGroup(group)
-            ? "Anything else you usually keep?"
-            : "Anything else you keep for it?"}
-        </Text>
         <View className="min-h-12 flex-row items-center rounded-2xl bg-muted pr-1">
           <Input
             accessibilityLabel={`Other ${cuisineLabel(group)} ingredients`}

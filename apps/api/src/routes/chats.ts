@@ -23,6 +23,7 @@ import type { AppBindings } from "../auth.js";
 import { ownStorageUrl } from "../chat-media.js";
 import { buildChatTools } from "../chat-tools.js";
 import { createChatReply, type AssistantUIMessage } from "../chat-reply.js";
+import { captureChatGenerationContext } from "../chat-generation-context.js";
 import { pool } from "../db.js";
 import { env } from "../env.js";
 import { readChatMeal, readChatVariant } from "../chat-variants.js";
@@ -619,6 +620,17 @@ chats.post("/:id/messages", async (c) => {
     }),
     googleSearch: google.tools.googleSearch({}),
   };
+  const captureContext = captureChatGenerationContext({
+    historyMessageIds: uiMessages.map((message) => message.id),
+    build: process.env.FLY_IMAGE_REF ?? null,
+    save: async (context) => {
+      await pool.query(
+        `INSERT INTO chat_generation_contexts (message_id, context) VALUES ($1, $2::jsonb)
+         ON CONFLICT (message_id) DO UPDATE SET context = EXCLUDED.context`,
+        [assistantId, context],
+      );
+    },
+  });
 
   return createChatReply({
     id: assistantId,
@@ -627,12 +639,14 @@ chats.post("/:id/messages", async (c) => {
     run: async () =>
       briefSystem
         ? streamText({
+            ...captureContext,
             model: google(UTILITY_MODEL),
             system: briefSystem,
             messages: await convertToModelMessages(uiMessages),
             onError: () => {},
           })
         : streamText({
+            ...captureContext,
             model: google(CHAT_MODEL),
             // Gemini defaults to high thinking, which made every turn slow.
             reasoning: "low",

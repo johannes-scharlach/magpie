@@ -131,7 +131,7 @@ export function AvoidanceForm({
         </View>
       ) : null}
       <Field
-        label="Forms, preparation or exceptions"
+        label="Details (optional)"
         multiline
         value={item.detail ?? ""}
         onChangeText={(detail) => onChange({ ...item, detail })}

@@ -77,7 +77,7 @@ export const dietRequests: Record<keyof typeof dietOptions, string> = {
   pescetarian: "Replace meat, keep fish",
   vegetarian: "Replace meat and fish",
   vegan: "Replace all animal products",
-  other: "Set a different food rule",
+  other: "Other",
 } as const;
 export const equipmentOptions = {
   oven: "Oven",
@@ -179,9 +179,8 @@ export const shopRuleDescriptions: Record<
 > = {
   everyday: "Plan meals around ingredients I can buy here.",
   upgrade:
-    "Suggest ingredients from here when they improve a meal, but keep it doable without them.",
-  "worth-trip":
-    "Save this for meaningful improvements. When planning a week, try to use those ingredients across meals.",
+    "Suggest ingredients from here, but keep meals doable without a visit.",
+  "worth-trip": "Use ingredients from this trip across several meals.",
 };
 export const shopRuleSummaries: Record<keyof typeof shopRuleOptions, string> = {
   everyday: "Everyday meals",

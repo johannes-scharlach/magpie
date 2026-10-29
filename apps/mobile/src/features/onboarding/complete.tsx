@@ -1,6 +1,5 @@
 import { householdSchema } from "@magpie/profile";
 import { useEffect, useRef, useState } from "react";
-import { Text } from "@/components/ui/text";
 import { useAuth } from "@/db/provider";
 import { powersync } from "@/db/system";
 import { posthog } from "@/lib/posthog";
@@ -106,13 +105,10 @@ export function CompleteSetup() {
           : undefined
       }
       subtitle={shown ? "Your answers are still here." : undefined}
-      title={shown ? "Couldn’t save just yet" : "Saving your kitchen"}
+      title={shown ? "Couldn’t save your setup" : "Saving your setup…"}
     >
       {draft ? <KitchenArtwork profile={draft.profile} /> : null}
       <FormError message={shown} />
-      {!shown ? (
-        <Text className="text-muted-foreground">Just a moment…</Text>
-      ) : null}
     </OnboardingScreen>
   );
 }

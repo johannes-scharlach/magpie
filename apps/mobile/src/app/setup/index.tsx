@@ -76,11 +76,7 @@ export default function Welcome() {
   return (
     <OnboardingScreen
       action={{
-        label: busy
-          ? "Opening…"
-          : session
-            ? "Set up your household"
-            : "Set up meal planning",
+        label: busy ? "Opening…" : "Continue",
         disabled: busy,
         onPress: () => void start(),
       }}
@@ -94,11 +90,11 @@ export default function Welcome() {
           accessibilityRole="header"
           className="font-rounded text-4xl font-bold leading-11 tracking-tight"
         >
-          Tell Magpie how to plan your meals.
+          Set up your household
         </Text>
         <Text className="text-xl leading-6 text-muted-foreground">
-          Choose who to cook for, what to leave out and where to shop. Magpie
-          plans around your answers.
+          Tell Magpie who you cook for and how you cook, so it can suggest meals
+          and adapt recipes that work for you.
         </Text>
       </View>
       <FormError message={error ?? access.error} />

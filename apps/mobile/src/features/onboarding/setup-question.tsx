@@ -1,5 +1,4 @@
 import {
-  dietRequests,
   profileShops,
   type CookingProfile,
   type HouseholdPerson,
@@ -10,6 +9,7 @@ import { Platform, View, type TextInputInstance } from "react-native";
 import { AddRow } from "@/components/add-row";
 import { type Step } from "@/features/onboarding/draft";
 import { PersonRow } from "@/features/onboarding/person-row";
+import { personSummary } from "@/features/onboarding/person-summary";
 import { useOnboarding } from "@/features/onboarding/provider";
 import { DietEditor, Field, MealRoutineEditor } from "@/features/profile/form";
 import { ChoiceTiles } from "@/features/profile/choice-tiles";
@@ -23,33 +23,22 @@ export const titles: Record<Step, string> = {
   name: "What’s your name?",
   goals: "Set your cooking rules",
   diet: "How should Magpie plan your meals?",
-  household: "Who should Magpie plan for?",
+  household: "Who do you usually cook for?",
   restrictions: "What should Magpie leave out?",
   groceries: "Where do you shop?",
   kitchen: "What can you cook with?",
   measurements: "Which measurements should Magpie use?",
-  cuisines: "Which cuisines should Magpie start with?",
+  cuisines: "Which cuisines do you cook?",
   staples: "What do you usually keep?",
   email: "What’s your email?",
   code: "Check your inbox",
 };
 
-export const subtitles: Record<
-  Exclude<Step, "email" | "code">,
-  string | null
+export const subtitles: Partial<
+  Record<Exclude<Step, "email" | "code">, string>
 > = {
-  name: "First name or nickname is fine.",
-  goals:
-    "Magpie will follow these when planning meals and writing cooking steps.",
-  diet: "Set what to include, cut back or replace. Each person can have their own rule.",
-  household: "Add the usual eaters. Change who’s eating for any meal.",
-  restrictions: null,
-  groceries:
-    "Choose which shops to plan around and when to suggest something extra.",
-  kitchen: "Magpie will choose cooking methods that work with this equipment.",
-  measurements: "Magpie will use these units when writing recipes.",
-  cuisines: "Choose cuisines you cook and the ingredients you keep for each.",
-  staples: "Magpie will reach for these when they fit a meal.",
+  staples:
+    "Foods you usually keep or buy—not a list of what’s in your kitchen today.",
 };
 
 function HouseholdEditor({
@@ -72,11 +61,6 @@ function HouseholdEditor({
     >
       {people.map((person, index) => {
         const isCurrentPerson = person.id === currentPersonId;
-        const diet =
-          person.diet === "other"
-            ? person.diet_other
-            : dietRequests[person.diet];
-        const detail = `${diet} · ${person.portion_reference}× helping · ${person.meal_times === "All meals" || person.meal_times === "Always" ? "All planned meals" : person.meal_times}`;
         return (
           <View key={person.id}>
             {index > 0 ? (
@@ -94,7 +78,7 @@ function HouseholdEditor({
                   ? `${person.name.trim() || "You"} (You)`
                   : person.name.trim()
               }
-              detail={detail}
+              detail={personSummary(person)}
               onEdit={() => onEdit(person.id)}
               onRemove={isCurrentPerson ? undefined : () => onRemove(person.id)}
             />
@@ -166,14 +150,10 @@ export function SetupQuestion({
           ref={nameRef}
           label="What should Magpie call you?"
           hideLabel
-          placeholder="Your first name or nickname"
+          placeholder="Name or nickname"
           value={person.name}
           onChangeText={(name) => editPerson({ ...person, name })}
-          error={
-            showErrors && !person.name.trim()
-              ? "Add a name so Magpie knows what to call you."
-              : null
-          }
+          error={showErrors && !person.name.trim() ? "Enter a name." : null}
           autoFocus={openedHere}
           autoCapitalize="words"
           autoComplete="given-name"

@@ -187,9 +187,7 @@ export function useEmailAuth({
         },
     resendAction: initialCode
       ? {
-          label: remaining
-            ? `Didn’t get it? Resend in ${remaining}s`
-            : "Didn’t get a code? Resend",
+          label: remaining ? `Resend in ${remaining}s` : "Resend code",
           disabled: busy || remaining > 0,
           onPress: () => void send(),
         }
@@ -263,7 +261,7 @@ export function EmailAuthFields({
                   : "text-sm text-muted-foreground"
               }
             >
-              Wrong email? Change address
+              Change email
             </Text>
           </Pressable>
         </>

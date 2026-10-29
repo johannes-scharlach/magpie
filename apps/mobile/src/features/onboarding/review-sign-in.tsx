@@ -101,7 +101,7 @@ export function ReviewSignIn({
                 : "text-sm text-muted-foreground"
             }
           >
-            Wrong email? Change address
+            Change email
           </Text>
         </Pressable>
       </View>

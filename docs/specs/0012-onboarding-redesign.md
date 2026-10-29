@@ -43,6 +43,13 @@ the remaining household/setup questions use this approach:
 
 ## Experience
 
+The welcome says “Set up your household”: “Tell Magpie who you cook for and how
+you cook, so it can suggest meals and adapt recipes that work for you.”
+Its action is Continue. Questions omit subtitles that repeat the heading or
+describe controls already visible. Keep explanations for real ambiguities,
+trade-offs and safety limits. This copy cleanup does not change saved answers,
+diet defaults or available choices.
+
 Use plain questions and concrete choices. Preserve the warm light palette and
 clay artwork style. Large artwork belongs on welcome; equipment and ingredient
 artwork belongs inside the choices. No decorative banners above busy questions,
@@ -88,7 +95,8 @@ form sheet on both platforms, including the creator's details.
   same illustrated ingredient picker as cuisines. Cupboard includes tins and
   jars. Nothing preselected, no minimum, no separate expand/collapse task.
   These describe habits, not confirmed stock or ingredients required in every
-  meal; Magpie handles that distinction without another question or paragraph.
+  meal. The subtitle clarifies: “Foods you usually keep or buy—not a list of
+  what’s in your kitchen today.”
 - Familiar cooking: regional cuisine switch rows and the user's own cooking.
   Selecting a cuisine reveals its ingredient picker directly beneath it and
   leaves it visible while selected. These are starting points, not a whitelist
@@ -441,7 +449,7 @@ Keep the persisted diet keys; the visible choices state what to do:
 | Replace meat, keep fish     | Use fish, seafood and vegetarian ingredients instead of meat, including in stocks and sauces. |
 | Replace meat and fish       | Use vegetarian ingredients, including in stocks and sauces. Eggs and dairy are fine.          |
 | Replace all animal products | Use plant-based alternatives to meat, fish, dairy, eggs and honey.                            |
-| Set a different food rule   | Say what to reduce, leave out or replace.                                                     |
+| Other                       | Say what to reduce, leave out or replace.                                                     |
 
 The custom field asks “What should Magpie change?” and requires useful text
 before continuing/saving. The former Meat heavy key remains readable/editable
@@ -459,10 +467,12 @@ and individual people, not a deduplicated household-wide diet label.
 
 ### Who and how much to plan for
 
-“Who should Magpie plan for?” shows the usual eaters and each person's food
-rule, helping reference and attendance. It does not require an account for each
-person or assume everyone lives together. “Meals to plan” sets the household's
-usual meal coverage; “It varies” takes a free-text pattern.
+“Who do you usually cook for?” shows the usual eaters. Person summaries show
+food rules, different helpings and attendance without repeating the ordinary
+Include all foods, one-helping and all-meals defaults. All settings remain
+editable on the person. This does not require an account for each person or
+assume everyone lives together. “Usual meals” sets the household's usual meal
+coverage; “It varies” takes a free-text pattern.
 
 The person editor sets name, age group, food rule, “How much to cook” and
 “Include in”. One reference helping is an adult helping; the assistant scales

@@ -206,7 +206,7 @@ export function MealRoutineEditor({
   return (
     <View className="gap-3">
       <PickerRow
-        label="Meals to plan"
+        label="Usual meals"
         choices={mealRoutineChoices}
         selectedValue={selectedValue}
         onValueChange={(next) => {
@@ -227,9 +227,6 @@ export function MealRoutineEditor({
           placeholder="Weekday dinners, lunches and dinners on weekends"
         />
       ) : null}
-      <Text className="text-sm leading-5 text-muted-foreground">
-        Use this as the usual plan. Change it for any week.
-      </Text>
     </View>
   );
 }
@@ -290,7 +287,10 @@ export function DietEditor({
           choices={entries.map(([key]) => ({
             key,
             title: dietRequests[key as keyof typeof dietOptions],
-            detail: dietDescriptions[key as keyof typeof dietOptions],
+            detail:
+              key === "omnivore" || key === "other"
+                ? undefined
+                : dietDescriptions[key as keyof typeof dietOptions],
           }))}
           selectedKeys={[person.diet]}
           selection="single"
@@ -308,14 +308,15 @@ export function DietEditor({
           ref={otherRef}
           label="What should Magpie change?"
           placeholder="e.g. Halal meat only. No alcohol, including in sauces."
+          multiline
+          scrollEnabled={false}
           error={otherError}
           validationAttempt={validationAttempt}
           value={person.diet_other}
           onChangeText={(diet_other) => onChange({ ...person, diet_other })}
-          returnKeyType="done"
         />
       )}
-      {compact && !isOther ? (
+      {compact && !isOther && person.diet !== "omnivore" ? (
         <Text className="text-sm leading-5 text-muted-foreground">
           {dietDescriptions[person.diet]}
         </Text>
@@ -407,7 +408,7 @@ function PortionReference({
         accessible
         accessibilityRole="adjustable"
         accessibilityLabel="How much to cook for this person"
-        accessibilityHint="1 is a regular adult helping. Magpie scales ingredients to match."
+        accessibilityHint="1 is one adult helping."
         accessibilityValue={{
           min: portionReferenceRange.min,
           max: portionReferenceRange.max,
@@ -440,7 +441,7 @@ function PortionReference({
         />
       </View>
       <Text className="text-sm text-muted-foreground">
-        1× is a regular adult helping. Magpie scales ingredients to match.
+        1× = one adult helping.
       </Text>
     </View>
   );
