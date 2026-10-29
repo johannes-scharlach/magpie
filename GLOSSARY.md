@@ -11,6 +11,12 @@ The user decides how they eat, their decisions are put into practice, and neithe
 
 ### Cooking
 
+**DinnerIdea**:
+A possible dinner to explore before choosing how to cook it. It has a name, a short description and Qualities, but is not yet a complete Variant or a saved Recipe.
+
+**Quality**:
+One of eight descriptions of a DinnerIdea: temperature, weight, texture, base, protein, flavor, cuisine and familiarity. Keeping or ruling out a Quality steers tonight's suggestions, not the household's lasting preferences. "Classic" and "A twist" describe the idea, not the household's cooking history.
+
 **Recipe**:
 A named dish as grandma wrote it — the title in the book (e.g. "Chicken Traybake").
 _Avoid_: Dish, meal

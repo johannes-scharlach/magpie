@@ -11,6 +11,11 @@ import {
   WEEKDAY_LONG,
   type MealSlot,
 } from "@/features/meals/slots";
+import {
+  axes,
+  type Dinner,
+  type Marks,
+} from "@/features/dinner-turntable/game";
 
 /**
  * The app never puts words in the user's mouth: everything it sends in
@@ -40,6 +45,29 @@ export function entryMessage(
 
 export function dishMessage(dish: string): string {
   return `Give me a few ideas for making: ${dish.trim()}`;
+}
+
+/** The turntable has already chosen a direction; don't open another idea deck. */
+export function cookDinnerMessage(dinner: Dinner, marks: Marks): string {
+  const choices = (mode: "keep" | "avoid") =>
+    axes.flatMap(({ id, name }) => {
+      const mark = marks[id];
+      return mark?.mode === mode
+        ? [`${mark.value} (${name.toLowerCase()})`]
+        : [];
+    });
+  const kept = choices("keep");
+  const avoided = choices("avoid");
+  return [
+    `Show me how to make: ${dinner.title}.`,
+    dinner.pitch,
+    dinner.ingredients ? `Ingredients: ${dinner.ingredients}.` : "",
+    kept.length ? `Keep: ${kept.join(", ")}.` : "",
+    avoided.length ? `Rule out: ${avoided.join(", ")}.` : "",
+    "Expand this dinner rather than offering more ideas.",
+  ]
+    .filter(Boolean)
+    .join("\n");
 }
 
 /** Planning entry: dates stay explicit when the conversation is resumed later. */

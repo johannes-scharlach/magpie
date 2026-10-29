@@ -1,4 +1,4 @@
-import seededTwists from "./seeded-twists.json" with { type: "json" };
+import seededTwists from "@magpie/meals/seeded-twists.json" with { type: "json" };
 
 export type Twist = { title: string; cuisine: string; pitch: string };
 export type TwistLibrary = Record<string, Twist[] | undefined>;

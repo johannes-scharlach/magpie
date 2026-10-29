@@ -377,6 +377,33 @@ export default function Home() {
           ) : null}
         </View>
 
+        <View className="mx-4 mt-6">
+          <Link href="/dinner-turntable" asChild>
+            <Pressable
+              accessibilityRole="link"
+              accessibilityLabel="Play the dinner turntable"
+              className="min-h-12 flex-row items-center gap-3 rounded-2xl bg-secondary px-4 py-3 active:bg-accent"
+            >
+              <SymbolView
+                name={{ ios: "arrow.clockwise.circle", android: "casino" }}
+                tintColor={primaryColor}
+                size={24}
+              />
+              <View className="min-w-0 flex-1">
+                <Text className="font-rounded font-bold">Spin for dinner</Text>
+                <Text className="text-sm text-muted-foreground">
+                  Keep what sounds good. Change the rest.
+                </Text>
+              </View>
+              <SymbolView
+                name={{ ios: "chevron.right", android: "chevron_right" }}
+                tintColor={mutedColor}
+                size={16}
+              />
+            </Pressable>
+          </Link>
+        </View>
+
         <View className="mx-4 mt-10 gap-3">
           <View className="flex-row items-center justify-between gap-3">
             <SectionTitle className="min-w-0 flex-1 shrink">

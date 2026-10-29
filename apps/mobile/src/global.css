@@ -46,6 +46,10 @@
       --color-ring: #492f40;
       /* Tappable text and glyphs; primary is too dark to read as a tint at text size. */
       --color-link: #8a4f74;
+      /* Selected clay turntable palette. */
+      --color-turntable-ink: var(--color-primary);
+      --color-turntable-underside: #d8c8be;
+      --color-turntable-disc: #f0e7df;
     }
 
     @variant dark {
@@ -69,6 +73,9 @@
       --color-input: #7e6f75;
       --color-ring: #ebc7b3;
       --color-link: #ebc7b3;
+      --color-turntable-ink: #f2d8c7;
+      --color-turntable-underside: #171215;
+      --color-turntable-disc: #382f34;
     }
 
     /* Clay titles: SF Pro Rounded on iOS; Android has no rounded system

@@ -1,6 +1,19 @@
 [
   {
     "title": "Pan-Seared Pork Chops with Jammy Zwetschgen (Plums)",
+    "dinner": {
+      "name": "Pork chops & jammy plums",
+      "activeMinutes": 20,
+      "totalMinutes": 25,
+      "temp": "Warming",
+      "weight": "Rich",
+      "texture": "Saucy",
+      "base": "Fruit",
+      "protein": "Pork",
+      "flavor": "Sweet-tart",
+      "cuisine": "Homestyle",
+      "fam": "A twist"
+    },
     "previewTitle": "Pork chops with jammy plums",
     "section": "Seasonal Late-Summer Specials",
     "ingredients": "Pork chops, Zwetschgen/purple plums, red onion, balsamic vinegar, fresh rosemary",
@@ -11,6 +24,19 @@
   },
   {
     "title": "Late-Summer Charred Sweet Corn, Zucchini & Feta Skillet",
+    "dinner": {
+      "name": "Corn, zucchini & feta",
+      "activeMinutes": 15,
+      "totalMinutes": 20,
+      "temp": "Warming",
+      "weight": "Light",
+      "texture": "Tender",
+      "base": "Veg",
+      "protein": "Veggie",
+      "flavor": "Smoky",
+      "cuisine": "Mediterranean",
+      "fam": "A twist"
+    },
     "previewTitle": "Corn, zucchini & feta skillet",
     "section": "Seasonal Late-Summer Specials",
     "ingredients": "Fresh corn, zucchini, feta, fresh basil, lime or lemon",
@@ -21,6 +47,19 @@
   },
   {
     "title": "Brown-Butter Pfifferlinge (Chanterelles) on Toasted Sourdough",
+    "dinner": {
+      "name": "Mushrooms on toast",
+      "activeMinutes": 10,
+      "totalMinutes": 15,
+      "temp": "Warming",
+      "weight": "Rich",
+      "texture": "Crispy",
+      "base": "Bread",
+      "protein": "Veggie",
+      "flavor": "Nutty",
+      "cuisine": "Homestyle",
+      "fam": "Classic"
+    },
     "previewTitle": "Mushrooms on toast",
     "section": "Seasonal Late-Summer Specials",
     "ingredients": "Pfifferlinge, sourdough, butter, shallot/red onion, fresh parsley",
@@ -31,6 +70,19 @@
   },
   {
     "title": "Sheet-Pan Roasted Sausage, Sweet Bell Peppers & New Potatoes",
+    "dinner": {
+      "name": "Sausage, peppers & potatoes",
+      "activeMinutes": 15,
+      "totalMinutes": 45,
+      "temp": "Warming",
+      "weight": "Hearty",
+      "texture": "Crispy",
+      "base": "Potato",
+      "protein": "Pork",
+      "flavor": "Savory",
+      "cuisine": "Homestyle",
+      "fam": "Classic"
+    },
     "previewTitle": "Sausage, peppers & potatoes",
     "section": "Seasonal Late-Summer Specials",
     "ingredients": "Salsiccia or coarse bratwurst, sweet pointed peppers, baby potatoes, whole garlic cloves, fresh oregano/thyme",
@@ -41,6 +93,19 @@
   },
   {
     "title": "Jammy Cherry Tomato & Ricotta Pasta",
+    "dinner": {
+      "name": "Tomato & ricotta pasta",
+      "activeMinutes": 15,
+      "totalMinutes": 20,
+      "temp": "Warming",
+      "weight": "Light",
+      "texture": "Creamy",
+      "base": "Pasta",
+      "protein": "Veggie",
+      "flavor": "Zingy",
+      "cuisine": "Italian",
+      "fam": "Classic"
+    },
     "previewTitle": "Tomato & ricotta pasta",
     "section": "Seasonal Late-Summer Specials",
     "ingredients": "Cherry/vine tomatoes, rigatoni or paccheri, ricotta (or Schmand/burrata), garlic, fresh basil",
@@ -51,6 +116,19 @@
   },
   {
     "title": "Flammkuchen with Schmand, bacon and onions",
+    "dinner": {
+      "name": "Bacon & onion Flammkuchen",
+      "activeMinutes": 10,
+      "totalMinutes": 25,
+      "temp": "Warming",
+      "weight": "Rich",
+      "texture": "Crispy",
+      "base": "Bread",
+      "protein": "Pork",
+      "flavor": "Smoky",
+      "cuisine": "German",
+      "fam": "Classic"
+    },
     "previewTitle": "Flammkuchen with bacon & onions",
     "section": "Pantry & Fast Comfort",
     "ingredients": "Flammkuchen base, Schmand, bacon, onions",
@@ -60,6 +138,19 @@
   },
   {
     "title": "Classic Spaghetti Cacio e Pepe",
+    "dinner": {
+      "name": "Spaghetti cacio e pepe",
+      "activeMinutes": 15,
+      "totalMinutes": 20,
+      "temp": "Warming",
+      "weight": "Rich",
+      "texture": "Creamy",
+      "base": "Pasta",
+      "protein": "Veggie",
+      "flavor": "Peppery",
+      "cuisine": "Italian",
+      "fam": "Classic"
+    },
     "previewTitle": "Spaghetti cacio e pepe",
     "section": "Pantry & Fast Comfort",
     "ingredients": "Spaghetti, Pecorino Romano (or Grana Padano), whole black peppercorns, butter",
@@ -69,6 +160,19 @@
   },
   {
     "title": "Spanish Tortilla de Patatas",
+    "dinner": {
+      "name": "Spanish potato tortilla",
+      "activeMinutes": 25,
+      "totalMinutes": 40,
+      "temp": "Warming",
+      "weight": "Hearty",
+      "texture": "Custardy",
+      "base": "Potato",
+      "protein": "Egg",
+      "flavor": "Mellow",
+      "cuisine": "Spanish",
+      "fam": "Classic"
+    },
     "previewTitle": "Spanish potato tortilla",
     "section": "Pantry & Fast Comfort",
     "ingredients": "Waxy potatoes, eggs, yellow onion, olive oil",
@@ -78,6 +182,19 @@
   },
   {
     "title": "Pasta all’Amatriciana",
+    "dinner": {
+      "name": "Pasta all’Amatriciana",
+      "activeMinutes": 20,
+      "totalMinutes": 30,
+      "temp": "Warming",
+      "weight": "Hearty",
+      "texture": "Saucy",
+      "base": "Pasta",
+      "protein": "Pork",
+      "flavor": "Smoky",
+      "cuisine": "Italian",
+      "fam": "Classic"
+    },
     "previewTitle": "Pasta all’Amatriciana",
     "section": "Pantry & Fast Comfort",
     "ingredients": "Rigatoni or bucatini, guanciale (or smoked bacon/Speck), canned San Marzano tomatoes, Pecorino Romano, dried chili flakes",
@@ -87,6 +204,19 @@
   },
   {
     "title": "White Bean & Tuna Salad",
+    "dinner": {
+      "name": "White bean & tuna salad",
+      "activeMinutes": 10,
+      "totalMinutes": 10,
+      "temp": "Refreshing",
+      "weight": "Light",
+      "texture": "Creamy",
+      "base": "Beans",
+      "protein": "Fish",
+      "flavor": "Zingy",
+      "cuisine": "Italian",
+      "fam": "Classic"
+    },
     "previewTitle": "White bean & tuna salad",
     "section": "Pantry & Fast Comfort",
     "ingredients": "Canned cannellini beans, tuna in olive oil, red onion, fresh parsley, lemon",
@@ -96,6 +226,19 @@
   },
   {
     "title": "Garlic & Herb Gnocchi with Crispy Pancetta",
+    "dinner": {
+      "name": "Gnocchi & crispy pancetta",
+      "activeMinutes": 15,
+      "totalMinutes": 20,
+      "temp": "Warming",
+      "weight": "Rich",
+      "texture": "Crispy",
+      "base": "Potato",
+      "protein": "Pork",
+      "flavor": "Nutty",
+      "cuisine": "Italian",
+      "fam": "Classic"
+    },
     "previewTitle": "Gnocchi with crispy pancetta",
     "section": "Pantry & Fast Comfort",
     "ingredients": "Fresh potato gnocchi, diced pancetta or bacon, fresh sage leaves, butter, grated Parmesan",
@@ -105,6 +248,19 @@
   },
   {
     "title": "Shakshuka",
+    "dinner": {
+      "name": "Shakshuka",
+      "activeMinutes": 15,
+      "totalMinutes": 30,
+      "temp": "Warming",
+      "weight": "Hearty",
+      "texture": "Saucy",
+      "base": "Bread",
+      "protein": "Egg",
+      "flavor": "Spiced",
+      "cuisine": "North African",
+      "fam": "Classic"
+    },
     "previewTitle": "Shakshuka",
     "section": "Skillet & Stovetop Mains",
     "ingredients": "Canned crushed tomatoes, eggs, bell pepper, ground cumin, feta (bread to serve)",
@@ -113,6 +269,19 @@
   },
   {
     "title": "Crispy Black Bean & Poblano Quesadillas",
+    "dinner": {
+      "name": "Black bean quesadillas",
+      "activeMinutes": 15,
+      "totalMinutes": 20,
+      "temp": "Warming",
+      "weight": "Hearty",
+      "texture": "Crispy",
+      "base": "Bread",
+      "protein": "Veggie",
+      "flavor": "Smoky",
+      "cuisine": "Mexican",
+      "fam": "Classic"
+    },
     "previewTitle": "Black bean quesadillas",
     "section": "Skillet & Stovetop Mains",
     "ingredients": "Flour tortillas, canned black beans, shredded cheese, green bell pepper or mild chili, jarred salsa",
@@ -121,6 +290,19 @@
   },
   {
     "title": "Pan-Seared Pork Chops with Apples & Mustard Cream Sauce",
+    "dinner": {
+      "name": "Pork, apples & mustard cream",
+      "activeMinutes": 20,
+      "totalMinutes": 30,
+      "temp": "Warming",
+      "weight": "Rich",
+      "texture": "Creamy",
+      "base": "Fruit",
+      "protein": "Pork",
+      "flavor": "Sweet-tart",
+      "cuisine": "French",
+      "fam": "Classic"
+    },
     "section": "Skillet & Stovetop Mains",
     "ingredients": "Bone-in pork chops, tart apples, Dijon mustard, heavy cream, fresh thyme",
     "time": "20 min · 1 pan",
@@ -128,6 +310,19 @@
   },
   {
     "title": "Spinach & Rice Pilaf",
+    "dinner": {
+      "name": "Spinach & rice pilaf",
+      "activeMinutes": 15,
+      "totalMinutes": 30,
+      "temp": "Warming",
+      "weight": "Light",
+      "texture": "Tender",
+      "base": "Rice",
+      "protein": "Veggie",
+      "flavor": "Herby",
+      "cuisine": "Greek",
+      "fam": "Classic"
+    },
     "previewTitle": "Spinach & rice pilaf",
     "section": "Skillet & Stovetop Mains",
     "ingredients": "Fresh baby spinach, medium-grain rice, spring onions, fresh dill, lemon juice",
@@ -136,6 +331,19 @@
   },
   {
     "title": "Crispy Glazed Tofu & Steamed Broccoli",
+    "dinner": {
+      "name": "Crispy tofu & broccoli",
+      "activeMinutes": 20,
+      "totalMinutes": 30,
+      "temp": "Warming",
+      "weight": "Light",
+      "texture": "Crispy",
+      "base": "Veg",
+      "protein": "Tofu",
+      "flavor": "Nutty",
+      "cuisine": "SE Asian",
+      "fam": "A twist"
+    },
     "previewTitle": "Crispy glazed tofu & broccoli",
     "section": "Skillet & Stovetop Mains",
     "ingredients": "Extra-firm tofu, peanut butter, soy sauce, fresh ginger, broccoli florets",
@@ -144,6 +352,19 @@
   },
   {
     "title": "Smoked Trout, Potato & Horseradish Hash",
+    "dinner": {
+      "name": "Smoked trout & potato hash",
+      "activeMinutes": 15,
+      "totalMinutes": 25,
+      "temp": "Warming",
+      "weight": "Hearty",
+      "texture": "Crispy",
+      "base": "Potato",
+      "protein": "Fish",
+      "flavor": "Smoky",
+      "cuisine": "Nordic",
+      "fam": "Classic"
+    },
     "section": "Skillet & Stovetop Mains",
     "ingredients": "Smoked trout fillets, pre-boiled waxy potatoes, sour cream/Schmand, prepared horseradish, fresh chives",
     "time": "20 min · 1 skillet",
@@ -151,6 +372,19 @@
   },
   {
     "title": "Roasted Sausage, Fennel & Sweet Potato Traybake",
+    "dinner": {
+      "name": "Sausage & fennel traybake",
+      "activeMinutes": 15,
+      "totalMinutes": 45,
+      "temp": "Warming",
+      "weight": "Hearty",
+      "texture": "Tender",
+      "base": "Potato",
+      "protein": "Pork",
+      "flavor": "Herby",
+      "cuisine": "Italian",
+      "fam": "Classic"
+    },
     "section": "Oven & Sheet-Pan Essentials",
     "ingredients": "Salsiccia or coarse bratwurst, fennel bulbs, sweet potatoes, garlic cloves, fresh rosemary",
     "time": "45 min · oven",
@@ -158,6 +392,19 @@
   },
   {
     "title": "Baked Feta with Cherry Tomatoes",
+    "dinner": {
+      "name": "Baked feta & tomatoes",
+      "activeMinutes": 10,
+      "totalMinutes": 30,
+      "temp": "Warming",
+      "weight": "Rich",
+      "texture": "Creamy",
+      "base": "Bread",
+      "protein": "Veggie",
+      "flavor": "Briny",
+      "cuisine": "Greek",
+      "fam": "Classic"
+    },
     "previewTitle": "Baked feta with tomatoes",
     "section": "Oven & Sheet-Pan Essentials",
     "ingredients": "Feta block, cherry tomatoes, Kalamata olives, dried oregano, baguette",
@@ -166,6 +413,19 @@
   },
   {
     "title": "Crispy Sheet-Pan Gnocchi with Bell Peppers & Mozzarella",
+    "dinner": {
+      "name": "Crispy gnocchi & mozzarella",
+      "activeMinutes": 10,
+      "totalMinutes": 35,
+      "temp": "Warming",
+      "weight": "Hearty",
+      "texture": "Crispy",
+      "base": "Potato",
+      "protein": "Veggie",
+      "flavor": "Savory",
+      "cuisine": "Italian",
+      "fam": "A twist"
+    },
     "section": "Oven & Sheet-Pan Essentials",
     "ingredients": "Shelf-stable/fresh gnocchi, bell peppers, red onion, mini mozzarella balls, fresh basil",
     "time": "30 min · oven",
@@ -173,6 +433,19 @@
   },
   {
     "title": "Lemon-Herb Roasted Chicken Thighs & Baby Potatoes",
+    "dinner": {
+      "name": "Lemon chicken & potatoes",
+      "activeMinutes": 15,
+      "totalMinutes": 55,
+      "temp": "Warming",
+      "weight": "Hearty",
+      "texture": "Crispy",
+      "base": "Potato",
+      "protein": "Chicken",
+      "flavor": "Zingy",
+      "cuisine": "Mediterranean",
+      "fam": "Classic"
+    },
     "section": "Oven & Sheet-Pan Essentials",
     "ingredients": "Bone-in skin-on chicken thighs, baby potatoes, whole lemons, garlic heads, fresh thyme",
     "time": "50 min · oven",
@@ -180,6 +453,19 @@
   },
   {
     "title": "Korean Stir-Fried Pork Belly with Kimchi",
+    "dinner": {
+      "name": "Korean pork belly & kimchi",
+      "activeMinutes": 15,
+      "totalMinutes": 25,
+      "temp": "Warming",
+      "weight": "Rich",
+      "texture": "Sticky",
+      "base": "Rice",
+      "protein": "Pork",
+      "flavor": "Spiced",
+      "cuisine": "Korean",
+      "fam": "Classic"
+    },
     "previewTitle": "Korean pork belly & kimchi",
     "section": "Asian-Inspired & High Flavor",
     "ingredients": "Thinly sliced pork belly, mature kimchi, gochujang, garlic, cooked short-grain rice",
@@ -188,6 +474,19 @@
   },
   {
     "title": "Japanese Gyudon (Beef Rice Bowl)",
+    "dinner": {
+      "name": "Gyudon beef rice bowl",
+      "activeMinutes": 15,
+      "totalMinutes": 25,
+      "temp": "Warming",
+      "weight": "Hearty",
+      "texture": "Tender",
+      "base": "Rice",
+      "protein": "Beef",
+      "flavor": "Umami",
+      "cuisine": "Japanese",
+      "fam": "Classic"
+    },
     "section": "Asian-Inspired & High Flavor",
     "ingredients": "Thinly sliced beef, sliced onion, soy sauce, mirin, short-grain rice",
     "time": "15 min · 1 pan",
@@ -195,6 +494,19 @@
   },
   {
     "title": "Chinese Tomato & Egg Stir-Fry",
+    "dinner": {
+      "name": "Tomato & egg stir-fry",
+      "activeMinutes": 15,
+      "totalMinutes": 25,
+      "temp": "Warming",
+      "weight": "Light",
+      "texture": "Silky",
+      "base": "Rice",
+      "protein": "Egg",
+      "flavor": "Mellow",
+      "cuisine": "Chinese",
+      "fam": "Classic"
+    },
     "previewTitle": "Tomato & egg stir-fry",
     "section": "Asian-Inspired & High Flavor",
     "ingredients": "Ripe tomatoes, eggs, scallions, soy sauce, pinch of sugar (plus rice to serve)",
@@ -203,6 +515,19 @@
   },
   {
     "title": "Miso-Butter Salmon & Green Beans",
+    "dinner": {
+      "name": "Miso salmon & green beans",
+      "activeMinutes": 15,
+      "totalMinutes": 25,
+      "temp": "Warming",
+      "weight": "Light",
+      "texture": "Tender",
+      "base": "Veg",
+      "protein": "Fish",
+      "flavor": "Umami",
+      "cuisine": "Japanese",
+      "fam": "A twist"
+    },
     "section": "Asian-Inspired & High Flavor",
     "ingredients": "Salmon fillets, white miso paste, butter, fresh green beans, soy sauce",
     "time": "20 min · pan or oven",
@@ -210,6 +535,19 @@
   },
   {
     "title": "Egg Fried Rice with Pork",
+    "dinner": {
+      "name": "Egg fried rice with pork",
+      "activeMinutes": 15,
+      "totalMinutes": 20,
+      "temp": "Warming",
+      "weight": "Hearty",
+      "texture": "Fluffy",
+      "base": "Rice",
+      "protein": "Egg & pork",
+      "flavor": "Savory",
+      "cuisine": "Chinese",
+      "fam": "Classic"
+    },
     "previewTitle": "Egg fried rice with pork",
     "section": "Asian-Inspired & High Flavor",
     "ingredients": "Day-old jasmine rice, eggs, scallions, diced pork or ham, soy sauce",
@@ -218,6 +556,19 @@
   },
   {
     "title": "Crispy Roman Pinsa",
+    "dinner": {
+      "name": "Crispy Roman pinsa",
+      "activeMinutes": 10,
+      "totalMinutes": 20,
+      "temp": "Warming",
+      "weight": "Rich",
+      "texture": "Crispy",
+      "base": "Bread",
+      "protein": "Pork",
+      "flavor": "Smoky",
+      "cuisine": "Italian",
+      "fam": "A twist"
+    },
     "previewTitle": "Crispy Roman pinsa",
     "section": "Shortcut-Based Ideas",
     "ingredients": "Pinsa base, mild ajvar or tomato passata, burrata or mozzarella, prosciutto or mortadella, fresh herbs",
@@ -226,6 +577,19 @@
   },
   {
     "title": "Thai Curry Noodles with Salmon",
+    "dinner": {
+      "name": "Thai curry noodles & salmon",
+      "activeMinutes": 15,
+      "totalMinutes": 25,
+      "temp": "Warming",
+      "weight": "Rich",
+      "texture": "Soupy",
+      "base": "Noodles",
+      "protein": "Fish",
+      "flavor": "Spiced",
+      "cuisine": "Thai",
+      "fam": "A twist"
+    },
     "previewTitle": "Thai curry noodles with salmon",
     "section": "Shortcut-Based Ideas",
     "ingredients": "Thai curry paste (red, green, or yellow), coconut milk, salmon fillets, sugar snap peas, quick-cook noodles",
@@ -234,6 +598,19 @@
   },
   {
     "title": "Sheet-Pan Halloumi & Gnocchi",
+    "dinner": {
+      "name": "Halloumi & gnocchi traybake",
+      "activeMinutes": 10,
+      "totalMinutes": 30,
+      "temp": "Warming",
+      "weight": "Hearty",
+      "texture": "Crispy",
+      "base": "Potato",
+      "protein": "Veggie",
+      "flavor": "Savory",
+      "cuisine": "Mediterranean",
+      "fam": "A twist"
+    },
     "previewTitle": "Sheet-pan halloumi & gnocchi",
     "section": "Shortcut-Based Ideas",
     "ingredients": "Potato gnocchi, halloumi, zucchini or cherry tomatoes, jarred sauce (red pesto, harissa, or ajvar), olive oil",
@@ -242,6 +619,19 @@
   },
   {
     "title": "Silky White Bean & Sausage Skillet",
+    "dinner": {
+      "name": "White bean & sausage skillet",
+      "activeMinutes": 15,
+      "totalMinutes": 25,
+      "temp": "Warming",
+      "weight": "Hearty",
+      "texture": "Creamy",
+      "base": "Beans",
+      "protein": "Pork",
+      "flavor": "Savory",
+      "cuisine": "Homestyle",
+      "fam": "Classic"
+    },
     "previewTitle": "White bean & sausage skillet",
     "section": "Shortcut-Based Ideas",
     "ingredients": "Coarse sausage (merguez, salsiccia, or chorizo), canned white beans, jarred sauce or aromatics, baby greens",
@@ -250,6 +640,19 @@
   },
   {
     "title": "Crispy Hummus & Spiced Lamb/Beef Flatbreads (Lahmacun-Style)",
+    "dinner": {
+      "name": "Spiced meat & hummus flatbread",
+      "activeMinutes": 15,
+      "totalMinutes": 25,
+      "temp": "Warming",
+      "weight": "Hearty",
+      "texture": "Crispy",
+      "base": "Bread",
+      "protein": "Lamb",
+      "flavor": "Spiced",
+      "cuisine": "Levantine",
+      "fam": "A twist"
+    },
     "section": "Shortcut-Based Ideas",
     "ingredients": "Pita flatbreads, hummus, ground lamb or beef, ground sumac/cumin, flat-leaf parsley or baby spinach",
     "time": "12 min · pan + oven",
@@ -257,6 +660,19 @@
   },
   {
     "title": "Harissa & Apricot Glazed Chicken Thighs with Steamed Couscous",
+    "dinner": {
+      "name": "Harissa chicken & couscous",
+      "activeMinutes": 15,
+      "totalMinutes": 45,
+      "temp": "Warming",
+      "weight": "Hearty",
+      "texture": "Sticky",
+      "base": "Couscous",
+      "protein": "Chicken",
+      "flavor": "Sweet-heat",
+      "cuisine": "North African",
+      "fam": "A twist"
+    },
     "section": "Shortcut-Based Ideas",
     "ingredients": "Chicken thighs, mild harissa paste, apricot jam (or honey), quick-cooking couscous, lemon",
     "time": "30 min · oven",
@@ -264,6 +680,19 @@
   },
   {
     "title": "Charred Sweet Corn & Kimchi Quesadillas",
+    "dinner": {
+      "name": "Corn & kimchi quesadillas",
+      "activeMinutes": 10,
+      "totalMinutes": 15,
+      "temp": "Warming",
+      "weight": "Rich",
+      "texture": "Crispy",
+      "base": "Bread",
+      "protein": "Veggie",
+      "flavor": "Tangy",
+      "cuisine": "Korean",
+      "fam": "A twist"
+    },
     "section": "Shortcut-Based Ideas",
     "ingredients": "Flour tortillas, chopped kimchi, canned/fresh corn, shredded mozzarella/Gouda, butter or mayo",
     "time": "10 min · 1 skillet",
@@ -271,6 +700,19 @@
   },
   {
     "title": "Gochujang & Honey Glazed Pork Belly with Cucumber Sesame Crunch",
+    "dinner": {
+      "name": "Sticky pork & cucumber crunch",
+      "activeMinutes": 15,
+      "totalMinutes": 25,
+      "temp": "Warming",
+      "weight": "Rich",
+      "texture": "Sticky",
+      "base": "Veg",
+      "protein": "Pork",
+      "flavor": "Sweet-heat",
+      "cuisine": "Korean",
+      "fam": "A twist"
+    },
     "section": "Shortcut-Based Ideas",
     "ingredients": "Thinly sliced pork belly, gochujang, honey, mini cucumbers, toasted sesame oil/seeds",
     "time": "12 min · 1 pan",
@@ -278,6 +720,19 @@
   },
   {
     "title": "Miso-Glazed Roasted Aubergine (Nasu Dengaku) with Steamed Rice",
+    "dinner": {
+      "name": "Miso aubergine & rice",
+      "activeMinutes": 15,
+      "totalMinutes": 35,
+      "temp": "Warming",
+      "weight": "Light",
+      "texture": "Silky",
+      "base": "Rice",
+      "protein": "Veggie",
+      "flavor": "Umami",
+      "cuisine": "Japanese",
+      "fam": "Classic"
+    },
     "section": "Shortcut-Based Ideas",
     "ingredients": "Eggplants, white miso paste, mirin (or honey/sugar), short-grain rice, scallions",
     "time": "25 min · oven or grill",

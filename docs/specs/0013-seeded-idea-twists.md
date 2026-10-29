@@ -23,7 +23,7 @@ should arrive fast.
 
 ## Twist library
 
-`apps/api/src/seeded-twists.json`, keyed by the seeded idea's title (the
+`packages/meals/src/seeded-twists.json`, keyed by the seeded idea's title (the
 same key `seeded-art.ts` uses):
 
 ```json
@@ -64,8 +64,8 @@ same key `seeded-art.ts` uses):
   generic fusion.
 - **Titles implicitly signal cuisine:** When ideas spread across cuisines, make
   each cuisine 100% recognizable in the title itself through its authentic
-  ingredients and dish framing (*Calabacitas con elote*, *Warm feta and mint*,
-  *Crisp sage and polenta*), rather than explicitly labeling the cuisine in the
+  ingredients and dish framing (_Calabacitas con elote_, _Warm feta and mint_,
+  _Crisp sage and polenta_), rather than explicitly labeling the cuisine in the
   title.
 - **Voice:** Anchored in the assistant prompt (`apps/api/src/assistant-prompt.ts`):
   the skilled friend on the phone. Actionable sensory mechanics, dinner
