@@ -26,10 +26,30 @@ export function decodeHousehold(
     "cuisines",
     "extras",
   ]) {
-    if (typeof profile[key] === "string")
+    // PowerSync adds a new local column as NULL to rows synced before it
+    // existed. Treat that as absent so the schema defaults apply.
+    if (profile[key] === null) delete profile[key];
+    else if (typeof profile[key] === "string")
       profile[key] = JSON.parse(profile[key]);
   }
-  return householdSchema.parse({ profile, people });
+  // Rows that predate measurements never had a choice. Show the current
+  // default so the setting is honest before the row syncs.
+  profile.measurements ??= {
+    system: "metric",
+    temperature: "celsius",
+    convert_imports: true,
+  };
+  return householdSchema.parse({
+    profile,
+    people: people.map((person) => {
+      if (!person || typeof person !== "object") return person;
+      const copy = { ...(person as Record<string, unknown>) };
+      // user_id is the one column where NULL means "no account".
+      for (const [key, value] of Object.entries(copy))
+        if (value === null && key !== "user_id") delete copy[key];
+      return copy;
+    }),
+  });
 }
 export async function saveProfileSection(
   listId: string,

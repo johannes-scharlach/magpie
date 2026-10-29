@@ -1,4 +1,4 @@
-/** The rim follows the finger; quality tags stay put and within reach. */
+/** The rim and open qualities follow the finger; explicit choices stay put. */
 import { SymbolView } from "expo-symbols";
 import {
   forwardRef,
@@ -16,13 +16,16 @@ import {
 } from "react-native-gesture-handler";
 import Animated, {
   cancelAnimation,
+  Easing,
   FadeIn,
   ReduceMotion,
+  type SharedValue,
   useAnimatedStyle,
   useReducedMotion,
   useSharedValue,
   withDecay,
   withSpring,
+  withTiming,
 } from "react-native-reanimated";
 import Svg, { Circle, Path } from "react-native-svg";
 import { scheduleOnRN } from "react-native-worklets";
@@ -36,8 +39,18 @@ import { DinnerFood } from "./dinner-food";
 import { axes, type Axis, type Dinner, type Marks } from "./game";
 import { angularVelocity, isTangential, rotationDelta } from "./wheel-motion";
 
-const ARRIVE = FadeIn.duration(140).reduceMotion(ReduceMotion.System);
+const ARRIVE = FadeIn.duration(180).reduceMotion(ReduceMotion.System);
+const EASE_OUT = Easing.bezier(0.23, 1, 0.32, 1);
+const DEPARTURE_DEGREES = 24;
+const LABEL_DEPARTURE = 16;
+const LABEL_ARRIVAL = 12;
+const FOOD_DEPARTURE_ROTATION = 8;
+const FOOD_ARRIVAL_ROTATION = 6;
 const TILTS = [-1.2, 0.8, -0.6, 1.1, 0.7, -1, 1.2, -0.7] as const;
+const TANGENTS = axes.map((_, index) => {
+  const angle = ((-90 + (index + 0.5) * 45) * Math.PI) / 180;
+  return { x: -Math.sin(angle), y: Math.cos(angle) };
+});
 const WEDGES = [
   "#E8C8B8",
   "#EED9AE",
@@ -109,6 +122,11 @@ function QualityToken({
   axis,
   dinner,
   marks,
+  spinning,
+  departure,
+  arrival,
+  spinDirection,
+  reduced,
   onMark,
   index,
   width,
@@ -117,6 +135,11 @@ function QualityToken({
   axis: (typeof axes)[number];
   dinner: Dinner;
   marks: Marks;
+  spinning: boolean;
+  departure: SharedValue<number>;
+  arrival: SharedValue<number>;
+  spinDirection: SharedValue<number>;
+  reduced: boolean;
   onMark: (axis: Axis) => void;
   index: number;
   width: number;
@@ -126,92 +149,130 @@ function QualityToken({
   const value = mark?.value ?? dinner.qualities[axis.id];
   const kept = mark?.mode === "keep";
   const avoided = mark?.mode === "avoid";
-  const state = kept ? "kept" : avoided ? "ruled out" : "open";
+  const state = kept ? "pinned" : avoided ? "ruled out" : "open";
+  const fixed = Boolean(mark);
+  const departureStyle = useAnimatedStyle(() => {
+    if (fixed) {
+      return {
+        opacity: 1,
+        transform: [{ translateX: 0 }, { translateY: 0 }],
+      };
+    }
+    const exit = departure.get();
+    const enter = arrival.get();
+    const distance = reduced
+      ? 0
+      : exit * LABEL_DEPARTURE -
+        spinDirection.get() * (1 - enter) * LABEL_ARRIVAL;
+    const tangent = TANGENTS[index]!;
+    return {
+      opacity: (1 - Math.abs(exit)) * enter,
+      transform: [
+        { translateX: tangent.x * distance },
+        { translateY: tangent.y * distance },
+      ],
+    };
+  });
   return (
-    <PressableScale
-      accessibilityRole="button"
-      accessibilityLabel={`${axis.name}: ${value}, ${state}`}
-      accessibilityHint={
-        kept
-          ? "Tap to rule it out instead."
-          : avoided
-            ? "Tap to release this choice."
-            : "Tap to keep this quality when you spin."
+    <View
+      pointerEvents={spinning && !fixed ? "none" : "auto"}
+      accessibilityElementsHidden={spinning && !fixed}
+      importantForAccessibility={
+        spinning && !fixed ? "no-hide-descendants" : "auto"
       }
-      accessibilityState={{ selected: kept }}
-      onPress={() => onMark(axis.id)}
-      tilt={TILTS[index]!}
-      style={{ width }}
+      style={{ width, minHeight: 72 }}
     >
-      <View className="min-h-[72px] justify-center px-1 py-1.5">
-        <View
-          pointerEvents="none"
-          className="absolute inset-0 rounded-[19px]"
-          style={{
-            backgroundColor: colors.underside,
-            opacity: avoided ? 0.35 : 0.8,
-            transform: [{ translateY: 3 }],
-          }}
-        />
-        <View
-          className={cn(
-            "min-h-[60px] items-center justify-center gap-0.5 rounded-[18px] border px-1 py-1.5",
-            avoided && "border-dashed",
-          )}
-          style={{
-            backgroundColor: kept
-              ? colors.kept
+      <Animated.View style={departureStyle}>
+        <PressableScale
+          accessibilityRole="button"
+          accessibilityLabel={`${axis.name}: ${value}, ${state}`}
+          accessibilityHint={
+            kept
+              ? "Tap to rule it out instead."
               : avoided
-                ? colors.avoided
-                : colors.card,
-            borderColor: kept ? colors.kept : colors.border,
-            borderCurve: "continuous",
-          }}
+                ? "Tap to release this choice."
+                : "Tap to pin this quality when you spin."
+          }
+          accessibilityState={{ selected: kept }}
+          onPress={() => onMark(axis.id)}
+          tilt={TILTS[index]!}
+          style={{ width }}
         >
-          <Text
-            numberOfLines={1}
-            className="text-center text-[10px] font-semibold uppercase tracking-[0.2px]"
-            style={{ color: colors.muted }}
-          >
-            {axis.name}
-          </Text>
-          <Animated.View key={value} entering={ARRIVE}>
-            <Text
+          <View className="min-h-[72px] justify-center px-1 py-1.5">
+            <View
+              pointerEvents="none"
+              className="absolute inset-0 rounded-[19px]"
+              style={{
+                backgroundColor: colors.underside,
+                opacity: avoided ? 0.35 : 0.8,
+                transform: [{ translateY: 3 }],
+              }}
+            />
+            <View
               className={cn(
-                "text-center font-rounded text-sm font-extrabold leading-5",
-                avoided && "line-through",
+                "min-h-[60px] items-center justify-center gap-0.5 rounded-[18px] border px-1 py-1.5",
+                avoided && "border-dashed",
               )}
               style={{
-                color: avoided ? colors.muted : kept ? colors.ink : colors.body,
+                backgroundColor: kept
+                  ? colors.kept
+                  : avoided
+                    ? colors.avoided
+                    : colors.card,
+                borderColor: kept ? colors.kept : colors.border,
+                borderCurve: "continuous",
               }}
             >
-              {value}
-            </Text>
-          </Animated.View>
-        </View>
-        {kept || avoided ? (
-          <Animated.View
-            entering={ARRIVE}
-            pointerEvents="none"
-            className="absolute -right-1 -top-1 h-5 w-5 items-center justify-center rounded-full border-2"
-            style={{
-              backgroundColor: kept ? colors.ink : colors.card,
-              borderColor: kept ? colors.card : colors.border,
-            }}
-          >
-            <SymbolView
-              name={
-                kept
-                  ? { ios: "checkmark", android: "check" }
-                  : { ios: "xmark", android: "close" }
-              }
-              tintColor={kept ? colors.card : colors.muted}
-              size={10}
-            />
-          </Animated.View>
-        ) : null}
-      </View>
-    </PressableScale>
+              <Text
+                numberOfLines={1}
+                className="text-center text-[10px] font-semibold uppercase tracking-[0.2px]"
+                style={{ color: colors.muted }}
+              >
+                {axis.name}
+              </Text>
+              <View>
+                <Text
+                  className={cn(
+                    "text-center font-rounded text-sm font-extrabold leading-5",
+                    avoided && "line-through",
+                  )}
+                  style={{
+                    color: avoided
+                      ? colors.muted
+                      : kept
+                        ? colors.ink
+                        : colors.body,
+                  }}
+                >
+                  {value}
+                </Text>
+              </View>
+            </View>
+            {kept || avoided ? (
+              <Animated.View
+                entering={ARRIVE}
+                pointerEvents="none"
+                className="absolute -right-1 -top-1 h-5 w-5 items-center justify-center rounded-full border-2"
+                style={{
+                  backgroundColor: kept ? colors.ink : colors.card,
+                  borderColor: kept ? colors.card : colors.border,
+                }}
+              >
+                <SymbolView
+                  name={
+                    kept
+                      ? { ios: "pin.fill", android: "push_pin" }
+                      : { ios: "xmark", android: "close" }
+                  }
+                  tintColor={kept ? colors.card : colors.muted}
+                  size={10}
+                />
+              </Animated.View>
+            ) : null}
+          </View>
+        </PressableScale>
+      </Animated.View>
+    </View>
   );
 }
 
@@ -220,12 +281,17 @@ type ClayWheelProps = {
   dinner: Dinner;
   marks: Marks;
   canSpin: boolean;
+  spinning: boolean;
   onMark: (axis: Axis) => void;
   onSpin: () => void;
+  onSpinningChange: (spinning: boolean) => void;
 };
 
 export const ClayWheel = forwardRef<ClayWheelHandle, ClayWheelProps>(
-  function ClayWheel({ dinner, marks, canSpin, onMark, onSpin }, ref) {
+  function ClayWheel(
+    { dinner, marks, canSpin, spinning, onMark, onSpin, onSpinningChange },
+    ref,
+  ) {
     const reduced = useReducedMotion();
     const { width: windowWidth, fontScale } = useWindowDimensions();
     const colors = useWheelColors();
@@ -243,12 +309,29 @@ export const ClayWheel = forwardRef<ClayWheelHandle, ClayWheelProps>(
     const dragState = useSharedValue<"idle" | "held" | "turning">("idle");
     const leaving = useSharedValue(false);
     const foodScale = useSharedValue(1);
+    // Signed travel makes the departure reversible while the finger is down.
+    const departure = useSharedValue(0);
+    const arrival = useSharedValue(1);
+    const spinDirection = useSharedValue(1);
     const previousDinner = useRef(dinner.title);
+
+    const restoreDeparture = useCallback(() => {
+      "worklet";
+      cancelAnimation(departure);
+      departure.set(
+        withTiming(0, {
+          duration: 180,
+          easing: EASE_OUT,
+          reduceMotion: ReduceMotion.System,
+        }),
+      );
+    }, [departure]);
 
     const settle = useCallback(() => {
       leaving.set(false);
+      onSpinningChange(false);
       onSpin();
-    }, [leaving, onSpin]);
+    }, [leaving, onSpin, onSpinningChange]);
 
     const snap = useCallback(
       (commit: boolean) => {
@@ -276,16 +359,34 @@ export const ClayWheel = forwardRef<ClayWheelHandle, ClayWheelProps>(
       (velocity: number) => {
         "worklet";
         leaving.set(true);
+        scheduleOnRN(onSpinningChange, true);
+        const direction =
+          velocity === 0
+            ? Math.sign(departure.get()) || 1
+            : Math.sign(velocity);
+        spinDirection.set(direction);
+        cancelAnimation(departure);
+        departure.set(
+          withTiming(direction, {
+            duration: 140,
+            easing: EASE_OUT,
+            reduceMotion: ReduceMotion.System,
+          }),
+        );
         rotation.set(
           withDecay(
-            { velocity, reduceMotion: ReduceMotion.System },
+            {
+              velocity,
+              deceleration: 0.965,
+              reduceMotion: ReduceMotion.System,
+            },
             (finished) => {
               if (finished) snap(true);
             },
           ),
         );
       },
-      [leaving, rotation, snap],
+      [departure, leaving, onSpinningChange, rotation, snap, spinDirection],
     );
 
     const spin = useCallback(() => {
@@ -294,7 +395,7 @@ export const ClayWheel = forwardRef<ClayWheelHandle, ClayWheelProps>(
         onSpin();
         return;
       }
-      coast(720);
+      coast(1080);
     }, [canSpin, coast, leaving, onSpin, reduced]);
 
     useImperativeHandle(ref, () => ({ spin }), [spin]);
@@ -303,11 +404,23 @@ export const ClayWheel = forwardRef<ClayWheelHandle, ClayWheelProps>(
       if (previousDinner.current === dinner.title) return;
       previousDinner.current = dinner.title;
       cancelAnimation(rotation);
+      cancelAnimation(departure);
+      cancelAnimation(arrival);
       leaving.set(false);
+      departure.set(0);
       if (reduced) {
         foodScale.set(1);
+        arrival.set(1);
         return;
       }
+      arrival.set(0);
+      arrival.set(
+        withTiming(1, {
+          duration: 180,
+          easing: EASE_OUT,
+          reduceMotion: ReduceMotion.System,
+        }),
+      );
       foodScale.set(0.94);
       foodScale.set(
         withSpring(1, {
@@ -316,7 +429,15 @@ export const ClayWheel = forwardRef<ClayWheelHandle, ClayWheelProps>(
           reduceMotion: ReduceMotion.System,
         }),
       );
-    }, [dinner.title, foodScale, leaving, reduced, rotation]);
+    }, [
+      arrival,
+      departure,
+      dinner.title,
+      foodScale,
+      leaving,
+      reduced,
+      rotation,
+    ]);
 
     const gesture = usePanGesture({
       manualActivation: true,
@@ -330,8 +451,13 @@ export const ClayWheel = forwardRef<ClayWheelHandle, ClayWheelProps>(
           return;
         }
         // Catch a moving wheel on touch-down, not after the drag threshold.
+        const interrupted = leaving.get();
         cancelAnimation(rotation);
         leaving.set(false);
+        if (interrupted) {
+          restoreDeparture();
+          scheduleOnRN(onSpinningChange, false);
+        }
         dragState.set("held");
         startPoint.set(point);
         lastPoint.set(point);
@@ -356,6 +482,8 @@ export const ClayWheel = forwardRef<ClayWheelHandle, ClayWheelProps>(
       },
       onActivate: () => {
         dragState.set("turning");
+        cancelAnimation(departure);
+        scheduleOnRN(onSpinningChange, true);
       },
       onUpdate: (event) => {
         const point = { x: event.x - size / 2, y: event.y - size / 2 };
@@ -364,6 +492,9 @@ export const ClayWheel = forwardRef<ClayWheelHandle, ClayWheelProps>(
         if (Math.hypot(point.x, point.y) < size * 0.2) return;
         const delta = rotationDelta(previous, point);
         travel.set(travel.get() + delta);
+        departure.set(
+          Math.max(-1, Math.min(1, travel.get() / DEPARTURE_DEGREES)),
+        );
         if (!reduced) rotation.set(rotation.get() + delta);
       },
       onDeactivate: (event) => {
@@ -380,6 +511,8 @@ export const ClayWheel = forwardRef<ClayWheelHandle, ClayWheelProps>(
           (Math.abs(travel.get()) >= 12 || Math.abs(velocity) >= 90);
         if (!commit || !canSpin || reduced) {
           snap(false);
+          restoreDeparture();
+          scheduleOnRN(onSpinningChange, false);
           if (commit) scheduleOnRN(onSpin);
           return;
         }
@@ -394,9 +527,23 @@ export const ClayWheel = forwardRef<ClayWheelHandle, ClayWheelProps>(
     const rimStyle = useAnimatedStyle(() => ({
       transform: [{ rotate: `${rotation.get()}deg` }],
     }));
-    const foodStyle = useAnimatedStyle(() => ({
-      transform: [{ scale: foodScale.get() }],
-    }));
+    const foodStyle = useAnimatedStyle(() => {
+      const exit = departure.get();
+      const progress = Math.abs(exit);
+      const rotation = reduced
+        ? 0
+        : exit * FOOD_DEPARTURE_ROTATION -
+          spinDirection.get() * (1 - arrival.get()) * FOOD_ARRIVAL_ROTATION;
+      return {
+        opacity: 1 - progress,
+        transform: [
+          { rotate: `${rotation}deg` },
+          {
+            scale: foodScale.get() * (reduced ? 1 : 1 - progress * 0.04),
+          },
+        ],
+      };
+    });
     const plate =
       (dark ? DARK_PLATES : PLATES)[dinner.qualities.base] ?? colors.kept;
 
@@ -406,6 +553,11 @@ export const ClayWheel = forwardRef<ClayWheelHandle, ClayWheelProps>(
           axis={axis}
           dinner={dinner}
           marks={marks}
+          spinning={spinning}
+          departure={departure}
+          arrival={arrival}
+          spinDirection={spinDirection}
+          reduced={reduced}
           onMark={onMark}
           index={index}
           width={width}
@@ -426,7 +578,8 @@ export const ClayWheel = forwardRef<ClayWheelHandle, ClayWheelProps>(
                 accessibilityValue={{
                   text: `${dinner.name}, ${dinner.activeMinutes} minutes hands-on, ${dinner.totalMinutes} minutes total`,
                 }}
-                accessibilityHint="Turn the rim, then let go to spin for another meal."
+                accessibilityHint="Turn the rim, then let go. Pinned and ruled-out qualities stay; the rest change."
+                accessibilityState={{ busy: spinning }}
                 accessibilityActions={[
                   { name: "increment" },
                   { name: "decrement" },

@@ -2222,5 +2222,173 @@
       "cuisine": "North African",
       "pitch": "Chicken thighs, sweet bell pepper strips, and whole chickpeas roasted together in harissa oil until the peppers are jammy and the chickpeas turn crunchy."
     }
+  ],
+  "Charred Sweet Corn & Kimchi Quesadillas": [
+    {
+      "title": "Classic Kogi-style charred corn and kimchi quesadilla",
+      "dinner": {
+        "name": "Kogi corn & kimchi quesadilla",
+        "activeMinutes": 10,
+        "totalMinutes": 15,
+        "temp": "Warming",
+        "weight": "Rich",
+        "texture": "Crispy",
+        "base": "Bread",
+        "protein": "Veggie",
+        "flavor": "Tangy",
+        "cuisine": "Korean",
+        "veg": "Pickled"
+      },
+      "cuisine": "Korean",
+      "pitch": "Chopped mature kimchi browned in butter with sweet corn, folded into flour tortillas with shredded mozzarella and cheddar, pan-toasted until blistered and golden with toasted sesame oil."
+    },
+    {
+      "title": "Smoky bacon, charred corn and kimchi quesadilla",
+      "dinner": {
+        "name": "Bacon, kimchi & corn quesadilla",
+        "activeMinutes": 10,
+        "totalMinutes": 15,
+        "temp": "Warming",
+        "weight": "Hearty",
+        "texture": "Crispy",
+        "base": "Bread",
+        "protein": "Pork",
+        "flavor": "Smoky",
+        "cuisine": "Korean",
+        "veg": "Pickled"
+      },
+      "cuisine": "Korean",
+      "pitch": "Sizzling bacon lardons rendered first, kimchi cooked in the hot bacon drippings with sweet corn, folded with sharp melting cheddar and toasted shatter-crisp."
+    }
+  ],
+  "Sticky Glazed Pork Belly with Crisp Cucumbers": [
+    {
+      "title": "Sticky gochujang-honey pork belly with smashed garlic cucumbers",
+      "dinner": {
+        "name": "Gochujang pork & smashed cucumber",
+        "activeMinutes": 15,
+        "totalMinutes": 20,
+        "temp": "Warming",
+        "weight": "Rich",
+        "texture": "Sticky",
+        "base": "Rice",
+        "protein": "Pork",
+        "flavor": "Sweet-heat",
+        "cuisine": "Korean",
+        "veg": "Raw"
+      },
+      "cuisine": "Korean",
+      "pitch": "Thin pork belly caramelized fast in gochujang, honey, and garlic; served hot over jasmine rice alongside cold smashed cucumbers tossed with rice vinegar and toasted sesame."
+    },
+    {
+      "title": "Cantonese sweet soy and five-spice pork belly with sesame cucumbers",
+      "dinner": {
+        "name": "Five-spice pork & sesame cucumber",
+        "activeMinutes": 15,
+        "totalMinutes": 20,
+        "temp": "Warming",
+        "weight": "Rich",
+        "texture": "Sticky",
+        "base": "Rice",
+        "protein": "Pork",
+        "flavor": "Umami",
+        "cuisine": "Cantonese",
+        "veg": "Raw"
+      },
+      "cuisine": "Cantonese",
+      "pitch": "Pork belly seared hard and glazed in dark soy sauce, honey, Shaoxing wine, and five-spice until glossy and mahogany; served with cool, crunchy cucumber ribbons."
+    },
+    {
+      "title": "Vietnamese black pepper caramel pork belly with quick-pickled cucumbers",
+      "dinner": {
+        "name": "Caramel pepper pork & cucumbers",
+        "activeMinutes": 15,
+        "totalMinutes": 20,
+        "temp": "Warming",
+        "weight": "Rich",
+        "texture": "Sticky",
+        "base": "Rice",
+        "protein": "Pork",
+        "flavor": "Peppery",
+        "cuisine": "SE Asian",
+        "veg": "Raw"
+      },
+      "cuisine": "SE Asian",
+      "pitch": "Pork belly rendered with fish sauce, cracked black pepper, and caramelized sugar into a sticky, savory-sweet lacquer, balanced with crisp cucumbers lightly pickled in lime juice."
+    },
+    {
+      "title": "Japanese ginger tare pork belly with scallion-cucumber salad",
+      "dinner": {
+        "name": "Ginger tare pork & cucumber rice",
+        "activeMinutes": 15,
+        "totalMinutes": 20,
+        "temp": "Warming",
+        "weight": "Rich",
+        "texture": "Sticky",
+        "base": "Rice",
+        "protein": "Pork",
+        "flavor": "Zingy",
+        "cuisine": "Japanese",
+        "veg": "Raw"
+      },
+      "cuisine": "Japanese",
+      "pitch": "Thin pork belly simmered down in sweet mirin, soy sauce, and grated fresh ginger until bubbling and sticky, served over warm rice with crisp scallion and cucumber matchsticks."
+    }
+  ],
+  "Miso-Glazed Roasted Aubergine & Rice": [
+    {
+      "title": "Classic sweet shiro-miso dengaku with toasted sesame and scallions",
+      "dinner": {
+        "name": "Classic white miso aubergine",
+        "activeMinutes": 10,
+        "totalMinutes": 30,
+        "temp": "Warming",
+        "weight": "Light",
+        "texture": "Silky",
+        "base": "Rice",
+        "protein": "Veggie",
+        "flavor": "Sweet-tart",
+        "cuisine": "Japanese",
+        "veg": "Roasted"
+      },
+      "cuisine": "Japanese",
+      "pitch": "Halved eggplants diamond-scored, roasted until custardy-tender, and broiled under a sweet white miso and mirin glaze until bubbly and caramelized; over warm rice with toasted sesame seeds and scallions."
+    },
+    {
+      "title": "Spicy ginger-red miso dengaku with steamed edamame",
+      "dinner": {
+        "name": "Spicy red miso aubergine & edamame",
+        "activeMinutes": 15,
+        "totalMinutes": 30,
+        "temp": "Warming",
+        "weight": "Hearty",
+        "texture": "Silky",
+        "base": "Rice",
+        "protein": "Veggie",
+        "flavor": "Umami",
+        "cuisine": "Japanese",
+        "veg": "Roasted"
+      },
+      "cuisine": "Japanese",
+      "pitch": "Darker, earthier red miso paste whipped with fresh grated ginger, soy, and honey, glazed over melting roasted eggplant and served over warm rice with a bowl of salted edamame for protein."
+    },
+    {
+      "title": "Citrus yuzu-miso glazed aubergine with pickled sushi ginger",
+      "dinner": {
+        "name": "Citrus miso aubergine & rice",
+        "activeMinutes": 10,
+        "totalMinutes": 30,
+        "temp": "Warming",
+        "weight": "Light",
+        "texture": "Silky",
+        "base": "Rice",
+        "protein": "Veggie",
+        "flavor": "Zingy",
+        "cuisine": "Japanese",
+        "veg": "Pickled"
+      },
+      "cuisine": "Japanese",
+      "pitch": "White miso lifted with fresh lemon or yuzu zest and juice, broiled over melting eggplant, served over steamed rice with pink pickled ginger to cut through the rich sweet umami glaze."
+    }
   ]
 }

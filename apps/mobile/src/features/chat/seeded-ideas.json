@@ -715,33 +715,35 @@
       "cuisine": "Korean",
       "veg": "Pickled"
     },
+    "previewTitle": "Corn & kimchi quesadillas",
     "section": "Shortcut-Based Ideas",
-    "ingredients": "Flour tortillas, chopped kimchi, canned/fresh corn, shredded mozzarella/Gouda, butter or mayo",
+    "ingredients": "Flour tortillas, chopped kimchi, sweet corn, shredded mozzarella or cheddar, sesame oil or butter",
     "time": "10 min · 1 skillet",
     "vibe": "Funky, tangy, sweet and extremely melty; crunchy-edged from pan-toasting."
   },
   {
-    "title": "Gochujang & Honey Glazed Pork Belly with Cucumber Sesame Crunch",
+    "title": "Sticky Glazed Pork Belly with Crisp Cucumbers",
     "dinner": {
-      "name": "Sticky pork & cucumber crunch",
+      "name": "Sticky pork & crisp cucumbers",
       "activeMinutes": 15,
-      "totalMinutes": 25,
+      "totalMinutes": 20,
       "temp": "Warming",
       "weight": "Rich",
       "texture": "Sticky",
-      "base": "Veg",
+      "base": "Rice",
       "protein": "Pork",
       "flavor": "Sweet-heat",
-      "cuisine": "Korean",
+      "cuisine": "Homestyle",
       "veg": "Raw"
     },
+    "previewTitle": "Sticky pork belly & cucumbers",
     "section": "Shortcut-Based Ideas",
-    "ingredients": "Thinly sliced pork belly, gochujang, honey, mini cucumbers, toasted sesame oil/seeds",
-    "time": "12 min · 1 pan",
-    "vibe": "Sticky, caramelized barbecue-ish pork with cool, crunchy, sesame-laced cucumbers."
+    "ingredients": "Thinly sliced pork belly, glaze (gochujang, sweet soy, or caramel), mini cucumbers, toasted sesame oil/seeds, cooked jasmine rice",
+    "time": "15 min · 1 pan",
+    "vibe": "Sizzling caramelized pork belly coated in a sticky pan lacquer, cut through with icy-cold crunchy sesame cucumbers."
   },
   {
-    "title": "Miso-Glazed Roasted Aubergine (Nasu Dengaku) with Steamed Rice",
+    "title": "Miso-Glazed Roasted Aubergine & Rice",
     "dinner": {
       "name": "Miso aubergine & rice",
       "activeMinutes": 15,
@@ -755,8 +757,9 @@
       "cuisine": "Japanese",
       "veg": "Roasted"
     },
+    "previewTitle": "Miso aubergine & rice",
     "section": "Shortcut-Based Ideas",
-    "ingredients": "Eggplants, white miso paste, mirin (or honey/sugar), short-grain rice, scallions",
+    "ingredients": "Eggplants, white or red miso paste, mirin or honey, short-grain rice, scallions or sesame",
     "time": "25 min · oven or grill",
     "vibe": "Silky, smoky-sweet, umami-bomb eggplant over plain, calming rice."
   }

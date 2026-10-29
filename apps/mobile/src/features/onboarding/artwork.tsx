@@ -383,8 +383,6 @@ const PILE_ASPECT = 1.25;
  * closer to the one before, so the pile thickens toward the back.
  */
 function stillLife(count: number) {
-  // A caption without art: cuisines switched on with nothing ticked yet.
-  if (count === 0) return { aspectRatio: PILE_ASPECT, items: [] };
   if (count === 1) {
     return {
       aspectRatio: 1.7,
@@ -433,42 +431,36 @@ function stillLife(count: number) {
 export function KitchenArtwork({ profile }: { profile: CookingProfile }) {
   const portrait = kitchenPortrait(profile);
   if (!portrait) return null;
-  // Missing art stays absent; the caption still recognises those selections.
+  // Missing art stays absent rather than showing unrelated ingredients.
   const ids = portrait.artworkIds.filter(hasArtwork);
+  if (!ids.length) return null;
   const { aspectRatio, items } = stillLife(ids.length);
   return (
-    <View className="gap-3">
-      {ids.length ? (
-        <View
-          className="w-60 max-w-full self-center"
-          style={{ aspectRatio }}
-          accessible={false}
-          importantForAccessibility="no-hide-descendants"
-          accessibilityElementsHidden
-        >
-          {/* Drawn back to front, so the first ingredients stand in front. */}
-          {ids
-            .map((id, index) => ({ id, ...items[index]! }))
-            .reverse()
-            .map(({ id, left, top, width, rotate }) => (
-              <View
-                key={id}
-                className="absolute"
-                style={{
-                  left: `${left}%`,
-                  top: `${top}%`,
-                  width: `${width}%`,
-                  transform: [{ rotate: `${rotate}deg` }],
-                }}
-              >
-                <Artwork id={id} />
-              </View>
-            ))}
-        </View>
-      ) : null}
-      <Text className="text-base leading-6 text-muted-foreground">
-        {portrait.caption}
-      </Text>
+    <View
+      className="w-60 max-w-full self-center"
+      style={{ aspectRatio }}
+      accessible
+      accessibilityRole="image"
+      accessibilityLabel={portrait.caption}
+    >
+      {/* Drawn back to front, so the first ingredients stand in front. */}
+      {ids
+        .map((id, index) => ({ id, ...items[index]! }))
+        .reverse()
+        .map(({ id, left, top, width, rotate }) => (
+          <View
+            key={id}
+            className="absolute"
+            style={{
+              left: `${left}%`,
+              top: `${top}%`,
+              width: `${width}%`,
+              transform: [{ rotate: `${rotate}deg` }],
+            }}
+          >
+            <Artwork id={id} />
+          </View>
+        ))}
     </View>
   );
 }

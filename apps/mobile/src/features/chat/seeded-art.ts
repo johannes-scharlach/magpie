@@ -36,6 +36,6 @@ export const SEEDED_ART: Record<string, number | undefined> = {
   "Spiced Meat & Flatbreads": require("./art/optimized/lahmacun-flatbreads.webp"),
   "Harissa Chicken & Couscous": require("./art/optimized/harissa-chicken-couscous.webp"),
   "Charred Sweet Corn & Kimchi Quesadillas": require("./art/optimized/corn-kimchi-quesadillas.webp"),
-  "Gochujang & Honey Glazed Pork Belly with Cucumber Sesame Crunch": require("./art/optimized/gochujang-pork-cucumber.webp"),
-  "Miso-Glazed Roasted Aubergine (Nasu Dengaku) with Steamed Rice": require("./art/optimized/nasu-dengaku.webp"),
+  "Sticky Glazed Pork Belly with Crisp Cucumbers": require("./art/optimized/gochujang-pork-cucumber.webp"),
+  "Miso-Glazed Roasted Aubergine & Rice": require("./art/optimized/nasu-dengaku.webp"),
 };

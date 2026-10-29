@@ -30,23 +30,25 @@ export const titles: Record<Step, string> = {
   measurements: "Which measurements should Magpie use?",
   cuisines: "Which cuisines should Magpie start with?",
   staples: "What do you usually keep?",
-  email: "Save your cooking setup",
+  email: "What’s your email?",
   code: "Check your inbox",
 };
 
-export const subtitles: Record<Exclude<Step, "email" | "code">, string> = {
+export const subtitles: Record<
+  Exclude<Step, "email" | "code">,
+  string | null
+> = {
   name: "First name or nickname is fine.",
   goals:
     "Magpie will follow these when planning meals and writing cooking steps.",
   diet: "Set what to include, cut back or replace. Each person can have their own rule.",
   household: "Add the usual eaters. Change who’s eating for any meal.",
-  restrictions:
-    "Allergies, foods to avoid and things you don’t enjoy need different handling.",
+  restrictions: null,
   groceries:
     "Choose which shops to plan around and when to suggest something extra.",
   kitchen: "Magpie will choose cooking methods that work with this equipment.",
   measurements: "Magpie will use these units when writing recipes.",
-  cuisines: "Choose cuisines you cook, then ingredients you keep for each.",
+  cuisines: "Choose cuisines you cook and the ingredients you keep for each.",
   staples: "Magpie will reach for these when they fit a meal.",
 };
 

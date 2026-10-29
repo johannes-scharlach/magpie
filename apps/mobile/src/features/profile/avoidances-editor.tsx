@@ -64,21 +64,12 @@ export function AvoidancesEditor({
         );
         return (
           <View key={String(dislikes)} className="gap-3">
-            <View className="gap-1">
-              <Text
-                accessibilityRole="header"
-                className="font-rounded text-xl font-bold"
-              >
-                {dislikes
-                  ? "Things you don’t enjoy"
-                  : "Allergies & must-avoids"}
-              </Text>
-              <Text className="text-sm leading-5 text-muted-foreground">
-                {dislikes
-                  ? "Replace them, or keep only the forms you enjoy."
-                  : "Set what to leave out, who it affects and any exceptions."}
-              </Text>
-            </View>
+            <Text
+              accessibilityRole="header"
+              className="font-rounded text-xl font-bold"
+            >
+              {dislikes ? "Things you don’t enjoy" : "Allergies & must-avoids"}
+            </Text>
             <View
               className="overflow-hidden rounded-xl border border-border bg-card"
               style={{ borderCurve: "continuous" }}

@@ -29,6 +29,7 @@ export function DinnerTurntable() {
   const insets = useSafeAreaInsets();
   const wheel = useRef<ClayWheelHandle>(null);
   const [footerHeight, setFooterHeight] = useState(0);
+  const [spinning, setSpinning] = useState(false);
   const primary = useResolveClassNames("text-primary").color;
   const [game, dispatch] = useReducer(updateGame, undefined, () =>
     newGame(Math.floor(Math.random() * dinners.length)),
@@ -54,8 +55,8 @@ export function DinnerTurntable() {
     void Haptics.selectionAsync().catch(() => {});
   }
 
-  function cook() {
-    if (!list || !currentFits) return;
+  function startCookingChat() {
+    if (!list || !currentFits || spinning) return;
     const chatId = Crypto.randomUUID();
     queueMessage({
       chatId,
@@ -92,8 +93,10 @@ export function DinnerTurntable() {
           dinner={dinner}
           marks={game.marks}
           canSpin={!next.exhausted}
+          spinning={spinning}
           onMark={mark}
           onSpin={advance}
+          onSpinningChange={setSpinning}
         />
         {game.exhausted ? (
           <Text
@@ -159,21 +162,28 @@ export function DinnerTurntable() {
         <ScrollEdgeFade height={footerHeight} />
         <View className="flex-row gap-3">
           <Button
+            variant="outline"
             onPress={() => wheel.current?.spin()}
+            accessibilityHint="Changes every quality you haven’t pinned or ruled out."
+            disabled={next.exhausted || spinning}
             className="h-auto min-h-14 flex-1 gap-2 py-3"
           >
             <Text className="shrink text-center font-rounded text-base font-bold">
-              Spin again
+              {spinning
+                ? "Spinning…"
+                : game.seen.length > 1
+                  ? "Spin again"
+                  : "Spin for dinner"}
             </Text>
           </Button>
           <Button
-            variant="outline"
-            onPress={cook}
-            disabled={!currentFits || !list}
+            onPress={startCookingChat}
+            accessibilityHint="Starts a chat about making this meal."
+            disabled={!currentFits || !list || spinning}
             className="h-auto min-h-14 flex-1 py-3"
           >
             <Text className="shrink text-center font-rounded text-base font-bold">
-              Cook this
+              Go with this
             </Text>
           </Button>
         </View>

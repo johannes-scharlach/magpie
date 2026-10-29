@@ -233,6 +233,13 @@ function Questions({ initialStep }: { initialStep: Step }) {
         >
           {pages.map((pageStep, pageIndex) => {
             const authPage = pageStep === "email" || pageStep === "code";
+            const subtitle = authPage
+              ? session
+                ? "Your cooking setup is ready to save."
+                : pageStep === "code"
+                  ? `Enter the six-digit code sent to ${draft.email.trim() || "your email"}.`
+                  : "We’ll send you a code to sign in."
+              : subtitles[pageStep];
             return (
               <KeyboardAwareScrollView
                 key={pageStep}
@@ -286,15 +293,11 @@ function Questions({ initialStep }: { initialStep: Step }) {
                   >
                     {titles[pageStep]}
                   </Text>
-                  <Text className="text-base leading-6 text-muted-foreground">
-                    {authPage
-                      ? session
-                        ? "Your cooking setup is ready to save."
-                        : pageStep === "code"
-                          ? `Enter the six-digit code sent to ${draft.email.trim() || "your email"}.`
-                          : "Use your email to keep this setup and share planning with your household. We’ll send a sign-in code."
-                      : subtitles[pageStep]}
-                  </Text>
+                  {subtitle ? (
+                    <Text className="text-base leading-6 text-muted-foreground">
+                      {subtitle}
+                    </Text>
+                  ) : null}
                 </View>
                 {pageStep === "email" ? (
                   <KitchenArtwork profile={draft.profile} />
