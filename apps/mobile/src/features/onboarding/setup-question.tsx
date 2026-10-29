@@ -18,6 +18,11 @@ import { ShopsEditor } from "@/features/profile/shops-editor";
 import { CuisineList } from "@/features/profile/cuisine-list";
 import { StaplesEditor } from "@/features/profile/staples-editor";
 import { MeasurementsEditor } from "@/features/profile/measurements-editor";
+import {
+  DayHabitsEditor,
+  NewDishesEditor,
+  useHabitChoices,
+} from "@/features/profile/habits-editor";
 
 export const titles: Record<Step, string> = {
   name: "What’s your name?",
@@ -30,6 +35,8 @@ export const titles: Record<Step, string> = {
   measurements: "Which measurements should Magpie use?",
   cuisines: "Which cuisines do you cook?",
   staples: "What do you usually keep?",
+  "day-habits": "Any usual days, like pizza on Mondays?",
+  "new-dishes": "How often should Magpie plan something new?",
   email: "What’s your email?",
   code: "Check your inbox",
 };
@@ -39,6 +46,10 @@ export const subtitles: Partial<
 > = {
   staples:
     "Foods you usually keep or buy—not a list of what’s in your kitchen today.",
+  "day-habits":
+    "Magpie plans these on their days. You can always ask for something else.",
+  "new-dishes":
+    "Magpie looks at what you’ve planned before. You can always ask for something else.",
 };
 
 function HouseholdEditor({
@@ -107,6 +118,10 @@ export function SetupQuestion({
   const router = useRouter();
   const focused = useIsFocused();
   const { draft, update, commit } = useOnboarding();
+  const habitChoices = useHabitChoices(
+    draft?.list_id ?? null,
+    draft?.profile.cuisines ?? [],
+  );
   const nameRef = useRef<TextInputInstance>(null);
   const openedFirstShop = useRef(false);
   const showErrors = validationAttempt > 0;
@@ -270,6 +285,19 @@ export function SetupQuestion({
               profile: { ...d.profile, ...edit(d.profile) },
             })).catch(() => {})
           }
+        />
+      ) : null}
+      {step === "day-habits" ? (
+        <DayHabitsEditor
+          value={draft.profile.day_habits}
+          onChange={(day_habits) => editProfile({ day_habits })}
+          choices={habitChoices}
+        />
+      ) : null}
+      {step === "new-dishes" ? (
+        <NewDishesEditor
+          value={draft.profile.new_dishes}
+          onChange={(new_dishes) => editProfile({ new_dishes })}
         />
       ) : null}
     </>

@@ -1,7 +1,15 @@
 import assert from "node:assert/strict";
 import { Buffer } from "node:buffer";
 import { execFile } from "node:child_process";
-import { mkdir, mkdtemp, readFile, readdir, rm, stat, writeFile } from "node:fs/promises";
+import {
+  mkdir,
+  mkdtemp,
+  readFile,
+  readdir,
+  rm,
+  stat,
+  writeFile,
+} from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { test } from "node:test";
@@ -10,7 +18,9 @@ import { promisify } from "node:util";
 import sharp from "sharp";
 
 const exec = promisify(execFile);
-const command = fileURLToPath(new URL("./optimize-onboarding-art.mjs", import.meta.url));
+const command = fileURLToPath(
+  new URL("./optimize-onboarding-art.mjs", import.meta.url),
+);
 
 async function workspace(t) {
   const directory = await mkdtemp(join(tmpdir(), "magpie-art-"));
@@ -22,7 +32,14 @@ async function workspace(t) {
 }
 
 function optimize({ input, output }, ...options) {
-  return exec(process.execPath, [command, "--input", input, "--output", output, ...options]);
+  return exec(process.execPath, [
+    command,
+    "--input",
+    input,
+    "--output",
+    output,
+    ...options,
+  ]);
 }
 
 test("generates a resized transparent WebP and leaves its PNG master untouched", async (t) => {
@@ -38,7 +55,9 @@ test("generates a resized transparent WebP and leaves its PNG master untouched",
       pixels[offset + 3] = x < 512 ? 0 : 128;
     }
   }
-  await sharp(pixels, { raw: { width: 1024, height: 512, channels: 4 } }).png().toFile(source);
+  await sharp(pixels, { raw: { width: 1024, height: 512, channels: 4 } })
+    .png()
+    .toFile(source);
   const original = await readFile(source);
 
   const { stdout } = await optimize(directories);
@@ -49,7 +68,9 @@ test("generates a resized transparent WebP and leaves its PNG master untouched",
   assert.equal(metadata.width, 512);
   assert.equal(metadata.height, 256);
   assert.equal(metadata.hasAlpha, true);
-  const { data, info } = await result.raw().toBuffer({ resolveWithObject: true });
+  const { data, info } = await result
+    .raw()
+    .toBuffer({ resolveWithObject: true });
   assert.equal(data[3], 0);
   assert.equal(data[(info.width - 1) * info.channels + 3], 128);
   assert.deepEqual(await readFile(source), original);
@@ -64,7 +85,9 @@ test("uses a larger limit for welcome art without upscaling small masters", asyn
     ["art-welcome.png", 1600, 1000],
     ["fresh-onions.png", 64, 32],
   ]) {
-    await sharp({ create: { width, height, channels: 4, background: "#FBF8F4" } })
+    await sharp({
+      create: { width, height, channels: 4, background: "#FBF8F4" },
+    })
       .png()
       .toFile(join(directories.input, file));
   }
@@ -84,11 +107,21 @@ test("uses a larger limit for welcome art without upscaling small masters", asyn
 
 test("does not export retired banners or remove their masters", async (t) => {
   const directories = await workspace(t);
-  const retired = ["art-diet.png", "art-kitchen.png", "art-pantry.png", "art-fresh.png"];
+  const retired = [
+    "art-diet.png",
+    "art-kitchen.png",
+    "art-pantry.png",
+    "art-fresh.png",
+  ];
   for (const file of retired) {
-    await writeFile(join(directories.input, file), "retained reference artwork");
+    await writeFile(
+      join(directories.input, file),
+      "retained reference artwork",
+    );
   }
-  await sharp({ create: { width: 32, height: 32, channels: 4, background: "white" } })
+  await sharp({
+    create: { width: 32, height: 32, channels: 4, background: "white" },
+  })
     .png()
     .toFile(join(directories.input, "fresh-eggs.png"));
 
@@ -96,13 +129,18 @@ test("does not export retired banners or remove their masters", async (t) => {
 
   assert.deepEqual(await readdir(directories.output), ["fresh-eggs.webp"]);
   for (const file of retired) {
-    assert.equal(await readFile(join(directories.input, file), "utf8"), "retained reference artwork");
+    assert.equal(
+      await readFile(join(directories.input, file), "utf8"),
+      "retained reference artwork",
+    );
   }
 });
 
 test("repeat generation leaves unchanged exports and unrelated files alone", async (t) => {
   const directories = await workspace(t);
-  await sharp({ create: { width: 32, height: 32, channels: 4, background: "white" } })
+  await sharp({
+    create: { width: 32, height: 32, channels: 4, background: "white" },
+  })
     .png()
     .toFile(join(directories.input, "fresh-eggs.png"));
   await optimize(directories);

@@ -64,8 +64,12 @@ Deno.test('names only the part of the origin that differs', () => {
 });
 
 Deno.test('without a known today, every day is a weekday', () => {
-  const moved = { ...planned, kind: 'meal_moved' as const, previous_slot_date: today,
-    previous_meal: 'dinner' };
+  const moved = {
+    ...planned,
+    kind: 'meal_moved' as const,
+    previous_slot_date: today,
+    previous_meal: 'dinner',
+  };
   assertEquals(mealActivityText(moved, null), {
     title: "Thursday's dinner",
     body: 'Lasagne, moved from Wednesday · Anna',

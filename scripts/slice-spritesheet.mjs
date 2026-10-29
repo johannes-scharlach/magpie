@@ -7,15 +7,21 @@ import { parseArgs } from "node:util";
 import sharp from "sharp";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const defaultOutputDir = fileURLToPath(new URL("../apps/mobile/src/features/onboarding/art/", import.meta.url));
+const defaultOutputDir = fileURLToPath(
+  new URL("../apps/mobile/src/features/onboarding/art/", import.meta.url),
+);
 
 function keyBlue(data) {
   for (let offset = 0; offset < data.length; offset += 4) {
     const maxRG = Math.max(data[offset], data[offset + 1]);
     const blue = data[offset + 2];
     const difference = blue - maxRG;
-    data[offset + 3] = difference >= 80 ? 0 : difference <= 25 ? 255
-      : Math.round(255 * (1 - (difference - 25) / 55));
+    data[offset + 3] =
+      difference >= 80
+        ? 0
+        : difference <= 25
+          ? 255
+          : Math.round(255 * (1 - (difference - 25) / 55));
     if (data[offset + 3] > 0) data[offset + 2] = Math.min(blue, maxRG);
   }
 }
@@ -47,7 +53,12 @@ export function filterBorderArtifacts(data, width, height) {
         if (cy < minY) minY = cy;
         if (cy > maxY) maxY = cy;
 
-        for (const [dy, dx] of [[-1, 0], [1, 0], [0, -1], [0, 1]]) {
+        for (const [dy, dx] of [
+          [-1, 0],
+          [1, 0],
+          [0, -1],
+          [0, 1],
+        ]) {
           const ny = cy + dy;
           const nx = cx + dx;
           if (ny >= 0 && ny < height && nx >= 0 && nx < width) {
@@ -62,7 +73,8 @@ export function filterBorderArtifacts(data, width, height) {
 
       const compW = maxX - minX + 1;
       const compH = maxY - minY + 1;
-      const nearPerimeter = minX <= 4 || maxX >= width - 5 || minY <= 4 || maxY >= height - 5;
+      const nearPerimeter =
+        minX <= 4 || maxX >= width - 5 || minY <= 4 || maxY >= height - 5;
       const avgR = pixels.reduce((s, p) => s + data[p * 4], 0) / pixels.length;
       components.push({
         pixels,
@@ -82,11 +94,11 @@ export function filterBorderArtifacts(data, width, height) {
   for (let i = 1; i < components.length; i++) {
     const comp = components[i];
     const isTinyNoise = comp.size < 20;
-    const isBorderLine = comp.nearPerimeter && (
-      Math.min(comp.compW, comp.compH) <= 4 ||
-      comp.size < largest.size * 0.05 ||
-      comp.avgR > 210
-    );
+    const isBorderLine =
+      comp.nearPerimeter &&
+      (Math.min(comp.compW, comp.compH) <= 4 ||
+        comp.size < largest.size * 0.05 ||
+        comp.avgR > 210);
 
     if (isTinyNoise || isBorderLine) {
       for (const p of comp.pixels) {
@@ -107,16 +119,25 @@ export async function sliceSpritesheet({
   blueKey = false,
   padding = 16,
 }) {
-  const useMatting = experimentalMatting !== undefined ? experimentalMatting : matting;
+  const useMatting =
+    experimentalMatting !== undefined ? experimentalMatting : matting;
 
   if (!ids || ids.length !== rows * cols) {
-    throw new Error(`Expected exactly ${rows * cols} IDs for a ${rows}x${cols} grid, got ${ids ? ids.length : 0}.`);
+    throw new Error(
+      `Expected exactly ${rows * cols} IDs for a ${rows}x${cols} grid, got ${ids ? ids.length : 0}.`,
+    );
   }
 
   const original = await readFile(inputPath);
-  let image = await sharp(original).rotate().ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+  let image = await sharp(original)
+    .rotate()
+    .ensureAlpha()
+    .raw()
+    .toBuffer({ resolveWithObject: true });
 
-  const hasTransparency = image.data.some((_, idx) => idx % 4 === 3 && image.data[idx] < 255);
+  const hasTransparency = image.data.some(
+    (_, idx) => idx % 4 === 3 && image.data[idx] < 255,
+  );
 
   if (!hasTransparency && blueKey) {
     console.log("Running blue-screen keying on spritesheet...");
@@ -147,7 +168,12 @@ export async function sliceSpritesheet({
         const mattedPath = join(tempDir, `matted-${r}-${c}.png`);
 
         await sharp(original)
-          .extract({ left: minCellX, top: minCellY, width: cellWidth, height: cellHeight })
+          .extract({
+            left: minCellX,
+            top: minCellY,
+            width: cellWidth,
+            height: cellHeight,
+          })
           .png()
           .toFile(cellPath);
 
@@ -157,20 +183,26 @@ export async function sliceSpritesheet({
       }
     }
 
-    console.log(`Running neural foreground matting on ${inputPaths.length} cells...`);
+    console.log(
+      `Running neural foreground matting on ${inputPaths.length} cells...`,
+    );
     const mattingScript = join(__dirname, "art-matting.py");
-    execFileSync("uv", [
-      "run",
-      "--no-project",
-      "--python",
-      "3.12",
-      "--script",
-      mattingScript,
-      "--input",
-      ...inputPaths,
-      "--output",
-      ...outputPaths,
-    ], { stdio: "inherit" });
+    execFileSync(
+      "uv",
+      [
+        "run",
+        "--no-project",
+        "--python",
+        "3.12",
+        "--script",
+        mattingScript,
+        "--input",
+        ...inputPaths,
+        "--output",
+        ...outputPaths,
+      ],
+      { stdio: "inherit" },
+    );
   }
 
   const results = [];
@@ -197,7 +229,12 @@ export async function sliceSpritesheet({
           cellInfo = mattedBuffer.info;
         } else {
           const cropped = await sharp(image.data, { raw: image.info })
-            .extract({ left: minCellX, top: minCellY, width: cellWidth, height: cellHeight })
+            .extract({
+              left: minCellX,
+              top: minCellY,
+              width: cellWidth,
+              height: cellHeight,
+            })
             .raw()
             .toBuffer({ resolveWithObject: true });
           cellData = cropped.data;
@@ -226,7 +263,9 @@ export async function sliceSpritesheet({
         }
 
         if (!foundForeground) {
-          console.warn(`Warning: No visible foreground found for cell (${r}, ${c}) [${id}]`);
+          console.warn(
+            `Warning: No visible foreground found for cell (${r}, ${c}) [${id}]`,
+          );
           continue;
         }
 
@@ -244,8 +283,15 @@ export async function sliceSpritesheet({
 
         const outPath = join(outputDir, `${id}.png`);
         await writeFile(outPath, cellImage);
-        console.log(`Saved sliced asset ${id}.png (${extractWidth}x${extractHeight}) -> ${outPath}`);
-        results.push({ id, path: outPath, width: extractWidth, height: extractHeight });
+        console.log(
+          `Saved sliced asset ${id}.png (${extractWidth}x${extractHeight}) -> ${outPath}`,
+        );
+        results.push({
+          id,
+          path: outPath,
+          width: extractWidth,
+          height: extractHeight,
+        });
       }
     }
   } finally {
@@ -272,10 +318,14 @@ async function main() {
 
   const inputPath = positionals[0];
   if (!inputPath) {
-    throw new Error("Usage: node scripts/slice-spritesheet.mjs <spritesheet.png|jpg> --ids id1,id2,... [--rows 3] [--cols 3] [--output dir] [--matting]");
+    throw new Error(
+      "Usage: node scripts/slice-spritesheet.mjs <spritesheet.png|jpg> --ids id1,id2,... [--rows 3] [--cols 3] [--output dir] [--matting]",
+    );
   }
   if (!values.ids) {
-    throw new Error("--ids is required (comma-separated list of asset IDs in row-major order)");
+    throw new Error(
+      "--ids is required (comma-separated list of asset IDs in row-major order)",
+    );
   }
 
   const ids = values.ids.split(",").map((s) => s.trim());

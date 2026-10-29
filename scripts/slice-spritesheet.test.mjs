@@ -5,7 +5,10 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { test } from "node:test";
 import sharp from "sharp";
-import { filterBorderArtifacts, sliceSpritesheet } from "./slice-spritesheet.mjs";
+import {
+  filterBorderArtifacts,
+  sliceSpritesheet,
+} from "./slice-spritesheet.mjs";
 
 test("filterBorderArtifacts removes disconnected border lines touching cell perimeter", () => {
   const width = 100;
@@ -73,12 +76,20 @@ test("slices a 3x3 transparent sprite sheet into 9 cropped assets", async (t) =>
   }
 
   const sheetPath = join(dir, "sheet.png");
-  await sharp(pixels, { raw: { width, height, channels: 4 } }).png().toFile(sheetPath);
+  await sharp(pixels, { raw: { width, height, channels: 4 } })
+    .png()
+    .toFile(sheetPath);
 
   const ids = [
-    "item-1", "item-2", "item-3",
-    "item-4", "item-5", "item-6",
-    "item-7", "item-8", "item-9",
+    "item-1",
+    "item-2",
+    "item-3",
+    "item-4",
+    "item-5",
+    "item-6",
+    "item-7",
+    "item-8",
+    "item-9",
   ];
 
   const results = await sliceSpritesheet({

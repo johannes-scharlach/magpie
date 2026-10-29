@@ -87,8 +87,9 @@ try {
     const profile = await client.query<{
       cuisines: string[] | null;
       kitchen_equipment: { other?: string[] } | null;
+      day_habits: { what?: string }[] | null;
     }>(
-      "SELECT cuisines, kitchen_equipment FROM household_profiles WHERE id = $1",
+      "SELECT cuisines, kitchen_equipment, day_habits FROM household_profiles WHERE id = $1",
       [listId],
     );
     const vocabulary: TagVocabulary = { cuisines: [], tags: [], equipment: [] };
@@ -101,6 +102,14 @@ try {
       profile.rows[0]?.kitchen_equipment?.other ?? [],
       equipmentOptions,
       vocabulary.equipment,
+    );
+    // A day habit's word is a tag unless it names a cuisine, as in readTagVocabulary.
+    addNew(
+      (profile.rows[0]?.day_habits ?? []).flatMap(({ what }) =>
+        what && !vocabulary.cuisines.includes(what) ? [what] : [],
+      ),
+      cuisineOptions,
+      vocabulary.tags,
     );
     const recipes = groupBy(variants, (variant) => variant.recipe_id);
     const tagged: Tagged[] = [];

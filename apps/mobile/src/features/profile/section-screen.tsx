@@ -15,12 +15,18 @@ import { FormError, MealRoutineEditor } from "@/features/profile/form";
 import { useHousehold } from "@/features/profile/use-household";
 import { ChoiceTiles } from "@/features/profile/choice-tiles";
 import { MeasurementsEditor } from "@/features/profile/measurements-editor";
+import {
+  DayHabitsEditor,
+  NewDishesEditor,
+  useHabitChoices,
+} from "@/features/profile/habits-editor";
 
 const titles: Record<string, string> = {
   goals: "Cooking rules",
   kitchen_equipment: "Equipment",
   measurements: "Measurements",
   meals_at_home: "Meals to plan",
+  habits: "Kitchen habits",
 };
 
 function SectionForm({
@@ -92,6 +98,7 @@ function SectionEditor({
   const [draft, setDraft] = useState(initial);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const habitChoices = useHabitChoices(listId, draft.cuisines);
   const selection =
     section in selectionOptions ? (section as SelectionField) : null;
   async function save() {
@@ -103,7 +110,9 @@ function SectionEditor({
         ? { [selection]: draft[selection] }
         : section === "measurements"
           ? { measurements: draft.measurements }
-          : { meals_at_home: draft.meals_at_home };
+          : section === "habits"
+            ? { day_habits: draft.day_habits, new_dishes: draft.new_dishes }
+            : { meals_at_home: draft.meals_at_home };
       await saveProfileSection(listId, changes);
       router.back();
     } catch (e) {
@@ -149,6 +158,26 @@ function SectionEditor({
             onChange={(measurements) =>
               setDraft((d) => ({ ...d, measurements }))
             }
+          />
+        </>
+      ) : null}
+      {section === "habits" ? (
+        <>
+          <Text className="text-muted-foreground">
+            Magpie plans these on their days. You can always ask for something
+            else.
+          </Text>
+          <DayHabitsEditor
+            value={draft.day_habits}
+            onChange={(day_habits) => setDraft((d) => ({ ...d, day_habits }))}
+            choices={habitChoices}
+          />
+          <Text className="font-rounded text-lg font-bold">
+            How often something new
+          </Text>
+          <NewDishesEditor
+            value={draft.new_dishes}
+            onChange={(new_dishes) => setDraft((d) => ({ ...d, new_dishes }))}
           />
         </>
       ) : null}

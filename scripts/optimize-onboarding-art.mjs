@@ -9,15 +9,34 @@ const TILE_SIZE = 512;
 const HERO_SIZE = 1024;
 const QUALITY = 82;
 const CONCURRENCY = Math.max(2, availableParallelism());
-const retiredBanners = new Set(["art-diet.png", "art-kitchen.png", "art-pantry.png", "art-fresh.png"]);
+const retiredBanners = new Set([
+  "art-diet.png",
+  "art-kitchen.png",
+  "art-pantry.png",
+  "art-fresh.png",
+]);
 const defaultTargets = [
   {
-    input: fileURLToPath(new URL("../apps/mobile/src/features/onboarding/art/", import.meta.url)),
-    output: fileURLToPath(new URL("../apps/mobile/src/features/onboarding/art/optimized/", import.meta.url)),
+    input: fileURLToPath(
+      new URL("../apps/mobile/src/features/onboarding/art/", import.meta.url),
+    ),
+    output: fileURLToPath(
+      new URL(
+        "../apps/mobile/src/features/onboarding/art/optimized/",
+        import.meta.url,
+      ),
+    ),
   },
   {
-    input: fileURLToPath(new URL("../apps/mobile/src/features/chat/art/", import.meta.url)),
-    output: fileURLToPath(new URL("../apps/mobile/src/features/chat/art/optimized/", import.meta.url)),
+    input: fileURLToPath(
+      new URL("../apps/mobile/src/features/chat/art/", import.meta.url),
+    ),
+    output: fileURLToPath(
+      new URL(
+        "../apps/mobile/src/features/chat/art/optimized/",
+        import.meta.url,
+      ),
+    ),
   },
 ];
 
@@ -30,7 +49,10 @@ async function mapConcurrent(items, concurrency, fn) {
       results[idx] = await fn(items[idx], idx);
     }
   }
-  const workers = Array.from({ length: Math.min(concurrency, items.length) }, () => worker());
+  const workers = Array.from(
+    { length: Math.min(concurrency, items.length) },
+    () => worker(),
+  );
   await Promise.all(workers);
   return results;
 }
@@ -38,10 +60,16 @@ async function mapConcurrent(items, concurrency, fn) {
 async function optimizeFolder({ input, output }) {
   const entries = await readdir(input, { withFileTypes: true });
   const files = entries
-    .filter((entry) => entry.isFile() && entry.name.endsWith(".png") && !retiredBanners.has(entry.name))
+    .filter(
+      (entry) =>
+        entry.isFile() &&
+        entry.name.endsWith(".png") &&
+        !retiredBanners.has(entry.name),
+    )
     .map((entry) => entry.name)
     .sort();
-  if (!files.length) throw new Error(`No current PNG masters found in ${input}.`);
+  if (!files.length)
+    throw new Error(`No current PNG masters found in ${input}.`);
   await mkdir(output, { recursive: true });
 
   const results = await mapConcurrent(files, CONCURRENCY, async (file) => {
@@ -65,11 +93,19 @@ async function optimizeFolder({ input, output }) {
       };
     }
 
-    const size = file === "art-welcome.png" || file.startsWith("welcome-") ? HERO_SIZE : TILE_SIZE;
+    const size =
+      file === "art-welcome.png" || file.startsWith("welcome-")
+        ? HERO_SIZE
+        : TILE_SIZE;
     const original = await readFile(srcPath);
     const { data, info } = await sharp(original)
       .rotate()
-      .resize({ width: size, height: size, fit: "inside", withoutEnlargement: true })
+      .resize({
+        width: size,
+        height: size,
+        fit: "inside",
+        withoutEnlargement: true,
+      })
       .webp({ quality: QUALITY, alphaQuality: 100, effort: 6 })
       .toBuffer({ resolveWithObject: true });
 
@@ -95,11 +131,15 @@ async function optimizeFolder({ input, output }) {
   for (const res of results) {
     sourceBytes += res.srcBytes;
     optimizedBytes += res.optBytes;
-    console.log(`${res.file}: ${res.width}x${res.height}, ${(res.srcBytes / 1024).toFixed(1)} KiB -> ${(res.optBytes / 1024).toFixed(1)} KiB`);
+    console.log(
+      `${res.file}: ${res.width}x${res.height}, ${(res.srcBytes / 1024).toFixed(1)} KiB -> ${(res.optBytes / 1024).toFixed(1)} KiB`,
+    );
   }
 
   const savings = ((1 - optimizedBytes / sourceBytes) * 100).toFixed(1);
-  console.log(`Total: ${files.length} images, ${(sourceBytes / 1024 / 1024).toFixed(2)} MiB -> ${(optimizedBytes / 1024 / 1024).toFixed(2)} MiB (${savings}% smaller)`);
+  console.log(
+    `Total: ${files.length} images, ${(sourceBytes / 1024 / 1024).toFixed(2)} MiB -> ${(optimizedBytes / 1024 / 1024).toFixed(2)} MiB (${savings}% smaller)`,
+  );
   return { filesCount: files.length, sourceBytes, optimizedBytes };
 }
 
@@ -112,8 +152,16 @@ async function main() {
   });
 
   const targets = values.input
-    ? [{ input: resolve(values.input), output: resolve(values.output ?? join(values.input, "optimized")) }]
-    : defaultTargets.map((t) => ({ input: resolve(t.input), output: resolve(t.output) }));
+    ? [
+        {
+          input: resolve(values.input),
+          output: resolve(values.output ?? join(values.input, "optimized")),
+        },
+      ]
+    : defaultTargets.map((t) => ({
+        input: resolve(t.input),
+        output: resolve(t.output),
+      }));
 
   let totalFiles = 0;
   let totalSourceBytes = 0;
@@ -127,8 +175,13 @@ async function main() {
   }
 
   if (targets.length > 1) {
-    const savings = ((1 - totalOptimizedBytes / totalSourceBytes) * 100).toFixed(1);
-    console.log(`Grand Total: ${totalFiles} images, ${(totalSourceBytes / 1024 / 1024).toFixed(2)} MiB -> ${(totalOptimizedBytes / 1024 / 1024).toFixed(2)} MiB (${savings}% smaller)`);
+    const savings = (
+      (1 - totalOptimizedBytes / totalSourceBytes) *
+      100
+    ).toFixed(1);
+    console.log(
+      `Grand Total: ${totalFiles} images, ${(totalSourceBytes / 1024 / 1024).toFixed(2)} MiB -> ${(totalOptimizedBytes / 1024 / 1024).toFixed(2)} MiB (${savings}% smaller)`,
+    );
   }
 }
 

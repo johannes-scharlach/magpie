@@ -28,14 +28,14 @@ the early, friendly error; RLS becomes the backstop.
 
 What the API writes today (non-test code):
 
-| Table           | Writes                   |
-|-----------------|--------------------------|
-| `chats`         | insert, update           |
-| `chat_messages` | insert                   |
-| `recipes`       | insert, update           |
-| `variants`      | insert                   |
-| `planned_meals` | insert, update, delete   |
-| `list_items`    | insert, update, delete   |
+| Table           | Writes                 |
+| --------------- | ---------------------- |
+| `chats`         | insert, update         |
+| `chat_messages` | insert                 |
+| `recipes`       | insert, update         |
+| `variants`      | insert                 |
+| `planned_meals` | insert, update, delete |
+| `list_items`    | insert, update, delete |
 
 For each: does `authenticated` have the grant and a policy that allows it?
 Where the answer is "not for clients", a narrow `security definer` function is

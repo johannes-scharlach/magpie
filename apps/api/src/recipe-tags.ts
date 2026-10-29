@@ -88,8 +88,17 @@ export async function readTagVocabulary(
          ORDER BY word
        ) AS cuisines,
        ARRAY(
-         SELECT DISTINCT jsonb_array_elements_text(tags) AS tag
-           FROM recipes WHERE list_id = $1 ORDER BY tag
+         SELECT DISTINCT tag FROM (
+           SELECT jsonb_array_elements_text(tags) AS tag
+             FROM recipes WHERE list_id = $1
+           -- A day habit's word is a tag unless it names a cuisine.
+           UNION SELECT habit->>'what'
+             FROM household_profiles, jsonb_array_elements(day_habits) habit
+             WHERE id = $1 AND NOT habit->>'what' = ANY($2::text[])
+               AND NOT cuisines ? (habit->>'what')
+         ) own
+         WHERE tag IS NOT NULL
+         ORDER BY tag
        ) AS tags,
        ARRAY(
          SELECT DISTINCT word FROM (

@@ -19,11 +19,11 @@ Two consequences:
   changed, replaced, moved, removed; see "Meal-planning activity" below) is
   derived by a trigger on `planned_meals`. A swap uploads as two PATCHes:
 
-  | After            | Thu | Fri | Per-op trigger sees                    |
-  |------------------|-----|-----|----------------------------------------|
-  | start            | X   | Y   |                                        |
-  | PATCH Fri → X    | X   | X   | X arrives at Fri; Y gone everywhere    |
-  | PATCH Thu → Y    | Y   | X   | Y arrives at Thu; X still at Fri       |
+  | After         | Thu | Fri | Per-op trigger sees                 |
+  | ------------- | --- | --- | ----------------------------------- |
+  | start         | X   | Y   |                                     |
+  | PATCH Fri → X | X   | X   | X arrives at Fri; Y gone everywhere |
+  | PATCH Thu → Y | Y   | X   | Y arrives at Thu; X still at Fri    |
 
   `content_id` is not unique, so the middle row really exists. Naive rules
   report "Pasta removed" then "Pasta planned".
@@ -90,14 +90,14 @@ Shaped 2026-10-06, not yet specced. Slice 1 in-app, slice 2 push.
   from, then who. Relative days for today/tomorrow. A pure formatter, twinned
   in `supabase/functions/_shared/` and the app, tested against one case table.
 
-  | Kind     | Title                               | Body                                               |
-  |----------|-------------------------------------|----------------------------------------------------|
-  | Planned  | Tomorrow's dinner                   | Lasagne with lamb's lettuce · Anna                 |
-  | Changed  | Tomorrow's dinner                   | Vegan lasagne, was Lasagne · Anna                  |
-  | Replaced | Thursday's dinner                   | Pasta, instead of Lasagne · Anna                   |
-  | Moved    | Tomorrow's lunch                    | Lasagne, moved from today's dinner · Anna          |
-  | Swapped  | Today's dinner and tomorrow's lunch | Pasta today, Lasagne tomorrow · swapped by Anna    |
-  | Removed  | Thursday's dinner                   | Lasagne removed · Anna                             |
+  | Kind     | Title                               | Body                                            |
+  | -------- | ----------------------------------- | ----------------------------------------------- |
+  | Planned  | Tomorrow's dinner                   | Lasagne with lamb's lettuce · Anna              |
+  | Changed  | Tomorrow's dinner                   | Vegan lasagne, was Lasagne · Anna               |
+  | Replaced | Thursday's dinner                   | Pasta, instead of Lasagne · Anna                |
+  | Moved    | Tomorrow's lunch                    | Lasagne, moved from today's dinner · Anna       |
+  | Swapped  | Today's dinner and tomorrow's lunch | Pasta today, Lasagne tomorrow · swapped by Anna |
+  | Removed  | Thursday's dinner                   | Lasagne removed · Anna                          |
 
 ## References
 

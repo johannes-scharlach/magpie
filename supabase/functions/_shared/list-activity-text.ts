@@ -13,7 +13,9 @@ export function listActivityText(activity: ListActivity) {
   if (activity.kind === 'items_bought') {
     return {
       title: 'Shopping done',
-      body: `${names.length} ${names.length === 1 ? 'item' : 'items'} bought · ${activity.actor_name}`,
+      body: `${names.length} ${
+        names.length === 1 ? 'item' : 'items'
+      } bought · ${activity.actor_name}`,
     };
   }
   const rest = names.length > 3 ? ` +${names.length - 3}` : '';

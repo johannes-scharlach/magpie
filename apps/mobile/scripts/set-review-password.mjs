@@ -21,7 +21,9 @@ function projectUrl(value) {
     url.search ||
     url.hash
   ) {
-    throw new Error("Use the HTTPS project URL, without credentials or a path.");
+    throw new Error(
+      "Use the HTTPS project URL, without credentials or a path.",
+    );
   }
   return url.origin;
 }
@@ -118,7 +120,8 @@ async function main() {
     }
 
     const token = (await ask("Six-digit email code (hidden): ", true)).trim();
-    if (!/^\d{6}$/.test(token)) throw new Error("Enter a six-digit email code.");
+    if (!/^\d{6}$/.test(token))
+      throw new Error("Enter a six-digit email code.");
     const verified = await supabase.auth.verifyOtp({
       email: reviewEmail,
       token,

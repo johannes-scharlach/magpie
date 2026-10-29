@@ -20,7 +20,7 @@ const sqlite = new DatabaseSync(":memory:");
 sqlite.exec(`
   CREATE TABLE lists (id TEXT PRIMARY KEY, name TEXT, invite_code TEXT, created_by TEXT, created_at TEXT, updated_at TEXT);
   CREATE TABLE list_members (id TEXT PRIMARY KEY, list_id TEXT, user_id TEXT, joined_at TEXT, UNIQUE(list_id, user_id));
-  CREATE TABLE household_profiles (id TEXT PRIMARY KEY, goals TEXT, kitchen_equipment TEXT, measurements TEXT, pantry TEXT, fresh_ingredients TEXT, restrictions TEXT, ingredient_avoidances TEXT, shops TEXT, keeps TEXT, cuisines TEXT, extras TEXT, meals_at_home TEXT, main_supermarket TEXT, other_shops TEXT, created_at TEXT, updated_at TEXT);
+  CREATE TABLE household_profiles (id TEXT PRIMARY KEY, goals TEXT, kitchen_equipment TEXT, measurements TEXT, pantry TEXT, fresh_ingredients TEXT, restrictions TEXT, ingredient_avoidances TEXT, shops TEXT, keeps TEXT, cuisines TEXT, extras TEXT, day_habits TEXT, new_dishes TEXT, meals_at_home TEXT, main_supermarket TEXT, other_shops TEXT, created_at TEXT, updated_at TEXT);
   CREATE TABLE household_people (id TEXT PRIMARY KEY, list_id TEXT, user_id TEXT, name TEXT, age_group TEXT, diet TEXT, diet_other TEXT, meal_times TEXT, portion_reference REAL, created_at TEXT, updated_at TEXT, UNIQUE(list_id, user_id));
 `);
 const tx = {
@@ -152,6 +152,21 @@ it("saves measurement choices and uploads them as structured household data", as
   );
   expect(decodeForUpload("household_profiles", row!)).toEqual({
     measurements: draft.profile.measurements,
+  });
+});
+
+it("saves kitchen habits and uploads them as structured household data", async () => {
+  const draft = setup();
+  draft.profile.day_habits = [{ days: ["mon"], meal: "dinner", what: "pizza" }];
+  draft.profile.new_dishes = "sometimes";
+  await finalizeProfile(db, draft, userId);
+  const row = await tx.getOptional<{ day_habits: string; new_dishes: string }>(
+    "SELECT day_habits, new_dishes FROM household_profiles WHERE id = ?",
+    [draft.list_id],
+  );
+  expect(decodeForUpload("household_profiles", row!)).toEqual({
+    day_habits: draft.profile.day_habits,
+    new_dishes: "sometimes",
   });
 });
 

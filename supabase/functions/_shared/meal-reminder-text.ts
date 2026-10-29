@@ -9,12 +9,12 @@ export type MealReminder = {
 // One line per day of the week, so the nudge doesn't read the same every day.
 export const EMPTY_DAY_LINES = [
   "There's still time to plan it.",
-  "Still open. What sounds good?",
-  "Nothing planned yet. Plenty of time.",
-  "A blank page. Want an idea?",
-  "Free tonight. Plan something?",
+  'Still open. What sounds good?',
+  'Nothing planned yet. Plenty of time.',
+  'A blank page. Want an idea?',
+  'Free tonight. Plan something?',
   "No plan yet, and that's fine. There's still time.",
-  "Room for something new tonight.",
+  'Room for something new tonight.',
 ];
 
 /**
@@ -27,21 +27,19 @@ export function mealReminderText(reminder: MealReminder) {
     return { title: "Tonight's dinner", body: emptyDayLine(reminder.slot_date) };
   }
   const toBuy = reminder.items_to_buy;
-  const shopping = toBuy
-    ? [`${toBuy} ${toBuy === 1 ? "item" : "items"} still to buy`]
-    : [];
+  const shopping = toBuy ? [`${toBuy} ${toBuy === 1 ? 'item' : 'items'} still to buy`] : [];
   if (meals.length === 1) {
     return {
       title: `Today's ${meals[0]!.meal}`,
-      body: [meals[0]!.name, ...shopping].join(" · "),
+      body: [meals[0]!.name, ...shopping].join(' · '),
     };
   }
   return {
-    title: "Today",
+    title: 'Today',
     body: [
       ...meals.map(({ meal, name }) => `${capitalize(meal)}: ${name}`),
       ...shopping,
-    ].join(" · "),
+    ].join(' · '),
   };
 }
 

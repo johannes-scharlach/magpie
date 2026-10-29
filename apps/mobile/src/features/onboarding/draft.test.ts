@@ -15,8 +15,27 @@ describe("onboarding draft recovery", () => {
   it("asks staples before cuisines and finishes questions only after their cuisine cupboards", () => {
     expect(
       steps.slice(steps.indexOf("kitchen"), steps.indexOf("email") + 1),
-    ).toEqual(["kitchen", "measurements", "staples", "cuisines", "email"]);
-    expect(lastQuestion).toBe("cuisines");
+    ).toEqual([
+      "kitchen",
+      "measurements",
+      "staples",
+      "cuisines",
+      "day-habits",
+      "new-dishes",
+      "email",
+    ]);
+    expect(lastQuestion).toBe("new-dishes");
+  });
+  it("keeps habit answers through recovery, and a skipped question keeps no habit", () => {
+    const draft = createDraft(personId, listId);
+    draft.step = "day-habits";
+    draft.profile.day_habits = [
+      { days: ["mon"], meal: "dinner", what: "pizza" },
+    ];
+    const restored = restoreDraft(JSON.stringify(draft))!;
+    expect(restored.step).toBe("day-habits");
+    expect(restored.profile.day_habits).toEqual(draft.profile.day_habits);
+    expect(restored.profile.new_dishes).toBeNull();
   });
   it("defaults conversion on for older drafts while keeping a saved off choice", () => {
     const draft = createDraft(personId, listId);

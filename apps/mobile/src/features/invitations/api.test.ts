@@ -47,16 +47,14 @@ it("reports gateway failures even when the Edge Function never runs", async () =
 it("keeps actionable claim conflicts and logs no invitation secret or name", async () => {
   vi.stubGlobal(
     "fetch",
-    vi
-      .fn()
-      .mockResolvedValue(
-        new Response(
-          JSON.stringify({
-            error: "That person is no longer available. Please choose again.",
-          }),
-          { status: 409, headers: { "Content-Type": "application/json" } },
-        ),
+    vi.fn().mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          error: "That person is no longer available. Please choose again.",
+        }),
+        { status: 409, headers: { "Content-Type": "application/json" } },
       ),
+    ),
   );
   const log = vi.spyOn(console, "error").mockImplementation(() => {});
   const code = "0123456789abcdef0123456789abcdef";

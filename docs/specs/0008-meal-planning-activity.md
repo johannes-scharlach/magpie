@@ -28,7 +28,7 @@ Shaped in conversation, 2026-10-06. Context and the swap problem: ADR 21
    name.
 
    | Kind     | Title             | Body                                      |
-   |----------|-------------------|-------------------------------------------|
+   | -------- | ----------------- | ----------------------------------------- |
    | Planned  | Tomorrow's dinner | Lasagne with lamb's lettuce · Anna        |
    | Changed  | Tomorrow's dinner | Vegan lasagne, was Lasagne · Anna         |
    | Changed  | Tomorrow's dinner | Lasagne, recipe changed · Anna            |

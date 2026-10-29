@@ -8,6 +8,7 @@ import { UnknownHouseholdPersonError } from "./errors.js";
 import {
   readChatMeal,
   readChatVariant,
+  readCookbookOverview,
   searchChatVariants,
   writeChatVariant,
 } from "./chat-variants.js";
@@ -27,6 +28,12 @@ import {
 import { addMealShoppingItems } from "./meal-shopping.js";
 import { assertListMemberUntilCommit } from "./list-authorization.js";
 import { createRecipe, insertVariant, variantUrl } from "./variants.js";
+
+const searchInput = z.object({
+  query: z.string().max(200).default(""),
+  limit: z.number().int().min(1).max(100).default(10),
+  offset: z.number().int().min(0).default(0),
+});
 
 /**
  * Tools act, never present (ADR 9). Saving lands on the same tables as a URL
@@ -82,13 +89,10 @@ export function buildChatTools(
     }),
     searchVariants: tool({
       description:
-        "Search the cookbook by literal text in names, descriptions, ingredients, steps, cuisine, tags, equipment and effort, including readable labels. Without recipeId, return the newest matching variant per recipe; limit counts recipes. With recipeId, browse its matching variants; limit counts variants. matchingVariantCount includes the returned variant. hasMore uses the same unit as limit. Results include excerpts, creation date, yield and recorded sizing; an empty query lists newest first. Use readVariant for full content.",
-      inputSchema: z.object({
-        query: z.string().max(200).default(""),
-        recipeId: z.uuid().optional(),
-        limit: z.number().int().min(1).max(30).default(10),
-      }),
-      execute: (input) => searchChatVariants(listId, input),
+        "Search the cookbook by literal text in names, descriptions, ingredients, steps, cuisine, tags, equipment and effort, including readable labels. Without recipeId, return one variant per recipe, the household's standards first: recipes planned most often, each by its most planned matching variant, then the newest; limit and offset count recipes. With recipeId, browse its matching variants, most planned first; limit and offset count variants. matchingVariantCount includes the returned variant. hasMore uses the same unit as limit. Results include excerpts, creation date, yield, recorded sizing, and how often and when the variant and its recipe were last planned (past days only). An empty query lists everything in the same order. Use readVariant for full content.",
+      inputSchema: searchInput.extend({ recipeId: z.uuid().optional() }),
+      execute: (input) =>
+        searchChatVariants(listId, { ...input, today: context.today }),
     }),
     readVariant: tool({
       description:
@@ -108,13 +112,14 @@ export function buildChatTools(
     }),
     readPlan: tool({
       description:
-        "What is planned on the household's calendar from a given day, two weeks ahead. Read it before answering anything about the week.",
+        "What is planned on the household's calendar from a given day, for the given number of days. Read it before answering anything about the week. Pass a past fromDate to see what the household ate recently.",
       inputSchema: z.object({
         fromDate: z.iso
           .date()
           .describe("YYYY-MM-DD, usually today in the user's local time"),
+        days: z.number().int().min(1).max(60).default(14),
       }),
-      execute: async ({ fromDate }) => readPlan(listId, fromDate),
+      execute: async ({ fromDate, days }) => readPlan(listId, fromDate, days),
     }),
 
     planMeal: tool({
@@ -259,9 +264,17 @@ export function buildChatTools(
 
     searchSavedRecipes: tool({
       description:
-        "Look up recipes with the same matching rules as searchVariants. Returns up to 10 distinct recipes, their newest matching variant and matchingVariantCount (including that variant); hasMore means more recipes match. Scope searchVariants to a recipeId to explore its variants, and use readVariant for full content. Use before writing a sauce, dressing or dough the user may have their own version of.",
-      inputSchema: z.object({ query: z.string().min(1).max(200) }),
-      execute: ({ query }) => searchChatVariants(listId, { query, limit: 10 }),
+        "Look up recipes with the same matching rules and order as searchVariants: the household's standards first. Returns distinct recipes, each with one matching variant, matchingVariantCount (including that variant) and planning history; hasMore means more recipes match. An empty query lists the whole cookbook; page with offset. Scope searchVariants to a recipeId to explore its variants, and use readVariant for full content. Use before writing a sauce, dressing or dough the user may have their own version of.",
+      inputSchema: searchInput,
+      execute: (input) =>
+        searchChatVariants(listId, { ...input, today: context.today }),
+    }),
+
+    readCookbookOverview: tool({
+      description:
+        "The household's cuisines and tags, each with its number of recipes, most common first. Read it before searching the cookbook for a kind of dish, so you search with the household's own words.",
+      inputSchema: z.object({}),
+      execute: () => readCookbookOverview(listId),
     }),
   };
 }

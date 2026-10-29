@@ -11,7 +11,10 @@ const bought = (...item_names: string[]) =>
 Deno.test('added names up to three items, then counts the rest', () => {
   assertEquals(added('Milk'), { title: 'Added to the List', body: 'Milk · Anna' });
   assertEquals(added('Milk', 'eggs', 'lemons').body, 'Milk, eggs, lemons · Anna');
-  assertEquals(added('Milk', 'eggs', 'lemons', 'oats', 'rice').body, 'Milk, eggs, lemons +2 · Anna');
+  assertEquals(
+    added('Milk', 'eggs', 'lemons', 'oats', 'rice').body,
+    'Milk, eggs, lemons +2 · Anna',
+  );
 });
 
 Deno.test('bought counts the items', () => {

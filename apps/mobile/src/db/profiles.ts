@@ -25,6 +25,7 @@ export function decodeHousehold(
     "keeps",
     "cuisines",
     "extras",
+    "day_habits",
   ]) {
     // PowerSync adds a new local column as NULL to rows synced before it
     // existed. Treat that as absent so the schema defaults apply.

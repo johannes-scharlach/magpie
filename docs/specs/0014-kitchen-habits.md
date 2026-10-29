@@ -15,8 +15,8 @@ household's standards stay hidden behind whatever was imported last.
 
 The household sets its Kitchen habits, and the planner follows them:
 
-- **Day habits**: a weekday and a kind of dish or cuisine, e.g.
-  "Monday → pizza".
+- **Day habits**: days, a meal and a kind of dish or cuisine, e.g.
+  "Mon · dinner → pizza" or "Weekdays · lunch → salad".
 - **Known vs. new**: how much the plan reuses dishes the household
   already cooks.
 
@@ -33,13 +33,13 @@ standards first.
 
 ## User Stories
 
-1. As a new user, I want to say during onboarding that Monday is pizza
-   night, so that Magpie plans pizza on Mondays from the first week.
+1. As a new user, I want to say during onboarding that Monday dinner is
+   pizza, so that Magpie plans pizza on Mondays from the first week.
 2. As a new user with an empty cookbook, I want to pick a day habit from
    a starter list of dish kinds, so that I don't have to type or invent
    words.
 3. As a new user, I want the cuisines I just picked to show in the day
-   habit picker, so that "Wednesday → Italian" is two taps.
+   habit picker, so that "Wed · dinner → Italian" is a few taps.
 4. As a new user, I want to say how much the plan reuses dishes we
    already cook, so that Magpie knows whether I want my standards or
    something new.
@@ -86,7 +86,12 @@ standards first.
 22. As a user, I want the planner to see how often each version of a
     dish was planned, so that it can tell "we make lasagne a lot" apart
     from "we always make the vegan lasagne".
-23. As a user with a large cookbook, I want the planner to look through
+23. As a user, I want one habit to cover several days ("Weekdays ·
+    lunch → salad"), so that I don't set the same habit five times.
+24. As a user, I want two habits that meet on one meal to both count
+    ("Fri · dinner → fish" and "Weekdays · dinner → Italian"), so that
+    Friday gets an Italian fish dish, or I'm told why it can't.
+25. As a user with a large cookbook, I want the planner to look through
     more than ten recipes when it needs to, so that it doesn't keep
     choosing from the same few.
 
@@ -96,8 +101,15 @@ standards first.
 
 - Habits are part of the household profile, next to the cooking goals,
   and validated by the profile schema in the shared profile package.
-- A day habit is a weekday and one word: a catalog cuisine id, or a
-  tag. Collections become pickable when they exist (step 3).
+- A day habit is a rule: a set of weekdays, one meal slot (lunch,
+  dinner or treat, the slots planned meals use), and one word: a catalog
+  cuisine id, or a tag. Collections become pickable when they exist
+  (step 3).
+- The day picker offers "Every day", "Weekdays" and "Weekend" as
+  shortcuts next to single days.
+- A household can have any number of day habits. Habits that meet on the
+  same meal all apply; the planner tries to satisfy them together and
+  says so when it can't.
 - Known vs. new is a single choice from a fixed set of three, with
   draft labels "Mostly what we cook", "A new one now and then",
   "Mostly new". The copy is final at implementation.
@@ -130,6 +142,7 @@ standards first.
   `timesPlanned`.
 - A day habit with no matching recipe tells the planner to suggest new
   ideas of that kind.
+- Habits that meet on the same meal are stated as applying together.
 
 ### Habit words become Tags
 
@@ -163,7 +176,8 @@ same entry point production uses. It doesn't check query shape or
 internal helpers.
 
 - **Profile context** (prior art: profile-context tests). Saved habits
-  and known vs. new reach the prompt as soft rules. An empty habit list
+  and known vs. new reach the prompt as soft rules, each naming its days
+  and meal. An empty habit list
   adds nothing. Invalid habit data doesn't break the profile.
 - **Tag vocabulary** (prior art: the variants test with
   connection-private temp tables on the local database). A profile with
@@ -184,14 +198,16 @@ internal helpers.
 - Correcting a Recipe's tags by hand.
 - Showing cooking history or reordering the cookbook screen.
 - Marking a planned meal as skipped. Past plans count as planned.
-- Habits beyond day habits and known vs. new (e.g. per meal slot,
-  per person, seasonal).
+- Habits beyond day habits and known vs. new (e.g. per person,
+  seasonal).
+- Effort as a habit's word. The cooking goal "Keep weeknights quick"
+  already covers it.
 - Putting the whole cookbook into the prompt.
 
 ## Further Notes
 
-- Open: does a day habit apply to dinner only, or to whichever meal is
-  planned that day? Can a weekday have more than one habit?
-- Open: the starter list's language. Tags are in the household's
-  language, so the starter list needs the same.
+- The starter list is English for now, like the app. The household's
+  own words come first in the picker.
+- Cooking goals and habits overlap ("Try new cuisines" and known vs.
+  new). Keep both for now; see which survives use.
 - Naming: "Kitchen habit" goes into the glossary at implementation.

@@ -18,7 +18,8 @@ test(
     try {
       await client.query("BEGIN");
       await client.query(`
-        CREATE TEMP TABLE recipes (id uuid PRIMARY KEY, cuisine text, tags jsonb);
+        CREATE TEMP TABLE recipes (id uuid PRIMARY KEY, cuisine text, tags jsonb, list_id uuid);
+        CREATE TEMP TABLE planned_meals (list_id uuid, recipe_id uuid, variant_id uuid, slot_date text);
         CREATE TEMP TABLE variants (
           id uuid PRIMARY KEY, recipe_id uuid, list_id uuid, name text, description text,
           total_time text, equipment jsonb DEFAULT '[]', effort text,
@@ -44,6 +45,7 @@ test(
         INSERT INTO variants (id, recipe_id, list_id, name, created_at) VALUES
           ('d3600000-0000-4000-8000-000000000004', 'c3600000-0000-4000-8000-000000000001',
            'b3600000-0000-4000-8000-000000000001', 'Coconut vegetables on the stove', '2026-10-02');
+        UPDATE recipes SET list_id = (SELECT list_id FROM variants WHERE recipe_id = recipes.id LIMIT 1);
       `);
       t.mock.method(pool, "connect", async () =>
         Object.assign(client, { release: () => undefined }),
@@ -63,11 +65,13 @@ test(
       });
       const savedExecute = tools.searchSavedRecipes.execute;
       const variantsExecute = tools.searchVariants.execute;
+      const overviewExecute = tools.readCookbookOverview.execute;
       assert.ok(savedExecute);
       assert.ok(variantsExecute);
+      assert.ok(overviewExecute);
       const options = { toolCallId: "search", messages: [], context: {} };
-      const savedSearch = async (query: string) => {
-        const result = await savedExecute({ query }, options);
+      const savedSearch = async (query: string, limit = 10, offset = 0) => {
+        const result = await savedExecute({ query, limit, offset }, options);
         assert.ok("variants" in result);
         return result;
       };
@@ -77,7 +81,7 @@ test(
         limit = 10,
       ) => {
         const result = await variantsExecute(
-          { query, recipeId, limit },
+          { query, recipeId, limit, offset: 0 },
           options,
         );
         assert.ok("variants" in result);
@@ -140,6 +144,65 @@ test(
             await variantSearch("", "c3600000-0000-4000-8000-000000000003"),
             { variants: [], hasMore: false },
           );
+        },
+      );
+
+      await t.test(
+        "the household's standards come first, counted from past plans only",
+        async () => {
+          await client.query(`
+            INSERT INTO planned_meals VALUES
+              ('${listId}', 'c3600000-0000-4000-8000-000000000002', 'd3600000-0000-4000-8000-000000000002', '2026-10-20'),
+              ('${listId}', 'c3600000-0000-4000-8000-000000000002', 'd3600000-0000-4000-8000-000000000002', '2026-10-21'),
+              ('${listId}', 'c3600000-0000-4000-8000-000000000002', 'd3600000-0000-4000-8000-000000000002', '2026-10-28'),
+              ('b3600000-0000-4000-8000-000000000002', 'c3600000-0000-4000-8000-000000000002', 'd3600000-0000-4000-8000-000000000002', '2026-10-01'),
+              ('${listId}', 'c3600000-0000-4000-8000-000000000001', 'd3600000-0000-4000-8000-000000000001', '2026-10-10');
+          `);
+          const all = await savedSearch("");
+          assert.deepEqual(
+            all.variants.map((variant) => [
+              variant.variantId,
+              variant.timesPlanned,
+              variant.lastPlanned,
+              variant.recipeTimesPlanned,
+              variant.recipeLastPlanned,
+            ]),
+            [
+              [
+                "d3600000-0000-4000-8000-000000000002",
+                2,
+                "2026-10-21",
+                2,
+                "2026-10-21",
+              ],
+              [
+                "d3600000-0000-4000-8000-000000000001",
+                1,
+                "2026-10-10",
+                1,
+                "2026-10-10",
+              ],
+            ],
+          );
+          const second = await savedSearch("", 1, 1);
+          assert.deepEqual(
+            second.variants.map((variant) => variant.variantId),
+            ["d3600000-0000-4000-8000-000000000001"],
+          );
+          assert.equal(second.hasMore, false);
+          assert.equal((await savedSearch("", 1)).hasMore, true);
+
+          assert.deepEqual(await overviewExecute({}, options), {
+            cuisines: [
+              { cuisine: "North Indian", recipes: 1 },
+              { cuisine: "Thai", recipes: 1 },
+            ],
+            tags: [
+              { tag: "curry", recipes: 1 },
+              { tag: "dal", recipes: 1 },
+            ],
+          });
+          await client.query("DELETE FROM planned_meals");
         },
       );
 

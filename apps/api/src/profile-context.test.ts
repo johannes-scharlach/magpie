@@ -478,3 +478,39 @@ test("food rules and allergy exceptions stay attached to the people they are for
     },
   );
 });
+
+test("kitchen habits reach the planner as soft rules for their days and meal", () => {
+  const { profile } = householdSchema.parse({
+    profile: {
+      ...newProfile(),
+      day_habits: [
+        { days: ["mon"], meal: "dinner", what: "pizza" },
+        {
+          days: ["mon", "tue", "wed", "thu", "fri"],
+          meal: "lunch",
+          what: "italian",
+        },
+        { days: ["sat", "sun"], meal: "treat", what: "cake" },
+        { days: [], meal: "dinner", what: "soup" },
+        { days: ["mon"], meal: "breakfast", what: "porridge" },
+        "nonsense",
+      ],
+      new_dishes: "sometimes",
+    },
+    people: [
+      { ...newPerson("9c5b42f7-fbea-4df2-b8d3-d42d37ed9a1d"), name: "Sam" },
+    ],
+  });
+  const context = profileContext({ profile, people: [] }, "caller");
+
+  assert.match(context, /^## Kitchen habits$/m);
+  assert.match(context, /current request overrides/);
+  assert.match(context, /- Mon dinner: "pizza"/);
+  assert.match(context, /- Weekdays lunch: "Italian"/);
+  assert.match(context, /- Weekend treat: "cake"/);
+  assert.doesNotMatch(context, /soup|porridge|nonsense/);
+  assert.match(context, /timesPlanned/);
+
+  const none = profileContext({ profile: newProfile(), people: [] }, "caller");
+  assert.doesNotMatch(none, /Kitchen habits/);
+});

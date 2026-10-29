@@ -41,12 +41,23 @@ async function renderFixture({ source, mask }, foreground, background) {
       }
     }
   }
-  await sharp(pixels, { raw: { width: 160, height: 120, channels: 3 } }).png().toFile(source);
-  await sharp(matte, { raw: { width: 160, height: 120, channels: 1 } }).png().toFile(mask);
+  await sharp(pixels, { raw: { width: 160, height: 120, channels: 3 } })
+    .png()
+    .toFile(source);
+  await sharp(matte, { raw: { width: 160, height: 120, channels: 1 } })
+    .png()
+    .toFile(mask);
 }
 
 function matte({ source, output, mask }) {
-  return exec(process.execPath, [command, source, output, "--experimental-matting", "--mask", mask]);
+  return exec(process.execPath, [
+    command,
+    source,
+    output,
+    "--experimental-matting",
+    "--mask",
+    mask,
+  ]);
 }
 
 test("experimental matting recovers soft edge colours instead of retaining the blue screen", async (t) => {
@@ -56,15 +67,20 @@ test("experimental matting recovers soft edge colours instead of retaining the b
 
   await matte(files);
 
-  const { data, info } = await sharp(files.output).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+  const { data, info } = await sharp(files.output)
+    .ensureAlpha()
+    .raw()
+    .toBuffer({ resolveWithObject: true });
   assert.equal(info.width, 98);
   assert.equal(info.height, 74);
   assert.equal(data[3], 0);
   // The crop retains 16px padding; this pixel is on the left soft edge.
   const edge = (37 * info.width + 16) * 4;
   for (const [channel, expected] of [200, 160, 120, 128].entries()) {
-    assert.ok(Math.abs(data[edge + channel] - expected) <= 6,
-      `edge channel ${channel}: expected ${expected}, got ${data[edge + channel]}`);
+    assert.ok(
+      Math.abs(data[edge + channel] - expected) <= 6,
+      `edge channel ${channel}: expected ${expected}, got ${data[edge + channel]}`,
+    );
   }
   assert.deepEqual(await readFile(files.source), original);
 });
@@ -84,13 +100,19 @@ test("the experiment refuses to overwrite originals or existing exports", async 
   }
 
   assert.deepEqual(await readFile(files.source), original);
-  assert.equal(await readFile(files.output, "utf8"), "keep this existing export");
+  assert.equal(
+    await readFile(files.output, "utf8"),
+    "keep this existing export",
+  );
 });
 
 test("rejects already-transparent masters rather than recalculating their alpha", async (t) => {
   const files = await workspace(t);
   await renderFixture(files, [40, 100, 200], [128, 128, 128]);
-  const image = await sharp(files.source).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+  const image = await sharp(files.source)
+    .ensureAlpha()
+    .raw()
+    .toBuffer({ resolveWithObject: true });
   image.data[(60 * image.info.width + 60) * 4 + 3] = 128;
   await sharp(image.data, { raw: image.info }).png().toFile(files.source);
   const original = await readFile(files.source);

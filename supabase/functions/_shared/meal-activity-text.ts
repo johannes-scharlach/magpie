@@ -3,11 +3,11 @@
 
 export type MealActivity = {
   kind:
-    | "meal_planned"
-    | "meal_changed"
-    | "meal_replaced"
-    | "meal_moved"
-    | "meal_removed";
+    | 'meal_planned'
+    | 'meal_changed'
+    | 'meal_replaced'
+    | 'meal_moved'
+    | 'meal_removed';
   actor_name: string;
   meal_name: string;
   slot_date: string;
@@ -18,13 +18,13 @@ export type MealActivity = {
 };
 
 const WEEKDAY_LONG = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
+  'Sunday',
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
 ];
 
 /**
@@ -43,7 +43,7 @@ export function mealActivityText(activity: MealActivity, today: string | null) {
 export function todayIn(timeZone: string | null, now: Date): string | null {
   if (!timeZone) return null;
   try {
-    return new Intl.DateTimeFormat("en-CA", { timeZone }).format(now);
+    return new Intl.DateTimeFormat('en-CA', { timeZone }).format(now);
   } catch {
     return null;
   }
@@ -51,17 +51,17 @@ export function todayIn(timeZone: string | null, now: Date): string | null {
 
 function whatChanged(a: MealActivity, today: string | null): string {
   switch (a.kind) {
-    case "meal_planned":
+    case 'meal_planned':
       return a.meal_name;
-    case "meal_changed":
+    case 'meal_changed':
       return a.previous_meal_name === a.meal_name
         ? `${a.meal_name}, recipe changed`
         : `${a.meal_name}, was ${a.previous_meal_name}`;
-    case "meal_replaced":
+    case 'meal_replaced':
       return `${a.meal_name}, instead of ${a.previous_meal_name}`;
-    case "meal_moved":
+    case 'meal_moved':
       return `${a.meal_name}, moved from ${origin(a, today)}`;
-    case "meal_removed":
+    case 'meal_removed':
       return `${a.meal_name} removed`;
   }
 }
@@ -74,13 +74,12 @@ function origin(a: MealActivity, today: string | null): string {
   return `${day}'s ${a.previous_meal}`;
 }
 
-const inSentence = (day: string) =>
-  day === "Today" || day === "Tomorrow" ? day.toLowerCase() : day;
+const inSentence = (day: string) => day === 'Today' || day === 'Tomorrow' ? day.toLowerCase() : day;
 
 // Read as UTC so the server's own zone never shifts the day.
 function dayName(date: string, today: string | null): string {
-  if (date === today) return "Today";
-  if (today && date === addDay(today)) return "Tomorrow";
+  if (date === today) return 'Today';
+  if (today && date === addDay(today)) return 'Tomorrow';
   return WEEKDAY_LONG[new Date(`${date}T00:00Z`).getUTCDay()]!;
 }
 

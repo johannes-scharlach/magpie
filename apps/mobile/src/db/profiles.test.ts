@@ -44,9 +44,13 @@ describe("decodeHousehold", () => {
         cuisines: null,
         extras: null,
         measurements: null,
+        day_habits: null,
+        new_dishes: null,
       },
       [person],
     );
+    expect(household.profile.day_habits).toEqual([]);
+    expect(household.profile.new_dishes).toBeNull();
     expect(household.profile.ingredient_avoidances).toEqual([]);
     expect(household.profile.shops).toEqual([]);
     expect(household.profile.keeps).toEqual([]);

@@ -22,7 +22,7 @@ Shaped in conversation, 2026-10-09. Grouping: ADR 24. Delivery: ADR 19.
    `+N`.
 
    | Kind   | Title             | Body                         |
-   |--------|-------------------|------------------------------|
+   | ------ | ----------------- | ---------------------------- |
    | Added  | Added to the List | Milk · Anna                  |
    | Added  | Added to the List | Milk, eggs, lemons +3 · Anna |
    | Bought | Shopping done     | 1 item bought · Anna         |

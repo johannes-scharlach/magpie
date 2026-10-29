@@ -36,7 +36,7 @@ Items and their history live in one table. Checking something off sets
 - Deleting a shared list is restricted to its creator. This is the one place
   the flat "everyone can do everything" model is deliberately narrowed —
   the rest (add, check off, rename, invite) is open to any member.
-- No catalogue table. The list's own purchased rows *are* its catalogue:
+- No catalogue table. The list's own purchased rows _are_ its catalogue:
   recent suggestions, autocomplete, and remembered categories all read from
   `list_items`. Nothing can dangle, because there is nothing to reference.
 - Item knowledge does not transfer between lists. Typing "oat milk" on a
@@ -46,7 +46,7 @@ Items and their history live in one table. Checking something off sets
   `list_items` sync stream is the one to split first if that bites: active
   items auto-subscribed, purchased on demand.
 - Deterministic ids make concurrent offline adds converge. Two people adding
-  "milk" with no connectivity generate the *same* id, so PowerSync's upsert
+  "milk" with no connectivity generate the _same_ id, so PowerSync's upsert
   merges them. With random ids they would race the
   `unique (list_id, name_key)` constraint, and the loser would return
   `23505` — which the connector classifies as fatal and discards, silently

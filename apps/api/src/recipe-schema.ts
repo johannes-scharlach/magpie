@@ -92,7 +92,7 @@ const IngredientLineSchema = z.object({
     .string()
     .optional()
     .describe(
-      "Optional ingredient-line preparation, not part of item_name. When importing, preserve source ingredient-line prep here and leave instruction prep in the instructions. When creating, prefer prep in the steps; use this sparingly to clarify the measured quantity (e.g. 'thawed and squeezed dry') or a prepared state the instructions assume (e.g. 'finely diced' when the steps start with sauteing). Avoid repeating prep already explained in a step. Omit when absent or unnecessary; never write placeholders such as 'none' or 'N/A'.",
+      "Optional ingredient-line preparation, not part of item_name. When importing, preserve source ingredient-line prep here and leave instruction prep in the instructions. When creating, prefer prep in the steps; use this sparingly to clarify the measured quantity (e.g. 'thawed and squeezed dry'). Avoid repeating prep already explained in a step. Omit when absent, unnecessary or covered in the steps; never write placeholders such as 'none' or 'N/A'.",
     ),
   category_id: z
     .enum(CATEGORIES)

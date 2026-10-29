@@ -61,6 +61,7 @@ import { parseVariant } from "@/db/variants";
 import { Composer } from "@/features/chat/composer";
 import { adjustRecipeMessage } from "@/features/chat/compose";
 import type { ImageAttachment } from "@/features/chat/image-attachment";
+import { Markdown } from "@/features/chat/markdown";
 import { queueMessage } from "@/features/chat/message-queue";
 import { eatersLabel, parseEaterIds, toEaters } from "@/features/meals/eaters";
 import {
@@ -1399,6 +1400,10 @@ export default function VariantPage() {
                 ))}
               </View>
             </View>
+          ) : null}
+
+          {variant.content_markdown?.trim() ? (
+            <Markdown text={variant.content_markdown} size="page" />
           ) : null}
         </View>
       </Animated.ScrollView>

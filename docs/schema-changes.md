@@ -30,7 +30,7 @@ Needs all four, or rows never reach devices:
 - Writes go through Supabase's REST API under RLS, which also needs explicit
   `grant`s to `authenticated` — RLS filters rows but grants nothing.
 - PowerSync uploads every local write as an upsert (`INSERT ... ON CONFLICT
-  (id) DO UPDATE`, see `apps/mobile/src/db/connector.ts`). Postgres runs that
+(id) DO UPDATE`, see `apps/mobile/src/db/connector.ts`). Postgres runs that
   statement's conflict scan under RLS, so an upserted row must also satisfy
   the table's SELECT policy, not just the insert policy. See migration
   `20260914110000`.

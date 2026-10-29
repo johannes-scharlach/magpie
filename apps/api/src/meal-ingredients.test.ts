@@ -22,7 +22,7 @@ test(
     try {
       await client.query("BEGIN");
       await client.query(`
-      CREATE TEMP TABLE household_profiles (id uuid PRIMARY KEY, cuisines jsonb, kitchen_equipment jsonb);
+      CREATE TEMP TABLE household_profiles (id uuid PRIMARY KEY, cuisines jsonb, kitchen_equipment jsonb, day_habits jsonb DEFAULT '[]');
       CREATE TEMP TABLE recipes (id uuid PRIMARY KEY, list_id uuid, cuisine text, tags jsonb NOT NULL DEFAULT '[]');
       CREATE TEMP TABLE variants (
         id uuid PRIMARY KEY, recipe_id uuid, list_id uuid, name text, description text, locale text,

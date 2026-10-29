@@ -103,21 +103,47 @@ export async function readChatVariant(
   };
 }
 
-/** Match with the cookbook's rule. Discovery spends its limit on recipes;
- * a recipeId expands variants instead. Other matches contribute counts only. */
+type History = {
+  times_planned: number;
+  last_planned: string | null;
+  recipe_times_planned: number;
+  recipe_last_planned: string | null;
+};
+
+/** Past plans only; what is coming up is readPlan's. */
+const historyFields = `
+  (SELECT count(*)::int FROM planned_meals p WHERE p.list_id = $1
+     AND p.slot_date < $3 AND p.variant_id = variants.id) AS times_planned,
+  (SELECT max(p.slot_date) FROM planned_meals p WHERE p.list_id = $1
+     AND p.slot_date < $3 AND p.variant_id = variants.id) AS last_planned,
+  (SELECT count(*)::int FROM planned_meals p WHERE p.list_id = $1
+     AND p.slot_date < $3 AND p.recipe_id = variants.recipe_id) AS recipe_times_planned,
+  (SELECT max(p.slot_date) FROM planned_meals p WHERE p.list_id = $1
+     AND p.slot_date < $3 AND p.recipe_id = variants.recipe_id) AS recipe_last_planned`;
+
+/** Match with the cookbook's rule. Discovery spends its limit on recipes,
+ * standards first: the most planned recipe, shown by its most planned
+ * matching variant. A recipeId expands variants instead. Other matches
+ * contribute counts only. */
 export async function searchChatVariants(
   listId: string,
-  opts: { query: string; recipeId?: string; limit: number },
+  opts: {
+    query: string;
+    recipeId?: string;
+    limit: number;
+    offset: number;
+    today: string;
+  },
 ) {
   const client = await pool.connect();
   try {
     // Fetch search fields, not full recipe context. Filtering and limiting in
     // SQL would duplicate the shared rule and could discard matching recipes.
-    const rows = await client.query<SearchVariantRow>(
-      `SELECT ${searchFields} FROM variants
+    const rows = await client.query<SearchVariantRow & History>(
+      `SELECT ${searchFields}, ${historyFields} FROM variants
         WHERE list_id = $1 AND ($2::uuid IS NULL OR recipe_id = $2)
-        ORDER BY created_at DESC, id`,
-      [listId, opts.recipeId ?? null],
+        ORDER BY times_planned DESC, created_at DESC, id`,
+      [listId, opts.recipeId ?? null, opts.today],
     );
     const counts = new Map<
       string,
@@ -125,7 +151,7 @@ export async function searchChatVariants(
     >();
     const seen = new Set<string>();
     const candidates: {
-      row: SearchVariantRow;
+      row: SearchVariantRow & History;
       matches: RecipeSearchMatch[];
     }[] = [];
     for (const row of rows.rows) {
@@ -142,9 +168,17 @@ export async function searchChatVariants(
       seen.add(row.recipe_id);
       candidates.push({ row, matches });
     }
+    if (!opts.recipeId)
+      candidates.sort(
+        (a, b) =>
+          b.row.recipe_times_planned - a.row.recipe_times_planned ||
+          b.row.created_at.getTime() - a.row.created_at.getTime() ||
+          a.row.id.localeCompare(b.row.id),
+      );
     const query = opts.query.trim().toLowerCase();
+    const end = opts.offset + opts.limit;
     const variants = await Promise.all(
-      candidates.slice(0, opts.limit).map(async ({ row, matches }) => {
+      candidates.slice(opts.offset, end).map(async ({ row, matches }) => {
         return {
           ...(await summary(client, listId, row)),
           cuisine: row.cuisine && cuisineLabel(row.cuisine),
@@ -152,6 +186,10 @@ export async function searchChatVariants(
           equipment: row.equipment,
           effort: row.effort,
           ...counts.get(row.recipe_id)!,
+          timesPlanned: row.times_planned,
+          lastPlanned: row.last_planned,
+          recipeTimesPlanned: row.recipe_times_planned,
+          recipeLastPlanned: row.recipe_last_planned,
           matches: matches.slice(0, 4).map(({ field, text }) => {
             const start = Math.max(0, text.toLowerCase().indexOf(query) - 60);
             return { field, excerpt: text.slice(start, start + 240) };
@@ -159,7 +197,35 @@ export async function searchChatVariants(
         };
       }),
     );
-    return { variants, hasMore: candidates.length > opts.limit };
+    return { variants, hasMore: candidates.length > end };
+  } finally {
+    client.release();
+  }
+}
+
+/** What the cookbook holds, most common first, before searching it. */
+export async function readCookbookOverview(listId: string) {
+  const client = await pool.connect();
+  try {
+    const cuisines = await client.query<{ cuisine: string; recipes: number }>(
+      `SELECT cuisine, count(*)::int AS recipes FROM recipes
+        WHERE list_id = $1 AND cuisine IS NOT NULL
+        GROUP BY cuisine ORDER BY recipes DESC, cuisine`,
+      [listId],
+    );
+    const tags = await client.query<{ tag: string; recipes: number }>(
+      `SELECT tag, count(DISTINCT id)::int AS recipes
+        FROM recipes, jsonb_array_elements_text(tags) AS tag
+        WHERE list_id = $1 GROUP BY tag ORDER BY recipes DESC, tag`,
+      [listId],
+    );
+    return {
+      cuisines: cuisines.rows.map(({ cuisine, recipes }) => ({
+        cuisine: cuisineLabel(cuisine),
+        recipes,
+      })),
+      tags: tags.rows,
+    };
   } finally {
     client.release();
   }

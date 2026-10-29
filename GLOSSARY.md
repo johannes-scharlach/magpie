@@ -37,6 +37,10 @@ _Avoid_: Category, label
 How much a Variant asks of the cook, on a fixed scale: No cooking, Easy, Normal, More work, Big project. Judged by the work, not the total time.
 _Avoid_: Difficulty, time
 
+**KitchenHabit**:
+A soft planning rule the household chose. A day habit is days, a meal slot and a kind of dish or cuisine ("Mon · dinner → pizza"); its word becomes one of the household's Tags. "New dishes" says how much the plan reuses what they have planned before. The current request overrides a habit; food boundaries, diets, shop rules and equipment never yield to one.
+_Avoid_: Preference, routine
+
 **PlannedMeal**:
 A Recipe + chosen Variant placed on a calendar slot (day/meal) with servings.
 _Avoid_: Meal plan entry, scheduled recipe

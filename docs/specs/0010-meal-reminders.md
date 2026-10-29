@@ -14,14 +14,15 @@ Shaped in conversation, 2026-10-09. Design: ADR 25. Delivery: ADR 19.
    weekend cooks and holidays without nagging. Never planned: Mondays.
 4. Text:
 
-   | Day          | Title            | Body                                                  |
-   |--------------|------------------|-------------------------------------------------------|
-   | One meal     | Today's dinner   | Lasagne · 2 items still to buy                        |
-   | Several      | Today            | Lunch: Soup · Dinner: Lasagne · 2 items still to buy  |
-   | Empty        | Tonight's dinner | One of seven lines, rotating by date                  |
+   | Day      | Title            | Body                                                 |
+   | -------- | ---------------- | ---------------------------------------------------- |
+   | One meal | Today's dinner   | Lasagne · 2 items still to buy                       |
+   | Several  | Today            | Lunch: Soup · Dinner: Lasagne · 2 items still to buy |
+   | Empty    | Tonight's dinner | One of seven lines, rotating by date                 |
 
    Items to buy are active List items of today's meals; none, no mention.
    The empty-day lines are in `_shared/meal-reminder-text.ts`.
+
 5. Tapping opens Meals on that day.
 6. Reminders stay out of the activity feed. Devices without a time zone
    (older builds) get none.
