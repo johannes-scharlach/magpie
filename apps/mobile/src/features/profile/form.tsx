@@ -4,12 +4,16 @@ import {
   dietOptions,
   dietRequests,
   portionReferenceRange,
+  portionTargetKcal,
+  referenceHelpingKcal,
   type HouseholdPerson,
 } from "@magpie/profile";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import {
   AppState,
+  Alert,
   Platform,
+  Pressable,
   ScrollView,
   View,
   useWindowDimensions,
@@ -107,8 +111,7 @@ export function FormError({ message }: { message?: string | null }) {
     </Text>
   ) : null;
 }
-/** Label + compact select in one row; boxed on iOS, flat on Android — see
- * MealRoutineEditor's original card-in-a-card writeup for why. */
+/** Label + compact select in one row; boxed on iOS, flat on Android. */
 export function PickerRow({
   label,
   choices,
@@ -150,6 +153,7 @@ export function PickerRow({
     </View>
   );
 }
+
 const mealRoutineChoices = [
   "Dinner",
   "Lunch and dinner",
@@ -165,6 +169,7 @@ function isMealRoutine(
   );
 }
 
+/** Usual meals-at-home defaults, distinct from where the household wants ideas. */
 export function MealRoutineEditor({
   value,
   onChange,
@@ -180,8 +185,7 @@ export function MealRoutineEditor({
   const routineRef = useRef<TextInputInstance>(null);
   const focusRoutine = useRef(false);
   const [windowFocused, setWindowFocused] = useState(true);
-  // Android modals temporarily take window focus. Requesting the keyboard
-  // before the activity regains it focuses the field but leaves the IME hidden.
+
   useEffect(() => {
     if (Platform.OS !== "android") return;
     const blur = AppState.addEventListener("blur", () => {
@@ -195,14 +199,17 @@ export function MealRoutineEditor({
       focus.remove();
     };
   }, []);
+
   useEffect(() => {
     if (!isVarying || !windowFocused || !focusRoutine.current) return;
     focusRoutine.current = false;
     routineRef.current?.focus();
   }, [isVarying, windowFocused]);
+
   useEffect(() => {
     if (!isVarying) onInputHeightChange?.(0);
   }, [isVarying, onInputHeightChange]);
+
   return (
     <View className="gap-3">
       <PickerRow
@@ -220,7 +227,7 @@ export function MealRoutineEditor({
           onLayout={(event) =>
             onInputHeightChange?.(event.nativeEvent.layout.height)
           }
-          label="Which meals should Magpie plan?"
+          label="Which meals are you usually home for?"
           multiline
           value={detail}
           onChangeText={(next) => onChange(next || "It varies")}
@@ -230,6 +237,7 @@ export function MealRoutineEditor({
     </View>
   );
 }
+
 export function DietEditor({
   person,
   onChange,
@@ -408,12 +416,12 @@ function PortionReference({
         accessible
         accessibilityRole="adjustable"
         accessibilityLabel="How much to cook for this person"
-        accessibilityHint="1 is one adult helping."
+        accessibilityHint={`1 is about ${referenceHelpingKcal} calories for a whole lunch or dinner, including sides. Magpie aims to cook this amount.`}
         accessibilityValue={{
           min: portionReferenceRange.min,
           max: portionReferenceRange.max,
           now: value,
-          text: `${value} portions`,
+          text: `${value} helpings, about ${portionTargetKcal(value)} calories per lunch or dinner`,
         }}
         accessibilityActions={[{ name: "increment" }, { name: "decrement" }]}
         onAccessibilityAction={(event) =>
@@ -440,9 +448,26 @@ function PortionReference({
           inactiveColor={track}
         />
       </View>
-      <Text className="text-sm text-muted-foreground">
-        1× = one adult helping.
+      <Text className="font-medium tabular-nums">
+        About {portionTargetKcal(value)} kcal per lunch or dinner
       </Text>
+      <Text className="text-sm text-muted-foreground">
+        1× is about {referenceHelpingKcal} kcal for the whole meal, including
+        sides. Magpie aims to cook this amount for you. Calories are
+        approximate.
+      </Text>
+      <Pressable
+        accessibilityRole="button"
+        onPress={() =>
+          Alert.alert(
+            "Choosing a helping",
+            "As a rough daily guide, an average woman needs about 2,000 kcal and an average man about 2,500 kcal. A lunch and dinner of 600 kcal each, or 750 kcal each, would use 60% of those daily amounts. That's an example, not a rule. Needs vary with age, body size and activity. Choose how much you want Magpie to cook; it won't assign an amount based on sex or age. The adult guide is not a recommendation for children.",
+          )
+        }
+        className="self-start py-2"
+      >
+        <Text className="text-sm text-primary">Help me choose</Text>
+      </Pressable>
     </View>
   );
 }

@@ -2,7 +2,8 @@
 
 Implemented 2026-10-13; remaining household/setup screens revised 2026-10-27.
 This supersedes the presentation, restriction entry,
-shopping entry, staple options/defaults, and portion model in spec 0003.
+shopping entry, staple options/defaults, portion model and meal-ideas question
+in spec 0003.
 The separate hands-on first-run experience in spec 0011 remains out of scope.
 
 ## Direction: control over food
@@ -35,8 +36,9 @@ the remaining household/setup questions use this approach:
 - Staples invite Magpie to make good use of ingredients usually kept. They
   describe habits, not confirmed current inventory or a requirement to use
   those ingredients in every meal.
-- Household and meal routine establish the usual eaters, portions and meals
-  to plan for. These are useful defaults, not an inflexible schedule.
+- Household establishes the usual eaters and portions. The meal ideas brief
+  separately says where suggestions are wanted and what would fit the week;
+  only the user commits meals to the plan (spec 0014).
 - Allergies and must-avoids stay firm boundaries; dislikes are not allergies.
   Equipment remains a fact about what cooking methods are available, not
   another set of preference controls.
@@ -63,9 +65,9 @@ the compact alternative. Staples and cuisines use the same ingredient tiles,
 artwork size, selection feedback and custom-entry interaction, so staples teach
 the pattern used on the next screen.
 
-The flow is name, cooking rules, food rule, people and meal routine, foods to
+The flow is name, cooking rules, food rule, people, foods to
 leave out, shops, equipment, measurements, usual ingredients, familiar cooking,
-email and code.
+meal ideas, familiar-versus-new dishes, email and code.
 Staples introduce ingredient selection in three open groups; cuisines then pair
 each chosen cuisine with the ingredients kept for it. Household add/edit uses a native
 form sheet on both platforms, including the creator's details.
@@ -76,7 +78,7 @@ form sheet on both platforms, including the creator's details.
 - Diet: single-select instruction rows with their practical meaning visible
   before selection. A new person starts with no diet-based reduction or swaps;
   existing answers keep their saved meaning.
-- Household: names, ages, diets, portion references, attendance, and normal meals.
+- Household: names, ages, diets, portion references and attendance.
 - Avoidances: separate allergies/must-avoids from dislikes on one screen.
   Ingredient shortcuts open an editor, not a selected answer. Record the food,
   reason, people it applies to, and any forms/preparation/exceptions. Allergies
@@ -119,9 +121,13 @@ Native navigation/selection symbols are not artwork requests.
   unselected; retired choices for cooking with what is available, balanced meals
   and using up purchases become custom entries.
 - `household_people.portion_reference`: 0.25–2 regular adult helpings in 0.05
-  steps, default 1. The creator and other people use the same editor. Recipe
-  generation sums the selected people's references, then adds per-meal extra
-  portions. Do not reduce an explicit reference again based on age.
+  steps, default 1. For a whole lunch or dinner, 1× is about 600 kcal, including
+  sides. The creator and other people use the same editor, which shows the
+  linked approximate calorie target and offers adult guidance without assigning
+  amounts from sex or age. Recipe generation sums the selected people's
+  references, then adds per-meal extra portions. Do not reduce an explicit
+  reference again based on age. Breakfast, treats and meal components do not
+  inherit the lunch/dinner reference.
 - `household_profiles.ingredient_avoidances`: JSON array of
   `{ ingredient, kind: allergy | restriction | dislike, detail,
 person_ids?, trace_policy? }`. The optional fields are described below.
@@ -147,9 +153,13 @@ person_ids?, trace_policy? }`. The optional fields are described below.
   another section during an edit.
 
 Changing a person's reference affects subsequent recipe generation/adjustments;
-it does not rewrite existing recipes or reinterpret extra portions. Existing
-`sized_for` metadata still records eater IDs and extra portions, not historical
-appetite snapshots (same boundary as existing diet/age edits).
+it does not rewrite existing recipes. `sized_for` records eater IDs and extra
+portions, and may include `total_target_kcal`, the approximate total cooking
+target used when writing that Variant. This is a fixed sizing reference, not
+verified nutrition or a historical snapshot of each person's profile. Existing
+stamps without a target remain unknown; do not infer one from today's settings.
+Upcoming meals with a changed known target offer explicit adjustment even when
+the eaters and extras have not changed.
 
 ## Measurements (2026-10-27)
 
@@ -486,6 +496,15 @@ sheet, with Save kept at the visible bottom. Save accepts one person; Cancel,
 Back and native dismissal discard unsaved edits. Changes affect future planning
 and explicit recipe adjustments, not existing recipes. An existing person's
 food rule/portion can be changed without having to repeat setup.
+
+### Kitchen habits
+
+Spec 0014 (revised 2026-11-03) replaces the former habit cards with a short
+starting choice, an editable meal ideas brief, and concrete example sentences.
+The usual meals-at-home answer remains a separate flexible attendance default.
+The brief guides proposals; it does not approve meals for the calendar. The
+older structured habits remain readable and are cleared when the household
+explicitly edits and saves the new brief.
 
 ### Boundaries carry their exceptions
 

@@ -1,7 +1,7 @@
 # Collections
 
 Draft 2026-10-29. Step 3 of recipe organisation, after Tags (ADR 36) and
-Kitchen habits (spec 0014).
+the meal-ideas brief (spec 0014).
 
 ## Problem Statement
 
@@ -135,8 +135,8 @@ collection.
 - The cookbook overview tool (spec 0014) lists collections with their
   number of Recipes.
 - `searchSavedRecipes` takes an optional collection to search within.
-- Day habits (spec 0014) can name a collection. The profile context
-  names it so the planner can search it.
+- A future meal-ideas brief could name a collection. The profile context
+  would name it so suggestions can search within it.
 
 ## Testing Decisions
 
@@ -154,8 +154,8 @@ shape or internal helpers.
 - **Chat tools against the local database** (prior art: chat-tools
   tests). The overview counts Recipes per collection; search within a
   collection returns only its Recipes.
-- **Profile context** (prior art: profile-context tests). A day habit
-  naming a collection reaches the planner with the collection's name.
+- **Profile context** (prior art: profile-context tests). A meal-ideas
+  brief naming a collection reaches suggestions with the collection's name.
 - **Mobile collection edits** (prior art: recipe-copies and
   planned-meals tests). Add, remove, rename and delete change membership
   only; Recipes stay intact; a Recipe can be in several collections.

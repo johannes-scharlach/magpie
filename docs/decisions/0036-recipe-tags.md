@@ -27,7 +27,10 @@ four, and the first variant sets the recipe's two:
 - **Tags** (recipe): one or two words for the kind of dish, in the recipe's
   language: "pasta", or "pasta" and "bake". They name what the dish is, never
   what it resembles: Flammkuchen is "flatbread". Treating it as pizza is the
-  cook's call, not Magpie's.
+  cook's call, not Magpie's. On top of those, any of the household's own tags
+  that fit well, including words that describe the food rather than name a
+  dish, such as "no meat" from a kitchen habit (spec 0014). Search only
+  matches text, so a tag is how such a word finds its recipes.
 - **Equipment** (variant): the appliances this version needs, from the
   profile's equipment ids or the household's own words ("sous vide").
   Planning can check it against what the household has.

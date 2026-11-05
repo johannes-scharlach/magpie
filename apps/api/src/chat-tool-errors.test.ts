@@ -36,6 +36,7 @@ test("add-to-cookbook accepts optional household sizing metadata", () => {
     sizedFor: {
       eater_ids: ["00000000-0000-4000-8000-000000000001"],
       extra_portions: 0,
+      total_target_kcal: 600,
     },
   });
 
@@ -44,6 +45,7 @@ test("add-to-cookbook accepts optional household sizing metadata", () => {
     assert.deepEqual(input.data.sizedFor, {
       eater_ids: ["00000000-0000-4000-8000-000000000001"],
       extra_portions: 0,
+      total_target_kcal: 600,
     });
 });
 

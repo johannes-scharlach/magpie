@@ -54,3 +54,24 @@ recipe; the next generation or explicit adjustment uses the new value.
 The original `sized_for` stamp still names eaters and extra, as with age and diet
 changes; it is not a historical snapshot of each person's appetite.
 See `docs/specs/0012-onboarding-redesign.md`.
+
+## 2026-10-30: calorie-backed lunch and dinner sizing
+
+One reference helping now means about 600 kcal for a whole lunch or dinner,
+including sides. Both slots use the same reference. The existing per-person
+multiplier remains the choice; no amount is assigned from sex or age. Treats,
+breakfast and individual meal components do not inherit this reference.
+
+`variants.sized_for` may additionally record `total_target_kcal`: the total
+approximate cooking target used when writing that Variant, including extra
+food. This records intent, not verified nutrition. It lives in the existing
+JSON, not a new column. Old stamps and imports remain without a calorie target;
+never reconstruct one from current household settings.
+
+The app resolves selected helpings and extras before generation. Chat uses
+`getMealSizing` and copies its stamp when saving; the adjustment route uses its
+loaded household snapshot. The agent receives the previous recorded target and
+the newly resolved target when resizing. An edit that does not resize retains
+the base Variant's stamp. Changing household answers never changes an existing
+stamp. For upcoming meals, differing known targets make adjustment available
+even when the eater IDs and extra count are unchanged.

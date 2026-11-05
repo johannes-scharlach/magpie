@@ -225,7 +225,7 @@ export const RecipeSchema = z.object({
   tags: z
     .array(z.string().min(1))
     .describe(
-      'one or two short tags in the recipe\'s language for what kind of dish this is, the way a cook would name it: pasta pomodoro is "pasta", a pasta bake is "pasta" and "bake", Flammkuchen is "flatbread". Name what the dish is, never what it resembles. A cook finds similar dishes by them, so reuse a household tag that means the same rather than adding a synonym: if they say "bake", do not add "casserole". Never repeat the cuisine, the equipment or the effort as a tag.',
+      'one or two short tags in the recipe\'s language for what kind of dish this is, the way a cook would name it: pasta pomodoro is "pasta", a pasta bake is "pasta" and "bake", Flammkuchen is "flatbread". Plus as many of the household\'s tags as fit well, such as their "no meat" on a dish without meat. Name what the dish is, never what it resembles. A cook finds similar dishes by them, so reuse a household tag that means the same rather than adding a synonym: if they say "bake", do not add "casserole". Never repeat the cuisine, the equipment or the effort as a tag.',
     ),
   equipment: z
     .array(z.string().min(1))
@@ -252,7 +252,7 @@ export type RecipeInput = z.infer<typeof RecipeSchema>;
 export const CookRecipeSchema = RecipeSchema.omit({ from: true });
 export type CookRecipeInput = z.infer<typeof CookRecipeSchema>;
 
-const SizedForSchema = z.object({
+export const SizedForSchema = z.object({
   eater_ids: z
     .array(z.uuid())
     .describe("household person IDs this recipe was actually sized for"),
@@ -261,6 +261,14 @@ const SizedForSchema = z.object({
     .min(0)
     .multipleOf(0.01)
     .describe("extra adult portions beyond the named eaters; use 0 for none"),
+  total_target_kcal: z
+    .number()
+    .int()
+    .min(0)
+    .optional()
+    .describe(
+      "The total approximate calorie target this variant was actually written for, including extra food. Copy the app-resolved target from getMealSizing; never infer a missing historical target from current household settings. This is a cooking target, not verified nutrition. Omit for treats, meal components or unknown sizing.",
+    ),
 });
 
 /** A new cookbook recipe can record the household sizing used to write it. */

@@ -66,7 +66,7 @@ function Questions({ initialStep }: { initialStep: Step }) {
   const [busy, setBusy] = useState(false);
   const [attempted, setAttempted] = useState(0);
   const [footerHeight, setFooterHeight] = useState(0);
-  const [routineInputHeight, setRoutineInputHeight] = useState(0);
+  const [mealIdeasInputHeight, setMealIdeasInputHeight] = useState(0);
   const [index, setIndex] = useState(() => steps.indexOf(initialStep));
   const [settledIndex, setSettledIndex] = useState(index);
   const [initialOffset] = useState(() => ({ x: index * width, y: 0 }));
@@ -250,7 +250,7 @@ function Questions({ initialStep }: { initialStep: Step }) {
                   footerHeight -
                   Math.max(insets.bottom, 14) +
                   36 +
-                  (pageStep === "household" ? routineInputHeight : 0)
+                  (pageStep === "day-habits" ? mealIdeasInputHeight : 0)
                 }
                 style={{ width }}
                 contentContainerClassName="flex-grow gap-6 px-6"
@@ -315,7 +315,7 @@ function Questions({ initialStep }: { initialStep: Step }) {
                     active={pageIndex === index && pageIndex === settledIndex}
                     onNext={() => void next()}
                     validationAttempt={pageIndex === index ? attempted : 0}
-                    onRoutineInputHeightChange={setRoutineInputHeight}
+                    onGuidanceInputHeightChange={setMealIdeasInputHeight}
                   />
                 )}
               </KeyboardAwareScrollView>

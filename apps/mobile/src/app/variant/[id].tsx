@@ -4,6 +4,7 @@ import {
   isWithout,
   itemNameKey,
   mealIngredients,
+  mealSizing,
   mealSync,
   parseMealSwaps,
 } from "@magpie/meals";
@@ -571,8 +572,9 @@ export default function VariantPage() {
     id: string;
     name: string;
     user_id: string | null;
+    portion_reference: number;
   }>(
-    "SELECT id, name, user_id FROM household_people WHERE list_id = ? ORDER BY created_at, id",
+    "SELECT id, name, user_id, COALESCE(portion_reference, 1) AS portion_reference FROM household_people WHERE list_id = ? ORDER BY created_at, id",
     [meal?.list_id ?? ""],
   );
   // Hold until the meal's people arrive to avoid briefly showing "Nobody".
@@ -637,20 +639,20 @@ export default function VariantPage() {
   }, [ingredientLines, meal?.ingredient_swaps, pending.swaps]);
   // Does the recipe still describe the meal? Choices made since,
   // and who the adjust route sized it for (spec 0004).
-  const sync = useMemo(
-    () =>
-      meal
-        ? mealSync(
-            parsed?.sizedFor ?? null,
-            {
-              eater_ids: parseEaterIds(meal.eater_ids),
-              extra_portions: meal.extra_portions ?? 0,
-            },
-            chosenIngredients,
-          )
-        : null,
-    [meal, parsed, chosenIngredients],
-  );
+  const sync = useMemo(() => {
+    if (!meal) return null;
+    const sizing = {
+      eater_ids: parseEaterIds(meal.eater_ids),
+      extra_portions: meal.extra_portions ?? 0,
+    };
+    return mealSync(
+      parsed?.sizedFor ?? null,
+      mealIsPast(meal.slot_date, today)
+        ? sizing
+        : mealSizing({ ...sizing, meal: meal.meal ?? "" }, peopleRows),
+      chosenIngredients,
+    );
+  }, [meal, parsed, chosenIngredients, peopleRows, today]);
 
   const rows = useMemo(
     (): RowModel[] =>

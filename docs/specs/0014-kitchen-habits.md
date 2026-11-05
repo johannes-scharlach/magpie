@@ -1,6 +1,76 @@
 # Kitchen habits
 
-Draft 2026-10-28. Step 2 of recipe organisation, after Tags (ADR 36).
+Revised 2026-11-05. Step 2 of recipe organisation, after Tags (ADR 36).
+
+## Current authoring: a brief for meal ideas
+
+This replaces the day-habit authoring described in the original design below.
+The structured day habits are now legacy data; the cookbook tools and familiar-
+versus-new preference still apply. Usual meals-at-home remains a separate
+attendance default, not the scope of meal suggestions.
+
+The question is “Which meals would you usually like ideas for?” Always show the lunch
+and dinner grid, Monday–Sunday, with a quiet “Tap or swipe” hint and no quick
+selects. Touch-down previews a cell; dragging paints the row, while scrolling
+cancels the preview. Taps and swipes apply directly, without a separate
+confirmation. No meals or habits are selected for a new household.
+
+The optional text field holds only the household's own guidance. The grid's
+generated coverage sentence is not shown there; it reaches the agent alongside
+the notes. Changing either answer preserves the other.
+
+On the same screen, “What would make those ideas work for you?” starts with
+Familiar favourites, One new dish a week, and New discoveries. Selecting one replaces
+the choices with a single editable, complete answer, with examples beneath it.
+There is no empty text box alongside the choices and no separate favourites
+step. Continue needs no further writing. Clear removes the guidance and returns
+to the three choices without changing the grid. Existing notes and favourites
+appear together in that one field; edits replace both, not just one hidden rule.
+Drafts saved on the removed favourites step resume at this combined question.
+The middle choice prefills “Mostly our favourites, with about one new dish a
+week.” Its concrete frequency survives the transition into the editable answer.
+
+Concrete sentences beside the field show what people can write:
+
+- “We want rice and stuff at least twice a week.”
+- “We could eat pasta twice a week.”
+- “Some nights we have bread, cheese and a few other things for dinner.”
+- “We cook enough dinner for lunch the next day.”
+
+These are examples, not buttons or rules added to the answer. The household's
+words guide suggestions, not a preset inferred from them. Meal coverage comes
+from the visible grid; the earlier household question does not ask for it again.
+
+Proposals should be easy for that household: familiar cooking, assembled meals
+and pickup all count. Available time does not invite Magpie to assign a cooking
+project. Preserve a minimum, a preference and an acceptable option as different
+intentions. Requested leftovers connect dinner quantities to tomorrow’s lunch.
+The household commits to meals; the brief and proposals are not approval to
+write a plan.
+
+### Storage and existing answers
+
+`meal_ideas_brief` is the single saved answer: generated meal coverage followed
+by the household's editable guidance. `meals_at_home` continues to describe
+usual attendance. The brief is replicated through the normal profile stream.
+Onboarding and household settings use the same combined editor; summaries and
+both suggestion paths read the same effective brief.
+
+`day_habits` and `new_dishes` are read-only compatibility fields. Existing
+structured habits, preset favourites and custom favourites wording are included
+when reading an older profile, without rewriting it in the background. Editing
+the brief, completing onboarding or copying a profile to a new household saves
+the complete brief with `day_habits: []` and SQL `new_dishes: null` in the same
+write. Clear removes only the guidance and retains coverage; cleared legacy
+answers cannot reappear after save/reload. Historical tags remain readable;
+prose is not automatically converted into recipe Tags. The legacy columns are
+not dropped by this change.
+
+Tests cover chosen slots becoming a sentence, legacy habits retaining their
+meaning, custom writing surviving recovery/save/upload, and the brief reaching
+both suggestion contexts with the user-commitment boundary.
+
+## Original structured-habit design (historical)
 
 ## Problem Statement
 
@@ -15,8 +85,12 @@ household's standards stay hidden behind whatever was imported last.
 
 The household sets its Kitchen habits, and the planner follows them:
 
-- **Day habits**: days, a meal and a kind of dish or cuisine, e.g.
-  "Mon · dinner → pizza" or "Weekdays · lunch → salad".
+- **Day habits**: when, a meal and what, read as one sentence:
+  - On **Mondays** we usually have **pizza** for **dinner**.
+  - **Twice a week** we usually have **pasta** for **lunch**.
+  - **3 times a week** we usually have **Thai or Japanese** for
+    **dinner**.
+  - On **Fridays** we usually have **no meat** for **lunch and dinner**.
 - **Known vs. new**: how much the plan reuses dishes the household
   already cooks.
 
@@ -94,6 +168,14 @@ standards first.
 25. As a user with a large cookbook, I want the planner to look through
     more than ten recipes when it needs to, so that it doesn't keep
     choosing from the same few.
+26. As a user, I want to say "pasta twice a week" without picking days,
+    so that the habit matches how we actually eat.
+27. As a user, I want one habit to name several cuisines ("Thai or
+    Japanese"), so that I don't have to split one habit into two.
+28. As a user, I want to use my own word for a habit ("no meat"), so
+    that a habit isn't limited to the starter list.
+29. As a user, I want to tell "pasta for lunch or dinner" apart from
+    "pasta for lunch and dinner", so that Magpie plans one pasta or two.
 
 ## Implementation Decisions
 
@@ -101,12 +183,30 @@ standards first.
 
 - Habits are part of the household profile, next to the cooking goals,
   and validated by the profile schema in the shared profile package.
-- A day habit is a rule: a set of weekdays, one meal slot (lunch,
-  dinner or treat, the slots planned meals use), and one word: a catalog
-  cuisine id, or a tag. Collections become pickable when they exist
-  (step 3).
+- A day habit is a rule with three parts:
+  - **When**: a set of weekdays, or a number of times a week (1–7). A
+    number counts meals and leaves the days to the planner.
+  - **Meal**: lunch, dinner, "lunch or dinner" (one of the two counts)
+    or "lunch and dinner" (each counts). With a number of times a week,
+    "lunch and dinner" isn't offered: "twice a week for lunch or dinner"
+    means two meals. The treat is not a habit
+    meal; saved treat habits are dropped.
+  - **What**: optional. One or more words, each a catalog cuisine id or
+    a tag, meaning any of them ("Thai or Japanese"). Without a word,
+    the habit only says that meal is cooked. There is no "not": it
+    invites rules like "3 times a week no pizza". A household that wants
+    "no meat on Fridays" picks its own word "no meat", which becomes a
+    tag like any other. Collections become pickable when they exist (step 3).
+- Habits saved before this keep working: a single word reads as a list
+  of one.
 - The day picker offers "Every day", "Weekdays" and "Weekend" as
   shortcuts next to single days.
+- The sheet builds the habit as a sentence ("On Mondays we usually have
+  pizza for dinner."). The setup question is "What repeats in your
+  kitchen?" and lists one clay card per habit rather than calendar slots
+  to fill. A card names the optional dish, when it repeats and its meal.
+  Keeping "something" in the sentence creates a cadence-only habit: without
+  a dish, the habit says the meal is cooked. Empty days impose no rule.
 - A household can have any number of day habits. Habits that meet on the
   same meal all apply; the planner tries to satisfy them together and
   says so when it can't.
@@ -143,6 +243,9 @@ standards first.
 - A day habit with no matching recipe tells the planner to suggest new
   ideas of that kind.
 - Habits that meet on the same meal are stated as applying together.
+- Each habit is one line the planner can't misread: "lunch or dinner"
+  means one of the two, "lunch and dinner" means each, a number of times
+  a week counts meals on any days.
 
 ### Habit words become Tags
 

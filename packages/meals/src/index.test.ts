@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   lineForItem,
   mealIngredients,
+  mealSizing,
   mealSync,
   type IngredientLine,
 } from "./index";
@@ -71,6 +72,54 @@ describe("mealSync", () => {
       sizing: "unknown",
       swaps: 0,
       inSync: false,
+    });
+  });
+
+  it("offers adjustment when the same eaters now want a different recorded calorie target", () => {
+    const recorded = { ...meal, total_target_kcal: 1950 };
+    expect(
+      mealSync(recorded, { ...meal, total_target_kcal: 2100 }, noSwaps),
+    ).toEqual({
+      sizing: "differs",
+      swaps: 0,
+      inSync: false,
+    });
+    expect(
+      mealSync(recorded, { ...meal, total_target_kcal: 1950 }, noSwaps).inSync,
+    ).toBe(true);
+    // Missing historical targets stay unknown; current settings must not manufacture one.
+    expect(
+      mealSync(meal, { ...meal, total_target_kcal: 2100 }, noSwaps).inSync,
+    ).toBe(true);
+  });
+});
+
+describe("mealSizing", () => {
+  it("resolves selected helpings and extra food into a lunch or dinner target", () => {
+    const people = [
+      { id: "anna", portion_reference: 1 },
+      { id: "jo", portion_reference: 1.25 },
+      { id: "not-eating", portion_reference: 2 },
+    ];
+    const meal = {
+      meal: "dinner",
+      eater_ids: ["anna", "jo"],
+      extra_portions: 1,
+    };
+    const recorded = mealSizing(meal, people);
+    expect(recorded).toEqual({
+      eater_ids: ["anna", "jo"],
+      extra_portions: 1,
+      total_target_kcal: 1950,
+    });
+    expect(mealSizing({ ...meal, meal: "lunch" }, people)).toEqual(recorded);
+
+    people[1]!.portion_reference = 1.5;
+    expect(mealSizing(meal, people).total_target_kcal).toBe(2100);
+    expect(recorded.total_target_kcal).toBe(1950);
+    expect(mealSizing({ ...meal, meal: "treat" }, people)).toEqual({
+      eater_ids: ["anna", "jo"],
+      extra_portions: 1,
     });
   });
 });

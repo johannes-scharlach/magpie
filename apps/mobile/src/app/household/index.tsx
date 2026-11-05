@@ -8,7 +8,7 @@ import {
   profileShops,
   stapleGroups,
   measurementSystemOptions,
-  newDishesOptions,
+  mealIdeasBrief,
   temperatureOptions,
   type SelectionField,
 } from "@magpie/profile";
@@ -33,7 +33,6 @@ import {
 import { useHousehold } from "@/features/profile/use-household";
 import { unregisterPushDevice } from "@/features/notifications/notifications";
 import { avoidanceSummary } from "@/features/profile/avoidance-entry";
-import { habitSummary } from "@/features/profile/habits-editor";
 
 // Pantry and fresh staples are no longer asked; cuisines replace them.
 const selectionTitles: Partial<Record<SelectionField, string>> = {
@@ -143,11 +142,6 @@ export default function ProfileScreen() {
             onPress={() => router.push("/household-avoidances")}
             title="Foods to leave out"
           />
-          <SettingsRow
-            detail={household.profile.meals_at_home || "Not specified"}
-            onPress={() => router.push("/household/meals_at_home")}
-            title="Meals to plan"
-          />
           {(Object.keys(selectionTitles) as SelectionField[]).map((key) => (
             <SettingsRow
               key={key}
@@ -161,17 +155,16 @@ export default function ProfileScreen() {
           ))}
           <SettingsRow
             detail={
-              [
-                habitSummary(household.profile.day_habits),
-                household.profile.new_dishes
-                  ? newDishesOptions[household.profile.new_dishes]
-                  : null,
-              ]
-                .filter(Boolean)
-                .join(" · ") || "None set"
+              mealIdeasBrief(household.profile) ||
+              "Choose meals to get ideas for"
             }
             onPress={() => router.push("/household/habits")}
-            title="Kitchen habits"
+            title="Meal ideas"
+          />
+          <SettingsRow
+            detail={household.profile.meals_at_home || "Not specified"}
+            onPress={() => router.push("/household/meals_at_home")}
+            title="Meals at home"
           />
           <SettingsRow
             detail={`${measurementSystemOptions[household.profile.measurements.system]} · ${temperatureOptions[household.profile.measurements.temperature]}`}

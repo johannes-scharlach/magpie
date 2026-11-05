@@ -1,4 +1,6 @@
 import {
+  mealIdeasBrief,
+  mealIdeasChanges,
   profileShops,
   type CookingProfile,
   type HouseholdPerson,
@@ -11,18 +13,14 @@ import { type Step } from "@/features/onboarding/draft";
 import { PersonRow } from "@/features/onboarding/person-row";
 import { personSummary } from "@/features/onboarding/person-summary";
 import { useOnboarding } from "@/features/onboarding/provider";
-import { DietEditor, Field, MealRoutineEditor } from "@/features/profile/form";
+import { DietEditor, Field } from "@/features/profile/form";
 import { ChoiceTiles } from "@/features/profile/choice-tiles";
 import { AvoidancesEditor } from "@/features/profile/avoidances-editor";
 import { ShopsEditor } from "@/features/profile/shops-editor";
 import { CuisineList } from "@/features/profile/cuisine-list";
 import { StaplesEditor } from "@/features/profile/staples-editor";
 import { MeasurementsEditor } from "@/features/profile/measurements-editor";
-import {
-  DayHabitsEditor,
-  NewDishesEditor,
-  useHabitChoices,
-} from "@/features/profile/habits-editor";
+import { MealIdeasEditor } from "@/features/profile/meal-ideas-editor";
 
 export const titles: Record<Step, string> = {
   name: "What’s your name?",
@@ -35,8 +33,7 @@ export const titles: Record<Step, string> = {
   measurements: "Which measurements should Magpie use?",
   cuisines: "Which cuisines do you cook?",
   staples: "What do you usually keep?",
-  "day-habits": "Any usual days, like pizza on Mondays?",
-  "new-dishes": "How often should Magpie plan something new?",
+  "day-habits": "Which meals would you usually like ideas for?",
   email: "What’s your email?",
   code: "Check your inbox",
 };
@@ -46,10 +43,6 @@ export const subtitles: Partial<
 > = {
   staples:
     "Foods you usually keep or buy—not a list of what’s in your kitchen today.",
-  "day-habits":
-    "Magpie plans these on their days. You can always ask for something else.",
-  "new-dishes":
-    "Magpie looks at what you’ve planned before. You can always ask for something else.",
 };
 
 function HouseholdEditor({
@@ -105,23 +98,19 @@ export function SetupQuestion({
   step,
   onNext,
   validationAttempt,
-  onRoutineInputHeightChange,
+  onGuidanceInputHeightChange,
   active,
 }: {
   step: Step;
   onNext: () => void;
   /** Continue was tapped with a required answer missing. */
   validationAttempt: number;
-  onRoutineInputHeightChange?: (height: number) => void;
+  onGuidanceInputHeightChange?: (height: number) => void;
   active: boolean;
 }) {
   const router = useRouter();
   const focused = useIsFocused();
   const { draft, update, commit } = useOnboarding();
-  const habitChoices = useHabitChoices(
-    draft?.list_id ?? null,
-    draft?.profile.cuisines ?? [],
-  );
   const nameRef = useRef<TextInputInstance>(null);
   const openedFirstShop = useRef(false);
   const showErrors = validationAttempt > 0;
@@ -198,30 +187,23 @@ export function SetupQuestion({
         />
       ) : null}
       {step === "household" ? (
-        <View className="gap-6">
-          <HouseholdEditor
-            currentPersonId={person.id}
-            people={draft.people}
-            onAdd={() => router.push("/setup/person" as never)}
-            onEdit={(id) =>
-              router.push({
-                pathname: "/setup/person",
-                params: { id },
-              } as never)
-            }
-            onRemove={(id) =>
-              void update((d) => ({
-                ...d,
-                people: d.people.filter((entry) => entry.id !== id),
-              })).catch(() => {})
-            }
-          />
-          <MealRoutineEditor
-            value={draft.profile.meals_at_home}
-            onChange={(meals_at_home) => editProfile({ meals_at_home })}
-            onInputHeightChange={onRoutineInputHeightChange}
-          />
-        </View>
+        <HouseholdEditor
+          currentPersonId={person.id}
+          people={draft.people}
+          onAdd={() => router.push("/setup/person" as never)}
+          onEdit={(id) =>
+            router.push({
+              pathname: "/setup/person",
+              params: { id },
+            } as never)
+          }
+          onRemove={(id) =>
+            void update((d) => ({
+              ...d,
+              people: d.people.filter((entry) => entry.id !== id),
+            })).catch(() => {})
+          }
+        />
       ) : null}
       {step === "restrictions" ? (
         <AvoidancesEditor
@@ -288,16 +270,12 @@ export function SetupQuestion({
         />
       ) : null}
       {step === "day-habits" ? (
-        <DayHabitsEditor
-          value={draft.profile.day_habits}
-          onChange={(day_habits) => editProfile({ day_habits })}
-          choices={habitChoices}
-        />
-      ) : null}
-      {step === "new-dishes" ? (
-        <NewDishesEditor
-          value={draft.profile.new_dishes}
-          onChange={(new_dishes) => editProfile({ new_dishes })}
+        <MealIdeasEditor
+          value={mealIdeasBrief(draft.profile)}
+          onChange={(meal_ideas_brief) =>
+            editProfile(mealIdeasChanges(meal_ideas_brief))
+          }
+          onInputHeightChange={onGuidanceInputHeightChange}
         />
       ) : null}
     </>

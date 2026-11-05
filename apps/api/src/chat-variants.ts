@@ -1,12 +1,13 @@
 import {
   matchRecipeSearch,
   mealIngredients,
+  mealSizing,
   resolveMealItem,
   type MealSwaps,
   type RecipeSearchMatch,
   type SizedFor,
 } from "@magpie/meals";
-import { cuisineLabel } from "@magpie/profile";
+import { cuisineLabel, portionTargetKcal } from "@magpie/profile";
 import type { Client } from "pg";
 
 import { inTransaction, pool } from "./db.js";
@@ -51,6 +52,52 @@ const searchFields = `id, recipe_id, name, description, created_at, recipe_yield
   (SELECT tags FROM recipes WHERE recipes.id = variants.recipe_id) AS tags`;
 const dbFields = `${searchFields}, locale, content_markdown`;
 
+/** Resolve the cooking brief before the agent writes quantities; the result is a snapshot. */
+export async function readChatSizing(
+  client: Client,
+  listId: string,
+  request: { meal: string; eaterIds?: string[]; extraPortions: number },
+) {
+  const { rows: people } = await client.query<{
+    id: string;
+    name: string;
+    portion_reference: number;
+  }>(
+    "SELECT id, name, portion_reference FROM household_people WHERE list_id = $1 ORDER BY id",
+    [listId],
+  );
+  const eaterIds = [...new Set(request.eaterIds ?? people.map((p) => p.id))];
+  if (eaterIds.some((id) => !people.some((p) => p.id === id)))
+    throw new UnknownHouseholdPersonError();
+  const sizedFor = mealSizing(
+    {
+      meal: request.meal,
+      eater_ids: eaterIds,
+      extra_portions: request.extraPortions,
+    },
+    people,
+  );
+  const calorieBacked = sizedFor.total_target_kcal !== undefined;
+  return {
+    meal: request.meal,
+    eaters: people
+      .filter((p) => eaterIds.includes(p.id))
+      .map((p) => ({
+        ...p,
+        ...(calorieBacked
+          ? { target_kcal: portionTargetKcal(p.portion_reference) }
+          : {}),
+      })),
+    extra: {
+      helpings: request.extraPortions,
+      ...(calorieBacked
+        ? { target_kcal: portionTargetKcal(request.extraPortions) }
+        : {}),
+    },
+    sizedFor,
+  };
+}
+
 async function sizing(client: Client, listId: string, value: SizedFor | null) {
   if (!value) return null;
   const people = await client.query<{ id: string; name: string }>(
@@ -61,6 +108,9 @@ async function sizing(client: Client, listId: string, value: SizedFor | null) {
     eaterIds: value.eater_ids,
     eaters: people.rows,
     extraPortions: value.extra_portions,
+    ...(value.total_target_kcal !== undefined
+      ? { totalTargetKcal: value.total_target_kcal }
+      : {}),
   };
 }
 
@@ -333,7 +383,17 @@ export async function writeChatVariant(opts: {
       variantId,
       recipe: opts.recipe,
       baseVariantId: opts.baseVariantId,
-      sizedFor: opts.sizedFor,
+      sizedFor:
+        opts.sizedFor ??
+        (base.sizedFor
+          ? {
+              eater_ids: base.sizedFor.eaterIds,
+              extra_portions: base.sizedFor.extraPortions,
+              ...(base.sizedFor.totalTargetKcal !== undefined
+                ? { total_target_kcal: base.sizedFor.totalTargetKcal }
+                : {}),
+            }
+          : undefined),
     });
     let plannedMeal: { id: string; date: string; meal: string } | null = null;
     let shopping: Awaited<ReturnType<typeof repointMealVariant>> | null = null;

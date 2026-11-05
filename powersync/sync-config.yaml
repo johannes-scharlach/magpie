@@ -36,7 +36,7 @@ streams:
         )
 
   household_profiles:
-    # SELECT * includes measurements and the other onboarding choices.
+    # SELECT * includes measurements, meal_ideas_brief and other onboarding choices.
     auto_subscribe: true
     priority: 2
     query: |

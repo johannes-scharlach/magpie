@@ -83,7 +83,9 @@ Respond terse. Simple language is best. Technical substance stays. Avoid fluff a
 
 ### UX Copy
 
-Tell people what the app will do, in words you’d actually say out loud—not slogans, vague promises, or forced friendliness.
+Let the control explain the task. Use plain titles and control labels, in words
+you’d actually say out loud. Add copy only for a consequence the interaction
+does not show.
 
 ## Design philosophy
 

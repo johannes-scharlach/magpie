@@ -108,6 +108,13 @@ export default function RootLayout() {
                         }}
                       />
                       <Stack.Screen
+                        name="household-habits"
+                        options={{
+                          title: "Meal ideas",
+                          headerBackButtonDisplayMode: "minimal",
+                        }}
+                      />
+                      <Stack.Screen
                         name="household-avoidances"
                         options={{
                           title: "Foods to leave out",

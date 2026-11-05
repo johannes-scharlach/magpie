@@ -54,6 +54,7 @@ const household_profiles = new Table({
   day_habits: column.text,
   new_dishes: column.text,
   meals_at_home: column.text,
+  meal_ideas_brief: column.text,
   main_supermarket: column.text,
   other_shops: column.text,
   created_at: column.text,
@@ -151,7 +152,7 @@ const variants = new Table({
   /** JSON array of {id, qty_text, item_name, prep_note, category_id, shopping_hint?, swaps:[{qty_text,item_name,prep_note,category_id}]} */
   ingredient_lines: column.text,
   instructions: column.text,
-  /** JSON {eater_ids, extra_portions} the adjust route sized this for; null as imported. */
+  /** JSON {eater_ids, extra_portions, total_target_kcal?} used to size this variant; null as imported. */
   sized_for: column.text,
   created_at: column.text,
   updated_at: column.text,

@@ -12,7 +12,7 @@ const personId = "a17c9a92-784c-4dfe-b282-20bcfd877b11";
 const listId = "e6169ef8-eb42-4fd3-ae4d-2932d9372381";
 
 describe("onboarding draft recovery", () => {
-  it("asks staples before cuisines and finishes questions only after their cuisine cupboards", () => {
+  it("asks staples before cuisines and gets the meal-ideas brief before sign-up", () => {
     expect(
       steps.slice(steps.indexOf("kitchen"), steps.indexOf("email") + 1),
     ).toEqual([
@@ -21,20 +21,33 @@ describe("onboarding draft recovery", () => {
       "staples",
       "cuisines",
       "day-habits",
-      "new-dishes",
       "email",
     ]);
-    expect(lastQuestion).toBe("new-dishes");
+    expect(lastQuestion).toBe("day-habits");
   });
-  it("keeps habit answers through recovery, and a skipped question keeps no habit", () => {
+  it("resumes the removed favourites step at the combined question without losing either answer", () => {
+    const draft = createDraft(personId, listId);
+    draft.profile.meal_ideas_brief =
+      "We’d like some ideas for dinner during the week.\nRice twice a week.";
+    draft.profile.new_dishes =
+      "Mostly favourites. New recipes on Saturdays only.";
+    const restored = restoreDraft(
+      JSON.stringify({ ...draft, step: "new-dishes" }),
+    )!;
+    expect(restored.step).toBe("day-habits");
+    expect(restored.profile).toEqual(draft.profile);
+  });
+  it("keeps the meal-ideas brief through recovery", () => {
     const draft = createDraft(personId, listId);
     draft.step = "day-habits";
-    draft.profile.day_habits = [
-      { days: ["mon"], meal: "dinner", what: "pizza" },
-    ];
+    draft.profile.meal_ideas_brief =
+      "We want rice and stuff at least twice a week. We cook enough dinner for lunch the next day.";
     const restored = restoreDraft(JSON.stringify(draft))!;
     expect(restored.step).toBe("day-habits");
-    expect(restored.profile.day_habits).toEqual(draft.profile.day_habits);
+    expect(restored.profile.meal_ideas_brief).toBe(
+      draft.profile.meal_ideas_brief,
+    );
+    expect(restored.profile.day_habits).toEqual([]);
     expect(restored.profile.new_dishes).toBeNull();
   });
   it("defaults conversion on for older drafts while keeping a saved off choice", () => {
@@ -62,6 +75,7 @@ describe("onboarding draft recovery", () => {
     draft.people[0]!.name = "Sam";
     draft.profile.meals_at_home =
       "Weekday dinners, weekend lunches and dinners";
+    draft.profile.meal_ideas_brief = "Weeknight dinners. Leave Sundays open.";
     draft.profile.restrictions = "Peanut allergy";
     const restored = restoreDraft(
       JSON.stringify({ ...draft, step: "removed-screen", code: "123456" }),
@@ -71,6 +85,9 @@ describe("onboarding draft recovery", () => {
     expect(restored?.list_id).toBe(listId);
     expect(restored?.profile.meals_at_home).toBe(
       "Weekday dinners, weekend lunches and dinners",
+    );
+    expect(restored?.profile.meal_ideas_brief).toBe(
+      "Weeknight dinners. Leave Sundays open.",
     );
     expect(restored?.profile.restrictions).toBe("Peanut allergy");
     expect(restored).not.toHaveProperty("code");

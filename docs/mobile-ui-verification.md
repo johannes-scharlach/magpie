@@ -164,6 +164,17 @@ The [onboarding verification notes](profile-onboarding-verification.md) record t
 shop-editor checks and remaining acceptance work. This guide does not certify the
 other forms, large-text layouts, screen readers, or backend delivery.
 
+### Meal-coverage tap handoff
+
+Verified on iPhone 17 / iOS 26.5, 2026-11-05. Temporary UI-frame tracing caught
+a tap rendering off → on → off → on: the inactive pan's `onFinalize` restored
+the pre-touch mask **after** the tap committed. Rollback now lives in pan
+`onEnd`, which runs only for an activated drag. Repeating the native check
+showed one visible transition for selection and deselection; short drags also
+showed one transition. Each pair restored the original selection. Tracing was
+removed afterward. This is native verification, not a unit-test guarantee of
+gesture ordering; Android was not checked.
+
 ## Capture artifacts
 
 - Keep full-screen native PNG originals in `docs/.screenshots/<design-name>/`,

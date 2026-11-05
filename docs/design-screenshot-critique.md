@@ -20,6 +20,9 @@ establish appearance; interaction results come from observed behavior on-device.
 - Use the same capture conditions for each round.
 - Keep native PNG originals for critique. Compressed previews and desktop window
   captures used for coordinate calibration are not substitutes.
+- The floating gear in Expo development builds is development tooling, absent
+  in production. Identify it in the critic prompt so it is excluded from product
+  critique and scoring. Keep the original capture unchanged.
 
 Store working captures in the directory:
 
@@ -60,8 +63,9 @@ for metadata and temporary runner output.
 - Judge craft as well as usefulness. Generic, stock-looking or conspicuously
   AI-looking execution can undermine trust and deserves criticism for its
   visible effect; do not infer quality from the tools actually used.
-- When a score is requested, define what the maximum means against the product
-  goal. Keep that anchor, the brief, capture conditions and critic model fixed
+- Request one overall score out of 10 unless the user asks for an unscored review.
+  Define what the maximum means against the product goal. Keep that anchor,
+  the brief, capture conditions and critic model fixed
   across comparable runs. Excellent means exemplary execution of the brief,
   not something beyond imagination. Do not introduce unagreed weights or a
   category-by-category scoring exercise merely to manufacture precision.
@@ -81,15 +85,17 @@ Goal: <intended user outcome and necessary product context only>.
 Independently open/read every screenshot at these repository-relative paths:
 <explicit paths, with platform/device, theme, text size, keyboard state,
 dimensions, and what state each image should show>
+<For Expo development captures: The floating gear is development tooling,
+absent in production; exclude it from critique and scoring.>
 Review the visual design and native mobile fit. What works, and what, if
 anything, would meaningfully improve it? Consider credible alternatives and
 their trade-offs before recommending a change. Be specific and concise;
 there is no issue quota. Judge both composition and fine visual craft.
 
-<If a score was requested: Give one overall score out of 10, grounded in
+Give one overall score out of 10, grounded in
 visible evidence. 10 means exemplary execution of this brief with excellent
 craft and no meaningful visible weakness needing correction, not perfection
-beyond imagination. Preserve this anchor between runs.>
+beyond imagination. Preserve this anchor between runs.
 
 Do not read source code or previous critiques. If you cannot inspect an image,
 make no judgement about it. Screenshots do not verify interaction behavior.

@@ -21,7 +21,6 @@ export const steps = [
   "staples",
   "cuisines",
   "day-habits",
-  "new-dishes",
   "email",
   "code",
 ] as const;
@@ -73,7 +72,10 @@ const envelope = z.object({
   onboarding_person_id: z.uuid(),
   list_id: z.uuid(),
   user_id: z.uuid().nullable(),
-  step: z.enum(steps).catch("name"),
+  step: z.preprocess(
+    (step) => (step === "new-dishes" ? "day-habits" : step),
+    z.enum(steps).catch("name"),
+  ),
   email: z.string().catch(""),
   profile: z.record(z.string(), z.unknown()),
   people: z.array(z.unknown()),

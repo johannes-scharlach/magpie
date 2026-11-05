@@ -1,6 +1,7 @@
 import { DatabaseSync, type SQLInputValue } from "node:sqlite";
 import { readFileSync } from "node:fs";
 import { afterEach, expect, it } from "vitest";
+import { mealIdeasBrief, profileContext } from "@magpie/profile";
 import { bindDraft, createDraft, restoreDraft } from "./draft";
 import { finalizeProfile, type ProfileWriter } from "./finalize";
 import { decodeForUpload } from "../../db/upload-data";
@@ -20,7 +21,7 @@ const sqlite = new DatabaseSync(":memory:");
 sqlite.exec(`
   CREATE TABLE lists (id TEXT PRIMARY KEY, name TEXT, invite_code TEXT, created_by TEXT, created_at TEXT, updated_at TEXT);
   CREATE TABLE list_members (id TEXT PRIMARY KEY, list_id TEXT, user_id TEXT, joined_at TEXT, UNIQUE(list_id, user_id));
-  CREATE TABLE household_profiles (id TEXT PRIMARY KEY, goals TEXT, kitchen_equipment TEXT, measurements TEXT, pantry TEXT, fresh_ingredients TEXT, restrictions TEXT, ingredient_avoidances TEXT, shops TEXT, keeps TEXT, cuisines TEXT, extras TEXT, day_habits TEXT, new_dishes TEXT, meals_at_home TEXT, main_supermarket TEXT, other_shops TEXT, created_at TEXT, updated_at TEXT);
+  CREATE TABLE household_profiles (id TEXT PRIMARY KEY, goals TEXT, kitchen_equipment TEXT, measurements TEXT, pantry TEXT, fresh_ingredients TEXT, restrictions TEXT, ingredient_avoidances TEXT, shops TEXT, keeps TEXT, cuisines TEXT, extras TEXT, day_habits TEXT, new_dishes TEXT, meals_at_home TEXT, meal_ideas_brief TEXT, main_supermarket TEXT, other_shops TEXT, created_at TEXT, updated_at TEXT);
   CREATE TABLE household_people (id TEXT PRIMARY KEY, list_id TEXT, user_id TEXT, name TEXT, age_group TEXT, diet TEXT, diet_other TEXT, meal_times TEXT, portion_reference REAL, created_at TEXT, updated_at TEXT, UNIQUE(list_id, user_id));
 `);
 const tx = {
@@ -155,19 +156,80 @@ it("saves measurement choices and uploads them as structured household data", as
   });
 });
 
-it("saves kitchen habits and uploads them as structured household data", async () => {
+it("consolidates legacy kitchen habits into the brief on finalization", async () => {
   const draft = setup();
-  draft.profile.day_habits = [{ days: ["mon"], meal: "dinner", what: "pizza" }];
+  draft.profile.day_habits = [
+    { days: ["mon"], meal: "dinner", what: ["pizza"] },
+  ];
   draft.profile.new_dishes = "sometimes";
+  draft.profile.meal_ideas_brief = "Weeknight dinners. Rice twice a week.";
   await finalizeProfile(db, draft, userId);
-  const row = await tx.getOptional<{ day_habits: string; new_dishes: string }>(
-    "SELECT day_habits, new_dishes FROM household_profiles WHERE id = ?",
+  const row = await tx.getOptional<{
+    day_habits: string;
+    new_dishes: string;
+    meals_at_home: string;
+    meal_ideas_brief: string;
+  }>(
+    "SELECT day_habits, new_dishes, meals_at_home, meal_ideas_brief FROM household_profiles WHERE id = ?",
     [draft.list_id],
   );
   expect(decodeForUpload("household_profiles", row!)).toEqual({
-    day_habits: draft.profile.day_habits,
-    new_dishes: "sometimes",
+    day_habits: [],
+    new_dishes: null,
+    meals_at_home: "Dinner",
+    meal_ideas_brief: mealIdeasBrief(draft.profile),
   });
+});
+
+it("keeps a customised favourites answer through recovery, save and assistant context; clear removes it", async () => {
+  const draft = setup();
+  const answer =
+    "Mostly our favourites. We’d like to try a new recipe on Saturdays only.";
+  draft.profile.new_dishes = answer;
+  const restored = restoreDraft(JSON.stringify(draft))!;
+  expect(restored.profile.new_dishes).toBe(answer);
+  await finalizeProfile(db, restored, userId);
+  expect(
+    await tx.getOptional(
+      "SELECT meal_ideas_brief, new_dishes FROM household_profiles",
+    ),
+  ).toEqual({ meal_ideas_brief: answer, new_dishes: null });
+  expect(profileContext(restored, userId)).toContain(JSON.stringify(answer));
+  restored.profile.new_dishes = null;
+  expect(restoreDraft(JSON.stringify(restored))!.profile.new_dishes).toBeNull();
+  expect(profileContext(restored, userId)).not.toContain(answer);
+});
+
+it("keeps an edited brief through draft recovery, save and upload without reviving old rules", async () => {
+  const draft = setup();
+  draft.step = "day-habits";
+  draft.profile.day_habits = [
+    { days: ["sun"], meal: "dinner", what: ["pizza"] },
+  ];
+  expect(mealIdeasBrief(draft.profile)).toContain("pizza");
+
+  const brief =
+    "We’d like ideas for weeknight dinners. Rice and stuff at least twice. Leave Sunday to us. We cook enough dinner for lunch the next day.";
+  draft.profile.meal_ideas_brief = brief;
+  draft.profile.day_habits = [];
+  const restored = restoreDraft(JSON.stringify(draft))!;
+  expect(mealIdeasBrief(restored.profile)).toBe(brief);
+  await finalizeProfile(db, restored, userId);
+  const row = await tx.getOptional<{
+    meals_at_home: string;
+    meal_ideas_brief: string;
+    day_habits: string;
+  }>(
+    "SELECT meals_at_home, meal_ideas_brief, day_habits FROM household_profiles WHERE id = ?",
+    [draft.list_id],
+  );
+  expect(decodeForUpload("household_profiles", row!)).toEqual({
+    meals_at_home: "Dinner",
+    meal_ideas_brief: brief,
+    day_habits: [],
+  });
+  expect(profileContext(restored, userId)).toContain(JSON.stringify(brief));
+  expect(profileContext(restored, userId)).not.toContain("pizza");
 });
 
 it("finalizes onboarding for the user and list from the local seed", async () => {

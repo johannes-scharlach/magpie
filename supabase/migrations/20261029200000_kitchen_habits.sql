@@ -1,7 +1,9 @@
 -- Kitchen habits (spec 0014): soft planning rules the household chose.
--- day_habits: [{ days: ["mon", ...], meal: "lunch"|"dinner"|"treat", what }],
--- where what is a catalog cuisine id or a tag. new_dishes: how much the plan
--- reuses dishes they already cook; null means no rule.
+-- day_habits: [{ days?: ["mon", ...], per_week?: 1-7,
+-- meal: "lunch"|"dinner"|"either"|"both", what?: [word, ...] }],
+-- where each word is a catalog cuisine id or a tag. The profile schema
+-- validates entries. new_dishes: how much the plan reuses dishes they already
+-- cook; null means no rule.
 alter table public.household_profiles
   add column day_habits jsonb not null default '[]'::jsonb
     check (jsonb_typeof(day_habits) = 'array'),

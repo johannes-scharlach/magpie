@@ -7,6 +7,7 @@ import { inTransaction } from "./db.js";
 import { UnknownHouseholdPersonError } from "./errors.js";
 import {
   readChatMeal,
+  readChatSizing,
   readChatVariant,
   readCookbookOverview,
   searchChatVariants,
@@ -24,6 +25,7 @@ import {
   AddToCookbookSchema,
   CATEGORIES,
   CookRecipeSchema,
+  SizedForSchema,
 } from "./recipe-schema.js";
 import { addMealShoppingItems } from "./meal-shopping.js";
 import { assertListMemberUntilCommit } from "./list-authorization.js";
@@ -50,6 +52,27 @@ export function buildChatTools(
   },
 ) {
   return {
+    getMealSizing: tool({
+      description:
+        "Resolve who is eating and how much to cook before writing a whole lunch or dinner. Returns each person's chosen helping, an approximate calorie target including extras, and the sizedFor stamp to copy when saving. Omit eaterIds for everyone. Treats have helpings but no lunch/dinner calorie target. Do not use a whole-meal target for just a side, sauce, dessert or breakfast.",
+      inputSchema: z.object({
+        meal: z.enum(MEAL_SLOTS),
+        eaterIds: z.array(z.uuid()).optional(),
+        extraPortions: z.number().min(0).multipleOf(0.01).default(0),
+      }),
+      execute: async (input) => {
+        try {
+          return await inTransaction(userId, async (client) => {
+            await assertListMemberUntilCommit(client, userId, listId);
+            return readChatSizing(client, listId, input);
+          });
+        } catch (error) {
+          if (error instanceof UnknownHouseholdPersonError)
+            return { error: error.message };
+          throw error;
+        }
+      },
+    }),
     addMealShoppingItems: tool({
       description:
         "Add requested shopping items to this conversation's planned meal, including a written-in meal with no recipe. Preserves existing and purchased items; does not save a recipe. Use when the user asks to add items, not merely when suggesting them.",
@@ -124,7 +147,7 @@ export function buildChatTools(
 
     planMeal: tool({
       description:
-        "Put a saved recipe on the calendar. Adds no shopping items: the user chooses what to buy separately. Replaces whatever was in that slot. Save first if the recipe is not in the cookbook yet. Pass the eaters and extra you sized the recipe for.",
+        "Put a saved recipe the user explicitly chose on the calendar. A meal ideas brief or a request for suggestions is not a choice. Adds no shopping items: the user chooses what to buy separately. Replaces whatever was in that slot. Save first if the recipe is not in the cookbook yet. Pass the eaters and extra you sized the recipe for.",
       inputSchema: z.object({
         variantId: z.uuid(),
         date: z.iso.date().describe("YYYY-MM-DD in the user's local time"),
@@ -241,15 +264,9 @@ export function buildChatTools(
       inputSchema: z.object({
         variantId: z.uuid().describe("id of the version being changed"),
         recipe: CookRecipeSchema,
-        sizedFor: z
-          .object({
-            eater_ids: z.array(z.uuid()),
-            extra_portions: z.number().min(0).multipleOf(0.01),
-          })
-          .optional()
-          .describe(
-            "Record only when this recipe was actually sized for these household eaters and extra portions.",
-          ),
+        sizedFor: SizedForSchema.optional().describe(
+          "Copy getMealSizing's stamp when resizing. Omit to retain the base variant's recorded sizing when quantities are unchanged; never recalculate an old target from current settings.",
+        ),
       }),
       execute: ({ variantId, recipe, sizedFor }) =>
         writeChatVariant({

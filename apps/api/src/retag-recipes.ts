@@ -87,7 +87,7 @@ try {
     const profile = await client.query<{
       cuisines: string[] | null;
       kitchen_equipment: { other?: string[] } | null;
-      day_habits: { what?: string }[] | null;
+      day_habits: { what?: string | string[] }[] | null;
     }>(
       "SELECT cuisines, kitchen_equipment, day_habits FROM household_profiles WHERE id = $1",
       [listId],
@@ -106,7 +106,9 @@ try {
     // A day habit's word is a tag unless it names a cuisine, as in readTagVocabulary.
     addNew(
       (profile.rows[0]?.day_habits ?? []).flatMap(({ what }) =>
-        what && !vocabulary.cuisines.includes(what) ? [what] : [],
+        [what ?? []]
+          .flat()
+          .filter((word) => !vocabulary.cuisines.includes(word)),
       ),
       cuisineOptions,
       vocabulary.tags,

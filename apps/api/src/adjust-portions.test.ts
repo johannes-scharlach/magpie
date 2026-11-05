@@ -1,12 +1,13 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
+import type { AdjustContext } from "./adjust-planned-meal.js";
 
 test("recipe adjustment sizes named eaters using their references plus extra food", async () => {
   process.env.SUPABASE_URL ??= "http://localhost:54321";
   process.env.GOOGLE_GENERATIVE_AI_API_KEY ??= "unused";
   process.env.DATABASE_URL ??= "postgres://unused:unused@localhost/unused";
   const { adjustPrompt } = await import("./adjust-planned-meal.js");
-  const prompt = adjustPrompt({
+  const context: AdjustContext = {
     measurements: {
       system: "metric",
       temperature: "fahrenheit",
@@ -47,6 +48,11 @@ test("recipe adjustment sizes named eaters using their references plus extra foo
       locale: "en",
       total_time: null,
       recipe_yield: "2 portions",
+      sized_for: {
+        eater_ids: ["sam", "alex"],
+        extra_portions: 1,
+        total_target_kcal: 1800,
+      },
       content_markdown: null,
       cuisine: null,
       tags: [],
@@ -55,10 +61,26 @@ test("recipe adjustment sizes named eaters using their references plus extra foo
       ingredient_lines: [],
       instructions: [],
     },
-  });
+  };
+  const prompt = adjustPrompt(context);
   assert.match(prompt, /Sam .*0.75/);
   assert.match(prompt, /Alex .*1.25/);
   assert.match(prompt, /3.5 regular adult portions/);
+  assert.match(prompt, /Previous sizing target: about 1800 kcal/);
+  assert.match(prompt, /New sizing target: about 2100 kcal/);
+  assert.match(prompt, /including sides/);
+  assert.match(prompt, /not verified nutrition/);
+  const legacyPrompt = adjustPrompt({
+    ...context,
+    variant: { ...context.variant, sized_for: null },
+  });
+  assert.match(legacyPrompt, /Previous sizing target: unknown/);
+  assert.doesNotMatch(legacyPrompt, /Previous sizing target: about/);
+  const treatPrompt = adjustPrompt({
+    ...context,
+    meal: { ...context.meal, meal: "treat" },
+  });
+  assert.doesNotMatch(treatPrompt, /New sizing target: about/);
   assert.doesNotMatch(prompt, /A child eats less/);
   assert.match(prompt, /metric \(g, kg, ml, l\)/);
   assert.match(prompt, /Fahrenheit \(°F\)/);

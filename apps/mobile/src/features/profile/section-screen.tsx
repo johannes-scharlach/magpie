@@ -1,4 +1,6 @@
 import {
+  mealIdeasBrief,
+  mealIdeasChanges,
   selectionOptions,
   type CookingProfile,
   type SelectionField,
@@ -12,21 +14,17 @@ import { Text } from "@/components/ui/text";
 import { saveProfileSection } from "@/db/profiles";
 import { useHouseholdAccess } from "@/features/onboarding/access";
 import { FormError, MealRoutineEditor } from "@/features/profile/form";
+import { MealIdeasEditor } from "@/features/profile/meal-ideas-editor";
 import { useHousehold } from "@/features/profile/use-household";
 import { ChoiceTiles } from "@/features/profile/choice-tiles";
 import { MeasurementsEditor } from "@/features/profile/measurements-editor";
-import {
-  DayHabitsEditor,
-  NewDishesEditor,
-  useHabitChoices,
-} from "@/features/profile/habits-editor";
 
 const titles: Record<string, string> = {
   goals: "Cooking rules",
   kitchen_equipment: "Equipment",
   measurements: "Measurements",
-  meals_at_home: "Meals to plan",
-  habits: "Kitchen habits",
+  meals_at_home: "Meals at home",
+  meal_ideas_brief: "Meal ideas",
 };
 
 function SectionForm({
@@ -98,7 +96,6 @@ function SectionEditor({
   const [draft, setDraft] = useState(initial);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
-  const habitChoices = useHabitChoices(listId, draft.cuisines);
   const selection =
     section in selectionOptions ? (section as SelectionField) : null;
   async function save() {
@@ -110,8 +107,8 @@ function SectionEditor({
         ? { [selection]: draft[selection] }
         : section === "measurements"
           ? { measurements: draft.measurements }
-          : section === "habits"
-            ? { day_habits: draft.day_habits, new_dishes: draft.new_dishes }
+          : section === "meal_ideas_brief"
+            ? mealIdeasChanges(mealIdeasBrief(draft))
             : { meals_at_home: draft.meals_at_home };
       await saveProfileSection(listId, changes);
       router.back();
@@ -140,14 +137,22 @@ function SectionEditor({
           Magpie will choose cooking methods that work with this equipment.
         </Text>
       ) : null}
-      {section === "meals_at_home" && (
+      {section === "meal_ideas_brief" && (
+        <MealIdeasEditor
+          value={mealIdeasBrief(draft)}
+          onChange={(meal_ideas_brief) =>
+            setDraft((d) => ({ ...d, ...mealIdeasChanges(meal_ideas_brief) }))
+          }
+        />
+      )}
+      {section === "meals_at_home" ? (
         <MealRoutineEditor
           value={draft.meals_at_home}
           onChange={(meals_at_home) =>
             setDraft((d) => ({ ...d, meals_at_home }))
           }
         />
-      )}
+      ) : null}
       {section === "measurements" ? (
         <>
           <Text className="text-muted-foreground">
@@ -158,26 +163,6 @@ function SectionEditor({
             onChange={(measurements) =>
               setDraft((d) => ({ ...d, measurements }))
             }
-          />
-        </>
-      ) : null}
-      {section === "habits" ? (
-        <>
-          <Text className="text-muted-foreground">
-            Magpie plans these on their days. You can always ask for something
-            else.
-          </Text>
-          <DayHabitsEditor
-            value={draft.day_habits}
-            onChange={(day_habits) => setDraft((d) => ({ ...d, day_habits }))}
-            choices={habitChoices}
-          />
-          <Text className="font-rounded text-lg font-bold">
-            How often something new
-          </Text>
-          <NewDishesEditor
-            value={draft.new_dishes}
-            onChange={(new_dishes) => setDraft((d) => ({ ...d, new_dishes }))}
           />
         </>
       ) : null}

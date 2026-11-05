@@ -7,7 +7,11 @@
  * Metro bundles it; a single module needs no internal import extensions.
  */
 
-import { cuisineLabel, equipmentOptions } from "@magpie/profile";
+import {
+  cuisineLabel,
+  equipmentOptions,
+  portionTargetKcal,
+} from "@magpie/profile";
 
 export type Swap = {
   qty_text: string | null;
@@ -78,11 +82,38 @@ export function lineForItem<L extends IngredientLine>(
  * the adjust route wrote it (`variants.sized_for`). Null for a variant as
  * imported or written by hand — its yield text is the only sizing it has.
  */
-export type SizedFor = { eater_ids: string[]; extra_portions: number };
+export type SizedFor = {
+  eater_ids: string[];
+  extra_portions: number;
+  /** The target used to write this variant, not verified nutrition. Absent on older variants. */
+  total_target_kcal?: number;
+};
+
+/** Resolve today's chosen helpings; callers store the result, never recompute an old stamp. */
+export function mealSizing(
+  meal: { meal: string; eater_ids: string[]; extra_portions: number },
+  people: readonly { id: string; portion_reference: number }[],
+): SizedFor {
+  const sizing: SizedFor = {
+    eater_ids: [...meal.eater_ids],
+    extra_portions: meal.extra_portions,
+  };
+  if (meal.meal === "lunch" || meal.meal === "dinner") {
+    sizing.total_target_kcal = portionTargetKcal(
+      people
+        .filter((person) => meal.eater_ids.includes(person.id))
+        .reduce(
+          (sum, person) => sum + person.portion_reference,
+          meal.extra_portions,
+        ),
+    );
+  }
+  return sizing;
+}
 
 export type MealSync = {
-  /** "match": adjusted for exactly these eaters and extra. "differs": for
-   *  others. "unknown": never adjusted; the recipe is sized as written. */
+  /** "match": these eaters and extras, with no known target change. "differs":
+   *  other eaters, extras or a different known target. "unknown": no sizing stamp. */
   sizing: "match" | "differs" | "unknown";
   /** Meal choices that the recipe's steps don't know about. */
   swaps: number;
@@ -102,9 +133,13 @@ export function mealSync(
   ingredients: readonly { swap: IngredientOption | null }[],
 ): MealSync {
   const swaps = ingredients.filter((state) => state.swap).length;
+  const targetDiffers =
+    sizedFor?.total_target_kcal !== undefined &&
+    meal.total_target_kcal !== undefined &&
+    sizedFor.total_target_kcal !== meal.total_target_kcal;
   const sizing = !sizedFor
     ? "unknown"
-    : sameEaters(sizedFor, meal)
+    : sameEaters(sizedFor, meal) && !targetDiffers
       ? "match"
       : "differs";
   return { sizing, swaps, inSync: sizing === "match" && swaps === 0 };

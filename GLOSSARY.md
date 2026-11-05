@@ -37,12 +37,15 @@ _Avoid_: Category, label
 How much a Variant asks of the cook, on a fixed scale: No cooking, Easy, Normal, More work, Big project. Judged by the work, not the total time.
 _Avoid_: Difficulty, time
 
-**KitchenHabit**:
-A soft planning rule the household chose. A day habit is days, a meal slot and a kind of dish or cuisine ("Mon · dinner → pizza"); its word becomes one of the household's Tags. "New dishes" says how much the plan reuses what they have planned before. The current request overrides a habit; food boundaries, diets, shop rules and equipment never yield to one.
-_Avoid_: Preference, routine
+**SizingTarget**:
+The amount of food Magpie is asked to cook. For a whole lunch or dinner, it can be expressed as approximate calories, including sides and extra helpings. It records the intended amount, not verified nutritional content.
+
+**MealIdeasBrief**:
+The household’s own description of which meals they want ideas for and what would make those ideas fit their life. It guides proposals; the user chooses what becomes their plan.
+_Avoid_: Cooking schedule, automatic meal plan
 
 **PlannedMeal**:
-A Recipe + chosen Variant placed on a calendar slot (day/meal) with servings.
+A Recipe + chosen Variant the user has committed to a calendar slot (day/meal), with servings.
 _Avoid_: Meal plan entry, scheduled recipe
 
 ### Household

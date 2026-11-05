@@ -14,6 +14,8 @@ export function decodeHousehold(
   people: unknown[],
 ): Household {
   const profile = { ...row };
+  // PowerSync adds this plain-text column as NULL to existing cached profiles.
+  if (profile.meal_ideas_brief === null) delete profile.meal_ideas_brief;
   for (const key of [
     "goals",
     "kitchen_equipment",
@@ -63,7 +65,7 @@ export async function saveProfileSection(
     `UPDATE household_profiles SET ${fields.map((key) => `${key} = ?`).join(", ")}, updated_at = ? WHERE id = ?`,
     [
       ...fields.map((key) =>
-        typeof parsed[key] === "object"
+        parsed[key] !== null && typeof parsed[key] === "object"
           ? JSON.stringify(parsed[key])
           : parsed[key],
       ),

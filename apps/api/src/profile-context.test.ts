@@ -3,6 +3,7 @@ import { test } from "node:test";
 import {
   newPerson,
   newProfile,
+  householdRulesContext,
   profileContext,
   householdSchema,
   profileChangesSchema,
@@ -47,7 +48,8 @@ test("household context preserves restrictions and routines without inventing eq
     other: ["Cook with the children"],
   };
   profile.kitchen_equipment = { other: [] };
-  profile.meals_at_home = "Weekday dinners, lunches and dinners on weekends";
+  profile.meals_at_home = "Dinner at home most nights";
+  profile.meal_ideas_brief = "Weekday dinners, lunches and dinners on weekends";
   profile.other_shops = "The Asian shop takes a special trip";
   const person = {
     ...newPerson("9c5b42f7-fbea-4df2-b8d3-d42d37ed9a1d"),
@@ -77,10 +79,8 @@ test("household context preserves restrictions and routines without inventing eq
     "Keep weeknights quick",
     "Cook with the children",
   ]);
-  assert.equal(
-    data.meals_at_home,
-    "Weekday dinners, lunches and dinners on weekends",
-  );
+  assert.ok(context.includes(JSON.stringify(profile.meal_ideas_brief)));
+  assert.ok(context.includes(JSON.stringify(profile.meals_at_home)));
   assert.equal(data.shopping_notes, "The Asian shop takes a special trip");
   assert.match(context, /allergies and restrictions over preferences/);
 });
@@ -272,6 +272,11 @@ test("onboarding choices retain their meaning through validation and assistant c
   const context = profileContext(household, "caller");
   const data = JSON.parse(context.slice(context.indexOf('{"people"')));
   assert.equal(data.people[0].portion_reference, 0.75);
+  assert.equal(data.people[0].lunch_dinner_target_kcal, 450);
+  assert.match(context, /1×.*600 kcal/);
+  assert.match(context, /getMealSizing/);
+  assert.match(context, /not verified nutrition/);
+  assert.match(context, /breakfast, treats, sides or desserts/);
   assert.equal(data.ingredient_avoidances[0].kind, "allergy");
   assert.equal(data.ingredient_avoidances[1].kind, "dislike");
   assert.deepEqual(data.shops, [
@@ -479,20 +484,27 @@ test("food rules and allergy exceptions stay attached to the people they are for
   );
 });
 
-test("kitchen habits reach the planner as soft rules for their days and meal", () => {
+test("legacy kitchen habits reach suggestions without losing their days, meals or words", () => {
   const { profile } = householdSchema.parse({
     profile: {
       ...newProfile(),
       day_habits: [
+        { days: ["tue"], meal: "dinner" },
         { days: ["mon"], meal: "dinner", what: "pizza" },
         {
           days: ["mon", "tue", "wed", "thu", "fri"],
           meal: "lunch",
-          what: "italian",
+          what: ["italian"],
         },
+        { per_week: 2, meal: "either", what: ["pasta"] },
+        { per_week: 3, meal: "dinner", what: ["thai", "japanese"] },
+        { days: ["fri"], meal: "both", what: ["no meat"] },
         { days: ["sat", "sun"], meal: "treat", what: "cake" },
         { days: [], meal: "dinner", what: "soup" },
         { days: ["mon"], meal: "breakfast", what: "porridge" },
+        { per_week: 2, meal: "both", what: ["gnocchi"] },
+        { days: ["mon"], per_week: 2, meal: "dinner", what: ["ramen"] },
+        { per_week: 8, meal: "dinner", what: ["rice"] },
         "nonsense",
       ],
       new_dishes: "sometimes",
@@ -503,14 +515,80 @@ test("kitchen habits reach the planner as soft rules for their days and meal", (
   });
   const context = profileContext({ profile, people: [] }, "caller");
 
-  assert.match(context, /^## Kitchen habits$/m);
+  assert.match(context, /^## Meal ideas$/m);
   assert.match(context, /current request overrides/);
-  assert.match(context, /- Mon dinner: "pizza"/);
-  assert.match(context, /- Weekdays lunch: "Italian"/);
-  assert.match(context, /- Weekend treat: "cake"/);
-  assert.doesNotMatch(context, /soup|porridge|nonsense/);
+  // A single word saved before lists were possible still counts.
+  assert.deepEqual(profile.day_habits[1], {
+    days: ["mon"],
+    meal: "dinner",
+    what: ["pizza"],
+  });
+  assert.equal(profile.day_habits.length, 6);
+
+  assert.match(context, /ideas for dinner on Tuesdays/);
+  assert.match(context, /On Mondays we’d like pizza for dinner/);
+  assert.match(
+    context,
+    /During the week we’d like something Italian for lunch/,
+  );
+  assert.match(context, /pasta for lunch or dinner twice a week/);
+  assert.match(context, /something Thai or Japanese for dinner 3 times a week/);
+  assert.match(context, /On Fridays we’d like no meat for lunch and dinner/);
+  assert.doesNotMatch(
+    context,
+    /cake|soup|porridge|gnocchi|ramen|rice|nonsense/,
+  );
   assert.match(context, /timesPlanned/);
 
   const none = profileContext({ profile: newProfile(), people: [] }, "caller");
-  assert.doesNotMatch(none, /Kitchen habits/);
+  assert.doesNotMatch(none, /^## Meal ideas$/m);
+});
+
+test("the household's brief guides both suggestion paths without committing meals", () => {
+  const profile = newProfile();
+  profile.meal_ideas_brief =
+    "Weeknight dinners only. Rice and stuff at least twice a week. Brotzeit is welcome too. Cook enough for lunch tomorrow. Sunday is for my projects.";
+  const household = { profile, people: [] };
+
+  for (const context of [
+    profileContext(household, "caller"),
+    householdRulesContext(household),
+  ]) {
+    assert.ok(context.includes(JSON.stringify(profile.meal_ideas_brief)));
+    assert.ok(context.includes(JSON.stringify(profile.meals_at_home)));
+    assert.match(context, /scope for suggestions, not a cooking schedule/);
+    assert.match(
+      context,
+      /Only add meals to the plan when the user chooses them/,
+    );
+    assert.match(context, /high-effort projects only when requested/);
+    assert.match(context, /leftovers/);
+    assert.match(context, /requested minimum from an acceptable option/);
+    assert.match(context, /separate meal ideas brief/);
+  }
+});
+
+test("both suggestion paths read one canonical brief and keep legacy favourites readable", () => {
+  const profile = newProfile();
+  profile.meal_ideas_brief =
+    "We’d like some ideas for dinner during the week.\n\nRice twice a week.";
+  profile.new_dishes = "New recipes on Saturdays only.";
+  for (const context of [
+    profileContext({ profile, people: [] }, "caller"),
+    householdRulesContext({ profile, people: [] }),
+  ]) {
+    assert.ok(
+      context.includes(
+        JSON.stringify(`${profile.meal_ideas_brief}\n\n${profile.new_dishes}`),
+      ),
+    );
+    assert.equal(context.split(profile.new_dishes).length - 1, 1);
+  }
+  profile.meal_ideas_brief += `\n\n${profile.new_dishes}`;
+  profile.new_dishes = null;
+  assert.ok(
+    profileContext({ profile, people: [] }, "caller").includes(
+      JSON.stringify(profile.meal_ideas_brief),
+    ),
+  );
 });

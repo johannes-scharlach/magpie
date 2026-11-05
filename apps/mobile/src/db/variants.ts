@@ -20,6 +20,7 @@ const InstructionsZ = z.array(InstructionSchema);
 const SizedForZ = z.object({
   eater_ids: z.array(z.string()),
   extra_portions: z.number(),
+  total_target_kcal: z.number().int().min(0).optional(),
 });
 
 export type ParsedVariant = Omit<

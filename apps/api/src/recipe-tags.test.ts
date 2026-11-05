@@ -59,12 +59,19 @@ test(
           'b3600000-0000-4000-8000-000000000001', '["Georgian"]', '{"other": []}',
           '[{"days": ["mon"], "meal": "dinner", "what": "pizza"},
             {"days": ["wed"], "meal": "dinner", "what": "italian"},
-            {"days": ["fri"], "meal": "dinner", "what": "Georgian"}]'
+            {"days": ["fri"], "meal": "dinner", "what": "Georgian"},
+            {"per_week": 2, "meal": "either", "what": ["pasta", "thai"]},
+            {"days": ["fri"], "meal": "both", "what": ["no meat"]},
+            {"days": ["tue"], "meal": "dinner"}]'
         );
       `);
       assert.deepEqual(
         await readTagVocabulary(client, "b3600000-0000-4000-8000-000000000001"),
-        { cuisines: ["Georgian"], tags: ["pizza"], equipment: [] },
+        {
+          cuisines: ["Georgian"],
+          tags: ["no meat", "pasta", "pizza"],
+          equipment: [],
+        },
       );
     } finally {
       await client.query("ROLLBACK");

@@ -14,6 +14,9 @@ import { kitchenPortrait } from "./kitchen-portrait";
 // exports from pnpm assets:optimize, not the PNG masters; missing art gets a placeholder.
 export type ArtworkId =
   | "welcome-market-find"
+  | "new-dishes-familiar"
+  | "new-dishes-balanced"
+  | "new-dishes-discoveries"
   | `equipment-${keyof typeof equipmentOptions}`
   | `pantry-${keyof typeof pantryOptions}`
   | `fresh-${keyof typeof freshOptions}`

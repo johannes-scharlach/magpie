@@ -70,10 +70,14 @@ export function ChoiceChip({
   label,
   selected,
   onPress,
+  className,
+  unselectedClassName,
 }: {
   label: string;
   selected: boolean;
   onPress: () => void;
+  className?: string;
+  unselectedClassName?: string;
 }) {
   const primary = useResolveClassNames("text-primary").color;
   return (
@@ -86,7 +90,8 @@ export function ChoiceChip({
       <View
         className={cn(
           "min-h-12 flex-row items-center justify-center gap-2 rounded-full px-4 py-2",
-          selected ? "bg-accent" : "bg-card",
+          className,
+          selected ? "bg-accent" : cn("bg-card", unselectedClassName),
         )}
       >
         {selected ? (

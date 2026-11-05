@@ -218,7 +218,7 @@ menus, and close controls remain system symbols, not commissioned artwork.
 - Tile assets: **1:1, 1024×1024 PNG**. Single isolated subject, consistent
   three-quarter view, same apparent object scale. Keep 15% clear space on all
   sides. The UI fits these into a roughly 1.35:1 space without cropping the subject.
-- Welcome: **3:2, 1536×1024 PNG**. This is the only large onboarding scene.
+- Welcome assets: **3:2, 1536×1024 PNG**.
 - Match the existing clay mascot reference (`apps/mobile/assets/images/icon.png`) and palette. Background #FBF8F4.
 - No baked-in text, labels, selection marks, borders, or sparkle effects.
   Ingredient names, controls, and selected states belong to the app.
@@ -233,6 +233,32 @@ Placement: welcome hero. Show a real reason to change a meal: finding something
 appealing while shopping. Keep the composition readable at phone width.
 
 > A friendly stop-motion claymation magpie mascot matching the character from `apps/mobile/assets/images/icon.png` (plump black-and-white plasticine body, large expressive round white cartoon eyes with black pupils, friendly curved short dark-grey beak, chunky dark grey clay feet) has found a beautiful purple clay aubergine at a small food market and is lifting it into its woven clay shopping basket with obvious delight. The basket already contains clay tomatoes and a packet of pasta, suggesting a meal that can accommodate the new find. One simple rustic wooden clay crate beside it, no busy background. Wide 3:2 composition with the claymation bird and aubergine as the focal point, generous 15% margin around them. Handcrafted matte polymer clay, soft rounded handmade forms, soft top-left studio lighting and gentle shadows, flat background #FBF8F4 (or chroma blue #0047FF for keying). Strictly no small beady realistic bird eyes, no sharp long crow beak, no text, lettering, labels, borders, checkmarks, or sparkles.
+
+## Kitchen habits
+
+These three assets appear only in onboarding as compact option illustrations
+beside text. Meal ideas use plain text examples and need no commissioned art.
+
+### new-dishes-familiar
+
+Placement: "Familiar favourites" option. Keep it warm and recognisable, not a
+healthy-eating symbol or a literal checklist.
+
+> One well-loved clay bowl of spaghetti with tomato sauce and two basil leaves, with a slightly worn wooden spoon resting against the bowl, suggesting a familiar household favourite made many times. Single isolated subject, compact square 1:1 composition, front three-quarter view, 15% clear margin. Handcrafted stop-motion claymation art style, matte polymer plasticine with soft rounded edges, pillowy volume, subtle handmade texture, soft top-left studio lighting and gentle shadows, flat background #FBF8F4 (or chroma blue #0047FF for keying). No mascot, text, words, lettering, labels, recipe cards, borders, checkmarks, or sparkles.
+
+### new-dishes-balanced
+
+Placement: "A little of both" option. Two plates should read as one familiar
+meal and one invitation to try something different, with equal visual weight.
+
+> Two small clay plates side by side as one compact composition: the nearer plate holds familiar spaghetti with tomato sauce and basil, and the other holds a colourful vegetable rice bowl with edamame, carrots, and sliced radish. Same apparent scale, clear separation between the plates, front three-quarter view, isolated square 1:1 composition with 15% clear margin. Handcrafted stop-motion claymation art style, matte polymer plasticine with soft rounded edges, pillowy volume, subtle handmade texture, soft top-left studio lighting and gentle shadows, flat background #FBF8F4 (or chroma blue #0047FF for keying). No mascot, text, words, lettering, labels, borders, checkmarks, or sparkles.
+
+### new-dishes-discoveries
+
+Placement: "New discoveries" option. Curiosity should come from the reveal,
+not from sparkle effects or an exoticised collection of objects.
+
+> A small rounded clay serving cloche lifted slightly to one side, revealing a colourful new dish of golden rice, green herbs, roasted carrots, and purple cabbage on a simple plate, suggesting the pleasure of discovering something new. Single isolated subject, compact square 1:1 composition, front three-quarter view, 15% clear margin. Handcrafted stop-motion claymation art style, matte polymer plasticine with soft rounded edges, pillowy volume, subtle handmade texture, soft top-left studio lighting and gentle shadows, flat background #FBF8F4 (or chroma blue #0047FF for keying). No mascot, text, words, lettering, labels, flags, borders, checkmarks, or sparkles.
 
 ## Earlier goal artwork (not used on the current screen)
 

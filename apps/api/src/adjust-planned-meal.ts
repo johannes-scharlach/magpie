@@ -2,13 +2,16 @@ import {
   ingredientSpec,
   isWithout,
   mealIngredients,
+  mealSizing,
   type MealSwaps,
   type IngredientLine,
+  type SizedFor,
 } from "@magpie/meals";
 import type { PoolClient } from "pg";
 import {
   measurementContext,
   measurementsSchema,
+  portionTargetKcal,
   type Measurements,
 } from "@magpie/profile";
 
@@ -45,6 +48,7 @@ type VariantRow = {
   locale: string;
   total_time: string | null;
   recipe_yield: string | null;
+  sized_for: SizedFor | null;
   content_markdown: string | null;
   cuisine: string | null;
   tags: string[];
@@ -94,7 +98,7 @@ export async function loadAdjustContext(
 
     const variant = (
       await client.query<VariantRow>(
-        `SELECT name, description, locale, total_time, recipe_yield, content_markdown,
+        `SELECT name, description, locale, total_time, recipe_yield, sized_for, content_markdown,
                 r.cuisine, r.tags, equipment, effort, ingredient_lines, instructions
          FROM variants JOIN recipes r ON r.id = variants.recipe_id WHERE variants.id = $1`,
         [meal.variant_id],
@@ -135,6 +139,7 @@ export function adjustPrompt({
   eaters,
   measurements,
 }: AdjustContext): string {
+  const sizing = mealSizing(meal, eaters);
   const choices = mealIngredients(
     variant.ingredient_lines,
     meal.ingredient_swaps,
@@ -155,7 +160,7 @@ export function adjustPrompt({
   );
   const who = eaters.map((p) => {
     const diet = p.diet === "other" ? p.diet_other : p.diet;
-    return `${p.name} (${[p.age_group ?? "adult", diet, `${p.portion_reference} portion reference`].filter(Boolean).join(", ")})`;
+    return `${p.name} (${[p.age_group ?? "adult", diet, `${p.portion_reference} portion reference`, sizing.total_target_kcal !== undefined ? `about ${portionTargetKcal(p.portion_reference)} kcal` : null].filter(Boolean).join(", ")})`;
   });
   const extraPortions =
     meal.extra_portions > 0
@@ -173,6 +178,13 @@ export function adjustPrompt({
     "",
     `Eating: ${who.length ? who.join("; ") : "the household"}${extraPortions}.`,
     `The recipe as written says it serves: "${variant.recipe_yield ?? "unknown"}". Scale every amount, including each step's ingredient amounts, for exactly these eaters and extra: ${eaters.reduce((sum, p) => sum + p.portion_reference, meal.extra_portions)} regular adult portions in total. The explicit portion references already describe appetite; do not reduce them again based on age.`,
+    `Previous sizing target: ${variant.sized_for?.total_target_kcal !== undefined ? `about ${variant.sized_for.total_target_kcal} kcal in total, recorded when this variant was written` : "unknown; do not reconstruct it from today's household settings"}.`,
+    ...(sizing.total_target_kcal !== undefined
+      ? [
+          `New sizing target: about ${sizing.total_target_kcal} kcal for the whole meal, including sides and extra food. This total already includes each person's helping multiplier and the extras; apply it once, not once per dish. These are approximate cooking targets, not verified nutrition or a weight-loss prescription.`,
+          "When a previous target is recorded, use the change from that target to size the existing recipe. Preserve the dish and sensible ingredient proportions; do not hit a number by arbitrarily adding oil or removing vegetables. Without a previous target, use the recipe's stated yield and ingredient amounts to judge the adjustment; never invent a historical calorie target.",
+        ]
+      : []),
     `Write recipeYield as who it is sized for: "${yieldFor}".`,
     "",
     ...(swaps.length
@@ -197,6 +209,7 @@ export function adjustPrompt({
         locale: variant.locale,
         totalTime: variant.total_time,
         recipeYield: variant.recipe_yield,
+        sizedFor: variant.sized_for,
         contentMarkdown: variant.content_markdown,
         recipeIngredient: variant.ingredient_lines,
         recipeInstructions: variant.instructions,
@@ -246,10 +259,7 @@ export async function saveAdjusted(opts: {
         recipeCuisine: context.variant.cuisine ?? recipe.recipeCuisine,
       },
       baseVariantId: oldVariantId,
-      sizedFor: {
-        eater_ids: context.meal.eater_ids,
-        extra_portions: context.meal.extra_portions,
-      },
+      sizedFor: mealSizing(context.meal, context.eaters),
     });
     await repointMealVariant(client, {
       mealId: plannedMealId,

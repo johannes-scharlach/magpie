@@ -1,4 +1,9 @@
-import type { CookingProfile, HouseholdPerson } from "@magpie/profile";
+import {
+  mealIdeasBrief,
+  mealIdeasChanges,
+  type CookingProfile,
+  type HouseholdPerson,
+} from "@magpie/profile";
 import { magpieUuidV5 } from "../lib/magpie-uuid";
 
 type Executor = {
@@ -57,8 +62,9 @@ export async function insertProfile(
   p: CookingProfile,
   now: string,
 ): Promise<void> {
+  p = { ...p, ...mealIdeasChanges(mealIdeasBrief(p)) };
   await tx.execute(
-    "INSERT INTO household_profiles (id, goals, kitchen_equipment, measurements, pantry, fresh_ingredients, restrictions, meals_at_home, main_supermarket, other_shops, ingredient_avoidances, shops, keeps, cuisines, extras, day_habits, new_dishes, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    "INSERT INTO household_profiles (id, goals, kitchen_equipment, measurements, pantry, fresh_ingredients, restrictions, meals_at_home, meal_ideas_brief, main_supermarket, other_shops, ingredient_avoidances, shops, keeps, cuisines, extras, day_habits, new_dishes, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
     [
       listId,
       JSON.stringify(p.goals),
@@ -68,6 +74,7 @@ export async function insertProfile(
       JSON.stringify(p.fresh_ingredients),
       p.restrictions,
       p.meals_at_home,
+      p.meal_ideas_brief,
       p.main_supermarket,
       p.other_shops,
       JSON.stringify(p.ingredient_avoidances),

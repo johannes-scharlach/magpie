@@ -1,8 +1,27 @@
 import { describe, expect, it, vi } from "vitest";
 
-import { decodeHousehold } from "./profiles";
+import { decodeHousehold, saveProfileSection } from "./profiles";
+import { powersync } from "./system";
+import { decodeForUpload } from "./upload-data";
 
-vi.mock("./system", () => ({ powersync: {} }));
+vi.mock("./system", () => ({
+  powersync: { execute: vi.fn().mockResolvedValue(undefined) },
+}));
+
+it("saves a cleared favourites answer as SQL null, keeping JSON fields encoded", async () => {
+  await saveProfileSection("household", { new_dishes: null, day_habits: [] });
+  const [sql, parameters] = vi.mocked(powersync.execute).mock.calls.at(-1)!;
+  expect(sql).toContain("new_dishes = ?");
+  expect(parameters!.slice(0, 2)).toEqual(["[]", null]);
+  const upload = decodeForUpload("household_profiles", {
+    day_habits: parameters![0],
+    new_dishes: parameters![1],
+  });
+  expect(upload).toEqual({ day_habits: [], new_dishes: null });
+  expect(
+    decodeHousehold({ ...row, ...upload }, [person]).profile.new_dishes,
+  ).toBeNull();
+});
 
 const person = {
   id: "d1bcc1ca-a825-49f4-8b5d-b8298edf90b5",
@@ -26,6 +45,7 @@ const row = {
   fresh_ingredients: '{"other":[]}',
   restrictions: "",
   meals_at_home: "Dinner",
+  meal_ideas_brief: "Weeknight dinners. Rice at least twice a week.",
   main_supermarket: "",
   other_shops: "",
   created_at: "2026-09-15T07:30:05.677Z",
@@ -33,6 +53,12 @@ const row = {
 };
 
 describe("decodeHousehold", () => {
+  it("preserves the household's meal-ideas brief as ordinary text", () => {
+    const household = decodeHousehold(row, [person]);
+    expect(household.profile.meal_ideas_brief).toBe(row.meal_ideas_brief);
+    expect(household.profile.meals_at_home).toBe("Dinner");
+  });
+
   it("reads columns that arrived empty on an existing device", () => {
     // PowerSync adds new local columns as NULL to rows that already synced.
     const household = decodeHousehold(
@@ -46,11 +72,13 @@ describe("decodeHousehold", () => {
         measurements: null,
         day_habits: null,
         new_dishes: null,
+        meal_ideas_brief: null,
       },
       [person],
     );
     expect(household.profile.day_habits).toEqual([]);
     expect(household.profile.new_dishes).toBeNull();
+    expect(household.profile.meal_ideas_brief).toBe("");
     expect(household.profile.ingredient_avoidances).toEqual([]);
     expect(household.profile.shops).toEqual([]);
     expect(household.profile.keeps).toEqual([]);
