@@ -1,0 +1,1533 @@
+{
+  "Schweinekotelett with Zwetschgen, mustard and buttered Spätzle": {
+    "title": "Schweinekotelett with Zwetschgen, mustard and buttered Spätzle",
+    "parent_idea": "Pan-Seared Pork Chops with Jammy Zwetschgen (Plums)",
+    "cuisine": "German",
+    "total_time": "30 min",
+    "recipe_yield": "2 servings",
+    "effort": "normal",
+    "equipment": [
+      "large stainless or cast-iron skillet",
+      "medium saucepan",
+      "splatter guard"
+    ],
+    "description": "Plums collapsed right in the pan juices with coarse mustard and fresh thyme. Rich, sweet-tart pan sauce over tender, butter-tossed Spätzle.",
+    "ingredient_lines": [
+      {
+        "qty_text": "2 (about 450g)",
+        "item_name": "bone-in pork chops",
+        "prep_note": "pat bone-dry",
+        "category_id": "meat",
+        "swaps": [
+          {
+            "qty_text": "2",
+            "item_name": "boneless pork loin chops",
+            "category_id": "meat",
+            "reason": "cooks 2 min faster"
+          }
+        ]
+      },
+      {
+        "qty_text": "250g",
+        "item_name": "Zwetschgen (Italian prune plums)",
+        "prep_note": "pitted and halved lengthwise",
+        "category_id": "produce",
+        "swaps": [
+          {
+            "qty_text": "250g",
+            "item_name": "dark purple plums",
+            "category_id": "produce",
+            "reason": "juicier sweet-tart alternative"
+          }
+        ]
+      },
+      {
+        "qty_text": "250g",
+        "item_name": "fresh or dried Spätzle",
+        "category_id": "grains",
+        "swaps": [
+          {
+            "qty_text": "200g",
+            "item_name": "ribbon egg noodles",
+            "category_id": "grains",
+            "reason": "catches the sauce with similar rich egg bite"
+          }
+        ]
+      },
+      {
+        "qty_text": "1 tbsp",
+        "item_name": "coarse whole-grain mustard",
+        "category_id": "spices",
+        "without": "Leave out the mustard",
+        "swaps": [
+          {
+            "qty_text": "1 tbsp",
+            "item_name": "Dijon mustard",
+            "category_id": "spices",
+            "reason": "sharper, smoother heat"
+          }
+        ]
+      },
+      {
+        "qty_text": "4 sprigs",
+        "item_name": "fresh thyme",
+        "prep_note": "leaves stripped",
+        "category_id": "produce",
+        "without": "Skip the fresh herbs",
+        "swaps": [
+          {
+            "qty_text": "1/2 tsp",
+            "item_name": "dried thyme",
+            "category_id": "spices",
+            "reason": "pantry staple ready in seconds"
+          }
+        ]
+      },
+      {
+        "qty_text": "30g",
+        "item_name": "unsalted butter",
+        "prep_note": "divided (15g + 15g cold)",
+        "category_id": "dairy"
+      },
+      {
+        "qty_text": "1 tbsp",
+        "item_name": "neutral cooking oil",
+        "category_id": "spices",
+        "swaps": [
+          {
+            "qty_text": "1 tbsp",
+            "item_name": "clarified butter",
+            "category_id": "dairy",
+            "reason": "richer nutty searing fat"
+          }
+        ]
+      },
+      {
+        "qty_text": "120ml",
+        "item_name": "chicken or vegetable stock",
+        "category_id": "spices",
+        "swaps": [
+          {
+            "qty_text": "120ml",
+            "item_name": "dry Riesling or hard cider",
+            "category_id": "beverages",
+            "reason": "brighter fruit acidity in the deglaze"
+          }
+        ]
+      },
+      {
+        "qty_text": null,
+        "item_name": "flaky salt and coarse black pepper",
+        "prep_note": "to taste",
+        "category_id": "spices"
+      }
+    ],
+    "instructions": [
+      {
+        "name": "Start the water & dry the pork",
+        "ingredients": [
+          { "qty_text": "2 (about 450g)", "item_name": "bone-in pork chops" },
+          "flaky salt and coarse black pepper"
+        ],
+        "text": "Put a medium saucepan of salted water on high heat for the Spätzle. While it heats, use paper towels to pat the chops thoroughly dry on all sides—surface moisture is the enemy of a sear. Season both sides aggressively with salt and freshly cracked pepper."
+      },
+      {
+        "name": "Heat the skillet & sear",
+        "ingredients": [
+          { "qty_text": "1 tbsp", "item_name": "neutral cooking oil" }
+        ],
+        "text": "Place a heavy stainless or cast-iron skillet over medium-high heat with nothing in it. Test with a flick of water: when drops ball up and skitter across the surface rather than sizzle, it's ready. Swirl in the oil to coat, wait 5 seconds for a light shimmer, then lay the chops in away from you. Sear undisturbed for 4 minutes until they release easily with a deep mahogany crust. Flip and cook 3–4 minutes more (pull at 60°C / 140°F; carryover heat will finish them to 63°C / 145°F). Move chops to a warm plate to rest."
+      },
+      {
+        "name": "Boil the Spätzle while chops rest",
+        "ingredients": [
+          { "qty_text": "250g", "item_name": "fresh or dried Spätzle" },
+          { "qty_text": "15g", "item_name": "unsalted butter" }
+        ],
+        "text": "Drop the Spätzle into the boiling water (2 minutes for fresh, 8–10 for dried). Drain thoroughly in a colander, dump back into the warm saucepan, toss with half the butter (15g), and cover to keep warm."
+      },
+      {
+        "name": "Build the jammy plum pan sauce",
+        "ingredients": [
+          {
+            "qty_text": "250g",
+            "item_name": "Zwetschgen (Italian prune plums)"
+          },
+          { "qty_text": "4 sprigs", "item_name": "fresh thyme" },
+          { "qty_text": "1 tbsp", "item_name": "coarse whole-grain mustard" },
+          { "qty_text": "120ml", "item_name": "chicken or vegetable stock" },
+          { "qty_text": "15g", "item_name": "unsalted butter" }
+        ],
+        "text": "Turn the skillet heat to medium. Drop the halved plums cut-side down into the hot pork fat; cook undisturbed for 90 seconds until caramelized. Toss in the thyme leaves and mustard. Pour in the stock, scraping the browned fond off the pan bottom with a wooden spoon. Simmer 3 minutes until the plums collapse into a jammy glaze. Tip any juices from the resting chops back in, kill the heat, and swirl in the remaining 15g cold butter until glossy."
+      },
+      {
+        "name": "Plate and serve",
+        "ingredients": [],
+        "text": "Mound the warm buttered Spätzle on two plates, lean a pork chop against each mound, and spoon the jammy plums and mustard reduction over both meat and noodles."
+      }
+    ]
+  },
+  "Pork chops with balsamic plums, crisp sage and soft polenta": {
+    "title": "Pork chops with balsamic plums, crisp sage and soft polenta",
+    "parent_idea": "Pan-Seared Pork Chops with Jammy Zwetschgen (Plums)",
+    "cuisine": "Italian",
+    "total_time": "30 min",
+    "recipe_yield": "2 servings",
+    "effort": "normal",
+    "equipment": [
+      "large stainless or cast-iron skillet",
+      "medium saucepan",
+      "whisk"
+    ],
+    "description": "Fresh sage leaves crackled in foaming butter, plums caramelized with a splash of balsamic into a glossy glaze. Spooned over warm, creamy polenta.",
+    "ingredient_lines": [
+      {
+        "qty_text": "2 (about 450g)",
+        "item_name": "thick-cut pork chops",
+        "prep_note": "pat dry, room temp 10 min",
+        "category_id": "meat",
+        "swaps": [
+          {
+            "qty_text": "2",
+            "item_name": "thick-cut pork loin steaks",
+            "category_id": "meat",
+            "reason": "boneless cut cooks evenly"
+          }
+        ]
+      },
+      {
+        "qty_text": "250g",
+        "item_name": "purple plums",
+        "prep_note": "pitted and quartered",
+        "category_id": "produce",
+        "swaps": [
+          {
+            "qty_text": "250g",
+            "item_name": "Zwetschgen",
+            "category_id": "produce",
+            "reason": "firmer flesh holds shape in pan"
+          }
+        ]
+      },
+      {
+        "qty_text": "120g",
+        "item_name": "quick-cooking polenta",
+        "category_id": "grains",
+        "swaps": [
+          {
+            "qty_text": "120g",
+            "item_name": "coarse yellow cornmeal",
+            "category_id": "grains",
+            "reason": "takes 25 min longer but richer rustic texture"
+          }
+        ]
+      },
+      {
+        "qty_text": "500ml",
+        "item_name": "whole milk or water",
+        "category_id": "dairy",
+        "swaps": [
+          {
+            "qty_text": "500ml",
+            "item_name": "chicken broth",
+            "category_id": "spices",
+            "reason": "savory depth without dairy"
+          }
+        ]
+      },
+      {
+        "qty_text": "12",
+        "item_name": "fresh sage leaves",
+        "prep_note": "whole, dry",
+        "category_id": "produce",
+        "without": "Skip the sage garnish"
+      },
+      {
+        "qty_text": "2 tbsp",
+        "item_name": "balsamic vinegar",
+        "category_id": "spices",
+        "swaps": [
+          {
+            "qty_text": "2 tbsp",
+            "item_name": "red wine vinegar + 1 tsp brown sugar",
+            "category_id": "spices",
+            "reason": "similar sweet-acid reduction"
+          }
+        ]
+      },
+      {
+        "qty_text": "35g",
+        "item_name": "unsalted butter",
+        "prep_note": "divided (15g + 20g)",
+        "category_id": "dairy"
+      },
+      {
+        "qty_text": "25g",
+        "item_name": "Parmigiano-Reggiano",
+        "prep_note": "finely grated",
+        "category_id": "dairy",
+        "without": "Skip the cheese finish",
+        "swaps": [
+          {
+            "qty_text": "25g",
+            "item_name": "Grana Padano or Pecorino",
+            "category_id": "dairy",
+            "reason": "salty umami substitute"
+          }
+        ]
+      },
+      {
+        "qty_text": "1 tbsp",
+        "item_name": "olive oil",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": null,
+        "item_name": "kosher salt and freshly ground black pepper",
+        "prep_note": "to taste",
+        "category_id": "spices"
+      }
+    ],
+    "instructions": [
+      {
+        "name": "Set up the polenta base",
+        "ingredients": [
+          { "qty_text": "120g", "item_name": "quick-cooking polenta" },
+          { "qty_text": "500ml", "item_name": "whole milk or water" },
+          { "qty_text": "25g", "item_name": "Parmigiano-Reggiano" },
+          { "qty_text": "15g", "item_name": "unsalted butter" }
+        ],
+        "text": "In a medium saucepan, bring milk (or water) with 1/2 tsp salt to a simmer over medium heat. Slowly stream in the polenta while whisking vigorously to avoid lumps. Turn heat to low; cook 5–7 minutes, stirring occasionally with a wooden spoon until thick and lava-like. Whisk in the Parmesan and half the butter (15g). Cover and keep on the lowest heat setting."
+      },
+      {
+        "name": "Crisp the sage",
+        "ingredients": [
+          { "qty_text": "12", "item_name": "fresh sage leaves" },
+          { "qty_text": "20g", "item_name": "unsalted butter" },
+          { "qty_text": "1 tbsp", "item_name": "olive oil" }
+        ],
+        "text": "In a large skillet over medium heat, melt 20g butter with 1 tbsp olive oil. Once the foam subsides, add the sage leaves in a single layer. Fry for 45–60 seconds until dark green and crisp, but not brown. Lift out with a fork onto paper towels; leave the sage-perfumed fat in the pan."
+      },
+      {
+        "name": "Sear the chops",
+        "ingredients": [
+          { "qty_text": "2 (about 450g)", "item_name": "thick-cut pork chops" },
+          "kosher salt and freshly ground black pepper"
+        ],
+        "text": "Season the dry chops generously with salt and pepper. Crank the skillet heat to medium-high. Lay the chops into the hot sage fat. Sear for 4 minutes without nudging until a deep crust develops. Flip and sear for 3–4 minutes more. Transfer to a cutting board to rest."
+      },
+      {
+        "name": "Glaze the plums",
+        "ingredients": [
+          { "qty_text": "250g", "item_name": "purple plums" },
+          { "qty_text": "2 tbsp", "item_name": "balsamic vinegar" }
+        ],
+        "text": "Drop the quartered plums into the hot pan. Sauté for 2 minutes until tender at the edges. Splash in the balsamic vinegar and scrape up the pan fond. Simmer for 90 seconds until the vinegar reduces to a syrupy glaze that coats the fruit. Pour in any resting juices from the board and swirl to combine."
+      },
+      {
+        "name": "Assemble & serve",
+        "ingredients": [],
+        "text": "Spoon warm polenta into wide shallow bowls. Rest the chop on the polenta, spoon the glossy balsamic plums and pan glaze over the top, and crown with the crackled sage leaves."
+      }
+    ]
+  },
+  "Cantonese plum-glazed chops with ginger and Shaoxing wine": {
+    "title": "Cantonese plum-glazed chops with ginger and Shaoxing wine",
+    "parent_idea": "Pan-Seared Pork Chops with Jammy Zwetschgen (Plums)",
+    "cuisine": "Cantonese",
+    "total_time": "30 min",
+    "recipe_yield": "2 servings",
+    "effort": "normal",
+    "equipment": [
+      "wok or heavy skillet",
+      "small saucepan with tight lid",
+      "tongs"
+    ],
+    "description": "Chops seared hard, then deglazed with Shaoxing wine and simmered in plums, soy, and fresh ginger until glossy and sticky. Steamed jasmine rice to soak it up.",
+    "ingredient_lines": [
+      {
+        "qty_text": "2 (about 450g)",
+        "item_name": "bone-in pork chops",
+        "prep_note": "pat dry, score fat cap at 1cm intervals",
+        "category_id": "meat",
+        "swaps": [
+          {
+            "qty_text": "2",
+            "item_name": "boneless pork loin chops",
+            "category_id": "meat",
+            "reason": "lighter weeknight option"
+          }
+        ]
+      },
+      {
+        "qty_text": "250g",
+        "item_name": "ripe plums",
+        "prep_note": "pitted and rough-chopped",
+        "category_id": "produce",
+        "swaps": [
+          {
+            "qty_text": "250g",
+            "item_name": "Zwetschgen",
+            "category_id": "produce",
+            "reason": "dense texture breaks down smoothly"
+          }
+        ]
+      },
+      {
+        "qty_text": "150g",
+        "item_name": "jasmine rice",
+        "prep_note": "rinsed until clear",
+        "category_id": "grains",
+        "swaps": [
+          {
+            "qty_text": "150g",
+            "item_name": "short-grain white rice",
+            "category_id": "grains",
+            "reason": "stickier bite"
+          }
+        ]
+      },
+      {
+        "qty_text": "2 tbsp",
+        "item_name": "Shaoxing wine",
+        "category_id": "spices",
+        "without": "Deglaze with stock (alcohol-free)",
+        "swaps": [
+          {
+            "qty_text": "2 tbsp",
+            "item_name": "dry sherry",
+            "category_id": "beverages",
+            "reason": "closest Western pantry substitute"
+          }
+        ]
+      },
+      {
+        "qty_text": "2 tbsp",
+        "item_name": "light soy sauce",
+        "category_id": "spices",
+        "swaps": [
+          {
+            "qty_text": "2 tbsp",
+            "item_name": "tamari",
+            "category_id": "spices",
+            "reason": "gluten-free alternative"
+          }
+        ]
+      },
+      {
+        "qty_text": "1 tbsp",
+        "item_name": "dark soy sauce",
+        "category_id": "spices",
+        "without": "Skip dark soy (lighter color)",
+        "swaps": [
+          {
+            "qty_text": "1 tsp",
+            "item_name": "light soy sauce + 1/2 tsp sugar",
+            "category_id": "spices",
+            "reason": "deep flavor without specialty bottle"
+          }
+        ]
+      },
+      {
+        "qty_text": "1 tbsp",
+        "item_name": "brown sugar or rock sugar",
+        "category_id": "spices",
+        "swaps": [
+          {
+            "qty_text": "1 tbsp",
+            "item_name": "honey",
+            "category_id": "spices",
+            "reason": "floral sweetness"
+          }
+        ]
+      },
+      {
+        "qty_text": "15g (1 thumb)",
+        "item_name": "fresh ginger",
+        "prep_note": "peeled and julienned",
+        "category_id": "produce"
+      },
+      {
+        "qty_text": "2 cloves",
+        "item_name": "garlic",
+        "prep_note": "thinly sliced",
+        "category_id": "produce",
+        "without": "Leave out the garlic"
+      },
+      {
+        "qty_text": "2",
+        "item_name": "scallions",
+        "prep_note": "cut into 3cm batons; whites & greens separated",
+        "category_id": "produce",
+        "without": "Skip the scallion finish",
+        "swaps": [
+          {
+            "qty_text": "1 small bunch",
+            "item_name": "chives",
+            "category_id": "produce",
+            "reason": "delicate onion finish"
+          }
+        ]
+      },
+      {
+        "qty_text": "1 tbsp",
+        "item_name": "high-heat cooking oil",
+        "category_id": "spices"
+      }
+    ],
+    "instructions": [
+      {
+        "name": "Passive rice pot",
+        "ingredients": [{ "qty_text": "150g", "item_name": "jasmine rice" }],
+        "text": "Put the rinsed rice and 225ml water into a small saucepan. Bring to a rolling boil uncovered, immediately clamp the lid on, drop heat to lowest, and set a timer for 12 minutes. When done, kill the heat and leave covered—do not open the lid until serving."
+      },
+      {
+        "name": "Pan prep & hard sear",
+        "ingredients": [
+          { "qty_text": "2 (about 450g)", "item_name": "bone-in pork chops" },
+          { "qty_text": "1 tbsp", "item_name": "high-heat cooking oil" }
+        ],
+        "text": "Heat your dry wok or skillet over high heat until wisps of smoke appear. Add the oil and swirl around the sides—it should shimmer and ripple instantly. Lay the chops in away from you. Sear for 3 minutes without moving until dark amber. Flip and sear 2 minutes on the other side. Grip both chops with tongs and stand them upright on their scored fat caps for 45 seconds to render and crisp the edges. Transfer chops to a plate."
+      },
+      {
+        "name": "Aromatics & plum reduction",
+        "ingredients": [
+          { "qty_text": "15g (1 thumb)", "item_name": "fresh ginger" },
+          { "qty_text": "2 cloves", "item_name": "garlic" },
+          { "qty_text": "scallion whites", "item_name": "scallions" },
+          { "qty_text": "2 tbsp", "item_name": "Shaoxing wine" },
+          { "qty_text": "250g", "item_name": "ripe plums" },
+          { "qty_text": "2 tbsp", "item_name": "light soy sauce" },
+          { "qty_text": "1 tbsp", "item_name": "dark soy sauce" },
+          { "qty_text": "1 tbsp", "item_name": "brown sugar or rock sugar" }
+        ],
+        "text": "Reduce heat to medium. Toss in the ginger, sliced garlic, and white scallion segments; stir-fry for 30 seconds until fragrant. Splash the Shaoxing wine around the perimeter of the pan to deglaze the fond. Add the chopped plums, light soy, dark soy, and sugar. Cook for 2–3 minutes, mashing the plums lightly with a spatula until they collapse into a thick, bubbling sauce."
+      },
+      {
+        "name": "Glaze and lacquer",
+        "ingredients": [
+          { "qty_text": "scallion greens", "item_name": "scallions" }
+        ],
+        "text": "Return the pork chops and accumulated juices to the pan. Turn them repeatedly in the simmering sauce for 2 minutes until the glaze reduces to a glossy, dark syrup that clings to the meat. Throw in the green scallion batons for the last 20 seconds."
+      },
+      {
+        "name": "Serve",
+        "ingredients": [],
+        "text": "Fluff the rested rice with a fork and dish into wide bowls. Slice the pork into strips or leave whole, and spoon every drop of sticky ginger-plum lacquer over the top."
+      }
+    ]
+  },
+  "Chuletas con ciruela: pork chops with smoky chipotle plum glaze": {
+    "title": "Chuletas con ciruela: pork chops with smoky chipotle plum glaze",
+    "parent_idea": "Pan-Seared Pork Chops with Jammy Zwetschgen (Plums)",
+    "cuisine": "Mexican",
+    "total_time": "30 min",
+    "recipe_yield": "2 servings",
+    "effort": "normal",
+    "equipment": [
+      "large cast-iron or heavy skillet",
+      "tongs",
+      "clean kitchen towel"
+    ],
+    "description": "Plums melted down in the pan with chipotle in adobo, a pinch of Mexican oregano, and fresh lime. Sweet, smoky heat clinging to the chops, warm corn tortillas on the side.",
+    "ingredient_lines": [
+      {
+        "qty_text": "2 (about 450g)",
+        "item_name": "bone-in pork chops",
+        "prep_note": "pat bone-dry",
+        "category_id": "meat",
+        "swaps": [
+          {
+            "qty_text": "2",
+            "item_name": "boneless pork loin chops",
+            "category_id": "meat",
+            "reason": "cooks 2 min faster"
+          }
+        ]
+      },
+      {
+        "qty_text": "250g",
+        "item_name": "ripe plums",
+        "prep_note": "pitted and roughly diced",
+        "category_id": "produce",
+        "swaps": [
+          {
+            "qty_text": "250g",
+            "item_name": "Zwetschgen (prune plums)",
+            "category_id": "produce",
+            "reason": "firmer sweet-tart flesh"
+          }
+        ]
+      },
+      {
+        "qty_text": "6 small",
+        "item_name": "corn tortillas",
+        "category_id": "bakery",
+        "swaps": [
+          {
+            "qty_text": "4 medium",
+            "item_name": "flour tortillas",
+            "category_id": "bakery",
+            "reason": "softer, wheat alternative"
+          }
+        ]
+      },
+      {
+        "qty_text": "1 pepper + 1 tbsp sauce",
+        "item_name": "chipotle pepper in adobo",
+        "prep_note": "finely minced",
+        "category_id": "spices",
+        "without": "Leave out the chipotle heat",
+        "swaps": [
+          {
+            "qty_text": "1 tsp smoked paprika + 1 tsp tomato paste",
+            "item_name": "smoked paprika & tomato paste",
+            "category_id": "spices",
+            "reason": "smoky flavor without the spicy kick"
+          }
+        ]
+      },
+      {
+        "qty_text": "1/2 tsp",
+        "item_name": "dried Mexican oregano",
+        "prep_note": "crushed between palms",
+        "category_id": "spices",
+        "without": "Skip the dried herbs",
+        "swaps": [
+          {
+            "qty_text": "1/2 tsp",
+            "item_name": "Mediterranean oregano or marjoram",
+            "category_id": "spices",
+            "reason": "earthy herbal substitute"
+          }
+        ]
+      },
+      {
+        "qty_text": "1",
+        "item_name": "lime",
+        "prep_note": "halved, for juice",
+        "category_id": "produce"
+      },
+      {
+        "qty_text": "1 tbsp",
+        "item_name": "high-heat cooking oil",
+        "category_id": "spices",
+        "swaps": [
+          {
+            "qty_text": "1 tbsp",
+            "item_name": "pork lard",
+            "category_id": "meat",
+            "reason": "traditional depth in Mexican cooking"
+          }
+        ]
+      },
+      {
+        "qty_text": "60ml",
+        "item_name": "water or chicken broth",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "small handful",
+        "item_name": "fresh cilantro (coriander)",
+        "prep_note": "leaves roughly chopped",
+        "category_id": "produce",
+        "without": "Skip the cilantro garnish",
+        "swaps": [
+          {
+            "qty_text": "small handful",
+            "item_name": "fresh flat-leaf parsley",
+            "category_id": "produce",
+            "reason": "clean herbal finish if cilantro tastes of soap"
+          }
+        ]
+      },
+      {
+        "qty_text": null,
+        "item_name": "kosher salt and coarse black pepper",
+        "prep_note": "to taste",
+        "category_id": "spices"
+      }
+    ],
+    "instructions": [
+      {
+        "name": "Pan test & hard sear",
+        "ingredients": [
+          { "qty_text": "2 (about 450g)", "item_name": "bone-in pork chops" },
+          { "qty_text": "1 tbsp", "item_name": "high-heat cooking oil" },
+          "kosher salt and coarse black pepper"
+        ],
+        "text": "Heat your dry cast-iron or heavy stainless skillet over medium-high heat until water droplets ball up and skitter across the surface. Swirl in the oil to coat. Season the dry chops generously with salt and pepper, then lay them in away from you. Sear undisturbed for 4 minutes until a deep bronze crust forms. Flip and sear for 3 minutes on the second side. Stand the chops upright on their fat caps with tongs for 30 seconds to render and crisp the edges. Transfer to a cutting board to rest."
+      },
+      {
+        "name": "Melt the plums into smoky adobo",
+        "ingredients": [
+          { "qty_text": "250g", "item_name": "ripe plums" },
+          {
+            "qty_text": "1 pepper + 1 tbsp sauce",
+            "item_name": "chipotle pepper in adobo"
+          },
+          { "qty_text": "1/2 tsp", "item_name": "dried Mexican oregano" },
+          { "qty_text": "60ml", "item_name": "water or chicken broth" }
+        ],
+        "text": "Lower the skillet heat to medium. Drop the diced plums, minced chipotle with its adobo sauce, and crushed oregano directly into the rendered pork fat. Sauté for 2 minutes, crushing the plum pieces with the back of a wooden spoon as they release juices. Pour in the water and any resting juices from the cutting board, scraping up the caramelized fond. Simmer for 2 minutes until glossy, jammy, and thick."
+      },
+      {
+        "name": "Lacquer the chops",
+        "ingredients": [{ "qty_text": "1/2", "item_name": "lime" }],
+        "text": "Return the resting pork chops to the skillet. Spoon the bubbling sweet-smoky plum glaze over the meat, turning once or twice to coat completely in a sticky lacquer (about 1 minute). Remove from heat and squeeze the juice of half a lime over the chops."
+      },
+      {
+        "name": "Warm tortillas & finish",
+        "ingredients": [
+          { "qty_text": "6 small", "item_name": "corn tortillas" }
+        ],
+        "text": "While the glazed chops settle, warm the corn tortillas directly in a dry skillet over high heat (or directly over gas flames) for 20 seconds per side until pliable and lightly blistered. Stack in a clean kitchen towel to steam and stay soft."
+      },
+      {
+        "name": "Serve",
+        "ingredients": [
+          {
+            "qty_text": "small handful",
+            "item_name": "fresh cilantro (coriander)"
+          },
+          { "qty_text": "remaining 1/2", "item_name": "lime" }
+        ],
+        "text": "Transfer the chops to plates, spooning any remaining chipotle plum sauce over the top. Scatter with fresh cilantro and serve immediately with the warm stack of tortillas and lime wedges."
+      }
+    ]
+  },
+  "Calabacitas con elote: charred corn and zucchini skillet": {
+    "title": "Calabacitas con elote: charred corn and zucchini skillet",
+    "parent_idea": "Late-Summer Charred Sweet Corn, Zucchini & Feta Skillet",
+    "cuisine": "Mexican",
+    "total_time": "20 min",
+    "recipe_yield": "2 servings",
+    "effort": "easy",
+    "equipment": ["large cast-iron or heavy skillet", "chef's knife"],
+    "description": "Corn charred hard in a hot skillet with diced zucchini and jalapeño, finished off the heat with crumbled salty cheese, fresh lime, and warm corn tortillas.",
+    "ingredient_lines": [
+      {
+        "qty_text": "2 ears (about 250g)",
+        "item_name": "sweet corn",
+        "prep_note": "kernels sliced off cob (or thawed, patted dry)",
+        "category_id": "produce",
+        "swaps": [
+          {
+            "qty_text": "250g",
+            "item_name": "frozen sweet corn",
+            "category_id": "frozen",
+            "reason": "ready anytime, thaw and pat bone-dry"
+          }
+        ]
+      },
+      {
+        "qty_text": "2 medium (about 350g)",
+        "item_name": "zucchini",
+        "prep_note": "diced into 1.5cm cubes",
+        "category_id": "produce",
+        "swaps": [
+          {
+            "qty_text": "350g",
+            "item_name": "yellow summer squash",
+            "category_id": "produce",
+            "reason": "sweet, colorful alternative"
+          }
+        ]
+      },
+      {
+        "qty_text": "6 small",
+        "item_name": "corn tortillas",
+        "category_id": "bakery",
+        "swaps": [
+          {
+            "qty_text": "4 medium",
+            "item_name": "flour tortillas",
+            "category_id": "bakery",
+            "reason": "softer wheat wrap"
+          }
+        ]
+      },
+      {
+        "qty_text": "1",
+        "item_name": "jalapeño pepper",
+        "prep_note": "seeded and finely diced",
+        "category_id": "produce",
+        "without": "Leave out the jalapeño (mild)",
+        "swaps": [
+          {
+            "qty_text": "1/2",
+            "item_name": "poblano pepper",
+            "category_id": "produce",
+            "reason": "mild earthy pepper warmth"
+          }
+        ]
+      },
+      {
+        "qty_text": "1/2 small",
+        "item_name": "white onion",
+        "prep_note": "finely diced",
+        "category_id": "produce",
+        "without": "Skip the onion",
+        "swaps": [
+          {
+            "qty_text": "2",
+            "item_name": "scallions",
+            "category_id": "produce",
+            "reason": "milder allium flavor"
+          }
+        ]
+      },
+      {
+        "qty_text": "80g",
+        "item_name": "queso fresco or Cotija",
+        "prep_note": "crumbled",
+        "category_id": "dairy",
+        "without": "Skip the cheese (dairy-free)",
+        "swaps": [
+          {
+            "qty_text": "80g",
+            "item_name": "Greek feta",
+            "category_id": "dairy",
+            "reason": "salty, crumbly cheese with similar punch"
+          }
+        ]
+      },
+      {
+        "qty_text": "1",
+        "item_name": "lime",
+        "prep_note": "cut in half",
+        "category_id": "produce"
+      },
+      {
+        "qty_text": "1.5 tbsp",
+        "item_name": "neutral high-heat oil",
+        "category_id": "spices",
+        "swaps": [
+          {
+            "qty_text": "1.5 tbsp",
+            "item_name": "pork lard or avocado oil",
+            "category_id": "spices",
+            "reason": "richer traditional sear"
+          }
+        ]
+      },
+      {
+        "qty_text": "small bunch",
+        "item_name": "fresh cilantro",
+        "prep_note": "roughly chopped",
+        "category_id": "produce",
+        "without": "Skip the cilantro garnish",
+        "swaps": [
+          {
+            "qty_text": "small bunch",
+            "item_name": "flat-leaf parsley",
+            "category_id": "produce",
+            "reason": "if cilantro tastes of soap to you"
+          }
+        ]
+      },
+      {
+        "qty_text": null,
+        "item_name": "kosher salt",
+        "prep_note": "to taste",
+        "category_id": "spices"
+      }
+    ],
+    "instructions": [
+      {
+        "name": "Char the corn undisturbed",
+        "ingredients": [
+          { "qty_text": "2 ears (about 250g)", "item_name": "sweet corn" },
+          { "qty_text": "1 tbsp", "item_name": "neutral high-heat oil" }
+        ],
+        "text": "Heat your dry heavy skillet over high heat until smoking lightly. Pour in 1 tbsp of oil and swirl. Add the corn kernels in a single flat layer. Let cook undisturbed for 2 full minutes—do not stir. Listen for the popping; you want dark blistered char spots on the kernels to develop smoky depth."
+      },
+      {
+        "name": "Blister the zucchini and aromatics",
+        "ingredients": [
+          { "qty_text": "2 medium (about 350g)", "item_name": "zucchini" },
+          { "qty_text": "1", "item_name": "jalapeño pepper" },
+          { "qty_text": "1/2 small", "item_name": "white onion" },
+          { "qty_text": "0.5 tbsp", "item_name": "neutral high-heat oil" },
+          "kosher salt"
+        ],
+        "text": "Add the remaining 1/2 tbsp oil, diced zucchini, jalapeño, and onion to the pan. Season with 1/2 tsp salt. Toss and sauté over high heat for 3 to 4 minutes. The zucchini edges should pick up golden-brown color while retaining a crisp, tender snap. Do not crowd or steam them."
+      },
+      {
+        "name": "Season & fold off heat",
+        "ingredients": [
+          { "qty_text": "1", "item_name": "lime" },
+          { "qty_text": "small bunch", "item_name": "fresh cilantro" }
+        ],
+        "text": "Pull the skillet off the burner. Squeeze the juice of half a lime over the vegetables and toss in most of the chopped cilantro. Taste a kernel and adjust with a pinch of salt if needed."
+      },
+      {
+        "name": "Warm tortillas",
+        "ingredients": [
+          { "qty_text": "6 small", "item_name": "corn tortillas" }
+        ],
+        "text": "Warm the tortillas in a dry pan over high heat for 15–20 seconds per side until blistered and soft; keep wrapped in a cloth napkin."
+      },
+      {
+        "name": "Serve from the skillet",
+        "ingredients": [
+          { "qty_text": "80g", "item_name": "queso fresco or Cotija" }
+        ],
+        "text": "Scatter the crumbled cheese over the warm vegetables right in the skillet—the residual heat will soften the cheese without turning it greasy. Garnish with remaining cilantro and serve hot alongside warm tortillas and lime wedges."
+      }
+    ]
+  },
+  "Charred corn and zucchini skillet with warm feta and mint": {
+    "title": "Charred corn and zucchini skillet with warm feta and mint",
+    "parent_idea": "Late-Summer Charred Sweet Corn, Zucchini & Feta Skillet",
+    "cuisine": "Greek",
+    "total_time": "20 min",
+    "recipe_yield": "2 servings",
+    "effort": "easy",
+    "equipment": ["large stainless or cast-iron skillet"],
+    "description": "Zucchini coins and sweet corn blistered in olive oil, then tossed off the heat with crumbled feta, torn fresh mint, and lemon juice. Crusty bread to scoop it up.",
+    "ingredient_lines": [
+      {
+        "qty_text": "2 medium (about 350g)",
+        "item_name": "zucchini",
+        "prep_note": "sliced into 0.5cm coins",
+        "category_id": "produce",
+        "swaps": [
+          {
+            "qty_text": "350g",
+            "item_name": "yellow squash",
+            "category_id": "produce",
+            "reason": "mild sweet alternative"
+          }
+        ]
+      },
+      {
+        "qty_text": "2 ears (about 250g)",
+        "item_name": "sweet corn",
+        "prep_note": "kernels sliced off cob (or thawed, dry)",
+        "category_id": "produce",
+        "swaps": [
+          {
+            "qty_text": "250g",
+            "item_name": "canned sweet corn",
+            "category_id": "produce",
+            "reason": "thoroughly drained and dried with towels"
+          }
+        ]
+      },
+      {
+        "qty_text": "4 thick slices",
+        "item_name": "crusty country bread or sourdough",
+        "prep_note": "for scooping",
+        "category_id": "bakery",
+        "swaps": [
+          {
+            "qty_text": "2",
+            "item_name": "pita bread",
+            "category_id": "bakery",
+            "reason": "traditional Greek bread for pocketing"
+          }
+        ]
+      },
+      {
+        "qty_text": "100g",
+        "item_name": "Greek feta (in brine)",
+        "prep_note": "drained and hand-crumbled",
+        "category_id": "dairy",
+        "without": "Skip the feta (dairy-free)",
+        "swaps": [
+          {
+            "qty_text": "100g",
+            "item_name": "ricotta salata",
+            "category_id": "dairy",
+            "reason": "firmer, milder sheep's milk cheese"
+          }
+        ]
+      },
+      {
+        "qty_text": "1/2",
+        "item_name": "lemon",
+        "prep_note": "zested and juiced",
+        "category_id": "produce"
+      },
+      {
+        "qty_text": "small bunch",
+        "item_name": "fresh mint",
+        "prep_note": "leaves picked and torn",
+        "category_id": "produce",
+        "without": "Omit the fresh mint",
+        "swaps": [
+          {
+            "qty_text": "small bunch",
+            "item_name": "fresh dill",
+            "category_id": "produce",
+            "reason": "classic Greek pairing with zucchini"
+          },
+          {
+            "qty_text": "small bunch",
+            "item_name": "fresh basil",
+            "category_id": "produce",
+            "reason": "sweet herbal note"
+          }
+        ]
+      },
+      {
+        "qty_text": "1/4 tsp",
+        "item_name": "red pepper flakes",
+        "category_id": "spices",
+        "without": "Leave out the chili flakes",
+        "swaps": [
+          {
+            "qty_text": "1/2 tsp",
+            "item_name": "Aleppo pepper (pul biber)",
+            "category_id": "spices",
+            "reason": "fruity, mild warmth without harsh sting"
+          }
+        ]
+      },
+      {
+        "qty_text": "2 tbsp",
+        "item_name": "extra-virgin olive oil",
+        "prep_note": "divided (1 tbsp + 1 tbsp)",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": null,
+        "item_name": "flaky salt and freshly ground black pepper",
+        "prep_note": "to taste",
+        "category_id": "spices"
+      }
+    ],
+    "instructions": [
+      {
+        "name": "Brown the zucchini coins",
+        "ingredients": [
+          { "qty_text": "2 medium (about 350g)", "item_name": "zucchini" },
+          { "qty_text": "1 tbsp", "item_name": "extra-virgin olive oil" },
+          "flaky salt and freshly ground black pepper"
+        ],
+        "text": "Place a large skillet over medium-high heat with 1 tbsp olive oil. Once hot and shimmering, arrange the zucchini coins in a single layer. Sear undisturbed for 2–3 minutes until the undersides have deep golden-brown patches. Flip and cook 1–2 minutes more until blistered but still firm. Transfer to a shallow bowl."
+      },
+      {
+        "name": "Blister the sweet corn",
+        "ingredients": [
+          { "qty_text": "2 ears (about 250g)", "item_name": "sweet corn" },
+          { "qty_text": "1 tbsp", "item_name": "extra-virgin olive oil" },
+          { "qty_text": "1/4 tsp", "item_name": "red pepper flakes" }
+        ],
+        "text": "Add the remaining 1 tbsp olive oil to the empty skillet. Scatter the corn kernels across the hot surface. Cook without moving for 2 minutes to char the sweet kernels in spots. Toss in the red pepper flakes and sauté for 30 seconds until fragrant."
+      },
+      {
+        "name": "Combine and dress off heat",
+        "ingredients": [
+          { "qty_text": "1/2", "item_name": "lemon" },
+          "flaky salt and freshly ground black pepper"
+        ],
+        "text": "Return the cooked zucchini and its resting juices to the skillet with the corn. Toss together for 30 seconds to reheat. Remove the skillet completely from the heat. Finely grate the lemon zest over the top and squeeze in the lemon juice. Season with a light pinch of salt and black pepper."
+      },
+      {
+        "name": "Fold in feta and mint",
+        "ingredients": [
+          { "qty_text": "100g", "item_name": "Greek feta (in brine)" },
+          { "qty_text": "small bunch", "item_name": "fresh mint" }
+        ],
+        "text": "Scatter the crumbled feta and torn mint leaves over the hot vegetables. Give the pan one gentle toss—the feta should warm through and soften at the edges against the hot vegetables, releasing salty creaminess, rather than melting completely."
+      },
+      {
+        "name": "Toast bread & serve",
+        "ingredients": [
+          {
+            "qty_text": "4 thick slices",
+            "item_name": "crusty country bread or sourdough"
+          }
+        ],
+        "text": "Warm or toast the bread slices. Spoon the warm, vibrant skillet into shallow bowls and drizzle with a few drops of fresh olive oil. Serve immediately with the crusty bread."
+      }
+    ]
+  },
+  "Charred corn and zucchini over cold garlic labneh with pul biber": {
+    "title": "Charred corn and zucchini over cold garlic labneh with pul biber",
+    "parent_idea": "Late-Summer Charred Sweet Corn, Zucchini & Feta Skillet",
+    "cuisine": "Levantine",
+    "total_time": "20 min",
+    "recipe_yield": "2 servings",
+    "effort": "easy",
+    "equipment": [
+      "large skillet (cast-iron or carbon steel)",
+      "small butter saucepan"
+    ],
+    "description": "Smoky blistered corn and zucchini spooned hot over cool, thick garlic labneh, drizzled with foaming pul biber butter. Warm flatbread for dipping.",
+    "ingredient_lines": [
+      {
+        "qty_text": "2 ears (about 250g)",
+        "item_name": "sweet corn",
+        "prep_note": "kernels sliced off cob (or thawed, patted dry)",
+        "category_id": "produce",
+        "swaps": [
+          {
+            "qty_text": "250g",
+            "item_name": "frozen sweet corn",
+            "category_id": "frozen",
+            "reason": "thawed & bone-dry"
+          }
+        ]
+      },
+      {
+        "qty_text": "2 medium (about 350g)",
+        "item_name": "zucchini",
+        "prep_note": "diced into 1.5cm cubes",
+        "category_id": "produce",
+        "swaps": [
+          {
+            "qty_text": "350g",
+            "item_name": "yellow summer squash",
+            "category_id": "produce",
+            "reason": "mild sweet alternative"
+          }
+        ]
+      },
+      {
+        "qty_text": "200g",
+        "item_name": "labneh or thick Greek yogurt (10% fat)",
+        "prep_note": "chilled",
+        "category_id": "dairy",
+        "swaps": [
+          {
+            "qty_text": "200g",
+            "item_name": "thick whole-milk sour cream",
+            "category_id": "dairy",
+            "reason": "similar cooling richness"
+          }
+        ]
+      },
+      {
+        "qty_text": "2 large or 4 small",
+        "item_name": "pita or Levantine flatbreads",
+        "prep_note": "for scooping",
+        "category_id": "bakery",
+        "swaps": [
+          {
+            "qty_text": "2",
+            "item_name": "naan or crusty bread",
+            "category_id": "bakery",
+            "reason": "warm tear-and-dip bread"
+          }
+        ]
+      },
+      {
+        "qty_text": "20g (1.5 tbsp)",
+        "item_name": "unsalted butter",
+        "category_id": "dairy",
+        "swaps": [
+          {
+            "qty_text": "1.5 tbsp",
+            "item_name": "extra-virgin olive oil",
+            "category_id": "spices",
+            "reason": "dairy-free spiced oil"
+          }
+        ]
+      },
+      {
+        "qty_text": "1 tsp",
+        "item_name": "pul biber (Aleppo pepper flakes)",
+        "category_id": "spices",
+        "without": "Skip the chile flakes (mild)",
+        "swaps": [
+          {
+            "qty_text": "1 tsp",
+            "item_name": "smoked paprika + pinch cayenne",
+            "category_id": "spices",
+            "reason": "gentle smokiness"
+          }
+        ]
+      },
+      {
+        "qty_text": "1 small clove",
+        "item_name": "garlic",
+        "prep_note": "finely grated or mashed to paste",
+        "category_id": "produce",
+        "without": "Leave out the raw garlic"
+      },
+      {
+        "qty_text": "1 tbsp",
+        "item_name": "olive oil",
+        "prep_note": "for searing",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "small bunch",
+        "item_name": "fresh mint or dill",
+        "prep_note": "leaves picked and torn",
+        "category_id": "produce",
+        "without": "Omit the fresh herbs"
+      },
+      {
+        "qty_text": "1/2",
+        "item_name": "lemon",
+        "prep_note": "for juice",
+        "category_id": "produce"
+      },
+      {
+        "qty_text": null,
+        "item_name": "kosher salt and coarse black pepper",
+        "prep_note": "to taste",
+        "category_id": "spices"
+      }
+    ],
+    "instructions": [
+      {
+        "name": "Spread the cold garlic labneh base",
+        "ingredients": [
+          {
+            "qty_text": "200g",
+            "item_name": "labneh or thick Greek yogurt (10% fat)"
+          },
+          { "qty_text": "1 small clove", "item_name": "garlic" },
+          "kosher salt and coarse black pepper"
+        ],
+        "text": "In a small bowl, stir the cold labneh with the grated garlic and a healthy pinch of salt. Divide between two wide, shallow bowls and use the back of a spoon to swoop it into a thick, cratered base across the plate. Set in the fridge while you cook the hot elements."
+      },
+      {
+        "name": "Hard-char the corn & zucchini",
+        "ingredients": [
+          { "qty_text": "2 ears (about 250g)", "item_name": "sweet corn" },
+          { "qty_text": "2 medium (about 350g)", "item_name": "zucchini" },
+          { "qty_text": "1 tbsp", "item_name": "olive oil" },
+          { "qty_text": "1/2", "item_name": "lemon" },
+          "kosher salt and coarse black pepper"
+        ],
+        "text": "Heat your large dry skillet over high heat until smoking lightly. Swirl in 1 tbsp olive oil. Scatter the corn in an even layer; let sear undisturbed for 90 seconds until blistered with charred spots. Toss in the diced zucchini and 1/2 tsp salt. Sauté over high heat for 3 minutes until the zucchini edges pick up golden color but remain crisp-tender. Pull off the heat and squeeze the lemon juice over the top."
+      },
+      {
+        "name": "Foam the pul biber butter",
+        "ingredients": [
+          { "qty_text": "20g (1.5 tbsp)", "item_name": "unsalted butter" },
+          {
+            "qty_text": "1 tsp",
+            "item_name": "pul biber (Aleppo pepper flakes)"
+          }
+        ],
+        "text": "While the vegetables settle for 30 seconds, melt 20g butter in a small saucepan or butter warmer over medium heat. As soon as it foams, toss in the pul biber. Swirl for 20 seconds off the heat until the butter turns a fragrant, vibrant ruby-red."
+      },
+      {
+        "name": "Warm the flatbreads",
+        "ingredients": [
+          {
+            "qty_text": "2 large or 4 small",
+            "item_name": "pita or Levantine flatbreads"
+          }
+        ],
+        "text": "Warm the flatbreads in a dry pan over high heat for 20 seconds per side until soft and pliable; wrap in a cloth towel."
+      },
+      {
+        "name": "Assemble & serve",
+        "ingredients": [
+          { "qty_text": "small bunch", "item_name": "fresh mint or dill" }
+        ],
+        "text": "Spoon the piping-hot charred corn and zucchini directly onto the beds of cold garlic labneh. Drizzle the sizzling ruby pul biber butter generously over the top and scatter with torn herbs and flaky salt. Serve immediately with warm flatbread for tearing and dipping."
+      }
+    ]
+  },
+  "Blistered corn and zucchini with sweet basil and shaved pecorino": {
+    "title": "Blistered corn and zucchini with sweet basil and shaved pecorino",
+    "parent_idea": "Late-Summer Charred Sweet Corn, Zucchini & Feta Skillet",
+    "cuisine": "Italian",
+    "total_time": "20 min",
+    "recipe_yield": "2 servings",
+    "effort": "easy",
+    "equipment": ["large skillet", "vegetable peeler"],
+    "description": "Zucchini and sweet corn charred fast in olive oil with garlic, tossed off the heat with fresh basil and sharp, salty pecorino. Crusty bread to catch the pan juices.",
+    "ingredient_lines": [
+      {
+        "qty_text": "2 medium (about 350g)",
+        "item_name": "zucchini",
+        "prep_note": "sliced into 0.5cm thin coins",
+        "category_id": "produce",
+        "swaps": [
+          {
+            "qty_text": "350g",
+            "item_name": "yellow summer squash",
+            "category_id": "produce",
+            "reason": "mild sweet alternative"
+          }
+        ]
+      },
+      {
+        "qty_text": "2 ears (about 250g)",
+        "item_name": "sweet corn",
+        "prep_note": "kernels sliced off cob (or thawed, dry)",
+        "category_id": "produce",
+        "swaps": [
+          {
+            "qty_text": "250g",
+            "item_name": "frozen sweet corn",
+            "category_id": "frozen",
+            "reason": "thawed and patted dry"
+          }
+        ]
+      },
+      {
+        "qty_text": "4 thick slices",
+        "item_name": "crusty Italian bread (ciabatta or rustic loaf)",
+        "category_id": "bakery",
+        "swaps": [
+          {
+            "qty_text": "4 slices",
+            "item_name": "sourdough bread",
+            "category_id": "bakery",
+            "reason": "hearty crusty crumb"
+          }
+        ]
+      },
+      {
+        "qty_text": "40g",
+        "item_name": "Pecorino Romano",
+        "prep_note": "block, for shaving ribbons",
+        "category_id": "dairy",
+        "without": "Skip the cheese finish (dairy-free)",
+        "swaps": [
+          {
+            "qty_text": "40g",
+            "item_name": "Parmigiano-Reggiano",
+            "category_id": "dairy",
+            "reason": "nuttier and slightly less salty"
+          }
+        ]
+      },
+      {
+        "qty_text": "2 cloves",
+        "item_name": "garlic",
+        "prep_note": "peeled and gently smashed with flat of knife",
+        "category_id": "produce",
+        "without": "Leave out the garlic"
+      },
+      {
+        "qty_text": "generous handful",
+        "item_name": "fresh sweet basil",
+        "prep_note": "leaves roughly torn",
+        "category_id": "produce",
+        "without": "Skip the fresh basil"
+      },
+      {
+        "qty_text": "2 tbsp",
+        "item_name": "extra-virgin olive oil",
+        "prep_note": "divided (1 tbsp + 1 tbsp)",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "1/2",
+        "item_name": "lemon",
+        "prep_note": "for a light squeeze",
+        "category_id": "produce"
+      },
+      {
+        "qty_text": null,
+        "item_name": "flaky sea salt and freshly cracked black pepper",
+        "prep_note": "to taste",
+        "category_id": "spices"
+      }
+    ],
+    "instructions": [
+      {
+        "name": "Infuse oil and blister zucchini coins",
+        "ingredients": [
+          { "qty_text": "2 medium (about 350g)", "item_name": "zucchini" },
+          { "qty_text": "2 cloves", "item_name": "garlic" },
+          { "qty_text": "1 tbsp", "item_name": "extra-virgin olive oil" },
+          "flaky sea salt and freshly cracked black pepper"
+        ],
+        "text": "Heat 1 tbsp olive oil in a large skillet over medium-high heat. Add the smashed garlic cloves and press them into the oil for 1 minute until golden and fragrant, then discard the garlic. Crank the heat to high. Lay the zucchini coins in the skillet in a single layer. Cook undisturbed for 2–3 minutes until the undersides have deep caramelized spots, flip and sear 1 minute more. Tip zucchini onto a plate."
+      },
+      {
+        "name": "Char the corn",
+        "ingredients": [
+          { "qty_text": "2 ears (about 250g)", "item_name": "sweet corn" },
+          { "qty_text": "1 tbsp", "item_name": "extra-virgin olive oil" }
+        ],
+        "text": "Pour the remaining 1 tbsp olive oil into the hot pan. Add the corn kernels; let them blister undisturbed over high heat for 2 minutes until sweet and charred in spots."
+      },
+      {
+        "name": "Combine & dress off heat",
+        "ingredients": [
+          { "qty_text": "1/2", "item_name": "lemon" },
+          "flaky sea salt and freshly cracked black pepper"
+        ],
+        "text": "Return the zucchini to the skillet with the corn and toss together for 30 seconds to reheat. Remove the skillet completely from the burner. Squeeze just a teaspoon of fresh lemon juice over the vegetables to wake up the flavors, and season generously with flaky sea salt and coarse black pepper."
+      },
+      {
+        "name": "Fold in basil",
+        "ingredients": [
+          { "qty_text": "generous handful", "item_name": "fresh sweet basil" }
+        ],
+        "text": "Scatter the torn basil leaves over the warm skillet and give one gentle fold. The residual warmth will release the basil's perfume without turning it brown or bruised."
+      },
+      {
+        "name": "Shave pecorino & serve",
+        "ingredients": [
+          { "qty_text": "40g", "item_name": "Pecorino Romano" },
+          {
+            "qty_text": "4 thick slices",
+            "item_name": "crusty Italian bread (ciabatta or rustic loaf)"
+          }
+        ],
+        "text": "Divide the vegetables between plates or serve straight from the skillet. Use a vegetable peeler to shave wide, delicate ribbons of Pecorino Romano across the hot vegetables. Toast the crusty bread and serve immediately to drag through the garlicky olive oil juices."
+      }
+    ]
+  },
+  "Pan-fried chanterelles with Schmand and parsley on sourdough toast": {
+    "title": "Pan-fried chanterelles with Schmand and parsley on sourdough toast",
+    "parent_idea": "Brown-Butter Pfifferlinge (Chanterelles) on Toasted Sourdough",
+    "cuisine": "German",
+    "total_time": "20 min",
+    "recipe_yield": "2 servings",
+    "effort": "easy",
+    "equipment": [
+      "large skillet (cast-iron or stainless)",
+      "mushroom brush or paper towels"
+    ],
+    "description": "Chanterelles seared fast in foaming butter with minced shallot, finished with a spoonful of tangy Schmand and fresh parsley. Piled hot onto thick, crusty sourdough.",
+    "ingredient_lines": [
+      {
+        "qty_text": "300g",
+        "item_name": "fresh chanterelles (Pfifferlinge)",
+        "prep_note": "brushed clean, dry-trimmed; tear large ones",
+        "category_id": "produce",
+        "swaps": [
+          {
+            "qty_text": "300g",
+            "item_name": "cremini or mixed wild mushrooms",
+            "category_id": "produce",
+            "reason": "earthy accessible alternative"
+          }
+        ]
+      },
+      {
+        "qty_text": "2 thick slices",
+        "item_name": "rustic sourdough or rye-wheat country bread",
+        "prep_note": "cut 2cm thick",
+        "category_id": "bakery",
+        "swaps": [
+          {
+            "qty_text": "1",
+            "item_name": "crusty baguette",
+            "category_id": "bakery",
+            "reason": "split and toasted"
+          }
+        ]
+      },
+      {
+        "qty_text": "1 medium",
+        "item_name": "shallot",
+        "prep_note": "finely minced",
+        "category_id": "produce",
+        "without": "Skip the shallot",
+        "swaps": [
+          {
+            "qty_text": "2",
+            "item_name": "scallions",
+            "category_id": "produce",
+            "reason": "milder allium finish"
+          }
+        ]
+      },
+      {
+        "qty_text": "3 tbsp (about 60g)",
+        "item_name": "Schmand (24% fat) or crème fraîche",
+        "category_id": "dairy",
+        "without": "Cook without cream (dairy-free pan sauce)",
+        "swaps": [
+          {
+            "qty_text": "3 tbsp",
+            "item_name": "sour cream or heavy cream",
+            "category_id": "dairy",
+            "reason": "creamy tang"
+          }
+        ]
+      },
+      {
+        "qty_text": "30g (2 tbsp)",
+        "item_name": "unsalted butter",
+        "prep_note": "divided (10g for toast, 10g sear, 10g finish)",
+        "category_id": "dairy",
+        "swaps": [
+          {
+            "qty_text": "2 tbsp",
+            "item_name": "clarified butter (Ghee)",
+            "category_id": "dairy",
+            "reason": "higher smoke point, nutty aroma"
+          }
+        ]
+      },
+      {
+        "qty_text": "small bunch",
+        "item_name": "fresh flat-leaf or curly parsley",
+        "prep_note": "finely chopped",
+        "category_id": "produce",
+        "without": "Skip the parsley garnish"
+      },
+      {
+        "qty_text": "1/2 tsp",
+        "item_name": "lemon juice",
+        "category_id": "produce",
+        "without": "Skip the lemon squeeze"
+      },
+      {
+        "qty_text": null,
+        "item_name": "flaky salt and freshly ground black pepper",
+        "prep_note": "to taste",
+        "category_id": "spices"
+      }
+    ],
+    "instructions": [
+      {
+        "name": "Dry-clean mushrooms & toast sourdough",
+        "ingredients": [
+          {
+            "qty_text": "300g",
+            "item_name": "fresh chanterelles (Pfifferlinge)"
+          },
+          {
+            "qty_text": "2 thick slices",
+            "item_name": "rustic sourdough or rye-wheat country bread"
+          },
+          { "qty_text": "10g", "item_name": "unsalted butter" }
+        ],
+        "text": "Clean the chanterelles with a brush or dry paper towel—never wash them in water or they become waterlogged sponges. Trim any gritty stem bases and tear large mushrooms in half lengthwise. In your skillet, melt 10g of butter over medium heat, toast the bread slices until golden brown and crusty on both sides (about 2 minutes per side), and transfer the toasts to serving plates."
+      },
+      {
+        "name": "Mushroom liquor evaporation & sear",
+        "ingredients": [{ "qty_text": "10g", "item_name": "unsalted butter" }],
+        "text": "Turn the heat under the skillet to medium-high. Add 10g of butter and drop in the chanterelles. Do not salt yet. Let them cook for 2–3 minutes: they will initially release their moisture into the pan. Keep the heat high until all the liquid completely evaporates and the butter begins to sizzle and brown. Sauté the mushrooms in the nutty butter for 2 minutes until the edges are golden and lightly crisped."
+      },
+      {
+        "name": "Sweat shallots & season",
+        "ingredients": [
+          { "qty_text": "1 medium", "item_name": "shallot" },
+          { "qty_text": "10g", "item_name": "unsalted butter" },
+          "flaky salt and freshly ground black pepper"
+        ],
+        "text": "Push the mushrooms to the perimeter and drop the remaining 10g butter and minced shallots into the center of the pan. Sauté the shallots for 60 seconds until translucent and sweet. Toss everything together, then season with salt and plenty of freshly cracked black pepper."
+      },
+      {
+        "name": "Melt in the Schmand",
+        "ingredients": [
+          {
+            "qty_text": "3 tbsp (about 60g)",
+            "item_name": "Schmand (24% fat) or crème fraîche"
+          },
+          { "qty_text": "1/2 tsp", "item_name": "lemon juice" },
+          {
+            "qty_text": "small bunch",
+            "item_name": "fresh flat-leaf or curly parsley"
+          }
+        ],
+        "text": "Kill the heat completely. Dollop the Schmand into the hot pan along with the lemon juice and half the chopped parsley. Stir gently off the heat until the Schmand melts into the brown butter and pan juices, forming a rich, glossy coating around the chanterelles. Taste and add a pinch of salt if needed."
+      },
+      {
+        "name": "Pile onto toast & serve",
+        "ingredients": [],
+        "text": "Spoon the creamy, piping-hot chanterelles and every drop of pan sauce over the toasted sourdough. Garnish with the remaining fresh parsley and serve immediately with a knife and fork."
+      }
+    ]
+  }
+}

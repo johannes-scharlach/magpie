@@ -116,8 +116,7 @@ export const newDishesOptions = {
 export type NewDishes = keyof typeof newDishesOptions;
 export const newDishesAnswers: Record<NewDishes, string> = {
   rarely: "We like sticking to recipes we already make.",
-  sometimes:
-    "Mostly our favourites, with about one new dish a week.",
+  sometimes: "Mostly our favourites, with about one new dish a week.",
   often: "We’d like lots of new recipes to try.",
 };
 
