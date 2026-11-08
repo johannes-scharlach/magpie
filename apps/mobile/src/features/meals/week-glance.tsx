@@ -7,6 +7,7 @@ import { useResolveClassNames } from "uniwind";
 
 import { clayTile, SectionTitle } from "@/components/clay";
 import { Text } from "@/components/ui/text";
+import { SeededArt } from "@/features/meals/seeded-art";
 import { tonalPair } from "@/features/variants/tonal";
 import { cn } from "@/lib/utils";
 
@@ -198,12 +199,18 @@ function TodayRow({ meal }: { meal: WeekMeal }) {
         className="flex-row items-center gap-3 px-4 py-3 active:bg-accent"
       >
         {/* Same tonalPair as the Meals card — one identity per recipe. */}
-        <LinearGradient
-          colors={tonalPair(meal.variant_id ?? meal.id, dark)}
-          start={{ x: 0.15, y: 0 }}
-          end={{ x: 0.85, y: 1 }}
-          style={{ width: THUMB, height: THUMB, borderRadius: 12 }}
-        />
+        <View
+          className="overflow-hidden rounded-xl"
+          style={{ width: THUMB, height: THUMB }}
+        >
+          <LinearGradient
+            colors={tonalPair(meal.variant_id ?? meal.id, dark)}
+            start={{ x: 0.15, y: 0 }}
+            end={{ x: 0.85, y: 1 }}
+            style={{ flex: 1 }}
+          />
+          <SeededArt name={meal.name} inset={4} />
+        </View>
         <View className="flex-1 gap-0.5">
           <Text
             className="text-[17px] font-semibold leading-snug"

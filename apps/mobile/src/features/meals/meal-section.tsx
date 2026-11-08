@@ -19,6 +19,8 @@ import { useMealSelectionTransition } from "@/features/meals/use-meal-selection-
 import { tonalPair } from "@/features/variants/tonal";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import type { DisplayRecipe, DisplayPlannedMeal } from "./day-content";
+import { SeededArt } from "./seeded-art";
+import { seededLook } from "./seeded-look";
 import type { MealSlot } from "./slots";
 
 type Recipe = DisplayRecipe;
@@ -233,6 +235,7 @@ export function MealSection({
                       end={{ x: 0.85, y: 1 }}
                       style={{ flex: 1 }}
                     />
+                    <SeededArt name={recipe.name} inset={12} />
                     <Animated.View
                       entering={detailsEnter}
                       className="absolute bottom-3 left-3 right-3 flex-row flex-wrap items-end justify-between gap-2"
@@ -346,6 +349,7 @@ export function MealSection({
                         end={{ x: 0.85, y: 1 }}
                         style={{ flex: 1 }}
                       />
+                      <SeededArt name={c.name} inset={8} />
                       {c.totalTime ? (
                         <Text className="absolute bottom-2 left-2 max-w-[90%] rounded-full bg-background/50 mix-blend-hard-light px-2.5 py-1 text-xs font-medium">
                           {c.totalTime}
@@ -357,7 +361,7 @@ export function MealSection({
                         numberOfLines={2}
                         className="min-h-10 text-sm font-medium leading-5"
                       >
-                        {c.name}
+                        {seededLook(c.name)?.shortName ?? c.name}
                       </Text>
                     </View>
                   </Pressable>

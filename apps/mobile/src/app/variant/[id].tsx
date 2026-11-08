@@ -65,6 +65,7 @@ import type { ImageAttachment } from "@/features/chat/image-attachment";
 import { Markdown } from "@/features/chat/markdown";
 import { queueMessage } from "@/features/chat/message-queue";
 import { eatersLabel, parseEaterIds, toEaters } from "@/features/meals/eaters";
+import { SeededArt } from "@/features/meals/seeded-art";
 import {
   driftLabel,
   mealIsPast,
@@ -1180,6 +1181,10 @@ export default function VariantPage() {
                 heroContentAnimatedStyle,
               ]}
             >
+              {/* Whatever room the title leaves; long titles shrink the art. */}
+              <View className="flex-1">
+                <SeededArt name={variant.name} inset={0} />
+              </View>
               <Text className="text-4xl font-bold tracking-tight">
                 {variant.name}
               </Text>
