@@ -1,8 +1,9 @@
 import { useQuery } from "@powersync/react";
 import { Link, Stack, router, useLocalSearchParams } from "expo-router";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   ActivityIndicator,
+  Alert,
   Pressable,
   ScrollView,
   useWindowDimensions,
@@ -27,7 +28,10 @@ import { dateKey, stripDates, type MealSlot } from "@/features/meals/slots";
 import { usePanSwipeDay } from "@/features/meals/use-pan-swipe-day";
 import { useImportJobs } from "@/features/meals/use-import-jobs";
 import { useActiveList } from "@/features/onboarding/access";
-import { useRecipeChoices } from "@/features/cookbook/use-recipe-choices";
+import {
+  prepareRecommendedMeal,
+  useMealRecommendations,
+} from "@/features/meals/use-meal-recommendations";
 import { useToday } from "@/hooks/use-today";
 
 export default function Meals() {
@@ -57,10 +61,12 @@ export default function Meals() {
     Record<string, DisplayPlannedMeal | null>
   >({});
   const importJobs = useImportJobs();
-  const { choices } = useRecipeChoices();
   const { width } = useWindowDimensions();
 
   const list = useActiveList();
+  const recommendations = useMealRecommendations(list?.id);
+  const selectingSlots = useRef(new Set<string>());
+  const [selecting, setSelecting] = useState<Set<string>>(new Set());
 
   const { data: planned } = useQuery<ShoppingMeal>(
     `${MEALS_WITH_SHOPPING} WHERE pm.list_id = ?`,
@@ -87,17 +93,6 @@ export default function Meals() {
     () => new Map(variants.map((v) => [v.id, v])),
     [variants],
   );
-  // Recently added recipe groups, each represented by its newest variant.
-  const contendersBySlot = useMemo((): Record<MealSlot, DisplayRecipe[]> => {
-    const all: DisplayRecipe[] = choices.slice(0, 10).map(({ variant: v }) => ({
-      id: v.id,
-      recipeId: v.recipe_id!,
-      name: v.name ?? "…",
-      totalTime: v.total_time,
-    }));
-    return { lunch: all, dinner: all, treat: all };
-  }, [choices]);
-
   const todayKey = useToday();
   const selIndex = Math.max(
     0,
@@ -152,6 +147,7 @@ export default function Meals() {
   }, [planned, pending]);
 
   function setOpen(date: string, slot: MealSlot, open: boolean) {
+    if (open) void recommendations.load(date, slot);
     setOpenSlots((prev) => {
       const next = new Set(prev);
       const k = `${date}:${slot}`;
@@ -164,31 +160,35 @@ export default function Meals() {
   async function onPlan(date: string, slot: MealSlot, recipe: DisplayRecipe) {
     if (!list) return;
     const k = `${date}:${slot}`;
-    // Same default the write applies: everyone in the household, no extra.
-    const eaterIds = people.map((p) => p.id);
-    setPending((prev) => ({
-      ...prev,
-      [k]: {
-        ...recipe,
-        variantId: recipe.id,
-        shoppingReviewed: false,
-        eaterIds,
-        extraPortions: 0,
-        eatersLabel: eatersLabel({ people, eaterIds, extraPortions: 0 }),
-      },
-    }));
-    setOpen(date, slot, false);
+    if (selectingSlots.current.has(k)) return;
+    selectingSlots.current.add(k);
+    setSelecting(new Set(selectingSlots.current));
     try {
+      recipe = await prepareRecommendedMeal(list.id, recipe);
+      // Same default the write applies: everyone in the household, no extra.
+      const eaterIds = people.map((p) => p.id);
+      setPending((prev) => ({
+        ...prev,
+        [k]: {
+          ...recipe,
+          variantId: recipe.id,
+          shoppingReviewed: false,
+          eaterIds,
+          extraPortions: 0,
+          eatersLabel: eatersLabel({ people, eaterIds, extraPortions: 0 }),
+        },
+      }));
+      setOpen(date, slot, false);
       // DisplayRecipe id is now variant id (ADR 8)
       const v = variantById.get(recipe.id);
       await setPlannedMeal({
         listId: list.id,
         slotDate: date,
         meal: slot,
-        recipeId: v?.recipe_id ?? recipe.id,
+        recipeId: recipe.recipeId ?? v?.recipe_id ?? recipe.id,
         variantId: recipe.id,
       });
-    } catch {
+    } catch (error) {
       // rollback optimistic on failure
       setPending((prev) => {
         const next = { ...prev };
@@ -196,6 +196,13 @@ export default function Meals() {
         return next;
       });
       setOpen(date, slot, true);
+      Alert.alert(
+        "Couldn’t plan this meal",
+        error instanceof Error ? error.message : "Please try again.",
+      );
+    } finally {
+      selectingSlots.current.delete(k);
+      setSelecting(new Set(selectingSlots.current));
     }
   }
 
@@ -291,7 +298,9 @@ export default function Meals() {
           list={list}
           importJobs={importJobs}
           plannedFor={plannedFor}
-          contenders={contendersBySlot}
+          recommendations={(slot) => recommendations.get(key, slot)}
+          isSelecting={(slot) => selecting.has(`${key}:${slot}`)}
+          onRetry={(slot) => void recommendations.load(key, slot)}
           isOpen={(slot) => openSlots.has(`${key}:${slot}`)}
           onPlan={(slot, r) => void onPlan(key, slot, r)}
           onEditEaters={(slot, r) => editEaters(key, slot, r)}

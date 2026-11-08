@@ -75,4 +75,13 @@ not evidence of more confidence.
 - Mobile tests: `pnpm --filter mobile test`
 - API tests: `pnpm --filter api test`. Database tests run against the local
   Supabase from `apps/api/.env` and skip without it.
+- The recommendation test calls real Jev when `TYPESAFE_AI_API_KEY` is set in
+  `apps/api/.env`; it skips without a key. Run just that file from `apps/api` with
+  `pnpm exec tsx --env-file-if-exists=.env --test src/meal-recommendations.test.ts`.
+  It checks the brief's quick-meal requests, weekly minimums as choices accumulate,
+  requested versus unwanted repeats in both directions, distinct choices across
+  cheese/herb spins, and an explicit allergen. Fit is a single Noul judgment,
+  not a weighted formula or a set of verbal rating levels.
+  The database check includes same-day slots and future plans without touching
+  household data. A passing example is a regression check, not allergy certification.
 - Shared rules: `pnpm --filter @magpie/meals test`

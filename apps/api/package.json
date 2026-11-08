@@ -13,7 +13,8 @@
     "retag": "tsx --env-file-if-exists=.env src/retag-recipes.ts"
   },
   "dependencies": {
-    "@ai-sdk/google": "^4.0.47",
+    "@ai-sdk/google": "^4.0.113",
+    "@ai-sdk/typesafe-ai": "^3.0.34",
     "@hono/node-server": "^2.1.1",
     "@magpie/meals": "workspace:*",
     "@magpie/profile": "workspace:*",
@@ -22,7 +23,7 @@
     "@opentelemetry/resources": "^2.11.0",
     "@opentelemetry/sdk-logs": "^0.222.0",
     "@opentelemetry/sdk-node": "^0.222.0",
-    "ai": "^7.0.70",
+    "ai": "^7.0.164",
     "hono": "^4.13.3",
     "jose": "^6.2.9",
     "pg": "^8.23.0",

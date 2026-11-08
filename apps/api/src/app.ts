@@ -13,6 +13,7 @@ import { plannedMeals } from "./routes/planned-meals.js";
 import { recipes } from "./routes/recipes.js";
 import { invitations } from "./routes/invitations.js";
 import { sharedRecipes } from "./routes/shared-recipes.js";
+import { mealRecommendations } from "./routes/meal-recommendations.js";
 
 export const app = new Hono<AppBindings>();
 
@@ -45,6 +46,7 @@ app.route("/v1/chats", chats);
 app.route("/v1/items", items);
 app.route("/v1/recipes", recipes);
 app.route("/v1/planned-meals", plannedMeals);
+app.route("/v1/meal-recommendations", mealRecommendations);
 
 app.notFound((c) =>
   c.json({ error: { code: "NOT_FOUND", message: "Not found" } }, 404),

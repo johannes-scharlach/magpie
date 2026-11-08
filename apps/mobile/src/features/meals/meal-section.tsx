@@ -2,7 +2,7 @@ import { SymbolView } from "expo-symbols";
 import { LinearGradient } from "expo-linear-gradient";
 import { Link, router } from "expo-router";
 import { useMemo } from "react";
-import { Pressable, ScrollView, View } from "react-native";
+import { ActivityIndicator, Pressable, ScrollView, View } from "react-native";
 import {
   Gesture,
   GestureDetector,
@@ -37,6 +37,10 @@ type Props = {
   /** Only true for an unreviewed meal planned for today or later. */
   showShoppingPrompt: boolean;
   contenders: Recipe[];
+  recommendationsLoading: boolean;
+  recommendationsFailed: boolean;
+  selecting: boolean;
+  onRetry: () => void;
   onPlan: (recipe: Recipe) => void;
   onEditEaters: () => void;
   onChange: () => void;
@@ -73,6 +77,10 @@ export function MealSection({
   isPast,
   showShoppingPrompt,
   contenders,
+  recommendationsLoading,
+  recommendationsFailed,
+  selecting,
+  onRetry,
   onPlan,
   onEditEaters,
   onChange,
@@ -267,6 +275,34 @@ export function MealSection({
           </View>
         ) : (
           <View className="gap-3">
+            <View
+              className="flex-row items-center gap-2 px-6"
+              accessibilityLiveRegion="polite"
+            >
+              {recommendationsLoading || selecting ? (
+                <ActivityIndicator size="small" />
+              ) : null}
+              <Text variant="muted" className="flex-1 text-sm">
+                {selecting
+                  ? "Getting the recipe ready…"
+                  : recommendationsLoading
+                    ? "Finding meals for you…"
+                    : recommendationsFailed
+                      ? "Suggestions couldn’t load. You can still browse your cookbook."
+                      : contenders.length
+                        ? "Picked for you"
+                        : "No matching suggestions. Browse your cookbook or write in a meal."}
+              </Text>
+              {recommendationsFailed ? (
+                <Pressable
+                  accessibilityRole="button"
+                  hitSlop={12}
+                  onPress={onRetry}
+                >
+                  <Text className="text-link">Retry</Text>
+                </Pressable>
+              ) : null}
+            </View>
             <GestureDetector gesture={contendersScroll}>
               <ScrollView
                 horizontal
@@ -277,22 +313,30 @@ export function MealSection({
                   <Pressable
                     key={c.id}
                     accessibilityRole="button"
+                    disabled={selecting}
                     accessibilityLabel={`Select ${c.name} for ${title.toLowerCase()}`}
                     onPress={(event) =>
                       selectContender(c.id, event, () => onPlan(c))
                     }
-                    onLongPress={() =>
-                      router.push({
-                        pathname: "/variant/versions",
-                        params: {
-                          recipeId: c.recipeId ?? "",
-                          id: c.id,
-                          date,
-                          slot,
-                        },
-                      })
+                    onLongPress={
+                      c.seedKey
+                        ? undefined
+                        : () =>
+                            router.push({
+                              pathname: "/variant/versions",
+                              params: {
+                                recipeId: c.recipeId ?? "",
+                                id: c.id,
+                                date,
+                                slot,
+                              },
+                            })
                     }
-                    accessibilityHint="Long press for other variants"
+                    accessibilityHint={
+                      c.seedKey
+                        ? "Saves this idea to your cookbook and plans it"
+                        : "Long press for other variants"
+                    }
                     className="w-40 overflow-hidden rounded-xl border border-border bg-card"
                   >
                     <View className="h-24">

@@ -5,6 +5,7 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
+    "./seeded-recipes.json": "./src/seeded-recipes.json",
     "./seeded-twists.json": "./src/seeded-twists.json"
   },
   "scripts": {

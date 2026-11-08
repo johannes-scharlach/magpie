@@ -568,7 +568,7 @@ test("the household's brief guides both suggestion paths without committing meal
   }
 });
 
-test("both suggestion paths read one canonical brief and keep legacy favourites readable", () => {
+test("both suggestion paths use the brief and ignore deprecated new-dish answers", () => {
   const profile = newProfile();
   profile.meal_ideas_brief =
     "We’d like some ideas for dinner during the week.\n\nRice twice a week.";
@@ -577,12 +577,8 @@ test("both suggestion paths read one canonical brief and keep legacy favourites 
     profileContext({ profile, people: [] }, "caller"),
     householdRulesContext({ profile, people: [] }),
   ]) {
-    assert.ok(
-      context.includes(
-        JSON.stringify(`${profile.meal_ideas_brief}\n\n${profile.new_dishes}`),
-      ),
-    );
-    assert.equal(context.split(profile.new_dishes).length - 1, 1);
+    assert.ok(context.includes(JSON.stringify(profile.meal_ideas_brief)));
+    assert.ok(!context.includes(profile.new_dishes));
   }
   profile.meal_ideas_brief += `\n\n${profile.new_dishes}`;
   profile.new_dishes = null;
@@ -591,4 +587,12 @@ test("both suggestion paths read one canonical brief and keep legacy favourites 
       JSON.stringify(profile.meal_ideas_brief),
     ),
   );
+  profile.meal_ideas_brief = "";
+  profile.new_dishes = "sometimes";
+  for (const context of [
+    profileContext({ profile, people: [] }, "caller"),
+    householdRulesContext({ profile, people: [] }),
+  ]) {
+    assert.doesNotMatch(context, /^## Meal ideas$/m);
+  }
 });

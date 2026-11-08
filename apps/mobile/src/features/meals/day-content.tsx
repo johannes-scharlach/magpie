@@ -19,6 +19,7 @@ import type { ImportJobs } from "@/features/meals/import-jobs";
 import { ImportJobStatus } from "@/features/meals/import-job-status";
 import { mealIsPast } from "@/features/meals/variant-meals";
 import { useToday } from "@/hooks/use-today";
+import type { MealRecommendations } from "./use-meal-recommendations";
 
 const PLUS_ICON = { ios: "plus", android: "add" } as const;
 
@@ -27,6 +28,7 @@ export type DisplayRecipe = {
   recipeId: string | null;
   name: string;
   totalTime: string | null;
+  seedKey?: string | null;
 };
 export type DisplayPlannedMeal = DisplayRecipe & {
   variantId: string | null;
@@ -44,7 +46,9 @@ type Props = {
   list: List;
   importJobs: ImportJobs;
   plannedFor: (date: string, slot: MealSlot) => DisplayPlannedMeal | null;
-  contenders: Record<MealSlot, DisplayRecipe[]>;
+  recommendations: (slot: MealSlot) => MealRecommendations;
+  isSelecting: (slot: MealSlot) => boolean;
+  onRetry: (slot: MealSlot) => void;
   isOpen: (slot: MealSlot) => boolean;
   onPlan: (slot: MealSlot, recipe: DisplayRecipe) => void;
   onEditEaters: (slot: MealSlot, recipe: DisplayPlannedMeal | null) => void;
@@ -67,7 +71,9 @@ export function DayContent({
   list,
   importJobs,
   plannedFor,
-  contenders,
+  recommendations,
+  isSelecting,
+  onRetry,
   isOpen,
   onPlan,
   onEditEaters,
@@ -142,7 +148,11 @@ export function DayContent({
               showShoppingPrompt={
                 !!recipe && !recipe.shoppingReviewed && dateStr >= today
               }
-              contenders={contenders[slot]}
+              contenders={recommendations(slot).recipes}
+              recommendationsLoading={recommendations(slot).loading}
+              recommendationsFailed={recommendations(slot).failed}
+              selecting={isSelecting(slot)}
+              onRetry={() => onRetry(slot)}
               onPlan={(r) => onPlan(slot, r)}
               onEditEaters={() => onEditEaters(slot, recipe)}
               onChange={() => onChange(slot)}
