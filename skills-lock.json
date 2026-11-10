@@ -1,29 +1,41 @@
 {
-  "version": 1,
+  "version": 2,
   "skills": {
     "expo-animation": {
       "source": "expo/skills",
       "sourceType": "github",
       "skillPath": "plugins/expo/skills/expo-animation/SKILL.md",
-      "computedHash": "55d68c0a4507340b9f1da38337884ab2958c1b051197600e628151fb3cceb077"
+      "computedHash": "9910fb30b1511109f791d955db718a1eab88a1ee0adf365ae6c06843378e4680"
     },
     "expo-native-ui": {
       "source": "expo/skills",
       "sourceType": "github",
       "skillPath": "plugins/expo/skills/expo-native-ui/SKILL.md",
-      "computedHash": "3bebacbb5882f72f89322391b2b82f643cea15c0e2b3e27c39659969a6addd75"
+      "computedHash": "f6a8eb16273a9c02ddf187a199e98d5b6754be3af5a1f05add2d6614f4cd22fe"
     },
     "expo-router": {
       "source": "expo/skills",
       "sourceType": "github",
       "skillPath": "plugins/expo/skills/expo-router/SKILL.md",
-      "computedHash": "b5baa66d0024536b1410136b05e83d749fb5a1c8b72326b5096193c03523361c"
+      "computedHash": ""
     },
     "expo-ui": {
       "source": "expo/skills",
       "sourceType": "github",
       "skillPath": "plugins/expo/skills/expo-ui/SKILL.md",
-      "computedHash": "0e3b343c6e60acab6f4fd4ae6364973f3641ee6de609f3e469bf0347302ead9e"
+      "computedHash": "a75f0f550c8066866eed44dc99e438db54f59f4afcf0058fc4c9b4fc5622bc49"
+    },
+    "integrate-p6t": {
+      "source": "p6t-polyglot/p6t",
+      "sourceType": "github",
+      "skillPath": "skills/integrate-p6t/SKILL.md",
+      "computedHash": "5c89722c218b685753aee6ab8edc395f330389fd04b20fa819c27fedafa3383a"
+    },
+    "translatability": {
+      "source": "p6t-polyglot/p6t",
+      "sourceType": "github",
+      "skillPath": "skills/translatability/SKILL.md",
+      "computedHash": "d7b009600b2f198f533f2dbdec7a7dd51f69ad4a2283a56f2fde76763aa8c521"
     }
   }
 }
