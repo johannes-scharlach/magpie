@@ -66,7 +66,7 @@ beforeEach(() => {
   state.db.exec(`
     CREATE TABLE household_people (id TEXT, list_id TEXT, created_at TEXT);
     INSERT INTO household_people VALUES ('person', 'household', '2026-01-01');
-    CREATE TABLE recipes (id TEXT PRIMARY KEY, list_id TEXT, from_name TEXT, from_url TEXT, origin TEXT, next_ingredient_id INTEGER, cuisine TEXT, tags TEXT, created_by TEXT, created_at TEXT, updated_at TEXT);
+    CREATE TABLE recipes (id TEXT PRIMARY KEY, list_id TEXT, from_name TEXT, from_url TEXT, origin TEXT, next_ingredient_id INTEGER, cuisine TEXT, tags TEXT, art_path TEXT, created_by TEXT, created_at TEXT, updated_at TEXT);
     CREATE TABLE variants (id TEXT PRIMARY KEY, recipe_id TEXT, list_id TEXT DEFAULT 'household', name TEXT, description TEXT, locale TEXT, total_time TEXT, recipe_yield TEXT,
       content_markdown TEXT, equipment TEXT, effort TEXT, ingredient_lines TEXT, instructions TEXT, sized_for TEXT, created_at TEXT, updated_at TEXT);
     CREATE TABLE planned_meals (
@@ -89,8 +89,8 @@ it("plans another household's recipe as this household's copy, with the server's
   const bens = "b2700000-0000-4000-8000-000000000002";
   const cookies = "f2700000-0000-4000-8000-000000000002";
   state.db!.exec(`
-    INSERT INTO recipes (id, list_id, from_url, origin, next_ingredient_id, created_by)
-      VALUES ('annas-recipe', '${annas}', 'https://example.com/cookies', 'import', 5, 'anna');
+    INSERT INTO recipes (id, list_id, from_url, origin, next_ingredient_id, art_path, created_by)
+      VALUES ('annas-recipe', '${annas}', 'https://example.com/cookies', 'import', 5, 'annas-recipe.webp', 'anna');
     INSERT INTO variants (id, recipe_id, list_id, name, ingredient_lines, instructions, sized_for)
       VALUES ('${cookies}', 'annas-recipe', '${annas}', 'Cookies', '[{"id":4,"item_name":"butter"}]', '[]', '{"eater_ids":[],"extra_portions":0}');
   `);
@@ -120,6 +120,7 @@ it("plans another household's recipe as this household's copy, with the server's
     from_url: "https://example.com/cookies",
     origin: null,
     next_ingredient_id: 5,
+    art_path: "annas-recipe.webp",
     created_by: null,
   });
   expect(

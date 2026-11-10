@@ -72,8 +72,9 @@ export default function Meals() {
     `${MEALS_WITH_SHOPPING} WHERE pm.list_id = ?`,
     [list?.id ?? ""],
   );
-  const { data: variants } = useQuery<DbVariant>(
-    "SELECT * FROM variants ORDER BY created_at DESC",
+  const { data: variants } = useQuery<DbVariant & { art_path: string | null }>(
+    `SELECT v.*, r.art_path FROM variants v LEFT JOIN recipes r ON r.id = v.recipe_id
+     ORDER BY v.created_at DESC`,
   );
   const { session } = useAuth();
   const { data: peopleRows } = useQuery<{
@@ -124,6 +125,7 @@ export default function Meals() {
       recipeId: row.recipe_id,
       name: row.name ?? v?.name ?? "…",
       totalTime: v?.total_time ?? null,
+      artPath: v?.art_path ?? null,
       eaterIds,
       extraPortions,
       eatersLabel: eatersLabel({ people, eaterIds, extraPortions }),
@@ -298,7 +300,16 @@ export default function Meals() {
           list={list}
           importJobs={importJobs}
           plannedFor={plannedFor}
-          recommendations={(slot) => recommendations.get(key, slot)}
+          recommendations={(slot) => {
+            const found = recommendations.get(key, slot);
+            return {
+              ...found,
+              recipes: found.recipes.map((recipe) => ({
+                ...recipe,
+                artPath: variantById.get(recipe.id)?.art_path ?? null,
+              })),
+            };
+          }}
           isSelecting={(slot) => selecting.has(`${key}:${slot}`)}
           onRetry={(slot) => void recommendations.load(key, slot)}
           isOpen={(slot) => openSlots.has(`${key}:${slot}`)}

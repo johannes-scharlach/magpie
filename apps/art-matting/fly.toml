@@ -1,0 +1,42 @@
+# fly.toml for apps/art-matting (ADR 38). Deploy from the repo root:
+#
+#   pnpm art:deploy
+#
+# CI does the same on push to main (.github/workflows/art-matting-deploy.yml).
+#
+# Private: reachable only as http://magpie-art-matting.flycast from apps in
+# the org, never from the internet. First time:
+#
+#   fly apps create magpie-art-matting
+#   fly deploy --config apps/art-matting/fly.toml \
+#     --dockerfile apps/art-matting/Dockerfile --flycast --no-public-ips
+#   fly ips list --app magpie-art-matting   # only a private v6, no public IPs
+#   fly secrets set ART_MATTING_URL=http://magpie-art-matting.flycast --app magpie-api
+
+app = "magpie-art-matting"
+primary_region = "fra"
+
+[env]
+  PORT = "8080"
+
+[http_service]
+  internal_port = 8080
+  # Flycast is HTTP only.
+  force_https = false
+  # A request through Flycast wakes it. Suspend keeps the model in memory,
+  # which Fly allows up to 2 GB without swap.
+  auto_stop_machines = "suspend"
+  auto_start_machines = true
+  min_machines_running = 0
+
+  [[http_service.checks]]
+    method = "GET"
+    path = "/health"
+    interval = "60s"
+    timeout = "5s"
+    grace_period = "20s"
+
+[[vm]]
+  size = "shared-cpu-2x"
+  # A matte peaks around 1.7 GB; 1 GB is killed for memory.
+  memory = "2gb"

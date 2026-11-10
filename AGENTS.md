@@ -50,6 +50,8 @@ detail.
   `docker logs supabase_edge_runtime_magpie`.
 - `pnpm api` runs the Hono server (`apps/api`); `pnpm api:deploy` ships it
   to Fly.io from the repo root, which is where the Docker context has to be.
+- `pnpm art:matting` runs the recipe art matting service (`apps/art-matting`,
+  Python via `uv`, port 8790); `pnpm art:deploy` ships it. ADR 38.
 
 ## Constraints
 

@@ -9,7 +9,9 @@ import type { Client, PoolClient } from "pg";
 
 import type { ChatEntry } from "./recipe-chat.js";
 import type { RecipeInput } from "./recipe-schema.js";
+import { afterCommit } from "./db.js";
 import { AppError } from "./errors.js";
+import { requestRecipeArt } from "./recipe-art.js";
 import { readTagVocabulary, settleTags } from "./recipe-tags.js";
 
 export async function findVariantIdentity(
@@ -44,6 +46,7 @@ export async function createRecipe(
     `INSERT INTO recipes (id, list_id, from_name, from_url, created_by, origin) VALUES ($1,$2,$3,$4,$5,$6)`,
     [recipeId, listId, from?.name ?? null, from?.url ?? null, userId, origin],
   );
+  afterCommit(client, () => requestRecipeArt(recipeId));
   return recipeId;
 }
 

@@ -6,6 +6,8 @@ import type { Recipe, Variant } from "@/db/schema";
 export type RecipeChoice = {
   /** The recipe's cuisine, shown with each variant (ADR 36). */
   cuisine: string | null;
+  /** The recipe's drawn art (ADR 38). */
+  artPath: string | null;
   variant: Variant;
   olderVariant: boolean;
   variantCount: number;
@@ -15,7 +17,8 @@ export type RecipeChoice = {
  *  A match on the recipe's cuisine or tags picks its newest variant.
  *  Variant matches include ingredient lines, equipment and effort. */
 export function recipeChoices(
-  recipes: Pick<Recipe, "id" | "created_at" | "cuisine" | "tags">[],
+  recipes: (Pick<Recipe, "id" | "created_at" | "cuisine" | "tags"> &
+    Partial<Pick<Recipe, "art_path">>)[],
   variants: Variant[],
   search = "",
 ): RecipeChoice[] {
@@ -60,6 +63,7 @@ export function recipeChoices(
       ? [
           {
             cuisine,
+            artPath: recipe.art_path ?? null,
             variant,
             olderVariant: variant.id !== alternatives[0]?.id,
             variantCount: alternatives.length,

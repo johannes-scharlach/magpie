@@ -131,6 +131,8 @@ const recipes = new Table({
   cuisine: column.text,
   /** and a JSON array of the household's tags for the kind of dish. */
   tags: column.text,
+  /** Path in the public recipe-art bucket; null until drawn (ADR 38). */
+  art_path: column.text,
   created_by: column.text,
   created_at: column.text,
   updated_at: column.text,

@@ -821,10 +821,7 @@
     "total_time": "20 min",
     "recipe_yield": "2 servings",
     "effort": "easy",
-    "equipment": [
-      "large cast-iron or heavy skillet",
-      "chef's knife"
-    ],
+    "equipment": ["large cast-iron or heavy skillet", "chef's knife"],
     "description": "Corn charred hard in a hot skillet with diced zucchini and jalapeño, finished off the heat with crumbled salty cheese, fresh lime, and warm corn tortillas.",
     "ingredient_lines": [
       {
@@ -1035,9 +1032,7 @@
     "total_time": "20 min",
     "recipe_yield": "2 servings",
     "effort": "easy",
-    "equipment": [
-      "large stainless or cast-iron skillet"
-    ],
+    "equipment": ["large stainless or cast-iron skillet"],
     "description": "Zucchini coins and sweet corn blistered in olive oil, then tossed off the heat with crumbled feta, torn fresh mint, and lemon juice. Crusty bread to scoop it up.",
     "ingredient_lines": [
       {
@@ -1429,10 +1424,7 @@
     "total_time": "20 min",
     "recipe_yield": "2 servings",
     "effort": "easy",
-    "equipment": [
-      "large skillet",
-      "vegetable peeler"
-    ],
+    "equipment": ["large skillet", "vegetable peeler"],
     "description": "Zucchini and sweet corn charred fast in olive oil with garlic, tossed off the heat with fresh basil and sharp, salty pecorino. Crusty bread to catch the pan juices.",
     "ingredient_lines": [
       {
@@ -2428,11 +2420,7 @@
     "total_time": "40 min",
     "recipe_yield": "2 servings",
     "effort": "easy",
-    "equipment": [
-      "heavy rimmed baking sheet",
-      "tongs",
-      "mixing bowl"
-    ],
+    "equipment": ["heavy rimmed baking sheet", "tongs", "mixing bowl"],
     "description": "Fresh cooking chorizo, sweet peppers and baby potatoes roasted until sizzling in spiced red oil. A splash of sherry vinegar over the hot tray cuts the rich fat.",
     "ingredient_lines": [
       {
@@ -2606,11 +2594,7 @@
     "total_time": "40 min",
     "recipe_yield": "2 servings",
     "effort": "easy",
-    "equipment": [
-      "large rimmed baking sheet",
-      "mixing bowl",
-      "tongs"
-    ],
+    "equipment": ["large rimmed baking sheet", "mixing bowl", "tongs"],
     "description": "Spicy lamb merguez and baby potatoes roasted with sweet peppers and cumin seeds until browned and crisp. Squeeze fresh lemon over the sizzling tray.",
     "ingredient_lines": [
       {
@@ -3121,12 +3105,7 @@
     "total_time": "25 min",
     "recipe_yield": "2 servings",
     "effort": "easy",
-    "equipment": [
-      "pasta pot",
-      "wide deep skillet",
-      "wooden spoon",
-      "tongs"
-    ],
+    "equipment": ["pasta pot", "wide deep skillet", "wooden spoon", "tongs"],
     "description": "Cherry tomatoes cooked down with a spoonful of fiery 'nduja into a sweet, spicy pan sauce. Tossed with pasta and topped with cool, creamy burrata that melts in ribbons as you eat.",
     "ingredient_lines": [
       {
@@ -3412,9 +3391,7 @@
       },
       {
         "name": "Crush & emulsify sauce",
-        "ingredients": [
-          "sea salt and freshly cracked black pepper"
-        ],
+        "ingredients": ["sea salt and freshly cracked black pepper"],
         "text": "Use the back of a wooden spoon to burst about half of the blistered tomatoes so their rich pulp creates a saucy base, leaving the remaining tomatoes whole. Pour in 60ml of hot pasta water and simmer for 1–2 minutes until glossy and slightly reduced. Discard the garlic cloves."
       },
       {
@@ -6931,11 +6908,7 @@
     "total_time": "25 min",
     "recipe_yield": "2 servings",
     "effort": "easy",
-    "equipment": [
-      "12-inch heavy skillet with lid",
-      "plate",
-      "wooden spatula"
-    ],
+    "equipment": ["12-inch heavy skillet with lid", "plate", "wooden spatula"],
     "description": "Gnocchi browned in olive oil, tossed with sweet blistered tomatoes and fresh basil, topped with mozzarella that melts into gooey pockets right in the pan.",
     "ingredient_lines": [
       {
@@ -8544,12 +8517,7 @@
     "total_time": "30 min",
     "recipe_yield": "2 servings",
     "effort": "normal",
-    "equipment": [
-      "12-inch heavy skillet",
-      "tongs",
-      "whisk",
-      "plate"
-    ],
+    "equipment": ["12-inch heavy skillet", "tongs", "whisk", "plate"],
     "description": "Seared chops with tart apples browned in butter, deglazed with dry cider and swirled with crème fraîche and Dijon into a rich pan sauce.",
     "ingredient_lines": [
       {
@@ -8910,12 +8878,7 @@
     "total_time": "30 min",
     "recipe_yield": "2 servings",
     "effort": "normal",
-    "equipment": [
-      "12-inch cast-iron skillet",
-      "tongs",
-      "spatula",
-      "plate"
-    ],
+    "equipment": ["12-inch cast-iron skillet", "tongs", "spatula", "plate"],
     "description": "Bone-in chops seared in a hot skillet, tart apples fried tender in the drippings with black pepper and a splash of cider vinegar to balance the sweetness.",
     "ingredient_lines": [
       {
@@ -9245,11 +9208,7 @@
     "total_time": "35 min",
     "recipe_yield": "2 servings",
     "effort": "easy",
-    "equipment": [
-      "deep sauté pan with lid",
-      "wooden spoon",
-      "can opener"
-    ],
+    "equipment": ["deep sauté pan with lid", "wooden spoon", "can opener"],
     "description": "Rice and spinach simmered with sweet crushed tomatoes, olive oil, and spring onions, finished with lemon and warm crumbled feta.",
     "ingredient_lines": [
       {
@@ -9439,11 +9398,7 @@
     "total_time": "35 min",
     "recipe_yield": "2 servings",
     "effort": "easy",
-    "equipment": [
-      "heavy saucepan with lid",
-      "wooden spoon",
-      "colander"
-    ],
+    "equipment": ["heavy saucepan with lid", "wooden spoon", "colander"],
     "description": "Tender chickpeas simmered in one pot with rice, mounds of spinach, and fresh dill, topped with crumbled feta and lemon for an all-in-one pantry dinner.",
     "ingredient_lines": [
       {
@@ -11296,11 +11251,7 @@
     "total_time": "50 min",
     "recipe_yield": "2 servings",
     "effort": "easy",
-    "equipment": [
-      "large rimmed baking sheet",
-      "chef knife",
-      "cutting board"
-    ],
+    "equipment": ["large rimmed baking sheet", "chef knife", "cutting board"],
     "description": "Fennel salsiccia, sweet potatoes, and fennel wedges roasted hot with whole garlic and rosemary, finished straight out of the oven with fresh lemon and chopped fennel fronds.",
     "ingredient_lines": [
       {
@@ -11445,11 +11396,7 @@
     "total_time": "50 min",
     "recipe_yield": "2 servings",
     "effort": "easy",
-    "equipment": [
-      "large rimmed baking sheet",
-      "chef knife",
-      "small bowl"
-    ],
+    "equipment": ["large rimmed baking sheet", "chef knife", "small bowl"],
     "description": "Peppery pork sausages roasted alongside sweet potatoes, fennel, and tart apple wedges, served with a big spoonful of sharp wholegrain mustard on the side.",
     "ingredient_lines": [
       {
@@ -11584,11 +11531,7 @@
     "total_time": "50 min",
     "recipe_yield": "2 servings",
     "effort": "easy",
-    "equipment": [
-      "large rimmed baking sheet",
-      "chef knife",
-      "kitchen towels"
-    ],
+    "equipment": ["large rimmed baking sheet", "chef knife", "kitchen towels"],
     "description": "Spiced sausage, sweet potatoes, and fennel roasted hot with chickpeas that turn crunchy on the tray, tossed with harissa and finished with a squeeze of fresh lemon.",
     "ingredient_lines": [
       {
@@ -11733,6 +11676,3742 @@
           }
         ],
         "text": "Remove tray from oven and immediately squeeze half the fresh lemon over the hot sausages and crunchy chickpeas. Scatter chopped cilantro over top and serve hot."
+      }
+    ]
+  },
+  "Classic Greek bouyiourdi: spicy baked feta with tomatoes and peppers": {
+    "title": "Classic Greek bouyiourdi: spicy baked feta with tomatoes and peppers",
+    "parent_idea": "Baked Feta with Cherry Tomatoes",
+    "cuisine": "Greek",
+    "total_time": "25 min",
+    "recipe_yield": "2 servings",
+    "effort": "easy",
+    "equipment": [
+      "shallow baking dish or terracotta dish (approx. 20cm)",
+      "cutting board and chef's knife"
+    ],
+    "description": "The iconic Macedonian meze: a block of feta baked until molten with sweet tomatoes, sliced green peppers, olive oil, and spicy chili flakes. Crusty bread to scoop.",
+    "ingredient_lines": [
+      {
+        "qty_text": "200g",
+        "item_name": "Greek feta block",
+        "category_id": "dairy",
+        "swaps": [
+          {
+            "qty_text": "200g",
+            "item_name": "barrel-aged sheep's milk feta",
+            "category_id": "dairy",
+            "reason": "sharper mineral brine and creamier melting texture"
+          }
+        ]
+      },
+      {
+        "qty_text": "250g",
+        "item_name": "sweet cherry tomatoes",
+        "prep_note": "halved",
+        "category_id": "produce",
+        "swaps": [
+          {
+            "qty_text": "2 medium",
+            "item_name": "ripe vine tomatoes",
+            "prep_note": "sliced into thick rounds",
+            "category_id": "produce",
+            "reason": "traditional juicy Macedonian tomato base"
+          }
+        ]
+      },
+      {
+        "qty_text": "1",
+        "item_name": "green Anaheim or banana pepper",
+        "prep_note": "sliced into thin rings",
+        "category_id": "produce",
+        "without": "Omit fresh pepper",
+        "swaps": [
+          {
+            "qty_text": "1",
+            "item_name": "green bell pepper",
+            "prep_note": "thinly sliced",
+            "category_id": "produce",
+            "reason": "mild crisp vegetal sweetness"
+          }
+        ]
+      },
+      {
+        "qty_text": "1 clove",
+        "item_name": "garlic",
+        "prep_note": "thinly sliced",
+        "category_id": "produce",
+        "without": "Omit garlic"
+      },
+      {
+        "qty_text": "2 tbsp",
+        "item_name": "extra-virgin olive oil",
+        "prep_note": "divided",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "1/2 tsp",
+        "item_name": "crushed red chili flakes (boukovo)",
+        "category_id": "spices",
+        "swaps": [
+          {
+            "qty_text": "1/2 tsp",
+            "item_name": "Aleppo pepper flakes",
+            "category_id": "spices",
+            "reason": "gentler warmth with fruity depth"
+          }
+        ]
+      },
+      {
+        "qty_text": "1/2 tsp",
+        "item_name": "dried Greek oregano",
+        "category_id": "spices",
+        "without": "Skip oregano"
+      },
+      {
+        "qty_text": "1/2 loaf",
+        "item_name": "crusty sourdough or country bread",
+        "prep_note": "sliced",
+        "category_id": "bakery",
+        "swaps": [
+          {
+            "qty_text": "2",
+            "item_name": "Greek pita flatbreads",
+            "category_id": "bakery",
+            "reason": "soft charred bread to scoop warm feta"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "name": "Prep the vegetables and dish",
+        "ingredients": [
+          {
+            "qty_text": "250g",
+            "item_name": "sweet cherry tomatoes"
+          },
+          {
+            "qty_text": "1",
+            "item_name": "green Anaheim or banana pepper"
+          },
+          {
+            "qty_text": "1 clove",
+            "item_name": "garlic"
+          },
+          {
+            "qty_text": "1 tbsp",
+            "item_name": "extra-virgin olive oil"
+          }
+        ],
+        "text": "Preheat the oven to 210°C (410°F). In a small shallow baking dish, toss the halved cherry tomatoes, pepper rings, and sliced garlic with 1 tbsp of olive oil."
+      },
+      {
+        "name": "Assemble the bouyiourdi",
+        "ingredients": [
+          {
+            "qty_text": "200g",
+            "item_name": "Greek feta block"
+          },
+          {
+            "qty_text": "1 tbsp",
+            "item_name": "extra-virgin olive oil"
+          },
+          {
+            "qty_text": "1/2 tsp",
+            "item_name": "crushed red chili flakes (boukovo)"
+          },
+          {
+            "qty_text": "1/2 tsp",
+            "item_name": "dried Greek oregano"
+          }
+        ],
+        "text": "Clear a space in the center and nestle the whole feta block into the vegetables. Drizzle the remaining 1 tbsp olive oil directly over the cheese. Scatter the boukovo chili flakes and dried oregano evenly over the feta and surrounding tomatoes."
+      },
+      {
+        "name": "Bake until blistered & molten",
+        "ingredients": [],
+        "text": "Bake uncovered for 18–20 minutes until the tomatoes collapse into bubbling saucy juices, the pepper rings soften, and the feta turns soft, spreadable, and lightly toasted at the edges."
+      },
+      {
+        "name": "Serve straight from the oven",
+        "ingredients": [
+          {
+            "qty_text": "1/2 loaf",
+            "item_name": "crusty sourdough or country bread"
+          }
+        ],
+        "text": "Set the bubbling dish directly on a heatproof mat. Break into the molten feta with a spoon, swirling the spicy tomato juices and soft peppers together. Serve immediately with thick slices of crusty bread for dredging."
+      }
+    ]
+  },
+  "Baked feta with cherry tomatoes, kalamata olives and rosemary": {
+    "title": "Baked feta with cherry tomatoes, kalamata olives and rosemary",
+    "parent_idea": "Baked Feta with Cherry Tomatoes",
+    "cuisine": "Greek",
+    "total_time": "25 min",
+    "recipe_yield": "2 servings",
+    "effort": "easy",
+    "equipment": [
+      "shallow baking dish or cast-iron gratin dish (approx. 20cm)",
+      "cutting board and chef's knife"
+    ],
+    "description": "A block of feta baked until soft in olive oil with sweet cherry tomatoes, whole kalamata olives, garlic, and fresh rosemary, creating a rich briny pan sauce for bread.",
+    "ingredient_lines": [
+      {
+        "qty_text": "200g",
+        "item_name": "Greek feta block",
+        "category_id": "dairy",
+        "swaps": [
+          {
+            "qty_text": "200g",
+            "item_name": "barrel-aged sheep's milk feta",
+            "category_id": "dairy",
+            "reason": "richer funk and firmer curd that bakes creamy"
+          }
+        ]
+      },
+      {
+        "qty_text": "250g",
+        "item_name": "sweet cherry tomatoes",
+        "category_id": "produce",
+        "swaps": [
+          {
+            "qty_text": "250g",
+            "item_name": "datterini tomatoes",
+            "category_id": "produce",
+            "reason": "intensely sweet caramelized blistered sauce"
+          }
+        ]
+      },
+      {
+        "qty_text": "60g",
+        "item_name": "Kalamata olives",
+        "prep_note": "pitted",
+        "category_id": "produce",
+        "swaps": [
+          {
+            "qty_text": "60g",
+            "item_name": "Castelvetrano olives",
+            "prep_note": "pitted",
+            "category_id": "produce",
+            "reason": "buttery mild brine contrast to sharp feta"
+          }
+        ]
+      },
+      {
+        "qty_text": "2 cloves",
+        "item_name": "garlic",
+        "prep_note": "smashed and peeled",
+        "category_id": "produce",
+        "without": "Omit garlic"
+      },
+      {
+        "qty_text": "2 sprigs",
+        "item_name": "fresh rosemary",
+        "category_id": "produce",
+        "without": "Skip rosemary",
+        "swaps": [
+          {
+            "qty_text": "1/2 tsp",
+            "item_name": "dried crushed rosemary",
+            "category_id": "spices",
+            "reason": "convenient pantry herbal alternative"
+          }
+        ]
+      },
+      {
+        "qty_text": "2 tbsp",
+        "item_name": "extra-virgin olive oil",
+        "prep_note": "divided",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "1/4 tsp",
+        "item_name": "freshly cracked black pepper",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "1/2 loaf",
+        "item_name": "rustic baguette or sourdough bread",
+        "prep_note": "sliced",
+        "category_id": "bakery",
+        "swaps": [
+          {
+            "qty_text": "2",
+            "item_name": "pita flatbreads",
+            "category_id": "bakery",
+            "reason": "warm soft bread to mop up olive oil"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "name": "Combine aromatics and tomatoes",
+        "ingredients": [
+          {
+            "qty_text": "250g",
+            "item_name": "sweet cherry tomatoes"
+          },
+          {
+            "qty_text": "60g",
+            "item_name": "Kalamata olives"
+          },
+          {
+            "qty_text": "2 cloves",
+            "item_name": "garlic"
+          },
+          {
+            "qty_text": "2 sprigs",
+            "item_name": "fresh rosemary"
+          },
+          {
+            "qty_text": "1 tbsp",
+            "item_name": "extra-virgin olive oil"
+          }
+        ],
+        "text": "Preheat oven to 210°C (410°F). In a small baking dish, toss the whole cherry tomatoes, pitted olives, smashed garlic cloves, and rosemary sprigs with 1 tbsp of olive oil."
+      },
+      {
+        "name": "Add feta and oil",
+        "ingredients": [
+          {
+            "qty_text": "200g",
+            "item_name": "Greek feta block"
+          },
+          {
+            "qty_text": "1 tbsp",
+            "item_name": "extra-virgin olive oil"
+          },
+          {
+            "qty_text": "1/4 tsp",
+            "item_name": "freshly cracked black pepper"
+          }
+        ],
+        "text": "Nestle the feta block in the center, surrounding it with the tomatoes and olives. Drizzle the remaining 1 tbsp olive oil over the cheese and grind black pepper across everything."
+      },
+      {
+        "name": "Roast until bursting and tender",
+        "ingredients": [],
+        "text": "Bake for 20 minutes until the cherry tomatoes wrinkle and pop, the olives release their savory brine into the oil, and the feta softens into a warm, yielding slab."
+      },
+      {
+        "name": "Swirl and serve",
+        "ingredients": [
+          {
+            "qty_text": "1/2 loaf",
+            "item_name": "rustic baguette or sourdough bread"
+          }
+        ],
+        "text": "Discard the woody rosemary stems. Use a fork to gently crush a few tomatoes into the olive oil, swirling the warm juices into the creamy feta. Serve hot with sliced crusty bread."
+      }
+    ]
+  },
+  "Baked feta with cherry tomatoes, toasted sesame and Greek honey": {
+    "title": "Baked feta with cherry tomatoes, toasted sesame and Greek honey",
+    "parent_idea": "Baked Feta with Cherry Tomatoes",
+    "cuisine": "Greek",
+    "total_time": "25 min",
+    "recipe_yield": "2 servings",
+    "effort": "easy",
+    "equipment": [
+      "shallow baking dish or pie dish",
+      "small dry skillet",
+      "cutting board and knife"
+    ],
+    "description": "In the feta me meli tradition: feta baked soft with cherry tomatoes and fresh thyme, finished with toasted sesame seeds and warm honey to contrast the salty cheese.",
+    "ingredient_lines": [
+      {
+        "qty_text": "200g",
+        "item_name": "Greek feta block",
+        "category_id": "dairy",
+        "swaps": [
+          {
+            "qty_text": "200g",
+            "item_name": "sheep's milk feta",
+            "category_id": "dairy",
+            "reason": "traditional tangy mineral backbone to balance sweet honey"
+          }
+        ]
+      },
+      {
+        "qty_text": "250g",
+        "item_name": "sweet cherry tomatoes",
+        "prep_note": "halved",
+        "category_id": "produce",
+        "swaps": [
+          {
+            "qty_text": "250g",
+            "item_name": "grape tomatoes",
+            "prep_note": "halved",
+            "category_id": "produce",
+            "reason": "firmer skins that roast into thick jam"
+          }
+        ]
+      },
+      {
+        "qty_text": "1 tbsp",
+        "item_name": "white sesame seeds",
+        "category_id": "spices",
+        "swaps": [
+          {
+            "qty_text": "1 tbsp",
+            "item_name": "mixed black and white sesame seeds",
+            "category_id": "spices",
+            "reason": "nutty crunch with contrasting color"
+          }
+        ]
+      },
+      {
+        "qty_text": "1 1/2 tbsp",
+        "item_name": "Greek thyme honey or wildflower honey",
+        "category_id": "spices",
+        "swaps": [
+          {
+            "qty_text": "1 1/2 tbsp",
+            "item_name": "hot honey",
+            "category_id": "spices",
+            "reason": "prickle of chili heat against sweet floral honey"
+          }
+        ]
+      },
+      {
+        "qty_text": "3 sprigs",
+        "item_name": "fresh thyme",
+        "category_id": "produce",
+        "without": "Skip thyme",
+        "swaps": [
+          {
+            "qty_text": "1/2 tsp",
+            "item_name": "dried thyme",
+            "category_id": "spices",
+            "reason": "earthy floral dried pantry alternative"
+          }
+        ]
+      },
+      {
+        "qty_text": "2 tbsp",
+        "item_name": "extra-virgin olive oil",
+        "prep_note": "divided",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "1 pinch",
+        "item_name": "crushed red pepper flakes",
+        "category_id": "spices",
+        "without": "Omit chili flakes"
+      },
+      {
+        "qty_text": "1/2 loaf",
+        "item_name": "crusty country bread",
+        "prep_note": "sliced",
+        "category_id": "bakery",
+        "swaps": [
+          {
+            "qty_text": "2",
+            "item_name": "sesame flatbreads or simit",
+            "category_id": "bakery",
+            "reason": "echoes the toasted sesame topping"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "name": "Toast sesame seeds",
+        "ingredients": [
+          {
+            "qty_text": "1 tbsp",
+            "item_name": "white sesame seeds"
+          }
+        ],
+        "text": "Preheat oven to 210°C (410°F). Set a small dry skillet over medium heat. Add the sesame seeds and toast for 2 minutes, shaking the pan continuously, until evenly golden and nutty. Tip immediately onto a small plate."
+      },
+      {
+        "name": "Assemble feta and tomatoes",
+        "ingredients": [
+          {
+            "qty_text": "250g",
+            "item_name": "sweet cherry tomatoes"
+          },
+          {
+            "qty_text": "200g",
+            "item_name": "Greek feta block"
+          },
+          {
+            "qty_text": "3 sprigs",
+            "item_name": "fresh thyme"
+          },
+          {
+            "qty_text": "2 tbsp",
+            "item_name": "extra-virgin olive oil"
+          },
+          {
+            "qty_text": "1 pinch",
+            "item_name": "crushed red pepper flakes"
+          }
+        ],
+        "text": "In a shallow baking dish, toss halved cherry tomatoes with 1 tbsp olive oil, stripped thyme leaves, and a pinch of red pepper flakes. Place the feta block in the center, and drizzle the remaining 1 tbsp olive oil over the cheese."
+      },
+      {
+        "name": "Bake until jammy",
+        "ingredients": [],
+        "text": "Bake for 18–20 minutes until the tomatoes collapse into bubbling syrup and the feta turns soft, creamy, and golden-edged."
+      },
+      {
+        "name": "Glaze with honey and sesame",
+        "ingredients": [
+          {
+            "qty_text": "1 1/2 tbsp",
+            "item_name": "Greek thyme honey or wildflower honey"
+          },
+          {
+            "qty_text": "1/2 loaf",
+            "item_name": "crusty country bread"
+          }
+        ],
+        "text": "Pull from the oven. Immediately drizzle the warm honey generously over the hot feta and bubbling tomatoes. Shower with the toasted sesame seeds. Serve immediately with warm sliced crusty bread."
+      }
+    ]
+  },
+  "Baked feta with giant white beans, cherry tomatoes and oregano": {
+    "title": "Baked feta with giant white beans, cherry tomatoes and oregano",
+    "parent_idea": "Baked Feta with Cherry Tomatoes",
+    "cuisine": "Greek",
+    "total_time": "30 min",
+    "recipe_yield": "2 servings",
+    "effort": "easy",
+    "equipment": [
+      "medium gratin dish or 24cm ovenproof skillet",
+      "colander",
+      "cutting board and knife"
+    ],
+    "description": "A can of tender giant white beans scattered around a block of feta with cherry tomatoes and oregano, turning the bubbling baked cheese into a hearty, protein-rich meal.",
+    "ingredient_lines": [
+      {
+        "qty_text": "200g",
+        "item_name": "Greek feta block",
+        "category_id": "dairy",
+        "swaps": [
+          {
+            "qty_text": "200g",
+            "item_name": "barrel-aged sheep's milk feta",
+            "category_id": "dairy",
+            "reason": "creamy richness that melts smoothly around the beans"
+          }
+        ]
+      },
+      {
+        "qty_text": "400g",
+        "item_name": "canned giant white beans (gigantes or butter beans)",
+        "prep_note": "drained and rinsed",
+        "category_id": "spices",
+        "swaps": [
+          {
+            "qty_text": "400g",
+            "item_name": "canned cannellini beans",
+            "prep_note": "drained and rinsed",
+            "category_id": "spices",
+            "reason": "smaller tender white beans that stew quickly"
+          }
+        ]
+      },
+      {
+        "qty_text": "250g",
+        "item_name": "sweet cherry tomatoes",
+        "prep_note": "halved",
+        "category_id": "produce",
+        "swaps": [
+          {
+            "qty_text": "250g",
+            "item_name": "datterini tomatoes",
+            "prep_note": "halved",
+            "category_id": "produce",
+            "reason": "extra sweet and concentrated blistered tomato sauce"
+          }
+        ]
+      },
+      {
+        "qty_text": "2 cloves",
+        "item_name": "garlic",
+        "prep_note": "thinly sliced",
+        "category_id": "produce",
+        "without": "Omit garlic"
+      },
+      {
+        "qty_text": "1 tsp",
+        "item_name": "dried Greek oregano",
+        "category_id": "spices",
+        "swaps": [
+          {
+            "qty_text": "1 tbsp",
+            "item_name": "fresh oregano leaves",
+            "prep_note": "finely chopped",
+            "category_id": "produce",
+            "reason": "bright piney herbaceous aroma"
+          }
+        ]
+      },
+      {
+        "qty_text": "2 tbsp",
+        "item_name": "extra-virgin olive oil",
+        "prep_note": "divided",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "60ml",
+        "item_name": "dry white wine or vegetable broth",
+        "category_id": "beverages",
+        "swaps": [
+          {
+            "qty_text": "60ml",
+            "item_name": "water with splash of lemon juice",
+            "category_id": "produce",
+            "reason": "bright acidic simmering liquid"
+          }
+        ]
+      },
+      {
+        "qty_text": "1/4 tsp",
+        "item_name": "crushed red pepper flakes",
+        "category_id": "spices",
+        "without": "Skip chili flakes"
+      },
+      {
+        "qty_text": "1/2 loaf",
+        "item_name": "crusty sourdough bread",
+        "prep_note": "sliced",
+        "category_id": "bakery",
+        "swaps": [
+          {
+            "qty_text": "2",
+            "item_name": "pita breads",
+            "category_id": "bakery",
+            "reason": "soft flatbread to scoop the braised beans"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "name": "Combine beans, tomatoes & aromatics",
+        "ingredients": [
+          {
+            "qty_text": "400g",
+            "item_name": "canned giant white beans (gigantes or butter beans)"
+          },
+          {
+            "qty_text": "250g",
+            "item_name": "sweet cherry tomatoes"
+          },
+          {
+            "qty_text": "2 cloves",
+            "item_name": "garlic"
+          },
+          {
+            "qty_text": "1 tsp",
+            "item_name": "dried Greek oregano"
+          },
+          {
+            "qty_text": "1/4 tsp",
+            "item_name": "crushed red pepper flakes"
+          },
+          {
+            "qty_text": "60ml",
+            "item_name": "dry white wine or vegetable broth"
+          },
+          {
+            "qty_text": "1 tbsp",
+            "item_name": "extra-virgin olive oil"
+          }
+        ],
+        "text": "Preheat oven to 200°C (400°F). In a medium baking dish or ovenproof skillet, toss the drained giant white beans, halved cherry tomatoes, sliced garlic, oregano, red pepper flakes, white wine, and 1 tbsp olive oil. Toss gently to avoid breaking the beans."
+      },
+      {
+        "name": "Nestle the feta",
+        "ingredients": [
+          {
+            "qty_text": "200g",
+            "item_name": "Greek feta block"
+          },
+          {
+            "qty_text": "1 tbsp",
+            "item_name": "extra-virgin olive oil"
+          }
+        ],
+        "text": "Nestle the block of feta in the center of the dish, flush with the bean mixture. Drizzle the remaining 1 tbsp olive oil directly over the cheese."
+      },
+      {
+        "name": "Bake until rich and saucy",
+        "ingredients": [],
+        "text": "Bake for 22–25 minutes until the wine and tomato juices reduce into a thick savory broth, the tomatoes burst, and the feta turns soft and golden-brown on top."
+      },
+      {
+        "name": "Serve with crusty bread",
+        "ingredients": [
+          {
+            "qty_text": "1/2 loaf",
+            "item_name": "crusty sourdough bread"
+          }
+        ],
+        "text": "Spoon the saucy giant beans and collapsed tomatoes directly over warm chunks of feta onto thick slices of crusty bread."
+      }
+    ]
+  },
+  "Sheet-pan gnocchi with roasted bell peppers, red onion and mozzarella": {
+    "title": "Sheet-pan gnocchi with roasted bell peppers, red onion and mozzarella",
+    "parent_idea": "Crispy Sheet-Pan Gnocchi with Bell Peppers & Mozzarella",
+    "cuisine": "Italian",
+    "total_time": "30 min",
+    "recipe_yield": "2 servings",
+    "effort": "easy",
+    "equipment": [
+      "large rimmed baking sheet (half-sheet pan)",
+      "cutting board and chef's knife"
+    ],
+    "description": "Potato gnocchi, sweet bell peppers, and red onions roasted until crisp-edged, topped with torn mozzarella that melts into golden pools, finished with fresh basil.",
+    "ingredient_lines": [
+      {
+        "qty_text": "400g",
+        "item_name": "shelf-stable or fresh potato gnocchi",
+        "category_id": "grains",
+        "swaps": [
+          {
+            "qty_text": "400g",
+            "item_name": "Schupfnudeln",
+            "category_id": "grains",
+            "reason": "Swabian potato dumplings that crisp identically on a hot sheet"
+          }
+        ]
+      },
+      {
+        "qty_text": "2",
+        "item_name": "bell peppers (red and yellow)",
+        "prep_note": "cored and sliced into 2cm pieces",
+        "category_id": "produce",
+        "swaps": [
+          {
+            "qty_text": "2",
+            "item_name": "Romano pointed sweet peppers",
+            "prep_note": "sliced into 2cm pieces",
+            "category_id": "produce",
+            "reason": "thinner walls that char sweet and quickly"
+          }
+        ]
+      },
+      {
+        "qty_text": "1 small",
+        "item_name": "red onion",
+        "prep_note": "peeled and sliced into wedges",
+        "category_id": "produce",
+        "swaps": [
+          {
+            "qty_text": "2",
+            "item_name": "shallots",
+            "prep_note": "peeled and quartered",
+            "category_id": "produce",
+            "reason": "sweeter, milder roasted allium flavor"
+          }
+        ]
+      },
+      {
+        "qty_text": "125g",
+        "item_name": "fresh mozzarella ball",
+        "prep_note": "torn into bite-sized pieces",
+        "category_id": "dairy",
+        "swaps": [
+          {
+            "qty_text": "125g",
+            "item_name": "smoked scamorza",
+            "prep_note": "diced into 1cm cubes",
+            "category_id": "dairy",
+            "reason": "subtle wood-smoke aroma with golden melt"
+          }
+        ]
+      },
+      {
+        "qty_text": "2 tbsp",
+        "item_name": "extra-virgin olive oil",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "1/2 tsp",
+        "item_name": "dried oregano",
+        "category_id": "spices",
+        "without": "Skip dried oregano"
+      },
+      {
+        "qty_text": "1/2 tsp",
+        "item_name": "kosher salt",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "1/4 tsp",
+        "item_name": "freshly cracked black pepper",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "1 small handful",
+        "item_name": "fresh basil leaves",
+        "prep_note": "torn",
+        "category_id": "produce",
+        "without": "Omit fresh basil"
+      }
+    ],
+    "instructions": [
+      {
+        "name": "Prep the pan and toss gnocchi",
+        "ingredients": [
+          {
+            "qty_text": "400g",
+            "item_name": "shelf-stable or fresh potato gnocchi"
+          },
+          {
+            "qty_text": "2",
+            "item_name": "bell peppers (red and yellow)"
+          },
+          {
+            "qty_text": "1 small",
+            "item_name": "red onion"
+          },
+          {
+            "qty_text": "2 tbsp",
+            "item_name": "extra-virgin olive oil"
+          },
+          {
+            "qty_text": "1/2 tsp",
+            "item_name": "dried oregano"
+          },
+          {
+            "qty_text": "1/2 tsp",
+            "item_name": "kosher salt"
+          },
+          {
+            "qty_text": "1/4 tsp",
+            "item_name": "freshly cracked black pepper"
+          }
+        ],
+        "text": "Preheat oven to 220°C (430°F). Scatter uncooked gnocchi, bell pepper pieces, and red onion wedges directly onto the baking sheet. Pour olive oil over everything, season with oregano, salt, and black pepper, and toss thoroughly with your hands until every gnoccho glistens. Spread into a flat single layer."
+      },
+      {
+        "name": "Roast until bottoms are crisp",
+        "ingredients": [],
+        "text": "Roast undisturbed for 20 minutes. The hot baking sheet fries the gnocchi bottoms golden and crisp while their centers stay tender and chewy, and the peppers develop blistered, caramelized edges."
+      },
+      {
+        "name": "Melt the mozzarella",
+        "ingredients": [
+          {
+            "qty_text": "125g",
+            "item_name": "fresh mozzarella ball"
+          }
+        ],
+        "text": "Scatter the torn mozzarella pieces over the hot gnocchi and peppers. Return to the oven for 4–5 minutes until the cheese is melted into bubbly, golden pools."
+      },
+      {
+        "name": "Garnish and serve",
+        "ingredients": [
+          {
+            "qty_text": "1 small handful",
+            "item_name": "fresh basil leaves"
+          }
+        ],
+        "text": "Scatter torn fresh basil leaves across the baking sheet and serve piping hot straight from the pan."
+      }
+    ]
+  },
+  "Sheet-pan gnocchi with blistered cherry tomatoes, fresh basil pesto and parmesan": {
+    "title": "Sheet-pan gnocchi with blistered cherry tomatoes, fresh basil pesto and parmesan",
+    "parent_idea": "Crispy Sheet-Pan Gnocchi with Bell Peppers & Mozzarella",
+    "cuisine": "Italian",
+    "total_time": "25 min",
+    "recipe_yield": "2 servings",
+    "effort": "easy",
+    "equipment": [
+      "large rimmed baking sheet",
+      "large spoon or spatula",
+      "cutting board"
+    ],
+    "description": "Gnocchi and cherry tomatoes roasted crisp on a hot tray, tossed right out of the oven with a quick fresh basil pesto that melts into the sweet tomato juices.",
+    "ingredient_lines": [
+      {
+        "qty_text": "400g",
+        "item_name": "shelf-stable or fresh potato gnocchi",
+        "category_id": "grains",
+        "swaps": [
+          {
+            "qty_text": "400g",
+            "item_name": "ricotta gnocchi",
+            "category_id": "dairy",
+            "reason": "lighter, pillowy interior with a delicate crisp crust"
+          }
+        ]
+      },
+      {
+        "qty_text": "300g",
+        "item_name": "sweet cherry tomatoes",
+        "category_id": "produce",
+        "swaps": [
+          {
+            "qty_text": "300g",
+            "item_name": "grape tomatoes",
+            "category_id": "produce",
+            "reason": "firmer skins that burst into concentrated jammy juices"
+          }
+        ]
+      },
+      {
+        "qty_text": "2 cloves",
+        "item_name": "garlic",
+        "prep_note": "smashed and peeled",
+        "category_id": "produce",
+        "without": "Omit garlic"
+      },
+      {
+        "qty_text": "2 tbsp",
+        "item_name": "extra-virgin olive oil",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "1/2 tsp",
+        "item_name": "fine sea salt",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "1/4 tsp",
+        "item_name": "crushed red pepper flakes",
+        "category_id": "spices",
+        "without": "Skip chili flakes"
+      },
+      {
+        "qty_text": "3 tbsp",
+        "item_name": "fresh basil pesto",
+        "category_id": "spices",
+        "swaps": [
+          {
+            "qty_text": "3 tbsp",
+            "item_name": "wild garlic or arugula pesto",
+            "category_id": "spices",
+            "reason": "peppery punchy herbaceous green kick"
+          }
+        ]
+      },
+      {
+        "qty_text": "30g",
+        "item_name": "Parmesan cheese",
+        "prep_note": "finely grated",
+        "category_id": "dairy",
+        "swaps": [
+          {
+            "qty_text": "30g",
+            "item_name": "Pecorino Romano",
+            "prep_note": "finely grated",
+            "category_id": "dairy",
+            "reason": "sharper, saltier sheep's milk tang"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "name": "Toss gnocchi and tomatoes",
+        "ingredients": [
+          {
+            "qty_text": "400g",
+            "item_name": "shelf-stable or fresh potato gnocchi"
+          },
+          {
+            "qty_text": "300g",
+            "item_name": "sweet cherry tomatoes"
+          },
+          {
+            "qty_text": "2 cloves",
+            "item_name": "garlic"
+          },
+          {
+            "qty_text": "2 tbsp",
+            "item_name": "extra-virgin olive oil"
+          },
+          {
+            "qty_text": "1/2 tsp",
+            "item_name": "fine sea salt"
+          },
+          {
+            "qty_text": "1/4 tsp",
+            "item_name": "crushed red pepper flakes"
+          }
+        ],
+        "text": "Preheat oven to 220°C (430°F). On the baking sheet, tumble the uncooked gnocchi, whole cherry tomatoes, and smashed garlic cloves. Drizzle with olive oil, sprinkle with sea salt and red pepper flakes, and toss well. Spread evenly across the pan."
+      },
+      {
+        "name": "Roast undisturbed",
+        "ingredients": [],
+        "text": "Roast for 20 minutes without stirring. The gnocchi will puff and develop golden, crackly crusts on the baking sheet, while the tomatoes blister, wrinkle, and begin bursting."
+      },
+      {
+        "name": "Toss with pesto and cheese",
+        "ingredients": [
+          {
+            "qty_text": "3 tbsp",
+            "item_name": "fresh basil pesto"
+          },
+          {
+            "qty_text": "30g",
+            "item_name": "Parmesan cheese"
+          }
+        ],
+        "text": "Remove from the oven. Discard the garlic cloves. Dollop the fresh basil pesto all over the hot tray and toss gently with a spatula so the pesto loosens in the hot tomato juices and glazes each crispy gnoccho. Shower with finely grated parmesan and serve warm."
+      }
+    ]
+  },
+  "Sheet-pan gnocchi with spicy 'nduja, sweet peppers and smoked provolone": {
+    "title": "Sheet-pan gnocchi with spicy 'nduja, sweet peppers and smoked provolone",
+    "parent_idea": "Crispy Sheet-Pan Gnocchi with Bell Peppers & Mozzarella",
+    "cuisine": "Italian",
+    "total_time": "25 min",
+    "recipe_yield": "2 servings",
+    "effort": "easy",
+    "equipment": [
+      "large rimmed baking sheet",
+      "metal spatula",
+      "cutting board and chef's knife"
+    ],
+    "description": "Gnocchi and sweet peppers roasted in sizzling red 'nduja oil until crispy, topped with smoked provolone that bubbles into rich, melted pockets.",
+    "ingredient_lines": [
+      {
+        "qty_text": "400g",
+        "item_name": "shelf-stable or fresh potato gnocchi",
+        "category_id": "grains",
+        "swaps": [
+          {
+            "qty_text": "400g",
+            "item_name": "sweet potato gnocchi",
+            "category_id": "grains",
+            "reason": "earthy sweetness balancing fiery Calabrian chili"
+          }
+        ]
+      },
+      {
+        "qty_text": "50g",
+        "item_name": "spicy 'nduja paste",
+        "category_id": "meat",
+        "swaps": [
+          {
+            "qty_text": "60g",
+            "item_name": "spicy spreadable chorizo paste",
+            "category_id": "meat",
+            "reason": "paprika-forward pork richness with deep heat"
+          }
+        ]
+      },
+      {
+        "qty_text": "2",
+        "item_name": "sweet bell peppers",
+        "prep_note": "cored and sliced into 2cm strips",
+        "category_id": "produce",
+        "swaps": [
+          {
+            "qty_text": "2",
+            "item_name": "red Romano peppers",
+            "prep_note": "sliced into rings",
+            "category_id": "produce",
+            "reason": "sweeter, tender flesh that caramelizes fast"
+          }
+        ]
+      },
+      {
+        "qty_text": "1 tbsp",
+        "item_name": "extra-virgin olive oil",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "100g",
+        "item_name": "smoked provolone or scamorza affumicata",
+        "prep_note": "cut into small dice",
+        "category_id": "dairy",
+        "swaps": [
+          {
+            "qty_text": "100g",
+            "item_name": "smoked mozzarella",
+            "prep_note": "diced into 1cm cubes",
+            "category_id": "dairy",
+            "reason": "creamy, milky smoke that melts into ribbons"
+          }
+        ]
+      },
+      {
+        "qty_text": "1/2 tsp",
+        "item_name": "kosher salt",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "2 tbsp",
+        "item_name": "fresh flat-leaf parsley",
+        "prep_note": "coarsely chopped",
+        "category_id": "produce",
+        "without": "Omit parsley"
+      }
+    ],
+    "instructions": [
+      {
+        "name": "Coat with 'nduja and oil",
+        "ingredients": [
+          {
+            "qty_text": "400g",
+            "item_name": "shelf-stable or fresh potato gnocchi"
+          },
+          {
+            "qty_text": "2",
+            "item_name": "sweet bell peppers"
+          },
+          {
+            "qty_text": "50g",
+            "item_name": "spicy 'nduja paste"
+          },
+          {
+            "qty_text": "1 tbsp",
+            "item_name": "extra-virgin olive oil"
+          },
+          {
+            "qty_text": "1/2 tsp",
+            "item_name": "kosher salt"
+          }
+        ],
+        "text": "Preheat oven to 220°C (430°F). Scatter uncooked gnocchi and bell pepper strips across the baking sheet. Pinch the 'nduja into small nuggets all over the pan. Drizzle with olive oil and salt. Use your hands to toss everything, smearing the soft 'nduja over the gnocchi and peppers so they are stained crimson. Spread in an even layer."
+      },
+      {
+        "name": "Roast in rendered pork oil",
+        "ingredients": [],
+        "text": "Roast for 18–20 minutes. As the 'nduja renders, its spicy chili fat sizzles on the hot metal, crisping the gnocchi bottoms and caramelizing the pepper edges."
+      },
+      {
+        "name": "Melt the provolone",
+        "ingredients": [
+          {
+            "qty_text": "100g",
+            "item_name": "smoked provolone or scamorza affumicata"
+          },
+          {
+            "qty_text": "2 tbsp",
+            "item_name": "fresh flat-leaf parsley"
+          }
+        ],
+        "text": "Pull the sheet pan from the oven. Scatter the diced smoked provolone evenly over the hot gnocchi. Return to the oven for 3–4 minutes until the cheese is bubbling into gooey pockets. Scatter with chopped fresh parsley and serve immediately."
+      }
+    ]
+  },
+  "Sheet-pan gnocchi with roasted squash, crisp sage and melting gorgonzola": {
+    "title": "Sheet-pan gnocchi with roasted squash, crisp sage and melting gorgonzola",
+    "parent_idea": "Crispy Sheet-Pan Gnocchi with Bell Peppers & Mozzarella",
+    "cuisine": "Italian",
+    "total_time": "30 min",
+    "recipe_yield": "2 servings",
+    "effort": "easy",
+    "equipment": [
+      "large rimmed baking sheet",
+      "cutting board and chef's knife",
+      "metal spatula"
+    ],
+    "description": "Gnocchi and cubes of sweet squash roasted together with fresh sage until browned and crisp, finished with melting gorgonzola that pools over the hot tray.",
+    "ingredient_lines": [
+      {
+        "qty_text": "400g",
+        "item_name": "shelf-stable or fresh potato gnocchi",
+        "category_id": "grains",
+        "swaps": [
+          {
+            "qty_text": "400g",
+            "item_name": "pumpkin gnocchi",
+            "category_id": "grains",
+            "reason": "enhances the autumnal squash profile"
+          }
+        ]
+      },
+      {
+        "qty_text": "300g",
+        "item_name": "butternut squash",
+        "prep_note": "peeled and cut into 1.5cm dice",
+        "category_id": "produce",
+        "swaps": [
+          {
+            "qty_text": "300g",
+            "item_name": "Hokkaido pumpkin",
+            "prep_note": "cut into 1.5cm dice",
+            "category_id": "produce",
+            "reason": "edible thin skin with deeply caramelized edges"
+          }
+        ]
+      },
+      {
+        "qty_text": "10",
+        "item_name": "fresh sage leaves",
+        "category_id": "produce",
+        "without": "Skip fresh sage",
+        "swaps": [
+          {
+            "qty_text": "1/2 tsp",
+            "item_name": "rubbed dried sage",
+            "category_id": "spices",
+            "reason": "earthy autumn herbal pantry substitute"
+          }
+        ]
+      },
+      {
+        "qty_text": "2 tbsp",
+        "item_name": "extra-virgin olive oil",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "1/2 tsp",
+        "item_name": "kosher salt",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "1/4 tsp",
+        "item_name": "freshly ground black pepper",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "80g",
+        "item_name": "Gorgonzola dolce",
+        "prep_note": "crumbled into generous nuggets",
+        "category_id": "dairy",
+        "swaps": [
+          {
+            "qty_text": "80g",
+            "item_name": "Taleggio cheese",
+            "prep_note": "diced into 1cm cubes",
+            "category_id": "dairy",
+            "reason": "buttery mild funk that melts into rich cream"
+          }
+        ]
+      },
+      {
+        "qty_text": "2 tbsp",
+        "item_name": "walnut halves",
+        "prep_note": "coarsely chopped",
+        "category_id": "snacks",
+        "without": "Skip walnuts",
+        "swaps": [
+          {
+            "qty_text": "2 tbsp",
+            "item_name": "pumpkin seeds (pepitas)",
+            "category_id": "snacks",
+            "reason": "nut-free crunchy autumnal seed alternative"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "name": "Toss gnocchi, squash and sage",
+        "ingredients": [
+          {
+            "qty_text": "400g",
+            "item_name": "shelf-stable or fresh potato gnocchi"
+          },
+          {
+            "qty_text": "300g",
+            "item_name": "butternut squash"
+          },
+          {
+            "qty_text": "10",
+            "item_name": "fresh sage leaves"
+          },
+          {
+            "qty_text": "2 tbsp",
+            "item_name": "extra-virgin olive oil"
+          },
+          {
+            "qty_text": "1/2 tsp",
+            "item_name": "kosher salt"
+          },
+          {
+            "qty_text": "1/4 tsp",
+            "item_name": "freshly ground black pepper"
+          }
+        ],
+        "text": "Preheat oven to 220°C (430°F). On the baking sheet, combine uncooked gnocchi, diced squash, and whole sage leaves. Pour olive oil over top, season with salt and black pepper, and toss until evenly coated. Spread flat in a single layer so the squash touches the metal surface."
+      },
+      {
+        "name": "Roast until caramelized & crisp",
+        "ingredients": [],
+        "text": "Roast undisturbed for 22 minutes until the squash cubes are fork-tender and caramelized, the gnocchi bottoms are deeply browned and crunchy, and the sage leaves are crisp and fragrant."
+      },
+      {
+        "name": "Melt gorgonzola and walnuts",
+        "ingredients": [
+          {
+            "qty_text": "80g",
+            "item_name": "Gorgonzola dolce"
+          },
+          {
+            "qty_text": "2 tbsp",
+            "item_name": "walnut halves"
+          }
+        ],
+        "text": "Scatter the crumbled gorgonzola dolce and chopped walnuts over the hot pan. Return to the oven for 2–3 minutes just until the gorgonzola slumps into luscious, creamy pools. Serve immediately."
+      }
+    ]
+  },
+  "Classic Greek lemon-oregano chicken thighs with schmaltz potatoes": {
+    "title": "Classic Greek lemon-oregano chicken thighs with schmaltz potatoes",
+    "parent_idea": "Lemon-Herb Roasted Chicken Thighs & Baby Potatoes",
+    "cuisine": "Greek",
+    "total_time": "45 min",
+    "recipe_yield": "2 servings",
+    "effort": "easy",
+    "equipment": [
+      "large rimmed baking sheet or roasting pan",
+      "citrus juicer",
+      "cutting board and chef's knife"
+    ],
+    "description": "Bone-in chicken thighs and baby potatoes roasted hot with lemon juice, whole garlic, and wild Greek oregano until the skin is crackling and the potatoes are crisp in the drippings.",
+    "ingredient_lines": [
+      {
+        "qty_text": "450g",
+        "item_name": "bone-in, skin-on chicken thighs",
+        "category_id": "meat",
+        "swaps": [
+          {
+            "qty_text": "450g",
+            "item_name": "bone-in chicken drumsticks",
+            "category_id": "meat",
+            "reason": "juicy dark meat with crisp golden skin"
+          }
+        ]
+      },
+      {
+        "qty_text": "500g",
+        "item_name": "baby yellow potatoes",
+        "prep_note": "halved lengthwise",
+        "category_id": "produce",
+        "swaps": [
+          {
+            "qty_text": "500g",
+            "item_name": "fingerling potatoes",
+            "prep_note": "halved lengthwise",
+            "category_id": "produce",
+            "reason": "dense creamy texture that absorbs schmaltz"
+          }
+        ]
+      },
+      {
+        "qty_text": "1 large",
+        "item_name": "lemon",
+        "prep_note": "halved; 2 tbsp juice squeezed, remainder sliced into wheels",
+        "category_id": "produce",
+        "swaps": [
+          {
+            "qty_text": "1 medium",
+            "item_name": "lemon",
+            "prep_note": "juiced",
+            "category_id": "produce",
+            "reason": "pure lemon juice punch"
+          }
+        ]
+      },
+      {
+        "qty_text": "6 cloves",
+        "item_name": "garlic",
+        "prep_note": "peeled and lightly smashed",
+        "category_id": "produce",
+        "without": "Omit garlic"
+      },
+      {
+        "qty_text": "1 1/2 tbsp",
+        "item_name": "extra-virgin olive oil",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "1 tbsp",
+        "item_name": "dried Greek oregano",
+        "prep_note": "divided",
+        "category_id": "spices",
+        "swaps": [
+          {
+            "qty_text": "2 tbsp",
+            "item_name": "fresh oregano leaves",
+            "prep_note": "chopped",
+            "category_id": "produce",
+            "reason": "bright grassy herbal lift"
+          }
+        ]
+      },
+      {
+        "qty_text": "1 tsp",
+        "item_name": "kosher salt",
+        "prep_note": "divided",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "1/2 tsp",
+        "item_name": "freshly cracked black pepper",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "60ml",
+        "item_name": "chicken broth or water",
+        "category_id": "spices"
+      }
+    ],
+    "instructions": [
+      {
+        "name": "Season and arrange potatoes",
+        "ingredients": [
+          {
+            "qty_text": "500g",
+            "item_name": "baby yellow potatoes"
+          },
+          {
+            "qty_text": "6 cloves",
+            "item_name": "garlic"
+          },
+          {
+            "qty_text": "1 large",
+            "item_name": "lemon"
+          },
+          {
+            "qty_text": "1 1/2 tbsp",
+            "item_name": "extra-virgin olive oil"
+          },
+          {
+            "qty_text": "1 tbsp",
+            "item_name": "dried Greek oregano"
+          },
+          {
+            "qty_text": "1 tsp",
+            "item_name": "kosher salt"
+          },
+          {
+            "qty_text": "1/2 tsp",
+            "item_name": "freshly cracked black pepper"
+          },
+          {
+            "qty_text": "60ml",
+            "item_name": "chicken broth or water"
+          }
+        ],
+        "text": "Preheat oven to 215°C (420°F). In the roasting pan, toss halved potatoes and smashed garlic with olive oil, 2 tbsp lemon juice, half the dried oregano, half the salt, and black pepper. Pour the chicken broth into the pan base to help steam the potatoes initially."
+      },
+      {
+        "name": "Nestle chicken on top",
+        "ingredients": [
+          {
+            "qty_text": "450g",
+            "item_name": "bone-in, skin-on chicken thighs"
+          }
+        ],
+        "text": "Pat chicken thighs thoroughly dry with paper towels—dry skin is crucial for crisping. Season thighs all over with the remaining salt and oregano. Nestle thighs skin-side up directly over the potatoes, leaving the skin fully uncovered. Tuck lemon wheels between the chicken pieces."
+      },
+      {
+        "name": "Roast until skin crackles",
+        "ingredients": [],
+        "text": "Roast undisturbed for 40–45 minutes. As the chicken roasts, its skin renders savory schmaltz that drips down over the potatoes, oven-frying them until deeply browned and crisp while the chicken skin turns shatteringly crisp."
+      },
+      {
+        "name": "Rest and serve",
+        "ingredients": [],
+        "text": "Transfer chicken to a board to rest for 5 minutes. Spoon the schmaltz-fried potatoes, sweet roasted garlic, and jammy lemon wheels onto plates, topped with the crackling chicken."
+      }
+    ]
+  },
+  "Provençal roasted chicken thighs with garlic, thyme and baby potatoes": {
+    "title": "Provençal roasted chicken thighs with garlic, thyme and baby potatoes",
+    "parent_idea": "Lemon-Herb Roasted Chicken Thighs & Baby Potatoes",
+    "cuisine": "French",
+    "total_time": "45 min",
+    "recipe_yield": "2 servings",
+    "effort": "easy",
+    "equipment": [
+      "large rimmed baking sheet or shallow roasting pan",
+      "small bowl",
+      "cutting board and chef's knife"
+    ],
+    "description": "Chicken thighs rubbed with Dijon and thyme, roasted over baby potatoes with whole garlic cloves that turn sweet and jammy in their skins.",
+    "ingredient_lines": [
+      {
+        "qty_text": "450g",
+        "item_name": "bone-in, skin-on chicken thighs",
+        "category_id": "meat",
+        "swaps": [
+          {
+            "qty_text": "450g",
+            "item_name": "chicken leg quarters",
+            "category_id": "meat",
+            "reason": "classic French bistro cut with rich skin"
+          }
+        ]
+      },
+      {
+        "qty_text": "500g",
+        "item_name": "baby red or Yukon Gold potatoes",
+        "prep_note": "halved",
+        "category_id": "produce",
+        "swaps": [
+          {
+            "qty_text": "500g",
+            "item_name": "new potatoes",
+            "prep_note": "halved",
+            "category_id": "produce",
+            "reason": "thin-skinned waxy tubers that crisp in schmaltz"
+          }
+        ]
+      },
+      {
+        "qty_text": "8 cloves",
+        "item_name": "garlic",
+        "prep_note": "unpeeled",
+        "category_id": "produce",
+        "without": "Reduce to 2 peeled garlic cloves"
+      },
+      {
+        "qty_text": "4 sprigs",
+        "item_name": "fresh thyme",
+        "category_id": "produce",
+        "swaps": [
+          {
+            "qty_text": "1 tsp",
+            "item_name": "herbes de Provence",
+            "category_id": "spices",
+            "reason": "classic southern French dried herb blend"
+          }
+        ]
+      },
+      {
+        "qty_text": "1 tbsp",
+        "item_name": "Dijon mustard",
+        "category_id": "spices",
+        "swaps": [
+          {
+            "qty_text": "1 tbsp",
+            "item_name": "whole-grain coarse mustard",
+            "category_id": "spices",
+            "reason": "grainy texture with mellow tang"
+          }
+        ]
+      },
+      {
+        "qty_text": "1 1/2 tbsp",
+        "item_name": "olive oil",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "1 tsp",
+        "item_name": "kosher salt",
+        "prep_note": "divided",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "1/2 tsp",
+        "item_name": "freshly ground black pepper",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "1 tbsp",
+        "item_name": "dry white wine or water",
+        "category_id": "beverages",
+        "without": "Skip white wine"
+      }
+    ],
+    "instructions": [
+      {
+        "name": "Mix the Dijon herb paste",
+        "ingredients": [
+          {
+            "qty_text": "1 tbsp",
+            "item_name": "Dijon mustard"
+          },
+          {
+            "qty_text": "1 1/2 tbsp",
+            "item_name": "olive oil"
+          },
+          {
+            "qty_text": "1 tbsp",
+            "item_name": "dry white wine or water"
+          },
+          {
+            "qty_text": "1 tsp",
+            "item_name": "kosher salt"
+          },
+          {
+            "qty_text": "1/2 tsp",
+            "item_name": "freshly ground black pepper"
+          }
+        ],
+        "text": "Preheat oven to 215°C (420°F). In a small bowl, whisk together Dijon mustard, olive oil, white wine, black pepper, and half the salt."
+      },
+      {
+        "name": "Season potatoes and chicken",
+        "ingredients": [
+          {
+            "qty_text": "500g",
+            "item_name": "baby red or Yukon Gold potatoes"
+          },
+          {
+            "qty_text": "8 cloves",
+            "item_name": "garlic"
+          },
+          {
+            "qty_text": "450g",
+            "item_name": "bone-in, skin-on chicken thighs"
+          },
+          {
+            "qty_text": "4 sprigs",
+            "item_name": "fresh thyme"
+          }
+        ],
+        "text": "Toss halved potatoes and unpeeled garlic cloves on the sheet pan with half the Dijon mixture. Spread cut-side down. Pat chicken thighs thoroughly dry with paper towels, then rub the remaining Dijon paste all over the chicken, working some under the skin. Season skin with remaining salt and strip thyme leaves over top. Place thighs skin-side up over the potatoes."
+      },
+      {
+        "name": "Roast to deep golden brown",
+        "ingredients": [],
+        "text": "Roast for 40–45 minutes until the chicken skin is blistered and deep mahogany, the potatoes are fork-tender and caramelized in chicken drippings, and the unpeeled garlic cloves turn sweet and jammy inside their papery husks."
+      },
+      {
+        "name": "Squeeze garlic and serve",
+        "ingredients": [],
+        "text": "Squeeze the soft garlic cloves out of their skins over the hot potatoes, resting the crispy chicken alongside."
+      }
+    ]
+  },
+  "Spanish paprika roast chicken thighs and crispy potatoes with sherry vinegar": {
+    "title": "Spanish paprika roast chicken thighs and crispy potatoes with sherry vinegar",
+    "parent_idea": "Lemon-Herb Roasted Chicken Thighs & Baby Potatoes",
+    "cuisine": "Spanish",
+    "total_time": "45 min",
+    "recipe_yield": "2 servings",
+    "effort": "easy",
+    "equipment": [
+      "large rimmed baking sheet",
+      "small mixing bowl",
+      "cutting board and knife"
+    ],
+    "description": "Chicken thighs and potatoes roasted in smoked pimentón and garlic oil until deep red and crisp, splashed with sharp sherry vinegar straight from the oven.",
+    "ingredient_lines": [
+      {
+        "qty_text": "450g",
+        "item_name": "bone-in, skin-on chicken thighs",
+        "category_id": "meat",
+        "swaps": [
+          {
+            "qty_text": "450g",
+            "item_name": "bone-in chicken drumsticks",
+            "category_id": "meat",
+            "reason": "juicy bone-in dark meat with crispy paprika skin"
+          }
+        ]
+      },
+      {
+        "qty_text": "500g",
+        "item_name": "baby potatoes",
+        "prep_note": "halved",
+        "category_id": "produce",
+        "swaps": [
+          {
+            "qty_text": "500g",
+            "item_name": "red-skin potatoes",
+            "prep_note": "cut into 3cm chunks",
+            "category_id": "produce",
+            "reason": "starchy crust with tender interior"
+          }
+        ]
+      },
+      {
+        "qty_text": "1 1/2 tsp",
+        "item_name": "smoked Spanish paprika (pimentón de la Vera dulce)",
+        "category_id": "spices",
+        "swaps": [
+          {
+            "qty_text": "1 1/2 tsp",
+            "item_name": "pimentón agridulce",
+            "category_id": "spices",
+            "reason": "bittersweet smoked paprika with gentle picante warmth"
+          }
+        ]
+      },
+      {
+        "qty_text": "3 cloves",
+        "item_name": "garlic",
+        "prep_note": "finely minced",
+        "category_id": "produce",
+        "without": "Omit garlic"
+      },
+      {
+        "qty_text": "2 tbsp",
+        "item_name": "extra-virgin olive oil",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "1 1/2 tbsp",
+        "item_name": "aged sherry vinegar (vinagre de Jerez)",
+        "category_id": "spices",
+        "swaps": [
+          {
+            "qty_text": "1 1/2 tbsp",
+            "item_name": "red wine vinegar",
+            "category_id": "spices",
+            "reason": "clean sharp acidic contrast"
+          }
+        ]
+      },
+      {
+        "qty_text": "1 tsp",
+        "item_name": "kosher salt",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "1/4 tsp",
+        "item_name": "cayenne pepper",
+        "category_id": "spices",
+        "without": "Skip cayenne"
+      },
+      {
+        "qty_text": "2 tbsp",
+        "item_name": "fresh flat-leaf parsley",
+        "prep_note": "finely chopped",
+        "category_id": "produce",
+        "without": "Omit parsley"
+      }
+    ],
+    "instructions": [
+      {
+        "name": "Mix the pimentón garlic rub",
+        "ingredients": [
+          {
+            "qty_text": "2 tbsp",
+            "item_name": "extra-virgin olive oil"
+          },
+          {
+            "qty_text": "1 1/2 tsp",
+            "item_name": "smoked Spanish paprika (pimentón de la Vera dulce)"
+          },
+          {
+            "qty_text": "3 cloves",
+            "item_name": "garlic"
+          },
+          {
+            "qty_text": "1 tsp",
+            "item_name": "kosher salt"
+          },
+          {
+            "qty_text": "1/4 tsp",
+            "item_name": "cayenne pepper"
+          }
+        ],
+        "text": "Preheat oven to 215°C (420°F). In a small bowl, stir together the olive oil, smoked paprika, minced garlic, cayenne pepper, and kosher salt into an intensely red, fragrant paste."
+      },
+      {
+        "name": "Coat potatoes and chicken",
+        "ingredients": [
+          {
+            "qty_text": "500g",
+            "item_name": "baby potatoes"
+          },
+          {
+            "qty_text": "450g",
+            "item_name": "bone-in, skin-on chicken thighs"
+          }
+        ],
+        "text": "Toss halved potatoes with half the paprika paste directly on the baking sheet and spread them out. Pat chicken thighs completely dry with paper towels, then rub the remaining paprika paste all over both sides of the chicken, slipping some under the skin. Place thighs skin-side up on top of the potatoes."
+      },
+      {
+        "name": "Roast to deep mahogany",
+        "ingredients": [],
+        "text": "Roast for 40 minutes undisturbed until the chicken skin is dark mahogany and crackling crisp, and the potatoes have fried crisp in the rendered paprika-schmaltz drippings."
+      },
+      {
+        "name": "Splash sherry vinegar and serve",
+        "ingredients": [
+          {
+            "qty_text": "1 1/2 tbsp",
+            "item_name": "aged sherry vinegar (vinagre de Jerez)"
+          },
+          {
+            "qty_text": "2 tbsp",
+            "item_name": "fresh flat-leaf parsley"
+          }
+        ],
+        "text": "Remove from the oven and immediately splash the sherry vinegar directly over the sizzling chicken and potatoes. Listen to it sizzle as the acid deglazes the pan drippings. Scatter with chopped parsley and serve."
+      }
+    ]
+  },
+  "Sumac and za'atar roasted chicken thighs with crispy potatoes": {
+    "title": "Sumac and za'atar roasted chicken thighs with crispy potatoes",
+    "parent_idea": "Lemon-Herb Roasted Chicken Thighs & Baby Potatoes",
+    "cuisine": "Levantine",
+    "total_time": "45 min",
+    "recipe_yield": "2 servings",
+    "effort": "easy",
+    "equipment": [
+      "large rimmed baking sheet",
+      "cutting board and chef's knife"
+    ],
+    "description": "Chicken thighs and baby potatoes tossed with tart sumac, fragrant za'atar, and sweet red onions, roasted until the skin is crisp and the pan juices are rich and tangy.",
+    "ingredient_lines": [
+      {
+        "qty_text": "450g",
+        "item_name": "bone-in, skin-on chicken thighs",
+        "category_id": "meat",
+        "swaps": [
+          {
+            "qty_text": "450g",
+            "item_name": "bone-in chicken thighs and drumsticks",
+            "category_id": "meat",
+            "reason": "mixed dark meat cuts with crispy spiced skin"
+          }
+        ]
+      },
+      {
+        "qty_text": "500g",
+        "item_name": "baby yellow potatoes",
+        "prep_note": "halved",
+        "category_id": "produce",
+        "swaps": [
+          {
+            "qty_text": "500g",
+            "item_name": "fingerling potatoes",
+            "prep_note": "halved",
+            "category_id": "produce",
+            "reason": "tender creamy tubers that fry crisp in drippings"
+          }
+        ]
+      },
+      {
+        "qty_text": "1 medium",
+        "item_name": "red onion",
+        "prep_note": "peeled and sliced into thick wedges",
+        "category_id": "produce",
+        "swaps": [
+          {
+            "qty_text": "2",
+            "item_name": "shallots",
+            "prep_note": "peeled and halved",
+            "category_id": "produce",
+            "reason": "sweet delicate caramelized alliums"
+          }
+        ]
+      },
+      {
+        "qty_text": "1 tbsp",
+        "item_name": "ground sumac",
+        "prep_note": "divided",
+        "category_id": "spices",
+        "swaps": [
+          {
+            "qty_text": "1 tbsp",
+            "item_name": "fresh lemon juice and zest",
+            "category_id": "produce",
+            "reason": "bright tart citrus flavor if sumac is unavailable"
+          }
+        ]
+      },
+      {
+        "qty_text": "1 tbsp",
+        "item_name": "wild za'atar blend",
+        "prep_note": "divided",
+        "category_id": "spices",
+        "swaps": [
+          {
+            "qty_text": "1 tbsp",
+            "item_name": "dried thyme and toasted sesame seeds",
+            "category_id": "spices",
+            "reason": "fragrant nutty herbal spice pantry substitute"
+          }
+        ]
+      },
+      {
+        "qty_text": "2 tbsp",
+        "item_name": "extra-virgin olive oil",
+        "prep_note": "divided",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "1 tsp",
+        "item_name": "kosher salt",
+        "prep_note": "divided",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "1/2 tsp",
+        "item_name": "freshly ground black pepper",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "2 tbsp",
+        "item_name": "fresh mint leaves",
+        "prep_note": "coarsely chopped",
+        "category_id": "produce",
+        "without": "Omit fresh mint"
+      }
+    ],
+    "instructions": [
+      {
+        "name": "Toss potatoes and red onion",
+        "ingredients": [
+          {
+            "qty_text": "500g",
+            "item_name": "baby yellow potatoes"
+          },
+          {
+            "qty_text": "1 medium",
+            "item_name": "red onion"
+          },
+          {
+            "qty_text": "1 tbsp",
+            "item_name": "extra-virgin olive oil"
+          },
+          {
+            "qty_text": "1 tbsp",
+            "item_name": "ground sumac"
+          },
+          {
+            "qty_text": "1 tbsp",
+            "item_name": "wild za'atar blend"
+          },
+          {
+            "qty_text": "1 tsp",
+            "item_name": "kosher salt"
+          },
+          {
+            "qty_text": "1/2 tsp",
+            "item_name": "freshly ground black pepper"
+          }
+        ],
+        "text": "Preheat oven to 215°C (420°F). On the baking sheet, toss the halved potatoes and red onion wedges with 1 tbsp olive oil, half the sumac, half the za'atar, half the salt, and black pepper. Spread cut-side down."
+      },
+      {
+        "name": "Season and crown chicken",
+        "ingredients": [
+          {
+            "qty_text": "450g",
+            "item_name": "bone-in, skin-on chicken thighs"
+          },
+          {
+            "qty_text": "1 tbsp",
+            "item_name": "extra-virgin olive oil"
+          }
+        ],
+        "text": "Pat chicken thighs thoroughly dry with paper towels. Rub with the remaining 1 tbsp olive oil, then dredge with the remaining sumac, za'atar, and salt. Place chicken skin-side up over the bed of potatoes and onions."
+      },
+      {
+        "name": "Roast to crackling crisp",
+        "ingredients": [],
+        "text": "Roast undisturbed for 40–45 minutes until chicken skin is dark, crackling, and deeply aromatic, onions are jammy, and potatoes have crisped in the rendered chicken fat and tangy sumac juices."
+      },
+      {
+        "name": "Garnish and serve",
+        "ingredients": [
+          {
+            "qty_text": "2 tbsp",
+            "item_name": "fresh mint leaves"
+          }
+        ],
+        "text": "Let chicken rest 5 minutes on a board. Scatter fresh mint over the tray and spoon the tangy pan drippings over the chicken and potatoes."
+      }
+    ]
+  },
+  "Smoky ajvar pinsa with cool burrata and prosciutto crudo": {
+    "title": "Smoky ajvar pinsa with cool burrata and prosciutto crudo",
+    "parent_idea": "Crispy Roman Pinsa",
+    "cuisine": "Italian",
+    "total_time": "20 min",
+    "recipe_yield": "2 servings",
+    "effort": "easy",
+    "equipment": [
+      "large baking sheet or pizza stone",
+      "pastry brush or spoon",
+      "cutting board"
+    ],
+    "description": "Pinsa baked shatter-crisp with sweet-smoky ajvar, topped out of the oven with cool torn burrata, ribbons of prosciutto crudo, and fresh peppery baby arugula.",
+    "ingredient_lines": [
+      {
+        "qty_text": "250g",
+        "item_name": "par-baked oval pinsa base",
+        "category_id": "bakery",
+        "swaps": [
+          {
+            "qty_text": "250g",
+            "item_name": "par-baked flatbread or pizza crust",
+            "category_id": "bakery",
+            "reason": "crispy airy par-baked dough base"
+          }
+        ]
+      },
+      {
+        "qty_text": "4 tbsp",
+        "item_name": "mild roasted red pepper ajvar",
+        "category_id": "spices",
+        "swaps": [
+          {
+            "qty_text": "4 tbsp",
+            "item_name": "roasted red pepper spread or Romesco",
+            "category_id": "spices",
+            "reason": "nutty smoky red pepper sauce"
+          }
+        ]
+      },
+      {
+        "qty_text": "125g",
+        "item_name": "fresh burrata cheese",
+        "prep_note": "drained and torn into creamy pieces",
+        "category_id": "dairy",
+        "swaps": [
+          {
+            "qty_text": "125g",
+            "item_name": "fresh buffalo mozzarella",
+            "prep_note": "torn into pieces",
+            "category_id": "dairy",
+            "reason": "milky cool fresh curd"
+          }
+        ]
+      },
+      {
+        "qty_text": "60g",
+        "item_name": "prosciutto di Parma or San Daniele",
+        "prep_note": "thinly sliced",
+        "category_id": "meat",
+        "swaps": [
+          {
+            "qty_text": "60g",
+            "item_name": "jamón serrano",
+            "prep_note": "thinly sliced",
+            "category_id": "meat",
+            "reason": "cured salty dry-cured ham ribbons"
+          }
+        ]
+      },
+      {
+        "qty_text": "30g",
+        "item_name": "fresh baby arugula",
+        "category_id": "produce",
+        "without": "Skip arugula",
+        "swaps": [
+          {
+            "qty_text": "30g",
+            "item_name": "baby watercress",
+            "category_id": "produce",
+            "reason": "peppery crisp tender leafy green"
+          }
+        ]
+      },
+      {
+        "qty_text": "1 tbsp",
+        "item_name": "extra-virgin olive oil",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "1 pinch",
+        "item_name": "flaky sea salt and freshly ground black pepper",
+        "category_id": "spices"
+      }
+    ],
+    "instructions": [
+      {
+        "name": "Spread ajvar on pinsa",
+        "ingredients": [
+          {
+            "qty_text": "250g",
+            "item_name": "par-baked oval pinsa base"
+          },
+          {
+            "qty_text": "4 tbsp",
+            "item_name": "mild roasted red pepper ajvar"
+          },
+          {
+            "qty_text": "1 tbsp",
+            "item_name": "extra-virgin olive oil"
+          }
+        ],
+        "text": "Preheat oven to 240°C (465°F), placing a baking sheet or pizza stone on the lowest rack to preheat. Spread the ajvar evenly over the surface of the pinsa, leaving a 1cm border. Brush or drizzle the bare crust border with olive oil."
+      },
+      {
+        "name": "Bake until shatteringly crisp",
+        "ingredients": [],
+        "text": "Slide the pinsa onto the preheated baking sheet or stone. Bake for 8–10 minutes until the edges are blistered, dark golden, and shatteringly crisp."
+      },
+      {
+        "name": "Crown with cold toppings",
+        "ingredients": [
+          {
+            "qty_text": "60g",
+            "item_name": "prosciutto di Parma or San Daniele"
+          },
+          {
+            "qty_text": "125g",
+            "item_name": "fresh burrata cheese"
+          },
+          {
+            "qty_text": "30g",
+            "item_name": "fresh baby arugula"
+          },
+          {
+            "qty_text": "1 pinch",
+            "item_name": "flaky sea salt and freshly ground black pepper"
+          }
+        ],
+        "text": "Transfer the hot pinsa immediately to a cutting board. Loosely drape ribbons of prosciutto crudo across the hot crust, then scatter cool torn pieces of creamy burrata. Top with baby arugula, a pinch of flaky salt, and black pepper. Cut into squares and serve immediately."
+      }
+    ]
+  },
+  "Roman street-food pinsa with mortadella, stracciatella, and pistachios": {
+    "title": "Roman street-food pinsa with mortadella, stracciatella, and pistachios",
+    "parent_idea": "Crispy Roman Pinsa",
+    "cuisine": "Italian",
+    "total_time": "15 min",
+    "recipe_yield": "2 servings",
+    "effort": "easy",
+    "equipment": [
+      "large baking sheet or pizza steel",
+      "pastry brush",
+      "cutting board and chef's knife"
+    ],
+    "description": "Crisp baked pinsa crust draped with delicate folds of warm mortadella, creamy milky stracciatella, and toasted crushed pistachios with black pepper.",
+    "ingredient_lines": [
+      {
+        "qty_text": "250g",
+        "item_name": "par-baked oval pinsa base",
+        "category_id": "bakery",
+        "swaps": [
+          {
+            "qty_text": "250g",
+            "item_name": "par-baked Roman focaccia or pizza base",
+            "category_id": "bakery",
+            "reason": "crispy airy yeast flatbread base"
+          }
+        ]
+      },
+      {
+        "qty_text": "1 1/2 tbsp",
+        "item_name": "extra-virgin olive oil",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "80g",
+        "item_name": "Mortadella Bologna with pistachios",
+        "prep_note": "thinly shaved",
+        "category_id": "meat",
+        "swaps": [
+          {
+            "qty_text": "80g",
+            "item_name": "Italian prosciutto cotto or capocollo",
+            "prep_note": "thinly sliced",
+            "category_id": "meat",
+            "reason": "delicate aromatic cured charcuterie"
+          }
+        ]
+      },
+      {
+        "qty_text": "125g",
+        "item_name": "stracciatella di bufala or burrata heart",
+        "category_id": "dairy",
+        "swaps": [
+          {
+            "qty_text": "125g",
+            "item_name": "fresh whole-milk ricotta",
+            "category_id": "dairy",
+            "reason": "creamy spreadable fresh Italian curd"
+          }
+        ]
+      },
+      {
+        "qty_text": "2 tbsp",
+        "item_name": "shelled pistachios",
+        "prep_note": "toasted and coarsely crushed",
+        "category_id": "snacks",
+        "without": "Skip pistachios",
+        "swaps": [
+          {
+            "qty_text": "2 tbsp",
+            "item_name": "slivered almonds",
+            "prep_note": "toasted",
+            "category_id": "snacks",
+            "reason": "nutty crunch alternative"
+          }
+        ]
+      },
+      {
+        "qty_text": "1/4 tsp",
+        "item_name": "coarsely ground black pepper",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "1 pinch",
+        "item_name": "flaky sea salt",
+        "category_id": "spices"
+      }
+    ],
+    "instructions": [
+      {
+        "name": "Oil and bake the pinsa base",
+        "ingredients": [
+          {
+            "qty_text": "250g",
+            "item_name": "par-baked oval pinsa base"
+          },
+          {
+            "qty_text": "1 1/2 tbsp",
+            "item_name": "extra-virgin olive oil"
+          },
+          {
+            "qty_text": "1 pinch",
+            "item_name": "flaky sea salt"
+          }
+        ],
+        "text": "Preheat oven to 245°C (475°F) with a heavy baking sheet set on the bottom rack. Brush the pinsa base generously with olive oil and sprinkle with a pinch of flaky salt. Slide onto the hot baking sheet and bake for 7–9 minutes until the underside and rim are deeply golden, blistered, and crackling crisp."
+      },
+      {
+        "name": "Drape mortadella on hot crust",
+        "ingredients": [
+          {
+            "qty_text": "80g",
+            "item_name": "Mortadella Bologna with pistachios"
+          }
+        ],
+        "text": "Transfer the crisp crust to a cutting board. While it radiates intense heat, loosely fold and drape the thinly shaved mortadella over the pinsa so its delicate pork fat gently warms and turns glossy."
+      },
+      {
+        "name": "Garnish with stracciatella & pistachios",
+        "ingredients": [
+          {
+            "qty_text": "125g",
+            "item_name": "stracciatella di bufala or burrata heart"
+          },
+          {
+            "qty_text": "2 tbsp",
+            "item_name": "shelled pistachios"
+          },
+          {
+            "qty_text": "1/4 tsp",
+            "item_name": "coarsely ground black pepper"
+          }
+        ],
+        "text": "Dollop creamy, cool stracciatella across the folds of mortadella. Scatter the crushed toasted pistachios over the top and finish with coarsely ground black pepper. Slice into thick pieces and eat immediately."
+      }
+    ]
+  },
+  "Pinsa bianca with rosemary potatoes and crispy pancetta": {
+    "title": "Pinsa bianca with rosemary potatoes and crispy pancetta",
+    "parent_idea": "Crispy Roman Pinsa",
+    "cuisine": "Italian",
+    "total_time": "20 min",
+    "recipe_yield": "2 servings",
+    "effort": "easy",
+    "equipment": [
+      "large baking sheet",
+      "mandoline or very sharp chef's knife",
+      "cutting board"
+    ],
+    "description": "Paper-thin potato slices, olive oil, and fresh rosemary baked directly onto the dough with diced pancetta until the crust is blistered and the potatoes are golden-crisp.",
+    "ingredient_lines": [
+      {
+        "qty_text": "250g",
+        "item_name": "par-baked oval pinsa base",
+        "category_id": "bakery",
+        "swaps": [
+          {
+            "qty_text": "250g",
+            "item_name": "flatbread base",
+            "category_id": "bakery",
+            "reason": "crisp par-baked dough base"
+          }
+        ]
+      },
+      {
+        "qty_text": "1 medium",
+        "item_name": "Yukon Gold potato",
+        "prep_note": "unpeeled, sliced paper-thin on a mandoline",
+        "category_id": "produce",
+        "swaps": [
+          {
+            "qty_text": "1 medium",
+            "item_name": "red potato",
+            "prep_note": "sliced paper-thin",
+            "category_id": "produce",
+            "reason": "thin skin with waxy crisp edges"
+          }
+        ]
+      },
+      {
+        "qty_text": "50g",
+        "item_name": "diced pancetta or bacon",
+        "category_id": "meat",
+        "swaps": [
+          {
+            "qty_text": "50g",
+            "item_name": "guanciale",
+            "prep_note": "cut into matchsticks",
+            "category_id": "meat",
+            "reason": "unctuous rich rendered pork fat"
+          }
+        ]
+      },
+      {
+        "qty_text": "1 1/2 tbsp",
+        "item_name": "fresh rosemary leaves",
+        "prep_note": "coarsely chopped",
+        "category_id": "produce",
+        "swaps": [
+          {
+            "qty_text": "1/2 tsp",
+            "item_name": "dried crushed rosemary",
+            "category_id": "spices",
+            "reason": "concentrated piney dried herb"
+          }
+        ]
+      },
+      {
+        "qty_text": "2 tbsp",
+        "item_name": "extra-virgin olive oil",
+        "prep_note": "divided",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "30g",
+        "item_name": "Pecorino Romano",
+        "prep_note": "finely grated, divided",
+        "category_id": "dairy",
+        "swaps": [
+          {
+            "qty_text": "30g",
+            "item_name": "Parmesan cheese",
+            "prep_note": "finely grated",
+            "category_id": "dairy",
+            "reason": "nutty aged salty cheese alternative"
+          }
+        ]
+      },
+      {
+        "qty_text": "1/4 tsp",
+        "item_name": "flaky sea salt and freshly cracked black pepper",
+        "category_id": "spices"
+      }
+    ],
+    "instructions": [
+      {
+        "name": "Prep the thin potato slices",
+        "ingredients": [
+          {
+            "qty_text": "1 medium",
+            "item_name": "Yukon Gold potato"
+          },
+          {
+            "qty_text": "1 tbsp",
+            "item_name": "extra-virgin olive oil"
+          },
+          {
+            "qty_text": "1 1/2 tbsp",
+            "item_name": "fresh rosemary leaves"
+          },
+          {
+            "qty_text": "1/4 tsp",
+            "item_name": "flaky sea salt and freshly cracked black pepper"
+          }
+        ],
+        "text": "Preheat oven to 240°C (465°F). In a small bowl, toss the paper-thin potato slices with 1 tbsp olive oil, half the rosemary, salt, and black pepper until every translucent slice is coated."
+      },
+      {
+        "name": "Assemble the pinsa bianca",
+        "ingredients": [
+          {
+            "qty_text": "250g",
+            "item_name": "par-baked oval pinsa base"
+          },
+          {
+            "qty_text": "1 tbsp",
+            "item_name": "extra-virgin olive oil"
+          },
+          {
+            "qty_text": "30g",
+            "item_name": "Pecorino Romano"
+          },
+          {
+            "qty_text": "50g",
+            "item_name": "diced pancetta or bacon"
+          }
+        ],
+        "text": "Brush pinsa base with 1/2 tbsp olive oil and dust with half the grated pecorino. Shingle the thin potato slices across the surface in a single overlapping layer. Scatter diced pancetta and remaining chopped rosemary over the potatoes."
+      },
+      {
+        "name": "Bake until blistered & crisp",
+        "ingredients": [],
+        "text": "Bake directly on the lower oven rack or hot baking sheet for 10–12 minutes until the pinsa rim is blistered and charred, the pancetta is crisp and sizzling, and the potato edges curl into golden chips."
+      },
+      {
+        "name": "Finish and serve",
+        "ingredients": [],
+        "text": "Pull onto a cutting board. Dust with the remaining pecorino, grind black pepper over top, and drizzle with the remaining 1/2 tbsp olive oil. Slice and eat hot."
+      }
+    ]
+  },
+  "Calabrian 'nduja and melted scamorza pinsa": {
+    "title": "Calabrian 'nduja and melted scamorza pinsa",
+    "parent_idea": "Crispy Roman Pinsa",
+    "cuisine": "Italian",
+    "total_time": "18 min",
+    "recipe_yield": "2 servings",
+    "effort": "easy",
+    "equipment": [
+      "large baking sheet or pizza stone",
+      "pastry brush or spoon",
+      "cutting board"
+    ],
+    "description": "Pinsa baked with tomato passata, spicy melting 'nduja, and smoky scamorza cheese until bubbling and charred at the edges, cooled with fresh basil.",
+    "ingredient_lines": [
+      {
+        "qty_text": "250g",
+        "item_name": "par-baked oval pinsa base",
+        "category_id": "bakery",
+        "swaps": [
+          {
+            "qty_text": "250g",
+            "item_name": "par-baked pizza crust",
+            "category_id": "bakery",
+            "reason": "crisp airy par-baked base"
+          }
+        ]
+      },
+      {
+        "qty_text": "4 tbsp",
+        "item_name": "strained crushed tomato passata",
+        "category_id": "spices",
+        "swaps": [
+          {
+            "qty_text": "4 tbsp",
+            "item_name": "crushed San Marzano tomatoes",
+            "category_id": "produce",
+            "reason": "sweet rustic crushed tomato sauce"
+          }
+        ]
+      },
+      {
+        "qty_text": "40g",
+        "item_name": "spicy 'nduja paste",
+        "category_id": "meat",
+        "swaps": [
+          {
+            "qty_text": "50g",
+            "item_name": "spicy Calabrian soppressata",
+            "prep_note": "thinly sliced",
+            "category_id": "meat",
+            "reason": "crisping spicy cured salami discs"
+          }
+        ]
+      },
+      {
+        "qty_text": "100g",
+        "item_name": "smoked scamorza cheese",
+        "prep_note": "shredded or thinly sliced",
+        "category_id": "dairy",
+        "swaps": [
+          {
+            "qty_text": "100g",
+            "item_name": "smoked provolone or low-moisture mozzarella",
+            "prep_note": "shredded",
+            "category_id": "dairy",
+            "reason": "rich golden melting curd"
+          }
+        ]
+      },
+      {
+        "qty_text": "1 tbsp",
+        "item_name": "extra-virgin olive oil",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "1 pinch",
+        "item_name": "dried oregano",
+        "category_id": "spices",
+        "without": "Skip oregano"
+      },
+      {
+        "qty_text": "6",
+        "item_name": "fresh basil leaves",
+        "prep_note": "torn",
+        "category_id": "produce",
+        "without": "Omit fresh basil"
+      }
+    ],
+    "instructions": [
+      {
+        "name": "Sauce and top the pinsa",
+        "ingredients": [
+          {
+            "qty_text": "250g",
+            "item_name": "par-baked oval pinsa base"
+          },
+          {
+            "qty_text": "4 tbsp",
+            "item_name": "strained crushed tomato passata"
+          },
+          {
+            "qty_text": "1 pinch",
+            "item_name": "dried oregano"
+          },
+          {
+            "qty_text": "1 tbsp",
+            "item_name": "extra-virgin olive oil"
+          },
+          {
+            "qty_text": "100g",
+            "item_name": "smoked scamorza cheese"
+          },
+          {
+            "qty_text": "40g",
+            "item_name": "spicy 'nduja paste"
+          }
+        ],
+        "text": "Preheat oven to 245°C (475°F) with a baking sheet inside. Spread tomato passata evenly over the pinsa, leaving a 1cm bare rim. Dust with dried oregano and brush the rim with olive oil. Scatter shredded smoked scamorza across the sauce, then dot small nickel-sized pieces of 'nduja across the cheese."
+      },
+      {
+        "name": "Bake until bubbling & charred",
+        "ingredients": [],
+        "text": "Slide pinsa onto the preheated sheet. Bake for 8–10 minutes until the scamorza is bubbling and bronzed, the 'nduja renders into fiery crimson pools, and the crust edges are blistered and dark."
+      },
+      {
+        "name": "Finish with basil",
+        "ingredients": [
+          {
+            "qty_text": "6",
+            "item_name": "fresh basil leaves"
+          }
+        ],
+        "text": "Transfer to a cutting board. Tear fresh basil over the bubbling cheese. Slice into rectangles and serve hot."
+      }
+    ]
+  },
+  "Sun-dried tomato red pesto gnocchi with roasted zucchini and caramelized halloumi": {
+    "title": "Sun-dried tomato red pesto gnocchi with roasted zucchini and caramelized halloumi",
+    "parent_idea": "Sheet-Pan Halloumi & Gnocchi",
+    "cuisine": "Mediterranean",
+    "total_time": "25 min",
+    "recipe_yield": "2 servings",
+    "effort": "easy",
+    "equipment": [
+      "large rimmed baking sheet",
+      "cutting board and chef's knife",
+      "metal spatula"
+    ],
+    "description": "Shelf-stable gnocchi tossed dry with jarred red pesto, zucchini coins, and cherry tomatoes, roasted at high heat until the gnocchi crisp and cubes of halloumi turn deeply caramelized at the corners.",
+    "ingredient_lines": [
+      {
+        "qty_text": "400g",
+        "item_name": "shelf-stable or fresh potato gnocchi",
+        "category_id": "grains",
+        "swaps": [
+          {
+            "qty_text": "400g",
+            "item_name": "mini potato gnocchi",
+            "category_id": "grains",
+            "reason": "bite-sized dumplings with extra crispy surface area"
+          }
+        ]
+      },
+      {
+        "qty_text": "200g",
+        "item_name": "halloumi cheese",
+        "prep_note": "cut into 1.5cm cubes, patted dry",
+        "category_id": "dairy",
+        "swaps": [
+          {
+            "qty_text": "200g",
+            "item_name": "paneer or grilling cheese",
+            "prep_note": "cut into 1.5cm cubes",
+            "category_id": "dairy",
+            "reason": "high-heat searing cheese with firm savory bite"
+          }
+        ]
+      },
+      {
+        "qty_text": "1 medium",
+        "item_name": "zucchini",
+        "prep_note": "sliced into 1cm coins",
+        "category_id": "produce",
+        "swaps": [
+          {
+            "qty_text": "1 small",
+            "item_name": "yellow summer squash",
+            "prep_note": "sliced into 1cm coins",
+            "category_id": "produce",
+            "reason": "tender sweet roasted squash"
+          }
+        ]
+      },
+      {
+        "qty_text": "150g",
+        "item_name": "sweet cherry tomatoes",
+        "category_id": "produce",
+        "swaps": [
+          {
+            "qty_text": "150g",
+            "item_name": "datterini tomatoes",
+            "category_id": "produce",
+            "reason": "intensely sweet blistered tomato pops"
+          }
+        ]
+      },
+      {
+        "qty_text": "3 tbsp",
+        "item_name": "jarred sun-dried tomato red pesto (pesto rosso)",
+        "category_id": "spices",
+        "swaps": [
+          {
+            "qty_text": "3 tbsp",
+            "item_name": "tomato paste blended with 1 tbsp olive oil and oregano",
+            "category_id": "spices",
+            "reason": "concentrated savory tomato base"
+          }
+        ]
+      },
+      {
+        "qty_text": "1 1/2 tbsp",
+        "item_name": "olive oil",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "1/4 tsp",
+        "item_name": "kosher salt",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "1/4 tsp",
+        "item_name": "freshly ground black pepper",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "1 small handful",
+        "item_name": "fresh basil leaves",
+        "prep_note": "torn",
+        "category_id": "produce",
+        "without": "Skip fresh basil"
+      }
+    ],
+    "instructions": [
+      {
+        "name": "Coat gnocchi, halloumi & veg",
+        "ingredients": [
+          {
+            "qty_text": "400g",
+            "item_name": "shelf-stable or fresh potato gnocchi"
+          },
+          {
+            "qty_text": "200g",
+            "item_name": "halloumi cheese"
+          },
+          {
+            "qty_text": "1 medium",
+            "item_name": "zucchini"
+          },
+          {
+            "qty_text": "150g",
+            "item_name": "sweet cherry tomatoes"
+          },
+          {
+            "qty_text": "3 tbsp",
+            "item_name": "jarred sun-dried tomato red pesto (pesto rosso)"
+          },
+          {
+            "qty_text": "1 1/2 tbsp",
+            "item_name": "olive oil"
+          },
+          {
+            "qty_text": "1/4 tsp",
+            "item_name": "kosher salt"
+          },
+          {
+            "qty_text": "1/4 tsp",
+            "item_name": "freshly ground black pepper"
+          }
+        ],
+        "text": "Preheat oven to 220°C (430°F). On the baking sheet, tumble the uncooked gnocchi, patted-dry halloumi cubes, zucchini coins, and cherry tomatoes. Spoon over the red pesto and olive oil; season lightly with salt and pepper. Toss vigorously until every gnoccho and vegetable slice is slicked in pesto oil. Spread into an uncrowded single layer."
+      },
+      {
+        "name": "Roast until caramelized & crisp",
+        "ingredients": [],
+        "text": "Roast undisturbed for 20 minutes. The gnocchi develop crackling crisp crusts, the zucchini coins brown at the edges, the cherry tomatoes collapse into sweet juices, and the halloumi cubes develop deep golden-brown caramelized corners without becoming rubbery."
+      },
+      {
+        "name": "Toss with fresh basil",
+        "ingredients": [
+          {
+            "qty_text": "1 small handful",
+            "item_name": "fresh basil leaves"
+          }
+        ],
+        "text": "Scatter torn fresh basil over the hot baking sheet, toss once with a spatula, and serve immediately."
+      }
+    ]
+  },
+  "Spicy harissa gnocchi with bursting cherry tomatoes and golden halloumi": {
+    "title": "Spicy harissa gnocchi with bursting cherry tomatoes and golden halloumi",
+    "parent_idea": "Sheet-Pan Halloumi & Gnocchi",
+    "cuisine": "North African",
+    "total_time": "25 min",
+    "recipe_yield": "2 servings",
+    "effort": "easy",
+    "equipment": [
+      "large rimmed baking sheet",
+      "metal spatula",
+      "cutting board and knife"
+    ],
+    "description": "Gnocchi slicked in fiery jarred harissa paste and olive oil, roasted with sweet cherry tomatoes that burst into a spicy jam over squeaky, browned halloumi cubes.",
+    "ingredient_lines": [
+      {
+        "qty_text": "400g",
+        "item_name": "shelf-stable or fresh potato gnocchi",
+        "category_id": "grains",
+        "swaps": [
+          {
+            "qty_text": "400g",
+            "item_name": "sweet potato gnocchi",
+            "category_id": "grains",
+            "reason": "sweet starch balancing the spicy harissa heat"
+          }
+        ]
+      },
+      {
+        "qty_text": "200g",
+        "item_name": "halloumi cheese",
+        "prep_note": "cut into 1.5cm cubes, patted dry",
+        "category_id": "dairy",
+        "swaps": [
+          {
+            "qty_text": "200g",
+            "item_name": "firm feta block",
+            "prep_note": "cut into thick slabs",
+            "category_id": "dairy",
+            "reason": "warm creamy salty cheese contrast"
+          }
+        ]
+      },
+      {
+        "qty_text": "250g",
+        "item_name": "sweet cherry tomatoes",
+        "category_id": "produce",
+        "swaps": [
+          {
+            "qty_text": "250g",
+            "item_name": "grape tomatoes",
+            "category_id": "produce",
+            "reason": "firm skins that pop sweet juice"
+          }
+        ]
+      },
+      {
+        "qty_text": "2 tbsp",
+        "item_name": "harissa paste",
+        "category_id": "spices",
+        "swaps": [
+          {
+            "qty_text": "2 tbsp",
+            "item_name": "rose harissa paste",
+            "category_id": "spices",
+            "reason": "gentler warmth with floral undertones"
+          }
+        ]
+      },
+      {
+        "qty_text": "2 tbsp",
+        "item_name": "extra-virgin olive oil",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "1/2 tsp",
+        "item_name": "ground cumin",
+        "category_id": "spices",
+        "without": "Skip cumin"
+      },
+      {
+        "qty_text": "1/4 tsp",
+        "item_name": "fine sea salt",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "2 tbsp",
+        "item_name": "fresh cilantro or parsley",
+        "prep_note": "chopped",
+        "category_id": "produce",
+        "without": "Omit fresh herbs",
+        "swaps": [
+          {
+            "qty_text": "1 tbsp",
+            "item_name": "fresh mint leaves",
+            "prep_note": "chopped",
+            "category_id": "produce",
+            "reason": "cool refreshing herbal contrast to spicy harissa"
+          }
+        ]
+      },
+      {
+        "qty_text": "1/2",
+        "item_name": "lemon",
+        "prep_note": "cut into wedges",
+        "category_id": "produce",
+        "without": "Skip lemon wedge"
+      }
+    ],
+    "instructions": [
+      {
+        "name": "Toss with harissa & cumin",
+        "ingredients": [
+          {
+            "qty_text": "400g",
+            "item_name": "shelf-stable or fresh potato gnocchi"
+          },
+          {
+            "qty_text": "200g",
+            "item_name": "halloumi cheese"
+          },
+          {
+            "qty_text": "250g",
+            "item_name": "sweet cherry tomatoes"
+          },
+          {
+            "qty_text": "2 tbsp",
+            "item_name": "harissa paste"
+          },
+          {
+            "qty_text": "2 tbsp",
+            "item_name": "extra-virgin olive oil"
+          },
+          {
+            "qty_text": "1/2 tsp",
+            "item_name": "ground cumin"
+          },
+          {
+            "qty_text": "1/4 tsp",
+            "item_name": "fine sea salt"
+          }
+        ],
+        "text": "Preheat oven to 220°C (430°F). On the baking sheet, tumble uncooked gnocchi, thoroughly patted-dry halloumi cubes, and whole cherry tomatoes. Spoon over harissa paste and olive oil, then sprinkle with cumin and salt. Toss with hands until the red paste stains each gnoccho and halloumi cube. Spread out in a single layer."
+      },
+      {
+        "name": "Roast until blistered & crunchy",
+        "ingredients": [],
+        "text": "Roast for 20 minutes undisturbed. The cherry tomatoes collapse into sweet juices that blend with spicy harissa oil, while the gnocchi bottoms crisp and the halloumi cubes brown into golden, squeaky nuggets."
+      },
+      {
+        "name": "Finish with lemon & herbs",
+        "ingredients": [
+          {
+            "qty_text": "2 tbsp",
+            "item_name": "fresh cilantro or parsley"
+          },
+          {
+            "qty_text": "1/2",
+            "item_name": "lemon"
+          }
+        ],
+        "text": "Squeeze fresh lemon wedges over the hot sheet pan to brighten the spices. Scatter with chopped herbs and serve immediately."
+      }
+    ]
+  },
+  "Smoky ajvar gnocchi with sweet roasted bell peppers and crispy halloumi": {
+    "title": "Smoky ajvar gnocchi with sweet roasted bell peppers and crispy halloumi",
+    "parent_idea": "Sheet-Pan Halloumi & Gnocchi",
+    "cuisine": "Balkan",
+    "total_time": "25 min",
+    "recipe_yield": "2 servings",
+    "effort": "easy",
+    "equipment": [
+      "large rimmed baking sheet",
+      "metal spatula",
+      "cutting board and chef's knife"
+    ],
+    "description": "Gnocchi and thick bell pepper slices coated in mild roasted ajvar, baked until charred at the edges with crispy golden halloumi and dried oregano.",
+    "ingredient_lines": [
+      {
+        "qty_text": "400g",
+        "item_name": "shelf-stable or fresh potato gnocchi",
+        "category_id": "grains",
+        "swaps": [
+          {
+            "qty_text": "400g",
+            "item_name": "Schupfnudeln",
+            "category_id": "grains",
+            "reason": "dense potato noodles that fry crisp on the tray"
+          }
+        ]
+      },
+      {
+        "qty_text": "200g",
+        "item_name": "halloumi cheese",
+        "prep_note": "cut into 1.5cm cubes, patted dry",
+        "category_id": "dairy",
+        "swaps": [
+          {
+            "qty_text": "200g",
+            "item_name": "semi-hard sheep's milk cheese or kashkaval",
+            "prep_note": "diced into 1.5cm cubes",
+            "category_id": "dairy",
+            "reason": "savory browning cheese with rich melt"
+          }
+        ]
+      },
+      {
+        "qty_text": "2",
+        "item_name": "sweet bell peppers (red and orange)",
+        "prep_note": "cored and cut into 2cm strips",
+        "category_id": "produce",
+        "swaps": [
+          {
+            "qty_text": "2",
+            "item_name": "pointed Romano peppers",
+            "prep_note": "cut into thick rings",
+            "category_id": "produce",
+            "reason": "sweet roasted pepper ribbons"
+          }
+        ]
+      },
+      {
+        "qty_text": "3 tbsp",
+        "item_name": "mild roasted red pepper ajvar",
+        "category_id": "spices",
+        "swaps": [
+          {
+            "qty_text": "3 tbsp",
+            "item_name": "pinđur or lutenitsa",
+            "category_id": "spices",
+            "reason": "spicy Balkan roasted pepper and eggplant relish"
+          }
+        ]
+      },
+      {
+        "qty_text": "1 1/2 tbsp",
+        "item_name": "extra-virgin olive oil",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "1/2 tsp",
+        "item_name": "dried oregano",
+        "category_id": "spices",
+        "without": "Skip oregano"
+      },
+      {
+        "qty_text": "1/4 tsp",
+        "item_name": "kosher salt",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "1/4 tsp",
+        "item_name": "freshly cracked black pepper",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "2 tbsp",
+        "item_name": "fresh flat-leaf parsley",
+        "prep_note": "chopped",
+        "category_id": "produce",
+        "without": "Omit parsley"
+      }
+    ],
+    "instructions": [
+      {
+        "name": "Toss with ajvar and oil",
+        "ingredients": [
+          {
+            "qty_text": "400g",
+            "item_name": "shelf-stable or fresh potato gnocchi"
+          },
+          {
+            "qty_text": "200g",
+            "item_name": "halloumi cheese"
+          },
+          {
+            "qty_text": "2",
+            "item_name": "sweet bell peppers (red and orange)"
+          },
+          {
+            "qty_text": "3 tbsp",
+            "item_name": "mild roasted red pepper ajvar"
+          },
+          {
+            "qty_text": "1 1/2 tbsp",
+            "item_name": "extra-virgin olive oil"
+          },
+          {
+            "qty_text": "1/2 tsp",
+            "item_name": "dried oregano"
+          },
+          {
+            "qty_text": "1/4 tsp",
+            "item_name": "kosher salt"
+          },
+          {
+            "qty_text": "1/4 tsp",
+            "item_name": "freshly cracked black pepper"
+          }
+        ],
+        "text": "Preheat oven to 220°C (430°F). Spread uncooked gnocchi, dried halloumi cubes, and bell pepper strips across the baking sheet. Add ajvar, olive oil, dried oregano, salt, and black pepper. Toss thoroughly so the ajvar evenly coats everything. Spread flat in a single layer."
+      },
+      {
+        "name": "Roast until blistered & golden",
+        "ingredients": [],
+        "text": "Roast undisturbed for 20–22 minutes until the pepper strips soften and blister at their tips, the halloumi cubes develop deep golden crusts, and the gnocchi turn crisp-edged."
+      },
+      {
+        "name": "Garnish and serve",
+        "ingredients": [
+          {
+            "qty_text": "2 tbsp",
+            "item_name": "fresh flat-leaf parsley"
+          }
+        ],
+        "text": "Scatter chopped fresh parsley over the hot sheet pan, toss gently, and serve immediately."
+      }
+    ]
+  },
+  "Balkan smoky ajvar and spicy merguez butter bean skillet": {
+    "title": "Balkan smoky ajvar and spicy merguez butter bean skillet",
+    "parent_idea": "Silky White Bean & Sausage Skillet",
+    "cuisine": "Balkan",
+    "total_time": "25 min",
+    "recipe_yield": "2 servings",
+    "effort": "easy",
+    "equipment": [
+      "large 26-28cm skillet (cast iron or heavy stainless steel)",
+      "wooden spoon",
+      "cutting board and knife"
+    ],
+    "description": "Sizzling lamb merguez coins rendered in a skillet, stirred with sweet-smoky ajvar and creamy butter beans until thick and spoonable, finished with wilted spinach and salty crumbled feta.",
+    "ingredient_lines": [
+      {
+        "qty_text": "250g",
+        "item_name": "spicy lamb or beef merguez sausages",
+        "prep_note": "sliced into 1.5cm coins",
+        "category_id": "meat",
+        "swaps": [
+          {
+            "qty_text": "250g",
+            "item_name": "spicy fresh chorizo or Italian hot sausage",
+            "prep_note": "sliced into 1.5cm coins",
+            "category_id": "meat",
+            "reason": "paprika-forward spiced sausage coins"
+          }
+        ]
+      },
+      {
+        "qty_text": "400g",
+        "item_name": "canned butter beans or giant white beans",
+        "prep_note": "drained and rinsed",
+        "category_id": "spices",
+        "swaps": [
+          {
+            "qty_text": "400g",
+            "item_name": "canned cannellini beans",
+            "prep_note": "drained and rinsed",
+            "category_id": "spices",
+            "reason": "creamy white beans that break down smoothly"
+          }
+        ]
+      },
+      {
+        "qty_text": "3 tbsp",
+        "item_name": "mild or spicy roasted red pepper ajvar",
+        "category_id": "spices",
+        "swaps": [
+          {
+            "qty_text": "3 tbsp",
+            "item_name": "roasted red pepper purée with pinch of smoked paprika",
+            "category_id": "spices",
+            "reason": "sweet smoky relish"
+          }
+        ]
+      },
+      {
+        "qty_text": "2 cloves",
+        "item_name": "garlic",
+        "prep_note": "finely minced",
+        "category_id": "produce",
+        "without": "Omit garlic"
+      },
+      {
+        "qty_text": "100g",
+        "item_name": "baby spinach",
+        "category_id": "produce",
+        "without": "Skip spinach",
+        "swaps": [
+          {
+            "qty_text": "100g",
+            "item_name": "baby kale",
+            "prep_note": "stemmed and chopped",
+            "category_id": "produce",
+            "reason": "heartier leafy greens"
+          }
+        ]
+      },
+      {
+        "qty_text": "60ml",
+        "item_name": "chicken broth or water",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "1 tbsp",
+        "item_name": "olive oil",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "50g",
+        "item_name": "Greek feta cheese",
+        "prep_note": "crumbled",
+        "category_id": "dairy",
+        "swaps": [
+          {
+            "qty_text": "50g",
+            "item_name": "grated hard Balkan kashkaval",
+            "category_id": "dairy",
+            "reason": "salty savory semi-hard cheese finish"
+          }
+        ]
+      },
+      {
+        "qty_text": "1/4 tsp",
+        "item_name": "freshly ground black pepper",
+        "category_id": "spices"
+      }
+    ],
+    "instructions": [
+      {
+        "name": "Brown merguez and render spiced fat",
+        "ingredients": [
+          {
+            "qty_text": "1 tbsp",
+            "item_name": "olive oil"
+          },
+          {
+            "qty_text": "250g",
+            "item_name": "spicy lamb or beef merguez sausages"
+          }
+        ],
+        "text": "Heat olive oil in a large skillet over medium-high heat. Add the sliced merguez coins and cook for 4–5 minutes, stirring occasionally, until deeply browned on both sides and their fragrant, spiced red fat renders out."
+      },
+      {
+        "name": "Sauté garlic & simmer beans",
+        "ingredients": [
+          {
+            "qty_text": "2 cloves",
+            "item_name": "garlic"
+          },
+          {
+            "qty_text": "3 tbsp",
+            "item_name": "mild or spicy roasted red pepper ajvar"
+          },
+          {
+            "qty_text": "60ml",
+            "item_name": "chicken broth or water"
+          },
+          {
+            "qty_text": "400g",
+            "item_name": "canned butter beans or giant white beans"
+          }
+        ],
+        "text": "Add minced garlic to the rendered fat in the pan; stir for 30 seconds until fragrant. Stir in ajvar, chicken broth, and drained butter beans. Bring to a simmer, then lower heat to medium-low. Simmer gently for 5 minutes, lightly crushing a few beans with the back of a wooden spoon to release starches and create a thick, glossy sauce."
+      },
+      {
+        "name": "Wilt spinach and garnish",
+        "ingredients": [
+          {
+            "qty_text": "100g",
+            "item_name": "baby spinach"
+          },
+          {
+            "qty_text": "1/4 tsp",
+            "item_name": "freshly ground black pepper"
+          },
+          {
+            "qty_text": "50g",
+            "item_name": "Greek feta cheese"
+          }
+        ],
+        "text": "Fold baby spinach into the skillet in handfuls, cooking for 1–2 minutes just until wilted into the warm beans. Season with black pepper. Kill the heat, scatter crumbled feta over top, and serve warm."
+      }
+    ]
+  },
+  "Italian fennel salsiccia, rosemary, and cannellini bean stew": {
+    "title": "Italian fennel salsiccia, rosemary, and cannellini bean stew",
+    "parent_idea": "Silky White Bean & Sausage Skillet",
+    "cuisine": "Italian",
+    "total_time": "25 min",
+    "recipe_yield": "2 servings",
+    "effort": "easy",
+    "equipment": [
+      "large 26-28cm heavy skillet or sauté pan",
+      "wooden spoon",
+      "cutting board and chef's knife"
+    ],
+    "description": "Crumbled fennel sausage browned with garlic and fresh rosemary, simmered down fast with cannellini beans and tomato passata, finished with shaved pecorino.",
+    "ingredient_lines": [
+      {
+        "qty_text": "250g",
+        "item_name": "Italian sweet or spicy fennel sausage (salsiccia)",
+        "prep_note": "casings removed, crumbled",
+        "category_id": "meat",
+        "swaps": [
+          {
+            "qty_text": "250g",
+            "item_name": "ground pork mixed with 1/2 tsp crushed fennel seeds and salt",
+            "category_id": "meat",
+            "reason": "homemade fennel sausage base"
+          }
+        ]
+      },
+      {
+        "qty_text": "400g",
+        "item_name": "canned cannellini beans",
+        "prep_note": "drained and rinsed",
+        "category_id": "spices",
+        "swaps": [
+          {
+            "qty_text": "400g",
+            "item_name": "canned borlotti beans",
+            "prep_note": "drained and rinsed",
+            "category_id": "spices",
+            "reason": "tender speckled Italian beans with creamy flesh"
+          }
+        ]
+      },
+      {
+        "qty_text": "1 sprig",
+        "item_name": "fresh rosemary",
+        "prep_note": "leaves finely chopped",
+        "category_id": "produce",
+        "swaps": [
+          {
+            "qty_text": "1/2 tsp",
+            "item_name": "dried rosemary",
+            "category_id": "spices",
+            "reason": "resinous dried herbal aroma"
+          }
+        ]
+      },
+      {
+        "qty_text": "2 cloves",
+        "item_name": "garlic",
+        "prep_note": "thinly sliced",
+        "category_id": "produce",
+        "without": "Omit garlic"
+      },
+      {
+        "qty_text": "100ml",
+        "item_name": "tomato passata or crushed tomatoes",
+        "category_id": "produce",
+        "swaps": [
+          {
+            "qty_text": "2 tbsp",
+            "item_name": "tomato paste dissolved in 80ml water",
+            "category_id": "spices",
+            "reason": "concentrated savory tomato sauce"
+          }
+        ]
+      },
+      {
+        "qty_text": "80ml",
+        "item_name": "chicken broth or dry white wine",
+        "category_id": "spices",
+        "swaps": [
+          {
+            "qty_text": "80ml",
+            "item_name": "water",
+            "category_id": "spices",
+            "reason": "gentle simmering liquid"
+          }
+        ]
+      },
+      {
+        "qty_text": "1 tbsp",
+        "item_name": "extra-virgin olive oil",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "30g",
+        "item_name": "Pecorino Romano",
+        "prep_note": "finely grated or shaved",
+        "category_id": "dairy",
+        "swaps": [
+          {
+            "qty_text": "30g",
+            "item_name": "Parmigiano-Reggiano",
+            "prep_note": "finely grated",
+            "category_id": "dairy",
+            "reason": "nutty aged savory cheese finish"
+          }
+        ]
+      },
+      {
+        "qty_text": "1 pinch",
+        "item_name": "crushed red pepper flakes",
+        "category_id": "spices",
+        "without": "Skip red pepper flakes"
+      },
+      {
+        "qty_text": "1/4 tsp",
+        "item_name": "freshly cracked black pepper",
+        "category_id": "spices"
+      }
+    ],
+    "instructions": [
+      {
+        "name": "Brown fennel sausage",
+        "ingredients": [
+          {
+            "qty_text": "1 tbsp",
+            "item_name": "extra-virgin olive oil"
+          },
+          {
+            "qty_text": "250g",
+            "item_name": "Italian sweet or spicy fennel sausage (salsiccia)"
+          }
+        ],
+        "text": "Heat olive oil in a large skillet over medium heat. Add crumbled fennel sausage and cook for 5 minutes, breaking it into bite-sized nuggets with a wooden spoon, until browned and caramelized."
+      },
+      {
+        "name": "Bloom aromatics",
+        "ingredients": [
+          {
+            "qty_text": "2 cloves",
+            "item_name": "garlic"
+          },
+          {
+            "qty_text": "1 sprig",
+            "item_name": "fresh rosemary"
+          },
+          {
+            "qty_text": "1 pinch",
+            "item_name": "crushed red pepper flakes"
+          }
+        ],
+        "text": "Push sausage to one side of the skillet. Add sliced garlic, chopped rosemary, and red pepper flakes directly to the rendered fat in the pan center. Sauté for 1 minute until fragrant and garlic turns pale golden."
+      },
+      {
+        "name": "Simmer cannellini beans",
+        "ingredients": [
+          {
+            "qty_text": "80ml",
+            "item_name": "chicken broth or dry white wine"
+          },
+          {
+            "qty_text": "100ml",
+            "item_name": "tomato passata or crushed tomatoes"
+          },
+          {
+            "qty_text": "400g",
+            "item_name": "canned cannellini beans"
+          },
+          {
+            "qty_text": "1/4 tsp",
+            "item_name": "freshly cracked black pepper"
+          }
+        ],
+        "text": "Pour in chicken broth and tomato passata, scraping up all the savory browned fond from the bottom of the pan. Stir in drained cannellini beans. Simmer gently over medium-low heat for 6–8 minutes; press a spoonful of beans against the pan side to crush them, releasing starches that thicken the sauce into a silky stew. Season with black pepper."
+      },
+      {
+        "name": "Finish with pecorino",
+        "ingredients": [
+          {
+            "qty_text": "30g",
+            "item_name": "Pecorino Romano"
+          }
+        ],
+        "text": "Ladle into warm shallow bowls. Shower with grated Pecorino Romano and a drizzle of fresh olive oil before serving."
+      }
+    ]
+  },
+  "Spanish chorizo and smoked paprika butter beans with wilted greens": {
+    "title": "Spanish chorizo and smoked paprika butter beans with wilted greens",
+    "parent_idea": "Silky White Bean & Sausage Skillet",
+    "cuisine": "Spanish",
+    "total_time": "20 min",
+    "recipe_yield": "2 servings",
+    "effort": "easy",
+    "equipment": [
+      "large heavy skillet (approx. 26cm)",
+      "wooden spoon",
+      "cutting board and knife"
+    ],
+    "description": "Spicy cured chorizo crisped in its own red paprika oil, tossed with creamy butter beans and tender greens, splashed with a dash of sharp sherry vinegar off the heat.",
+    "ingredient_lines": [
+      {
+        "qty_text": "150g",
+        "item_name": "Spanish cured chorizo",
+        "prep_note": "sliced into 0.5cm rounds",
+        "category_id": "meat",
+        "swaps": [
+          {
+            "qty_text": "200g",
+            "item_name": "fresh Spanish cooking chorizo (chorizo fresco)",
+            "prep_note": "sliced into rounds",
+            "category_id": "meat",
+            "reason": "uncured tender spiced sausage that releases rich paprika fat"
+          }
+        ]
+      },
+      {
+        "qty_text": "400g",
+        "item_name": "canned butter beans or alubias blancas",
+        "prep_note": "drained and rinsed",
+        "category_id": "spices",
+        "swaps": [
+          {
+            "qty_text": "400g",
+            "item_name": "canned chickpeas (garbanzos)",
+            "prep_note": "drained and rinsed",
+            "category_id": "spices",
+            "reason": "nutty firm Spanish legume"
+          }
+        ]
+      },
+      {
+        "qty_text": "1 small",
+        "item_name": "yellow onion",
+        "prep_note": "finely diced",
+        "category_id": "produce",
+        "swaps": [
+          {
+            "qty_text": "2",
+            "item_name": "shallots",
+            "prep_note": "finely diced",
+            "category_id": "produce",
+            "reason": "delicate mild allium sweetness"
+          }
+        ]
+      },
+      {
+        "qty_text": "2 cloves",
+        "item_name": "garlic",
+        "prep_note": "thinly sliced",
+        "category_id": "produce",
+        "without": "Omit garlic"
+      },
+      {
+        "qty_text": "1 tsp",
+        "item_name": "smoked Spanish paprika (pimentón de la Vera)",
+        "category_id": "spices",
+        "swaps": [
+          {
+            "qty_text": "1 tsp",
+            "item_name": "sweet paprika with pinch of cayenne",
+            "category_id": "spices",
+            "reason": "balanced gentle smoky heat"
+          }
+        ]
+      },
+      {
+        "qty_text": "80g",
+        "item_name": "baby spinach or Swiss chard",
+        "prep_note": "stemmed and roughly chopped",
+        "category_id": "produce",
+        "without": "Skip greens",
+        "swaps": [
+          {
+            "qty_text": "80g",
+            "item_name": "Tuscan kale",
+            "prep_note": "stemmed and chopped",
+            "category_id": "produce",
+            "reason": "hearty rustic greens"
+          }
+        ]
+      },
+      {
+        "qty_text": "80ml",
+        "item_name": "chicken broth or water",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "1 tbsp",
+        "item_name": "sherry vinegar (vinagre de Jerez)",
+        "category_id": "spices",
+        "swaps": [
+          {
+            "qty_text": "1 tbsp",
+            "item_name": "red wine vinegar",
+            "category_id": "spices",
+            "reason": "clean sharp acidic contrast"
+          }
+        ]
+      },
+      {
+        "qty_text": "1 tbsp",
+        "item_name": "olive oil",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "1/4 tsp",
+        "item_name": "flaky sea salt and black pepper",
+        "category_id": "spices"
+      }
+    ],
+    "instructions": [
+      {
+        "name": "Crisp chorizo in skillet",
+        "ingredients": [
+          {
+            "qty_text": "1 tbsp",
+            "item_name": "olive oil"
+          },
+          {
+            "qty_text": "150g",
+            "item_name": "Spanish cured chorizo"
+          }
+        ],
+        "text": "Heat olive oil in a large skillet over medium heat. Add sliced chorizo rounds and cook for 3–4 minutes, stirring occasionally, until edges curl, crisp, and release their vibrant crimson paprika oil into the pan."
+      },
+      {
+        "name": "Sweat onion, garlic and paprika",
+        "ingredients": [
+          {
+            "qty_text": "1 small",
+            "item_name": "yellow onion"
+          },
+          {
+            "qty_text": "2 cloves",
+            "item_name": "garlic"
+          },
+          {
+            "qty_text": "1 tsp",
+            "item_name": "smoked Spanish paprika (pimentón de la Vera)"
+          }
+        ],
+        "text": "Add diced onion and sliced garlic to the bubbling chorizo oil. Cook for 3 minutes until soft and translucent. Stir in the smoked paprika for 20 seconds to toast the spice in the oil without scorching."
+      },
+      {
+        "name": "Simmer butter beans into a glaze",
+        "ingredients": [
+          {
+            "qty_text": "400g",
+            "item_name": "canned butter beans or alubias blancas"
+          },
+          {
+            "qty_text": "80ml",
+            "item_name": "chicken broth or water"
+          }
+        ],
+        "text": "Add drained butter beans and chicken broth. Simmer for 4–5 minutes, stirring occasionally and pressing a few beans with the back of the spoon so their creamy starches thicken the red braising liquid into a glossy, velvety glaze."
+      },
+      {
+        "name": "Wilt greens and splash vinegar",
+        "ingredients": [
+          {
+            "qty_text": "80g",
+            "item_name": "baby spinach or Swiss chard"
+          },
+          {
+            "qty_text": "1 tbsp",
+            "item_name": "sherry vinegar (vinagre de Jerez)"
+          },
+          {
+            "qty_text": "1/4 tsp",
+            "item_name": "flaky sea salt and black pepper"
+          }
+        ],
+        "text": "Stir in chopped greens and cook for 1–2 minutes until just wilted into the warm beans. Pull the pan off the heat, splash in the sherry vinegar, and toss to emulsify into the savory pan drippings. Season with salt and pepper to taste, and serve hot."
+      }
+    ]
+  },
+  "French bistro sausage, Dijon, and thyme white bean ragout": {
+    "title": "French bistro sausage, Dijon, and thyme white bean ragout",
+    "parent_idea": "Silky White Bean & Sausage Skillet",
+    "cuisine": "French",
+    "total_time": "25 min",
+    "recipe_yield": "2 servings",
+    "effort": "easy",
+    "equipment": [
+      "large heavy skillet or cast-iron pan",
+      "wooden spoon",
+      "knife and cutting board"
+    ],
+    "description": "Browned sausage slices simmered with tender white beans, a spoonful of sharp Dijon mustard, and fresh thyme into a silky, savory pan sauce eaten with crusty bread.",
+    "ingredient_lines": [
+      {
+        "qty_text": "250g",
+        "item_name": "French bistro sausages, Toulouse or pork bratwurst",
+        "prep_note": "sliced into 1.5cm coins",
+        "category_id": "meat",
+        "swaps": [
+          {
+            "qty_text": "250g",
+            "item_name": "smoked garlic sausage or kielbasa",
+            "prep_note": "sliced into 1.5cm coins",
+            "category_id": "meat",
+            "reason": "savory garlicky smoked pork profile"
+          }
+        ]
+      },
+      {
+        "qty_text": "400g",
+        "item_name": "canned flageolet beans or haricots blancs",
+        "prep_note": "drained and rinsed",
+        "category_id": "spices",
+        "swaps": [
+          {
+            "qty_text": "400g",
+            "item_name": "canned cannellini beans",
+            "prep_note": "drained and rinsed",
+            "category_id": "spices",
+            "reason": "creamy tender white beans"
+          }
+        ]
+      },
+      {
+        "qty_text": "1 medium",
+        "item_name": "shallot",
+        "prep_note": "finely minced",
+        "category_id": "produce",
+        "swaps": [
+          {
+            "qty_text": "1/2 small",
+            "item_name": "yellow onion",
+            "prep_note": "finely diced",
+            "category_id": "produce",
+            "reason": "sweet aromatic foundational base"
+          }
+        ]
+      },
+      {
+        "qty_text": "2 cloves",
+        "item_name": "garlic",
+        "prep_note": "minced",
+        "category_id": "produce",
+        "without": "Omit garlic"
+      },
+      {
+        "qty_text": "1 tbsp",
+        "item_name": "Dijon mustard",
+        "category_id": "spices",
+        "swaps": [
+          {
+            "qty_text": "1 tbsp",
+            "item_name": "whole-grain coarse mustard",
+            "category_id": "spices",
+            "reason": "rustic mustard seed pop"
+          }
+        ]
+      },
+      {
+        "qty_text": "3 sprigs",
+        "item_name": "fresh thyme",
+        "category_id": "produce",
+        "swaps": [
+          {
+            "qty_text": "1/2 tsp",
+            "item_name": "dried thyme",
+            "category_id": "spices",
+            "reason": "earthy floral dried herbal note"
+          }
+        ]
+      },
+      {
+        "qty_text": "100ml",
+        "item_name": "chicken broth",
+        "category_id": "spices",
+        "swaps": [
+          {
+            "qty_text": "60ml dry white wine plus 40ml water",
+            "item_name": "white wine and water",
+            "category_id": "beverages",
+            "reason": "classic French bistro acidity and aromatic lift"
+          }
+        ]
+      },
+      {
+        "qty_text": "1 tbsp",
+        "item_name": "unsalted butter",
+        "category_id": "dairy",
+        "swaps": [
+          {
+            "qty_text": "1 tbsp",
+            "item_name": "extra-virgin olive oil",
+            "category_id": "spices",
+            "reason": "dairy-free silky finish"
+          }
+        ]
+      },
+      {
+        "qty_text": "1 tbsp",
+        "item_name": "olive oil",
+        "category_id": "spices"
+      },
+      {
+        "qty_text": "2 tbsp",
+        "item_name": "fresh flat-leaf parsley",
+        "prep_note": "finely chopped",
+        "category_id": "produce",
+        "without": "Omit parsley"
+      },
+      {
+        "qty_text": "1/4 tsp",
+        "item_name": "kosher salt and freshly ground black pepper",
+        "category_id": "spices"
+      }
+    ],
+    "instructions": [
+      {
+        "name": "Brown sausage coins",
+        "ingredients": [
+          {
+            "qty_text": "1 tbsp",
+            "item_name": "olive oil"
+          },
+          {
+            "qty_text": "250g",
+            "item_name": "French bistro sausages, Toulouse or pork bratwurst"
+          }
+        ],
+        "text": "Heat olive oil in a large skillet over medium-high heat. Add sausage coins in a single layer and sear undisturbed for 3 minutes per side until deeply browned and caramelized. Transfer to a plate."
+      },
+      {
+        "name": "Sweat shallot and garlic",
+        "ingredients": [
+          {
+            "qty_text": "1 medium",
+            "item_name": "shallot"
+          },
+          {
+            "qty_text": "2 cloves",
+            "item_name": "garlic"
+          },
+          {
+            "qty_text": "3 sprigs",
+            "item_name": "fresh thyme"
+          }
+        ],
+        "text": "Lower skillet heat to medium. Add minced shallot and garlic to the remaining rendered fat in the pan. Strip thyme leaves from sprigs into the pan. Sweat for 2 minutes until translucent and aromatic."
+      },
+      {
+        "name": "Simmer ragout with Dijon",
+        "ingredients": [
+          {
+            "qty_text": "1 tbsp",
+            "item_name": "Dijon mustard"
+          },
+          {
+            "qty_text": "100ml",
+            "item_name": "chicken broth"
+          },
+          {
+            "qty_text": "400g",
+            "item_name": "canned flageolet beans or haricots blancs"
+          }
+        ],
+        "text": "Whisk in Dijon mustard and pour in chicken broth, scraping the browned pork fond from the skillet bottom. Return browned sausages to the pan along with the drained white beans. Simmer gently over medium-low heat for 5 minutes, crushing a spoonful of beans to thicken the broth into a rich ragout."
+      },
+      {
+        "name": "Mount with butter and serve",
+        "ingredients": [
+          {
+            "qty_text": "1 tbsp",
+            "item_name": "unsalted butter"
+          },
+          {
+            "qty_text": "2 tbsp",
+            "item_name": "fresh flat-leaf parsley"
+          },
+          {
+            "qty_text": "1/4 tsp",
+            "item_name": "kosher salt and freshly ground black pepper"
+          }
+        ],
+        "text": "Remove from heat. Swirl in cold butter until it melts into a velvety, glossy sheen. Season with salt and black pepper to taste. Shower with chopped parsley and serve warm with crusty baguette."
       }
     ]
   }

@@ -7,7 +7,7 @@ import { ActivityIndicator, FlatList, Pressable, View } from "react-native";
 import { useResolveClassNames } from "uniwind";
 import { Text } from "@/components/ui/text";
 import type { Variant } from "@/db/schema";
-import { SeededArt } from "@/features/meals/seeded-art";
+import { RecipeArt } from "@/features/meals/recipe-art";
 import { tonalPair } from "@/features/variants/tonal";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import type { MealSlot } from "@/features/meals/slots";
@@ -97,7 +97,7 @@ export function RecipeBrowser({
           )
         }
         renderItem={({
-          item: { cuisine, variant, olderVariant, variantCount },
+          item: { cuisine, artPath, variant, olderVariant, variantCount },
         }) => {
           const openVariants = () =>
             router.push({
@@ -123,7 +123,7 @@ export function RecipeBrowser({
                   end={{ x: 0.85, y: 1 }}
                   style={{ flex: 1 }}
                 />
-                <SeededArt name={variant.name} inset={4} />
+                <RecipeArt name={variant.name} artPath={artPath} inset={4} />
               </View>
               <View className="flex-1 gap-1">
                 <Text className="font-medium" numberOfLines={2}>

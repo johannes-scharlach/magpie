@@ -7,7 +7,7 @@ import { useResolveClassNames } from "uniwind";
 
 import { clayTile, SectionTitle } from "@/components/clay";
 import { Text } from "@/components/ui/text";
-import { SeededArt } from "@/features/meals/seeded-art";
+import { RecipeArt } from "@/features/meals/recipe-art";
 import { tonalPair } from "@/features/variants/tonal";
 import { cn } from "@/lib/utils";
 
@@ -34,6 +34,7 @@ type WeekMeal = {
   meal: MealSlot;
   slot_date: string;
   name: string | null;
+  art_path: string | null;
 };
 
 /**
@@ -46,8 +47,10 @@ export function WeekGlance({ listId }: { listId: string | null }) {
   const todayKey = dateKey(now);
   const { data: meals } = useQuery<WeekMeal>(
     listId
-      ? `SELECT p.id, p.variant_id, p.meal, p.slot_date, COALESCE(p.name, v.name) AS name
+      ? `SELECT p.id, p.variant_id, p.meal, p.slot_date, COALESCE(p.name, v.name) AS name,
+           r.art_path
          FROM planned_meals p LEFT JOIN variants v ON v.id = p.variant_id
+           LEFT JOIN recipes r ON r.id = v.recipe_id
          WHERE p.list_id = ? AND p.slot_date BETWEEN ? AND ?`
       : "SELECT * FROM planned_meals WHERE 0",
     listId ? [listId, todayKey, dateKey(addDays(now, 6))] : [],
@@ -209,7 +212,7 @@ function TodayRow({ meal }: { meal: WeekMeal }) {
             end={{ x: 0.85, y: 1 }}
             style={{ flex: 1 }}
           />
-          <SeededArt name={meal.name} inset={4} />
+          <RecipeArt name={meal.name} artPath={meal.art_path} inset={4} />
         </View>
         <View className="flex-1 gap-0.5">
           <Text

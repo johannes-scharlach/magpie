@@ -29,6 +29,8 @@ export type DisplayRecipe = {
   name: string;
   totalTime: string | null;
   seedKey?: string | null;
+  /** The recipe's drawn art (ADR 38); seeded dishes find theirs by name. */
+  artPath?: string | null;
 };
 export type DisplayPlannedMeal = DisplayRecipe & {
   variantId: string | null;

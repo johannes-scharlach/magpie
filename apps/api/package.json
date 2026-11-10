@@ -10,7 +10,8 @@
     "typecheck": "tsc --noEmit",
     "test": "tsx --env-file-if-exists=.env --test src/*.test.ts",
     "lint": "eslint .",
-    "retag": "tsx --env-file-if-exists=.env src/retag-recipes.ts"
+    "retag": "tsx --env-file-if-exists=.env src/retag-recipes.ts",
+    "art:backfill": "tsx --env-file-if-exists=.env src/backfill-recipe-art.ts"
   },
   "dependencies": {
     "@ai-sdk/google": "^4.0.113",

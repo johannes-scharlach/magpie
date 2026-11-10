@@ -31,9 +31,9 @@ async function withHouseholds(work: (client: Client) => Promise<void>) {
         ('${annas}', 'Anna', '${anna}'), ('${bens}', 'Ben', '${ben}');
       INSERT INTO household_profiles (id) VALUES ('${annas}'), ('${bens}');
       INSERT INTO list_members (list_id, user_id) VALUES ('${annas}', '${anna}'), ('${bens}', '${ben}');
-      INSERT INTO recipes (id, list_id, from_url, created_by, origin, cuisine, tags) VALUES
+      INSERT INTO recipes (id, list_id, from_url, created_by, origin, cuisine, tags, art_path) VALUES
         ('f2700000-0000-4000-8000-000000000001', '${annas}', 'https://example.com/cookies', '${anna}', 'import',
-         'british', '["biscuits"]');
+         'british', '["biscuits"]', 'f2700000-0000-4000-8000-000000000001.webp');
       INSERT INTO variants (id, recipe_id, list_id, name, ingredient_lines, sized_for, equipment, effort) VALUES
         ('${cookies}', 'f2700000-0000-4000-8000-000000000001', '${annas}', 'Cookies',
          '[{"id": 4, "qty_text": "200g", "item_name": "butter"}]', '{"eater_ids": [], "extra_portions": 0}',
@@ -74,7 +74,7 @@ test(
 
       const copy = await client.query(
         `SELECT v.name, v.ingredient_lines, v.sized_for, r.cuisine, r.tags, v.equipment, v.effort,
-          r.from_url, r.origin, r.created_by
+          r.from_url, r.origin, r.created_by, r.art_path
        FROM variants v JOIN recipes r ON r.id = v.recipe_id`,
       );
       assert.deepEqual(copy.rows, [
@@ -89,6 +89,7 @@ test(
           from_url: "https://example.com/cookies",
           origin: null,
           created_by: null,
+          art_path: "f2700000-0000-4000-8000-000000000001.webp",
         },
       ]);
     });

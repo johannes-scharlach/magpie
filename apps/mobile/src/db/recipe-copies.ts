@@ -44,8 +44,8 @@ export async function variantInList(
     !(await tx.getOptional("SELECT id FROM recipes WHERE id = ?", [recipeId]))
   )
     await tx.execute(
-      `INSERT INTO recipes (id, list_id, from_name, from_url, next_ingredient_id, cuisine, tags, created_at, updated_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO recipes (id, list_id, from_name, from_url, next_ingredient_id, cuisine, tags, art_path, created_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         recipeId,
         listId,
@@ -54,6 +54,7 @@ export async function variantInList(
         recipe?.next_ingredient_id ?? 1,
         recipe?.cuisine ?? null,
         recipe?.tags ?? "[]",
+        recipe?.art_path ?? null,
         now,
         now,
       ],

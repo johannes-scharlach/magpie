@@ -1,0 +1,31 @@
+# Deploys apps/art-matting to Fly when it changes. Same deploy as
+# `pnpm art:deploy`, run from the checkout root (the build context needs
+# scripts/art-matting.py). Requires:
+#   - the app created and deployed once by hand (apps/art-matting/fly.toml)
+#   - repo secret FLY_ART_MATTING_API_TOKEN — an app-scoped deploy token:
+#       fly tokens create deploy --app magpie-art-matting
+#
+# --no-public-ips keeps it private: reachable only over Flycast. A deploy
+# drops the suspended snapshot, so the next matte is a cold start.
+name: art-matting-deploy
+on:
+  push:
+    branches: [main]
+    paths:
+      - "apps/art-matting/**"
+      - "scripts/art-matting.py"
+      - ".github/workflows/art-matting-deploy.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - run: flyctl deploy --remote-only --no-public-ips --config apps/art-matting/fly.toml --dockerfile apps/art-matting/Dockerfile
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_ART_MATTING_API_TOKEN }}
