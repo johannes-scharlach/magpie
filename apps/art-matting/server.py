@@ -4,8 +4,11 @@ POST /matte with a PNG or JPEG body; the answer is a WebP of at most 512px,
 cropped to the dish with 16px to spare. Matting is scripts/art-matting.py,
 unchanged: the seeded art went through the same code.
 
-One request at a time on purpose. A matte peaks around 1.1 GB, and the
-machine has 2 GB so Fly can suspend it.
+One matte at a time on purpose: a matte peaks around 1.1 GB, and the
+machine has 2 GB so Fly can suspend it. Other requests get their own
+thread, so /health answers during a matte. Once the shared CPU runs out of
+burst a matte takes over a minute, and a blocked health check made Fly
+turn every request away with a 502.
 
     uv run --with numpy --with pillow --with "rembg[cpu]==2.0.85" apps/art-matting/server.py
 """
@@ -13,8 +16,9 @@ machine has 2 GB so Fly can suspend it.
 import importlib.util
 import io
 import os
+import threading
 import time
-from http.server import BaseHTTPRequestHandler, HTTPServer
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
 import onnxruntime as ort
@@ -33,6 +37,7 @@ MAX_BODY = 10 * 1024 * 1024
 opts = ort.SessionOptions()
 opts.enable_cpu_mem_arena = False
 session = new_session("isnet-general-use", sess_opts=opts)
+one_matte_at_a_time = threading.Lock()
 
 
 def finish(cutout: Image.Image) -> bytes:
@@ -68,7 +73,8 @@ class Handler(BaseHTTPRequestHandler):
         started = time.perf_counter()
         try:
             image = Image.open(io.BytesIO(self.rfile.read(length))).convert("RGB")
-            webp = finish(art_matting.process_image(image, session=session))
+            with one_matte_at_a_time:
+                webp = finish(art_matting.process_image(image, session=session))
         except Exception as error:  # Bad input or an empty cutout: the caller logs it.
             return self.send_error(422, str(error))
         print(f"matted {image.size[0]}x{image.size[1]} in {time.perf_counter() - started:.1f}s", flush=True)
@@ -82,4 +88,4 @@ class Handler(BaseHTTPRequestHandler):
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", "8080"))
     print(f"listening on {port}", flush=True)
-    HTTPServer(("0.0.0.0", port), Handler).serve_forever()
+    ThreadingHTTPServer(("0.0.0.0", port), Handler).serve_forever()

@@ -81,11 +81,12 @@ export function artTools(): ArtTools | null {
       return image.uint8Array;
     },
     matte: async (image) => {
-      // A cold start plus about 15 s of matting on a shared CPU.
+      // A throttled shared CPU takes over a minute per matte, and a matte
+      // can wait for the one before it. Cold start is about 20 s.
       const response = await fetch(`${mattingUrl}/matte`, {
         method: "POST",
         body: image,
-        signal: AbortSignal.timeout(120_000),
+        signal: AbortSignal.timeout(300_000),
       });
       if (!response.ok)
         throw new Error(
