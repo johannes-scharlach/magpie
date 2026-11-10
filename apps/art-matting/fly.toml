@@ -9,7 +9,7 @@
 #
 #   fly apps create magpie-art-matting
 #   fly deploy --config apps/art-matting/fly.toml \
-#     --dockerfile apps/art-matting/Dockerfile --flycast --no-public-ips
+#     --dockerfile apps/art-matting/Dockerfile --flycast --no-public-ips --ha=false
 #   fly ips list --app magpie-art-matting   # only a private v6, no public IPs
 #   fly secrets set ART_MATTING_URL=http://magpie-art-matting.flycast --app magpie-api
 
