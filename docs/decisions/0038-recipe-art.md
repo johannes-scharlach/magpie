@@ -42,11 +42,12 @@ recipes from before this decision, and any whose drawing failed.
 
 - Drawing never blocks or fails a save. A failed drawing is logged and the
   recipe keeps its gradient until the backfill.
-- The matting service needs 2 GB (peak 1.66 GB at 1024px; 1 GB is killed
-  for memory). Fly suspends machines up to 2 GB without swap, so it sits at
-  that limit. Suspended machines cost storage only and resume in a few
-  hundred ms. A deploy or host move discards the snapshot; the next request
-  is a cold start of a few seconds.
+- The matting service runs on 2 GB: a matte peaks around 1.1 GB with ONNX
+  Runtime's memory arena off. With it on, the arena kept 1.3 GB after each
+  matte and the second one ran out of memory. Fly suspends machines up to
+  2 GB without swap. Suspended machines cost storage only and resume in a
+  few hundred ms. A deploy or host move discards the snapshot; the next
+  request is a cold start of about 20 seconds.
 - The service handles one image at a time, so two images never need memory
   together. On a shared CPU an image takes about 15 s; nobody waits on it.
 - Art files are public. Their paths are recipe ids, which travel only

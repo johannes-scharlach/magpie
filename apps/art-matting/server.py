@@ -4,7 +4,7 @@ POST /matte with a PNG or JPEG body; the answer is a WebP of at most 512px,
 cropped to the dish with 16px to spare. Matting is scripts/art-matting.py,
 unchanged: the seeded art went through the same code.
 
-One request at a time on purpose. A matte peaks around 1.7 GB, and the
+One request at a time on purpose. A matte peaks around 1.1 GB, and the
 machine has 2 GB so Fly can suspend it.
 
     uv run --with numpy --with pillow --with "rembg[cpu]==2.0.85" apps/art-matting/server.py
@@ -17,6 +17,7 @@ import time
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
 
+import onnxruntime as ort
 from PIL import Image
 from rembg import new_session
 
@@ -26,7 +27,12 @@ art_matting = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(art_matting)
 
 MAX_BODY = 10 * 1024 * 1024
-session = new_session("isnet-general-use")
+# ONNX Runtime's arena keeps each matte's memory for the next one: 1.3 GB
+# idle after the first matte, so the second ran out of memory on Fly. Off,
+# a matte peaks around 1.1 GB and the server drops back to 0.3 GB.
+opts = ort.SessionOptions()
+opts.enable_cpu_mem_arena = False
+session = new_session("isnet-general-use", sess_opts=opts)
 
 
 def finish(cutout: Image.Image) -> bytes:

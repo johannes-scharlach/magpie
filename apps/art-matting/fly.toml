@@ -38,5 +38,5 @@ primary_region = "fra"
 
 [[vm]]
   size = "shared-cpu-2x"
-  # A matte peaks around 1.7 GB; 1 GB is killed for memory.
+  # A matte peaks around 1.1 GB with the arena off (server.py).
   memory = "2gb"
