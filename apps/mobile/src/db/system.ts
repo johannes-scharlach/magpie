@@ -10,9 +10,14 @@ export const powersync = new PowerSyncDatabase({
 
 export const connector = new SupabaseConnector();
 
+/** Resolves once the local database is open; syncing continues on its own. */
 export async function connectPowerSync() {
   await powersync.init();
-  await powersync.connect(connector);
+  // connect() waits for the first attempt. Offline, that is a ~30s token
+  // refresh before failing, and the cache must not wait for it.
+  powersync.connect(connector).catch((error: unknown) => {
+    console.warn("PowerSync connect failed", error);
+  });
 }
 
 export async function disconnectPowerSync() {

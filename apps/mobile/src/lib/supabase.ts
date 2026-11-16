@@ -3,6 +3,7 @@ import * as SecureStore from "expo-secure-store";
 import { AppState } from "react-native";
 
 import { env } from "./env";
+import { authStorageKey, readStoredSession } from "./stored-session";
 
 /**
  * Session tokens live in the Keychain / Android Keystore rather than
@@ -32,6 +33,11 @@ export const supabase = createClient(
     },
   },
 );
+
+/** No network: offline launches open the cache from this. */
+export function storedSession() {
+  return readStoredSession(secureStorage, authStorageKey(env.supabaseUrl));
+}
 
 // Returning from the email app should also resume refresh of a stored session.
 AppState.addEventListener("change", (state) => {

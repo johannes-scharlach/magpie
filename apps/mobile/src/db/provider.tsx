@@ -12,7 +12,7 @@ import {
 } from "react";
 
 import { posthog } from "../lib/posthog";
-import { supabase } from "../lib/supabase";
+import { storedSession, supabase } from "../lib/supabase";
 import { connectPowerSync, disconnectPowerSync, powersync } from "./system";
 
 const CACHE_USER_KEY = "magpie.powersync-user";
@@ -66,12 +66,19 @@ export function SystemProvider({ children }: { children: ReactNode }) {
           (previous.session?.user.id !== next?.user.id ? 1 : 0),
       }));
     }
-    supabase.auth
-      .getSession()
-      .then(({ data, error }) => {
+    // Offline launches must open the cache. getSession() refreshes an expired
+    // token first and, offline, gives up with no session.
+    async function initialSession() {
+      const stored = await storedSession();
+      if (stored) return stored;
+      const { data, error } = await supabase.auth.getSession();
+      if (error) throw error;
+      return data.session;
+    }
+    initialSession()
+      .then((initial) => {
         if (!active) return;
-        if (error) throw error;
-        if (!receivedAuthChange) setSession(data.session);
+        if (!receivedAuthChange) setSession(initial);
         setReady(true);
       })
       .catch((error: unknown) => {
@@ -85,7 +92,10 @@ export function SystemProvider({ children }: { children: ReactNode }) {
 
     const { data: subscription } = supabase.auth.onAuthStateChange(
       (event, next) => {
-        if (event !== "INITIAL_SESSION") receivedAuthChange = true;
+        // Offline, INITIAL_SESSION is null despite a stored session; a null
+        // user would clear the cache. Startup reads the session itself.
+        if (event === "INITIAL_SESSION") return;
+        receivedAuthChange = true;
         setSession(next);
       },
     );
