@@ -86,7 +86,8 @@ import { useCommitTick } from "@/hooks/use-commit-tick";
 import { useToday } from "@/hooks/use-today";
 import { env } from "@/lib/env";
 
-const HERO_HEIGHT = 320;
+// The dish keeps its size; a long title makes the hero taller instead.
+const HERO_ART_SIZE = 220;
 // Two 22-point icons with 8-point padding on each side.
 const HEADER_ACTIONS_WIDTH = 76;
 /** How far above the composer the scroll-edge fade runs before it is full. */
@@ -462,6 +463,8 @@ export default function VariantPage() {
   const today = useToday();
 
   const scrollY = useSharedValue(0);
+  // Measured: the hero grows with the title. 320 until the first layout.
+  const heroHeight = useSharedValue(320);
   const readingOnUI = useSharedValue(false);
   const scrollHandler = useAnimatedScrollHandler((event) => {
     scrollY.set(event.contentOffset.y);
@@ -473,7 +476,8 @@ export default function VariantPage() {
     () => scrollY.get(),
     (y) => {
       const reading = readingOnUI.get();
-      const next = y >= HERO_HEIGHT - 52 ? true : y <= 48 ? false : reading;
+      const next =
+        y >= heroHeight.get() - 52 ? true : y <= 48 ? false : reading;
       if (next !== reading) {
         readingOnUI.set(next);
         scheduleOnRN(setReadingRecipe, next);
@@ -489,7 +493,7 @@ export default function VariantPage() {
   const headerStyle = useAnimatedStyle(() => {
     const opacity = interpolate(
       scrollY.value,
-      [HERO_HEIGHT - 64, HERO_HEIGHT - 52],
+      [heroHeight.get() - 64, heroHeight.get() - 52],
       [0, 1],
       {
         extrapolateLeft: "clamp",
@@ -510,8 +514,8 @@ export default function VariantPage() {
     // behind the faster-moving content sheet instead of outrunning it.
     const translateY = interpolate(
       scrollY.value,
-      [0, HERO_HEIGHT],
-      [0, HERO_HEIGHT * 0.24],
+      [0, heroHeight.get()],
+      [0, heroHeight.get() * 0.24],
       {
         extrapolateLeft: "clamp",
         extrapolateRight: "clamp",
@@ -523,7 +527,7 @@ export default function VariantPage() {
   const heroContentAnimatedStyle = useAnimatedStyle(() => {
     const opacity = interpolate(
       scrollY.value,
-      [0, HERO_HEIGHT * 0.55],
+      [0, heroHeight.get() * 0.55],
       [1, 0],
       {
         extrapolateLeft: "clamp",
@@ -873,7 +877,10 @@ export default function VariantPage() {
         {!isPreview && (
           <Stack.Screen options={{ title: "", headerTransparent: true }} />
         )}
-        <Skeleton style={{ height: HERO_HEIGHT }} className="w-full" />
+        <Skeleton
+          style={{ height: insets.top + 56 + HERO_ART_SIZE + 100 }}
+          className="w-full"
+        />
         <View className="gap-3 p-6">
           <Skeleton className="h-8 w-3/4" />
           <Skeleton className="h-4 w-full" />
@@ -1167,24 +1174,23 @@ export default function VariantPage() {
         showsVerticalScrollIndicator={false}
       >
         <Animated.View
-          style={[{ height: HERO_HEIGHT }, heroAnimatedStyle]}
+          style={heroAnimatedStyle}
+          onLayout={(event) => heroHeight.set(event.nativeEvent.layout.height)}
           className="w-full overflow-hidden"
         >
           <LinearGradient
             colors={colors}
             start={{ x: 0.15, y: 0 }}
             end={{ x: 0.85, y: 1 }}
-            style={{ flex: 1 }}
           >
             <Animated.View
-              className="flex-1 justify-end gap-2 px-6 pb-6"
+              className="gap-2 px-6 pb-6"
               style={[
                 { paddingTop: insets.top + 56 },
                 heroContentAnimatedStyle,
               ]}
             >
-              {/* Whatever room the title leaves; long titles shrink the art. */}
-              <View className="flex-1">
+              <View style={{ height: HERO_ART_SIZE }}>
                 <RecipeArt
                   name={variant.name}
                   artPath={recipe?.art_path}

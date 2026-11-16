@@ -7,7 +7,8 @@ import { seededLook } from "./seeded-look";
 
 /** A recipe's clay art over its gradient (ADR 38): a seeded dish's bundled
  *  art, else the art drawn for the recipe, else nothing until it arrives.
- *  Place inside the gradient's positioned container. */
+ *  Place inside the gradient's positioned container. Negative insets let
+ *  the dish spill over the tile's edge. */
 export function RecipeArt({
   name,
   artPath,
@@ -15,7 +16,7 @@ export function RecipeArt({
 }: {
   name: string | null;
   artPath?: string | null;
-  inset: number;
+  inset: number | { top: number; right: number; bottom: number; left: number };
 }) {
   const look = name ? seededLook(name) : null;
   const source = look
@@ -34,7 +35,10 @@ export function RecipeArt({
       transition={200}
       accessible={false}
       accessibilityIgnoresInvertColors
-      style={{ position: "absolute", inset }}
+      style={[
+        { position: "absolute" },
+        typeof inset === "number" ? { inset } : inset,
+      ]}
     />
   );
 }
