@@ -1,0 +1,449 @@
+{
+  "+TPLLR": [
+    {
+      "type": 0,
+      "value": "Retry"
+    }
+  ],
+  "+TZr4o": [
+    {
+      "type": 6,
+      "value": "count",
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 0,
+              "value": "Found "
+            },
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " recipe"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 0,
+              "value": "Found "
+            },
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " recipes"
+            }
+          ]
+        }
+      },
+      "offset": 0,
+      "pluralType": "cardinal"
+    }
+  ],
+  "+y6jvK": [
+    {
+      "type": 0,
+      "value": "Select "
+    },
+    {
+      "type": 1,
+      "value": "recipe"
+    },
+    {
+      "type": 0,
+      "value": " for "
+    },
+    {
+      "type": 1,
+      "value": "slot"
+    }
+  ],
+  "1TrkHP": [
+    {
+      "type": 0,
+      "value": "Cancelling…"
+    }
+  ],
+  "3DrMNt": [
+    {
+      "type": 0,
+      "value": "Dismiss"
+    }
+  ],
+  "4EsfFv": [
+    {
+      "type": 0,
+      "value": "treat"
+    }
+  ],
+  "5+uWTl": [
+    {
+      "type": 0,
+      "value": "Reading "
+    },
+    {
+      "type": 1,
+      "value": "host"
+    },
+    {
+      "type": 0,
+      "value": "…"
+    }
+  ],
+  "52V3Hw": [
+    {
+      "type": 0,
+      "value": "Couldn’t plan this meal"
+    }
+  ],
+  "5K7A9i": [
+    {
+      "type": 1,
+      "value": "found"
+    },
+    {
+      "type": 0,
+      "value": ", "
+    },
+    {
+      "type": 1,
+      "value": "count"
+    },
+    {
+      "type": 0,
+      "value": " incomplete"
+    }
+  ],
+  "77C3do": [
+    {
+      "type": 0,
+      "value": "+"
+    },
+    {
+      "type": 1,
+      "value": "extra"
+    },
+    {
+      "type": 0,
+      "value": " extra"
+    }
+  ],
+  "7NwgcX": [
+    {
+      "type": 0,
+      "value": "Cancel"
+    }
+  ],
+  "8tYGGP": [
+    {
+      "type": 0,
+      "value": "Dinner"
+    }
+  ],
+  "9UrpWM": [
+    {
+      "type": 0,
+      "value": "Hide "
+    },
+    {
+      "type": 1,
+      "value": "slot"
+    },
+    {
+      "type": 0,
+      "value": " choices"
+    }
+  ],
+  "ARoqs5": [
+    {
+      "type": 0,
+      "value": "Remove from plan"
+    }
+  ],
+  "BNzExh": [
+    {
+      "type": 0,
+      "value": "Treat"
+    }
+  ],
+  "CpnFSJ": [
+    {
+      "type": 0,
+      "value": "Browse cookbook"
+    }
+  ],
+  "DrcycS": [
+    {
+      "type": 0,
+      "value": "Reading “"
+    },
+    {
+      "type": 1,
+      "value": "text"
+    },
+    {
+      "type": 0,
+      "value": "”…"
+    }
+  ],
+  "Dw5A9f": [
+    {
+      "type": 0,
+      "value": "Planned"
+    }
+  ],
+  "EoBhsI": [
+    {
+      "type": 0,
+      "value": "Write in a meal"
+    }
+  ],
+  "IQG6uc": [
+    {
+      "type": 0,
+      "value": "Past meal"
+    }
+  ],
+  "JjUC5I": [
+    {
+      "type": 0,
+      "value": "Retry"
+    }
+  ],
+  "M7dZ14": [
+    {
+      "type": 0,
+      "value": "Getting the recipe ready…"
+    }
+  ],
+  "MJTmFc": [
+    {
+      "type": 0,
+      "value": "Meals"
+    }
+  ],
+  "MUVnbU": [
+    {
+      "type": 0,
+      "value": "lunch"
+    }
+  ],
+  "PZW+tk": [
+    {
+      "type": 0,
+      "value": "Long press for other variants"
+    }
+  ],
+  "Q5plTF": [
+    {
+      "type": 0,
+      "value": "No list yet — create one in Shop first."
+    }
+  ],
+  "RBdc82": [
+    {
+      "type": 0,
+      "value": "Choose what to buy"
+    }
+  ],
+  "SyepTx": [
+    {
+      "type": 0,
+      "value": "Finding meals for you…"
+    }
+  ],
+  "TL4aTD": [
+    {
+      "type": 0,
+      "value": "Could not cancel"
+    }
+  ],
+  "V/P0v7": [
+    {
+      "type": 0,
+      "value": "Everyone"
+    }
+  ],
+  "VE0s7D": [
+    {
+      "type": 0,
+      "value": "dinner"
+    }
+  ],
+  "VlowD5": [
+    {
+      "type": 0,
+      "value": "Me"
+    }
+  ],
+  "VvjIbM": [
+    {
+      "type": 0,
+      "value": "Review"
+    }
+  ],
+  "WobItN": [
+    {
+      "type": 0,
+      "value": "Suggestions couldn’t load. You can still browse your cookbook."
+    }
+  ],
+  "XbMjOX": [
+    {
+      "type": 6,
+      "value": "count",
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 0,
+              "value": "Reading your photo…"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 0,
+              "value": "Reading "
+            },
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " photos…"
+            }
+          ]
+        }
+      },
+      "offset": 0,
+      "pluralType": "cardinal"
+    }
+  ],
+  "arUays": [
+    {
+      "type": 0,
+      "value": "Select "
+    },
+    {
+      "type": 1,
+      "value": "slot"
+    }
+  ],
+  "cmBFn5": [
+    {
+      "type": 0,
+      "value": "Adding to your plan…"
+    }
+  ],
+  "eqjXdk": [
+    {
+      "type": 0,
+      "value": "Adding to your cookbook…"
+    }
+  ],
+  "ir/sf1": [
+    {
+      "type": 0,
+      "value": "Saves this idea to your cookbook and plans it"
+    }
+  ],
+  "jpoEqR": [
+    {
+      "type": 0,
+      "value": "The recipe hasn’t synced yet. Try again in a moment."
+    }
+  ],
+  "mYhCW0": [
+    {
+      "type": 0,
+      "value": "Move to…"
+    }
+  ],
+  "nJ+B8s": [
+    {
+      "type": 0,
+      "value": "Choose another meal"
+    }
+  ],
+  "psD7p2": [
+    {
+      "type": 0,
+      "value": "Actions for "
+    },
+    {
+      "type": 1,
+      "value": "recipe"
+    }
+  ],
+  "qKQpsZ": [
+    {
+      "type": 0,
+      "value": "Lunch"
+    }
+  ],
+  "tSxVv6": [
+    {
+      "type": 0,
+      "value": "Picked for you"
+    }
+  ],
+  "tYVXhj": [
+    {
+      "type": 0,
+      "value": "Please try again."
+    }
+  ],
+  "vxgbIs": [
+    {
+      "type": 0,
+      "value": "Import recipe"
+    }
+  ],
+  "w+S0BX": [
+    {
+      "type": 0,
+      "value": "Plan again…"
+    }
+  ],
+  "wTes2b": [
+    {
+      "type": 0,
+      "value": "No matching suggestions. Browse your cookbook or write in a meal."
+    }
+  ],
+  "wl05lJ": [
+    {
+      "type": 0,
+      "value": "Plan with Magpie"
+    }
+  ],
+  "wwnfQI": [
+    {
+      "type": 0,
+      "value": "Nobody"
+    }
+  ],
+  "xbvaCW": [
+    {
+      "type": 0,
+      "value": "Select "
+    },
+    {
+      "type": 1,
+      "value": "slot"
+    }
+  ],
+  "yn0m94": [
+    {
+      "type": 0,
+      "value": "Today"
+    }
+  ]
+}

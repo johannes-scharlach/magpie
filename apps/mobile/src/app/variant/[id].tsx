@@ -64,7 +64,8 @@ import { adjustRecipeMessage } from "@/features/chat/compose";
 import type { ImageAttachment } from "@/features/chat/image-attachment";
 import { Markdown } from "@/features/chat/markdown";
 import { queueMessage } from "@/features/chat/message-queue";
-import { eatersLabel, parseEaterIds, toEaters } from "@/features/meals/eaters";
+import { useEatersLabel } from "@/features/meals/eaters-label";
+import { parseEaterIds, toEaters } from "@/features/meals/eaters";
 import { RecipeArt } from "@/features/meals/recipe-art";
 import {
   driftLabel,
@@ -423,6 +424,7 @@ function SectionRow({
 
 export default function VariantPage() {
   const isPreview = useIsPreview();
+  const eatersLabel = useEatersLabel();
   const { id, plannedMealId } = useLocalSearchParams<{
     id: string;
     plannedMealId?: string;

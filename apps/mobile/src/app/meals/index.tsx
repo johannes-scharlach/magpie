@@ -1,6 +1,7 @@
 import { useQuery } from "@powersync/react";
 import { Link, Stack, router, useLocalSearchParams } from "expo-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useIntl } from "react-intl";
 import {
   ActivityIndicator,
   Alert,
@@ -23,18 +24,22 @@ import {
   type DisplayRecipe,
 } from "@/features/meals/day-content";
 import { DayStrip } from "@/features/meals/day-strip";
-import { eatersLabel, parseEaterIds, toEaters } from "@/features/meals/eaters";
+import { useEatersLabel } from "@/features/meals/eaters-label";
+import { parseEaterIds, toEaters } from "@/features/meals/eaters";
 import { dateKey, stripDates, type MealSlot } from "@/features/meals/slots";
 import { usePanSwipeDay } from "@/features/meals/use-pan-swipe-day";
 import { useImportJobs } from "@/features/meals/use-import-jobs";
 import { useActiveList } from "@/features/onboarding/access";
 import {
+  MealRecommendationError,
   prepareRecommendedMeal,
   useMealRecommendations,
 } from "@/features/meals/use-meal-recommendations";
 import { useToday } from "@/hooks/use-today";
 
 export default function Meals() {
+  const intl = useIntl();
+  const eatersLabel = useEatersLabel();
   const [{ dates, todayIndex }] = useState(stripDates);
   const { date: requestedDate, at } = useLocalSearchParams<{
     date?: string;
@@ -199,8 +204,23 @@ export default function Meals() {
       });
       setOpen(date, slot, true);
       Alert.alert(
-        "Couldn’t plan this meal",
-        error instanceof Error ? error.message : "Please try again.",
+        intl.formatMessage({
+          defaultMessage: "Couldn’t plan this meal",
+          description: "Alert title when a chosen meal could not be saved.",
+        }),
+        error instanceof MealRecommendationError &&
+          error.reason === "not-synced"
+          ? intl.formatMessage({
+              defaultMessage:
+                "The recipe hasn’t synced yet. Try again in a moment.",
+              description:
+                "Alert body when a recommendation was chosen before its recipe finished syncing.",
+            })
+          : intl.formatMessage({
+              defaultMessage: "Please try again.",
+              description:
+                "Generic alert body after planning a meal failed for an unknown reason.",
+            }),
       );
     } finally {
       selectingSlots.current.delete(k);
@@ -342,7 +362,13 @@ export default function Meals() {
   if (!list) {
     return (
       <View className="flex-1 items-center justify-center gap-3 bg-background p-6">
-        <Text variant="muted">No list yet — create one in Shop first.</Text>
+        <Text variant="muted">
+          {intl.formatMessage({
+            defaultMessage: "No list yet — create one in Shop first.",
+            description:
+              "Empty state on Meals when the household has no active shopping list.",
+          })}
+        </Text>
         <ActivityIndicator />
       </View>
     );
@@ -352,7 +378,10 @@ export default function Meals() {
     <>
       <Stack.Screen
         options={{
-          title: "Meals",
+          title: intl.formatMessage({
+            defaultMessage: "Meals",
+            description: "Title of the meal planning screen.",
+          }),
           headerLargeTitle: true,
           headerBackButtonDisplayMode: "minimal",
           headerRight: () => (
@@ -361,7 +390,13 @@ export default function Meals() {
                 accessibilityRole="link"
                 className="min-h-11 justify-center px-2 active:opacity-60"
               >
-                <Text className="text-link">Plan with Magpie</Text>
+                <Text className="text-link">
+                  {intl.formatMessage({
+                    defaultMessage: "Plan with Magpie",
+                    description:
+                      "Header action that opens the assistant to plan meals.",
+                  })}
+                </Text>
               </Pressable>
             </Link>
           ),

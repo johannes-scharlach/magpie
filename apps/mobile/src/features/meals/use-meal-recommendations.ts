@@ -19,13 +19,24 @@ const RecommendationsSchema = z.object({
 });
 const SavedSchema = z.object({ recipeId: z.uuid(), variantId: z.uuid() });
 
+export type MealRecommendationErrorReason =
+  "signed-out" | "unavailable" | "not-synced";
+
+/** The screen translates the reason; the message stays stable for logs. */
+export class MealRecommendationError extends Error {
+  constructor(readonly reason: MealRecommendationErrorReason) {
+    super(reason);
+    this.name = "MealRecommendationError";
+  }
+}
+
 async function request(
   path: string,
   body: unknown,
   signal: AbortSignal,
 ): Promise<unknown> {
   const { data } = await supabase.auth.getSession();
-  if (!data.session) throw new Error("Sign in to get suggestions.");
+  if (!data.session) throw new MealRecommendationError("signed-out");
   const response = await fetch(`${env.apiUrl}/v1/meal-recommendations${path}`, {
     method: "POST",
     signal,
@@ -35,7 +46,7 @@ async function request(
     },
     body: JSON.stringify(body),
   });
-  if (!response.ok) throw new Error("Could not load suggestions.");
+  if (!response.ok) throw new MealRecommendationError("unavailable");
   return response.json();
 }
 
@@ -139,6 +150,6 @@ export async function prepareRecommendedMeal(
     }
   }
   if (!(await waitForVariant(selected.id)))
-    throw new Error("The recipe hasn't synced yet. Try again in a moment.");
+    throw new MealRecommendationError("not-synced");
   return selected;
 }

@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
 
 import {
-  eatersLabel,
   isValidExtraPortions,
   parseEaterIds,
   parseExtraPortions,
   toEaters,
+  whoIsEating,
 } from "./eaters";
 
 const people = toEaters(
@@ -17,29 +17,25 @@ const people = toEaters(
   "u1",
 );
 
-describe("eatersLabel", () => {
-  it("says everyone when the whole household eats and adds the extra", () => {
-    expect(
-      eatersLabel({ people, eaterIds: ["a", "b", "c"], extraPortions: 0 }),
-    ).toBe("Everyone");
-    expect(
-      eatersLabel({ people, eaterIds: ["c", "b", "a"], extraPortions: 1.5 }),
-    ).toBe("Everyone +1.5 extra");
+describe("whoIsEating", () => {
+  it("recognises the whole household regardless of id order", () => {
+    expect(whoIsEating(people, ["c", "b", "a"])).toMatchObject({
+      everyone: true,
+    });
   });
 
-  it("names a subset with Me for the caller and ignores people no longer in the household", () => {
-    expect(
-      eatersLabel({ people, eaterIds: ["a", "b", "gone"], extraPortions: 2 }),
-    ).toBe("Me, Anna +2 extra");
+  it("keeps a subset and ignores people no longer in the household", () => {
+    expect(whoIsEating(people, ["a", "b", "gone"])).toMatchObject({
+      everyone: false,
+      eating: [
+        { id: "a", self: true },
+        { id: "b", self: false },
+      ],
+    });
   });
 
-  it("does not call a household with nobody left everyone", () => {
-    expect(eatersLabel({ people: [], eaterIds: [], extraPortions: 0 })).toBe(
-      "Nobody",
-    );
-    expect(eatersLabel({ people, eaterIds: [], extraPortions: 0.5 })).toBe(
-      "Nobody +0.5 extra",
-    );
+  it("does not call an empty household everyone", () => {
+    expect(whoIsEating([], [])).toEqual({ eating: [], everyone: false });
   });
 });
 

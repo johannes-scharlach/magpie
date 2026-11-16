@@ -56,6 +56,7 @@
     "posthog-react-native": "^4.81.5",
     "react": "19.3.0",
     "react-dom": "19.3.0",
+    "react-intl": "^12.1.7",
     "react-native": "0.88.0",
     "react-native-enriched-markdown": "^1.1.1",
     "react-native-gesture-handler": "~3.3.0",
@@ -74,10 +75,14 @@
     "zod": "^4.6.7"
   },
   "devDependencies": {
-    "@babel/plugin-transform-async-generator-functions": "^8.0.6",
+    "@babel/plugin-transform-async-generator-functions": "^7.29.7",
+    "@formatjs/cli": "^6.18.2",
+    "@p6t/cli": "0.1.0",
     "@types/react": "~19.3.0",
+    "babel-plugin-formatjs": "^11.3.16",
     "eslint": "^9.39.5",
     "eslint-config-expo": "~58.0.4",
+    "eslint-plugin-formatjs": "^8.1.4",
     "typescript": "~6.0.3",
     "vitest": "^5.0.5"
   },
@@ -88,7 +93,10 @@
     "web": "expo start --web",
     "lint": "eslint .",
     "test": "vitest run",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "i18n:extract": "formatjs extract 'src/**/*.{ts,tsx}' --ignore='**/*.test.{ts,tsx}' --out-file i18n/en.json --id-interpolation-pattern '[sha512:contenthash:base64:6]' --extract-source-location --throws",
+    "i18n:compile": "formatjs compile-folder i18n i18n/compiled --ast",
+    "i18n:update": "pnpm i18n:extract && pnpm exec p6t translate && pnpm i18n:compile"
   },
   "private": true
 }

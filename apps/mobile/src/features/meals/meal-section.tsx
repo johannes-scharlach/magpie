@@ -2,6 +2,7 @@ import { SymbolView } from "expo-symbols";
 import { LinearGradient } from "expo-linear-gradient";
 import { Link, router } from "expo-router";
 import { useMemo } from "react";
+import { useIntl } from "react-intl";
 import { ActivityIndicator, Pressable, ScrollView, View } from "react-native";
 import {
   Gesture,
@@ -19,6 +20,7 @@ import { useMealSelectionTransition } from "@/features/meals/use-meal-selection-
 import { tonalPair } from "@/features/variants/tonal";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import type { DisplayRecipe, DisplayPlannedMeal } from "./day-content";
+import { slotInlineMessages, slotMessages } from "./labels";
 import { RecipeArt } from "./recipe-art";
 import { seededLook } from "./seeded-look";
 import type { MealSlot } from "./slots";
@@ -26,7 +28,6 @@ import type { MealSlot } from "./slots";
 type Recipe = DisplayRecipe;
 
 type Props = {
-  title: string;
   dayPan: LegacyPanGesture;
   date: string;
   slot: MealSlot;
@@ -69,7 +70,6 @@ const PAST_ICON = { ios: "clock", android: "history" } as const;
  * Handles its own horizontal padding so the carousel scrolls edge to edge.
  */
 export function MealSection({
-  title,
   dayPan,
   date,
   slot,
@@ -94,6 +94,38 @@ export function MealSection({
   onCookbook,
   onWriteIn,
 }: Props) {
+  const intl = useIntl();
+  const title = intl.formatMessage(slotMessages[slot]);
+  const inlineTitle = intl.formatMessage(slotInlineMessages[slot]);
+  const status = selecting
+    ? intl.formatMessage({
+        defaultMessage: "Getting the recipe ready…",
+        description:
+          "Status while a chosen recommendation is being saved and synced.",
+      })
+    : recommendationsLoading
+      ? intl.formatMessage({
+          defaultMessage: "Finding meals for you…",
+          description: "Status while meal recommendations are loading.",
+        })
+      : recommendationsFailed
+        ? intl.formatMessage({
+            defaultMessage:
+              "Suggestions couldn’t load. You can still browse your cookbook.",
+            description:
+              "Status when meal recommendations failed, with a fallback action.",
+          })
+        : contenders.length
+          ? intl.formatMessage({
+              defaultMessage: "Picked for you",
+              description: "Heading above a list of meal recommendations.",
+            })
+          : intl.formatMessage({
+              defaultMessage:
+                "No matching suggestions. Browse your cookbook or write in a meal.",
+              description:
+                "Empty recommendation state with the two fallback actions.",
+            });
   const muted = useResolveClassNames("text-muted-foreground").color;
   const dark = useColorScheme() === "dark";
   const {
@@ -127,7 +159,14 @@ export function MealSection({
             importantForAccessibility={planned ? "no-hide-descendants" : "auto"}
           >
             <Text className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
-              Select {title.toLowerCase()}
+              {intl.formatMessage(
+                {
+                  defaultMessage: "Select {slot}",
+                  description:
+                    "Heading over an open meal slot that invites the user to choose lunch, dinner or a treat.",
+                },
+                { slot: inlineTitle },
+              )}
             </Text>
           </Animated.View>
           <Animated.View
@@ -154,7 +193,17 @@ export function MealSection({
               size={12}
             />
             <Text className="text-xs text-muted-foreground">
-              {isPast ? "Past meal" : "Planned"}
+              {isPast
+                ? intl.formatMessage({
+                    defaultMessage: "Past meal",
+                    description:
+                      "Status on a planned meal whose day has already passed.",
+                  })
+                : intl.formatMessage({
+                    defaultMessage: "Planned",
+                    description:
+                      "Status on a meal that is planned for today or later.",
+                  })}
             </Text>
           </Animated.View>
           <Animated.View
@@ -166,7 +215,14 @@ export function MealSection({
           >
             <Pressable
               accessibilityRole="button"
-              accessibilityLabel={`Hide ${title.toLowerCase()} choices`}
+              accessibilityLabel={intl.formatMessage(
+                {
+                  defaultMessage: "Hide {slot} choices",
+                  description:
+                    "Accessibility label for closing the meal chooser for lunch, dinner or a treat.",
+                },
+                { slot: inlineTitle },
+              )}
               disabled={planned}
               hitSlop={12}
               onPress={onHide}
@@ -204,7 +260,13 @@ export function MealSection({
                 className="absolute bottom-0 left-2 right-2 h-12 items-center justify-end rounded-b-xl border border-border bg-muted pb-1"
                 style={{ zIndex: 1 }}
               >
-                <Text className="text-sm font-medium">Choose what to buy</Text>
+                <Text className="text-sm font-medium">
+                  {intl.formatMessage({
+                    defaultMessage: "Choose what to buy",
+                    description:
+                      "Action under a planned meal that opens its shopping items.",
+                  })}
+                </Text>
               </Pressable>
             ) : null}
             <Animated.View
@@ -290,15 +352,7 @@ export function MealSection({
                 <ActivityIndicator size="small" />
               ) : null}
               <Text variant="muted" className="flex-1 text-sm">
-                {selecting
-                  ? "Getting the recipe ready…"
-                  : recommendationsLoading
-                    ? "Finding meals for you…"
-                    : recommendationsFailed
-                      ? "Suggestions couldn’t load. You can still browse your cookbook."
-                      : contenders.length
-                        ? "Picked for you"
-                        : "No matching suggestions. Browse your cookbook or write in a meal."}
+                {status}
               </Text>
               {recommendationsFailed ? (
                 <Pressable
@@ -306,7 +360,13 @@ export function MealSection({
                   hitSlop={12}
                   onPress={onRetry}
                 >
-                  <Text className="text-link">Retry</Text>
+                  <Text className="text-link">
+                    {intl.formatMessage({
+                      defaultMessage: "Retry",
+                      description:
+                        "Action that tries loading meal recommendations again.",
+                    })}
+                  </Text>
                 </Pressable>
               ) : null}
             </View>
@@ -321,7 +381,14 @@ export function MealSection({
                     key={c.id}
                     accessibilityRole="button"
                     disabled={selecting}
-                    accessibilityLabel={`Select ${c.name} for ${title.toLowerCase()}`}
+                    accessibilityLabel={intl.formatMessage(
+                      {
+                        defaultMessage: "Select {recipe} for {slot}",
+                        description:
+                          "Accessibility label for a recommended dish that will fill a meal slot.",
+                      },
+                      { recipe: c.name, slot: inlineTitle },
+                    )}
                     onPress={(event) =>
                       selectContender(c.id, event, () => onPlan(c))
                     }
@@ -341,8 +408,17 @@ export function MealSection({
                     }
                     accessibilityHint={
                       c.seedKey
-                        ? "Saves this idea to your cookbook and plans it"
-                        : "Long press for other variants"
+                        ? intl.formatMessage({
+                            defaultMessage:
+                              "Saves this idea to your cookbook and plans it",
+                            description:
+                              "Accessibility hint for choosing a seeded meal idea.",
+                          })
+                        : intl.formatMessage({
+                            defaultMessage: "Long press for other variants",
+                            description:
+                              "Accessibility hint for opening a recipe's other variants.",
+                          })
                     }
                     className="w-40 overflow-hidden rounded-xl border border-border bg-card"
                   >
@@ -381,17 +457,33 @@ export function MealSection({
                     tintColor={muted}
                   />
                   <Text className="text-center font-medium">
-                    Browse cookbook
+                    {intl.formatMessage({
+                      defaultMessage: "Browse cookbook",
+                      description:
+                        "Card that opens the cookbook when there are no matching recommendations.",
+                    })}
                   </Text>
                 </Pressable>
               </ScrollView>
             </GestureDetector>
             <View className="flex-row gap-3 px-6">
               <Button variant="outline" className="flex-1" onPress={onImport}>
-                <Text>Import recipe</Text>
+                <Text>
+                  {intl.formatMessage({
+                    defaultMessage: "Import recipe",
+                    description:
+                      "Action that opens recipe import from an open meal slot.",
+                  })}
+                </Text>
               </Button>
               <Button variant="outline" className="flex-1" onPress={onWriteIn}>
-                <Text>Write in a meal</Text>
+                <Text>
+                  {intl.formatMessage({
+                    defaultMessage: "Write in a meal",
+                    description:
+                      "Action that lets the user type a meal that is not in the cookbook.",
+                  })}
+                </Text>
               </Button>
             </View>
           </View>

@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { useIntl } from "react-intl";
 import {
   Pressable,
   ScrollView,
@@ -19,7 +20,8 @@ import Animated, {
 import { Text } from "@/components/ui/text";
 import { cn } from "@/lib/utils";
 
-import { dateKey, WEEKDAY_SHORT } from "./slots";
+import { dayMessages } from "./labels";
+import { dateKey } from "./slots";
 
 /** Fixed chip geometry keeps scroll-to-center math trivial. */
 const CHIP_W = 48; // w-12
@@ -45,6 +47,7 @@ export function DayStrip({
 }: Props) {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === "dark";
+  const intl = useIntl();
 
   const scrollRef = useRef<ScrollViewInstance>(null);
   const viewport = useRef(0);
@@ -182,7 +185,9 @@ export function DayStrip({
                       : "font-medium text-muted-foreground",
                 )}
               >
-                {i === todayIndex ? "Today" : WEEKDAY_SHORT[d.getDay()]}
+                {i === todayIndex
+                  ? intl.formatMessage(dayMessages.today)
+                  : intl.formatDate(d, { weekday: "short" })}
               </Text>
               <Text
                 className={cn(

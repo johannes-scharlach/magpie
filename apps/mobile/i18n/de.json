@@ -1,0 +1,267 @@
+{
+  "+TPLLR": {
+    "defaultMessage": "Erneut versuchen",
+    "_p6t_description": "Action that tries loading meal recommendations again.",
+    "_p6t_source": "Retry"
+  },
+  "+TZr4o": {
+    "defaultMessage": "{count, plural, one {# Rezept gefunden} other {# Rezepte gefunden}}",
+    "_p6t_description": "Status after an import found recipes and waits for the cook to choose.",
+    "_p6t_source": "{count, plural, one {Found # recipe} other {Found # recipes}}"
+  },
+  "+y6jvK": {
+    "defaultMessage": "Wähle {recipe} für {slot}",
+    "_p6t_description": "Accessibility label for a recommended dish that will fill a meal slot.",
+    "_p6t_source": "Select {recipe} for {slot}"
+  },
+  "1TrkHP": {
+    "defaultMessage": "Wird abgebrochen…",
+    "_p6t_description": "Status while a recipe import is being cancelled.",
+    "_p6t_source": "Cancelling…"
+  },
+  "3DrMNt": {
+    "defaultMessage": "Ausblenden",
+    "_p6t_description": "Action that hides a failed recipe import.",
+    "_p6t_source": "Dismiss"
+  },
+  "4EsfFv": {
+    "defaultMessage": "Snack",
+    "_p6t_description": "Meal slot name inside a sentence. English keeps it lowercase; languages that capitalise nouns keep their normal capitalisation.",
+    "_p6t_source": "treat"
+  },
+  "5+uWTl": {
+    "defaultMessage": "{host} wird gelesen…",
+    "_p6t_description": "Status while a recipe is being read from a website, with its hostname.",
+    "_p6t_source": "Reading {host}…"
+  },
+  "52V3Hw": {
+    "defaultMessage": "Diese Mahlzeit konnte nicht geplant werden",
+    "_p6t_description": "Alert title when a chosen meal could not be saved.",
+    "_p6t_source": "Couldn’t plan this meal"
+  },
+  "5K7A9i": {
+    "defaultMessage": "{found}, {count} unvollständig",
+    "_p6t_description": "Import result with the number of pages that did not contain a usable recipe.",
+    "_p6t_source": "{found}, {count} incomplete"
+  },
+  "77C3do": {
+    "defaultMessage": "+{extra} extra",
+    "_p6t_description": "Suffix on a meal badge for food beyond the named eaters, such as guests or leftovers.",
+    "_p6t_source": "+{extra} extra"
+  },
+  "7NwgcX": {
+    "defaultMessage": "Abbrechen",
+    "_p6t_description": "Action that cancels a running recipe import.",
+    "_p6t_source": "Cancel"
+  },
+  "8tYGGP": {
+    "defaultMessage": "Abendessen",
+    "_p6t_description": "Meal slot label for the evening meal.",
+    "_p6t_source": "Dinner"
+  },
+  "9UrpWM": {
+    "defaultMessage": "Auswahl für {slot} ausblenden",
+    "_p6t_description": "Accessibility label for closing the meal chooser for lunch, dinner or a treat.",
+    "_p6t_source": "Hide {slot} choices"
+  },
+  "ARoqs5": {
+    "defaultMessage": "Aus dem Plan entfernen",
+    "_p6t_description": "Destructive menu action that removes the meal from the plan.",
+    "_p6t_source": "Remove from plan"
+  },
+  "BNzExh": {
+    "defaultMessage": "Snack",
+    "_p6t_description": "Meal slot label for a snack or treat.",
+    "_p6t_source": "Treat"
+  },
+  "CpnFSJ": {
+    "defaultMessage": "Kochbuch durchstöbern",
+    "_p6t_description": "Card that opens the cookbook when there are no matching recommendations.",
+    "_p6t_source": "Browse cookbook"
+  },
+  "DrcycS": {
+    "defaultMessage": "„{text}“ wird gelesen…",
+    "_p6t_description": "Status while a recipe is being read from pasted text, with its first line.",
+    "_p6t_source": "Reading “{text}”…"
+  },
+  "Dw5A9f": {
+    "defaultMessage": "Geplant",
+    "_p6t_description": "Status on a meal that is planned for today or later.",
+    "_p6t_source": "Planned"
+  },
+  "EoBhsI": {
+    "defaultMessage": "Mahlzeit eintragen",
+    "_p6t_description": "Action that lets the user type a meal that is not in the cookbook.",
+    "_p6t_source": "Write in a meal"
+  },
+  "IQG6uc": {
+    "defaultMessage": "Vergangene Mahlzeit",
+    "_p6t_description": "Status on a planned meal whose day has already passed.",
+    "_p6t_source": "Past meal"
+  },
+  "JjUC5I": {
+    "defaultMessage": "Erneut versuchen",
+    "_p6t_description": "Action that retries a failed recipe import.",
+    "_p6t_source": "Retry"
+  },
+  "M7dZ14": {
+    "defaultMessage": "Rezept wird vorbereitet…",
+    "_p6t_description": "Status while a chosen recommendation is being saved and synced.",
+    "_p6t_source": "Getting the recipe ready…"
+  },
+  "MJTmFc": {
+    "defaultMessage": "Mahlzeiten",
+    "_p6t_description": "Title of the meal planning screen.",
+    "_p6t_source": "Meals"
+  },
+  "MUVnbU": {
+    "defaultMessage": "Mittagessen",
+    "_p6t_description": "Meal slot name inside a sentence. English keeps it lowercase; languages that capitalise nouns keep their normal capitalisation.",
+    "_p6t_source": "lunch"
+  },
+  "PZW+tk": {
+    "defaultMessage": "Gedrückt halten für andere Varianten",
+    "_p6t_description": "Accessibility hint for opening a recipe's other variants.",
+    "_p6t_source": "Long press for other variants"
+  },
+  "Q5plTF": {
+    "defaultMessage": "Noch keine Liste – leg zuerst im Einkauf eine an.",
+    "_p6t_description": "Empty state on Meals when the household has no active shopping list.",
+    "_p6t_source": "No list yet — create one in Shop first."
+  },
+  "RBdc82": {
+    "defaultMessage": "Auswählen, was du kaufst",
+    "_p6t_description": "Action under a planned meal that opens its shopping items.",
+    "_p6t_source": "Choose what to buy"
+  },
+  "SyepTx": {
+    "defaultMessage": "Mahlzeiten werden gesucht…",
+    "_p6t_description": "Status while meal recommendations are loading.",
+    "_p6t_source": "Finding meals for you…"
+  },
+  "TL4aTD": {
+    "defaultMessage": "Abbrechen fehlgeschlagen",
+    "_p6t_description": "Alert title when cancelling a recipe import failed.",
+    "_p6t_source": "Could not cancel"
+  },
+  "V/P0v7": {
+    "defaultMessage": "Alle",
+    "_p6t_description": "Badge on a planned meal when every household member is eating it.",
+    "_p6t_source": "Everyone"
+  },
+  "VE0s7D": {
+    "defaultMessage": "Abendessen",
+    "_p6t_description": "Meal slot name inside a sentence. English keeps it lowercase; languages that capitalise nouns keep their normal capitalisation.",
+    "_p6t_source": "dinner"
+  },
+  "VlowD5": {
+    "defaultMessage": "Ich",
+    "_p6t_description": "The current user inside a list of people eating a meal.",
+    "_p6t_source": "Me"
+  },
+  "VvjIbM": {
+    "defaultMessage": "Prüfen",
+    "_p6t_description": "Action that opens imported recipes for review.",
+    "_p6t_source": "Review"
+  },
+  "WobItN": {
+    "defaultMessage": "Vorschläge konnten nicht geladen werden. Du kannst trotzdem dein Kochbuch durchstöbern.",
+    "_p6t_description": "Status when meal recommendations failed, with a fallback action.",
+    "_p6t_source": "Suggestions couldn’t load. You can still browse your cookbook."
+  },
+  "XbMjOX": {
+    "defaultMessage": "{count, plural, one {Dein Foto wird gelesen…} other {# Fotos werden gelesen…}}",
+    "_p6t_description": "Status while recipe photos are being read, with the number of photos.",
+    "_p6t_source": "{count, plural, one {Reading your photo…} other {Reading # photos…}}"
+  },
+  "arUays": {
+    "defaultMessage": "Wähle {slot}",
+    "_p6t_description": "Action that opens the meal chooser for a lunch, dinner or treat.",
+    "_p6t_source": "Select {slot}"
+  },
+  "cmBFn5": {
+    "defaultMessage": "Wird zu deinem Plan hinzugefügt…",
+    "_p6t_description": "Status while an imported recipe is being added to the meal plan.",
+    "_p6t_source": "Adding to your plan…"
+  },
+  "eqjXdk": {
+    "defaultMessage": "Wird zu deinem Kochbuch hinzugefügt…",
+    "_p6t_description": "Status while an imported recipe is being added to the cookbook.",
+    "_p6t_source": "Adding to your cookbook…"
+  },
+  "ir/sf1": {
+    "defaultMessage": "Speichert diese Idee in deinem Kochbuch und plant sie",
+    "_p6t_description": "Accessibility hint for choosing a seeded meal idea.",
+    "_p6t_source": "Saves this idea to your cookbook and plans it"
+  },
+  "jpoEqR": {
+    "defaultMessage": "Das Rezept wurde noch nicht synchronisiert. Versuch es gleich noch einmal.",
+    "_p6t_description": "Alert body when a recommendation was chosen before its recipe finished syncing.",
+    "_p6t_source": "The recipe hasn’t synced yet. Try again in a moment."
+  },
+  "mYhCW0": {
+    "defaultMessage": "Verschieben nach…",
+    "_p6t_description": "Menu action that moves the planned meal to another day or slot.",
+    "_p6t_source": "Move to…"
+  },
+  "nJ+B8s": {
+    "defaultMessage": "Andere Mahlzeit wählen",
+    "_p6t_description": "Menu action that replaces the planned meal.",
+    "_p6t_source": "Choose another meal"
+  },
+  "psD7p2": {
+    "defaultMessage": "Aktionen für {recipe}",
+    "_p6t_description": "Accessibility label for the menu on a planned meal card.",
+    "_p6t_source": "Actions for {recipe}"
+  },
+  "qKQpsZ": {
+    "defaultMessage": "Mittagessen",
+    "_p6t_description": "Meal slot label for the midday meal.",
+    "_p6t_source": "Lunch"
+  },
+  "tSxVv6": {
+    "defaultMessage": "Für dich ausgewählt",
+    "_p6t_description": "Heading above a list of meal recommendations.",
+    "_p6t_source": "Picked for you"
+  },
+  "tYVXhj": {
+    "defaultMessage": "Bitte versuch es erneut.",
+    "_p6t_description": "Generic alert body after planning a meal failed for an unknown reason.",
+    "_p6t_source": "Please try again."
+  },
+  "vxgbIs": {
+    "defaultMessage": "Rezept importieren",
+    "_p6t_description": "Action that opens recipe import from an open meal slot.",
+    "_p6t_source": "Import recipe"
+  },
+  "w+S0BX": {
+    "defaultMessage": "Erneut planen…",
+    "_p6t_description": "Menu action that plans the same meal again on another day.",
+    "_p6t_source": "Plan again…"
+  },
+  "wTes2b": {
+    "defaultMessage": "Keine passenden Vorschläge. Durchstöbere dein Kochbuch oder trage eine Mahlzeit ein.",
+    "_p6t_description": "Empty recommendation state with the two fallback actions.",
+    "_p6t_source": "No matching suggestions. Browse your cookbook or write in a meal."
+  },
+  "wl05lJ": {
+    "defaultMessage": "Mit Magpie planen",
+    "_p6t_description": "Header action that opens the assistant to plan meals.",
+    "_p6t_source": "Plan with Magpie"
+  },
+  "wwnfQI": {
+    "defaultMessage": "Niemand",
+    "_p6t_description": "Badge on a planned meal when no current household member is eating it.",
+    "_p6t_source": "Nobody"
+  },
+  "xbvaCW": {
+    "defaultMessage": "Wähle {slot}",
+    "_p6t_description": "Heading over an open meal slot that invites the user to choose lunch, dinner or a treat.",
+    "_p6t_source": "Select {slot}"
+  },
+  "yn0m94": {
+    "defaultMessage": "Heute",
+    "_p6t_description": "Label for the current day in the date strip and day heading.",
+    "_p6t_source": "Today"
+  }
+}

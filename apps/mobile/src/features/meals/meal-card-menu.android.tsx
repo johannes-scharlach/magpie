@@ -1,6 +1,7 @@
 import * as Haptics from "expo-haptics";
 import { SymbolView } from "expo-symbols";
 import { useState } from "react";
+import { useIntl } from "react-intl";
 import { Pressable, View } from "react-native";
 import { useResolveClassNames } from "uniwind";
 
@@ -9,6 +10,7 @@ import {
   type AndroidMenuAnchor,
 } from "@/components/ui/android-menu-overlay";
 
+import { mealCardMenuMessages } from "./meal-card-menu-messages";
 import type { MealCardMenuProps } from "./meal-card-menu";
 
 const MENU_ICON = {
@@ -36,6 +38,7 @@ export function MealCardMenu({
   onRepeat,
   onSkip,
 }: MealCardMenuProps) {
+  const intl = useIntl();
   const muted = useResolveClassNames("text-muted-foreground").color;
   const [anchor, setAnchor] = useState<AndroidMenuAnchor | null>(null);
 
@@ -43,7 +46,14 @@ export function MealCardMenu({
     <View style={{ position: "absolute", right: 6, top: 6 }}>
       <Pressable
         accessibilityRole="button"
-        accessibilityLabel={`Actions for ${recipeName}`}
+        accessibilityLabel={intl.formatMessage(
+          {
+            defaultMessage: "Actions for {recipe}",
+            description:
+              "Accessibility label for the menu on a planned meal card.",
+          },
+          { recipe: recipeName },
+        )}
         onPress={(e) => {
           void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(
             () => {},
@@ -70,7 +80,7 @@ export function MealCardMenu({
         actions={[
           {
             id: "repeat",
-            title: "Plan again…",
+            title: intl.formatMessage(mealCardMenuMessages.planAgain),
             icon: { ios: "calendar.badge.plus", android: "event_repeat" },
             onSelect: onRepeat,
           },
@@ -82,19 +92,19 @@ export function MealCardMenu({
           },
           {
             id: "change",
-            title: "Choose another meal",
+            title: intl.formatMessage(mealCardMenuMessages.chooseAnother),
             icon: CHANGE_ICON,
             onSelect: onChange,
           },
           {
             id: "move",
-            title: "Move to…",
+            title: intl.formatMessage(mealCardMenuMessages.move),
             icon: MOVE_ICON,
             onSelect: onMove,
           },
           {
             id: "remove",
-            title: "Remove from plan",
+            title: intl.formatMessage(mealCardMenuMessages.remove),
             icon: REMOVE_ICON,
             destructive: true,
             onSelect: onSkip,

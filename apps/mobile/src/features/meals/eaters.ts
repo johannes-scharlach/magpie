@@ -62,21 +62,4 @@ export function joinNames(names: string[]): string {
   return `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}`;
 }
 
-/** Card badge and menu title: "Everyone", "Me, Anna +1.5 extra". */
-export function eatersLabel(opts: {
-  people: Eater[];
-  eaterIds: string[];
-  extraPortions: number;
-}): string {
-  const { eating, everyone } = whoIsEating(opts.people, opts.eaterIds);
-  const who = everyone
-    ? "Everyone"
-    : eating.length
-      ? eating.map((p) => (p.self ? "Me" : p.name)).join(", ")
-      : "Nobody";
-  const extra =
-    opts.extraPortions > 0
-      ? ` +${formatExtraPortions(opts.extraPortions)} extra`
-      : "";
-  return `${who}${extra}`;
-}
+/** Card badge and menu title are formatted in the UI with `useEatersLabel`. */

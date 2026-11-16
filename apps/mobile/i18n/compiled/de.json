@@ -1,0 +1,433 @@
+{
+  "+TPLLR": [
+    {
+      "type": 0,
+      "value": "Erneut versuchen"
+    }
+  ],
+  "+TZr4o": [
+    {
+      "type": 6,
+      "value": "count",
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " Rezept gefunden"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " Rezepte gefunden"
+            }
+          ]
+        }
+      },
+      "offset": 0,
+      "pluralType": "cardinal"
+    }
+  ],
+  "+y6jvK": [
+    {
+      "type": 0,
+      "value": "Wähle "
+    },
+    {
+      "type": 1,
+      "value": "recipe"
+    },
+    {
+      "type": 0,
+      "value": " für "
+    },
+    {
+      "type": 1,
+      "value": "slot"
+    }
+  ],
+  "1TrkHP": [
+    {
+      "type": 0,
+      "value": "Wird abgebrochen…"
+    }
+  ],
+  "3DrMNt": [
+    {
+      "type": 0,
+      "value": "Ausblenden"
+    }
+  ],
+  "4EsfFv": [
+    {
+      "type": 0,
+      "value": "Snack"
+    }
+  ],
+  "5+uWTl": [
+    {
+      "type": 1,
+      "value": "host"
+    },
+    {
+      "type": 0,
+      "value": " wird gelesen…"
+    }
+  ],
+  "52V3Hw": [
+    {
+      "type": 0,
+      "value": "Diese Mahlzeit konnte nicht geplant werden"
+    }
+  ],
+  "5K7A9i": [
+    {
+      "type": 1,
+      "value": "found"
+    },
+    {
+      "type": 0,
+      "value": ", "
+    },
+    {
+      "type": 1,
+      "value": "count"
+    },
+    {
+      "type": 0,
+      "value": " unvollständig"
+    }
+  ],
+  "77C3do": [
+    {
+      "type": 0,
+      "value": "+"
+    },
+    {
+      "type": 1,
+      "value": "extra"
+    },
+    {
+      "type": 0,
+      "value": " extra"
+    }
+  ],
+  "7NwgcX": [
+    {
+      "type": 0,
+      "value": "Abbrechen"
+    }
+  ],
+  "8tYGGP": [
+    {
+      "type": 0,
+      "value": "Abendessen"
+    }
+  ],
+  "9UrpWM": [
+    {
+      "type": 0,
+      "value": "Auswahl für "
+    },
+    {
+      "type": 1,
+      "value": "slot"
+    },
+    {
+      "type": 0,
+      "value": " ausblenden"
+    }
+  ],
+  "ARoqs5": [
+    {
+      "type": 0,
+      "value": "Aus dem Plan entfernen"
+    }
+  ],
+  "BNzExh": [
+    {
+      "type": 0,
+      "value": "Snack"
+    }
+  ],
+  "CpnFSJ": [
+    {
+      "type": 0,
+      "value": "Kochbuch durchstöbern"
+    }
+  ],
+  "DrcycS": [
+    {
+      "type": 0,
+      "value": "„"
+    },
+    {
+      "type": 1,
+      "value": "text"
+    },
+    {
+      "type": 0,
+      "value": "“ wird gelesen…"
+    }
+  ],
+  "Dw5A9f": [
+    {
+      "type": 0,
+      "value": "Geplant"
+    }
+  ],
+  "EoBhsI": [
+    {
+      "type": 0,
+      "value": "Mahlzeit eintragen"
+    }
+  ],
+  "IQG6uc": [
+    {
+      "type": 0,
+      "value": "Vergangene Mahlzeit"
+    }
+  ],
+  "JjUC5I": [
+    {
+      "type": 0,
+      "value": "Erneut versuchen"
+    }
+  ],
+  "M7dZ14": [
+    {
+      "type": 0,
+      "value": "Rezept wird vorbereitet…"
+    }
+  ],
+  "MJTmFc": [
+    {
+      "type": 0,
+      "value": "Mahlzeiten"
+    }
+  ],
+  "MUVnbU": [
+    {
+      "type": 0,
+      "value": "Mittagessen"
+    }
+  ],
+  "PZW+tk": [
+    {
+      "type": 0,
+      "value": "Gedrückt halten für andere Varianten"
+    }
+  ],
+  "Q5plTF": [
+    {
+      "type": 0,
+      "value": "Noch keine Liste – leg zuerst im Einkauf eine an."
+    }
+  ],
+  "RBdc82": [
+    {
+      "type": 0,
+      "value": "Auswählen, was du kaufst"
+    }
+  ],
+  "SyepTx": [
+    {
+      "type": 0,
+      "value": "Mahlzeiten werden gesucht…"
+    }
+  ],
+  "TL4aTD": [
+    {
+      "type": 0,
+      "value": "Abbrechen fehlgeschlagen"
+    }
+  ],
+  "V/P0v7": [
+    {
+      "type": 0,
+      "value": "Alle"
+    }
+  ],
+  "VE0s7D": [
+    {
+      "type": 0,
+      "value": "Abendessen"
+    }
+  ],
+  "VlowD5": [
+    {
+      "type": 0,
+      "value": "Ich"
+    }
+  ],
+  "VvjIbM": [
+    {
+      "type": 0,
+      "value": "Prüfen"
+    }
+  ],
+  "WobItN": [
+    {
+      "type": 0,
+      "value": "Vorschläge konnten nicht geladen werden. Du kannst trotzdem dein Kochbuch durchstöbern."
+    }
+  ],
+  "XbMjOX": [
+    {
+      "type": 6,
+      "value": "count",
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 0,
+              "value": "Dein Foto wird gelesen…"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " Fotos werden gelesen…"
+            }
+          ]
+        }
+      },
+      "offset": 0,
+      "pluralType": "cardinal"
+    }
+  ],
+  "arUays": [
+    {
+      "type": 0,
+      "value": "Wähle "
+    },
+    {
+      "type": 1,
+      "value": "slot"
+    }
+  ],
+  "cmBFn5": [
+    {
+      "type": 0,
+      "value": "Wird zu deinem Plan hinzugefügt…"
+    }
+  ],
+  "eqjXdk": [
+    {
+      "type": 0,
+      "value": "Wird zu deinem Kochbuch hinzugefügt…"
+    }
+  ],
+  "ir/sf1": [
+    {
+      "type": 0,
+      "value": "Speichert diese Idee in deinem Kochbuch und plant sie"
+    }
+  ],
+  "jpoEqR": [
+    {
+      "type": 0,
+      "value": "Das Rezept wurde noch nicht synchronisiert. Versuch es gleich noch einmal."
+    }
+  ],
+  "mYhCW0": [
+    {
+      "type": 0,
+      "value": "Verschieben nach…"
+    }
+  ],
+  "nJ+B8s": [
+    {
+      "type": 0,
+      "value": "Andere Mahlzeit wählen"
+    }
+  ],
+  "psD7p2": [
+    {
+      "type": 0,
+      "value": "Aktionen für "
+    },
+    {
+      "type": 1,
+      "value": "recipe"
+    }
+  ],
+  "qKQpsZ": [
+    {
+      "type": 0,
+      "value": "Mittagessen"
+    }
+  ],
+  "tSxVv6": [
+    {
+      "type": 0,
+      "value": "Für dich ausgewählt"
+    }
+  ],
+  "tYVXhj": [
+    {
+      "type": 0,
+      "value": "Bitte versuch es erneut."
+    }
+  ],
+  "vxgbIs": [
+    {
+      "type": 0,
+      "value": "Rezept importieren"
+    }
+  ],
+  "w+S0BX": [
+    {
+      "type": 0,
+      "value": "Erneut planen…"
+    }
+  ],
+  "wTes2b": [
+    {
+      "type": 0,
+      "value": "Keine passenden Vorschläge. Durchstöbere dein Kochbuch oder trage eine Mahlzeit ein."
+    }
+  ],
+  "wl05lJ": [
+    {
+      "type": 0,
+      "value": "Mit Magpie planen"
+    }
+  ],
+  "wwnfQI": [
+    {
+      "type": 0,
+      "value": "Niemand"
+    }
+  ],
+  "xbvaCW": [
+    {
+      "type": 0,
+      "value": "Wähle "
+    },
+    {
+      "type": 1,
+      "value": "slot"
+    }
+  ],
+  "yn0m94": [
+    {
+      "type": 0,
+      "value": "Heute"
+    }
+  ]
+}

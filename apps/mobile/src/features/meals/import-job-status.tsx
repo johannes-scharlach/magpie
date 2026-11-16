@@ -1,4 +1,5 @@
 import { router } from "expo-router";
+import { type IntlShape, useIntl } from "react-intl";
 import { ActivityIndicator, Alert, View } from "react-native";
 
 import { Button } from "@/components/ui/button";
@@ -15,6 +16,7 @@ export function ImportJobStatus({
   job: ImportJob;
   importJobs: ImportJobs;
 }) {
+  const intl = useIntl();
   const { operationId } = job.request;
   if (job.status === "error") {
     return (
@@ -25,11 +27,21 @@ export function ImportJobStatus({
             variant="outline"
             onPress={() => void importJobs.retry(operationId)}
           >
-            <Text>Retry</Text>
+            <Text>
+              {intl.formatMessage({
+                defaultMessage: "Retry",
+                description: "Action that retries a failed recipe import.",
+              })}
+            </Text>
           </Button>
         ) : null}
         <Button variant="ghost" onPress={() => importJobs.dismiss(operationId)}>
-          <Text>Dismiss</Text>
+          <Text>
+            {intl.formatMessage({
+              defaultMessage: "Dismiss",
+              description: "Action that hides a failed recipe import.",
+            })}
+          </Text>
         </Button>
       </View>
     );
@@ -39,29 +51,47 @@ export function ImportJobStatus({
       <ActivityIndicator />
       <Text numberOfLines={1} className="flex-1">
         {job.status === "cancelling"
-          ? "Cancelling…"
+          ? intl.formatMessage({
+              defaultMessage: "Cancelling…",
+              description: "Status while a recipe import is being cancelled.",
+            })
           : job.status === "syncing" && !("review" in job.result)
             ? job.request.plan
-              ? "Adding to your plan…"
-              : "Adding to your cookbook…"
-            : readingLabel(job.request.source)}
+              ? intl.formatMessage({
+                  defaultMessage: "Adding to your plan…",
+                  description:
+                    "Status while an imported recipe is being added to the meal plan.",
+                })
+              : intl.formatMessage({
+                  defaultMessage: "Adding to your cookbook…",
+                  description:
+                    "Status while an imported recipe is being added to the cookbook.",
+                })
+            : readingLabel(job.request.source, intl)}
       </Text>
       {job.status === "importing" ? (
         <Button
           variant="ghost"
           size="sm"
           onPress={() =>
-            void importJobs
-              .cancel(operationId)
-              .catch((error: unknown) =>
-                Alert.alert(
-                  "Could not cancel",
-                  error instanceof Error ? error.message : String(error),
-                ),
-              )
+            void importJobs.cancel(operationId).catch((error: unknown) =>
+              Alert.alert(
+                intl.formatMessage({
+                  defaultMessage: "Could not cancel",
+                  description:
+                    "Alert title when cancelling a recipe import failed.",
+                }),
+                error instanceof Error ? error.message : String(error),
+              ),
+            )
           }
         >
-          <Text>Cancel</Text>
+          <Text>
+            {intl.formatMessage({
+              defaultMessage: "Cancel",
+              description: "Action that cancels a running recipe import.",
+            })}
+          </Text>
         </Button>
       ) : null}
     </View>
@@ -70,13 +100,30 @@ export function ImportJobStatus({
 
 /** An import waiting for the cook to choose its recipes (ADR 35). */
 export function ImportReviewRow({ review }: { review: ImportReview }) {
+  const intl = useIntl();
   const { operationId, recipes, skipped } = review;
-  const found =
-    recipes.length === 1 ? "Found 1 recipe" : `Found ${recipes.length} recipes`;
+  const found = intl.formatMessage(
+    {
+      defaultMessage:
+        "{count, plural, one {Found # recipe} other {Found # recipes}}",
+      description:
+        "Status after an import found recipes and waits for the cook to choose.",
+    },
+    { count: recipes.length },
+  );
   return (
     <View className="flex-row items-center gap-3">
       <Text numberOfLines={1} className="flex-1">
-        {skipped.length ? `${found}, ${skipped.length} incomplete` : found}
+        {skipped.length
+          ? intl.formatMessage(
+              {
+                defaultMessage: "{found}, {count} incomplete",
+                description:
+                  "Import result with the number of pages that did not contain a usable recipe.",
+              },
+              { found, count: skipped.length },
+            )
+          : found}
       </Text>
       <Button
         size="sm"
@@ -84,20 +131,45 @@ export function ImportReviewRow({ review }: { review: ImportReview }) {
           router.push({ pathname: "/cookbook/review", params: { operationId } })
         }
       >
-        <Text>Review</Text>
+        <Text>
+          {intl.formatMessage({
+            defaultMessage: "Review",
+            description: "Action that opens imported recipes for review.",
+          })}
+        </Text>
       </Button>
     </View>
   );
 }
 
-export function readingLabel(source: ImportSource): string {
+export function readingLabel(source: ImportSource, intl: IntlShape): string {
   if (source.kind === "link") {
-    return `Reading ${new URL(source.url).hostname.replace(/^www\./, "")}…`;
+    return intl.formatMessage(
+      {
+        defaultMessage: "Reading {host}…",
+        description:
+          "Status while a recipe is being read from a website, with its hostname.",
+      },
+      { host: new URL(source.url).hostname.replace(/^www\./, "") },
+    );
   }
   if (source.kind === "text") {
-    return `Reading “${source.text.split("\n")[0]}”…`;
+    return intl.formatMessage(
+      {
+        defaultMessage: "Reading “{text}”…",
+        description:
+          "Status while a recipe is being read from pasted text, with its first line.",
+      },
+      { text: source.text.split("\n")[0] },
+    );
   }
-  return source.photos.length === 1
-    ? "Reading your photo…"
-    : `Reading ${source.photos.length} photos…`;
+  return intl.formatMessage(
+    {
+      defaultMessage:
+        "{count, plural, one {Reading your photo…} other {Reading # photos…}}",
+      description:
+        "Status while recipe photos are being read, with the number of photos.",
+    },
+    { count: source.photos.length },
+  );
 }

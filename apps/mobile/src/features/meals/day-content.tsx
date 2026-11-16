@@ -1,4 +1,5 @@
 import { SymbolView } from "expo-symbols";
+import { useIntl } from "react-intl";
 import { Pressable, View } from "react-native";
 import type { LegacyPanGesture } from "react-native-gesture-handler";
 import { useResolveClassNames } from "uniwind";
@@ -7,18 +8,12 @@ import { Text } from "@/components/ui/text";
 import { plannedMealId } from "@/db/planned-meals";
 import type { List } from "@/db/schema";
 import { MealSection } from "@/features/meals/meal-section";
-import {
-  dateKey,
-  MONTH_SHORT,
-  SLOT_LABEL,
-  SLOT_ORDER,
-  WEEKDAY_LONG,
-  type MealSlot,
-} from "@/features/meals/slots";
+import { dateKey, SLOT_ORDER, type MealSlot } from "@/features/meals/slots";
 import type { ImportJobs } from "@/features/meals/import-jobs";
 import { ImportJobStatus } from "@/features/meals/import-job-status";
 import { mealIsPast } from "@/features/meals/variant-meals";
 import { useToday } from "@/hooks/use-today";
+import { dayMessages, slotInlineMessages, slotMessages } from "./labels";
 import type { MealRecommendations } from "./use-meal-recommendations";
 
 const PLUS_ICON = { ios: "plus", android: "add" } as const;
@@ -91,17 +86,20 @@ export function DayContent({
 }: Props) {
   const mutedColor = useResolveClassNames("text-muted-foreground").color;
   const today = useToday();
+  const intl = useIntl();
   const dateStr = dateKey(date);
 
   return (
     <>
       <View className="mt-6 flex-row items-baseline gap-2 px-6">
         <Text variant="large">
-          {isToday ? "Today" : WEEKDAY_LONG[date.getDay()]}
+          {isToday
+            ? intl.formatMessage(dayMessages.today)
+            : intl.formatDate(date, { weekday: "long" })}
         </Text>
         <Text variant="muted">
-          {isToday ? `${WEEKDAY_LONG[date.getDay()]}, ` : ""}
-          {date.getDate()} {MONTH_SHORT[date.getMonth()]}
+          {isToday ? `${intl.formatDate(date, { weekday: "long" })}, ` : ""}
+          {intl.formatDate(date, { day: "numeric", month: "short" })}
         </Text>
       </View>
 
@@ -116,7 +114,9 @@ export function DayContent({
                 className="gap-3 px-6"
                 accessibilityLiveRegion="polite"
               >
-                <Text variant="muted">{SLOT_LABEL[slot]}</Text>
+                <Text variant="muted">
+                  {intl.formatMessage(slotMessages[slot])}
+                </Text>
                 <ImportJobStatus job={job} importJobs={importJobs} />
               </View>
             );
@@ -132,17 +132,25 @@ export function DayContent({
                 className="flex-row items-center gap-2 px-6"
               >
                 <SymbolView name={PLUS_ICON} tintColor={mutedColor} size={16} />
-                <Text className="text-muted-foreground">Select {slot}</Text>
+                <Text className="text-muted-foreground">
+                  {intl.formatMessage(
+                    {
+                      defaultMessage: "Select {slot}",
+                      description:
+                        "Action that opens the meal chooser for a lunch, dinner or treat.",
+                    },
+                    { slot: intl.formatMessage(slotInlineMessages[slot]) },
+                  )}
+                </Text>
               </Pressable>
             );
           }
           return (
             <MealSection
               key={slot}
-              title={SLOT_LABEL[slot]}
+              slot={slot}
               dayPan={dayPan}
               date={dateStr}
-              slot={slot}
               plannedMealId={plannedMealId(list.id, dateStr, slot)}
               listId={list.id}
               recipe={recipe}

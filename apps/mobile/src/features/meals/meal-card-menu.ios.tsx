@@ -1,8 +1,10 @@
 import { MenuView } from "@expo/ui/community/menu";
 import { SymbolView } from "expo-symbols";
+import { useIntl } from "react-intl";
 import { View } from "react-native";
 import { useResolveClassNames } from "uniwind";
 
+import { mealCardMenuMessages } from "./meal-card-menu-messages";
 import type { MealCardMenuProps } from "./meal-card-menu";
 
 const MENU_ICON = {
@@ -21,6 +23,7 @@ export function MealCardMenu({
   onRepeat,
   onSkip,
 }: MealCardMenuProps) {
+  const intl = useIntl();
   const muted = useResolveClassNames("text-muted-foreground").color;
 
   return (
@@ -28,7 +31,11 @@ export function MealCardMenu({
       key={recipeId}
       style={{ position: "absolute", right: 6, top: 6 }}
       actions={[
-        { id: "repeat", title: "Plan again…", image: "calendar.badge.plus" },
+        {
+          id: "repeat",
+          title: intl.formatMessage(mealCardMenuMessages.planAgain),
+          image: "calendar.badge.plus",
+        },
         {
           id: "eaters",
           title: eatersLabel,
@@ -36,12 +43,12 @@ export function MealCardMenu({
         },
         {
           id: "change",
-          title: "Choose another meal",
+          title: intl.formatMessage(mealCardMenuMessages.chooseAnother),
           image: "arrow.triangle.2.circlepath",
         },
         {
           id: "move",
-          title: "Move to…",
+          title: intl.formatMessage(mealCardMenuMessages.move),
           image: "arrow.right",
         },
         {
@@ -51,7 +58,7 @@ export function MealCardMenu({
           subactions: [
             {
               id: "remove",
-              title: "Remove from plan",
+              title: intl.formatMessage(mealCardMenuMessages.remove),
               image: "calendar.badge.minus",
               attributes: { destructive: true },
             },
@@ -69,7 +76,14 @@ export function MealCardMenu({
       <View
         accessible
         accessibilityRole="button"
-        accessibilityLabel={`Actions for ${recipeName}`}
+        accessibilityLabel={intl.formatMessage(
+          {
+            defaultMessage: "Actions for {recipe}",
+            description:
+              "Accessibility label for the menu on a planned meal card.",
+          },
+          { recipe: recipeName },
+        )}
         style={{
           width: 48,
           height: 48,

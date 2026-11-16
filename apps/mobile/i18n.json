@@ -1,0 +1,19 @@
+{
+  "$schema": "https://p6t.dev/schema/i18n.json",
+  "version": 1,
+  "format": "react-intl",
+  "locale": {
+    "source": "en",
+    "targets": ["de"]
+  },
+  "catalogs": [{ "path": "i18n/{locale}.json" }],
+  "provider": {
+    "id": "google",
+    "model": "gemini-flash-latest"
+  },
+  "context": {
+    "description": "i18n/description.md",
+    "styleGuide": "i18n/{locale}/style-guide.md",
+    "glossary": "i18n/{locale}/glossary.json"
+  }
+}
