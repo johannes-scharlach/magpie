@@ -20,4 +20,8 @@ export const env = {
   supabaseUrl: required("SUPABASE_URL").replace(/\/+$/, ""),
   googleApiKey: required("GOOGLE_GENERATIVE_AI_API_KEY"),
   databaseUrl: required("DATABASE_URL"),
+  // Public half of the OAuth consent flow. The publishable key is safe in the
+  // browser; the origin is the consent page's public address.
+  supabasePublishableKey: process.env.SUPABASE_PUBLISHABLE_KEY ?? "",
+  publicOrigin: process.env.MAGPIE_PUBLIC_ORIGIN?.replace(/\/+$/, "") ?? null,
 } as const;

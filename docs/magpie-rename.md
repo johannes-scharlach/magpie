@@ -19,11 +19,11 @@ remote, or checkout directory were changed.
   Android builds/push are blocked until it matches the new package IDs. Firebase
   project IDs and bucket names are provider identifiers, not display names;
   keeping the existing project can retain its original identifiers.
-- **Fly:** confirm ownership/availability of `magpie-api` and
-  `https://magpie-api.fly.dev` before building clients. Set up the app, runtime
-  secrets, and repository `FLY_API_TOKEN` for that target. If the name is taken,
-  update `apps/api/fly.toml`, `apps/mobile/eas.json`, and env examples to the
-  actual owned endpoint. Use `MAGPIE_IOS_INSTALL_URL` and
+- **Fly:** confirm ownership/availability of `magpiemeals.com` and the
+  `magpie-api` app. Set up the app, runtime secrets, the custom-domain
+  certificate, and repository `FLY_API_TOKEN` for that target. If the name is
+  taken, update `apps/api/fly.toml`, `apps/mobile/eas.json`, and env examples
+  to the actual owned endpoint. Use `MAGPIE_IOS_INSTALL_URL` and
   `MAGPIE_ANDROID_INSTALL_URL` for installation links.
 - **Hosted Supabase:** update auth site/redirect URLs to `magpie://` and apply
   the Magpie email subjects/template. Local `supabase/config.toml` does not

@@ -1,9 +1,5 @@
 import { randomUUID } from "node:crypto";
-import {
-  householdSchema,
-  profileContext,
-  type Household,
-} from "@magpie/profile";
+import { profileContext, type Household } from "@magpie/profile";
 
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import {
@@ -26,8 +22,10 @@ import { createChatReply, type AssistantUIMessage } from "../chat-reply.js";
 import { captureChatGenerationContext } from "../chat-generation-context.js";
 import { pool } from "../db.js";
 import { env } from "../env.js";
+import { readHousehold } from "../household.js";
 import { readChatMeal, readChatVariant } from "../chat-variants.js";
 import { AppError } from "../errors.js";
+import { PLAN_PROMPT } from "../plan-prompt.js";
 import {
   ChatEntrySchema,
   orderRecipeSeed,
@@ -58,19 +56,6 @@ const UTILITY_MODEL = "gemini-flash-lite-latest";
 const HISTORY_LIMIT = 30;
 const TITLE_MAX = 80;
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-
-/**
- * The plan is Magpie's own shape, so its guidance lives here rather than in
- * the shared prompt: a calendar of lunch / dinner / treat slots per day, and
- * a shopping list of explicitly chosen ingredients.
- */
-const PLAN_PROMPT = `## The plan
-
-Helping draft a meal plan is a conversation, not permission to save recipes or fill calendar slots. Start from the user's selected dates, meals, notes and any photo; offer a starting point they can shape. A household's meal ideas brief is standing guidance for suggestions, never approval to add those meals to the calendar. Asking for a proposed week means keep the meals as draft ideas in the conversation. Only schedule meals the user explicitly selects or asks you to add. Never treat your own suggestions as the user's choices.
-
-The household keeps a plan: a calendar with a lunch, dinner and treat slot per day. Read it with readPlan before answering anything about the week. Meals can be saved recipes or simply written-in names, such as bread and cheese or leftover lasagne. A written meal is already a complete plan and needs no cookbook entry. Planning any meal adds no shopping items: the user separately chooses what to buy, meal by meal. When the user asks to save and plan a new recipe, use addToCookbook then planMeal in one go. In a conversation about a written meal, use readPlannedMeal and addMealShoppingItems to help with shopping without changing the meal into a recipe. Only add shopping items when the user asks for them, and mention actual shopping changes briefly. Never ask them to track quantities or keep an inventory. If you are unsure whether something is still around, ask the way one home cook asks another: "is the chard all used up?"
-
-A planned meal is who from the household is eating plus extra portions. One extra portion is one adult helping that belongs to nobody: guests, leftovers, or just more food. When the user says who is eating ("me" is the current user) and how much extra, size the recipe you save for exactly those people and that extra, say so in its yield, and pass the same eaterIds and extraPortions to planMeal. When they do not say, everyone in the household eats and there is no extra.`;
 
 type MessageRow = {
   id: string;
@@ -358,21 +343,7 @@ chats.post("/:id/messages", async (c) => {
   // Read fresh every turn so edits made in the app reach the next message.
   // A local edit still uploading when the message is sent is seen one turn
   // late; that beats carrying a second copy of the household in the request.
-  let household: Household | null = null;
-  const profile = await pool.query(
-    "SELECT * FROM household_profiles WHERE id = $1",
-    [listId],
-  );
-  if (profile.rows[0]) {
-    const people = await pool.query(
-      "SELECT * FROM household_people WHERE list_id = $1 ORDER BY created_at, id",
-      [listId],
-    );
-    household = householdSchema.parse({
-      profile: profile.rows[0],
-      people: people.rows,
-    });
-  }
+  const household = await readHousehold(listId);
 
   let history: MessageRow[];
   let chat: RecipeChat;

@@ -4,8 +4,8 @@ import { sharedRecipeUrl, sharedVariantId } from "./links";
 describe("recipe share handoff", () => {
   const id = "f2700000-0000-4000-8000-000000000002";
   it("sends a web link whose page opens the same recipe in the app", () => {
-    expect(sharedRecipeUrl("https://magpie-api.fly.dev/", id)).toBe(
-      `https://magpie-api.fly.dev/r/${id}`,
+    expect(sharedRecipeUrl("https://magpiemeals.com/", id)).toBe(
+      `https://magpiemeals.com/r/${id}`,
     );
     expect(sharedVariantId(`magpie://shared/${id}`)).toBe(id);
     expect(sharedVariantId(`exp://localhost:8081/--/shared/${id}`)).toBe(id);

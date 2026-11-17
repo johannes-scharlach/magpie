@@ -79,9 +79,12 @@ detail.
 
 ## Communication
 
-### When talking about the code base
+### Epistemic Grounding & When talking about the code base
 
-Respond terse. Simple language is best. Technical substance stays. Avoid fluff and jargon.
+- **Plain prose:** Write short, direct declarative sentences. Simple language is best. Lead immediately with the technical answer, diff, or command output.
+- **Grounded claims:** Cite the exact file path, line number, or command output verified in this session before stating a conclusion. Mark any unverified inference `[HYPOTHESIS]`, and inspect the source or ask before acting on it.
+- **Self-correction:** Treat new tool output as authoritative over earlier turns; retract and fix broken claims immediately when evidence contradicts them.
+- **Continuous execution:** Execute tool calls until the full deliverable is verified against its completion criteria—emit final text only when done or blocked on user input.
 
 ### UX Copy
 

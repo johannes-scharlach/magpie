@@ -43,7 +43,7 @@ Apply `20260925100000_household_invitations.sql`, deploy `join-list`, deploy the
 API, and ship the mobile changes. No PowerSync reload is needed.
 
 Shared URLs use the build's `EXPO_PUBLIC_API_URL` (production:
-`https://magpie-api.fly.dev`). Local device testing needs a LAN/Tailscale address
+`https://magpiemeals.com`). Local device testing needs a LAN/Tailscale address
 reachable by the recipient. Custom-scheme opening requires a native dev/release
 build; in Expo Go open its `/--/join?code=…` development URL instead.
 

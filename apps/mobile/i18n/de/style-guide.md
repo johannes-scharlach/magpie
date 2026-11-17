@@ -5,8 +5,12 @@
 Use **du** throughout. Write `du`, `dein`, `dir` in lower case inside a
 sentence. Use `Du` only at the start of a sentence or a heading.
 
-Use the imperative singular for actions: `Wähle`, `Plane`, `Öffne`,
-`Versuch es`.
+Use the infinitive for action labels — buttons, menu rows, cards:
+`Rezept importieren`, `Ausblenden`, `Andere Mahlzeit wählen`. Use the
+imperative singular when the copy is a sentence that explains or invites,
+as in the shopping row `Wähle aus, was du kaufst` or the empty state
+`Wähle zuerst im Einkauf eine Liste aus.` A label names the action; it
+does not instruct the user.
 
 ## Tone
 

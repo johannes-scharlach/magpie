@@ -48,7 +48,7 @@
     },
     {
       "type": 0,
-      "value": " für "
+      "value": " zum "
     },
     {
       "type": 1,
@@ -136,7 +136,7 @@
   "9UrpWM": [
     {
       "type": 0,
-      "value": "Auswahl für "
+      "value": "Auswahl zum "
     },
     {
       "type": 1,
@@ -236,7 +236,7 @@
   "RBdc82": [
     {
       "type": 0,
-      "value": "Auswählen, was du kaufst"
+      "value": "Wähle aus, was du kaufst"
     }
   ],
   "SyepTx": [
@@ -312,12 +312,12 @@
   ],
   "arUays": [
     {
-      "type": 0,
-      "value": "Wähle "
-    },
-    {
       "type": 1,
       "value": "slot"
+    },
+    {
+      "type": 0,
+      "value": " wählen"
     }
   ],
   "cmBFn5": [
@@ -416,12 +416,12 @@
   ],
   "xbvaCW": [
     {
-      "type": 0,
-      "value": "Wähle "
-    },
-    {
       "type": 1,
       "value": "slot"
+    },
+    {
+      "type": 0,
+      "value": " wählen"
     }
   ],
   "yn0m94": [

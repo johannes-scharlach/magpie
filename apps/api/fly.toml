@@ -17,6 +17,10 @@ primary_region = "fra"
 
 [env]
   PORT = "8080"
+  # Public values, not secrets. The origin must match the Fly certificate;
+  # the publishable key is the same one the mobile production build uses.
+  MAGPIE_PUBLIC_ORIGIN = "https://magpiemeals.com"
+  SUPABASE_PUBLISHABLE_KEY = "sb_publishable_XcuuUCVQicDiDU5Ykzof6w_U4TKff5x"
 
 [http_service]
   internal_port = 8080

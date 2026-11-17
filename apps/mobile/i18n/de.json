@@ -10,7 +10,7 @@
     "_p6t_source": "{count, plural, one {Found # recipe} other {Found # recipes}}"
   },
   "+y6jvK": {
-    "defaultMessage": "Wähle {recipe} für {slot}",
+    "defaultMessage": "Wähle {recipe} zum {slot}",
     "_p6t_description": "Accessibility label for a recommended dish that will fill a meal slot.",
     "_p6t_source": "Select {recipe} for {slot}"
   },
@@ -60,7 +60,7 @@
     "_p6t_source": "Dinner"
   },
   "9UrpWM": {
-    "defaultMessage": "Auswahl für {slot} ausblenden",
+    "defaultMessage": "Auswahl zum {slot} ausblenden",
     "_p6t_description": "Accessibility label for closing the meal chooser for lunch, dinner or a treat.",
     "_p6t_source": "Hide {slot} choices"
   },
@@ -130,7 +130,7 @@
     "_p6t_source": "No list yet — create one in Shop first."
   },
   "RBdc82": {
-    "defaultMessage": "Auswählen, was du kaufst",
+    "defaultMessage": "Wähle aus, was du kaufst",
     "_p6t_description": "Action under a planned meal that opens its shopping items.",
     "_p6t_source": "Choose what to buy"
   },
@@ -175,7 +175,7 @@
     "_p6t_source": "{count, plural, one {Reading your photo…} other {Reading # photos…}}"
   },
   "arUays": {
-    "defaultMessage": "Wähle {slot}",
+    "defaultMessage": "{slot} wählen",
     "_p6t_description": "Action that opens the meal chooser for a lunch, dinner or treat.",
     "_p6t_source": "Select {slot}"
   },
@@ -255,7 +255,7 @@
     "_p6t_source": "Nobody"
   },
   "xbvaCW": {
-    "defaultMessage": "Wähle {slot}",
+    "defaultMessage": "{slot} wählen",
     "_p6t_description": "Heading over an open meal slot that invites the user to choose lunch, dinner or a treat.",
     "_p6t_source": "Select {slot}"
   },
