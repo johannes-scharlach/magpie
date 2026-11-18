@@ -81,10 +81,43 @@ test("a post that keeps its recipe in the page description, such as an Instagram
   assert.match(text, /Dal\u00a0🧡\n-200g red lentils\n1\. Simmer 20 min/);
 });
 
-test("Instagram shows Google's fetcher only a shell, so we read it ourselves", () => {
+/** The visible page is a shell; the post's own text is in the hydration
+ *  JSON, as TikTok serves it. */
+const tiktokPage = (item: object) =>
+  `<html><head><title>TikTok - Make Your Day</title></head><body>` +
+  `<script id="__UNIVERSAL_DATA_FOR_REHYDRATION__" type="application/json">` +
+  JSON.stringify({
+    __DEFAULT_SCOPE__: {
+      "webapp.video-detail": { itemInfo: { itemStruct: item } },
+    },
+  }) +
+  `</script></body></html>`;
+
+test("a TikTok post's caption and creator reach the model", () => {
+  const text = recipePageText(
+    tiktokPage({
+      desc: "Spaghetti-Eis-Plätzchen 🍝\nZutaten:\n- 90 g weiche Butter\n- 160 g Mehl",
+      author: { uniqueId: "miss_gruenkern", nickname: "Miss Grünkern" },
+    }),
+  );
+  assert.match(text, /90 g weiche Butter/);
+  assert.match(text, /Miss Grünkern/);
+});
+
+test("a TikTok page without the post data, such as a bot challenge, yields no caption", () => {
+  const text = recipePageText(
+    `<html><head><title>TikTok - Make Your Day</title></head><body><p>Verify to continue</p></body></html>`,
+  );
+  assert.match(text, /Verify to continue/);
+  assert.doesNotMatch(text, /caption/i);
+});
+
+test("Instagram and TikTok show Google's fetcher only a shell, so we read them ourselves", () => {
   for (const url of [
     "https://www.instagram.com/p/C4dooVKp-Ax/",
     "https://instagram.com/reel/DT3iH2Ck7jQ/",
+    "https://vm.tiktok.com/ZGdXbBDjC/",
+    "https://www.tiktok.com/@miss_gruenkern/video/7708068031175462176",
   ]) {
     assert.equal(geminiSeesOnlyAShell(url), true, url);
   }

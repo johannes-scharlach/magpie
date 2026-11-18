@@ -20,7 +20,9 @@ text. The text carries what sites keep outside structured data: optionals,
 swaps and tips. The description carries what social posts show only there:
 Instagram serves Google's fetcher a shell, and its caption sits only in the
 `og:description` meta tag, so Instagram links skip Gemini's fetch entirely. A social post credits its creator, not the
-platform.
+platform. TikTok does the same with a shell, and its caption sits only in
+the page's hydration JSON, so TikTok links skip Gemini's fetch too, and the
+caption and creator's name join the page text.
 
 The API only fetches the public internet. Every address a host resolves to
 is checked at connect time, so a lookup cannot point the socket elsewhere,
