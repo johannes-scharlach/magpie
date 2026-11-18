@@ -26,7 +26,6 @@ export type IngredientLine = Swap & {
   /** Stable within a recipe, preserved when a variant keeps this ingredient. */
   id?: number;
   swaps?: Swap[];
-  shopping_hint?: "check_at_home" | "likely_purchase";
   /** Present when the dish works without this line, after a rewrite if
    *  needed. The cook-facing label, e.g. "Skip the garnish". */
   without?: string;

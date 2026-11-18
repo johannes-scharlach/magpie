@@ -100,12 +100,6 @@ const IngredientLineSchema = z.object({
     .describe(
       "REQUIRED: aisle where you BUY the raw item before prepping (produce/bakery/deli/dairy/meat/breakfast/grains/spices/snacks/frozen/beverages/care/household/pets/home/other). Ignore prep_note when picking. Omit ONLY for non-purchasable like leftovers. Use most specific aisle, 'other' only as last resort.",
     ),
-  shopping_hint: z
-    .enum(["check_at_home", "likely_purchase"])
-    .optional()
-    .describe(
-      "REQUIRED for new recipes: check_at_home only for everyday cooking basics that a household might already have, such as small amounts of salt, oil, water, or common dried seasonings; otherwise likely_purchase. This is a shopping-review suggestion, not a claim about actual inventory. Judge the ingredient in context, not by its supermarket aisle. Older recipes may omit this field; they default to likely_purchase.",
-    ),
   swaps: z
     .array(SwapSchema)
     .optional()

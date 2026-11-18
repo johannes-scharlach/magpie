@@ -46,7 +46,6 @@ export const IngredientLineSchema = z.object({
     .optional()
     .describe("optional extra like 'rough-chopped', 'thinly sliced'"),
   category_id: z.enum(CATEGORIES).optional().describe("supermarket aisle"),
-  shopping_hint: z.enum(["check_at_home", "likely_purchase"]).optional(),
   swaps: z
     .array(SwapSchema)
     .optional()

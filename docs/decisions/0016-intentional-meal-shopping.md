@@ -2,7 +2,7 @@
 
 Date: 2026-09-24
 Status: Accepted
-Amended by: 23 (explicit ingredient decisions)
+Amended by: 23 (explicit ingredient decisions), 41 (no shopping hints)
 
 ## Context
 

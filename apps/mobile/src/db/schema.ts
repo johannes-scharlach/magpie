@@ -151,7 +151,7 @@ const variants = new Table({
   /** JSON array of the appliances this version needs (ADR 36). */
   equipment: column.text,
   effort: column.text,
-  /** JSON array of {id, qty_text, item_name, prep_note, category_id, shopping_hint?, swaps:[{qty_text,item_name,prep_note,category_id}]} */
+  /** JSON array of {id, qty_text, item_name, prep_note, category_id, swaps:[{qty_text,item_name,prep_note,category_id}]} */
   ingredient_lines: column.text,
   instructions: column.text,
   /** JSON {eater_ids, extra_portions, total_target_kcal?} used to size this variant; null as imported. */

@@ -10,10 +10,6 @@ import {
 export { ingredientSpec } from "@magpie/meals";
 export const optionsForLine = ingredientOptions;
 
-export function probablyAtHome(line: IngredientLine): boolean {
-  return line.shopping_hint === "check_at_home";
-}
-
 export type IngredientDecision =
   "undecided" | "shop" | "bought" | "home" | "without";
 
@@ -47,7 +43,6 @@ export function shoppingReview<L extends IngredientLine, I extends MealItem>(
         optionIndex,
         item,
         decision,
-        likelyHave: probablyAtHome(line),
       };
     },
   );

@@ -636,7 +636,6 @@ test(
             qty_text: "200g",
             item_name: "pasta",
             category_id: "grains",
-            shopping_hint: "likely_purchase",
           },
         ],
         recipeInstructions: [

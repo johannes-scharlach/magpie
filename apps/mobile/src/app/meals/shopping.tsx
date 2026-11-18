@@ -229,13 +229,8 @@ function IngredientReview({
     );
   };
 
-  // What is probably needed comes first: tap the cart on those, then mark
-  // the rest at home in one go.
-  const ordered = [
-    ...review.filter((entry) => !entry.likelyHave),
-    ...review.filter((entry) => entry.likelyHave),
-  ];
-  const undecided = ordered
+  // The review keeps the recipe's ingredient order.
+  const undecided = review
     .filter((entry) => entry.decision === "undecided")
     .flatMap((entry) => (entry.line.id == null ? [] : [entry.line.id]));
 
@@ -275,11 +270,11 @@ function IngredientReview({
           ) : null}
         </View>
         <View>
-          {ordered.map((entry, index) => (
+          {review.map((entry, index) => (
             <IngredientRow
               key={entry.index}
               entry={entry}
-              last={index === ordered.length - 1}
+              last={index === review.length - 1}
               decide={decide}
               swap={swap}
             />

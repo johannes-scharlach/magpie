@@ -1,42 +1,9 @@
 import { expect, it } from "vitest";
-import { IngredientLineSchema } from "../../db/schemas";
 import {
-  probablyAtHome,
   shoppingProgress,
   shoppingReview,
   undecidedCount,
 } from "./shopping-review";
-
-it("uses the recipe's shopping hint, never the ingredient name or aisle", () => {
-  const lines = [
-    { item_name: "Salt", qty_text: "1 tsp", category_id: "spices" },
-    {
-      item_name: "Canned tomatoes",
-      qty_text: "1 tin",
-      category_id: "spices",
-      shopping_hint: "likely_purchase",
-    },
-    {
-      item_name: "Chiliflocken",
-      qty_text: "1 tsp",
-      category_id: "spices",
-      shopping_hint: "check_at_home",
-    },
-    {
-      item_name: "Garlic",
-      qty_text: "1 clove",
-      category_id: "produce",
-      shopping_hint: "check_at_home",
-    },
-  ].map((line) => IngredientLineSchema.parse(line));
-  expect(lines.filter(probablyAtHome)).toEqual(lines.slice(2));
-  expect(shoppingReview(lines, []).map((entry) => entry.likelyHave)).toEqual([
-    false,
-    false,
-    true,
-    true,
-  ]);
-});
 
 it("matches purchases by identity even after quantities change", () => {
   const bought = {

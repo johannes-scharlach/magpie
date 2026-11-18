@@ -213,7 +213,7 @@ export function buildChatTools(
 
     addToCookbook: tool({
       description:
-        "Save the complete recipe to the user's cookbook. Call only when the user explicitly asks to keep it. Include recipeIngredient as a structured array with quantity, ingredient name, shopping category, and shopping_hint for every ingredient; contentMarkdown and recipeInstructions[].ingredients do not replace it. shopping_hint is a suggestion to check for everyday basics at home, not a claim about inventory or a supermarket aisle. Use contentMarkdown only for useful recipe-specific context not covered by structured fields (such as serving ideas or adaptations), never to repeat ingredients or steps. If you actually sized it for known household eaters, include sizedFor with their household IDs and extra portions; omit when unknown. Returns a url to share as a Markdown link on the recipe name.",
+        "Save the complete recipe to the user's cookbook. Call only when the user explicitly asks to keep it. Include recipeIngredient as a structured array with quantity, ingredient name and shopping category for every ingredient; contentMarkdown and recipeInstructions[].ingredients do not replace it. Use contentMarkdown only for useful recipe-specific context not covered by structured fields (such as serving ideas or adaptations), never to repeat ingredients or steps. If you actually sized it for known household eaters, include sizedFor with their household IDs and extra portions; omit when unknown. Returns a url to share as a Markdown link on the recipe name.",
       inputSchema: AddToCookbookSchema,
       execute: async ({ sizedFor, ...recipe }) => {
         try {
