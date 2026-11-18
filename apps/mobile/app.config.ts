@@ -65,6 +65,23 @@ const config: ExpoConfig = {
   },
   plugins: [
     "expo-router",
+    [
+      // Puts Magpie in the system share sheet. A shared link or text becomes
+      // a cookbook import (ADR 41).
+      "expo-share-intent",
+      {
+        // The variant keeps local and dev builds distinguishable in the
+        // share sheet when they sit next to each other on a phone.
+        iosShareExtensionName: `Import to ${variant.name}`,
+        iosActivationRules: {
+          NSExtensionActivationSupportsWebURLWithMaxCount: 1,
+          NSExtensionActivationSupportsWebPageWithMaxCount: 1,
+          NSExtensionActivationSupportsText: true,
+        },
+        // Android sends links as text/plain, like captions from other apps.
+        androidIntentFilters: ["text/*"],
+      },
+    ],
     "expo-secure-store",
     [
       "expo-splash-screen",
