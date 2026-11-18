@@ -6,7 +6,7 @@ import { parseArgs } from "node:util";
 import { crc32, deflateRawSync, gzipSync } from "node:zlib";
 
 export const PLUGIN_NAME = "magpie";
-export const PLUGIN_VERSION = "0.1.0";
+export const PLUGIN_VERSION = "0.1.1";
 export const SKILL_NAME = "magpie-cooking";
 export const SKILL_PATH = `skills/${SKILL_NAME}/SKILL.md`;
 
@@ -86,6 +86,18 @@ export function buildPluginFiles(mcpUrl) {
       [PLUGIN_NAME]: {
         type: "streamable-http",
         url: endpoint.href,
+        // OpenAI hosts read the connection's auth method from here. Without
+        // it the imported server has no declared auth method; discovery on a
+        // 401 supplies endpoints, but not the choice to run OAuth. Supabase
+        // advertises a registration endpoint, so DCR is the mode.
+        extensions: {
+          "com.openai": {
+            auth: {
+              type: "oauth",
+              client: { mode: "dcr" },
+            },
+          },
+        },
       },
     },
   };
@@ -157,13 +169,13 @@ Do not edit by hand — change \`scripts/build-plugin.mjs\` and regenerate.
 ## Files
 
 - \`plugin.json\` — Agent Plugins 1.0.0 manifest with the OpenAI listing block.
-- \`mcp.json\` — registers the \`magpie\` server at ${endpoint} over streamable HTTP.
+- \`mcp.json\` — registers the \`magpie\` server at ${endpoint} over streamable HTTP and declares OAuth with dynamic client registration.
 - \`skills/${SKILL_NAME}/SKILL.md\` — tells the model when to reach for Magpie. The full cooking procedure is the server's \`instructions\`.
 - \`README.md\` — this file.
 
 ## Install
 
-Open the ChatGPT desktop app → Plugins → Add → Upload plugin archive, and pick \`${PLUGIN_NAME}.tar.gz\`.
+Open the ChatGPT desktop app → Plugins → Add → Upload plugin archive, and pick \`${PLUGIN_NAME}.tar.gz\`. Sign in when the host asks: the MCP endpoint requires a Magpie account.
 
 Re-upload after every change to \`plugin.json\`, \`mcp.json\`, \`skills/\`, or the MCP endpoint. The host keeps an installed plugin as a snapshot and does not re-read this archive on its own. Keep the filename \`${PLUGIN_NAME}.tar.gz\` so an upload replaces the installed plugin instead of adding a second copy. Server \`instructions\` and tool descriptions update with the API, not this archive.
 
@@ -196,7 +208,7 @@ Plan meals around your household's choices, then save a recipe or schedule a mea
 
 1. Open "Plugins" in Claude's "Customize" settings (https://claude.ai/customize/plugins).
 2. Click "Add", then "Upload plugin", and pick \`${PLUGIN_NAME}.zip\`.
-3. On Magpie's "Connectors" tab, click "Connect".
+3. On Magpie's "Connectors" tab, add the connector, then click "Connect" and sign in.
 
 Re-upload after every change to \`.claude-plugin/plugin.json\`, \`.mcp.json\`, \`skills/\`, or the MCP endpoint. The host keeps an installed plugin as a snapshot and does not re-read this archive on its own. Keep the filename \`${PLUGIN_NAME}.zip\` so an upload replaces the installed plugin instead of adding a second copy. Server \`instructions\` and tool descriptions update with the API, not this archive.
 
