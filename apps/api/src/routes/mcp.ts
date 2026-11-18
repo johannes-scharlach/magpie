@@ -22,12 +22,28 @@ import { buildMcpTools } from "../mcp-tools.js";
 
 /**
  * `list_members` is many-to-many, so the endpoint needs one household per
- * request. Choosing among several is a product decision the app owns; until
- * then the plugin refuses rather than guessing.
+ * request. The consent page stores an explicit choice; a sole household needs
+ * no choice. Anything else refuses rather than guessing.
  */
 export async function resolveListId(userId: string): Promise<string> {
+  // A stored choice only counts while it is still one of the user's
+  // profile-bearing households.
+  const stored = await pool.query<{ list_id: string }>(
+    `SELECT h.list_id
+     FROM mcp_households h
+     JOIN list_members m ON m.list_id = h.list_id AND m.user_id = h.user_id
+     JOIN household_profiles p ON p.id = h.list_id
+     WHERE h.user_id = $1`,
+    [userId],
+  );
+  if (stored.rows[0]) return stored.rows[0].list_id;
+
   const members = await pool.query<{ list_id: string }>(
-    "SELECT list_id FROM list_members WHERE user_id = $1 ORDER BY joined_at, list_id",
+    `SELECT m.list_id
+     FROM list_members m
+     JOIN household_profiles p ON p.id = m.list_id
+     WHERE m.user_id = $1
+     ORDER BY m.joined_at, m.list_id`,
     [userId],
   );
   if (members.rows.length === 0)
@@ -39,7 +55,7 @@ export async function resolveListId(userId: string): Promise<string> {
   if (members.rows.length > 1)
     throw new AppError(
       "CHOOSE_HOUSEHOLD",
-      "You are in more than one household. Choose one in Magpie first.",
+      "You are in more than one household. Reconnect Magpie and choose one.",
       409,
     );
   return members.rows[0]!.list_id;
