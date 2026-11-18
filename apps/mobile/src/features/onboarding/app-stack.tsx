@@ -6,6 +6,7 @@ import {
   InvitationProvider,
   useInvitation,
 } from "@/features/invitations/provider";
+import { IncomingShare } from "@/features/meals/incoming-share";
 import { PendingShare } from "@/features/sharing/pending";
 import { useHouseholdAccess } from "./access";
 import { useOnboarding } from "./provider";
@@ -59,6 +60,7 @@ function InvitationStack({ children }: { children: ReactNode }) {
   }
   return (
     <>
+      <IncomingShare showApp={showApp && !invitation.code} />
       <PendingShare showApp={showApp && !invitation.code} />
       {/* iOS draws pushed screens' headers as floating glass over the content.
         Scrolling roots need contentInsetAdjustmentBehavior="automatic". */}
