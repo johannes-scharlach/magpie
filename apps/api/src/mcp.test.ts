@@ -401,6 +401,7 @@ test("the MCP tool list is built from the chat tools with read and destructive h
     "unplanMeal",
   ]);
   for (const tool of tools) {
+    assert.ok(tool.title.trim(), tool.name);
     assert.ok(tool.description.trim(), tool.name);
     const schema = z.toJSONSchema(tool.inputSchema, { io: "input" });
     assert.equal(schema.type, "object", tool.name);
@@ -508,12 +509,18 @@ test("MCP answers a 2025 initialize and a 2026 server/discover with the same ins
   const tools = listed.message.result?.tools as
     | {
         name: string;
+        title?: string;
         description?: string;
         annotations?: { destructiveHint?: boolean };
       }[]
     | undefined;
   assert.equal(tools?.length, 10);
+  assert.ok(tools?.every((tool) => tool.title?.trim()));
   assert.ok(tools?.every((tool) => tool.description));
+  assert.equal(
+    tools?.find((tool) => tool.name === "unplanMeal")?.title,
+    "Remove a planned meal",
+  );
   assert.equal(
     tools?.find((tool) => tool.name === "unplanMeal")?.annotations
       ?.destructiveHint,

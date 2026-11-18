@@ -21,10 +21,29 @@ const READ_ONLY_TOOLS = new Set([
   "readCookbookOverview",
 ]);
 
+/**
+ * Clients show `title`, not the camelCase tool name. Without it ChatGPT
+ * renders names as one word ("Getmealsizing"). OpenAI's plugin guidance asks
+ * for a title on every tool.
+ */
+const TOOL_TITLES: Record<string, string> = {
+  addToCookbook: "Save to cookbook",
+  getMealSizing: "Size a meal",
+  planMeal: "Plan a meal",
+  readCookbookOverview: "Read cookbook overview",
+  readPlan: "Read the meal plan",
+  readPlannedMeal: "Read a planned meal",
+  readVariant: "Read a variant",
+  searchSavedRecipes: "Search saved recipes",
+  searchVariants: "Search recipe variants",
+  unplanMeal: "Remove a planned meal",
+};
+
 type McpAnnotations = { readOnlyHint?: boolean; destructiveHint?: boolean };
 
 export type McpToolDefinition = {
   name: string;
+  title: string;
   description: string;
   inputSchema: z.ZodType;
   annotations?: McpAnnotations;
@@ -74,8 +93,11 @@ export function buildMcpTools(
         input: Record<string, unknown>,
         options: { toolCallId: string; messages: [] },
       ) => Promise<unknown>;
+      const title = TOOL_TITLES[name];
+      if (!title) throw new Error(`MCP tool ${name} has no title`);
       return {
         name,
+        title,
         description:
           typeof definition.description === "string"
             ? definition.description

@@ -93,6 +93,7 @@ export const mcpHandler = createMcpHandler(
       server.registerTool(
         tool.name,
         {
+          title: tool.title,
           description: tool.description,
           inputSchema: tool.inputSchema,
           annotations: tool.annotations,
