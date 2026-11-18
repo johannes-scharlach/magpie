@@ -239,25 +239,27 @@ test("OAuth discovery and the consent page are served at the origin root", async
 
   const consent = await app.request("/oauth/consent");
   assert.equal(consent.status, 200);
-  assert.match(
-    consent.headers.get("content-security-policy") ?? "",
-    /script-src 'nonce-/,
-  );
+  const csp = consent.headers.get("content-security-policy") ?? "";
+  assert.match(csp, /script-src 'nonce-/);
+  assert.match(csp, /connect-src 'self' /);
   assert.match(consent.headers.get("cache-control") ?? "", /no-store/);
   const html = await consent.text();
   assert.match(html, /authorization_id/);
   assert.match(html, /SUPABASE_URL \+ "\/auth\/v1" \+ path/);
   assert.match(html, /"\/otp"/);
   assert.match(html, /"\/verify"/);
+  assert.match(html, /"\/oauth\/households"/);
+  assert.match(html, /"\/oauth\/household"/);
+  assert.match(html, /id="household"/);
 });
 
 test("MCP refuses a user in no household or several households with distinct codes", async (t) => {
   const { pool } = await import("./db.js");
-  let rows: { list_id: string }[] = [];
-  t.mock.method(pool, "query", (async () => ({
-    rows,
-    rowCount: rows.length,
-  })) as unknown as typeof pool.query);
+  let members: { list_id: string }[] = [];
+  t.mock.method(pool, "query", (async (text: string) => {
+    if (text.includes("FROM mcp_households")) return { rows: [], rowCount: 0 };
+    return { rows: members, rowCount: members.length };
+  }) as unknown as typeof pool.query);
 
   const initialize = {
     jsonrpc: "2.0",
@@ -273,10 +275,104 @@ test("MCP refuses a user in no household or several households with distinct cod
   assert.equal(none.status, 403);
   assert.equal(none.message.error?.code, "NO_HOUSEHOLD");
 
-  rows = [{ list_id: listId }, { list_id: personId }];
+  members = [{ list_id: listId }, { list_id: personId }];
   const several = await rpc(initialize);
   assert.equal(several.status, 409);
   assert.equal(several.message.error?.code, "CHOOSE_HOUSEHOLD");
+  assert.match(several.message.error?.message ?? "", /reconnect/i);
+});
+
+test("MCP uses the stored household choice before membership", async (t) => {
+  const { pool } = await import("./db.js");
+  const { resolveListId } = await import("./routes/mcp.js");
+  const stored = "b1200000-0000-4000-8000-000000000002";
+  t.mock.method(pool, "query", (async (text: string) => {
+    if (text.includes("FROM mcp_households"))
+      return { rows: [{ list_id: stored }], rowCount: 1 };
+    throw new Error(`Unexpected query: ${text}`);
+  }) as unknown as typeof pool.query);
+
+  assert.equal(await resolveListId(userId), stored);
+});
+
+test("MCP accepts a sole household without a stored choice", async (t) => {
+  const { pool } = await import("./db.js");
+  const { resolveListId } = await import("./routes/mcp.js");
+  t.mock.method(pool, "query", (async (text: string) => {
+    if (text.includes("FROM mcp_households")) return { rows: [], rowCount: 0 };
+    if (text.includes("FROM list_members"))
+      return { rows: [{ list_id: listId }], rowCount: 1 };
+    throw new Error(`Unexpected query: ${text}`);
+  }) as unknown as typeof pool.query);
+
+  assert.equal(await resolveListId(userId), listId);
+});
+
+test("choosing a household the user does not belong to is refused", async (t) => {
+  const { pool } = await import("./db.js");
+  t.mock.method(pool, "query", (async (text: string) => {
+    if (text.includes("FROM list_members")) return { rows: [], rowCount: 0 };
+    throw new Error(`Unexpected query: ${text}`);
+  }) as unknown as typeof pool.query);
+
+  const { app } = await import("./app.js");
+  const response = await app.request("/oauth/household", {
+    method: "PUT",
+    headers: {
+      "content-type": "application/json",
+      authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ listId: personId }),
+  });
+  assert.equal(response.status, 403);
+  const body = (await response.json()) as { error: { code: string } };
+  assert.equal(body.error.code, "HOUSEHOLD_ACCESS_DENIED");
+});
+
+test("the households route lists choices and the stored selection", async (t) => {
+  const { pool } = await import("./db.js");
+  t.mock.method(pool, "query", (async () => ({
+    rows: [{ id: listId, name: "Home", selected: true }],
+    rowCount: 1,
+  })) as unknown as typeof pool.query);
+
+  const { app } = await import("./app.js");
+  const response = await app.request("/oauth/households", {
+    headers: { authorization: `Bearer ${token}` },
+  });
+  assert.equal(response.status, 200);
+  assert.deepEqual(await response.json(), {
+    households: [{ id: listId, name: "Home" }],
+    selected: listId,
+  });
+
+  const anonymous = await app.request("/oauth/households");
+  assert.equal(anonymous.status, 401);
+});
+
+test("choosing a household stores it for the signed-in user", async (t) => {
+  const { pool } = await import("./db.js");
+  let upserted: unknown[] | undefined;
+  t.mock.method(pool, "query", (async (text: string, values?: unknown[]) => {
+    if (text.includes("INSERT INTO mcp_households")) {
+      upserted = values;
+      return { rows: [], rowCount: 0 };
+    }
+    return { rows: [{}], rowCount: 1 };
+  }) as unknown as typeof pool.query);
+
+  const { app } = await import("./app.js");
+  const response = await app.request("/oauth/household", {
+    method: "PUT",
+    headers: {
+      "content-type": "application/json",
+      authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ listId }),
+  });
+  assert.equal(response.status, 200);
+  assert.deepEqual(await response.json(), { listId });
+  assert.deepEqual(upserted, [userId, listId]);
 });
 
 test("the MCP tool list is built from the chat tools with read and destructive hints", async () => {
@@ -361,6 +457,7 @@ test("MCP answers a 2025 initialize and a 2026 server/discover with the same ins
     portion_reference: 1,
   };
   t.mock.method(pool, "query", (async (text: string) => {
+    if (text.includes("FROM mcp_households")) return { rows: [], rowCount: 0 };
     if (text.includes("FROM list_members"))
       return { rows: [{ list_id: listId }], rowCount: 1 };
     if (text.includes("FROM household_profiles"))

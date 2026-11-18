@@ -9,8 +9,8 @@ function safeNonce(nonce: string): string {
 /**
  * The OAuth consent page. Supabase redirects the browser here with an
  * `authorization_id`; the page signs in with the same email code the app
- * uses, then approves or denies the client. No build step and no SDK: the
- * four auth calls are plain `fetch`.
+ * uses, chooses a household, then approves or denies the client. No build
+ * step and no SDK: the auth and household calls are plain `fetch`.
  */
 export function renderConsentPage(opts: {
   supabaseUrl: string;
@@ -43,7 +43,7 @@ export function renderConsentPage(opts: {
   h1 { margin: 0 0 8px; font-size: 1.4rem; }
   p { margin: 0 0 20px; color: #57514a; }
   label { display: block; margin-bottom: 6px; font-weight: 600; }
-  input {
+  input, select {
     width: 100%; padding: 11px 12px; margin-bottom: 14px;
     border: 1px solid #c9c0b1; border-radius: 10px;
     background: #fff; color: inherit; font: inherit;
@@ -79,7 +79,11 @@ export function renderConsentPage(opts: {
   </section>
 
   <section id="consent-step" hidden>
-    <p id="client">Allow this application to use this household's recipes and plan?</p>
+    <p id="client"></p>
+    <div id="household-field" hidden>
+      <label for="household">Household</label>
+      <select id="household"></select>
+    </div>
     <div class="row">
       <button id="approve">Allow</button>
       <button id="deny" class="secondary">Deny</button>
@@ -95,10 +99,19 @@ export function renderConsentPage(opts: {
   const emailStep = document.getElementById("email-step");
   const codeStep = document.getElementById("code-step");
   const consentStep = document.getElementById("consent-step");
+  const householdField = document.getElementById("household-field");
+  const householdSelect = document.getElementById("household");
+  const clientLine = document.getElementById("client");
+  const approve = document.getElementById("approve");
+  const deny = document.getElementById("deny");
   const status = document.getElementById("status");
   let accessToken = null;
   let email = "";
   let busy = false;
+  let authorization = null;
+  let households = [];
+  let chosenId = null;
+  let redirectUrl = null;
 
   function show(step) {
     for (const section of [emailStep, codeStep, consentStep]) section.hidden = section !== step;
@@ -122,6 +135,75 @@ export function renderConsentPage(opts: {
       throw new Error(body.msg || body.message || "Something went wrong.");
     }
     return body;
+  }
+
+  // Same-origin API calls: these two routes live on this origin, unlike the
+  // Supabase auth calls above.
+  async function api(path, options = {}) {
+    const response = await fetch(path, {
+      ...options,
+      headers: {
+        "content-type": "application/json",
+        ...(options.headers || {}),
+      },
+    });
+    const body = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      throw new Error(body.error?.message || "Something went wrong.");
+    }
+    return body;
+  }
+
+  function clientName() {
+    const client = authorization?.client || {};
+    return client.name || client.client_name || client.id || null;
+  }
+
+  function describe() {
+    const chosen = households.find((household) => household.id === chosenId);
+    if (!chosen) return;
+    const name = clientName();
+    if (redirectUrl) {
+      clientLine.textContent = name
+        ? "Continue to " + name + " with " + chosen.name + "."
+        : "Continue with " + chosen.name + ".";
+      return;
+    }
+    clientLine.textContent =
+      "Allow " + (name || "This application") + " to read and change " + chosen.name + "'s recipes and plan, as you?";
+  }
+
+  function showChoice(choices, details) {
+    authorization = details;
+    redirectUrl = typeof details.redirect_url === "string" ? details.redirect_url : null;
+    households = choices.households || [];
+    if (!households.length) {
+      show(null);
+      say("Finish setting up your household in Magpie first.");
+      return;
+    }
+    chosenId = households.some((household) => household.id === choices.selected)
+      ? choices.selected
+      : households[0].id;
+    if (households.length > 1) {
+      householdSelect.replaceChildren();
+      for (const household of households) {
+        const option = document.createElement("option");
+        option.value = household.id;
+        option.textContent = household.name;
+        option.selected = household.id === chosenId;
+        householdSelect.appendChild(option);
+      }
+      householdSelect.addEventListener("change", () => {
+        chosenId = householdSelect.value;
+        describe();
+      });
+      householdField.hidden = false;
+    }
+    approve.textContent = redirectUrl ? "Continue" : "Allow";
+    deny.hidden = Boolean(redirectUrl);
+    describe();
+    show(consentStep);
   }
 
   async function withBusy(button, work) {
@@ -166,19 +248,16 @@ export function renderConsentPage(opts: {
           body: JSON.stringify({ email, token, type: "email" }),
         });
         accessToken = session.access_token;
-        const details = await call(
-          "/oauth/authorizations/" + encodeURIComponent(authorizationId),
-          { headers: { authorization: "Bearer " + accessToken } },
-        );
-        if (details.redirect_url) {
-          location.assign(details.redirect_url);
-          return;
-        }
-        const client = details.client || {};
-        const name = client.name || client.client_name || client.id || "This application";
-        document.getElementById("client").textContent =
-          "Allow " + name + " to read and change this household's recipes and plan, as you?";
-        show(consentStep);
+        const [choices, details] = await Promise.all([
+          api("/oauth/households", {
+            headers: { authorization: "Bearer " + accessToken },
+          }),
+          call(
+            "/oauth/authorizations/" + encodeURIComponent(authorizationId),
+            { headers: { authorization: "Bearer " + accessToken } },
+          ),
+        ]);
+        showChoice(choices, details);
       }),
     );
 
@@ -196,7 +275,18 @@ export function renderConsentPage(opts: {
     }
 
     document.getElementById("approve").addEventListener("click", (event) =>
-      withBusy(event.currentTarget, () => decide("approve")),
+      withBusy(event.currentTarget, async () => {
+        await api("/oauth/household", {
+          method: "PUT",
+          headers: { authorization: "Bearer " + accessToken },
+          body: JSON.stringify({ listId: chosenId }),
+        });
+        if (redirectUrl) {
+          location.assign(redirectUrl);
+          return;
+        }
+        await decide("approve");
+      }),
     );
     document.getElementById("deny").addEventListener("click", (event) =>
       withBusy(event.currentTarget, () => decide("deny")),
@@ -213,7 +303,7 @@ export function consentCsp(supabaseUrl: string, nonce: string): string {
     "default-src 'none'",
     `script-src 'nonce-${safeNonce(nonce)}'`,
     `style-src 'nonce-${safeNonce(nonce)}'`,
-    `connect-src ${origin}`,
+    `connect-src 'self' ${origin}`,
     "base-uri 'none'",
     "form-action 'none'",
     "frame-ancestors 'none'",

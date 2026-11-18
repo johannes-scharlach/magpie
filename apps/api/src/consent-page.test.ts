@@ -9,7 +9,7 @@ const options = {
   nonce: "nonce-1",
 };
 
-test("consent page carries the auth calls and the nonce", () => {
+test("consent page carries the auth calls, household chooser and nonce", () => {
   const page = renderConsentPage(options);
   assert.match(page, /https:\/\/abc\.supabase\.co/);
   assert.match(page, /sb_publishable_x/);
@@ -18,6 +18,11 @@ test("consent page carries the auth calls and the nonce", () => {
   assert.match(page, /"\/otp"/);
   assert.match(page, /"\/verify"/);
   assert.match(page, /\/oauth\/authorizations\//);
+  assert.match(page, /"\/oauth\/households"/);
+  assert.match(page, /"\/oauth\/household"/);
+  assert.match(page, /id="household"/);
+  assert.match(page, /createElement\("option"\)/);
+  assert.match(page, /method: "PUT"/);
   assert.match(page, /nonce="nonce-1"/);
 });
 
@@ -30,9 +35,9 @@ test("consent page escapes a value that could close the script", () => {
   assert.match(page, /\\u003c\/script>/);
 });
 
-test("consent CSP allows only the auth origin and the nonce", () => {
+test("consent CSP allows this origin and the auth origin", () => {
   assert.equal(
     consentCsp("https://abc.supabase.co", "nonce-1"),
-    "default-src 'none'; script-src 'nonce-nonce-1'; style-src 'nonce-nonce-1'; connect-src https://abc.supabase.co; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
+    "default-src 'none'; script-src 'nonce-nonce-1'; style-src 'nonce-nonce-1'; connect-src 'self' https://abc.supabase.co; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
   );
 });
