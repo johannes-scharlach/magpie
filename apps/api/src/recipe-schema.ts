@@ -35,23 +35,23 @@ export const CATEGORIES = [
 ] as const;
 export type CategoryId = (typeof CATEGORIES)[number];
 
+const prepNoteDescription =
+  "Optional state clarifying the measured or purchased item (e.g. 'drained', 'thawed and squeezed dry'), never part of item_name. When importing, keep source ingredient-line prep here and leave step prep in instructions. When creating, put cutting and prep in the steps where used. Omit when none; never write 'none' or 'N/A'.";
+
 const SwapSchema = z.object({
   qty_text: z
     .string()
     .nullable()
-    .describe('swap amount, e.g. "1 jar", "200g", null if none'),
+    .describe(
+      'swap amount, e.g. "1 jar", "200g", or natural count plus weight like "2 carrots, about 200g"; null if none',
+    ),
   item_name: z
     .string()
     .min(1)
     .describe(
       'swap ingredient name without prep, e.g. "couscous", "canned tuna in olive oil"',
     ),
-  prep_note: z
-    .string()
-    .optional()
-    .describe(
-      "Optional preparation for this swap, not part of item_name. When importing, preserve source ingredient-line prep here and leave instruction prep in the instructions. When creating, prefer prep in the steps; use this sparingly to clarify the measured quantity or a prepared state the instructions assume (e.g. 'drained'). Avoid repeating prep already explained in a step. Omit when absent or unnecessary; never write placeholders such as 'none' or 'N/A'.",
-    ),
+  prep_note: z.string().optional().describe(prepNoteDescription),
   category_id: z
     .enum(CATEGORIES)
     .optional()
@@ -63,7 +63,7 @@ const SwapSchema = z.object({
     .min(1)
     .optional()
     .describe(
-      "One short line, in the recipe's language, saying why a cook would choose this instead of the original: '15 min faster, no roasting', 'if you dislike green beans', 'more authentic from an Asian grocer'. Name the gain honestly. Omit when no honest reason applies.",
+      "One short line in the recipe's language saying why a cook would pick this over the original: '15 min faster, no roasting', 'fennel-spiced if you pass an Italian deli', 'richer and more savoury'. Omit when no honest reason applies.",
     ),
 });
 
@@ -80,7 +80,7 @@ const IngredientLineSchema = z.object({
     .string()
     .nullable()
     .describe(
-      'amount with unit, e.g. "150g", "1-2 tins", "1/2 tsp", null if none like "Freshly ground black pepper"',
+      'amount with unit, e.g. "150g", "1-2 tins", "1/2 tsp", or natural count plus weight like "2 carrots, about 200g" or "2 portions, about 350g"; null if none like "Freshly ground black pepper"',
     ),
   item_name: z
     .string()
@@ -88,12 +88,7 @@ const IngredientLineSchema = z.object({
     .describe(
       'ingredient name WITHOUT quantity or prep, e.g. "bulgur", "sardines in olive oil", "garlic". Keep purchase distinctions such as "canned tomatoes", "frozen spinach", or "coarse bulgur" in the name.',
     ),
-  prep_note: z
-    .string()
-    .optional()
-    .describe(
-      "Optional ingredient-line preparation, not part of item_name. When importing, preserve source ingredient-line prep here and leave instruction prep in the instructions. When creating, prefer prep in the steps; use this sparingly to clarify the measured quantity (e.g. 'thawed and squeezed dry'). Avoid repeating prep already explained in a step. Omit when absent, unnecessary or covered in the steps; never write placeholders such as 'none' or 'N/A'.",
-    ),
+  prep_note: z.string().optional().describe(prepNoteDescription),
   category_id: z
     .enum(CATEGORIES)
     .optional()
@@ -110,25 +105,18 @@ const IngredientLineSchema = z.object({
     .array(SwapSchema)
     .optional()
     .describe(
-      "1-3 alternatives a cook might reach for on purpose, each for a DIFFERENT reason. The three good reasons are: faster or easier, taste, and a better version. " +
-        "Faster or easier: a shortcut form that saves real work, and say how much — jarred roasted peppers instead of roasting and peeling your own peppers. " +
-        "Taste: what a household may simply prefer, including making the dish work for people who dislike the original, such as Brussels sprouts instead of green beans. " +
-        "Better version: a more authentic or higher-quality ingredient than the generic supermarket one the recipe settles for, such as doubanjiang instead of chilli bean paste from a jar, or holy basil instead of the basil most English recipes say. " +
-        "Every alternative needs its own distinct item_name — a swap that keeps the name of the line it replaces disappears in the shopping list, so a better brand or grade of the same thing is not a swap. " +
-        "An alternative does not have to be a classic substitute; it only has to cook well in THIS dish, judged against its role, the cooking method and the other ingredients. It may change how long something takes or how it is cooked, because the recipe gets rewritten when the cook picks it — but never suggest something you would not actually cook here. " +
-        "Give each swap its own quantity, category and reason; use prep_note only when it clarifies the measured quantity or a prepared state the instructions assume. " +
-        "Never offer three versions of the same idea. Fewer is better than padding, and none is right for a line with no worthwhile alternative. " +
-        "Alternatives often sit in the SAME aisle as the original: where you buy something says nothing about whether swapping it is a real decision, so never pad the list with aisle-hopping for its own sake. category_id is only where the item goes on your route. " +
-        "Examples, each with the reason a cook would pick it: fresh bell pepper -> jarred roasted peppers ('15 min faster, no roasting'); dried chickpeas -> canned chickpeas ('skips the soak and the hour of simmering'); green beans -> Brussels sprouts ('if your house would rather eat them'); canned tuna in olive oil -> sardines ('richer and more savoury — a different fish, not a fallback'); coriander -> flat-leaf parsley ('if cilantro tastes of soap to you'); 'chilli bean paste' -> Pixian doubanjiang, and any 'basil' in a Thai curry -> holy basil ('what the dish actually meant'); bulgur -> couscous ('cooks in five minutes').",
+      "Alternatives discussed in the conversation, plus 1-2 purposeful swaps for future cooks, each for a distinct reason: " +
+        "(1) Faster/easier: a shortcut form that saves real work and says how much (fresh bell pepper -> jarred roasted peppers, '15 min faster, no roasting'; dried -> canned chickpeas, 'skips soaking and simmering'). " +
+        "(2) Good alternative: another vegetable, protein, or base that cooks well in THIS dish and changes it meaningfully — not a trivial near-synonym (white cabbage -> savoy cabbage or green beans, not pointed cabbage; canned tuna -> sardines, 'richer and more savoury'; bulgur -> couscous, 'cooks in 5 min'). " +
+        "(3) Specialty upgrade or everyday fallback: e.g. when the recipe uses Bratwurst for an everyday supermarket Gnocchi skillet, offer salsiccia ('fennel-spiced if you pass a butcher or Italian deli'), or vice versa. " +
+        "Every swap needs a distinct item_name (never just a brand or grade of the same thing), its own qty_text and category_id, and a short reason. Omit when no worthwhile swap applies.",
     ),
   without: z
     .string()
     .min(1)
     .optional()
     .describe(
-      "Going without this ingredient, as the cook-facing label of that choice: a few imperative words naming what the ingredient does in THIS dish, e.g. 'Skip the garnish', 'Leave out the heat', 'Skip the cheese crust'. Name the ingredient itself only when it has no smaller role ('Leave out the anchovies'). Never justify, sell or explain it. " +
-        "Offer it when the dish still cooks well without this line. The recipe gets rewritten when the cook picks it, so it may change amounts or steps, judged like any swap. Never offer it for an ingredient the dish depends on, such as the pumpkin in a pumpkin soup or the parsley in a tabbouleh. " +
-        "When importing, give it to every line the source calls optional, and keep the word 'optional' out of item_name and prep_note. Omit it otherwise.",
+      "Short imperative label for skipping a non-essential ingredient, naming its role in THIS dish: 'Skip the garnish', 'Leave out the heat', 'Skip the cheese crust' (or 'Leave out the anchovies' when it has no smaller role). Offer whenever the dish still cooks well without this line; when importing, give it to every line marked optional and keep 'optional' out of item_name and prep_note.",
     ),
 });
 

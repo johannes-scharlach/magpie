@@ -54,10 +54,15 @@ export function buildChatTools(
   return {
     getMealSizing: tool({
       description:
-        "Resolve who is eating and how much to cook before writing a whole lunch or dinner. Returns each person's chosen helping, an approximate calorie target including extras, and the sizedFor stamp to copy when saving. Omit eaterIds for everyone. Treats have helpings but no lunch/dinner calorie target. Do not use a whole-meal target for just a side, sauce, dessert or breakfast.",
+        "Resolve who is eating and how much to cook before writing a whole lunch or dinner. Returns each person's chosen helping, an approximate calorie target including extras, and the sizedFor stamp to copy when saving. Treats have helpings but no lunch/dinner calorie target. Do not use a whole-meal target for just a side, sauce, dessert or breakfast.",
       inputSchema: z.object({
         meal: z.enum(MEAL_SLOTS),
-        eaterIds: z.array(z.uuid()).optional(),
+        eaterIds: z
+          .array(z.uuid())
+          .optional()
+          .describe(
+            "Household people eating this meal, by id from the household context. Leave out when the whole household eats.",
+          ),
         extraPortions: z.number().min(0).multipleOf(0.01).default(0),
       }),
       execute: async (input) => {
@@ -213,7 +218,7 @@ export function buildChatTools(
 
     addToCookbook: tool({
       description:
-        "Save the complete recipe to the user's cookbook. Call only when the user explicitly asks to keep it. Include recipeIngredient as a structured array with quantity, ingredient name, shopping category, and shopping_hint for every ingredient; contentMarkdown and recipeInstructions[].ingredients do not replace it. shopping_hint is a suggestion to check for everyday basics at home, not a claim about inventory or a supermarket aisle. Use contentMarkdown only for useful recipe-specific context not covered by structured fields (such as serving ideas or adaptations), never to repeat ingredients or steps. If you actually sized it for known household eaters, include sizedFor with their household IDs and extra portions; omit when unknown. Returns a url to share as a Markdown link on the recipe name.",
+        "Save the complete recipe to the user's cookbook. Call only when the user explicitly asks to keep it. Include recipeIngredient as a structured array with qty_text (for whole items or portions, give both count and approximate weight, e.g. '2 carrots, about 200g'), item_name, and category_id for every ingredient; contentMarkdown and recipeInstructions[].ingredients do not replace it. Preserve any ingredient alternatives discussed in the conversation in that ingredient's swaps array, plus 1-2 worthwhile swaps and optional without labels for future cooks. Put knife prep inside the steps where used, and give each step's ingredients array only the share of qty_text used in that step. Use contentMarkdown only for useful recipe-specific context not covered by structured fields (such as serving ideas or adaptations), never to repeat ingredients or steps. If you actually sized it for known household eaters, include sizedFor with their household IDs and extra portions; omit when unknown. Returns a url to share as a Markdown link on the recipe name.",
       inputSchema: AddToCookbookSchema,
       execute: async ({ sizedFor, ...recipe }) => {
         try {
