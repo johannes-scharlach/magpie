@@ -3,7 +3,8 @@
 A self-contained playbook for turning one MCP server into installable packages for ChatGPT/Codex,
 Claude, and skill-only assistants such as Gemini, plus the instructions users follow to add it.
 Copy this file into the target repository and replace the placeholders. It covers packaging and
-install UX only; server implementation, authentication, and widgets are out of scope.
+install UX only; server implementation and widgets are out of scope. MCP authentication is covered
+in section 2 because OpenAI hosts read it from the package at upload time.
 
 The spine is **one skill, three wrappers**. The skill is the only copy of model-facing behavior.
 Each package wraps that same `SKILL.md` in a host-specific manifest and points it at the public MCP
@@ -135,6 +136,33 @@ presentation block:
 }
 ```
 
+If the server requires OAuth, declare it on the server entry. OpenAI hosts read the connection's
+auth method from this block; a `401` with `WWW-Authenticate` and protected-resource metadata supplies
+the endpoints, but not the choice to run OAuth:
+
+```json
+{
+  "type": "streamable-http",
+  "url": "<origin>/mcp",
+  "extensions": {
+    "com.openai": {
+      "auth": {
+        "type": "oauth",
+        "client": { "mode": "dcr" }
+      }
+    }
+  }
+}
+```
+
+- `auth.type` is `oauth` when every request needs a user, or `mixed` when some tools are public.
+- `client.mode` is `dcr` when the authorization server advertises a `registration_endpoint`, and
+  `cimd` when it supports Client ID Metadata Documents. Omit `registrationUrl`; discovery supplies
+  it. Never put a client secret in the package.
+- Discovery still has to be correct: `GET /.well-known/oauth-protected-resource`, a `401` challenge
+  pointing at it, authorization-server metadata with `S256`, and the advertised registration
+  endpoint. The manifest declares which flow to run; discovery supplies the endpoints.
+
 `README.md` is generated, never hand-edited. State the build command, the version, the file map,
 the upload path, and the re-upload rule. For example:
 
@@ -152,7 +180,9 @@ Re-upload after every change to tool descriptions, skill text, or the MCP URL; t
 re-read an installed archive on its own.
 ```
 
-**Done when:** both JSON files parse, `url` is the public endpoint, and the tree matches the list.
+**Done when:** both JSON files parse, `url` is the public endpoint, the tree matches the list, and
+any OAuth declaration matches what the authorization server advertises (DCR registration endpoint
+or CIMD metadata document).
 
 ## 3. Build the Claude package
 
@@ -198,8 +228,8 @@ Differences that bite:
 - Claude's server type is `http`; ChatGPT's is `streamable-http`.
 - The Claude manifest has no `$schema`.
 - `homepage` is the public origin, not the `/mcp` URL.
-- claude.ai lists the bundled server on the plugin's **Connectors** tab; the user must click
-  **Connect**. Put that in the install steps, not in the package.
+- claude.ai lists the bundled server on the plugin's **Connectors** tab; the user must add it (if
+  it shows **Not added**) and click **Connect**. Put that in the install steps, not in the package.
 
 The README can be the long description.
 

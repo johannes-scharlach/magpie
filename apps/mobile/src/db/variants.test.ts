@@ -24,6 +24,34 @@ const variant: Variant = {
   updated_at: null,
 };
 
+describe("null prep notes", () => {
+  it("reads a recipe whose prep a model left null as unprepped", () => {
+    const parsed = parseVariant({
+      ...variant,
+      ingredient_lines: JSON.stringify([
+        {
+          qty_text: "1",
+          item_name: "onion",
+          prep_note: null,
+          swaps: [{ qty_text: null, item_name: "shallot", prep_note: null }],
+        },
+      ]),
+      instructions: JSON.stringify([
+        {
+          name: "Chop",
+          ingredients: [{ qty_text: "1", item_name: "onion", prep_note: null }],
+          text: "Chop the onion.",
+        },
+      ]),
+    });
+    expect(parsed.ingredientLines[0]?.prep_note).toBeUndefined();
+    expect(parsed.ingredientLines[0]?.swaps?.[0]?.prep_note).toBeUndefined();
+    expect(parsed.instructions[0]?.ingredients).toEqual([
+      { qty_text: "1", item_name: "onion", prep_note: undefined },
+    ]);
+  });
+});
+
 describe("variant sizing", () => {
   it("keeps the recorded target through mobile parsing and serialization without inventing old targets", () => {
     const sizing = {

@@ -1,5 +1,7 @@
 import { Hono } from "hono";
-import { html } from "hono/html";
+import { html, raw } from "hono/html";
+
+import { FAVICON_LINKS } from "./favicons.js";
 
 // Public installation handoff only. Household data and acceptance stay in
 // Supabase; chat previews and crawlers must never consume an invitation.
@@ -12,7 +14,7 @@ invitations.get("/:code", (c) => {
   c.header("X-Robots-Tag", "noindex, nofollow");
   c.header(
     "Content-Security-Policy",
-    "default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; frame-ancestors 'none'",
+    "default-src 'none'; img-src 'self'; style-src 'unsafe-inline'; base-uri 'none'; frame-ancestors 'none'",
   );
   if (!/^[0-9a-f]{32}$/.test(code)) {
     return c.text("This invitation is not valid. Ask for a new link.", 404);
@@ -26,6 +28,7 @@ invitations.get("/:code", (c) => {
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <title>Join your household on Magpie</title>
+        ${raw(FAVICON_LINKS)}
         <meta
           name="description"
           content="Share meals, shopping, recipes, and chats with your household."

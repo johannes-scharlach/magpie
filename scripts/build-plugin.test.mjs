@@ -191,6 +191,14 @@ test("builds the ChatGPT package with the pointer skill", () => {
     magpie: {
       type: "streamable-http",
       url: "https://magpiemeals.com/mcp",
+      extensions: {
+        "com.openai": {
+          auth: {
+            type: "oauth",
+            client: { mode: "dcr" },
+          },
+        },
+      },
     },
   });
 
@@ -242,7 +250,10 @@ test("builds the Claude package with its own manifest and HTTP transport", () =>
   assert.match(readme, /Claude's "Customize" settings/);
   assert.match(readme, /Upload plugin/);
   assert.match(readme, /magpie\.zip/);
-  assert.match(readme, /"Connectors" tab, click "Connect"/);
+  assert.match(
+    readme,
+    /"Connectors" tab, add the connector, then click "Connect"/,
+  );
   assert.match(readme, new RegExp(PLUGIN_VERSION));
   assert.match(readme, /Re-upload/);
   assert.doesNotMatch(readme, /ChatGPT/);

@@ -8,7 +8,14 @@ test("public invite landing opens the app without revealing household data", asy
   assert.equal(response.status, 200);
   assert.equal(response.headers.get("cache-control"), "no-store");
   assert.equal(response.headers.get("referrer-policy"), "no-referrer");
+  assert.match(
+    response.headers.get("content-security-policy") ?? "",
+    /img-src 'self'/,
+  );
   const body = await response.text();
+  assert.ok(body.includes('href="/favicon.svg"'));
+  assert.ok(body.includes('href="/favicon.ico"'));
+  assert.ok(body.includes('href="/apple-touch-icon.png"'));
   assert.ok(body.includes(`magpie://join?code=${code}`));
   assert.ok(body.includes("Install Magpie, then tap this invitation"));
 });
