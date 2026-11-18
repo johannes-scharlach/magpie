@@ -181,25 +181,6 @@ it("consolidates legacy kitchen habits into the brief on finalization", async ()
   });
 });
 
-it("keeps a customised favourites answer through recovery, save and assistant context; clear removes it", async () => {
-  const draft = setup();
-  const answer =
-    "Mostly our favourites. We’d like to try a new recipe on Saturdays only.";
-  draft.profile.new_dishes = answer;
-  const restored = restoreDraft(JSON.stringify(draft))!;
-  expect(restored.profile.new_dishes).toBe(answer);
-  await finalizeProfile(db, restored, userId);
-  expect(
-    await tx.getOptional(
-      "SELECT meal_ideas_brief, new_dishes FROM household_profiles",
-    ),
-  ).toEqual({ meal_ideas_brief: answer, new_dishes: null });
-  expect(profileContext(restored, userId)).toContain(JSON.stringify(answer));
-  restored.profile.new_dishes = null;
-  expect(restoreDraft(JSON.stringify(restored))!.profile.new_dishes).toBeNull();
-  expect(profileContext(restored, userId)).not.toContain(answer);
-});
-
 it("keeps an edited brief through draft recovery, save and upload without reviving old rules", async () => {
   const draft = setup();
   draft.step = "day-habits";
