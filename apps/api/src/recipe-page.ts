@@ -74,7 +74,7 @@ function unavailable(reason: string) {
   );
 }
 
-const SHELL_ONLY_HOSTS = ["instagram.com"];
+const SHELL_ONLY_HOSTS = ["instagram.com", "tiktok.com"];
 
 /** Sites that serve Google's fetcher a page shell without the recipe. Asking
  *  Gemini to fetch them only costs a call, so we read them ourselves. */
@@ -158,8 +158,9 @@ async function readBody(response: IncomingMessage): Promise<string> {
   return Buffer.concat(chunks).toString("utf8");
 }
 
-/** What the model reads: structured recipe data for the facts, and the page
- *  text for what sites keep outside it, such as optionals, swaps and tips. */
+/** What the model reads: structured recipe data for the facts, a social
+ *  post's caption for what its shell keeps out of reach, and the page text
+ *  for what sites keep outside it, such as optionals, swaps and tips. */
 export function recipePageText(html: string): string {
   const structured = [
     ...html.matchAll(
@@ -169,6 +170,7 @@ export function recipePageText(html: string): string {
     .map(([, json = ""]) => json.trim())
     .filter((json) => json.includes('"Recipe"'));
   const description = pageDescription(html);
+  const post = tiktokPost(html);
   const text = decodeEntities(
     html
       .replace(/<!--[\s\S]*?-->/g, "")
@@ -187,6 +189,9 @@ export function recipePageText(html: string): string {
       ? `Structured recipe data (JSON-LD):\n${structured.join("\n")}`
       : null,
     description ? `Page description:\n${description}` : null,
+    post
+      ? `Post caption${post.creator ? ` by ${post.creator}` : ""}:\n${post.caption}`
+      : null,
     `Page text:\n${text}`,
   ]
     .filter(Boolean)
@@ -205,6 +210,53 @@ function pageDescription(html: string): string | null {
     .map((tag) => decodeEntities(/\bcontent="([^"]*)"/i.exec(tag)?.[1] ?? ""))
     .sort((a, b) => b.length - a.length);
   return descriptions[0]?.trim() || null;
+}
+
+/** A TikTok post keeps its only text, the caption, in the page's hydration
+ *  JSON. The visible page is a shell, and the caption holds recipes that a
+ *  site would put in a body. */
+function tiktokPost(
+  html: string,
+): { caption: string; creator?: string } | null {
+  const state = record(
+    parseJson(
+      /<script[^>]*id="__UNIVERSAL_DATA_FOR_REHYDRATION__"[^>]*>([\s\S]*?)<\/script>/i.exec(
+        html,
+      )?.[1],
+    ),
+  );
+  const scope = record(state?.["__DEFAULT_SCOPE__"]);
+  // Video posts keep the item under webapp.video-detail; the search covers
+  // photo carousels and whatever else TikTok renames it to.
+  const item = Object.values(scope ?? {})
+    .map((detail) => record(record(record(detail)?.itemInfo)?.itemStruct))
+    .find((candidate) => candidate);
+  const caption = nonEmpty(item?.desc);
+  if (!caption) return null;
+  const author = record(item?.author);
+  return {
+    caption,
+    creator: nonEmpty(author?.nickname) ?? nonEmpty(author?.uniqueId),
+  };
+}
+
+function record(value: unknown): Record<string, unknown> | undefined {
+  return typeof value === "object" && value !== null
+    ? (value as Record<string, unknown>)
+    : undefined;
+}
+
+function parseJson(text: string | undefined): unknown {
+  if (!text) return undefined;
+  try {
+    return JSON.parse(text);
+  } catch {
+    return undefined;
+  }
+}
+
+function nonEmpty(value: unknown): string | undefined {
+  return typeof value === "string" && value.trim() ? value.trim() : undefined;
 }
 
 const namedEntities: Record<string, string> = {
