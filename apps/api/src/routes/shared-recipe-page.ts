@@ -1,6 +1,7 @@
 import { Hono } from "hono";
-import { html } from "hono/html";
+import { html, raw } from "hono/html";
 
+import { FAVICON_LINKS } from "./favicons.js";
 import { installUrl } from "./invitations.js";
 
 export type SharedRecipe = {
@@ -24,7 +25,7 @@ export function sharedRecipePage(
     c.header("X-Robots-Tag", "noindex, nofollow");
     c.header(
       "Content-Security-Policy",
-      "default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; frame-ancestors 'none'",
+      "default-src 'none'; img-src 'self'; style-src 'unsafe-inline'; base-uri 'none'; frame-ancestors 'none'",
     );
     const recipe = UUID.test(id) ? await read(id) : null;
     if (!recipe) return c.text("This recipe is no longer available.", 404);
@@ -38,6 +39,7 @@ export function sharedRecipePage(
           <meta charset="utf-8" />
           <meta name="viewport" content="width=device-width,initial-scale=1" />
           <title>${name} on Magpie</title>
+          ${raw(FAVICON_LINKS)}
           <meta
             name="description"
             content="${

@@ -20,7 +20,14 @@ test("a shared recipe page shows enough to want it, and opens it in the app", as
   assert.equal(response.status, 200);
   assert.equal(response.headers.get("cache-control"), "no-store");
   assert.equal(response.headers.get("referrer-policy"), "no-referrer");
+  assert.match(
+    response.headers.get("content-security-policy") ?? "",
+    /img-src 'self'/,
+  );
   const body = await response.text();
+  assert.ok(body.includes('href="/favicon.svg"'));
+  assert.ok(body.includes('href="/favicon.ico"'));
+  assert.ok(body.includes('href="/apple-touch-icon.png"'));
   assert.ok(body.includes("Brown butter &lt;cookies&gt;"));
   assert.ok(body.includes("Chewy, salty, gone by evening."));
   assert.ok(body.includes("200g butter"));
