@@ -85,7 +85,9 @@ export function artTools(): ArtTools | null {
       // can wait for the one before it. Cold start is about 20 s.
       const response = await fetch(`${mattingUrl}/matte`, {
         method: "POST",
-        body: image,
+        // The DOM lib narrows BodyInit to ArrayBuffer-backed views; Node's
+        // fetch accepts any Uint8Array at runtime.
+        body: image as BodyInit,
         signal: AbortSignal.timeout(300_000),
       });
       if (!response.ok)
@@ -105,7 +107,7 @@ export function artTools(): ArtTools | null {
             "content-type": "image/webp",
             "x-upsert": "true",
           },
-          body: webp,
+          body: webp as BodyInit,
         },
       );
       if (!response.ok)

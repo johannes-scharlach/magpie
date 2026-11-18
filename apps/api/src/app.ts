@@ -15,6 +15,7 @@ import { posthogApiLogger } from "./posthog-logs.js";
 import { plannedMeals } from "./routes/planned-meals.js";
 import { recipes } from "./routes/recipes.js";
 import { invitations } from "./routes/invitations.js";
+import { favicons } from "./routes/favicons.js";
 import { sharedRecipes } from "./routes/shared-recipes.js";
 import { mealRecommendations } from "./routes/meal-recommendations.js";
 
@@ -58,6 +59,7 @@ app.use(
 
 // Unauthenticated on purpose: Fly's health check has no token to present.
 app.get("/health", (c) => c.json({ ok: true }));
+app.route("/", favicons);
 app.route("/join", invitations);
 app.route("/r", sharedRecipes);
 

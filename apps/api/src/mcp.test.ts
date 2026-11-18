@@ -245,12 +245,12 @@ test("OAuth discovery and the consent page are served at the origin root", async
   assert.match(consent.headers.get("cache-control") ?? "", /no-store/);
   const html = await consent.text();
   assert.match(html, /authorization_id/);
-  assert.match(html, /SUPABASE_URL \+ "\/auth\/v1" \+ path/);
+  assert.match(html, /\/auth\/v1/);
   assert.match(html, /"\/otp"/);
   assert.match(html, /"\/verify"/);
   assert.match(html, /"\/oauth\/households"/);
   assert.match(html, /"\/oauth\/household"/);
-  assert.match(html, /id="household"/);
+  assert.match(html, /id="households"/);
 });
 
 test("MCP refuses a user in no household or several households with distinct codes", async (t) => {
