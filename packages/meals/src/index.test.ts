@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  ingredientSpec,
   lineForItem,
   mealIngredients,
   mealSizing,
@@ -25,6 +26,25 @@ const lines: IngredientLine[] = [
   { qty_text: "1", item_name: "Lemon" },
   { qty_text: null, item_name: "Black pepper" },
 ];
+
+describe("ingredientSpec", () => {
+  it("leaves out a placeholder a writer put where prep belongs", () => {
+    expect(
+      ingredientSpec({
+        qty_text: "150g",
+        item_name: "butter",
+        prep_note: "null",
+      }),
+    ).toBe("150g");
+    expect(
+      ingredientSpec({
+        qty_text: "150g",
+        item_name: "butter",
+        prep_note: "melted",
+      }),
+    ).toBe("150g, melted");
+  });
+});
 
 describe("lineForItem", () => {
   it("does not guess when two lines could own the item", () => {

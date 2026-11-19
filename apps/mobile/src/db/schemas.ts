@@ -1,3 +1,4 @@
+import { cleanPrepNote } from "@magpie/meals";
 import { z } from "zod";
 
 export const CATEGORIES = [
@@ -21,19 +22,20 @@ export const CATEGORIES = [
 export type CategoryId = (typeof CATEGORIES)[number];
 
 /**
- * Optional text that a writer may send as null while meaning "none", such as
- * a model's structured output. Read as absent: both recipe screens parse the
- * whole variant at once, so one null must not hide the recipe as damaged.
+ * Prep a writer left as null or wrote as a placeholder word ("null") means
+ * none. Read as absent: both recipe screens parse the whole variant at once,
+ * so one null must not hide the recipe as damaged, and a placeholder must
+ * never reach the cook as text.
  */
-const optionalText = z
+const prepNote = z
   .string()
   .nullish()
-  .transform((value) => value ?? undefined);
+  .transform((value) => cleanPrepNote(value) ?? undefined);
 
 export const SwapSchema = z.object({
   qty_text: z.string().nullable(),
   item_name: z.string().min(1),
-  prep_note: optionalText,
+  prep_note: prepNote,
   category_id: z.enum(CATEGORIES).optional(),
   /** Why a cook would pick this over the line's own ingredient. */
   reason: z.string().optional(),
@@ -51,7 +53,7 @@ export const IngredientLineSchema = z.object({
     .string()
     .min(1)
     .describe("ingredient name without quantity or prep"),
-  prep_note: optionalText.describe(
+  prep_note: prepNote.describe(
     "optional extra like 'rough-chopped', 'thinly sliced'",
   ),
   category_id: z.enum(CATEGORIES).optional().describe("supermarket aisle"),
@@ -75,7 +77,7 @@ export const StepIngredientSchema = z.union([
   z.object({
     qty_text: z.string().nullable(),
     item_name: z.string().min(1),
-    prep_note: optionalText,
+    prep_note: prepNote,
   }),
   z.string(),
 ]);
