@@ -226,9 +226,17 @@ export function rebaseMealSwaps(
   return rebased;
 }
 
+/** Prep text a writer left as null or a placeholder word means no prep at all. */
+export function cleanPrepNote(value: string | null | undefined): string | null {
+  const text = value?.trim();
+  return !text || /^(null|none|n\/a|n\.a\.?|-)$/i.test(text) ? null : text;
+}
+
 export function ingredientSpec(line: Swap): string | null {
   return (
-    [line.qty_text?.trim(), line.prep_note].filter(Boolean).join(", ") || null
+    [line.qty_text?.trim(), cleanPrepNote(line.prep_note)]
+      .filter(Boolean)
+      .join(", ") || null
   );
 }
 

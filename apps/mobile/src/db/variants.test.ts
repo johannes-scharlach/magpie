@@ -24,8 +24,8 @@ const variant: Variant = {
   updated_at: null,
 };
 
-describe("null prep notes", () => {
-  it("reads a recipe whose prep a model left null as unprepped", () => {
+describe("placeholder prep notes", () => {
+  it("reads a recipe whose prep a model left null or wrote as a word as unprepped", () => {
     const parsed = parseVariant({
       ...variant,
       ingredient_lines: JSON.stringify([
@@ -33,13 +33,15 @@ describe("null prep notes", () => {
           qty_text: "1",
           item_name: "onion",
           prep_note: null,
-          swaps: [{ qty_text: null, item_name: "shallot", prep_note: null }],
+          swaps: [{ qty_text: null, item_name: "shallot", prep_note: "null" }],
         },
       ]),
       instructions: JSON.stringify([
         {
           name: "Chop",
-          ingredients: [{ qty_text: "1", item_name: "onion", prep_note: null }],
+          ingredients: [
+            { qty_text: "1", item_name: "onion", prep_note: "null" },
+          ],
           text: "Chop the onion.",
         },
       ]),

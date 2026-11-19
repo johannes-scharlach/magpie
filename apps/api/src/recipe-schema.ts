@@ -1,4 +1,4 @@
-import { efforts } from "@magpie/meals";
+import { cleanPrepNote, efforts } from "@magpie/meals";
 import { z } from "zod";
 
 import { equipmentIds, recipeCuisineIds } from "./recipe-tags.js";
@@ -36,7 +36,15 @@ export const CATEGORIES = [
 export type CategoryId = (typeof CATEGORIES)[number];
 
 const prepNoteDescription =
-  "Optional state clarifying the measured or purchased item (e.g. 'drained', 'thawed and squeezed dry'), never part of item_name. When importing, keep source ingredient-line prep here and leave step prep in instructions. When creating, put cutting and prep in the steps where used. Omit when none; never write 'none' or 'N/A'.";
+  "Optional state clarifying the measured or purchased item (e.g. 'drained', 'thawed and squeezed dry'), never part of item_name. When importing, keep source ingredient-line prep here and leave step prep in instructions. When creating, put cutting and prep in the steps where used. Omit or send null when none; never write the words 'none', 'N/A' or 'null'.";
+
+/** Agents say "no prep" as null or a placeholder word; both read as absent. */
+const prepNote = z.optional(
+  z
+    .string()
+    .nullish()
+    .transform((value) => cleanPrepNote(value) ?? undefined),
+);
 
 const SwapSchema = z.object({
   qty_text: z
@@ -51,7 +59,7 @@ const SwapSchema = z.object({
     .describe(
       'swap ingredient name without prep, e.g. "couscous", "canned tuna in olive oil"',
     ),
-  prep_note: z.string().optional().describe(prepNoteDescription),
+  prep_note: prepNote.describe(prepNoteDescription),
   category_id: z
     .enum(CATEGORIES)
     .optional()
@@ -88,7 +96,7 @@ const IngredientLineSchema = z.object({
     .describe(
       'ingredient name WITHOUT quantity or prep, e.g. "bulgur", "sardines in olive oil", "garlic". Keep purchase distinctions such as "canned tomatoes", "frozen spinach", or "coarse bulgur" in the name.',
     ),
-  prep_note: z.string().optional().describe(prepNoteDescription),
+  prep_note: prepNote.describe(prepNoteDescription),
   category_id: z
     .enum(CATEGORIES)
     .optional()
@@ -131,12 +139,9 @@ const StepIngredientSchema = z.object({
     .string()
     .min(1)
     .describe("the item_name of the ingredient line this comes from"),
-  prep_note: z
-    .string()
-    .optional()
-    .describe(
-      "how this portion should be prepped when the cook reaches this step, e.g. 'juiced', 'softened', 'finely diced'. Omit when none; never write placeholders such as 'none' or 'N/A'.",
-    ),
+  prep_note: prepNote.describe(
+    "how this portion should be prepped when the cook reaches this step, e.g. 'juiced', 'softened', 'finely diced'. Omit or send null when none; never write the words 'none', 'N/A' or 'null'.",
+  ),
 });
 
 export const RecipeSchema = z.object({
