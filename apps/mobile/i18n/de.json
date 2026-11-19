@@ -1,18 +1,18 @@
 {
+  "+/1CBH": {
+    "defaultMessage": "Auswahl fürs Abendessen ausblenden",
+    "_p6t_description": "Accessibility label for the control that closes the dinner meal chooser. Does not change the planned meal.",
+    "_p6t_source": "Hide dinner choices"
+  },
   "+TPLLR": {
     "defaultMessage": "Erneut versuchen",
     "_p6t_description": "Action that tries loading meal recommendations again.",
     "_p6t_source": "Retry"
   },
-  "+TZr4o": {
-    "defaultMessage": "{count, plural, one {# Rezept gefunden} other {# Rezepte gefunden}}",
-    "_p6t_description": "Status after an import found recipes and waits for the cook to choose.",
-    "_p6t_source": "{count, plural, one {Found # recipe} other {Found # recipes}}"
-  },
-  "+y6jvK": {
-    "defaultMessage": "Wähle {recipe} zum {slot}",
-    "_p6t_description": "Accessibility label for a recommended dish that will fill a meal slot.",
-    "_p6t_source": "Select {recipe} for {slot}"
+  "07x9wI": {
+    "defaultMessage": "{recipe} als Snack einplanen",
+    "_p6t_description": "Accessibility label for a recommended dish that will fill the treat slot. {recipe} is the recipe's display name. Selecting it plans the recipe as a treat.",
+    "_p6t_source": "Select {recipe} for a treat"
   },
   "1TrkHP": {
     "defaultMessage": "Wird abgebrochen…",
@@ -24,11 +24,6 @@
     "_p6t_description": "Action that hides a failed recipe import.",
     "_p6t_source": "Dismiss"
   },
-  "4EsfFv": {
-    "defaultMessage": "Snack",
-    "_p6t_description": "Meal slot name inside a sentence. English keeps it lowercase; languages that capitalise nouns keep their normal capitalisation.",
-    "_p6t_source": "treat"
-  },
   "5+uWTl": {
     "defaultMessage": "{host} wird gelesen…",
     "_p6t_description": "Status while a recipe is being read from a website, with its hostname.",
@@ -38,11 +33,6 @@
     "defaultMessage": "Diese Mahlzeit konnte nicht geplant werden",
     "_p6t_description": "Alert title when a chosen meal could not be saved.",
     "_p6t_source": "Couldn’t plan this meal"
-  },
-  "5K7A9i": {
-    "defaultMessage": "{found}, {count} unvollständig",
-    "_p6t_description": "Import result with the number of pages that did not contain a usable recipe.",
-    "_p6t_source": "{found}, {count} incomplete"
   },
   "77C3do": {
     "defaultMessage": "+{extra} extra",
@@ -59,10 +49,10 @@
     "_p6t_description": "Meal slot label for the evening meal.",
     "_p6t_source": "Dinner"
   },
-  "9UrpWM": {
-    "defaultMessage": "Auswahl zum {slot} ausblenden",
-    "_p6t_description": "Accessibility label for closing the meal chooser for lunch, dinner or a treat.",
-    "_p6t_source": "Hide {slot} choices"
+  "9rsKGF": {
+    "defaultMessage": "Mittagessen wählen",
+    "_p6t_description": "Action row that opens the meal chooser for lunch, and the heading shown while it is open. Does not plan a meal yet.",
+    "_p6t_source": "Select lunch"
   },
   "ARoqs5": {
     "defaultMessage": "Aus dem Plan entfernen",
@@ -104,6 +94,11 @@
     "_p6t_description": "Action that retries a failed recipe import.",
     "_p6t_source": "Retry"
   },
+  "K4evxe": {
+    "defaultMessage": "Abendessen wählen",
+    "_p6t_description": "Action row that opens the meal chooser for dinner, and the heading shown while it is open. Does not plan a meal yet.",
+    "_p6t_source": "Select dinner"
+  },
   "M7dZ14": {
     "defaultMessage": "Rezept wird vorbereitet…",
     "_p6t_description": "Status while a chosen recommendation is being saved and synced.",
@@ -113,11 +108,6 @@
     "defaultMessage": "Mahlzeiten",
     "_p6t_description": "Title of the meal planning screen.",
     "_p6t_source": "Meals"
-  },
-  "MUVnbU": {
-    "defaultMessage": "Mittagessen",
-    "_p6t_description": "Meal slot name inside a sentence. English keeps it lowercase; languages that capitalise nouns keep their normal capitalisation.",
-    "_p6t_source": "lunch"
   },
   "PZW+tk": {
     "defaultMessage": "Gedrückt halten für andere Varianten",
@@ -139,6 +129,11 @@
     "_p6t_description": "Status while meal recommendations are loading.",
     "_p6t_source": "Finding meals for you…"
   },
+  "T+fAvK": {
+    "defaultMessage": "{incomplete, plural, =0 {{count, plural, one {# Rezept gefunden} other {# Rezepte gefunden}}} other {{count, plural, one {# vollständiges Rezept} other {# vollständige Rezepte}}, {incomplete, number} unvollständig}}",
+    "_p6t_description": "Status on the import review row. The count is complete recipes the cook can keep. Incomplete counts recipes with missing material, not pages. These recipes cannot be kept. Keep this summary short.",
+    "_p6t_source": "{incomplete, plural, =0 {{count, plural, one {Found # recipe} other {Found # recipes}}} other {{count, plural, one {# complete recipe} other {# complete recipes}}, {incomplete, number} incomplete}}"
+  },
   "TL4aTD": {
     "defaultMessage": "Abbrechen fehlgeschlagen",
     "_p6t_description": "Alert title when cancelling a recipe import failed.",
@@ -149,15 +144,15 @@
     "_p6t_description": "Badge on a planned meal when every household member is eating it.",
     "_p6t_source": "Everyone"
   },
-  "VE0s7D": {
-    "defaultMessage": "Abendessen",
-    "_p6t_description": "Meal slot name inside a sentence. English keeps it lowercase; languages that capitalise nouns keep their normal capitalisation.",
-    "_p6t_source": "dinner"
-  },
   "VlowD5": {
     "defaultMessage": "Ich",
     "_p6t_description": "The current user inside a list of people eating a meal.",
     "_p6t_source": "Me"
+  },
+  "VnpvtM": {
+    "defaultMessage": "Snackauswahl ausblenden",
+    "_p6t_description": "Accessibility label for the control that closes the treat meal chooser. Does not change the planned meal.",
+    "_p6t_source": "Hide treat choices"
   },
   "VvjIbM": {
     "defaultMessage": "Prüfen",
@@ -169,15 +164,20 @@
     "_p6t_description": "Status when meal recommendations failed, with a fallback action.",
     "_p6t_source": "Suggestions couldn’t load. You can still browse your cookbook."
   },
+  "XPO+MA": {
+    "defaultMessage": "Snack wählen",
+    "_p6t_description": "Action row that opens the meal chooser for a treat, and the heading shown while it is open. Does not plan a meal yet.",
+    "_p6t_source": "Select a treat"
+  },
   "XbMjOX": {
     "defaultMessage": "{count, plural, one {Dein Foto wird gelesen…} other {# Fotos werden gelesen…}}",
     "_p6t_description": "Status while recipe photos are being read, with the number of photos.",
     "_p6t_source": "{count, plural, one {Reading your photo…} other {Reading # photos…}}"
   },
-  "arUays": {
-    "defaultMessage": "{slot} wählen",
-    "_p6t_description": "Action that opens the meal chooser for a lunch, dinner or treat.",
-    "_p6t_source": "Select {slot}"
+  "aK3PR3": {
+    "defaultMessage": "Auswahl fürs Mittagessen ausblenden",
+    "_p6t_description": "Accessibility label for the control that closes the lunch meal chooser. Does not change the planned meal.",
+    "_p6t_source": "Hide lunch choices"
   },
   "cmBFn5": {
     "defaultMessage": "Wird zu deinem Plan hinzugefügt…",
@@ -199,6 +199,11 @@
     "_p6t_description": "Alert body when a recommendation was chosen before its recipe finished syncing.",
     "_p6t_source": "The recipe hasn’t synced yet. Try again in a moment."
   },
+  "kM+skD": {
+    "defaultMessage": "{recipe} zum Abendessen einplanen",
+    "_p6t_description": "Accessibility label for a recommended dish that will fill the dinner slot. {recipe} is the recipe's display name. Selecting it plans the recipe for dinner.",
+    "_p6t_source": "Select {recipe} for dinner"
+  },
   "mYhCW0": {
     "defaultMessage": "Verschieben nach…",
     "_p6t_description": "Menu action that moves the planned meal to another day or slot.",
@@ -218,6 +223,11 @@
     "defaultMessage": "Mittagessen",
     "_p6t_description": "Meal slot label for the midday meal.",
     "_p6t_source": "Lunch"
+  },
+  "sEKbW8": {
+    "defaultMessage": "{recipe} zum Mittagessen einplanen",
+    "_p6t_description": "Accessibility label for a recommended dish that will fill the lunch slot. {recipe} is the recipe's display name. Selecting it plans the recipe for lunch.",
+    "_p6t_source": "Select {recipe} for lunch"
   },
   "tSxVv6": {
     "defaultMessage": "Für dich ausgewählt",
@@ -253,11 +263,6 @@
     "defaultMessage": "Niemand",
     "_p6t_description": "Badge on a planned meal when no current household member is eating it.",
     "_p6t_source": "Nobody"
-  },
-  "xbvaCW": {
-    "defaultMessage": "{slot} wählen",
-    "_p6t_description": "Heading over an open meal slot that invites the user to choose lunch, dinner or a treat.",
-    "_p6t_source": "Select {slot}"
   },
   "yn0m94": {
     "defaultMessage": "Heute",

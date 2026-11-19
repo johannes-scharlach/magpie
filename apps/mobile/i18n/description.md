@@ -1,34 +1,10 @@
 # Magpie — product brief for translators
 
-Magpie is a meal-planning and shopping app for households. It helps people
-decide what to cook, plan meals for the week, turn those plans into one shared
-shopping list, and cook from recipes they trust.
+Magpie helps home cooks decide what to make, plan meals, and shop from a
+shared household list. They might be cooking for children, guests, or people
+with different diets and are often making a quick decision on a weeknight.
 
-The product promise has three parts:
-
-1. **You decide for yourself.** The household sets its own boundaries,
-   defaults and priorities.
-2. **Your decisions are put into practice.** Those choices should shape meal
-   suggestions, plans and ingredients, not just sit in a profile.
-3. **Nothing overwhelms you.** Magpie takes on the coordination so planning
-   does not become another job.
-
-## Who uses it
-
-People cooking for a household, often on a normal weeknight. They may cook for
-children, guests or people with different diets. They are not necessarily
-confident cooks. They want practical help, not a restaurant menu or a lecture
-about nutrition.
-
-## Voice
-
-- Warm, calm and direct.
-- Plain words you would say out loud in a kitchen.
-- No hype, exclamation marks or emojis.
-- Explain a consequence when it is not obvious from the control.
-- Short UI labels; leave longer explanation to the screen body.
-
-## The Meals screen
+## Distinctions that change the wording
 
 The Meals screen shows a strip of days and three meal slots per day:
 
@@ -36,24 +12,21 @@ The Meals screen shows a strip of days and three meal slots per day:
 - **Dinner** — the evening meal.
 - **Treat** — a snack, dessert or small extra.
 
-A planned meal card shows the dish name, its total time and who is eating:
-everyone in the household, a list of names, or nobody. Extra portions cover
-guests, leftovers or simply more food.
+- **Chooser vs. plan:** opening the chooser or hiding it changes no plan.
+  Tapping a suggested dish plans it for that slot. Removing a meal takes it off
+  the plan, not out of the cookbook.
+- **Planned vs. cooked:** a planned meal is what the household intends to eat
+  in a slot. A past meal is dated in the past; Magpie does not know whether it
+  was cooked. Extra portions are in addition to the named eaters.
+- **Plan vs. shopping:** planning does not add ingredients to the list. The
+  cook separately chooses what to buy. Do not imply that Magpie knows what is
+  in the pantry.
+- **Recipe vs. variant:** a variant is a complete, cookable version of a recipe,
+  not a single ingredient swap. The cookbook holds saved household recipes.
+- **Import vs. review:** when an import is awaiting review, the cook can keep
+  complete recipes. Incomplete recipes cannot be kept. Counts refer to recipes,
+  not pages; one page can contain several recipes.
 
-An open slot can offer meal recommendations, a cookbook, recipe import or a
-free-written meal. Import status reports what Magpie is reading and how many
-recipes it found.
-
-## Terms
-
-Use the household's everyday language for food and cooking. Keep these product
-terms consistent:
-
-- **Recipe** — a named dish.
-- **Variant** — a complete, cookable version of a recipe.
-- **List** — the household's single shared shopping list.
-- **Planned meal** — a recipe and variant committed to a day and slot.
-- **Cookbook** — the household's saved recipes.
-
-Do not translate user-entered names, shop names, recipe titles or free-written
-meal text.
+Translate the mobile controls and statuses, not the content they present. Keep
+user and household names, shop names, recipe titles and free-written meals as
+provided. Use plain kitchen language rather than restaurant or technical jargon.

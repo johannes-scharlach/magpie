@@ -1,51 +1,21 @@
 # German style guide
 
-## Address
-
-Use **du** throughout. Write `du`, `dein`, `dir` in lower case inside a
-sentence. Use `Du` only at the start of a sentence or a heading.
-
-Use the infinitive for action labels — buttons, menu rows, cards:
-`Rezept importieren`, `Ausblenden`, `Andere Mahlzeit wählen`. Use the
-imperative singular when the copy is a sentence that explains or invites,
-as in the shopping row `Wähle aus, was du kaufst` or the empty state
-`Wähle zuerst im Einkauf eine Liste aus.` A label names the action; it
-does not instruct the user.
-
-## Tone
-
-- Warm, calm and direct, like a helpful person in the kitchen.
-- No exclamation marks and no emojis.
-- Avoid filler and marketing language.
-- Prefer a plain verb over a noun phrase: `Rezept importieren`, not
-  `Rezeptimport durchführen`.
-- Keep labels short. German compounds are useful, but do not invent long
-  bureaucratic compounds where a short phrase reads better.
-
-## Punctuation and typography
-
-- Use German quotation marks: „so“.
-- Use an en dash with spaces for an aside: `Noch keine Liste – leg zuerst eine an.`
-- Use an ellipsis character: `…`.
-- Use a comma before `aber`, `sondern` and subordinate clauses.
-- Use a decimal comma in numbers: `1,5`.
-- No Oxford comma.
-
-## UI conventions
-
-- Sentence case for buttons, rows and status text.
-- Headings may be noun phrases: `Vergangene Mahlzeit`, `Geplant`.
-- Use `Mahlzeit` for a meal in the plan, not `Essen` when the slot is meant.
-- Use `Mittagessen`, `Abendessen` and `Snack` for the three slots.
-- Use `Einkauf` for the Shop tab and the shopping list.
-- Use `Kochbuch` for Cookbook.
-- Use `Plan` for the meal plan, `planen` for the action.
-- Use `Alle`, `Niemand` and `Ich` in eater labels.
-- Keep `Magpie` as the product name.
-
-## Things not to translate
-
-- User names, household names, shop names.
-- Recipe names and free-written meal text.
-- URLs and hostnames.
-- The `Magpie` brand name.
+- **Direct address:** use informal `du`, not `Sie`; lowercase `du`, `dir` and
+  `dein` inside sentences. Example: `Du kannst trotzdem dein Kochbuch durchstöbern.`
+- **Action labels:** name the action with a plain infinitive, in sentence
+  case and without a period: `Rezept importieren`, not `Rezeptimport durchführen`.
+  For a full instruction or invitation, use the singular imperative, as in
+  `Wähle aus, was du kaufst`.
+- **In-progress status:** keep it short and end with `…`, as in
+  `Rezept wird vorbereitet…`. For setbacks, explain the next step without
+  hype, exclamation marks or emojis: `Bitte versuch es erneut.`
+- **Quoted import text:** use `„{text}“ wird gelesen…` for pasted text, but
+  `{host} wird gelesen…` for a bare hostname. Preserve the supplied value.
+- **Meal slots:** use the glossary's slot names, but inflect the whole
+  phrase. For example, `zum Abendessen` fits a main meal, while `als Snack`
+  describes the dish's role. Use `Mahlzeit` rather than `Essen` when referring
+  to a planned meal generically.
+- **Where an action goes:** distinguish `im Einkauf` (the destination in the
+  app) from `auf der Einkaufsliste` (the list itself). Use `in deinem Kochbuch`
+  for saved recipes and `Aus dem Plan entfernen` for removing a plan entry.
+- **Brand:** keep `Magpie` unchanged, as in `Mit Magpie planen`.

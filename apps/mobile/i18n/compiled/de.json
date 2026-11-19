@@ -1,58 +1,24 @@
 {
+  "+/1CBH": [
+    {
+      "type": 0,
+      "value": "Auswahl fürs Abendessen ausblenden"
+    }
+  ],
   "+TPLLR": [
     {
       "type": 0,
       "value": "Erneut versuchen"
     }
   ],
-  "+TZr4o": [
-    {
-      "type": 6,
-      "value": "count",
-      "options": {
-        "one": {
-          "value": [
-            {
-              "type": 7
-            },
-            {
-              "type": 0,
-              "value": " Rezept gefunden"
-            }
-          ]
-        },
-        "other": {
-          "value": [
-            {
-              "type": 7
-            },
-            {
-              "type": 0,
-              "value": " Rezepte gefunden"
-            }
-          ]
-        }
-      },
-      "offset": 0,
-      "pluralType": "cardinal"
-    }
-  ],
-  "+y6jvK": [
-    {
-      "type": 0,
-      "value": "Wähle "
-    },
+  "07x9wI": [
     {
       "type": 1,
       "value": "recipe"
     },
     {
       "type": 0,
-      "value": " zum "
-    },
-    {
-      "type": 1,
-      "value": "slot"
+      "value": " als Snack einplanen"
     }
   ],
   "1TrkHP": [
@@ -65,12 +31,6 @@
     {
       "type": 0,
       "value": "Ausblenden"
-    }
-  ],
-  "4EsfFv": [
-    {
-      "type": 0,
-      "value": "Snack"
     }
   ],
   "5+uWTl": [
@@ -87,24 +47,6 @@
     {
       "type": 0,
       "value": "Diese Mahlzeit konnte nicht geplant werden"
-    }
-  ],
-  "5K7A9i": [
-    {
-      "type": 1,
-      "value": "found"
-    },
-    {
-      "type": 0,
-      "value": ", "
-    },
-    {
-      "type": 1,
-      "value": "count"
-    },
-    {
-      "type": 0,
-      "value": " unvollständig"
     }
   ],
   "77C3do": [
@@ -133,18 +75,10 @@
       "value": "Abendessen"
     }
   ],
-  "9UrpWM": [
+  "9rsKGF": [
     {
       "type": 0,
-      "value": "Auswahl zum "
-    },
-    {
-      "type": 1,
-      "value": "slot"
-    },
-    {
-      "type": 0,
-      "value": " ausblenden"
+      "value": "Mittagessen wählen"
     }
   ],
   "ARoqs5": [
@@ -203,6 +137,12 @@
       "value": "Erneut versuchen"
     }
   ],
+  "K4evxe": [
+    {
+      "type": 0,
+      "value": "Abendessen wählen"
+    }
+  ],
   "M7dZ14": [
     {
       "type": 0,
@@ -213,12 +153,6 @@
     {
       "type": 0,
       "value": "Mahlzeiten"
-    }
-  ],
-  "MUVnbU": [
-    {
-      "type": 0,
-      "value": "Mittagessen"
     }
   ],
   "PZW+tk": [
@@ -245,6 +179,97 @@
       "value": "Mahlzeiten werden gesucht…"
     }
   ],
+  "T+fAvK": [
+    {
+      "type": 6,
+      "value": "incomplete",
+      "options": {
+        "=0": {
+          "value": [
+            {
+              "type": 6,
+              "value": "count",
+              "options": {
+                "one": {
+                  "value": [
+                    {
+                      "type": 7
+                    },
+                    {
+                      "type": 0,
+                      "value": " Rezept gefunden"
+                    }
+                  ]
+                },
+                "other": {
+                  "value": [
+                    {
+                      "type": 7
+                    },
+                    {
+                      "type": 0,
+                      "value": " Rezepte gefunden"
+                    }
+                  ]
+                }
+              },
+              "offset": 0,
+              "pluralType": "cardinal"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 6,
+              "value": "count",
+              "options": {
+                "one": {
+                  "value": [
+                    {
+                      "type": 7
+                    },
+                    {
+                      "type": 0,
+                      "value": " vollständiges Rezept"
+                    }
+                  ]
+                },
+                "other": {
+                  "value": [
+                    {
+                      "type": 7
+                    },
+                    {
+                      "type": 0,
+                      "value": " vollständige Rezepte"
+                    }
+                  ]
+                }
+              },
+              "offset": 0,
+              "pluralType": "cardinal"
+            },
+            {
+              "type": 0,
+              "value": ", "
+            },
+            {
+              "type": 2,
+              "value": "incomplete",
+              "style": null
+            },
+            {
+              "type": 0,
+              "value": " unvollständig"
+            }
+          ]
+        }
+      },
+      "offset": 0,
+      "pluralType": "cardinal"
+    }
+  ],
   "TL4aTD": [
     {
       "type": 0,
@@ -257,16 +282,16 @@
       "value": "Alle"
     }
   ],
-  "VE0s7D": [
-    {
-      "type": 0,
-      "value": "Abendessen"
-    }
-  ],
   "VlowD5": [
     {
       "type": 0,
       "value": "Ich"
+    }
+  ],
+  "VnpvtM": [
+    {
+      "type": 0,
+      "value": "Snackauswahl ausblenden"
     }
   ],
   "VvjIbM": [
@@ -279,6 +304,12 @@
     {
       "type": 0,
       "value": "Vorschläge konnten nicht geladen werden. Du kannst trotzdem dein Kochbuch durchstöbern."
+    }
+  ],
+  "XPO+MA": [
+    {
+      "type": 0,
+      "value": "Snack wählen"
     }
   ],
   "XbMjOX": [
@@ -310,14 +341,10 @@
       "pluralType": "cardinal"
     }
   ],
-  "arUays": [
-    {
-      "type": 1,
-      "value": "slot"
-    },
+  "aK3PR3": [
     {
       "type": 0,
-      "value": " wählen"
+      "value": "Auswahl fürs Mittagessen ausblenden"
     }
   ],
   "cmBFn5": [
@@ -342,6 +369,16 @@
     {
       "type": 0,
       "value": "Das Rezept wurde noch nicht synchronisiert. Versuch es gleich noch einmal."
+    }
+  ],
+  "kM+skD": [
+    {
+      "type": 1,
+      "value": "recipe"
+    },
+    {
+      "type": 0,
+      "value": " zum Abendessen einplanen"
     }
   ],
   "mYhCW0": [
@@ -370,6 +407,16 @@
     {
       "type": 0,
       "value": "Mittagessen"
+    }
+  ],
+  "sEKbW8": [
+    {
+      "type": 1,
+      "value": "recipe"
+    },
+    {
+      "type": 0,
+      "value": " zum Mittagessen einplanen"
     }
   ],
   "tSxVv6": [
@@ -412,16 +459,6 @@
     {
       "type": 0,
       "value": "Niemand"
-    }
-  ],
-  "xbvaCW": [
-    {
-      "type": 1,
-      "value": "slot"
-    },
-    {
-      "type": 0,
-      "value": " wählen"
     }
   ],
   "yn0m94": [

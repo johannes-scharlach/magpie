@@ -102,28 +102,18 @@ export function ImportJobStatus({
 export function ImportReviewRow({ review }: { review: ImportReview }) {
   const intl = useIntl();
   const { operationId, recipes, skipped } = review;
-  const found = intl.formatMessage(
-    {
-      defaultMessage:
-        "{count, plural, one {Found # recipe} other {Found # recipes}}",
-      description:
-        "Status after an import found recipes and waits for the cook to choose.",
-    },
-    { count: recipes.length },
-  );
   return (
     <View className="flex-row items-center gap-3">
       <Text numberOfLines={1} className="flex-1">
-        {skipped.length
-          ? intl.formatMessage(
-              {
-                defaultMessage: "{found}, {count} incomplete",
-                description:
-                  "Import result with the number of pages that did not contain a usable recipe.",
-              },
-              { found, count: skipped.length },
-            )
-          : found}
+        {intl.formatMessage(
+          {
+            defaultMessage:
+              "{incomplete, plural, =0 {{count, plural, one {Found # recipe} other {Found # recipes}}} other {{count, plural, one {# complete recipe} other {# complete recipes}}, {incomplete, number} incomplete}}",
+            description:
+              "Status on the import review row. The count is complete recipes the cook can keep. Incomplete counts recipes with missing material, not pages. These recipes cannot be kept. Keep this summary short.",
+          },
+          { count: recipes.length, incomplete: skipped.length },
+        )}
       </Text>
       <Button
         size="sm"

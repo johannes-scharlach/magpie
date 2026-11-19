@@ -1,6 +1,6 @@
 # Translatability examples
 
-The principles are library-independent. These examples use react-intl and Lingui without hand-written catalog IDs; the matching build transform and extractor must be configured.
+The principles are library-independent. These examples use react-intl and Lingui without hand-written catalog IDs. FormatJS also works without React via `@formatjs/intl`; pair extraction with either a matching runtime transform or a generated descriptor-to-ID map, as described in the `integrate-p6t` skill. Lingui's macro examples need its transform.
 
 ## Source and intent stay together
 
@@ -40,7 +40,7 @@ const intl = useIntl()
 const label = intl.formatMessage(deleteAccountConfirmation)
 ```
 
-Consumers import `deleteAccountConfirmation`; they do not know or repeat its generated ID. Both extraction and runtime transforms must process the defining module. A shared descriptor is an exception for genuine reuse, not a reason to move every message away from its component.
+Consumers import `deleteAccountConfirmation`; they do not know or repeat its generated ID. Extraction must cover the defining module; wire its IDs through the chosen transform or generated map. A shared descriptor is an exception for genuine reuse, not a reason to move every message away from its component.
 
 For a domain value with several presentations, share a typed function containing static messages:
 
@@ -77,6 +77,12 @@ An “Open” button opens an existing project. An “Open” badge means a supp
 Give each its own intent. With react-intl, distinct descriptions participate in the standard generated-ID scheme. With Lingui, use semantic `context` to disambiguate when required; `comment` explains intent to translators but is not an identity boundary.
 
 Do not force both into `common.open`, or change wording merely to manipulate generated IDs.
+
+## Fixed choices need complete messages
+
+`Select {recipe} for {slot}` looks complete, but if `{slot}` is a translated badge label, it can render as “Select Lentil Soup for treat.” In German, the same preposition may need different articles or contractions for *Mittagessen* and *Snack*. A glossary can tell translators which nouns to use, but it cannot give a template control over how an interpolated label inflects.
+
+Use the stable slot value to choose a complete message: `Select {recipe} for lunch`, `Select {recipe} for dinner`, or `Select {recipe} for a treat`. Describe `{recipe}` as the recipe's display name and explain what selecting it does. Keep the standalone slot label for the badge. Render all three variants in both locales, including any screen-reader wording.
 
 ## Complete messages and plurals
 
@@ -131,7 +137,7 @@ export const deleteAccountConfirmation = msg({
 })
 ```
 
-Consumers import the descriptor and resolve it with their active `i18n._(deleteAccountConfirmation)`. In React, obtain the instance through `useLingui()` so locale changes cause rendering; on the server, use the request's instance. Use imports supported by the installed Lingui version.
+Consumers import the descriptor and resolve it with their active `i18n._(deleteAccountConfirmation)`. In React, obtain the instance through `useLingui()` so locale changes cause rendering; on the server, use the owning request's instance (or document/export's instance for artifacts). Use imports supported by the installed Lingui version.
 
 ## Formatting is not translation by concatenation
 

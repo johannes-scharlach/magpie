@@ -27,15 +27,17 @@
     },
     "integrate-p6t": {
       "source": "p6t-polyglot/p6t",
+      "commit": "483e2923ccb71a92dfe929812e4286f1fb4697d9",
       "sourceType": "github",
       "skillPath": "skills/integrate-p6t/SKILL.md",
-      "computedHash": "5c89722c218b685753aee6ab8edc395f330389fd04b20fa819c27fedafa3383a"
+      "computedHash": "a1be9c1b2ced601961cfcd079b48ce7f153a33c7a9db0f00366bfee04a432c7d"
     },
     "translatability": {
       "source": "p6t-polyglot/p6t",
+      "commit": "483e2923ccb71a92dfe929812e4286f1fb4697d9",
       "sourceType": "github",
       "skillPath": "skills/translatability/SKILL.md",
-      "computedHash": "d7b009600b2f198f533f2dbdec7a7dd51f69ad4a2283a56f2fde76763aa8c521"
+      "computedHash": "ba0c8288e7d8d31dc92529864b7f63e4055f5dfb32b342d7b916d47d157c8d39"
     }
   }
 }

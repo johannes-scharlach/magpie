@@ -45,3 +45,6 @@ supabase/snippets/
 
 # Terminal output of `pnpm dev` and `pnpm api`, for agents to read.
 .logs/
+
+# Optional project-local p6t MCP setup (see docs/mobile-translations.md).
+/.opencode/opencode.json

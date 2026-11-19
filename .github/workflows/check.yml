@@ -30,6 +30,11 @@ jobs:
         with:
           deno-version: v2.x
       - run: pnpm install --frozen-lockfile
+      - run: |
+          pnpm --filter mobile i18n:extract
+          pnpm --filter mobile i18n:check
+          pnpm --filter mobile i18n:compile
+          git diff --exit-code -- apps/mobile/i18n
       - run: pnpm format:check
       - run: pnpm typecheck
       - run: pnpm lint
