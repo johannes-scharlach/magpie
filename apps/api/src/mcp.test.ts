@@ -379,7 +379,7 @@ test("the MCP tool list is built from the chat tools with read and destructive h
   const { buildMcpTools } = await import("./mcp-tools.js");
   const tools = buildMcpTools(userId, listId, today);
   const readOnly = new Set([
-    "getMealSizing",
+    "readHousehold",
     "searchVariants",
     "readVariant",
     "readPlannedMeal",
@@ -390,9 +390,9 @@ test("the MCP tool list is built from the chat tools with read and destructive h
 
   assert.deepEqual(tools.map((tool) => tool.name).sort(), [
     "addToCookbook",
-    "getMealSizing",
     "planMeal",
     "readCookbookOverview",
+    "readHousehold",
     "readPlan",
     "readPlannedMeal",
     "readVariant",
@@ -421,12 +421,26 @@ test("the MCP tool list is built from the chat tools with read and destructive h
     { io: "input" },
   );
   assert.deepEqual(readPlan.required, ["fromDate"]);
+
+  const addToCookbook = tools.find((tool) => tool.name === "addToCookbook")!;
+  assert.match(addToCookbook.description, /shopping_hint/);
+  assert.match(addToCookbook.description, /check_at_home/);
+  assert.match(addToCookbook.description, /likely_purchase/);
+  assert.match(addToCookbook.description, /swaps/);
+  const saveSchema = z.toJSONSchema(addToCookbook.inputSchema, {
+    io: "input",
+  }) as {
+    properties?: {
+      recipeIngredient?: { items?: { properties?: Record<string, unknown> } };
+    };
+  };
+  const ingredientProps =
+    saveSchema.properties?.recipeIngredient?.items?.properties ?? {};
+  assert.equal("id" in ingredientProps, false);
 });
 
 test("MCP answers a 2025 initialize and a 2026 server/discover with the same instructions", async (t) => {
   const { pool } = await import("./db.js");
-  // The three reads the route makes before it can answer: household choice,
-  // profile and people. The write loop below uses temp tables instead.
   const profileRow = {
     id: listId,
     goals: {},
@@ -457,12 +471,15 @@ test("MCP answers a 2025 initialize and a 2026 server/discover with the same ins
     meal_times: "All meals",
     portion_reference: 1,
   };
+  let profileQueries = 0;
   t.mock.method(pool, "query", (async (text: string) => {
     if (text.includes("FROM mcp_households")) return { rows: [], rowCount: 0 };
     if (text.includes("FROM list_members"))
       return { rows: [{ list_id: listId }], rowCount: 1 };
-    if (text.includes("FROM household_profiles"))
+    if (text.includes("FROM household_profiles")) {
+      profileQueries++;
       return { rows: [profileRow], rowCount: 1 };
+    }
     if (text.includes("FROM household_people"))
       return { rows: [personRow], rowCount: 1 };
     if (text.includes("FROM planned_meals")) return { rows: [], rowCount: 0 };
@@ -483,15 +500,18 @@ test("MCP answers a 2025 initialize and a 2026 server/discover with the same ins
   assert.match(initialized.contentType, /text\/event-stream/);
   const instructions = initialized.message.result?.instructions as string;
   assert.ok(instructions);
-  assert.match(instructions, /Quick suppers/);
-  assert.match(instructions, /"name":"Sam"/);
-  assert.match(instructions, /## The plan/);
-  assert.match(instructions, /<ideas>/);
+  assert.ok(
+    instructions.length < 1000,
+    `MCP instructions (${instructions.length} chars) must stay under the 1,000-char host truncation limit`,
+  );
+  assert.match(instructions, /`readHousehold`/);
+  assert.match(instructions, /`readPlan`/);
   assert.match(instructions, /ordinary Markdown/);
   assert.match(instructions, /`updateRecipe`/);
   assert.match(instructions, /`addMealShoppingItems`/);
   assert.match(instructions, /`addToCookbook`/);
-  assert.match(instructions, /added in Magpie/);
+  assert.match(instructions, /swaps/);
+  assert.equal(profileQueries, 0);
 
   const discovered = await rpc(
     modern("server/discover").body,
@@ -541,6 +561,19 @@ test("MCP answers a 2025 initialize and a 2026 server/discover with the same ins
 
   const plan = await callTool("readPlan", { fromDate: today, days: 1 });
   assert.deepEqual(plan, []);
+  assert.equal(profileQueries, 0);
+
+  const household = (await callTool("readHousehold", {})) as {
+    profileContext: string | null;
+  };
+  assert.ok(household.profileContext);
+  assert.match(
+    household.profileContext,
+    /Quick suppers, mostly vegetable-led\./,
+  );
+  assert.match(household.profileContext, /"name":"Sam"/);
+  assert.match(household.profileContext, /"meals_at_home":"Dinner"/);
+  assert.equal(profileQueries, 1);
 });
 
 test(

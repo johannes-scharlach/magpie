@@ -274,7 +274,7 @@ test("onboarding choices retain their meaning through validation and assistant c
   assert.equal(data.people[0].portion_reference, 0.75);
   assert.equal(data.people[0].lunch_dinner_target_kcal, 450);
   assert.match(context, /1×.*600 kcal/);
-  assert.match(context, /getMealSizing/);
+  assert.match(context, /lunch_dinner_target_kcal/);
   assert.match(context, /not verified nutrition/);
   assert.match(context, /breakfast, treats, sides or desserts/);
   assert.equal(data.ingredient_avoidances[0].kind, "allergy");

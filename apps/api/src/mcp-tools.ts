@@ -1,7 +1,9 @@
+import { profileContext } from "@magpie/profile";
 import type { Tool } from "ai";
 import { z } from "zod";
 
 import { buildChatTools } from "./chat-tools.js";
+import { readHousehold } from "./household.js";
 
 /**
  * Two chat tools are genuinely app-shaped and stay out of the plugin surface:
@@ -12,7 +14,7 @@ import { buildChatTools } from "./chat-tools.js";
 const APP_ONLY_TOOLS = new Set(["addMealShoppingItems", "updateRecipe"]);
 
 const READ_ONLY_TOOLS = new Set([
-  "getMealSizing",
+  "readHousehold",
   "searchVariants",
   "readVariant",
   "readPlannedMeal",
@@ -23,14 +25,14 @@ const READ_ONLY_TOOLS = new Set([
 
 /**
  * Clients show `title`, not the camelCase tool name. Without it ChatGPT
- * renders names as one word ("Getmealsizing"). OpenAI's plugin guidance asks
+ * renders names as one word ("Readhousehold"). OpenAI's plugin guidance asks
  * for a title on every tool.
  */
 const TOOL_TITLES: Record<string, string> = {
   addToCookbook: "Save to cookbook",
-  getMealSizing: "Size a meal",
   planMeal: "Plan a meal",
   readCookbookOverview: "Read cookbook overview",
+  readHousehold: "Read household profile",
   readPlan: "Read the meal plan",
   readPlannedMeal: "Read a planned meal",
   readVariant: "Read a variant",
@@ -84,9 +86,9 @@ export function buildMcpTools(
     },
   });
 
-  return Object.entries(tools)
+  const chatTools = Object.entries(tools)
     .filter(([name]) => !APP_ONLY_TOOLS.has(name))
-    .map(([name, definition]) => {
+    .map(([name, definition]): McpToolDefinition => {
       const execute = definition.execute;
       if (!execute) throw new Error(`Chat tool ${name} has no execute`);
       const run = execute as unknown as (
@@ -111,4 +113,22 @@ export function buildMcpTools(
           }),
       };
     });
+
+  return [
+    {
+      name: "readHousehold",
+      title: TOOL_TITLES.readHousehold!,
+      description:
+        "Read the household's cooking profile: people, portion references, lunch/dinner calorie targets, meal attendance defaults (meals_at_home, meal_times), diets, allergies and avoidances, equipment, measurements, cuisines, kept staples, shop rules, and meal ideas brief. Read before suggesting meals, sizing portions, or answering about the household.",
+      inputSchema: z.object({}),
+      annotations: annotationsFor("readHousehold"),
+      execute: async () => {
+        const household = await readHousehold(listId);
+        return {
+          profileContext: household ? profileContext(household, userId) : null,
+        };
+      },
+    },
+    ...chatTools,
+  ];
 }

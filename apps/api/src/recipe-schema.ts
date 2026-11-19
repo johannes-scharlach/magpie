@@ -67,15 +67,7 @@ const SwapSchema = z.object({
     ),
 });
 
-const IngredientLineSchema = z.object({
-  id: z
-    .number()
-    .int()
-    .positive()
-    .optional()
-    .describe(
-      "When rewriting a saved variant, preserve the ingredient's id even when swapping, scaling or changing preparation. Omit id for a genuinely new ingredient or a new recipe; the server allocates it. Never recycle an id from a removed ingredient.",
-    ),
+const NewIngredientLineSchema = z.object({
   qty_text: z
     .string()
     .nullable()
@@ -117,6 +109,17 @@ const IngredientLineSchema = z.object({
     .optional()
     .describe(
       "Short imperative label for skipping a non-essential ingredient, naming its role in THIS dish: 'Skip the garnish', 'Leave out the heat', 'Skip the cheese crust' (or 'Leave out the anchovies' when it has no smaller role). Offer whenever the dish still cooks well without this line; when importing, give it to every line marked optional and keep 'optional' out of item_name and prep_note.",
+    ),
+});
+
+const IngredientLineSchema = NewIngredientLineSchema.extend({
+  id: z
+    .number()
+    .int()
+    .positive()
+    .optional()
+    .describe(
+      "When rewriting a saved variant, preserve the ingredient's id even when swapping, scaling or changing preparation. Omit id for a genuinely new ingredient or a new recipe; the server allocates it. Never recycle an id from a removed ingredient.",
     ),
 });
 
@@ -255,12 +258,16 @@ export const SizedForSchema = z.object({
     .min(0)
     .optional()
     .describe(
-      "The total approximate calorie target this variant was actually written for, including extra food. Copy the app-resolved target from getMealSizing; never infer a missing historical target from current household settings. This is a cooking target, not verified nutrition. Omit for treats, meal components or unknown sizing.",
+      "The total approximate calorie target this variant was actually written for, including extra food: sum the selected eaters' lunch_dinner_target_kcal from the household profile and add 600 * extra_portions. Never infer a missing historical target from current household settings. This is a cooking target, not verified nutrition. Omit for treats, meal components or unknown sizing.",
     ),
 });
 
-/** A new cookbook recipe can record the household sizing used to write it. */
+/** A new cookbook recipe allocates fresh ingredient IDs and can record the household sizing used to write it. */
 export const AddToCookbookSchema = CookRecipeSchema.extend({
+  recipeIngredient: z
+    .array(NewIngredientLineSchema)
+    .min(1)
+    .describe(RecipeSchema.shape.recipeIngredient.description!),
   sizedFor: SizedForSchema.optional().describe(
     "Include only when the recipe was actually sized for specific household people and extra portions. Use their IDs from the household context; omit if the sizing is not known.",
   ),

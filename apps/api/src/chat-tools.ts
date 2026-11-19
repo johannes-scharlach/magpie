@@ -7,7 +7,6 @@ import { inTransaction } from "./db.js";
 import { UnknownHouseholdPersonError } from "./errors.js";
 import {
   readChatMeal,
-  readChatSizing,
   readChatVariant,
   readCookbookOverview,
   searchChatVariants,
@@ -52,32 +51,6 @@ export function buildChatTools(
   },
 ) {
   return {
-    getMealSizing: tool({
-      description:
-        "Resolve who is eating and how much to cook before writing a whole lunch or dinner. Returns each person's chosen helping, an approximate calorie target including extras, and the sizedFor stamp to copy when saving. Treats have helpings but no lunch/dinner calorie target. Do not use a whole-meal target for just a side, sauce, dessert or breakfast.",
-      inputSchema: z.object({
-        meal: z.enum(MEAL_SLOTS),
-        eaterIds: z
-          .array(z.uuid())
-          .optional()
-          .describe(
-            "Household people eating this meal, by id from the household context. Leave out when the whole household eats.",
-          ),
-        extraPortions: z.number().min(0).multipleOf(0.01).default(0),
-      }),
-      execute: async (input) => {
-        try {
-          return await inTransaction(userId, async (client) => {
-            await assertListMemberUntilCommit(client, userId, listId);
-            return readChatSizing(client, listId, input);
-          });
-        } catch (error) {
-          if (error instanceof UnknownHouseholdPersonError)
-            return { error: error.message };
-          throw error;
-        }
-      },
-    }),
     addMealShoppingItems: tool({
       description:
         "Add requested shopping items to this conversation's planned meal, including a written-in meal with no recipe. Preserves existing and purchased items; does not save a recipe. Use when the user asks to add items, not merely when suggesting them.",
@@ -218,7 +191,7 @@ export function buildChatTools(
 
     addToCookbook: tool({
       description:
-        "Save the complete recipe to the user's cookbook. Call only when the user explicitly asks to keep it. Include recipeIngredient as a structured array with qty_text (for whole items or portions, give both count and approximate weight, e.g. '2 carrots, about 200g'), item_name, and category_id for every ingredient; contentMarkdown and recipeInstructions[].ingredients do not replace it. Preserve any ingredient alternatives discussed in the conversation in that ingredient's swaps array, plus 1-2 worthwhile swaps and optional without labels for future cooks. Put knife prep inside the steps where used, and give each step's ingredients array only the share of qty_text used in that step. Use contentMarkdown only for useful recipe-specific context not covered by structured fields (such as serving ideas or adaptations), never to repeat ingredients or steps. If you actually sized it for known household eaters, include sizedFor with their household IDs and extra portions; omit when unknown. Returns a url to share as a Markdown link on the recipe name.",
+        "Save the complete recipe to the user's cookbook. Call only when the user explicitly asks to keep it. Include recipeIngredient as a structured array with qty_text (for whole items or portions, give both count and approximate weight, e.g. '2 carrots, about 200g'), item_name (without prep), category_id (raw supermarket aisle; omit only for leftovers), and shopping_hint ('check_at_home' only for everyday cooking basics like salt, oil, water, or dried spices; 'likely_purchase' for everything else, even when already on hand today); contentMarkdown and recipeInstructions[].ingredients do not replace it. Preserve any ingredient alternatives discussed in the conversation in that ingredient's swaps array (with qty_text, item_name, category_id, and reason), plus 1-2 worthwhile swaps and optional without labels for future cooks. Put knife prep inside the cooking steps where the ingredient is used (reserving ingredient-line prep_note for states like 'drained' or 'thawed'), and give each step's ingredients array only the share of qty_text used in that step—never list full quantities in a separate Prepare step and repeat them in cooking steps. Use contentMarkdown only for useful recipe-specific context not covered by structured fields (such as serving ideas or adaptations), never to repeat ingredients or steps. If you actually sized it for known household eaters, include sizedFor with their household IDs, extra_portions, and total_target_kcal (summed from their lunch_dinner_target_kcal for a whole lunch or dinner); omit when unknown. Returns a url to share as a Markdown link on the recipe name.",
       inputSchema: AddToCookbookSchema,
       execute: async ({ sizedFor, ...recipe }) => {
         try {
@@ -270,7 +243,7 @@ export function buildChatTools(
         variantId: z.uuid().describe("id of the version being changed"),
         recipe: CookRecipeSchema,
         sizedFor: SizedForSchema.optional().describe(
-          "Copy getMealSizing's stamp when resizing. Omit to retain the base variant's recorded sizing when quantities are unchanged; never recalculate an old target from current settings.",
+          "Include eater_ids, extra_portions, and total_target_kcal (summed from the household profile's lunch_dinner_target_kcal plus 600 * extra_portions) when resizing a whole lunch or dinner. Omit to retain the base variant's recorded sizing when quantities are unchanged; never recalculate an old target from current settings.",
         ),
       }),
       execute: ({ variantId, recipe, sizedFor }) =>

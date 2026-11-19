@@ -275,9 +275,17 @@ test("one skill string serves all three packages", () => {
   assert.match(SKILL, /^---\nname: magpie-cooking\ndescription: .+\n---\n\n/);
   assert.match(SKILL, /what to cook, what is planned/);
   assert.match(SKILL, /saved to their household cookbook or meal plan/);
-  assert.match(SKILL, /server `instructions`/);
-  assert.match(SKILL, /Read the plan/);
-  assert.match(SKILL, /Save and plan only on an explicit request/);
+  assert.match(SKILL, /readHousehold/);
+  assert.match(SKILL, /readPlan/);
+  assert.match(SKILL, /addToCookbook/);
+  assert.match(SKILL, /planMeal/);
+  assert.match(SKILL, /swaps/);
+  assert.match(SKILL, /shopping_hint/);
+  assert.match(SKILL, /check_at_home/);
+  assert.match(SKILL, /likely_purchase/);
+  assert.doesNotMatch(SKILL, /<ideas>/);
+  assert.doesNotMatch(SKILL, /<sketch/);
+  assert.doesNotMatch(SKILL, /getMealSizing/);
 });
 
 test("resolves the URL from the flag, then the environment, then localhost", () => {

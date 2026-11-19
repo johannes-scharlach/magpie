@@ -11,7 +11,6 @@ import { requireUser } from "../auth.js";
 import { pool } from "../db.js";
 import { env } from "../env.js";
 import { AppError } from "../errors.js";
-import { readHousehold } from "../household.js";
 import {
   mcpOriginAllowed,
   publicOrigin,
@@ -84,10 +83,9 @@ function today(): string {
 export const mcpHandler = createMcpHandler(
   async (ctx) => {
     const { userId, listId } = identityOf(ctx);
-    const household = await readHousehold(listId);
     const server = new McpServer(
       { name: "magpie", version: "0.1.0" },
-      { instructions: mcpInstructions(household, userId) },
+      { instructions: mcpInstructions() },
     );
     for (const tool of buildMcpTools(userId, listId, today())) {
       server.registerTool(
