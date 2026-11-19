@@ -16,22 +16,64 @@ export const slotMessages = defineMessages({
   },
 });
 
-/** Slot names inside a sentence. English keeps them lowercase. */
-export const slotInlineMessages = defineMessages({
+/** Action row and heading that open the meal chooser for a slot. */
+export const selectSlotMessages = defineMessages({
   lunch: {
-    defaultMessage: "lunch",
+    defaultMessage: "Select lunch",
     description:
-      "Meal slot name inside a sentence. English keeps it lowercase; languages that capitalise nouns keep their normal capitalisation.",
+      "Action row that opens the meal chooser for lunch, and the heading shown while it is open. Does not plan a meal yet.",
   },
   dinner: {
-    defaultMessage: "dinner",
+    defaultMessage: "Select dinner",
     description:
-      "Meal slot name inside a sentence. English keeps it lowercase; languages that capitalise nouns keep their normal capitalisation.",
+      "Action row that opens the meal chooser for dinner, and the heading shown while it is open. Does not plan a meal yet.",
   },
   treat: {
-    defaultMessage: "treat",
+    defaultMessage: "Select a treat",
     description:
-      "Meal slot name inside a sentence. English keeps it lowercase; languages that capitalise nouns keep their normal capitalisation.",
+      "Action row that opens the meal chooser for a treat, and the heading shown while it is open. Does not plan a meal yet.",
+  },
+});
+
+/** Accessibility label for closing the chooser for a slot. */
+export const hideSlotChoicesMessages = defineMessages({
+  lunch: {
+    defaultMessage: "Hide lunch choices",
+    description:
+      "Accessibility label for the control that closes the lunch meal chooser. Does not change the planned meal.",
+  },
+  dinner: {
+    defaultMessage: "Hide dinner choices",
+    description:
+      "Accessibility label for the control that closes the dinner meal chooser. Does not change the planned meal.",
+  },
+  treat: {
+    defaultMessage: "Hide treat choices",
+    description:
+      "Accessibility label for the control that closes the treat meal chooser. Does not change the planned meal.",
+  },
+});
+
+/** Accessibility label for choosing a recommended dish for a slot. */
+export const selectRecipeForSlotMessages = defineMessages<{
+  lunch: { recipe: string };
+  dinner: { recipe: string };
+  treat: { recipe: string };
+}>({
+  lunch: {
+    defaultMessage: "Select {recipe} for lunch",
+    description:
+      "Accessibility label for a recommended dish that will fill the lunch slot. {recipe} is the recipe's display name. Selecting it plans the recipe for lunch.",
+  },
+  dinner: {
+    defaultMessage: "Select {recipe} for dinner",
+    description:
+      "Accessibility label for a recommended dish that will fill the dinner slot. {recipe} is the recipe's display name. Selecting it plans the recipe for dinner.",
+  },
+  treat: {
+    defaultMessage: "Select {recipe} for a treat",
+    description:
+      "Accessibility label for a recommended dish that will fill the treat slot. {recipe} is the recipe's display name. Selecting it plans the recipe as a treat.",
   },
 });
 

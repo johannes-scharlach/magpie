@@ -1,30 +1,30 @@
 {
+  "+/1CBH": {
+    "col": 39,
+    "defaultMessage": "Hide dinner choices",
+    "description": "Accessibility label for the control that closes the dinner meal chooser. Does not change the planned meal.",
+    "end": 1874,
+    "file": "src/features/meals/labels.ts",
+    "line": 39,
+    "start": 1282
+  },
   "+TPLLR": {
     "col": 21,
     "defaultMessage": "Retry",
     "description": "Action that tries loading meal recommendations again.",
-    "end": 13475,
+    "end": 13012,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 363,
-    "start": 13269
+    "line": 356,
+    "start": 12806
   },
-  "+TZr4o": {
-    "col": 16,
-    "defaultMessage": "{count, plural, one {Found # recipe} other {Found # recipes}}",
-    "description": "Status after an import found recipes and waits for the cook to choose.",
-    "end": 3906,
-    "file": "src/features/meals/import-job-status.tsx",
-    "line": 107,
-    "start": 3643
-  },
-  "+y6jvK": {
-    "col": 40,
-    "defaultMessage": "Select {recipe} for {slot}",
-    "description": "Accessibility label for a recommended dish that will fill a meal slot.",
-    "end": 14419,
-    "file": "src/features/meals/meal-section.tsx",
-    "line": 383,
-    "start": 14061
+  "07x9wI": {
+    "col": 43,
+    "defaultMessage": "Select {recipe} for a treat",
+    "description": "Accessibility label for a recommended dish that will fill the treat slot. {recipe} is the recipe's display name. Selecting it plans the recipe as a treat.",
+    "end": 2845,
+    "file": "src/features/meals/labels.ts",
+    "line": 58,
+    "start": 1991
   },
   "1TrkHP": {
     "col": 12,
@@ -44,23 +44,14 @@
     "line": 40,
     "start": 1343
   },
-  "4EsfFv": {
-    "col": 34,
-    "defaultMessage": "treat",
-    "description": "Meal slot name inside a sentence. English keeps it lowercase; languages that capitalise nouns keep their normal capitalisation.",
-    "end": 1185,
-    "file": "src/features/meals/labels.ts",
-    "line": 20,
-    "start": 567
-  },
   "5+uWTl": {
     "col": 11,
     "defaultMessage": "Reading {host}…",
     "description": "Status while a recipe is being read from a website, with its hostname.",
-    "end": 5153,
+    "end": 5076,
     "file": "src/features/meals/import-job-status.tsx",
-    "line": 149,
-    "start": 4895
+    "line": 137,
+    "start": 4818
   },
   "52V3Hw": {
     "col": 8,
@@ -70,15 +61,6 @@
     "file": "src/app/meals/index.tsx",
     "line": 207,
     "start": 7276
-  },
-  "5K7A9i": {
-    "col": 12,
-    "defaultMessage": "{found}, {count} incomplete",
-    "description": "Import result with the number of pages that did not contain a usable recipe.",
-    "end": 4360,
-    "file": "src/features/meals/import-job-status.tsx",
-    "line": 120,
-    "start": 4056
   },
   "77C3do": {
     "col": 21,
@@ -93,10 +75,10 @@
     "col": 13,
     "defaultMessage": "Cancel",
     "description": "Action that cancels a running recipe import.",
-    "end": 3333,
+    "end": 3285,
     "file": "src/features/meals/import-job-status.tsx",
-    "line": 92,
-    "start": 3183
+    "line": 90,
+    "start": 3135
   },
   "8tYGGP": {
     "col": 28,
@@ -107,20 +89,20 @@
     "line": 4,
     "start": 134
   },
-  "9UrpWM": {
+  "9rsKGF": {
     "col": 34,
-    "defaultMessage": "Hide {slot} choices",
-    "description": "Accessibility label for closing the meal chooser for lunch, dinner or a treat.",
-    "end": 7933,
-    "file": "src/features/meals/meal-section.tsx",
-    "line": 217,
-    "start": 7632
+    "defaultMessage": "Select lunch",
+    "description": "Action row that opens the meal chooser for lunch, and the heading shown while it is open. Does not plan a meal yet.",
+    "end": 1177,
+    "file": "src/features/meals/labels.ts",
+    "line": 20,
+    "start": 569
   },
   "ARoqs5": {
     "col": 36,
     "defaultMessage": "Remove from plan",
     "description": "Destructive menu action that removes the meal from the plan.",
-    "end": 635,
+    "end": 641,
     "file": "src/features/meals/meal-card-menu-messages.ts",
     "line": 3,
     "start": 82
@@ -138,46 +120,46 @@
     "col": 21,
     "defaultMessage": "Browse cookbook",
     "description": "Card that opens the cookbook when there are no matching recommendations.",
-    "end": 17766,
+    "end": 17085,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 459,
-    "start": 17531
+    "line": 448,
+    "start": 16850
   },
   "DrcycS": {
     "col": 11,
     "defaultMessage": "Reading “{text}”…",
     "description": "Status while a recipe is being read from pasted text, with its first line.",
-    "end": 5442,
+    "end": 5365,
     "file": "src/features/meals/import-job-status.tsx",
-    "line": 159,
-    "start": 5202
+    "line": 147,
+    "start": 5125
   },
   "Dw5A9f": {
     "col": 18,
     "defaultMessage": "Planned",
     "description": "Status on a meal that is planned for today or later.",
-    "end": 7152,
+    "end": 6908,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 202,
-    "start": 6975
+    "line": 199,
+    "start": 6709
   },
   "EoBhsI": {
     "col": 19,
     "defaultMessage": "Write in a meal",
     "description": "Action that lets the user type a meal that is not in the cookbook.",
-    "end": 18655,
+    "end": 17974,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 480,
-    "start": 18434
+    "line": 469,
+    "start": 17753
   },
   "IQG6uc": {
     "col": 18,
     "defaultMessage": "Past meal",
     "description": "Status on a planned meal whose day has already passed.",
-    "end": 6956,
+    "end": 6690,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 197,
-    "start": 6753
+    "line": 194,
+    "start": 6487
   },
   "JjUC5I": {
     "col": 15,
@@ -188,14 +170,23 @@
     "line": 31,
     "start": 1018
   },
+  "K4evxe": {
+    "col": 34,
+    "defaultMessage": "Select dinner",
+    "description": "Action row that opens the meal chooser for dinner, and the heading shown while it is open. Does not plan a meal yet.",
+    "end": 1177,
+    "file": "src/features/meals/labels.ts",
+    "line": 20,
+    "start": 569
+  },
   "M7dZ14": {
     "col": 6,
     "defaultMessage": "Getting the recipe ready…",
     "description": "Status while a chosen recommendation is being saved and synced.",
-    "end": 3249,
+    "end": 3244,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 101,
-    "start": 3069
+    "line": 105,
+    "start": 3064
   },
   "MJTmFc": {
     "col": 17,
@@ -206,23 +197,14 @@
     "line": 381,
     "start": 12448
   },
-  "MUVnbU": {
-    "col": 34,
-    "defaultMessage": "lunch",
-    "description": "Meal slot name inside a sentence. English keeps it lowercase; languages that capitalise nouns keep their normal capitalisation.",
-    "end": 1185,
-    "file": "src/features/meals/labels.ts",
-    "line": 20,
-    "start": 567
-  },
   "PZW+tk": {
     "col": 26,
     "defaultMessage": "Long press for other variants",
     "description": "Accessibility hint for opening a recipe's other variants.",
-    "end": 15773,
+    "end": 15092,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 416,
-    "start": 15515
+    "line": 405,
+    "start": 14834
   },
   "Q5plTF": {
     "col": 11,
@@ -237,28 +219,37 @@
     "col": 19,
     "defaultMessage": "Choose what to buy",
     "description": "Action under a planned meal that opens its shopping items.",
-    "end": 9515,
+    "end": 9052,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 263,
-    "start": 9299
+    "line": 256,
+    "start": 8836
   },
   "SyepTx": {
     "col": 8,
     "defaultMessage": "Finding meals for you…",
     "description": "Status while meal recommendations are loading.",
-    "end": 3443,
+    "end": 3438,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 107,
-    "start": 3287
+    "line": 111,
+    "start": 3282
+  },
+  "T+fAvK": {
+    "col": 9,
+    "defaultMessage": "{incomplete, plural, =0 {{count, plural, one {Found # recipe} other {Found # recipes}}} other {{count, plural, one {# complete recipe} other {# complete recipes}}, {incomplete, number} incomplete}}",
+    "description": "Status on the import review row. The count is complete recipes the cook can keep. Incomplete counts recipes with missing material, not pages. These recipes cannot be kept. Keep this summary short.",
+    "end": 4301,
+    "file": "src/features/meals/import-job-status.tsx",
+    "line": 108,
+    "start": 3700
   },
   "TL4aTD": {
-    "col": 18,
+    "col": 16,
     "defaultMessage": "Could not cancel",
     "description": "Alert title when cancelling a recipe import failed.",
-    "end": 3020,
+    "end": 2978,
     "file": "src/features/meals/import-job-status.tsx",
-    "line": 81,
-    "start": 2813
+    "line": 79,
+    "start": 2779
   },
   "V/P0v7": {
     "col": 17,
@@ -269,15 +260,6 @@
     "line": 5,
     "start": 125
   },
-  "VE0s7D": {
-    "col": 34,
-    "defaultMessage": "dinner",
-    "description": "Meal slot name inside a sentence. English keeps it lowercase; languages that capitalise nouns keep their normal capitalisation.",
-    "end": 1185,
-    "file": "src/features/meals/labels.ts",
-    "line": 20,
-    "start": 567
-  },
   "VlowD5": {
     "col": 17,
     "defaultMessage": "Me",
@@ -287,41 +269,59 @@
     "line": 5,
     "start": 125
   },
+  "VnpvtM": {
+    "col": 39,
+    "defaultMessage": "Hide treat choices",
+    "description": "Accessibility label for the control that closes the treat meal chooser. Does not change the planned meal.",
+    "end": 1874,
+    "file": "src/features/meals/labels.ts",
+    "line": 39,
+    "start": 1282
+  },
   "VvjIbM": {
     "col": 11,
     "defaultMessage": "Review",
     "description": "Action that opens imported recipes for review.",
-    "end": 4720,
+    "end": 4643,
     "file": "src/features/meals/import-job-status.tsx",
-    "line": 137,
-    "start": 4574
+    "line": 125,
+    "start": 4497
   },
   "WobItN": {
     "col": 10,
     "defaultMessage": "Suggestions couldn’t load. You can still browse your cookbook.",
     "description": "Status when meal recommendations failed, with a fallback action.",
-    "end": 3732,
+    "end": 3727,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 112,
-    "start": 3484
+    "line": 116,
+    "start": 3479
+  },
+  "XPO+MA": {
+    "col": 34,
+    "defaultMessage": "Select a treat",
+    "description": "Action row that opens the meal chooser for a treat, and the heading shown while it is open. Does not plan a meal yet.",
+    "end": 1177,
+    "file": "src/features/meals/labels.ts",
+    "line": 20,
+    "start": 569
   },
   "XbMjOX": {
     "col": 9,
     "defaultMessage": "{count, plural, one {Reading your photo…} other {Reading # photos…}}",
     "description": "Status while recipe photos are being read, with the number of photos.",
-    "end": 5732,
+    "end": 5655,
     "file": "src/features/meals/import-job-status.tsx",
-    "line": 168,
-    "start": 5457
+    "line": 156,
+    "start": 5380
   },
-  "arUays": {
-    "col": 19,
-    "defaultMessage": "Select {slot}",
-    "description": "Action that opens the meal chooser for a lunch, dinner or treat.",
-    "end": 4925,
-    "file": "src/features/meals/day-content.tsx",
-    "line": 142,
-    "start": 4583
+  "aK3PR3": {
+    "col": 39,
+    "defaultMessage": "Hide lunch choices",
+    "description": "Accessibility label for the control that closes the lunch meal chooser. Does not change the planned meal.",
+    "end": 1874,
+    "file": "src/features/meals/labels.ts",
+    "line": 39,
+    "start": 1282
   },
   "cmBFn5": {
     "col": 16,
@@ -345,10 +345,10 @@
     "col": 26,
     "defaultMessage": "Saves this idea to your cookbook and plans it",
     "description": "Accessibility hint for choosing a seeded meal idea.",
-    "end": 15488,
+    "end": 14807,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 410,
-    "start": 15190
+    "line": 399,
+    "start": 14509
   },
   "jpoEqR": {
     "col": 12,
@@ -359,11 +359,20 @@
     "line": 213,
     "start": 7543
   },
+  "kM+skD": {
+    "col": 43,
+    "defaultMessage": "Select {recipe} for dinner",
+    "description": "Accessibility label for a recommended dish that will fill the dinner slot. {recipe} is the recipe's display name. Selecting it plans the recipe for dinner.",
+    "end": 2845,
+    "file": "src/features/meals/labels.ts",
+    "line": 58,
+    "start": 1991
+  },
   "mYhCW0": {
     "col": 36,
     "defaultMessage": "Move to…",
     "description": "Menu action that moves the planned meal to another day or slot.",
-    "end": 635,
+    "end": 641,
     "file": "src/features/meals/meal-card-menu-messages.ts",
     "line": 3,
     "start": 82
@@ -372,7 +381,7 @@
     "col": 36,
     "defaultMessage": "Choose another meal",
     "description": "Menu action that replaces the planned meal.",
-    "end": 635,
+    "end": 641,
     "file": "src/features/meals/meal-card-menu-messages.ts",
     "line": 3,
     "start": 82
@@ -395,14 +404,23 @@
     "line": 4,
     "start": 134
   },
+  "sEKbW8": {
+    "col": 43,
+    "defaultMessage": "Select {recipe} for lunch",
+    "description": "Accessibility label for a recommended dish that will fill the lunch slot. {recipe} is the recipe's display name. Selecting it plans the recipe for lunch.",
+    "end": 2845,
+    "file": "src/features/meals/labels.ts",
+    "line": 58,
+    "start": 1991
+  },
   "tSxVv6": {
     "col": 12,
     "defaultMessage": "Picked for you",
     "description": "Heading above a list of meal recommendations.",
-    "end": 3932,
+    "end": 3927,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 119,
-    "start": 3773
+    "line": 123,
+    "start": 3768
   },
   "tYVXhj": {
     "col": 12,
@@ -417,16 +435,16 @@
     "col": 19,
     "defaultMessage": "Import recipe",
     "description": "Action that opens recipe import from an open meal slot.",
-    "end": 18262,
+    "end": 17581,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 471,
-    "start": 18054
+    "line": 460,
+    "start": 17373
   },
   "w+S0BX": {
     "col": 36,
     "defaultMessage": "Plan again…",
     "description": "Menu action that plans the same meal again on another day.",
-    "end": 635,
+    "end": 641,
     "file": "src/features/meals/meal-card-menu-messages.ts",
     "line": 3,
     "start": 82
@@ -435,10 +453,10 @@
     "col": 12,
     "defaultMessage": "No matching suggestions. Browse your cookbook or write in a meal.",
     "description": "Empty recommendation state with the two fallback actions.",
-    "end": 4199,
+    "end": 4194,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 123,
-    "start": 3945
+    "line": 127,
+    "start": 3940
   },
   "wl05lJ": {
     "col": 19,
@@ -458,22 +476,13 @@
     "line": 5,
     "start": 125
   },
-  "xbvaCW": {
-    "col": 15,
-    "defaultMessage": "Select {slot}",
-    "description": "Heading over an open meal slot that invites the user to choose lunch, dinner or a treat.",
-    "end": 5742,
-    "file": "src/features/meals/meal-section.tsx",
-    "line": 162,
-    "start": 5437
-  },
   "yn0m94": {
     "col": 27,
     "defaultMessage": "Today",
     "description": "Label for the current day in the date strip and day heading.",
-    "end": 1360,
+    "end": 3020,
     "file": "src/features/meals/labels.ts",
-    "line": 38,
-    "start": 1215
+    "line": 80,
+    "start": 2875
   }
 }

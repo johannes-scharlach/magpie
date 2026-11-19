@@ -1,51 +1,17 @@
 {
+  "+/1CBH": [
+    {
+      "type": 0,
+      "value": "Hide dinner choices"
+    }
+  ],
   "+TPLLR": [
     {
       "type": 0,
       "value": "Retry"
     }
   ],
-  "+TZr4o": [
-    {
-      "type": 6,
-      "value": "count",
-      "options": {
-        "one": {
-          "value": [
-            {
-              "type": 0,
-              "value": "Found "
-            },
-            {
-              "type": 7
-            },
-            {
-              "type": 0,
-              "value": " recipe"
-            }
-          ]
-        },
-        "other": {
-          "value": [
-            {
-              "type": 0,
-              "value": "Found "
-            },
-            {
-              "type": 7
-            },
-            {
-              "type": 0,
-              "value": " recipes"
-            }
-          ]
-        }
-      },
-      "offset": 0,
-      "pluralType": "cardinal"
-    }
-  ],
-  "+y6jvK": [
+  "07x9wI": [
     {
       "type": 0,
       "value": "Select "
@@ -56,11 +22,7 @@
     },
     {
       "type": 0,
-      "value": " for "
-    },
-    {
-      "type": 1,
-      "value": "slot"
+      "value": " for a treat"
     }
   ],
   "1TrkHP": [
@@ -73,12 +35,6 @@
     {
       "type": 0,
       "value": "Dismiss"
-    }
-  ],
-  "4EsfFv": [
-    {
-      "type": 0,
-      "value": "treat"
     }
   ],
   "5+uWTl": [
@@ -99,24 +55,6 @@
     {
       "type": 0,
       "value": "Couldn’t plan this meal"
-    }
-  ],
-  "5K7A9i": [
-    {
-      "type": 1,
-      "value": "found"
-    },
-    {
-      "type": 0,
-      "value": ", "
-    },
-    {
-      "type": 1,
-      "value": "count"
-    },
-    {
-      "type": 0,
-      "value": " incomplete"
     }
   ],
   "77C3do": [
@@ -145,18 +83,10 @@
       "value": "Dinner"
     }
   ],
-  "9UrpWM": [
+  "9rsKGF": [
     {
       "type": 0,
-      "value": "Hide "
-    },
-    {
-      "type": 1,
-      "value": "slot"
-    },
-    {
-      "type": 0,
-      "value": " choices"
+      "value": "Select lunch"
     }
   ],
   "ARoqs5": [
@@ -215,6 +145,12 @@
       "value": "Retry"
     }
   ],
+  "K4evxe": [
+    {
+      "type": 0,
+      "value": "Select dinner"
+    }
+  ],
   "M7dZ14": [
     {
       "type": 0,
@@ -225,12 +161,6 @@
     {
       "type": 0,
       "value": "Meals"
-    }
-  ],
-  "MUVnbU": [
-    {
-      "type": 0,
-      "value": "lunch"
     }
   ],
   "PZW+tk": [
@@ -257,6 +187,105 @@
       "value": "Finding meals for you…"
     }
   ],
+  "T+fAvK": [
+    {
+      "type": 6,
+      "value": "incomplete",
+      "options": {
+        "=0": {
+          "value": [
+            {
+              "type": 6,
+              "value": "count",
+              "options": {
+                "one": {
+                  "value": [
+                    {
+                      "type": 0,
+                      "value": "Found "
+                    },
+                    {
+                      "type": 7
+                    },
+                    {
+                      "type": 0,
+                      "value": " recipe"
+                    }
+                  ]
+                },
+                "other": {
+                  "value": [
+                    {
+                      "type": 0,
+                      "value": "Found "
+                    },
+                    {
+                      "type": 7
+                    },
+                    {
+                      "type": 0,
+                      "value": " recipes"
+                    }
+                  ]
+                }
+              },
+              "offset": 0,
+              "pluralType": "cardinal"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 6,
+              "value": "count",
+              "options": {
+                "one": {
+                  "value": [
+                    {
+                      "type": 7
+                    },
+                    {
+                      "type": 0,
+                      "value": " complete recipe"
+                    }
+                  ]
+                },
+                "other": {
+                  "value": [
+                    {
+                      "type": 7
+                    },
+                    {
+                      "type": 0,
+                      "value": " complete recipes"
+                    }
+                  ]
+                }
+              },
+              "offset": 0,
+              "pluralType": "cardinal"
+            },
+            {
+              "type": 0,
+              "value": ", "
+            },
+            {
+              "type": 2,
+              "value": "incomplete",
+              "style": null
+            },
+            {
+              "type": 0,
+              "value": " incomplete"
+            }
+          ]
+        }
+      },
+      "offset": 0,
+      "pluralType": "cardinal"
+    }
+  ],
   "TL4aTD": [
     {
       "type": 0,
@@ -269,16 +298,16 @@
       "value": "Everyone"
     }
   ],
-  "VE0s7D": [
-    {
-      "type": 0,
-      "value": "dinner"
-    }
-  ],
   "VlowD5": [
     {
       "type": 0,
       "value": "Me"
+    }
+  ],
+  "VnpvtM": [
+    {
+      "type": 0,
+      "value": "Hide treat choices"
     }
   ],
   "VvjIbM": [
@@ -291,6 +320,12 @@
     {
       "type": 0,
       "value": "Suggestions couldn’t load. You can still browse your cookbook."
+    }
+  ],
+  "XPO+MA": [
+    {
+      "type": 0,
+      "value": "Select a treat"
     }
   ],
   "XbMjOX": [
@@ -326,14 +361,10 @@
       "pluralType": "cardinal"
     }
   ],
-  "arUays": [
+  "aK3PR3": [
     {
       "type": 0,
-      "value": "Select "
-    },
-    {
-      "type": 1,
-      "value": "slot"
+      "value": "Hide lunch choices"
     }
   ],
   "cmBFn5": [
@@ -358,6 +389,20 @@
     {
       "type": 0,
       "value": "The recipe hasn’t synced yet. Try again in a moment."
+    }
+  ],
+  "kM+skD": [
+    {
+      "type": 0,
+      "value": "Select "
+    },
+    {
+      "type": 1,
+      "value": "recipe"
+    },
+    {
+      "type": 0,
+      "value": " for dinner"
     }
   ],
   "mYhCW0": [
@@ -386,6 +431,20 @@
     {
       "type": 0,
       "value": "Lunch"
+    }
+  ],
+  "sEKbW8": [
+    {
+      "type": 0,
+      "value": "Select "
+    },
+    {
+      "type": 1,
+      "value": "recipe"
+    },
+    {
+      "type": 0,
+      "value": " for lunch"
     }
   ],
   "tSxVv6": [
@@ -428,16 +487,6 @@
     {
       "type": 0,
       "value": "Nobody"
-    }
-  ],
-  "xbvaCW": [
-    {
-      "type": 0,
-      "value": "Select "
-    },
-    {
-      "type": 1,
-      "value": "slot"
     }
   ],
   "yn0m94": [

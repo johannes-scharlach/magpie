@@ -7,10 +7,6 @@
     "targets": ["de"]
   },
   "catalogs": [{ "path": "i18n/{locale}.json" }],
-  "provider": {
-    "id": "google",
-    "model": "gemini-flash-latest"
-  },
   "context": {
     "description": "i18n/description.md",
     "styleGuide": "i18n/{locale}/style-guide.md",

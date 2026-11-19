@@ -20,7 +20,12 @@ import { useMealSelectionTransition } from "@/features/meals/use-meal-selection-
 import { tonalPair } from "@/features/variants/tonal";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import type { DisplayRecipe, DisplayPlannedMeal } from "./day-content";
-import { slotInlineMessages, slotMessages } from "./labels";
+import {
+  hideSlotChoicesMessages,
+  selectRecipeForSlotMessages,
+  selectSlotMessages,
+  slotMessages,
+} from "./labels";
 import { RecipeArt } from "./recipe-art";
 import { seededLook } from "./seeded-look";
 import type { MealSlot } from "./slots";
@@ -96,7 +101,6 @@ export function MealSection({
 }: Props) {
   const intl = useIntl();
   const title = intl.formatMessage(slotMessages[slot]);
-  const inlineTitle = intl.formatMessage(slotInlineMessages[slot]);
   const status = selecting
     ? intl.formatMessage({
         defaultMessage: "Getting the recipe ready…",
@@ -159,14 +163,7 @@ export function MealSection({
             importantForAccessibility={planned ? "no-hide-descendants" : "auto"}
           >
             <Text className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
-              {intl.formatMessage(
-                {
-                  defaultMessage: "Select {slot}",
-                  description:
-                    "Heading over an open meal slot that invites the user to choose lunch, dinner or a treat.",
-                },
-                { slot: inlineTitle },
-              )}
+              {intl.formatMessage(selectSlotMessages[slot])}
             </Text>
           </Animated.View>
           <Animated.View
@@ -216,12 +213,7 @@ export function MealSection({
             <Pressable
               accessibilityRole="button"
               accessibilityLabel={intl.formatMessage(
-                {
-                  defaultMessage: "Hide {slot} choices",
-                  description:
-                    "Accessibility label for closing the meal chooser for lunch, dinner or a treat.",
-                },
-                { slot: inlineTitle },
+                hideSlotChoicesMessages[slot],
               )}
               disabled={planned}
               hitSlop={12}
@@ -382,12 +374,8 @@ export function MealSection({
                     accessibilityRole="button"
                     disabled={selecting}
                     accessibilityLabel={intl.formatMessage(
-                      {
-                        defaultMessage: "Select {recipe} for {slot}",
-                        description:
-                          "Accessibility label for a recommended dish that will fill a meal slot.",
-                      },
-                      { recipe: c.name, slot: inlineTitle },
+                      selectRecipeForSlotMessages[slot],
+                      { recipe: c.name },
                     )}
                     onPress={(event) =>
                       selectContender(c.id, event, () => onPlan(c))

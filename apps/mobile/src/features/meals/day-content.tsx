@@ -13,7 +13,7 @@ import type { ImportJobs } from "@/features/meals/import-jobs";
 import { ImportJobStatus } from "@/features/meals/import-job-status";
 import { mealIsPast } from "@/features/meals/variant-meals";
 import { useToday } from "@/hooks/use-today";
-import { dayMessages, slotInlineMessages, slotMessages } from "./labels";
+import { dayMessages, selectSlotMessages, slotMessages } from "./labels";
 import type { MealRecommendations } from "./use-meal-recommendations";
 
 const PLUS_ICON = { ios: "plus", android: "add" } as const;
@@ -133,14 +133,7 @@ export function DayContent({
               >
                 <SymbolView name={PLUS_ICON} tintColor={mutedColor} size={16} />
                 <Text className="text-muted-foreground">
-                  {intl.formatMessage(
-                    {
-                      defaultMessage: "Select {slot}",
-                      description:
-                        "Action that opens the meal chooser for a lunch, dinner or treat.",
-                    },
-                    { slot: intl.formatMessage(slotInlineMessages[slot]) },
-                  )}
+                  {intl.formatMessage(selectSlotMessages[slot])}
                 </Text>
               </Pressable>
             );

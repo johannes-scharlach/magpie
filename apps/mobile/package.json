@@ -78,7 +78,7 @@
   "devDependencies": {
     "@babel/plugin-transform-async-generator-functions": "^7.29.7",
     "@formatjs/cli": "^6.18.2",
-    "@p6t/cli": "0.1.0",
+    "@formatjs/icu-messageformat-parser": "3.5.23",
     "@types/react": "~19.3.0",
     "babel-plugin-formatjs": "^11.3.16",
     "eslint": "^9.39.5",
@@ -96,8 +96,8 @@
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "i18n:extract": "formatjs extract 'src/**/*.{ts,tsx}' --ignore='**/*.test.{ts,tsx}' --out-file i18n/en.json --id-interpolation-pattern '[sha512:contenthash:base64:6]' --extract-source-location --throws",
-    "i18n:compile": "formatjs compile-folder i18n i18n/compiled --ast",
-    "i18n:update": "pnpm i18n:extract && pnpm exec p6t translate && pnpm i18n:compile"
+    "i18n:check": "node scripts/check-catalogs.mjs",
+    "i18n:compile": "formatjs compile-folder i18n i18n/compiled --ast"
   },
   "private": true
 }
