@@ -6,14 +6,11 @@ workflow does not translate stored recipes or API prompts.
 
 ## Connect p6t
 
-Use an MCP-capable p6t CLI. The published `@p6t/cli@0.1.0` does not expose
-`mcp`; the upstream revision pinned in `skills-lock.json` does. Until a
-release includes it, clone `https://github.com/p6t-polyglot/p6t` beside
-Magpie, check out that revision, run `pnpm install --frozen-lockfile` and
-`pnpm --filter @p6t/cli... build` in the p6t checkout.
+Run `pnpm install --frozen-lockfile` from the Magpie root. The mobile
+workspace pins `@p6t/cli@0.2.0`, which includes the MCP server.
 
 For OpenCode, add this to the ignored `.opencode/opencode.json` at the
-Magpie root. Adjust the executable path if the checkout lives elsewhere.
+Magpie root.
 
 ```json
 {
@@ -23,7 +20,7 @@ Magpie root. Adjust the executable path if the checkout lives elsewhere.
       "p6t": {
         "type": "local",
         "cwd": "apps/mobile",
-        "command": ["node", "../../../p6t/packages/cli/dist/index.js", "mcp"]
+        "command": ["pnpm", "exec", "p6t", "mcp"]
       }
     }
   }
