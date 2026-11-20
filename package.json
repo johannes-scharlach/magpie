@@ -33,6 +33,7 @@
     "assets:matting:test": "node --test scripts/chroma-key.test.mjs",
     "assets:slice:test": "node --test scripts/slice-spritesheet.test.mjs",
     "plugin": "node scripts/build-plugin.mjs",
+    "plugin:prod": "MAGPIE_PUBLIC_ORIGIN=https://magpiemeals.com node scripts/build-plugin.mjs",
     "plugin:test": "node --test scripts/build-plugin.test.mjs",
     "typecheck": "pnpm -r typecheck",
     "lint": "pnpm -r lint",

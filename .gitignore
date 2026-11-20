@@ -6,6 +6,9 @@ node_modules/
 docs/.screenshots/
 apps/mobile/docs/.screenshots/
 
+# Raw host transcripts used as source material; the findings live beside them.
+docs/references/chatgpt-mcp.md
+
 # Local-only artwork matting trials; never import these into the app.
 apps/mobile/src/features/onboarding/art/experiments/
 
