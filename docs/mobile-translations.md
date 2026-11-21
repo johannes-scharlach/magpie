@@ -9,27 +9,10 @@ workflow does not translate stored recipes or API prompts.
 Run `pnpm install --frozen-lockfile` from the Magpie root. The mobile
 workspace pins `@p6t/cli@0.2.0`, which includes the MCP server.
 
-For OpenCode, add this to the ignored `.opencode/opencode.json` at the
-Magpie root.
-
-```json
-{
-  "$schema": "https://opencode.ai/config.json",
-  "mcp": {
-    "servers": {
-      "p6t": {
-        "type": "local",
-        "cwd": "apps/mobile",
-        "command": ["pnpm", "exec", "p6t", "mcp"]
-      }
-    }
-  }
-}
-```
-
-Run `opencode mcp list` to check the connection. `inspect_project` should
-find `apps/mobile/i18n.json`. Do not initialize over that config. No
-provider key is needed.
+OpenCode registers p6t from the tracked [root `opencode.json`](../opencode.json).
+Run `opencode mcp list` from the Magpie root to check the connection.
+`inspect_project` should find `apps/mobile/i18n.json`. Do not initialize
+over that config. No provider key is needed.
 
 ## Update copy
 

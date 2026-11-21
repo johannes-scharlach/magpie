@@ -1,0 +1,12 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "servers": {
+      "p6t": {
+        "type": "local",
+        "cwd": "apps/mobile",
+        "command": ["pnpm", "exec", "p6t", "mcp"]
+      }
+    }
+  }
+}
