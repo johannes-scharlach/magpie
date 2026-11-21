@@ -163,3 +163,28 @@ test("text without page markers needs no invented page reference", () => {
     },
   );
 });
+
+test("a shared conversation offers all its recipes for review with the original link", () => {
+  const url = "https://share.gemini.google/shortId";
+  const recipes = [
+    { ...recipe("Oat cookies"), sourceReference: null },
+    {
+      ...recipe("Ginger cookies"),
+      sourceReference: null,
+      from: { name: "The Cookie Book", url: "https://example.com/recipe" },
+    },
+  ];
+  const output = RecipesFoundSchema.parse({ recipes, skipped: [] });
+  assert.deepEqual(
+    extractedRecipes({ finishReason: "stop", output }, fallback, url),
+    {
+      review: {
+        recipes: [
+          { ...recipes[0], from: { name: "share.gemini.google", url } },
+          { ...recipes[1], from: { name: "The Cookie Book", url } },
+        ],
+        skipped: [],
+      },
+    },
+  );
+});

@@ -2,6 +2,7 @@ import { z } from "zod";
 import { measurementContext, type Measurements } from "@magpie/profile";
 
 import { AppError } from "./errors.js";
+import { importSource } from "./recipe-source.js";
 import { tagVocabularyContext, type TagVocabulary } from "./recipe-tags.js";
 import {
   CATEGORIES,
@@ -20,7 +21,7 @@ const SourceReferenceSchema = z
     'where this recipe appears in the supplied content, as a short label in the recipe language. Prefer visible printed page numbers or explicit page markers in pasted text, e.g. "Page 37" or "Pages 37–38". Otherwise use the supplied photo labels, e.g. "Photo 2" or "Photos 2–3". Use null for text with no page markers. Never guess page numbers or cite a missing page as the source.',
   );
 
-/** Pasted text or photos can hold several recipes, or part of one. */
+/** A collection can hold several recipes, or part of one. */
 export const RecipesFoundSchema = z.object({
   recipes: z
     .array(RecipeSchema.extend({ sourceReference: SourceReferenceSchema }))
@@ -65,6 +66,7 @@ export function extractedRecipe(
 export function extractedRecipes(
   result: { finishReason: string; rawFinishReason?: string; output: unknown },
   fallback: string,
+  sourceUrl?: string,
 ): { save: Extraction } | { review: RecipesFound } {
   if (result.finishReason !== "stop") {
     const reason = `Finish reason ${result.rawFinishReason ?? result.finishReason}`;
@@ -78,9 +80,13 @@ export function extractedRecipes(
     const reason = skipped[0]?.reason ?? fallback;
     throw extractionFailed(reason, reason);
   }
-  if (recipes.length === 1 && skipped.length === 0)
-    return { save: recipes[0]! };
-  return { review: output };
+  const credited = recipes.map((recipe) => {
+    const from = importSource(sourceUrl, recipe.from);
+    return from ? { ...recipe, from } : recipe;
+  });
+  if (credited.length === 1 && skipped.length === 0)
+    return { save: credited[0]! };
+  return { review: { recipes: credited, skipped } };
 }
 
 function extractionFailed(message: string, reason: string) {

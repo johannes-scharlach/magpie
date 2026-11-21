@@ -57,7 +57,7 @@ export function sendImport(request: ImportRequest): Promise<ImportOutcome> {
           plan: plan && { listId, ...plan },
         }),
       });
-      return importResult(body);
+      return importOutcome(body);
     }
     const form = new FormData();
     form.append("operationId", operationId);
@@ -78,10 +78,14 @@ export function sendImport(request: ImportRequest): Promise<ImportOutcome> {
       });
     }
     const body = await post("import-from-content", { body: form });
-    return ImportReviewSchema.safeParse(body).success
-      ? { review: true }
-      : importResult(body);
+    return importOutcome(body);
   });
+}
+
+function importOutcome(body: unknown): ImportOutcome {
+  return ImportReviewSchema.safeParse(body).success
+    ? { review: true }
+    : importResult(body);
 }
 
 export async function confirmImport(
