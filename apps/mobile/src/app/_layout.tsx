@@ -211,14 +211,6 @@ export default function RootLayout() {
                           }}
                         />
                         <Stack.Screen
-                          name="meals/index"
-                          options={{
-                            title: "Meals",
-                            headerLargeTitle: true,
-                            headerBackButtonDisplayMode: "minimal",
-                          }}
-                        />
-                        <Stack.Screen
                           name="meals/eaters"
                           options={{
                             presentation: "formSheet",
@@ -323,8 +315,7 @@ export default function RootLayout() {
                                 : undefined,
                           }}
                         />
-                        {/* The conversation: pushed from the Home entry, no tab bar.
-                Back is the only chrome — history lives on Home. */}
+                        {/* Conversations sit above the tab bar. */}
                         <Stack.Screen
                           name="chats/[id]"
                           options={{
@@ -332,25 +323,6 @@ export default function RootLayout() {
                             // The linked-recipe banner sits above the transcript,
                             // outside any scroll view, so the header stays solid.
                             headerTransparent: false,
-                          }}
-                        />
-                        <Stack.Screen
-                          name="chats/ideas"
-                          options={{
-                            presentation: "pageSheet",
-                            headerShown: true,
-                            title: "Start from an idea",
-                            contentStyle:
-                              Platform.OS === "ios"
-                                ? { backgroundColor: "transparent" }
-                                : undefined,
-                          }}
-                        />
-                        <Stack.Screen
-                          name="dinner-turntable"
-                          options={{
-                            title: "What’s cooking?",
-                            headerBackButtonDisplayMode: "minimal",
                           }}
                         />
                         <Stack.Screen

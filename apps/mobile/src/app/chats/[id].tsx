@@ -9,6 +9,7 @@ import {
   useRouter,
 } from "expo-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useIntl } from "react-intl";
 import { AppState, Pressable, View } from "react-native";
 import {
   KeyboardAwareScrollView,
@@ -25,6 +26,11 @@ import { attachUploadedImage, type ChatTurn } from "@/features/chat/chat-turn";
 import { activitySteps } from "@/features/chat/activity";
 import { ActivityView } from "@/features/chat/activity-view";
 import { Composer } from "@/features/chat/composer";
+import {
+  dishMessage,
+  slotEntryMessage,
+  slotFromEntryMessage,
+} from "@/features/chat/compose";
 import { AssistantMessage, UserMessage } from "@/features/chat/message";
 import {
   peekQueuedMessage,
@@ -47,6 +53,8 @@ import {
   type Parts,
 } from "@/features/chat/stream";
 import { latestRecipeResult } from "@/features/chat/recipe-results";
+import { formatMealTarget } from "@/features/meals/labels";
+import { mealTarget } from "@/features/meals/slots";
 import { setChatOnScreen } from "@/features/notifications/chat-on-screen";
 import { useActiveList } from "@/features/onboarding/access";
 import { posthog } from "@/lib/posthog";
@@ -57,7 +65,7 @@ const TRANSCRIPT_TOP = 12;
 const TRANSCRIPT_BOTTOM = 16;
 
 /**
- * The conversation: pushed from the Home entry (or the history sheet), no
+ * The conversation: pushed from a meal or the history sheet, no
  * tab bar. Rows come from PowerSync; the messages in flight — and, on a
  * fresh chat, the whole chat row — are local until their synced rows
  * appear, per ADR 9. A queued message (the entry's "Get ideas", or the
@@ -66,14 +74,27 @@ const TRANSCRIPT_BOTTOM = 16;
  */
 export default function ChatScreen() {
   const router = useRouter();
-  const { id } = useLocalSearchParams<{ id: string }>();
+  const intl = useIntl();
+  const { id, date, slot, entry, listId } = useLocalSearchParams<{
+    id: string;
+    date?: string;
+    slot?: string;
+    entry?: string;
+    listId?: string;
+  }>();
   const chatId = id ?? "";
+  const entryTarget = mealTarget(date, slot);
+  const slotEntry =
+    entryTarget && (entry === "on_hand" || entry === "dish")
+      ? entry
+      : undefined;
 
   const list = useActiveList();
 
-  const { data: chats } = useQuery<Chat>("SELECT * FROM chats WHERE id = ?", [
-    chatId,
-  ]);
+  const { data: chats, isLoading: chatLoading } = useQuery<Chat>(
+    "SELECT * FROM chats WHERE id = ?",
+    [chatId],
+  );
   const { data: rows, isLoading: messagesLoading } = useQuery<ChatMessage>(
     "SELECT * FROM chat_messages WHERE chat_id = ? ORDER BY created_at, id",
     [chatId],
@@ -83,7 +104,8 @@ export default function ChatScreen() {
   // the plan sheet's confirm). Read once at mount for the optimistic
   // echo; the focus effect below sends it.
   const [queuedMsg] = useState(() => peekQueuedMessage(chatId));
-  const conversationListId = chats[0]?.list_id ?? queuedMsg?.listId ?? list?.id;
+  const conversationListId =
+    chats[0]?.list_id ?? queuedMsg?.listId ?? (slotEntry ? listId : list?.id);
   const [anchor, setAnchor] = useState<{ id: string; y: number | null } | null>(
     queuedMsg ? { id: queuedMsg.messageId, y: null } : null,
   );
@@ -246,7 +268,7 @@ export default function ChatScreen() {
         signal: controller.signal,
         recipeContext: queuedMsg?.recipeContext,
         mealContext: queuedMsg?.mealContext,
-        entry: queuedMsg?.entry,
+        entry: queuedMsg?.entry ?? slotEntry,
         idea: queuedMsg?.idea,
       })) {
         lastReply = reply;
@@ -442,6 +464,14 @@ export default function ChatScreen() {
   }, [rows, syncedMessages, pending, inFlight]);
 
   const last = shown[shown.length - 1];
+  const firstUser = shown.find((message) => message.role === "user");
+  const target = firstUser
+    ? slotFromEntryMessage(messageText(firstUser.parts))
+    : slotEntry
+      ? entryTarget
+      : null;
+  const starting =
+    !!slotEntry && !chat && !firstUser && !chatLoading && !messagesLoading;
   const suggestions =
     !busy &&
     last?.role === "assistant" &&
@@ -487,7 +517,9 @@ export default function ChatScreen() {
     <View className="flex-1 bg-background">
       <Stack.Screen
         options={{
-          title: chat?.title ?? "Chat",
+          title: target
+            ? formatMealTarget(intl, target)
+            : (chat?.title ?? "Chat"),
           headerBackButtonDisplayMode: "minimal",
         }}
       />
@@ -604,7 +636,13 @@ export default function ChatScreen() {
                         ? (dish) =>
                             router.push({
                               pathname: "/variant/plan",
-                              params: { dish },
+                              params: {
+                                dish,
+                                chatId,
+                                ...(target && conversationListId
+                                  ? { ...target, listId: conversationListId }
+                                  : {}),
+                              },
                             } as never)
                         : undefined
                     }
@@ -672,10 +710,36 @@ export default function ChatScreen() {
 
         <KeyboardStickyView>
           <Composer
-            placeholder="Message"
-            busy={busy || !conversationListId || !chat}
+            placeholder={
+              starting && slotEntry === "on_hand"
+                ? intl.formatMessage({
+                    defaultMessage: "What ingredients do you have?",
+                    description:
+                      "First message prompt for a meal chat based on ingredients on hand.",
+                  })
+                : starting && slotEntry === "dish"
+                  ? intl.formatMessage({
+                      defaultMessage: "What would you like to make?",
+                      description:
+                        "First message prompt for a meal chat based on a dish the user has in mind.",
+                    })
+                  : "Message"
+            }
+            busy={busy || !conversationListId || !(chat || starting)}
             suggestions={suggestions}
-            onSend={(text, attachments) => void send(text, attachments)}
+            onSend={(text, attachments) => {
+              if (starting && entryTarget) {
+                const detail =
+                  text && slotEntry === "dish" ? dishMessage(text) : text;
+                posthog?.capture("meal_ideas_started", {
+                  entry_type: slotEntry,
+                  attachment_count: attachments.length,
+                });
+                void send(slotEntryMessage(entryTarget, detail), attachments);
+                return;
+              }
+              void send(text, attachments);
+            }}
           />
         </KeyboardStickyView>
       </View>

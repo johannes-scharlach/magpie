@@ -25,6 +25,18 @@
       "value": " for a treat"
     }
   ],
+  "0feGXu": [
+    {
+      "type": 0,
+      "value": "What would you like to make?"
+    }
+  ],
+  "1+QXgM": [
+    {
+      "type": 0,
+      "value": "This will replace the meal already planned for this slot."
+    }
+  ],
   "1TrkHP": [
     {
       "type": 0,
@@ -35,6 +47,12 @@
     {
       "type": 0,
       "value": "Dismiss"
+    }
+  ],
+  "3MwfD7": [
+    {
+      "type": 0,
+      "value": "Household and account"
     }
   ],
   "5+uWTl": [
@@ -81,6 +99,12 @@
     {
       "type": 0,
       "value": "Dinner"
+    }
+  ],
+  "96/RrW": [
+    {
+      "type": 0,
+      "value": "Past chats"
     }
   ],
   "9rsKGF": [
@@ -149,6 +173,12 @@
     {
       "type": 0,
       "value": "Select dinner"
+    }
+  ],
+  "M6fYaf": [
+    {
+      "type": 0,
+      "value": "Use what I have"
     }
   ],
   "M7dZ14": [
@@ -361,6 +391,12 @@
       "pluralType": "cardinal"
     }
   ],
+  "Z9/wRb": [
+    {
+      "type": 0,
+      "value": "What ingredients do you have?"
+    }
+  ],
   "aK3PR3": [
     {
       "type": 0,
@@ -379,10 +415,36 @@
       "value": "Adding to your cookbook…"
     }
   ],
+  "g4uIZZ": [
+    {
+      "type": 1,
+      "value": "meal"
+    },
+    {
+      "type": 0,
+      "value": " · "
+    },
+    {
+      "type": 1,
+      "value": "date"
+    }
+  ],
+  "gWOHY1": [
+    {
+      "type": 0,
+      "value": "Household activity"
+    }
+  ],
   "ir/sf1": [
     {
       "type": 0,
       "value": "Saves this idea to your cookbook and plans it"
+    }
+  ],
+  "j8BV4K": [
+    {
+      "type": 0,
+      "value": "Meals"
     }
   ],
   "jpoEqR": [
@@ -457,6 +519,12 @@
     {
       "type": 0,
       "value": "Please try again."
+    }
+  ],
+  "tyszfp": [
+    {
+      "type": 0,
+      "value": "I have a dish in mind"
     }
   ],
   "vxgbIs": [

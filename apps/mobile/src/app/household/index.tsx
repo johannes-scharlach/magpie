@@ -15,6 +15,7 @@ import {
 import { useNavigation, useRouter } from "expo-router";
 import { SymbolView } from "expo-symbols";
 import { useLayoutEffect } from "react";
+import { useIntl } from "react-intl";
 import { Alert, Pressable } from "react-native";
 import { useResolveClassNames } from "uniwind";
 import { Text } from "@/components/ui/text";
@@ -46,6 +47,7 @@ const SWITCH_ICON = {
 
 export default function ProfileScreen() {
   const router = useRouter();
+  const intl = useIntl();
   const { session } = useAuth();
   const { listId } = useHouseholdAccess();
   const { household, error } = useHousehold(listId);
@@ -216,6 +218,14 @@ export default function ProfileScreen() {
           />
         </SettingsSection>
         <SettingsSection title="Account">
+          <SettingsRow
+            title={intl.formatMessage({
+              defaultMessage: "Household activity",
+              description:
+                "Settings row that opens the household's recent meal and shopping changes.",
+            })}
+            onPress={() => router.push("/household-activity")}
+          />
           <SettingsRow
             title="Notifications"
             detail="Household updates"

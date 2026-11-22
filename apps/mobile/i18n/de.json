@@ -14,6 +14,16 @@
     "_p6t_description": "Accessibility label for a recommended dish that will fill the treat slot. {recipe} is the recipe's display name. Selecting it plans the recipe as a treat.",
     "_p6t_source": "Select {recipe} for a treat"
   },
+  "0feGXu": {
+    "defaultMessage": "Was möchtest du kochen?",
+    "_p6t_description": "First message prompt for a meal chat based on a dish the user has in mind.",
+    "_p6t_source": "What would you like to make?"
+  },
+  "1+QXgM": {
+    "defaultMessage": "Damit ersetzt du die Mahlzeit, die dafür schon im Plan steht.",
+    "_p6t_description": "Warning before confirming a recipe for an occupied meal slot.",
+    "_p6t_source": "This will replace the meal already planned for this slot."
+  },
   "1TrkHP": {
     "defaultMessage": "Wird abgebrochen…",
     "_p6t_description": "Status while a recipe import is being cancelled.",
@@ -23,6 +33,11 @@
     "defaultMessage": "Ausblenden",
     "_p6t_description": "Action that hides a failed recipe import.",
     "_p6t_source": "Dismiss"
+  },
+  "3MwfD7": {
+    "defaultMessage": "Haushalt und Konto",
+    "_p6t_description": "Accessibility label for the household settings shortcut.",
+    "_p6t_source": "Household and account"
   },
   "5+uWTl": {
     "defaultMessage": "{host} wird gelesen…",
@@ -48,6 +63,11 @@
     "defaultMessage": "Abendessen",
     "_p6t_description": "Meal slot label for the evening meal.",
     "_p6t_source": "Dinner"
+  },
+  "96/RrW": {
+    "defaultMessage": "Bisherige Chats",
+    "_p6t_description": "Accessibility label for the shortcut to household chat history.",
+    "_p6t_source": "Past chats"
   },
   "9rsKGF": {
     "defaultMessage": "Mittagessen wählen",
@@ -98,6 +118,11 @@
     "defaultMessage": "Abendessen wählen",
     "_p6t_description": "Action row that opens the meal chooser for dinner, and the heading shown while it is open. Does not plan a meal yet.",
     "_p6t_source": "Select dinner"
+  },
+  "M6fYaf": {
+    "defaultMessage": "Vorhandene Zutaten nutzen",
+    "_p6t_description": "Starts a chat to find a meal for this slot using ingredients on hand.",
+    "_p6t_source": "Use what I have"
   },
   "M7dZ14": {
     "defaultMessage": "Rezept wird vorbereitet…",
@@ -174,6 +199,11 @@
     "_p6t_description": "Status while recipe photos are being read, with the number of photos.",
     "_p6t_source": "{count, plural, one {Reading your photo…} other {Reading # photos…}}"
   },
+  "Z9/wRb": {
+    "defaultMessage": "Welche Zutaten hast du da?",
+    "_p6t_description": "First message prompt for a meal chat based on ingredients on hand.",
+    "_p6t_source": "What ingredients do you have?"
+  },
   "aK3PR3": {
     "defaultMessage": "Auswahl fürs Mittagessen ausblenden",
     "_p6t_description": "Accessibility label for the control that closes the lunch meal chooser. Does not change the planned meal.",
@@ -189,10 +219,25 @@
     "_p6t_description": "Status while an imported recipe is being added to the cookbook.",
     "_p6t_source": "Adding to your cookbook…"
   },
+  "g4uIZZ": {
+    "defaultMessage": "{meal} · {date}",
+    "_p6t_description": "Label for a fixed meal slot. {meal} is the standalone Lunch, Dinner or Treat label; {date} is the formatted calendar date.",
+    "_p6t_source": "{meal} · {date}"
+  },
+  "gWOHY1": {
+    "defaultMessage": "Aktivitäten im Haushalt",
+    "_p6t_description": "Settings row that opens the household's recent meal and shopping changes.",
+    "_p6t_source": "Household activity"
+  },
   "ir/sf1": {
     "defaultMessage": "Speichert diese Idee in deinem Kochbuch und plant sie",
     "_p6t_description": "Accessibility hint for choosing a seeded meal idea.",
     "_p6t_source": "Saves this idea to your cookbook and plans it"
+  },
+  "j8BV4K": {
+    "defaultMessage": "Mahlzeiten",
+    "_p6t_description": "Label for the primary meal planning tab.",
+    "_p6t_source": "Meals"
   },
   "jpoEqR": {
     "defaultMessage": "Das Rezept wurde noch nicht synchronisiert. Versuch es gleich noch einmal.",
@@ -238,6 +283,11 @@
     "defaultMessage": "Bitte versuch es erneut.",
     "_p6t_description": "Generic alert body after planning a meal failed for an unknown reason.",
     "_p6t_source": "Please try again."
+  },
+  "tyszfp": {
+    "defaultMessage": "Gerichtsidee eingeben",
+    "_p6t_description": "Starts a chat to explore how to make a dish the user has in mind for this meal slot.",
+    "_p6t_source": "I have a dish in mind"
   },
   "vxgbIs": {
     "defaultMessage": "Rezept importieren",

@@ -6,6 +6,8 @@ import {
   entryMessage,
   mealPlanMessage,
   saveAndPlanMessage,
+  slotEntryMessage,
+  slotFromEntryMessage,
   toldRecipeMessage,
 } from "./compose";
 import { toEaters } from "@/features/meals/eaters";
@@ -82,6 +84,42 @@ describe("dishMessage", () => {
     expect(dishMessage("  Thai curry  ")).toBe(
       "Give me a few ideas for making: Thai curry",
     );
+  });
+});
+
+describe("starting from a meal slot", () => {
+  const target = { date: "2026-09-10", slot: "dinner" } as const;
+
+  it("puts the exact slot and ingredients in the first message and recovers the slot from history", () => {
+    const text = slotEntryMessage(target, "I have chickpeas.");
+    expect(text).toBe(
+      "Help me decide what to make for dinner on 2026-09-10.\nI have chickpeas.",
+    );
+    expect(slotFromEntryMessage(text)).toEqual(target);
+  });
+
+  it("does not infer a destination for unscoped chats", () => {
+    expect(slotFromEntryMessage(dishMessage("curry for dinner"))).toBeNull();
+  });
+
+  it("keeps the slot when the first message has only an attachment", () => {
+    expect(slotFromEntryMessage(slotEntryMessage(target, ""))).toEqual(target);
+  });
+
+  it("confirms the calendar date even if the conversation is resumed later", () => {
+    expect(
+      saveAndPlanMessage(
+        {
+          day: target.date,
+          meal: target.slot,
+          people: [{ id: "me", name: "Johannes", self: true }],
+          eaterIds: ["me"],
+          extraPortions: 0,
+          exactDate: true,
+        },
+        new Date(2026, 8, 10),
+      ),
+    ).toBe("Save this and plan it for dinner on 2026-09-10. Eating: everyone.");
   });
 });
 

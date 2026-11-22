@@ -24,7 +24,7 @@ export function notificationRoute(
   }
   if (data.kind !== "member_joined" && typeof data.slotDate === "string") {
     return {
-      pathname: "/meals",
+      pathname: "/",
       params: { date: data.slotDate, at: responseId },
     };
   }

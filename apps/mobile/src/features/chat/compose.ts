@@ -7,9 +7,11 @@ import {
 import {
   addDays,
   dateKey,
+  mealTarget,
   SLOT_LABEL,
   WEEKDAY_LONG,
   type MealSlot,
+  type MealTarget,
 } from "@/features/meals/slots";
 import {
   axes,
@@ -23,7 +25,7 @@ import {
  * functions are the tested seam for that rule.
  */
 
-/** Home entry: chips plus any unfinished input (images may accompany).
+/** Ingredients entry: chips plus any unfinished input (images may accompany).
  *  Ingredients lowercased so the sentence reads plain. */
 export function entryMessage(
   chips: string[],
@@ -45,6 +47,18 @@ export function entryMessage(
 
 export function dishMessage(dish: string): string {
   return `Give me a few ideas for making: ${dish.trim()}`;
+}
+
+/** First message anchors the conversation without asking to plan anything yet. */
+export function slotEntryMessage(target: MealTarget, text: string): string {
+  return `Help me decide what to make for ${target.slot} on ${target.date}.${text ? `\n${text}` : ""}`;
+}
+
+/** The first persisted user message carries the slot even when opened from history. */
+export function slotFromEntryMessage(text: string): MealTarget | null {
+  const match =
+    /^Help me decide what to make for (\w+) on ([\d-]+)\.(?:\n|$)/.exec(text);
+  return match ? mealTarget(match[2], match[1]) : null;
 }
 
 /** The turntable has already chosen a direction; don't open another idea deck. */
@@ -113,6 +127,7 @@ export function saveAndPlanMessage(
     people: Eater[];
     eaterIds: string[];
     extraPortions: number;
+    exactDate?: boolean;
   },
   today: Date = new Date(),
 ): string {
@@ -127,7 +142,10 @@ export function saveAndPlanMessage(
     opts.extraPortions > 0
       ? `, plus ${formatExtraPortions(opts.extraPortions)} extra ${opts.extraPortions === 1 ? "portion" : "portions"}`
       : "";
-  return `Save this and plan it for ${dayName(opts.day, today)} ${slot}. Eating: ${who}${extra}.`;
+  const when = opts.exactDate
+    ? `${slot} on ${opts.day}`
+    : `${dayName(opts.day, today)} ${slot}`;
+  return `Save this and plan it for ${when}. Eating: ${who}${extra}.`;
 }
 
 /** A recipe told from memory. Started from a meal slot, it asks for that

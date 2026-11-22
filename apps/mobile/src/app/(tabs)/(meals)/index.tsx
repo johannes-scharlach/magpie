@@ -1,5 +1,7 @@
 import { useQuery } from "@powersync/react";
+import * as Crypto from "expo-crypto";
 import { Link, Stack, router, useLocalSearchParams } from "expo-router";
+import { SymbolView } from "expo-symbols";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useIntl } from "react-intl";
 import {
@@ -12,6 +14,7 @@ import {
 } from "react-native";
 import { GestureDetector } from "react-native-gesture-handler";
 import Animated from "react-native-reanimated";
+import { useResolveClassNames } from "uniwind";
 
 import { Text } from "@/components/ui/text";
 import { useAuth } from "@/db/provider";
@@ -30,6 +33,7 @@ import { dateKey, stripDates, type MealSlot } from "@/features/meals/slots";
 import { usePanSwipeDay } from "@/features/meals/use-pan-swipe-day";
 import { useImportJobs } from "@/features/meals/use-import-jobs";
 import { useActiveList } from "@/features/onboarding/access";
+import { HouseholdAvatars } from "@/features/profile/household-avatars";
 import {
   MealRecommendationError,
   prepareRecommendedMeal,
@@ -39,6 +43,7 @@ import { useToday } from "@/hooks/use-today";
 
 export default function Meals() {
   const intl = useIntl();
+  const iconColor = useResolveClassNames("text-foreground").color;
   const eatersLabel = useEatersLabel();
   const [{ dates, todayIndex }] = useState(stripDates);
   const { date: requestedDate, at } = useLocalSearchParams<{
@@ -342,6 +347,18 @@ export default function Meals() {
           onHide={(slot) => void onHideOpen(key, slot)}
           onSetOpen={(slot, open) => setOpen(key, slot, open)}
           onImport={(slot) => openImport(key, slot)}
+          onStartChat={(slot, entry) =>
+            router.push({
+              pathname: "/chats/[id]",
+              params: {
+                id: Crypto.randomUUID(),
+                date: key,
+                slot,
+                entry,
+                listId: list.id,
+              },
+            })
+          }
           onCookbook={(slot) =>
             router.push({
               pathname: "/meals/pick",
@@ -359,21 +376,6 @@ export default function Meals() {
     );
   }
 
-  if (!list) {
-    return (
-      <View className="flex-1 items-center justify-center gap-3 bg-background p-6">
-        <Text variant="muted">
-          {intl.formatMessage({
-            defaultMessage: "No list yet — create one in Shop first.",
-            description:
-              "Empty state on Meals when the household has no active shopping list.",
-          })}
-        </Text>
-        <ActivityIndicator />
-      </View>
-    );
-  }
-
   return (
     <>
       <Stack.Screen
@@ -383,58 +385,105 @@ export default function Meals() {
             description: "Title of the meal planning screen.",
           }),
           headerLargeTitle: true,
-          headerBackButtonDisplayMode: "minimal",
+          headerLeft: list
+            ? () => (
+                <Pressable
+                  onPress={() => router.push("/household")}
+                  hitSlop={8}
+                  accessibilityLabel={intl.formatMessage({
+                    defaultMessage: "Household and account",
+                    description:
+                      "Accessibility label for the household settings shortcut.",
+                  })}
+                  accessibilityRole="button"
+                  className="p-1"
+                >
+                  <HouseholdAvatars listId={list.id} />
+                </Pressable>
+              )
+            : undefined,
           headerRight: () => (
-            <Link href="/meals/plan" asChild>
+            <View className="flex-row items-center">
               <Pressable
-                accessibilityRole="link"
+                onPress={() => router.push("/chats/history")}
+                accessibilityLabel={intl.formatMessage({
+                  defaultMessage: "Past chats",
+                  description:
+                    "Accessibility label for the shortcut to household chat history.",
+                })}
+                accessibilityRole="button"
                 className="min-h-11 justify-center px-2 active:opacity-60"
               >
-                <Text className="text-link">
-                  {intl.formatMessage({
-                    defaultMessage: "Plan with Magpie",
-                    description:
-                      "Header action that opens the assistant to plan meals.",
-                  })}
-                </Text>
+                <SymbolView
+                  name={{ ios: "clock.arrow.circlepath", android: "history" }}
+                  tintColor={iconColor}
+                  size={22}
+                />
               </Pressable>
-            </Link>
+              <Link href="/meals/plan" asChild>
+                <Pressable
+                  accessibilityRole="link"
+                  className="min-h-11 justify-center px-2 active:opacity-60"
+                >
+                  <Text className="text-link">
+                    {intl.formatMessage({
+                      defaultMessage: "Plan with Magpie",
+                      description:
+                        "Header action that opens the assistant to plan meals.",
+                    })}
+                  </Text>
+                </Pressable>
+              </Link>
+            </View>
           ),
         }}
       />
-      <ScrollView
-        className="flex-1 bg-background"
-        contentInsetAdjustmentBehavior="automatic"
-        contentContainerClassName="flex-grow"
-      >
-        <View className="mt-4">
-          <DayStrip
-            dates={dates}
-            todayIndex={todayIndex}
-            selected={selected}
-            onSelect={setSelected}
-          />
+      {!list ? (
+        <View className="flex-1 items-center justify-center gap-3 bg-background p-6">
+          <Text variant="muted">
+            {intl.formatMessage({
+              defaultMessage: "No list yet — create one in Shop first.",
+              description:
+                "Empty state on Meals when the household has no active shopping list.",
+            })}
+          </Text>
+          <ActivityIndicator />
         </View>
+      ) : (
+        <ScrollView
+          className="flex-1 bg-background"
+          contentInsetAdjustmentBehavior="automatic"
+          contentContainerClassName="flex-grow"
+        >
+          <View className="mt-4">
+            <DayStrip
+              dates={dates}
+              todayIndex={todayIndex}
+              selected={selected}
+              onSelect={setSelected}
+            />
+          </View>
 
-        <GestureDetector gesture={dayPan}>
-          <Animated.View
-            style={[
-              dragStyle,
-              {
-                flexGrow: 1,
-                flexDirection: "row",
-                overflow: "hidden",
-                paddingBottom: 40,
-                // explicit: a stretched row would be viewport-wide and the
-                // page offset would push every page off-screen
-                width: width * dates.length,
-              },
-            ]}
-          >
-            {dates.map(dayPage)}
-          </Animated.View>
-        </GestureDetector>
-      </ScrollView>
+          <GestureDetector gesture={dayPan}>
+            <Animated.View
+              style={[
+                dragStyle,
+                {
+                  flexGrow: 1,
+                  flexDirection: "row",
+                  overflow: "hidden",
+                  paddingBottom: 40,
+                  // explicit: a stretched row would be viewport-wide and the
+                  // page offset would push every page off-screen
+                  width: width * dates.length,
+                },
+              ]}
+            >
+              {dates.map(dayPage)}
+            </Animated.View>
+          </GestureDetector>
+        </ScrollView>
+      )}
     </>
   );
 }
