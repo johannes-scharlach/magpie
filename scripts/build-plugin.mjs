@@ -203,7 +203,9 @@ Do not edit by hand — change \`scripts/build-plugin.mjs\` and regenerate.
 
 Open the ChatGPT desktop app → Plugins → Add → Upload plugin archive, and pick \`${PLUGIN_NAME}.tar.gz\`. Sign in when the host asks: the MCP endpoint requires a Magpie account.
 
-Re-upload after every change to \`plugin.json\`, \`mcp.json\`, \`skills/\`, or the MCP endpoint. The host keeps an installed plugin as a snapshot and does not re-read this archive on its own. Keep the filename \`${PLUGIN_NAME}.tar.gz\` so an upload replaces the installed plugin instead of adding a second copy. Server \`instructions\` and tool descriptions update with the API, not this archive.
+To update, remove the installed Magpie plugin first and then upload this archive: the host keys installs by plugin name and rejects an upload named \`${PLUGIN_NAME}\` while one is installed. Expect to sign in again after re-uploading.
+
+Rebuild after every change to \`plugin.json\`, \`mcp.json\`, \`skills/\`, or the MCP endpoint. The host keeps an installed plugin as a snapshot and does not re-read this archive on its own. Server \`instructions\` and tool descriptions update with the API, not this archive.
 
 ## Build
 

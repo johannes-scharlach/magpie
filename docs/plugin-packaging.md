@@ -22,9 +22,11 @@ endpoint. Both plugin builders read the same skill string, so the packages canno
 | `<APP>` | Environment variable prefix | `DIORAMIC` |
 
 Keep `<plugin>` identical in every manifest, every archive root, and the `mcpServers` key. Keep the
-archive filenames stable and version-free (`<plugin>.tar.gz`, `<plugin>.zip`, `<skill>.zip`):
-re-uploading then replaces the installed plugin instead of adding a second copy. The version lives
-inside the manifests.
+archive filenames stable and version-free (`<plugin>.tar.gz`, `<plugin>.zip`, `<skill>.zip`) so a
+build is recognisable across releases. The version lives inside the manifests.
+
+Do not assume a re-upload replaces an install. ChatGPT keys installs by plugin name and answers
+"A plugin named `<plugin>` already exists" until the installed copy is removed; see section 9.
 
 ## What you ship
 
@@ -295,6 +297,8 @@ pnpm plugin
 # dist/plugin/<plugin>/
 ```
 
+`pnpm plugin:prod` is the same build with `MAGPIE_PUBLIC_ORIGIN` pinned to the production origin, so a release archive cannot pick up a local URL from the shell.
+
 The CLI resolves the public MCP URL in this order:
 
 1. `--mcp-url <url>`
@@ -425,8 +429,11 @@ Installed plugins are snapshots; hosts do not re-read the archive.
 
 - Bump the package version on any change to the skill, tool descriptions, manifests, or MCP URL.
 - Regenerate both plugin archives from the same skill source.
-- Re-upload the ChatGPT archive in the Plugins directory (Add → Upload plugin archive). The stable
-  filename replaces the old install.
+- ChatGPT: remove the installed plugin, then Add → Upload plugin archive. It rejects an upload
+  whose plugin name is already installed ("A plugin named `<plugin>` already exists"), so an
+  update is remove-then-upload, not replace. Expect to sign in again after re-uploading. A
+  workspace plugin has a smoother path: an admin selects **Upload new version** in the admin
+  console ([help.openai.com](https://help.openai.com/articles/20001256)).
 - Re-upload the Claude plugin, then confirm the Connectors entry is connected.
 - Update the Gemini connector URL if it changed, and re-upload the skill.
 - The HTTP route rebuilds on the next process start; the CLI writes files for manual upload. Do

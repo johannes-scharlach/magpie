@@ -211,7 +211,8 @@ test("builds the ChatGPT package with the pointer skill", () => {
   assert.ok(readme.includes(SKILL_PATH));
   assert.match(readme, /ChatGPT desktop app/);
   assert.match(readme, /Upload plugin archive/);
-  assert.match(readme, /Re-upload/);
+  // ChatGPT rejects a duplicate plugin name, so an update is remove-then-upload.
+  assert.match(readme, /remove the installed Magpie plugin first/);
   assert.doesNotMatch(readme, /No `skills\/` directory/);
   assert.equal(readme.endsWith("\n\n"), false);
 });
