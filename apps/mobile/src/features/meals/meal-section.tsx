@@ -58,6 +58,7 @@ type Props = {
   /** Open slot's × — hides the slot behind "+ Select …". */
   onHide: () => void;
   onImport: () => void;
+  onStartChat: (entry: "on_hand" | "dish") => void;
   onCookbook: () => void;
   onWriteIn: () => void;
 };
@@ -96,6 +97,7 @@ export function MealSection({
   onRepeat,
   onHide,
   onImport,
+  onStartChat,
   onCookbook,
   onWriteIn,
 }: Props) {
@@ -336,6 +338,34 @@ export function MealSection({
           </View>
         ) : (
           <View className="gap-3">
+            <View className="flex-row flex-wrap gap-3 px-6">
+              <Button
+                variant="outline"
+                className="h-auto min-h-10 min-w-36 flex-1 py-2"
+                onPress={() => onStartChat("on_hand")}
+              >
+                <Text className="text-center">
+                  {intl.formatMessage({
+                    defaultMessage: "Use what I have",
+                    description:
+                      "Starts a chat to find a meal for this slot using ingredients on hand.",
+                  })}
+                </Text>
+              </Button>
+              <Button
+                variant="outline"
+                className="h-auto min-h-10 min-w-36 flex-1 py-2"
+                onPress={() => onStartChat("dish")}
+              >
+                <Text className="text-center">
+                  {intl.formatMessage({
+                    defaultMessage: "I have a dish in mind",
+                    description:
+                      "Starts a chat to explore how to make a dish the user has in mind for this meal slot.",
+                  })}
+                </Text>
+              </Button>
+            </View>
             <View
               className="flex-row items-center gap-2 px-6"
               accessibilityLiveRegion="polite"

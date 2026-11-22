@@ -56,6 +56,7 @@ type Props = {
   onHide: (slot: MealSlot) => void;
   onSetOpen: (slot: MealSlot, open: boolean) => void;
   onImport: (slot: MealSlot) => void;
+  onStartChat: (slot: MealSlot, entry: "on_hand" | "dish") => void;
   onCookbook: (slot: MealSlot) => void;
   onWriteIn: (slot: MealSlot) => void;
 };
@@ -81,6 +82,7 @@ export function DayContent({
   onHide,
   onSetOpen,
   onImport,
+  onStartChat,
   onCookbook,
   onWriteIn,
 }: Props) {
@@ -164,6 +166,7 @@ export function DayContent({
               onRepeat={() => onRepeat(slot, recipe)}
               onHide={() => onHide(slot)}
               onImport={() => onImport(slot)}
+              onStartChat={(entry) => onStartChat(slot, entry)}
               onCookbook={() => onCookbook(slot)}
               onWriteIn={() => onWriteIn(slot)}
             />

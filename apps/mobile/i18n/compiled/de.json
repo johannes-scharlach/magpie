@@ -21,6 +21,18 @@
       "value": " als Snack einplanen"
     }
   ],
+  "0feGXu": [
+    {
+      "type": 0,
+      "value": "Was möchtest du kochen?"
+    }
+  ],
+  "1+QXgM": [
+    {
+      "type": 0,
+      "value": "Damit ersetzt du die Mahlzeit, die dafür schon im Plan steht."
+    }
+  ],
   "1TrkHP": [
     {
       "type": 0,
@@ -31,6 +43,12 @@
     {
       "type": 0,
       "value": "Ausblenden"
+    }
+  ],
+  "3MwfD7": [
+    {
+      "type": 0,
+      "value": "Haushalt und Konto"
     }
   ],
   "5+uWTl": [
@@ -73,6 +91,12 @@
     {
       "type": 0,
       "value": "Abendessen"
+    }
+  ],
+  "96/RrW": [
+    {
+      "type": 0,
+      "value": "Bisherige Chats"
     }
   ],
   "9rsKGF": [
@@ -141,6 +165,12 @@
     {
       "type": 0,
       "value": "Abendessen wählen"
+    }
+  ],
+  "M6fYaf": [
+    {
+      "type": 0,
+      "value": "Vorhandene Zutaten nutzen"
     }
   ],
   "M7dZ14": [
@@ -341,6 +371,12 @@
       "pluralType": "cardinal"
     }
   ],
+  "Z9/wRb": [
+    {
+      "type": 0,
+      "value": "Welche Zutaten hast du da?"
+    }
+  ],
   "aK3PR3": [
     {
       "type": 0,
@@ -359,10 +395,36 @@
       "value": "Wird zu deinem Kochbuch hinzugefügt…"
     }
   ],
+  "g4uIZZ": [
+    {
+      "type": 1,
+      "value": "meal"
+    },
+    {
+      "type": 0,
+      "value": " · "
+    },
+    {
+      "type": 1,
+      "value": "date"
+    }
+  ],
+  "gWOHY1": [
+    {
+      "type": 0,
+      "value": "Aktivitäten im Haushalt"
+    }
+  ],
   "ir/sf1": [
     {
       "type": 0,
       "value": "Speichert diese Idee in deinem Kochbuch und plant sie"
+    }
+  ],
+  "j8BV4K": [
+    {
+      "type": 0,
+      "value": "Mahlzeiten"
     }
   ],
   "jpoEqR": [
@@ -429,6 +491,12 @@
     {
       "type": 0,
       "value": "Bitte versuch es erneut."
+    }
+  ],
+  "tyszfp": [
+    {
+      "type": 0,
+      "value": "Gerichtsidee eingeben"
     }
   ],
   "vxgbIs": [

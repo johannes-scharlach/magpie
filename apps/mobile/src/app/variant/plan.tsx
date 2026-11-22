@@ -3,11 +3,12 @@ import * as Crypto from "expo-crypto";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import * as Haptics from "expo-haptics";
 import { useMemo, useState } from "react";
+import { useIntl } from "react-intl";
 import { Pressable, View } from "react-native";
 
 import { CloseButton } from "@/components/close-button";
 import { Text } from "@/components/ui/text";
-import type { List, Variant } from "@/db/schema";
+import type { List, PlannedMeal, Variant } from "@/db/schema";
 import { plannedMealId, setPlannedMeal } from "@/db/planned-meals";
 import { useAuth } from "@/db/provider";
 import { saveAndPlanMessage } from "@/features/chat/compose";
@@ -16,12 +17,14 @@ import { Action, PrimaryAction } from "@/components/action";
 import { SheetActions } from "@/components/sheet-actions";
 import { DayStrip } from "@/features/meals/day-strip";
 import { toEaters } from "@/features/meals/eaters";
+import { formatMealTarget } from "@/features/meals/labels";
 import {
   EXTRA_PORTIONS_ERROR,
   EatersPicker,
 } from "@/features/meals/eaters-picker";
 import {
   dateKey,
+  mealTarget,
   SLOT_LABEL,
   SLOT_ORDER,
   stripDates,
@@ -42,11 +45,20 @@ type PersonRow = { id: string; name: string; user_id: string | null };
  *  what was agreed; the assistant does the save + plan (two tool calls),
  *  sizing the recipe it writes for the eaters and extra chosen here. */
 export default function PlanVariantSheet() {
-  const { id, dish } = useLocalSearchParams<{ id?: string; dish?: string }>();
+  const { id, dish, date, slot, listId, chatId } = useLocalSearchParams<{
+    id?: string;
+    dish?: string;
+    date?: string;
+    slot?: string;
+    listId?: string;
+    chatId?: string;
+  }>();
   const router = useRouter();
+  const intl = useIntl();
   const { session } = useAuth();
 
   const pending = !id;
+  const target = pending && listId && chatId ? mealTarget(date, slot) : null;
   const { data: variants } = useQuery<Variant>(
     "SELECT * FROM variants WHERE id = ? LIMIT 1",
     [id ?? ""],
@@ -68,7 +80,11 @@ export default function PlanVariantSheet() {
   const [error, setError] = useState<string | null>(null);
   const strip = useMemo(() => stripDates(0), []);
   const activeList = useActiveList();
-  const effectiveListId = selectedListId ?? activeList?.id ?? null;
+  const effectiveListId = target ? listId : (selectedListId ?? activeList?.id);
+  const { data: existingMeals, isLoading: mealLoading } = useQuery<PlannedMeal>(
+    "SELECT * FROM planned_meals WHERE id = ?",
+    [target && listId ? plannedMealId(listId, target.date, target.slot) : ""],
+  );
 
   const { data: peopleRows } = useQuery<PersonRow>(
     "SELECT id, name, user_id FROM household_people WHERE list_id = ? ORDER BY created_at, id",
@@ -89,10 +105,12 @@ export default function PlanVariantSheet() {
       // The commit: one honest message back on the chat screen.
       void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       queueMessage({
+        chatId,
         messageId: Crypto.randomUUID(),
         text: saveAndPlanMessage({
-          day: selectedDate,
-          meal: selectedMeal,
+          day: target?.date ?? selectedDate,
+          meal: target?.slot ?? selectedMeal,
+          exactDate: !!target,
           people,
           eaterIds,
           extraPortions,
@@ -165,9 +183,24 @@ export default function PlanVariantSheet() {
         <Text variant="muted" className="text-sm" numberOfLines={1}>
           {pending ? (dish ?? "This recipe") : (variant?.name ?? "…")}
         </Text>
+        {target ? (
+          <Text variant="muted" className="text-sm">
+            {formatMealTarget(intl, target)}
+          </Text>
+        ) : null}
+        {target && existingMeals.length > 0 ? (
+          <Text className="text-sm">
+            {intl.formatMessage({
+              defaultMessage:
+                "This will replace the meal already planned for this slot.",
+              description:
+                "Warning before confirming a recipe for an occupied meal slot.",
+            })}
+          </Text>
+        ) : null}
       </View>
 
-      {lists.length > 1 ? (
+      {!target && lists.length > 1 ? (
         <View className="mt-6 gap-2 px-6">
           <Text variant="muted" className="text-xs uppercase tracking-widest">
             List
@@ -197,34 +230,38 @@ export default function PlanVariantSheet() {
         </View>
       ) : null}
 
-      <DayStrip
-        className="mt-6"
-        dates={strip.dates}
-        todayIndex={strip.todayIndex}
-        selected={selectedDate}
-        onSelect={setSelectedDate}
-      />
+      {!target ? (
+        <>
+          <DayStrip
+            className="mt-6"
+            dates={strip.dates}
+            todayIndex={strip.todayIndex}
+            selected={selectedDate}
+            onSelect={setSelectedDate}
+          />
 
-      <View className="mt-6 gap-2 px-6">
-        <Text variant="muted" className="text-xs uppercase tracking-widest">
-          Meal
-        </Text>
-        <View className="flex-row gap-2">
-          {SLOT_ORDER.map((m) => (
-            <Pressable
-              key={m}
-              onPress={() => setSelectedMeal(m)}
-              className={`flex-1 items-center rounded-full border py-2.5 ${selectedMeal === m ? "border-primary bg-primary" : "border-border bg-card"}`}
-            >
-              <Text
-                className={`capitalize ${selectedMeal === m ? "font-semibold text-primary-foreground" : "text-foreground"}`}
-              >
-                {SLOT_LABEL[m]}
-              </Text>
-            </Pressable>
-          ))}
-        </View>
-      </View>
+          <View className="mt-6 gap-2 px-6">
+            <Text variant="muted" className="text-xs uppercase tracking-widest">
+              Meal
+            </Text>
+            <View className="flex-row gap-2">
+              {SLOT_ORDER.map((m) => (
+                <Pressable
+                  key={m}
+                  onPress={() => setSelectedMeal(m)}
+                  className={`flex-1 items-center rounded-full border py-2.5 ${selectedMeal === m ? "border-primary bg-primary" : "border-border bg-card"}`}
+                >
+                  <Text
+                    className={`capitalize ${selectedMeal === m ? "font-semibold text-primary-foreground" : "text-foreground"}`}
+                  >
+                    {SLOT_LABEL[m]}
+                  </Text>
+                </Pressable>
+              ))}
+            </View>
+          </View>
+        </>
+      ) : null}
 
       <EatersPicker
         people={people}
@@ -250,7 +287,11 @@ export default function PlanVariantSheet() {
         <PrimaryAction
           label={saving ? "Adding…" : pending ? "Save & plan" : "Add to plan"}
           onPress={() => void onAdd()}
-          disabled={saving || (!pending && !effectiveListId)}
+          disabled={
+            saving ||
+            (!pending && !effectiveListId) ||
+            (!!target && mealLoading)
+          }
         />
         {!pending ? (
           <Action

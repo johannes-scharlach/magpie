@@ -1,4 +1,6 @@
-import { defineMessages } from "react-intl";
+import { defineMessages, type IntlShape } from "react-intl";
+
+import type { MealTarget } from "./slots";
 
 /** Standalone slot labels, used as headings and badges. */
 export const slotMessages = defineMessages({
@@ -15,6 +17,24 @@ export const slotMessages = defineMessages({
     description: "Meal slot label for a snack or treat.",
   },
 });
+
+export function formatMealTarget(intl: IntlShape, { date, slot }: MealTarget) {
+  return intl.formatMessage(
+    {
+      defaultMessage: "{meal} · {date}",
+      description:
+        "Label for a fixed meal slot. {meal} is the standalone Lunch, Dinner or Treat label; {date} is the formatted calendar date.",
+    },
+    {
+      meal: intl.formatMessage(slotMessages[slot]),
+      date: intl.formatDate(new Date(`${date}T12:00:00`), {
+        weekday: "short",
+        month: "short",
+        day: "numeric",
+      }),
+    },
+  );
+}
 
 /** Action row and heading that open the meal chooser for a slot. */
 export const selectSlotMessages = defineMessages({

@@ -1,4 +1,5 @@
 export type MealSlot = "lunch" | "dinner" | "treat";
+export type MealTarget = { date: string; slot: MealSlot };
 
 export const SLOT_ORDER: MealSlot[] = ["lunch", "dinner", "treat"];
 export const SLOT_LABEL: Record<MealSlot, string> = {
@@ -37,6 +38,14 @@ const pad = (n: number) => String(n).padStart(2, "0");
 /** Local-date key, yyyy-mm-dd. */
 export function dateKey(d: Date): string {
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+}
+
+export function mealTarget(date?: string, slot?: string): MealTarget | null {
+  if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(date)) return null;
+  const parsed = new Date(`${date}T12:00:00`);
+  if (dateKey(parsed) !== date) return null;
+  const meal = SLOT_ORDER.find((value) => value === slot);
+  return meal ? { date, slot: meal } : null;
 }
 
 export function addDays(d: Date, n: number): Date {

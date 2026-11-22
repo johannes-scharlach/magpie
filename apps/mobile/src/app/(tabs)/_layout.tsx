@@ -1,11 +1,13 @@
 import { Redirect } from "expo-router";
 import { NativeTabs } from "expo-router/native-tabs";
+import { useIntl } from "react-intl";
 import { useResolveClassNames } from "uniwind";
 
 import { useAuth } from "@/db/provider";
 
 export default function TabsLayout() {
   const { session, ready } = useAuth();
+  const intl = useIntl();
   const tintColor = useResolveClassNames("bg-primary").backgroundColor;
   const mutedColor = useResolveClassNames("text-muted-foreground").color;
   const backgroundColor = useResolveClassNames("bg-background").backgroundColor;
@@ -27,9 +29,14 @@ export default function TabsLayout() {
       rippleColor={indicatorColor}
       labelVisibilityMode="labeled"
     >
-      <NativeTabs.Trigger name="(home)">
-        <NativeTabs.Trigger.Label>Home</NativeTabs.Trigger.Label>
-        <NativeTabs.Trigger.Icon sf="house.fill" md="home" />
+      <NativeTabs.Trigger name="(meals)">
+        <NativeTabs.Trigger.Label>
+          {intl.formatMessage({
+            defaultMessage: "Meals",
+            description: "Label for the primary meal planning tab.",
+          })}
+        </NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Icon sf="fork.knife" md="restaurant" />
       </NativeTabs.Trigger>
 
       <NativeTabs.Trigger name="shop">
