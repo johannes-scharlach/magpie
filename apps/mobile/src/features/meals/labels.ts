@@ -1,6 +1,6 @@
-import { defineMessages, type IntlShape } from "react-intl";
+import { defineMessage, defineMessages, type IntlShape } from "react-intl";
 
-import type { MealTarget } from "./slots";
+import { addDays, dateKey, type MealSlot, type MealTarget } from "./slots";
 
 /** Standalone slot labels, used as headings and badges. */
 export const slotMessages = defineMessages({
@@ -102,4 +102,99 @@ export const dayMessages = defineMessages({
     defaultMessage: "Today",
     description: "Label for the current day in the date strip and day heading.",
   },
+  tomorrow: {
+    defaultMessage: "Tomorrow",
+    description:
+      "Label for the day after today in a planned meal's heading, such as “Tomorrow · Dinner”.",
+  },
+  yesterday: {
+    defaultMessage: "Yesterday",
+    description:
+      "Label for a planned meal from the day before today, in that meal's heading.",
+  },
 });
+
+/** Heading for a planned meal: its day, then its slot. */
+export const mealHeadingMessage = defineMessage<{ day: string; slot: string }>(
+  {
+    defaultMessage: "{day} · {slot}",
+    description:
+      "Heading for a planned meal, such as “Today · Dinner” or “Thursday, 10 Sep · Dinner”. {day} is a formatted day or Today, Tomorrow, Yesterday. {slot} is the standalone Lunch, Dinner or Treat label. The two parts may be reordered.",
+  },
+  { typed: true },
+);
+
+/** Where a planned meal sits, as a standalone phrase: “Dinner on Tuesday”. */
+export const plannedWhenMessages = defineMessages<{
+  lunch: { day: string };
+  dinner: { day: string };
+  treat: { day: string };
+}>(
+  {
+    lunch: {
+      defaultMessage: "Lunch on {day}",
+      description:
+        "Source of a shopping item that belongs to a planned meal. {day} is a formatted weekday such as Tuesday. Selecting it opens the meal.",
+    },
+    dinner: {
+      defaultMessage: "Dinner on {day}",
+      description:
+        "Source of a shopping item that belongs to a planned meal. {day} is a formatted weekday such as Tuesday. Selecting it opens the meal.",
+    },
+    treat: {
+      defaultMessage: "Treat on {day}",
+      description:
+        "Source of a shopping item that belongs to a planned meal. {day} is a formatted weekday such as Tuesday. Selecting it opens the meal.",
+    },
+  },
+  { typed: true },
+);
+
+/** A planned day as a standalone label: Today, Tomorrow, Yesterday, a weekday,
+ *  or a date when it is further out. */
+export function formatDayLabel(
+  intl: IntlShape,
+  key: string,
+  today: Date = new Date(),
+): string | null {
+  if (!key) return null;
+  const todayKey = dateKey(today);
+  if (key === todayKey) return intl.formatMessage(dayMessages.today);
+  if (key === dateKey(addDays(today, 1)))
+    return intl.formatMessage(dayMessages.tomorrow);
+  const date = new Date(`${key}T12:00:00`);
+  if (Number.isNaN(date.getTime())) return key;
+  if (key < todayKey) {
+    if (key === dateKey(addDays(today, -1)))
+      return intl.formatMessage(dayMessages.yesterday);
+    return intl.formatDate(date, {
+      weekday: "long",
+      day: "numeric",
+      month: "short",
+      year: date.getFullYear() === today.getFullYear() ? undefined : "numeric",
+    });
+  }
+  // Beyond a week the weekday alone could name two meals.
+  return key >= dateKey(addDays(today, 7))
+    ? intl.formatDate(date, { weekday: "long", day: "numeric", month: "short" })
+    : intl.formatDate(date, { weekday: "long" });
+}
+
+/** Standalone slot label, such as Dinner. */
+export function formatSlotLabel(intl: IntlShape, slot: MealSlot) {
+  return intl.formatMessage(slotMessages[slot]);
+}
+
+/** “Dinner on Tuesday”, or null when the meal has no date or slot. */
+export function formatPlannedWhen(
+  intl: IntlShape,
+  date: string | null,
+  meal: string | null,
+): string | null {
+  if (!date || !(meal === "lunch" || meal === "dinner" || meal === "treat"))
+    return null;
+  const parsed = new Date(`${date}T12:00:00`);
+  if (Number.isNaN(parsed.getTime())) return null;
+  const day = intl.formatDate(parsed, { weekday: "long" });
+  return intl.formatMessage(plannedWhenMessages[meal], { day });
+}

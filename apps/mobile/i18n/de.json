@@ -9,10 +9,25 @@
     "_p6t_description": "Action that tries loading meal recommendations again.",
     "_p6t_source": "Retry"
   },
+  "/Fo2I2": {
+    "defaultMessage": "Fertig",
+    "_p6t_description": "Action that closes the shopping item entry sheet, keeping what was added.",
+    "_p6t_source": "Done"
+  },
+  "/woc5o": {
+    "defaultMessage": "Aus dem Kochbuch",
+    "_p6t_description": "Title of the sheet that picks an existing cookbook recipe for a meal slot.",
+    "_p6t_source": "From cookbook"
+  },
   "07x9wI": {
     "defaultMessage": "{recipe} als Snack einplanen",
     "_p6t_description": "Accessibility label for a recommended dish that will fill the treat slot. {recipe} is the recipe's display name. Selecting it plans the recipe as a treat.",
     "_p6t_source": "Select {recipe} for a treat"
+  },
+  "0cWlcT": {
+    "defaultMessage": "Mehr Aufwand",
+    "_p6t_description": "Recipe effort level: more steps or attention than an ordinary weeknight dish.",
+    "_p6t_source": "More work"
   },
   "0feGXu": {
     "defaultMessage": "Was möchtest du kochen?",
@@ -29,15 +44,65 @@
     "_p6t_description": "Status while a recipe import is being cancelled.",
     "_p6t_source": "Cancelling…"
   },
+  "1dwtnM": {
+    "defaultMessage": "Kategorie: {name}",
+    "_p6t_description": "Accessibility label for the menu that sets a shopping item's category. {name} is the current category, or Uncategorised.",
+    "_p6t_source": "Category: {name}"
+  },
+  "1gWMkH": {
+    "defaultMessage": "{count} abgehakt",
+    "_p6t_description": "How many shopping items were already checked off, after the count still to buy.",
+    "_p6t_source": "{count} checked"
+  },
+  "1q9iJM": {
+    "defaultMessage": "Eintrag hinzufügen",
+    "_p6t_description": "Accessibility label for the Shop toolbar button that opens the item entry sheet.",
+    "_p6t_source": "Add item"
+  },
+  "30YoVC": {
+    "defaultMessage": "Gewechselt zu {name}",
+    "_p6t_description": "Screen-reader announcement after a shopping item switched to another ingredient option. {name} is the option now shown.",
+    "_p6t_source": "Changed to {name}"
+  },
+  "3CJl1Z": {
+    "defaultMessage": "Ältere passende Variante",
+    "_p6t_description": "Badge on a cookbook recipe when a newer version of the same dish exists.",
+    "_p6t_source": "Older matching variant"
+  },
   "3DrMNt": {
     "defaultMessage": "Ausblenden",
     "_p6t_description": "Action that hides a failed recipe import.",
     "_p6t_source": "Dismiss"
   },
+  "3MDr/G": {
+    "defaultMessage": "Auf der Liste",
+    "_p6t_description": "Status on a search result that is already on the shopping list.",
+    "_p6t_source": "On list"
+  },
   "3MwfD7": {
     "defaultMessage": "Haushalt und Konto",
     "_p6t_description": "Accessibility label for the household settings shortcut.",
     "_p6t_source": "Household and account"
+  },
+  "3j+H9P": {
+    "defaultMessage": "Name",
+    "_p6t_description": "Accessibility label for the field holding a shopping item's name.",
+    "_p6t_source": "Name"
+  },
+  "3qVWYG": {
+    "defaultMessage": "Alles zu Hause",
+    "_p6t_description": "Status on a planned meal's shopping when every ingredient was marked as already at home.",
+    "_p6t_source": "All at home"
+  },
+  "4ZRn62": {
+    "defaultMessage": "Details hinzufügen",
+    "_p6t_description": "Placeholder in the note field of an item just added to the list. The note is free text, such as a size or brand.",
+    "_p6t_source": "Add details"
+  },
+  "4eyER+": {
+    "defaultMessage": "Einträge hinzufügen",
+    "_p6t_description": "Title of the sheet where the cook types shopping items one after another.",
+    "_p6t_source": "Add items"
   },
   "5+uWTl": {
     "defaultMessage": "{host} wird gelesen…",
@@ -49,15 +114,60 @@
     "_p6t_description": "Alert title when a chosen meal could not be saved.",
     "_p6t_source": "Couldn’t plan this meal"
   },
+  "563N8u": {
+    "defaultMessage": "Deine Angaben sind noch da. Bitte versuch es erneut.",
+    "_p6t_description": "Alert body when a shopping item's note could not be saved. Nothing was lost.",
+    "_p6t_source": "Your details are still here. Please try again."
+  },
+  "5AqntS": {
+    "defaultMessage": "Eintrag konnte nicht gespeichert werden",
+    "_p6t_description": "Alert title when renaming a standalone shopping item or saving its note failed.",
+    "_p6t_source": "Couldn’t save item"
+  },
+  "5NKar0": {
+    "defaultMessage": "Einkauf für Mahlzeiten",
+    "_p6t_description": "Title of the screen that lists upcoming meals and their shopping decisions.",
+    "_p6t_source": "Shop for meals"
+  },
+  "5dil2Q": {
+    "defaultMessage": "Weitere Varianten",
+    "_p6t_description": "Menu action that opens the other versions of a recipe.",
+    "_p6t_source": "Other variants"
+  },
+  "695Ha/": {
+    "defaultMessage": "Rezepte suchen",
+    "_p6t_description": "Placeholder in the cookbook's search field.",
+    "_p6t_source": "Search recipes"
+  },
+  "6DbM9d": {
+    "defaultMessage": "Um eines davon hinzuzufügen, importiere alle seine Seiten zusammen.",
+    "_p6t_description": "Explains how to recover an incomplete recipe: import the rest of its pages in the same import.",
+    "_p6t_source": "To add one of these, import all its pages together."
+  },
+  "6imU0v": {
+    "defaultMessage": "Noch nichts zu kaufen. Öffne Mahlzeiten, um auszuwählen, was du kaufst, oder füge einen Eintrag hinzu.",
+    "_p6t_description": "Empty Shop state when planned meals still need a shopping choice. Names two ways to get items on the list.",
+    "_p6t_source": "Nothing to buy yet. Open Meals to choose what to buy, or add an item."
+  },
   "77C3do": {
     "defaultMessage": "+{extra} extra",
     "_p6t_description": "Suffix on a meal badge for food beyond the named eaters, such as guests or leftovers.",
     "_p6t_source": "+{extra} extra"
   },
+  "78XbAU": {
+    "defaultMessage": "Eintrag hinzufügen",
+    "_p6t_description": "Placeholder in the entry field where the cook types what to buy.",
+    "_p6t_source": "Add an item"
+  },
   "7NwgcX": {
     "defaultMessage": "Abbrechen",
     "_p6t_description": "Action that cancels a running recipe import.",
     "_p6t_source": "Cancel"
+  },
+  "8b+Yoq": {
+    "defaultMessage": "Mahlzeit",
+    "_p6t_description": "Fallback title for a meal written in by hand.",
+    "_p6t_source": "Meal"
   },
   "8tYGGP": {
     "defaultMessage": "Abendessen",
@@ -69,6 +179,11 @@
     "_p6t_description": "Accessibility label for the shortcut to household chat history.",
     "_p6t_source": "Past chats"
   },
+  "97Gs7q": {
+    "defaultMessage": "Noch keine Zutatenliste",
+    "_p6t_description": "Status on a meal written in by hand that has no items to buy yet.",
+    "_p6t_source": "No ingredient list yet"
+  },
   "9rsKGF": {
     "defaultMessage": "Mittagessen wählen",
     "_p6t_description": "Action row that opens the meal chooser for lunch, and the heading shown while it is open. Does not plan a meal yet.",
@@ -79,15 +194,60 @@
     "_p6t_description": "Destructive menu action that removes the meal from the plan.",
     "_p6t_source": "Remove from plan"
   },
+  "ASbK1o": {
+    "defaultMessage": "{count, plural, one {1 Mahlzeit zu prüfen} other {# Mahlzeiten zu prüfen}}",
+    "_p6t_description": "Accessibility label for the Shop toolbar button that opens the meals needing a shopping decision. {count} is how many meals.",
+    "_p6t_source": "{count, plural, one {1 meal to review} other {# meals to review}}"
+  },
+  "ApC4Uy": {
+    "defaultMessage": "Zutaten, Gewürze & Backen",
+    "_p6t_description": "Shopping category for spices, baking supplies and pantry ingredients.",
+    "_p6t_source": "Ingredients, spices & baking"
+  },
+  "B2Sv0f": {
+    "defaultMessage": "Magpie speichert es in deinem Kochbuch und plant es für dich ein.",
+    "_p6t_description": "Note in the import sheet when the recipe will also fill a meal slot. The meal itself is named on the following line.",
+    "_p6t_source": "Magpie saves it to your cookbook and plans it for you."
+  },
+  "B2WnCm": {
+    "defaultMessage": "{name} abhaken",
+    "_p6t_description": "Accessibility label for the checkbox of a shopping item. Selecting it marks the item as bought. {name} is the item's name.",
+    "_p6t_source": "Check off {name}"
+  },
+  "B8Psge": {
+    "defaultMessage": "Einfach",
+    "_p6t_description": "Recipe effort level: little work, few steps.",
+    "_p6t_source": "Easy"
+  },
   "BNzExh": {
     "defaultMessage": "Snack",
     "_p6t_description": "Meal slot label for a snack or treat.",
     "_p6t_source": "Treat"
   },
+  "BUvsPI": {
+    "defaultMessage": "Morgen",
+    "_p6t_description": "Label for the day after today in a planned meal's heading, such as “Tomorrow · Dinner”.",
+    "_p6t_source": "Tomorrow"
+  },
+  "BuLRku": {
+    "defaultMessage": "Eintrag konnte nicht getauscht werden",
+    "_p6t_description": "Alert title when swapping a shopping item for another option failed.",
+    "_p6t_source": "Couldn’t swap item"
+  },
+  "CLXnlV": {
+    "defaultMessage": "Weitere Varianten von {name}",
+    "_p6t_description": "Accessibility label for the row that opens the other versions of a cookbook recipe. {name} is the recipe's name.",
+    "_p6t_source": "Other variants of {name}"
+  },
   "CpnFSJ": {
     "defaultMessage": "Kochbuch durchstöbern",
     "_p6t_description": "Card that opens the cookbook when there are no matching recommendations.",
     "_p6t_source": "Browse cookbook"
+  },
+  "Dkp9Si": {
+    "defaultMessage": "{name} hinzufügen",
+    "_p6t_description": "Accessibility label for a previously bought item that can be added to the list again. {name} is the item's name.",
+    "_p6t_source": "Add {name}"
   },
   "DrcycS": {
     "defaultMessage": "„{text}“ wird gelesen…",
@@ -104,10 +264,80 @@
     "_p6t_description": "Action that lets the user type a meal that is not in the cookbook.",
     "_p6t_source": "Write in a meal"
   },
+  "Eu3PUg": {
+    "defaultMessage": "Ausgehakte Rezepte kommen in dein Kochbuch. Erst mit dem Hinzufügen wird etwas gespeichert.",
+    "_p6t_description": "Instruction above the list of recipes an import found. Each complete recipe starts ticked.",
+    "_p6t_source": "Ticked recipes go to your cookbook. Nothing is saved until you add them."
+  },
+  "FABYcO": {
+    "defaultMessage": "Obst & Gemüse",
+    "_p6t_description": "Shopping category for fresh produce.",
+    "_p6t_source": "Fruit & vegetables"
+  },
+  "FKeUdZ": {
+    "defaultMessage": "Getränke",
+    "_p6t_description": "Shopping category for drinks.",
+    "_p6t_source": "Beverages"
+  },
+  "FjaxBE": {
+    "defaultMessage": "Hinzufügen",
+    "_p6t_description": "Title of the Shop toolbar button that opens the item entry sheet.",
+    "_p6t_source": "Add"
+  },
+  "Frra3A": {
+    "defaultMessage": "Sonstiges",
+    "_p6t_description": "Shopping category for items that fit none of the other aisles.",
+    "_p6t_source": "Other"
+  },
+  "Ftip1w": {
+    "defaultMessage": "Eintrag wird geladen…",
+    "_p6t_description": "Status in the shopping item sheet while the item is read from the local database.",
+    "_p6t_source": "Loading item…"
+  },
+  "GXiSPF": {
+    "defaultMessage": "{count, plural, one {1 zu kaufen} other {# zu kaufen}}",
+    "_p6t_description": "Summary above the shopping list. {count} is how many items are still to buy.",
+    "_p6t_source": "{count, plural, one {1 to buy} other {# to buy}}"
+  },
+  "Gfm4qD": {
+    "defaultMessage": "Importieren",
+    "_p6t_description": "Action that starts reading the chosen photos as recipes.",
+    "_p6t_source": "Import"
+  },
+  "GsvZC/": {
+    "defaultMessage": "Ersetzen durch",
+    "_p6t_description": "Heading above other ingredient options a recipe allows, such as another cheese. Selecting one changes the shopping item.",
+    "_p6t_source": "Swap for"
+  },
+  "GwcRqi": {
+    "defaultMessage": "Vielleicht wurde er auf einem anderen Gerät entfernt.",
+    "_p6t_description": "Body under “Item not found”. Explains the likely cause without asking the user to do anything.",
+    "_p6t_source": "It may have been removed on another device."
+  },
+  "IAQgpf": {
+    "defaultMessage": "Frühstück & Heißgetränke",
+    "_p6t_description": "Shopping category for breakfast goods and coffee or tea.",
+    "_p6t_source": "Breakfast & hot drinks"
+  },
+  "IOXqGa": {
+    "defaultMessage": "Aufschnitt, Käse & Feinkost",
+    "_p6t_description": "Shopping category for the deli counter and cheese.",
+    "_p6t_source": "Cold cuts, cheese & deli"
+  },
   "IQG6uc": {
     "defaultMessage": "Vergangene Mahlzeit",
     "_p6t_description": "Status on a planned meal whose day has already passed.",
     "_p6t_source": "Past meal"
+  },
+  "IYPNA9": {
+    "defaultMessage": "Notiz",
+    "_p6t_description": "Accessibility label for the free-text note field of a shopping item.",
+    "_p6t_source": "Note"
+  },
+  "IkTWes": {
+    "defaultMessage": "Wird hinzugefügt…",
+    "_p6t_description": "Status while the ticked recipes are being saved.",
+    "_p6t_source": "Adding…"
   },
   "JjUC5I": {
     "defaultMessage": "Erneut versuchen",
@@ -119,6 +349,31 @@
     "_p6t_description": "Action row that opens the meal chooser for dinner, and the heading shown while it is open. Does not plan a meal yet.",
     "_p6t_source": "Select dinner"
   },
+  "KDuWv8": {
+    "defaultMessage": "{count, plural, one {1 Rezept hinzufügen} other {# Rezepte hinzufügen}}",
+    "_p6t_description": "Action that saves the ticked recipes to the cookbook. {count} is how many are ticked.",
+    "_p6t_source": "{count, plural, one {Add 1 recipe} other {Add # recipes}}"
+  },
+  "KYeM+i": {
+    "defaultMessage": "Rezept importieren",
+    "_p6t_description": "Title of the import sheet when it is not tied to a meal slot.",
+    "_p6t_source": "Import recipe"
+  },
+  "KyFWof": {
+    "defaultMessage": "Mahlzeit",
+    "_p6t_description": "Fallback name for a planned meal whose dish name is missing.",
+    "_p6t_source": "Meal"
+  },
+  "LIn5Ck": {
+    "defaultMessage": "Snack am {day}",
+    "_p6t_description": "Source of a shopping item that belongs to a planned meal. {day} is a formatted weekday such as Tuesday. Selecting it opens the meal.",
+    "_p6t_source": "Treat on {day}"
+  },
+  "LMzT/U": {
+    "defaultMessage": "Normal",
+    "_p6t_description": "Recipe effort level: an ordinary weeknight dish.",
+    "_p6t_source": "Normal"
+  },
   "M6fYaf": {
     "defaultMessage": "Vorhandene Zutaten nutzen",
     "_p6t_description": "Starts a chat to find a meal for this slot using ingredients on hand.",
@@ -129,25 +384,110 @@
     "_p6t_description": "Status while a chosen recommendation is being saved and synced.",
     "_p6t_source": "Getting the recipe ready…"
   },
+  "MGQKpS": {
+    "defaultMessage": "Nächster Eintrag",
+    "_p6t_description": "Placeholder in the entry field after at least one item was added. Keeps the cook typing the next one.",
+    "_p6t_source": "Next item"
+  },
   "MJTmFc": {
     "defaultMessage": "Mahlzeiten",
     "_p6t_description": "Title of the meal planning screen.",
     "_p6t_source": "Meals"
+  },
+  "NFsZN2": {
+    "defaultMessage": "Bitte versuch es erneut.",
+    "_p6t_description": "Alert body after an action failed. The user can repeat the action.",
+    "_p6t_source": "Please try again."
+  },
+  "Ngz9Xq": {
+    "defaultMessage": "Hab ich zu Hause",
+    "_p6t_description": "Action that marks this ingredient as already at home, so it leaves the list for this meal.",
+    "_p6t_source": "I have it at home"
+  },
+  "ODr7zx": {
+    "defaultMessage": "Details konnten nicht gespeichert werden",
+    "_p6t_description": "Alert title when saving a shopping item's note failed, such as when leaving the entry sheet.",
+    "_p6t_source": "Couldn’t save details"
+  },
+  "Ofk7Ir": {
+    "defaultMessage": "Mittagessen am {day}",
+    "_p6t_description": "Source of a shopping item that belongs to a planned meal. {day} is a formatted weekday such as Tuesday. Selecting it opens the meal.",
+    "_p6t_source": "Lunch on {day}"
+  },
+  "PKr4/s": {
+    "defaultMessage": "Einkauf",
+    "_p6t_description": "Label for the tab with the household's shopping list.",
+    "_p6t_source": "Shop"
   },
   "PZW+tk": {
     "defaultMessage": "Gedrückt halten für andere Varianten",
     "_p6t_description": "Accessibility hint for opening a recipe's other variants.",
     "_p6t_source": "Long press for other variants"
   },
+  "PmW3EN": {
+    "defaultMessage": "Magpie ein Rezept erzählen, das du kennst",
+    "_p6t_description": "Row that opens the recorder to describe a recipe from memory. The chat checks it before saving.",
+    "_p6t_source": "Tell Magpie a recipe you know"
+  },
   "Q5plTF": {
     "defaultMessage": "Noch keine Liste – leg zuerst im Einkauf eine an.",
     "_p6t_description": "Empty state on Meals when the household has no active shopping list.",
     "_p6t_source": "No list yet — create one in Shop first."
   },
+  "QJp8Zx": {
+    "defaultMessage": "Milchprodukte, Butter & Joghurt",
+    "_p6t_description": "Shopping category for dairy products.",
+    "_p6t_source": "Dairy, butter & yogurt"
+  },
+  "QW64XA": {
+    "defaultMessage": "Eintrag konnte nicht abgehakt werden",
+    "_p6t_description": "Alert title when marking a shopping item as bought failed.",
+    "_p6t_source": "Couldn’t check off item"
+  },
+  "QoZ4P9": {
+    "defaultMessage": "Rezepte konnten nicht hinzugefügt werden",
+    "_p6t_description": "Alert title when keeping the reviewed recipes failed. The imported text is still there.",
+    "_p6t_source": "Could not add the recipes"
+  },
+  "QrHBLE": {
+    "defaultMessage": "Eintrag konnte nicht hinzugefügt werden",
+    "_p6t_description": "Alert title when adding an item to the shopping list failed.",
+    "_p6t_source": "Couldn’t add item"
+  },
+  "RACRTO": {
+    "defaultMessage": "Leeres Kochbuch",
+    "_p6t_description": "Accessibility label for the illustration shown when the cookbook has no recipes.",
+    "_p6t_source": "Empty cookbook"
+  },
   "RBdc82": {
     "defaultMessage": "Wähle aus, was du kaufst",
     "_p6t_description": "Action under a planned meal that opens its shopping items.",
     "_p6t_source": "Choose what to buy"
+  },
+  "RJfIuU": {
+    "defaultMessage": "Tierbedarf",
+    "_p6t_description": "Shopping category for pet food and supplies.",
+    "_p6t_source": "Pet supplies"
+  },
+  "S3jKdb": {
+    "defaultMessage": "Eintrag hinzufügen",
+    "_p6t_description": "Accessibility label for the field where the cook types what to buy.",
+    "_p6t_source": "Add an item"
+  },
+  "SOmAkO": {
+    "defaultMessage": "Mahlzeiten ({count})",
+    "_p6t_description": "Title of the Shop toolbar button that opens the meals needing a shopping decision. {count} is how many meals.",
+    "_p6t_source": "Meals ({count})"
+  },
+  "SPd0ko": {
+    "defaultMessage": "Eintrag nicht gefunden",
+    "_p6t_description": "Title in the shopping item sheet when the item no longer exists, for example because another device removed it.",
+    "_p6t_source": "Item not found"
+  },
+  "Sxhuxi": {
+    "defaultMessage": "Wische nach links für den nächsten Ersatz, nach rechts für den vorherigen. Tippe für Details.",
+    "_p6t_description": "Accessibility hint on a shopping row that offers other ingredient options.",
+    "_p6t_source": "Swipe left for the next substitute, right for the previous. Tap for details."
   },
   "SyepTx": {
     "defaultMessage": "Mahlzeiten werden gesucht…",
@@ -164,10 +504,35 @@
     "_p6t_description": "Alert title when cancelling a recipe import failed.",
     "_p6t_source": "Could not cancel"
   },
+  "UTC2ZW": {
+    "defaultMessage": "Es gibt nichts zum Einfügen. Kopiere zuerst einen Link oder ein Rezept.",
+    "_p6t_description": "Error when the clipboard holds no recipe link or text. Names the next step.",
+    "_p6t_source": "There’s nothing to paste. Copy a link or recipe first."
+  },
+  "Uyn5M2": {
+    "defaultMessage": "{name} einplanen",
+    "_p6t_description": "Accessibility label for a cookbook recipe that fills the meal slot being planned. {name} is the recipe's name. Selecting it plans the recipe.",
+    "_p6t_source": "Plan {name}"
+  },
   "V/P0v7": {
     "defaultMessage": "Alle",
     "_p6t_description": "Badge on a planned meal when every household member is eating it.",
     "_p6t_source": "Everyone"
+  },
+  "VA0Lxk": {
+    "defaultMessage": "Haushalt",
+    "_p6t_description": "Shopping category for cleaning and household supplies.",
+    "_p6t_source": "Household"
+  },
+  "VOBEao": {
+    "defaultMessage": "Ohne Kochen",
+    "_p6t_description": "Recipe effort level for a dish assembled without heat, such as a salad or a sandwich.",
+    "_p6t_source": "No cooking"
+  },
+  "VhvMsk": {
+    "defaultMessage": "Von einer Website, aus einer Nachricht oder aus deiner Sammlung",
+    "_p6t_description": "Detail under the paste row. Names where copied recipe text can come from.",
+    "_p6t_source": "From a website, a message or your own collection"
   },
   "VlowD5": {
     "defaultMessage": "Ich",
@@ -184,6 +549,16 @@
     "_p6t_description": "Action that opens imported recipes for review.",
     "_p6t_source": "Review"
   },
+  "W4PF9Z": {
+    "defaultMessage": "Details zu {name}",
+    "_p6t_description": "Accessibility label for the note field of an added shopping item. {name} is the item's name.",
+    "_p6t_source": "Details for {name}"
+  },
+  "W6R9iu": {
+    "defaultMessage": "Notiz hinzufügen",
+    "_p6t_description": "Placeholder in the free-text note field of a shopping item, such as a size or brand.",
+    "_p6t_source": "Add a note"
+  },
   "WobItN": {
     "defaultMessage": "Vorschläge konnten nicht geladen werden. Du kannst trotzdem dein Kochbuch durchstöbern.",
     "_p6t_description": "Status when meal recommendations failed, with a fallback action.",
@@ -199,65 +574,285 @@
     "_p6t_description": "Status while recipe photos are being read, with the number of photos.",
     "_p6t_source": "{count, plural, one {Reading your photo…} other {Reading # photos…}}"
   },
+  "XcFs+K": {
+    "defaultMessage": "Ohne Kategorie",
+    "_p6t_description": "Fallback for a shopping item that has no category.",
+    "_p6t_source": "Uncategorised"
+  },
+  "Z2IumF": {
+    "defaultMessage": "{count} gekauft",
+    "_p6t_description": "Part of a planned meal's shopping status. {count} is how many ingredients are already bought.",
+    "_p6t_source": "{count} bought"
+  },
   "Z9/wRb": {
     "defaultMessage": "Welche Zutaten hast du da?",
     "_p6t_description": "First message prompt for a meal chat based on ingredients on hand.",
     "_p6t_source": "What ingredients do you have?"
+  },
+  "Z9BB32": {
+    "defaultMessage": "Rezept importieren",
+    "_p6t_description": "Action that opens the recipe import sheet, where recipes come in from a link, pasted text, photos or a recording.",
+    "_p6t_source": "Import recipe"
   },
   "aK3PR3": {
     "defaultMessage": "Auswahl fürs Mittagessen ausblenden",
     "_p6t_description": "Accessibility label for the control that closes the lunch meal chooser. Does not change the planned meal.",
     "_p6t_source": "Hide lunch choices"
   },
+  "aZ1ogU": {
+    "defaultMessage": "Mahlzeit",
+    "_p6t_description": "Fallback name for a planned meal that has no dish name.",
+    "_p6t_source": "Meal"
+  },
+  "aiCuWd": {
+    "defaultMessage": "Name",
+    "_p6t_description": "Placeholder in the field holding an item's name.",
+    "_p6t_source": "Name"
+  },
+  "bReaED": {
+    "defaultMessage": "{max} Seiten sind das Maximum für einen Import. Importiere diese und dann die nächsten {max}.",
+    "_p6t_description": "Limit on photos in one import. {max} is the maximum number of pages. Names the way to continue with the remaining pages.",
+    "_p6t_source": "{max} pages is the most for one import. Import these, then the next {max}."
+  },
+  "bSLf7V": {
+    "defaultMessage": "Eintrag konnte nicht zurückgeholt werden",
+    "_p6t_description": "Alert title when putting a checked-off shopping item back on the list failed.",
+    "_p6t_source": "Couldn’t restore item"
+  },
+  "bbNeZ2": {
+    "defaultMessage": "{count, plural, one {1 auf der Liste} other {# auf der Liste}}",
+    "_p6t_description": "Status on a meal written in by hand, whose items are already on the shopping list. {count} is how many.",
+    "_p6t_source": "{count, plural, one {1 on the list} other {# on the list}}"
+  },
+  "bbY11+": {
+    "defaultMessage": "ältere passende Variante",
+    "_p6t_description": "Added to a cookbook recipe's accessibility label when a newer version matches the same dish. Lowercase so it reads as a continuation.",
+    "_p6t_source": "older matching variant"
+  },
+  "bzU5dt": {
+    "defaultMessage": "{name} verwenden",
+    "_p6t_description": "Accessibility action that switches a shopping item to another ingredient option. {name} is that option's name.",
+    "_p6t_source": "Use {name}"
+  },
+  "cBO33J": {
+    "defaultMessage": "Getreideprodukte",
+    "_p6t_description": "Shopping category for rice, pasta, flour and other grains.",
+    "_p6t_source": "Grain products"
+  },
+  "cJ0hCi": {
+    "defaultMessage": "Kochbuch",
+    "_p6t_description": "Label for the tab with the household's saved recipes.",
+    "_p6t_source": "Cookbook"
+  },
+  "caJwim": {
+    "defaultMessage": "Link oder Rezepttext einfügen",
+    "_p6t_description": "Row that imports a recipe from the clipboard, as a link or as text.",
+    "_p6t_source": "Paste link or recipe text"
+  },
   "cmBFn5": {
     "defaultMessage": "Wird zu deinem Plan hinzugefügt…",
     "_p6t_description": "Status while an imported recipe is being added to the meal plan.",
     "_p6t_source": "Adding to your plan…"
+  },
+  "dCH2P/": {
+    "defaultMessage": "Diese Mahlzeit liegt in der Vergangenheit. Prüfe, ob du das noch kaufen möchtest.",
+    "_p6t_description": "Warning on an ingredient for a meal whose day has passed. The cook decides whether the item is still needed.",
+    "_p6t_source": "This meal is in the past. Check whether you still want to buy this."
+  },
+  "eFK5Ok": {
+    "defaultMessage": "Hinzugefügt",
+    "_p6t_description": "Heading above items added in this entry session, newest last.",
+    "_p6t_source": "Added"
   },
   "eqjXdk": {
     "defaultMessage": "Wird zu deinem Kochbuch hinzugefügt…",
     "_p6t_description": "Status while an imported recipe is being added to the cookbook.",
     "_p6t_source": "Adding to your cookbook…"
   },
+  "fAyG5b": {
+    "defaultMessage": "{name} zurückholen",
+    "_p6t_description": "Accessibility label for the checkbox of a bought shopping item. Selecting it puts the item back on the list. {name} is the item's name.",
+    "_p6t_source": "Restore {name}"
+  },
+  "g1CIfS": {
+    "defaultMessage": "{count} auf der Liste",
+    "_p6t_description": "Part of a planned meal's shopping status. {count} is how many ingredients are on the shopping list.",
+    "_p6t_source": "{count} on the list"
+  },
   "g4uIZZ": {
     "defaultMessage": "{meal} · {date}",
     "_p6t_description": "Label for a fixed meal slot. {meal} is the standalone Lunch, Dinner or Treat label; {date} is the formatted calendar date.",
     "_p6t_source": "{meal} · {date}"
+  },
+  "gCjS5j": {
+    "defaultMessage": "Hinzufügen",
+    "_p6t_description": "Accessibility label for the button that adds the typed item to the shopping list.",
+    "_p6t_source": "Add"
   },
   "gWOHY1": {
     "defaultMessage": "Aktivitäten im Haushalt",
     "_p6t_description": "Settings row that opens the household's recent meal and shopping changes.",
     "_p6t_source": "Household activity"
   },
+  "gYPHvh": {
+    "defaultMessage": "Import fürs Mittagessen",
+    "_p6t_description": "Title of the import sheet when the recipe will fill a lunch slot.",
+    "_p6t_source": "Import for lunch"
+  },
+  "gnsOl4": {
+    "defaultMessage": "Unvollständig",
+    "_p6t_description": "Heading above recipes an import could not read completely. They cannot be kept.",
+    "_p6t_source": "Incomplete"
+  },
+  "h/k4II": {
+    "defaultMessage": "Brot & Gebäck",
+    "_p6t_description": "Shopping category for bread and baked goods.",
+    "_p6t_source": "Bread & pastries"
+  },
+  "hAVLiO": {
+    "defaultMessage": "Auf der Liste",
+    "_p6t_description": "Status on an item that was already on the shopping list before this entry.",
+    "_p6t_source": "On list"
+  },
+  "hGpcZF": {
+    "defaultMessage": "Dein Kochbuch ist leer. Importiere die Rezepte, die du gern kochst.",
+    "_p6t_description": "Empty cookbook state, before any recipe was saved or imported.",
+    "_p6t_source": "Your cookbook is empty. Import the recipes you love to cook."
+  },
+  "heIYZX": {
+    "defaultMessage": "Noch {count} offen",
+    "_p6t_description": "Status on a planned meal's shopping, while ingredients still await a decision. {count} is how many are left.",
+    "_p6t_source": "{count} to decide"
+  },
+  "iQ3uTU": {
+    "defaultMessage": "Haus & Garten",
+    "_p6t_description": "Shopping category for home and garden goods.",
+    "_p6t_source": "Home & garden"
+  },
   "ir/sf1": {
     "defaultMessage": "Speichert diese Idee in deinem Kochbuch und plant sie",
     "_p6t_description": "Accessibility hint for choosing a seeded meal idea.",
     "_p6t_source": "Saves this idea to your cookbook and plans it"
+  },
+  "isMF9L": {
+    "defaultMessage": "Kochbuch",
+    "_p6t_description": "Title of the Cookbook tab, which holds the household's saved recipes.",
+    "_p6t_source": "Cookbook"
+  },
+  "j3b4MN": {
+    "defaultMessage": "Frisches Fleisch & Fisch",
+    "_p6t_description": "Shopping category for the fresh meat and fish counter.",
+    "_p6t_source": "Fresh meat & fish"
   },
   "j8BV4K": {
     "defaultMessage": "Mahlzeiten",
     "_p6t_description": "Label for the primary meal planning tab.",
     "_p6t_source": "Meals"
   },
+  "jD5IVs": {
+    "defaultMessage": "Gefundene Rezepte",
+    "_p6t_description": "Title of the sheet that reviews the recipes one import found, before any are saved.",
+    "_p6t_source": "Found recipes"
+  },
   "jpoEqR": {
     "defaultMessage": "Das Rezept wurde noch nicht synchronisiert. Versuch es gleich noch einmal.",
     "_p6t_description": "Alert body when a recommendation was chosen before its recipe finished syncing.",
     "_p6t_source": "The recipe hasn’t synced yet. Try again in a moment."
+  },
+  "jsESf/": {
+    "defaultMessage": "Screenshots oder Fotos auswählen",
+    "_p6t_description": "Row that imports recipes from screenshots or photos already on the phone.",
+    "_p6t_source": "Choose screenshots or photos"
   },
   "kM+skD": {
     "defaultMessage": "{recipe} zum Abendessen einplanen",
     "_p6t_description": "Accessibility label for a recommended dish that will fill the dinner slot. {recipe} is the recipe's display name. Selecting it plans the recipe for dinner.",
     "_p6t_source": "Select {recipe} for dinner"
   },
+  "kNas2A": {
+    "defaultMessage": "Öffnet die geplante Mahlzeit",
+    "_p6t_description": "Accessibility hint for the row in the item sheet that links to the meal this ingredient belongs to.",
+    "_p6t_source": "Opens the planned meal"
+  },
+  "kNt/TP": {
+    "defaultMessage": "Details",
+    "_p6t_description": "Title of the sheet for an item the cook wrote in. Its name and note can be edited in place.",
+    "_p6t_source": "Details"
+  },
+  "kZIMYp": {
+    "defaultMessage": "Keine Treffer für „{query}“.",
+    "_p6t_description": "Empty search result in the cookbook. {query} is the cook's own search text, kept as typed.",
+    "_p6t_source": "No matches for “{query}”."
+  },
+  "koAL0x": {
+    "defaultMessage": "Bitte versuch es erneut.",
+    "_p6t_description": "Generic alert body after an action failed. The user can repeat it.",
+    "_p6t_source": "Please try again."
+  },
+  "lwjs+K": {
+    "defaultMessage": "Noch etwas ergänzen? Zum Beispiel: Seite 2 ist die Soße",
+    "_p6t_description": "Placeholder above the photos of an import. The cook can explain how the pages fit together.",
+    "_p6t_source": "Anything to add? For example, page 2 is the sauce"
+  },
+  "lz7pcY": {
+    "defaultMessage": "Leere Einkaufsliste",
+    "_p6t_description": "Accessibility label for the illustration shown when the shopping list has no items.",
+    "_p6t_source": "Empty shopping list"
+  },
   "mYhCW0": {
     "defaultMessage": "Verschieben nach…",
     "_p6t_description": "Menu action that moves the planned meal to another day or slot.",
     "_p6t_source": "Move to…"
   },
+  "mZ3Vq4": {
+    "defaultMessage": "Abhaken",
+    "_p6t_description": "Action in the shopping item sheet that marks the item as bought.",
+    "_p6t_source": "Check off"
+  },
+  "mdefrF": {
+    "defaultMessage": "Import konnte nicht verworfen werden",
+    "_p6t_description": "Alert title when discarding a reviewed import failed.",
+    "_p6t_source": "Could not discard"
+  },
+  "mf5bwq": {
+    "defaultMessage": "Wird verworfen…",
+    "_p6t_description": "Status while a reviewed import is discarded.",
+    "_p6t_source": "Discarding…"
+  },
+  "n7V20c": {
+    "defaultMessage": "Deine Eingabe ist noch da. Bitte versuch es erneut.",
+    "_p6t_description": "Alert body when a shopping item could not be added. The typed text was not cleared.",
+    "_p6t_source": "Your entry is still here. Please try again."
+  },
   "nJ+B8s": {
     "defaultMessage": "Andere Mahlzeit wählen",
     "_p6t_description": "Menu action that replaces the planned meal.",
     "_p6t_source": "Choose another meal"
+  },
+  "nuHVV/": {
+    "defaultMessage": "{count, plural, one {1 Rezept gefunden} other {# Rezepte gefunden}}",
+    "_p6t_description": "Title of the sheet reviewing what an import found. {count} is how many recipes it read.",
+    "_p6t_source": "{count, plural, one {Found 1 recipe} other {Found # recipes}}"
+  },
+  "oB6Eyg": {
+    "defaultMessage": "Details öffnen",
+    "_p6t_description": "Accessibility action that opens the shopping item's detail sheet.",
+    "_p6t_source": "Open details"
+  },
+  "oP0Gad": {
+    "defaultMessage": "Import als Snack",
+    "_p6t_description": "Title of the import sheet when the recipe will fill a treat slot.",
+    "_p6t_source": "Import for a treat"
+  },
+  "p1LU3L": {
+    "defaultMessage": "Import fürs Abendessen",
+    "_p6t_description": "Title of the import sheet when the recipe will fill a dinner slot.",
+    "_p6t_source": "Import for dinner"
+  },
+  "pV8LQi": {
+    "defaultMessage": "Rezept wird noch synchronisiert",
+    "_p6t_description": "Status on a planned meal whose recipe has not reached this device yet.",
+    "_p6t_source": "Recipe still syncing"
   },
   "psD7p2": {
     "defaultMessage": "Aktionen für {recipe}",
@@ -269,10 +864,50 @@
     "_p6t_description": "Meal slot label for the midday meal.",
     "_p6t_source": "Lunch"
   },
+  "rIWABd": {
+    "defaultMessage": "Alle verwerfen",
+    "_p6t_description": "Destructive action that throws away everything an import found.",
+    "_p6t_source": "Discard all"
+  },
+  "rejJi+": {
+    "defaultMessage": "Abgehakt",
+    "_p6t_description": "Heading above the shopping items that were already checked off.",
+    "_p6t_source": "Checked"
+  },
+  "ryFpRR": {
+    "defaultMessage": "Tiefkühl & Fertigprodukte",
+    "_p6t_description": "Shopping category for frozen food and ready-made items.",
+    "_p6t_source": "Frozen & convenience"
+  },
+  "s1wweU": {
+    "defaultMessage": "{count, plural, one {1 weitere Variante} other {# weitere Varianten}}",
+    "_p6t_description": "Row that opens the other versions of a recipe. {count} is how many variants exist.",
+    "_p6t_source": "{count, plural, one {1 other variant} other {# other variants}}"
+  },
   "sEKbW8": {
     "defaultMessage": "{recipe} zum Mittagessen einplanen",
     "_p6t_description": "Accessibility label for a recommended dish that will fill the lunch slot. {recipe} is the recipe's display name. Selecting it plans the recipe for lunch.",
     "_p6t_source": "Select {recipe} for lunch"
+  },
+  "sHammy": {
+    "defaultMessage": "{count} zu Hause",
+    "_p6t_description": "Part of a planned meal's shopping status. {count} is how many ingredients the cook already has.",
+    "_p6t_source": "{count} at home"
+  },
+  "saRdXm": {
+    "defaultMessage": "Keine anstehenden Mahlzeiten. Plane eine Mahlzeit, um hier auszuwählen, was du kaufst.",
+    "_p6t_description": "Empty state on the shop's list of upcoming meals, which links each meal to its shopping decisions.",
+    "_p6t_source": "No upcoming meals. Plan a meal to choose what to buy here."
+  },
+  "sxAYc+": {
+    "defaultMessage": "Weitere Seite hinzufügen",
+    "_p6t_description": "Action that adds more photos to the import being prepared.",
+    "_p6t_source": "Add another page"
+  },
+  "tAQv1v": {
+    "defaultMessage": "Abendessen am {day}",
+    "_p6t_description": "Source of a shopping item that belongs to a planned meal. {day} is a formatted weekday such as Tuesday. Selecting it opens the meal.",
+    "_p6t_source": "Dinner on {day}"
   },
   "tSxVv6": {
     "defaultMessage": "Für dich ausgewählt",
@@ -284,10 +919,55 @@
     "_p6t_description": "Generic alert body after planning a meal failed for an unknown reason.",
     "_p6t_source": "Please try again."
   },
+  "te9ah1": {
+    "defaultMessage": "„{name}“ hinzufügen",
+    "_p6t_description": "Row that adds the typed item to the shopping list. {name} is the user's own text, unmodified.",
+    "_p6t_source": "Add “{name}”"
+  },
+  "tsQKcF": {
+    "defaultMessage": "Kategorie",
+    "_p6t_description": "Label of the row that sets a shopping item's category.",
+    "_p6t_source": "Category"
+  },
+  "tu7W2T": {
+    "defaultMessage": "Fotos konnten nicht hinzugefügt werden.",
+    "_p6t_description": "Error in the import sheet when picking photos failed without a message of its own.",
+    "_p6t_source": "Could not add photos."
+  },
+  "txFdiD": {
+    "defaultMessage": "Fotos werden geöffnet…",
+    "_p6t_description": "Status while the photo picker is opening.",
+    "_p6t_source": "Opening photos…"
+  },
   "tyszfp": {
     "defaultMessage": "Gerichtsidee eingeben",
     "_p6t_description": "Starts a chat to explore how to make a dish the user has in mind for this meal slot.",
     "_p6t_source": "I have a dish in mind"
+  },
+  "u+lyd2": {
+    "defaultMessage": "Öffnet die Details des Eintrags",
+    "_p6t_description": "Accessibility hint on a shopping row without other ingredient options.",
+    "_p6t_source": "Opens item details"
+  },
+  "uRdLso": {
+    "defaultMessage": "Fotos von Kochbuchseiten machen",
+    "_p6t_description": "Row that imports recipes by photographing pages of a book.",
+    "_p6t_source": "Take photos of cookbook pages"
+  },
+  "un0Pum": {
+    "defaultMessage": "{count} übersprungen",
+    "_p6t_description": "Part of a planned meal's shopping status. {count} is how many ingredients the cook chose to go without.",
+    "_p6t_source": "{count} skipped"
+  },
+  "upp2nP": {
+    "defaultMessage": "Großes Projekt",
+    "_p6t_description": "Recipe effort level: a long or involved cook, such as a weekend bake.",
+    "_p6t_source": "Big project"
+  },
+  "uq7g3K": {
+    "defaultMessage": "Ohne Kategorie",
+    "_p6t_description": "Menu option that clears a shopping item's category, so it sits outside the category headings.",
+    "_p6t_source": "Uncategorised"
   },
   "vxgbIs": {
     "defaultMessage": "Rezept importieren",
@@ -299,10 +979,20 @@
     "_p6t_description": "Menu action that plans the same meal again on another day.",
     "_p6t_source": "Plan again…"
   },
+  "wO5FsS": {
+    "defaultMessage": "{name} öffnen",
+    "_p6t_description": "Accessibility label for a cookbook recipe. {name} is the recipe's name. Selecting it opens the recipe.",
+    "_p6t_source": "Open {name}"
+  },
   "wTes2b": {
     "defaultMessage": "Keine passenden Vorschläge. Durchstöbere dein Kochbuch oder trage eine Mahlzeit ein.",
     "_p6t_description": "Empty recommendation state with the two fallback actions.",
     "_p6t_source": "No matching suggestions. Browse your cookbook or write in a meal."
+  },
+  "wY6RjA": {
+    "defaultMessage": "{days, plural, one {vor 1 Tag} other {vor # Tagen}}",
+    "_p6t_description": "How long ago a planned meal was, after its slot in a shopping row. {days} is a count of calendar days, 1 or more. Keep it short and lowercase.",
+    "_p6t_source": "{days, plural, one {1 day ago} other {# days ago}}"
   },
   "wl05lJ": {
     "defaultMessage": "Mit Magpie planen",
@@ -314,9 +1004,59 @@
     "_p6t_description": "Badge on a planned meal when no current household member is eating it.",
     "_p6t_source": "Nobody"
   },
+  "x6inHj": {
+    "defaultMessage": "Gestern",
+    "_p6t_description": "Label for a planned meal from the day before today, in that meal's heading.",
+    "_p6t_source": "Yesterday"
+  },
+  "xU/3JC": {
+    "defaultMessage": "{name}, auf der Liste, Details bearbeiten",
+    "_p6t_description": "Accessibility label for an item already on the shopping list. {name} is the item's name. Selecting it edits the item's note.",
+    "_p6t_source": "{name}, on the list, edit details"
+  },
+  "xiyF4r": {
+    "defaultMessage": "Snacks & Süßes",
+    "_p6t_description": "Shopping category for snacks and sweets.",
+    "_p6t_source": "Snacks & sweets"
+  },
+  "y+jaB0": {
+    "defaultMessage": "Ohne Kategorie",
+    "_p6t_description": "Fallback for a shopping item whose category is missing. Also the menu option that clears the category.",
+    "_p6t_source": "Uncategorised"
+  },
+  "yBelg/": {
+    "defaultMessage": "Von der Liste entfernen",
+    "_p6t_description": "Destructive action that takes this item off the shopping list.",
+    "_p6t_source": "Remove from list"
+  },
+  "yKjSE0": {
+    "defaultMessage": "Nichts zu kaufen. Plane eine Mahlzeit, um auszuwählen, was du dafür kaufst, oder füge einen Eintrag hinzu.",
+    "_p6t_description": "Empty Shop state when no meal is waiting for a shopping choice. Names the two ways to get items on the list.",
+    "_p6t_source": "Nothing to buy. Plan a meal to choose what to buy for it, or add an item."
+  },
+  "ycSZ62": {
+    "defaultMessage": "Magpie ein Rezept erzählen",
+    "_p6t_description": "Title of the sheet where the cook records a recipe they know from memory.",
+    "_p6t_source": "Tell Magpie a recipe"
+  },
   "yn0m94": {
     "defaultMessage": "Heute",
     "_p6t_description": "Label for the current day in the date strip and day heading.",
     "_p6t_source": "Today"
+  },
+  "yvQ+D7": {
+    "defaultMessage": "{day} · {slot}",
+    "_p6t_description": "Heading for a planned meal, such as “Today · Dinner” or “Thursday, 10 Sep · Dinner”. {day} is a formatted day or Today, Tomorrow, Yesterday. {slot} is the standalone Lunch, Dinner or Treat label. The two parts may be reordered.",
+    "_p6t_source": "{day} · {slot}"
+  },
+  "zh+xrJ": {
+    "defaultMessage": "Pflege & Gesundheit",
+    "_p6t_description": "Shopping category for personal care and pharmacy items.",
+    "_p6t_source": "Care & health"
+  },
+  "zsJZqS": {
+    "defaultMessage": "Einkauf",
+    "_p6t_description": "Title of the Shop tab, where the household's shopping list lives.",
+    "_p6t_source": "Shop"
   }
 }

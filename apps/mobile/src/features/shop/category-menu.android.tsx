@@ -2,6 +2,7 @@ import * as Haptics from "expo-haptics";
 import { SymbolView } from "expo-symbols";
 import { useState } from "react";
 import { Pressable, View } from "react-native";
+import { useIntl } from "react-intl";
 import { useResolveClassNames } from "uniwind";
 
 import {
@@ -10,8 +11,8 @@ import {
 } from "@/components/ui/android-menu-overlay";
 import { Text } from "@/components/ui/text";
 
+import { formatCategory } from "./category-labels";
 import type { CategoryMenuProps } from "./category-menu";
-import { sentenceCase } from "./text";
 
 const CHEVRON_ICON = {
   ios: "chevron.up.chevron.down",
@@ -25,6 +26,7 @@ export function CategoryMenu({
   categoryName,
   onSelect,
 }: CategoryMenuProps) {
+  const intl = useIntl();
   const mutedColor = useResolveClassNames("text-muted-foreground").color;
   const [anchor, setAnchor] = useState<AndroidMenuAnchor | null>(null);
 
@@ -32,7 +34,22 @@ export function CategoryMenu({
     <View>
       <Pressable
         accessibilityRole="button"
-        accessibilityLabel={`Category: ${categoryName ?? "Uncategorised"}`}
+        accessibilityLabel={intl.formatMessage(
+          {
+            defaultMessage: "Category: {name}",
+            description:
+              "Accessibility label for the menu that sets a shopping item's category. {name} is the current category, or Uncategorised.",
+          },
+          {
+            name:
+              categoryName ??
+              intl.formatMessage({
+                defaultMessage: "Uncategorised",
+                description:
+                  "Fallback for a shopping item that has no category.",
+              }),
+          },
+        )}
         onPress={(e) => {
           void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(
             () => {},
@@ -44,9 +61,19 @@ export function CategoryMenu({
         }}
         className="min-h-12 flex-row items-center gap-2 px-4 py-3 active:bg-accent"
       >
-        <Text className="flex-1 text-base">Category</Text>
+        <Text className="flex-1 text-base">
+          {intl.formatMessage({
+            defaultMessage: "Category",
+            description:
+              "Label of the row that sets a shopping item's category.",
+          })}
+        </Text>
         <Text variant="muted" className="text-base">
-          {sentenceCase(categoryName ?? "Uncategorised")}
+          {formatCategory(intl, categoryId, categoryName) ??
+            intl.formatMessage({
+              defaultMessage: "Uncategorised",
+              description: "Fallback for a shopping item that has no category.",
+            })}
         </Text>
         <SymbolView name={CHEVRON_ICON} tintColor={mutedColor} size={16} />
       </Pressable>
@@ -56,13 +83,17 @@ export function CategoryMenu({
         actions={[
           {
             id: "uncategorised",
-            title: "Uncategorised",
+            title: intl.formatMessage({
+              defaultMessage: "Uncategorised",
+              description:
+                "Menu option that clears a shopping item's category, so it sits outside the category headings.",
+            }),
             selected: !categoryId,
             onSelect: () => onSelect(null),
           },
           ...categories.map((cat) => ({
             id: cat.id,
-            title: sentenceCase(cat.name),
+            title: formatCategory(intl, cat.id, cat.name) ?? cat.name ?? "",
             selected: categoryId === cat.id,
             onSelect: () => onSelect(cat.id),
           })),

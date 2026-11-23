@@ -29,3 +29,13 @@ over that config. No provider key is needed.
    `pnpm --filter mobile i18n:compile`. Include extracted and compiled
    catalogs in the same PR as the copy. The repository's check workflow
    validates coverage, ICU arguments and generated-file freshness offline.
+
+## Tests
+
+The app's Babel transform gives each message its catalog ID; Vitest does not
+run that transform, and react-intl refuses to format a descriptor without an
+ID. Tests that exercise a formatter use `testIntl()` from
+`src/test/intl.ts`, which formats the source messages with the same ICU
+engine and `Intl` formatters react-intl delegates to. Pass the active
+formatter into pure helpers (`mealLabel`, `shoppingProgress`, `mealAge`) rather
+than resolving text at module load, so the same code follows the locale.

@@ -18,6 +18,7 @@ import {
   TextInput,
   View,
 } from "react-native";
+import { useIntl } from "react-intl";
 import { useResolveClassNames } from "uniwind";
 
 import { CloseButton } from "@/components/close-button";
@@ -34,12 +35,14 @@ import {
 import { decideIngredients } from "@/db/meal-shopping";
 import type { ListItem } from "@/db/schema";
 import { resolveShoppingItem } from "@/db/meal-ingredients";
-import { slotWhen } from "@/features/meals/slots";
+import { formatPlannedWhen } from "@/features/meals/labels";
 import {
   alternativesForItem,
   withoutForItem,
 } from "@/features/shop/alternatives";
+import { formatCategory } from "@/features/shop/category-labels";
 import { CategoryMenu } from "@/features/shop/category-menu";
+import { shopMessages } from "@/features/shop/messages";
 import { splitSpec } from "@/features/shop/spec";
 import { tonalPair } from "@/features/variants/tonal";
 import { useColorScheme } from "@/hooks/use-color-scheme";
@@ -65,6 +68,7 @@ type ItemRow = ListItem & {
  *  Meal items belong to their recipe: read-only, changed through Swaps.
  *  Standalone items are the user's own: name and note edit in place. */
 export default function ShopItemSheet() {
+  const intl = useIntl();
   const { itemId } = useLocalSearchParams<{ itemId: string }>();
   const router = useRouter();
 
@@ -126,7 +130,11 @@ export default function ShopItemSheet() {
       <View collapsable={false} className="px-6 pt-4">
         <View className="flex-row items-center justify-between gap-4">
           <Text className="flex-1 font-rounded text-lg font-bold">
-            Loading item…
+            {intl.formatMessage({
+              defaultMessage: "Loading item…",
+              description:
+                "Status in the shopping item sheet while the item is read from the local database.",
+            })}
           </Text>
           <CloseButton onPress={() => router.back()} />
         </View>
@@ -139,11 +147,21 @@ export default function ShopItemSheet() {
       <View collapsable={false} className="gap-1 px-6 pt-4">
         <View className="flex-row items-center justify-between gap-4">
           <Text className="flex-1 font-rounded text-lg font-bold">
-            Item not found
+            {intl.formatMessage({
+              defaultMessage: "Item not found",
+              description:
+                "Title in the shopping item sheet when the item no longer exists, for example because another device removed it.",
+            })}
           </Text>
           <CloseButton onPress={() => router.back()} />
         </View>
-        <Text variant="muted">It may have been removed on another device.</Text>
+        <Text variant="muted">
+          {intl.formatMessage({
+            defaultMessage: "It may have been removed on another device.",
+            description:
+              "Body under “Item not found”. Explains the likely cause without asking the user to do anything.",
+          })}
+        </Text>
       </View>
     );
   }
@@ -173,8 +191,15 @@ export default function ShopItemSheet() {
   const category =
     item.ingredient_id != null ? (
       <Text variant="muted">
-        {categories.find((category) => category.id === item.category_id)
-          ?.name ?? "Uncategorised"}
+        {formatCategory(
+          intl,
+          item.category_id,
+          categories.find((category) => category.id === item.category_id)?.name,
+        ) ??
+          intl.formatMessage({
+            defaultMessage: "Uncategorised",
+            description: "Fallback for a shopping item that has no category.",
+          })}
       </Text>
     ) : (
       <CategoryMenu
@@ -208,7 +233,13 @@ export default function ShopItemSheet() {
 
       {isMealDerived && (suggestions.length > 0 || without) ? (
         <View className="gap-2">
-          <SectionLabel>Swap for</SectionLabel>
+          <SectionLabel>
+            {intl.formatMessage({
+              defaultMessage: "Swap for",
+              description:
+                "Heading above other ingredient options a recipe allows, such as another cheese. Selecting one changes the shopping item.",
+            })}
+          </SectionLabel>
           <Group>
             {suggestions.map((s) => {
               const { amount, note } = splitSpec(
@@ -252,7 +283,11 @@ export default function ShopItemSheet() {
 
       <View className="gap-1">
         <Action
-          label="Check off"
+          label={intl.formatMessage({
+            defaultMessage: "Check off",
+            description:
+              "Action in the shopping item sheet that marks the item as bought.",
+          })}
           disabled={saving}
           onPress={() =>
             void close(
@@ -265,7 +300,7 @@ export default function ShopItemSheet() {
             meal is over, so its leftovers just go. */}
         {recipeItem &&
         item.meal_content_id &&
-        !mealAge(item.slot_date, today) ? (
+        !mealAge(intl, item.slot_date, today) ? (
           <Pressable
             accessibilityRole="button"
             disabled={saving}
@@ -283,7 +318,13 @@ export default function ShopItemSheet() {
             }
             className="min-h-11 items-center justify-center rounded-2xl active:bg-accent disabled:opacity-50"
           >
-            <Text className="text-base text-primary">I have it at home</Text>
+            <Text className="text-base text-primary">
+              {intl.formatMessage({
+                defaultMessage: "I have it at home",
+                description:
+                  "Action that marks this ingredient as already at home, so it leaves the list for this meal.",
+              })}
+            </Text>
           </Pressable>
         ) : (
           <Pressable
@@ -292,7 +333,13 @@ export default function ShopItemSheet() {
             onPress={() => void close(() => removeItem(item.id))}
             className="min-h-11 items-center justify-center rounded-2xl active:bg-accent disabled:opacity-50"
           >
-            <Text className="text-base text-destructive">Remove from list</Text>
+            <Text className="text-base text-destructive">
+              {intl.formatMessage({
+                defaultMessage: "Remove from list",
+                description:
+                  "Destructive action that takes this item off the shopping list.",
+              })}
+            </Text>
           </Pressable>
         )}
       </View>
@@ -309,12 +356,14 @@ type DetailsProps = {
 
 /** Meal items show what the recipe asks for, prep included, and lead back to it. */
 function MealDetails({ item, category, saving, onClose }: DetailsProps) {
+  const intl = useIntl();
   const today = useToday();
-  const age = item.status === "active" ? mealAge(item.slot_date, today) : null;
+  const age =
+    item.status === "active" ? mealAge(intl, item.slot_date, today) : null;
   const mutedColor = useResolveClassNames("text-muted-foreground").color;
   const dark = useColorScheme() === "dark";
   const { amount, note } = splitSpec(item.spec);
-  const when = slotWhen(item.slot_date, item.meal);
+  const when = formatPlannedWhen(intl, item.slot_date, item.meal);
   return (
     <>
       <HeaderRow onClose={onClose} saving={saving}>
@@ -349,12 +398,21 @@ function MealDetails({ item, category, saving, onClose }: DetailsProps) {
           >
             <Pressable
               disabled={saving}
-              accessibilityHint="Opens the planned meal"
+              accessibilityHint={intl.formatMessage({
+                defaultMessage: "Opens the planned meal",
+                description:
+                  "Accessibility hint for the row in the item sheet that links to the meal this ingredient belongs to.",
+              })}
               className="min-h-12 flex-row items-center gap-3 px-4 py-3 active:bg-accent"
             >
               <View className="flex-1 gap-0.5">
                 <Text className="text-base" numberOfLines={2}>
-                  {item.variant_name ?? "Meal"}
+                  {item.variant_name ??
+                    intl.formatMessage({
+                      defaultMessage: "Meal",
+                      description:
+                        "Fallback name for a planned meal whose dish name is missing.",
+                    })}
                 </Text>
                 {when ? (
                   // Same dot as the List row, so the colour means this recipe.
@@ -369,8 +427,7 @@ function MealDetails({ item, category, saving, onClose }: DetailsProps) {
                       }}
                     />
                     <Text variant="muted">
-                      For {when}
-                      {age ? ` · ${age}` : ""}
+                      {[when, age].filter(Boolean).join(" · ")}
                     </Text>
                   </View>
                 ) : null}
@@ -387,7 +444,12 @@ function MealDetails({ item, category, saving, onClose }: DetailsProps) {
       </Group>
       {age ? (
         <Text>
-          This meal is in the past. Check whether you still want to buy this.
+          {intl.formatMessage({
+            defaultMessage:
+              "This meal is in the past. Check whether you still want to buy this.",
+            description:
+              "Warning on an ingredient for a meal whose day has passed. The cook decides whether the item is still needed.",
+          })}
         </Text>
       ) : null}
     </>
@@ -398,6 +460,7 @@ function MealDetails({ item, category, saving, onClose }: DetailsProps) {
  *  saved on blur or sheet dismissal, laid out like a Reminders detail. The note
  *  is free text, never parsed. */
 function StandaloneDetails({ item, category, saving, onClose }: DetailsProps) {
+  const intl = useIntl();
   const mutedColor = useResolveClassNames("text-muted-foreground").color;
   const initialName = item.name ?? "";
   const initialNote = item.spec ?? "";
@@ -420,7 +483,10 @@ function StandaloneDetails({ item, category, saving, onClose }: DetailsProps) {
         draft.current.name = initial.current.name;
         setName(initial.current.name);
       }
-      Alert.alert("Couldn't save item", "Please try again.");
+      Alert.alert(
+        intl.formatMessage(shopMessages.saveItem),
+        intl.formatMessage(shopMessages.tryAgain),
+      );
     });
   }
 
@@ -436,7 +502,10 @@ function StandaloneDetails({ item, category, saving, onClose }: DetailsProps) {
         draft.current.note = initial.current.note;
         setNote(initial.current.note);
       }
-      Alert.alert("Couldn't save item", "Please try again.");
+      Alert.alert(
+        intl.formatMessage(shopMessages.saveItem),
+        intl.formatMessage(shopMessages.tryAgain),
+      );
     });
   }
 
@@ -456,7 +525,13 @@ function StandaloneDetails({ item, category, saving, onClose }: DetailsProps) {
   return (
     <>
       <HeaderRow onClose={onClose} saving={saving}>
-        <Text className="text-2xl font-semibold">Details</Text>
+        <Text className="text-2xl font-semibold">
+          {intl.formatMessage({
+            defaultMessage: "Details",
+            description:
+              "Title of the sheet for an item the cook wrote in. Its name and note can be edited in place.",
+          })}
+        </Text>
       </HeaderRow>
       <Group>
         <TextInput
@@ -465,8 +540,15 @@ function StandaloneDetails({ item, category, saving, onClose }: DetailsProps) {
             draft.current.name = value;
             setName(value);
           }}
-          accessibilityLabel="Name"
-          placeholder="Name"
+          accessibilityLabel={intl.formatMessage({
+            defaultMessage: "Name",
+            description:
+              "Accessibility label for the field holding a shopping item's name.",
+          })}
+          placeholder={intl.formatMessage({
+            defaultMessage: "Name",
+            description: "Placeholder in the field holding an item's name.",
+          })}
           placeholderTextColor={mutedColor}
           returnKeyType="done"
           editable={!saving}
@@ -489,8 +571,16 @@ function StandaloneDetails({ item, category, saving, onClose }: DetailsProps) {
             draft.current.note = value;
             setNote(value);
           }}
-          accessibilityLabel="Note"
-          placeholder="Add a note"
+          accessibilityLabel={intl.formatMessage({
+            defaultMessage: "Note",
+            description:
+              "Accessibility label for the free-text note field of a shopping item.",
+          })}
+          placeholder={intl.formatMessage({
+            defaultMessage: "Add a note",
+            description:
+              "Placeholder in the free-text note field of a shopping item, such as a size or brand.",
+          })}
           placeholderTextColor={mutedColor}
           multiline
           submitBehavior="blurAndSubmit"

@@ -1,6 +1,7 @@
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import * as Haptics from "expo-haptics";
 import { useRef, useState } from "react";
+import { useIntl } from "react-intl";
 
 import type { Variant } from "@/db/schema";
 import { setPlannedMeal } from "@/db/planned-meals";
@@ -10,6 +11,7 @@ import type { MealSlot } from "@/features/meals/slots";
 import { useActiveList } from "@/features/onboarding/access";
 
 export default function PickFromCookbook() {
+  const intl = useIntl();
   const { slot, date } = useLocalSearchParams<{
     slot: MealSlot;
     date: string;
@@ -48,7 +50,7 @@ export default function PickFromCookbook() {
     <>
       <Stack.Screen
         options={{
-          title: mealLabel({ slot_date: date, meal: slot }),
+          title: mealLabel(intl, { slot_date: date, meal: slot }),
           headerBackButtonDisplayMode: "minimal",
         }}
       />

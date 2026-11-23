@@ -3,6 +3,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import * as Haptics from "expo-haptics";
 import { useMemo, useState } from "react";
 import { View } from "react-native";
+import { useIntl } from "react-intl";
 
 import { CloseButton } from "@/components/close-button";
 import { PrimaryAction } from "@/components/action";
@@ -27,6 +28,7 @@ type PersonRow = { id: string; name: string; user_id: string | null };
 /** Edits who is eating a planned meal and the extra. The recipe and its
  *  shopping items are not touched; the sheet says so. */
 export default function EatersSheet() {
+  const intl = useIntl();
   const params = useLocalSearchParams<{
     listId: string;
     date: string;
@@ -89,7 +91,7 @@ export default function EatersSheet() {
     <View collapsable={false}>
       <View className="flex-row items-center justify-between gap-4 px-6 pt-4">
         <Text className="flex-1 font-rounded text-lg font-bold">
-          {mealLabel({ slot_date: date ?? null, meal: slot ?? null })}
+          {mealLabel(intl, { slot_date: date ?? null, meal: slot ?? null })}
         </Text>
         <CloseButton onPress={() => router.back()} disabled={saving} />
       </View>

@@ -9,6 +9,7 @@ import * as Haptics from "expo-haptics";
 import { router, Stack, useLocalSearchParams } from "expo-router";
 import { SymbolView, type SymbolViewProps } from "expo-symbols";
 import { useMemo, useState } from "react";
+import { useIntl } from "react-intl";
 import {
   ActivityIndicator,
   Platform,
@@ -127,6 +128,7 @@ function IngredientReview({
   lines: ReturnType<typeof parseIngredientLines>;
   items: ListItem[];
 }) {
+  const intl = useIntl();
   const insets = useSafeAreaInsets();
   const [error, setError] = useState<string | null>(null);
   // Decisions show on tap, not after the write comes back through the query:
@@ -261,7 +263,7 @@ function IngredientReview({
       >
         <View className="gap-1 px-6">
           <Text variant="h3">{meal.recipe_name}</Text>
-          <Text variant="muted">{shoppingProgress(review)}</Text>
+          <Text variant="muted">{shoppingProgress(intl, review)}</Text>
           {/* Android toolbars draw no labels, so the action stays in the content. */}
           {Platform.OS === "android" && undecided.length ? (
             <View className="pt-3">
@@ -287,7 +289,7 @@ function IngredientReview({
         </View>
       </ScrollView>
       {/* The slot heads the screen; the recipe heads the content. */}
-      <Stack.Screen options={{ title: mealLabel(meal) }} />
+      <Stack.Screen options={{ title: mealLabel(intl, meal) }} />
       {/* A screen-wide action: the floating bar, within thumb reach, in words. */}
       {Platform.OS === "ios" ? (
         <Stack.Toolbar placement="bottom">

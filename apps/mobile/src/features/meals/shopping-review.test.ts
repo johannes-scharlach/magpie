@@ -1,11 +1,14 @@
 import { expect, it } from "vitest";
 import { IngredientLineSchema } from "../../db/schemas";
+import { testIntl } from "../../test/intl";
 import {
   probablyAtHome,
   shoppingProgress,
   shoppingReview,
   undecidedCount,
 } from "./shopping-review";
+
+const intl = testIntl();
 
 it("uses the recipe's shopping hint, never the ingredient name or aisle", () => {
   const lines = [
@@ -164,15 +167,15 @@ it("summarises a meal's shopping as what is left to decide, then what was decide
     { ingredient_id: 1, name: "Item 1", spec: null, status: "active" },
     { ingredient_id: 2, name: "Item 2", spec: null, status: "purchased" },
   ];
-  expect(shoppingProgress(shoppingReview(lines, items, {}, [3]))).toBe(
+  expect(shoppingProgress(intl, shoppingReview(lines, items, {}, [3]))).toBe(
     "1 to decide",
   );
-  expect(shoppingProgress(shoppingReview(lines, items, {}, [3, 4]))).toBe(
+  expect(shoppingProgress(intl, shoppingReview(lines, items, {}, [3, 4]))).toBe(
     "1 on the list · 1 bought · 2 at home",
   );
-  expect(shoppingProgress(shoppingReview(lines, [], {}, [1, 2, 3, 4]))).toBe(
-    "All at home",
-  );
+  expect(
+    shoppingProgress(intl, shoppingReview(lines, [], {}, [1, 2, 3, 4])),
+  ).toBe("All at home");
 });
 
 it("counts going without as decided, unless it was already bought", () => {
@@ -189,5 +192,5 @@ it("counts going without as decided, unless it was already bought", () => {
   );
   expect(review.map((entry) => entry.decision)).toEqual(["without", "bought"]);
   expect(undecidedCount(review)).toBe(0);
-  expect(shoppingProgress(review)).toBe("1 bought · 1 skipped");
+  expect(shoppingProgress(intl, review)).toBe("1 bought · 1 skipped");
 });

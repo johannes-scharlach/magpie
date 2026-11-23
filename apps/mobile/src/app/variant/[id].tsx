@@ -1,5 +1,4 @@
 import {
-  effortLabel,
   ingredientOptions,
   isWithout,
   itemNameKey,
@@ -35,6 +34,7 @@ import {
   View,
 } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
+import { useIntl } from "react-intl";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { KeyboardStickyView } from "react-native-keyboard-controller";
 import Animated, {
@@ -65,6 +65,7 @@ import type { ImageAttachment } from "@/features/chat/image-attachment";
 import { Markdown } from "@/features/chat/markdown";
 import { queueMessage } from "@/features/chat/message-queue";
 import { useEatersLabel } from "@/features/meals/eaters-label";
+import { formatEffort } from "@/features/meals/effort-label";
 import { parseEaterIds, toEaters } from "@/features/meals/eaters";
 import { RecipeArt } from "@/features/meals/recipe-art";
 import {
@@ -424,6 +425,7 @@ function SectionRow({
 }
 
 export default function VariantPage() {
+  const intl = useIntl();
   const isPreview = useIsPreview();
   const eatersLabel = useEatersLabel();
   const { id, plannedMealId } = useLocalSearchParams<{
@@ -919,7 +921,7 @@ export default function VariantPage() {
     variant.total_time,
     meal ? null : variant.recipe_yield,
     recipe?.cuisine && cuisineLabel(recipe.cuisine),
-    effortLabel(variant.effort),
+    formatEffort(intl, variant.effort),
   ]
     .filter(Boolean)
     // The dot is tied to the fact after it, so a wrap never leaves it
@@ -1221,7 +1223,7 @@ export default function VariantPage() {
                   <Text className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                     Past meal
                   </Text>
-                  <Text className="font-semibold">{mealLabel(meal)}</Text>
+                  <Text className="font-semibold">{mealLabel(intl, meal)}</Text>
                   <Text variant="muted">
                     {eatersLabel({
                       people,
@@ -1235,7 +1237,7 @@ export default function VariantPage() {
                   first
                   onPress={openEaters}
                   accessibilityLabel="Who is eating"
-                  label={mealLabel(meal)}
+                  label={mealLabel(intl, meal)}
                   detail={eatersLabel({
                     people,
                     eaterIds: parseEaterIds(meal.eater_ids),
@@ -1295,8 +1297,8 @@ export default function VariantPage() {
             >
               <Text variant="muted" className="text-base">
                 {sibling.id === plannedMealId
-                  ? `${mealLabel(sibling)} now uses another variant`
-                  : `Another variant is planned for ${mealLabel(sibling)}`}
+                  ? `${mealLabel(intl, sibling)} now uses another variant`
+                  : `Another variant is planned for ${mealLabel(intl, sibling)}`}
               </Text>
               <SymbolView
                 name={CHEVRON_ICON}
@@ -1308,7 +1310,7 @@ export default function VariantPage() {
 
           {!meal && !sibling && lastPast ? (
             <Text variant="muted" className="text-base">
-              Last planned {mealLabel(lastPast)}
+              Last planned {mealLabel(intl, lastPast)}
             </Text>
           ) : null}
 

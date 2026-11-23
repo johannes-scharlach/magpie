@@ -40,12 +40,24 @@ export default function TabsLayout() {
       </NativeTabs.Trigger>
 
       <NativeTabs.Trigger name="shop">
-        <NativeTabs.Trigger.Label>Shop</NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Label>
+          {intl.formatMessage({
+            defaultMessage: "Shop",
+            description:
+              "Label for the tab with the household's shopping list.",
+          })}
+        </NativeTabs.Trigger.Label>
         <NativeTabs.Trigger.Icon sf="cart.fill" md="shopping_cart" />
       </NativeTabs.Trigger>
 
       <NativeTabs.Trigger name="cookbook">
-        <NativeTabs.Trigger.Label>Cookbook</NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Label>
+          {intl.formatMessage({
+            defaultMessage: "Cookbook",
+            description:
+              "Label for the tab with the household's saved recipes.",
+          })}
+        </NativeTabs.Trigger.Label>
         <NativeTabs.Trigger.Icon sf="book.fill" md="menu_book" />
       </NativeTabs.Trigger>
     </NativeTabs>

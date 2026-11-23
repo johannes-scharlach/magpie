@@ -1,9 +1,11 @@
 import { Stack, router } from "expo-router";
 import { SymbolView } from "expo-symbols";
 import { Pressable, View } from "react-native";
+import { useIntl } from "react-intl";
 import { useResolveClassNames } from "uniwind";
 
 import { useImportReviews } from "@/db/import-reviews";
+import { importRecipeAction } from "@/features/cookbook/messages";
 import { RecipeBrowser } from "@/features/cookbook/recipe-browser";
 import {
   ImportJobStatus,
@@ -13,6 +15,7 @@ import { useImportJobs } from "@/features/meals/use-import-jobs";
 import { useHouseholdAccess } from "@/features/onboarding/access";
 
 export default function Cookbook() {
+  const intl = useIntl();
   const color = useResolveClassNames("text-foreground").color;
   const importJobs = useImportJobs();
   const { listId } = useHouseholdAccess();
@@ -28,7 +31,7 @@ export default function Cookbook() {
             <Pressable
               onPress={() => router.push("/cookbook/import")}
               hitSlop={12}
-              accessibilityLabel="Import recipe"
+              accessibilityLabel={intl.formatMessage(importRecipeAction)}
               accessibilityRole="button"
               className="p-2"
             >

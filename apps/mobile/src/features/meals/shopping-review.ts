@@ -1,3 +1,5 @@
+import { defineMessage, defineMessages, type IntlShape } from "react-intl";
+
 import {
   ingredientOptions,
   isWithout,
@@ -61,20 +63,70 @@ export function undecidedCount(review: ReturnType<typeof shoppingReview>) {
 }
 
 /** What a meal still needs, or what was decided once nothing is left. */
-export function shoppingProgress(review: ReturnType<typeof shoppingReview>) {
+const progressMessages = defineMessages<{
+  undecided: { count: number };
+  onList: { count: number };
+  bought: { count: number };
+  atHome: { count: number };
+  skipped: { count: number };
+}>(
+  {
+    undecided: {
+      defaultMessage: "{count} to decide",
+      description:
+        "Status on a planned meal's shopping, while ingredients still await a decision. {count} is how many are left.",
+    },
+    onList: {
+      defaultMessage: "{count} on the list",
+      description:
+        "Part of a planned meal's shopping status. {count} is how many ingredients are on the shopping list.",
+    },
+    bought: {
+      defaultMessage: "{count} bought",
+      description:
+        "Part of a planned meal's shopping status. {count} is how many ingredients are already bought.",
+    },
+    atHome: {
+      defaultMessage: "{count} at home",
+      description:
+        "Part of a planned meal's shopping status. {count} is how many ingredients the cook already has.",
+    },
+    skipped: {
+      defaultMessage: "{count} skipped",
+      description:
+        "Part of a planned meal's shopping status. {count} is how many ingredients the cook chose to go without.",
+    },
+  },
+  { typed: true },
+);
+
+const allHomeMessage = defineMessage<Record<never, never>>(
+  {
+    defaultMessage: "All at home",
+    description:
+      "Status on a planned meal's shopping when every ingredient was marked as already at home.",
+  },
+  { typed: true },
+);
+
+export function shoppingProgress(
+  intl: IntlShape,
+  review: ReturnType<typeof shoppingReview>,
+) {
   const undecided = undecidedCount(review);
-  if (undecided) return `${undecided} to decide`;
+  if (undecided)
+    return intl.formatMessage(progressMessages.undecided, { count: undecided });
   const count = (decision: IngredientDecision) =>
     review.filter((entry) => entry.decision === decision).length;
   const home = count("home");
-  if (home === review.length) return "All at home";
+  if (home === review.length) return intl.formatMessage(allHomeMessage);
   return [
-    [count("shop"), "on the list"],
-    [count("bought"), "bought"],
-    [home, "at home"],
-    [count("without"), "skipped"],
+    { count: count("shop"), message: progressMessages.onList },
+    { count: count("bought"), message: progressMessages.bought },
+    { count: home, message: progressMessages.atHome },
+    { count: count("without"), message: progressMessages.skipped },
   ]
-    .filter(([n]) => n)
-    .map(([n, label]) => `${n} ${label}`)
+    .filter(({ count }) => count)
+    .map(({ count, message }) => intl.formatMessage(message, { count }))
     .join(" · ");
 }

@@ -3,28 +3,55 @@
     "col": 39,
     "defaultMessage": "Hide dinner choices",
     "description": "Accessibility label for the control that closes the dinner meal chooser. Does not change the planned meal.",
-    "end": 2467,
+    "end": 2515,
     "file": "src/features/meals/labels.ts",
     "line": 59,
-    "start": 1875
+    "start": 1923
   },
   "+TPLLR": {
     "col": 21,
     "defaultMessage": "Retry",
     "description": "Action that tries loading meal recommendations again.",
-    "end": 14242,
+    "end": 14285,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 386,
-    "start": 14036
+    "line": 388,
+    "start": 14079
+  },
+  "/Fo2I2": {
+    "col": 17,
+    "defaultMessage": "Done",
+    "description": "Action that closes the shopping item entry sheet, keeping what was added.",
+    "end": 7472,
+    "file": "src/app/shop/add.tsx",
+    "line": 222,
+    "start": 7263
+  },
+  "/woc5o": {
+    "col": 17,
+    "defaultMessage": "From cookbook",
+    "description": "Title of the sheet that picks an existing cookbook recipe for a meal slot.",
+    "end": 9743,
+    "file": "src/app/_layout.tsx",
+    "line": 290,
+    "start": 9548
   },
   "07x9wI": {
     "col": 43,
     "defaultMessage": "Select {recipe} for a treat",
     "description": "Accessibility label for a recommended dish that will fill the treat slot. {recipe} is the recipe's display name. Selecting it plans the recipe as a treat.",
-    "end": 3438,
+    "end": 3486,
     "file": "src/features/meals/labels.ts",
     "line": 78,
-    "start": 2584
+    "start": 2632
+  },
+  "0cWlcT": {
+    "col": 15,
+    "defaultMessage": "More work",
+    "description": "Recipe effort level: more steps or attention than an ordinary weeknight dish.",
+    "end": 741,
+    "file": "src/features/meals/effort-label.ts",
+    "line": 18,
+    "start": 584
   },
   "0feGXu": {
     "col": 20,
@@ -53,6 +80,51 @@
     "line": 54,
     "start": 1743
   },
+  "1dwtnM": {
+    "col": 28,
+    "defaultMessage": "Category: {name}",
+    "description": "Accessibility label for the menu that sets a shopping item's category. {name} is the current category, or Uncategorised.",
+    "end": 2146,
+    "file": "src/features/shop/category-menu.ios.tsx",
+    "line": 52,
+    "start": 1605
+  },
+  "1gWMkH": {
+    "col": 23,
+    "defaultMessage": "{count} checked",
+    "description": "How many shopping items were already checked off, after the count still to buy.",
+    "end": 5154,
+    "file": "src/app/(tabs)/shop/index.tsx",
+    "line": 131,
+    "start": 4943
+  },
+  "1q9iJM": {
+    "col": 30,
+    "defaultMessage": "Add item",
+    "description": "Accessibility label for the Shop toolbar button that opens the item entry sheet.",
+    "end": 4164,
+    "file": "src/app/(tabs)/shop/index.tsx",
+    "line": 101,
+    "start": 3968
+  },
+  "30YoVC": {
+    "col": 6,
+    "defaultMessage": "Changed to {name}",
+    "description": "Screen-reader announcement after a shopping item switched to another ingredient option. {name} is the option now shown.",
+    "end": 11696,
+    "file": "src/app/(tabs)/shop/index.tsx",
+    "line": 321,
+    "start": 11407
+  },
+  "3CJl1Z": {
+    "col": 21,
+    "defaultMessage": "Older matching variant",
+    "description": "Badge on a cookbook recipe when a newer version of the same dish exists.",
+    "end": 8289,
+    "file": "src/features/cookbook/recipe-browser.tsx",
+    "line": 212,
+    "start": 8047
+  },
   "3DrMNt": {
     "col": 13,
     "defaultMessage": "Dismiss",
@@ -62,14 +134,59 @@
     "line": 40,
     "start": 1343
   },
+  "3MDr/G": {
+    "col": 11,
+    "defaultMessage": "On list",
+    "description": "Status on a search result that is already on the shopping list.",
+    "end": 16290,
+    "file": "src/app/shop/add.tsx",
+    "line": 459,
+    "start": 16112
+  },
   "3MwfD7": {
     "col": 38,
     "defaultMessage": "Household and account",
     "description": "Accessibility label for the household settings shortcut.",
-    "end": 13184,
+    "end": 14640,
     "file": "src/app/(tabs)/(meals)/index.tsx",
-    "line": 393,
-    "start": 12967
+    "line": 436,
+    "start": 14423
+  },
+  "3j+H9P": {
+    "col": 30,
+    "defaultMessage": "Name",
+    "description": "Accessibility label for the field holding a shopping item's name.",
+    "end": 18410,
+    "file": "src/app/shop/item.tsx",
+    "line": 543,
+    "start": 18233
+  },
+  "3qVWYG": {
+    "col": 23,
+    "defaultMessage": "All at home",
+    "description": "Status on a planned meal's shopping when every ingredient was marked as already at home.",
+    "end": 3334,
+    "file": "src/features/meals/shopping-review.ts",
+    "line": 103,
+    "start": 3118
+  },
+  "4ZRn62": {
+    "col": 37,
+    "defaultMessage": "Add details",
+    "description": "Placeholder in the note field of an item just added to the list. The note is free text, such as a size or brand.",
+    "end": 11461,
+    "file": "src/app/shop/add.tsx",
+    "line": 320,
+    "start": 11174
+  },
+  "4eyER+": {
+    "col": 17,
+    "defaultMessage": "Add items",
+    "description": "Title of the sheet where the cook types shopping items one after another.",
+    "end": 11144,
+    "file": "src/app/_layout.tsx",
+    "line": 337,
+    "start": 10954
   },
   "5+uWTl": {
     "col": 11,
@@ -84,10 +201,73 @@
     "col": 8,
     "defaultMessage": "Couldn’t plan this meal",
     "description": "Alert title when a chosen meal could not be saved.",
-    "end": 7707,
+    "end": 8755,
     "file": "src/app/(tabs)/(meals)/index.tsx",
-    "line": 212,
-    "start": 7546
+    "line": 244,
+    "start": 8594
+  },
+  "563N8u": {
+    "col": 28,
+    "defaultMessage": "Your details are still here. Please try again.",
+    "description": "Alert body when a shopping item's note could not be saved. Nothing was lost.",
+    "end": 1609,
+    "file": "src/features/shop/messages.ts",
+    "line": 5,
+    "start": 232
+  },
+  "5AqntS": {
+    "col": 28,
+    "defaultMessage": "Couldn’t save item",
+    "description": "Alert title when renaming a standalone shopping item or saving its note failed.",
+    "end": 1609,
+    "file": "src/features/shop/messages.ts",
+    "line": 5,
+    "start": 232
+  },
+  "5NKar0": {
+    "col": 17,
+    "defaultMessage": "Shop for meals",
+    "description": "Title of the screen that lists upcoming meals and their shopping decisions.",
+    "end": 9333,
+    "file": "src/app/_layout.tsx",
+    "line": 277,
+    "start": 9136
+  },
+  "5dil2Q": {
+    "col": 31,
+    "defaultMessage": "Other variants",
+    "description": "Menu action that opens the other versions of a recipe.",
+    "end": 9179,
+    "file": "src/features/cookbook/recipe-browser.tsx",
+    "line": 238,
+    "start": 8947
+  },
+  "695Ha/": {
+    "col": 21,
+    "defaultMessage": "Search recipes",
+    "description": "Placeholder in the cookbook's search field.",
+    "end": 2441,
+    "file": "src/features/cookbook/recipe-browser.tsx",
+    "line": 65,
+    "start": 2296
+  },
+  "6DbM9d": {
+    "col": 15,
+    "defaultMessage": "To add one of these, import all its pages together.",
+    "description": "Explains how to recover an incomplete recipe: import the rest of its pages in the same import.",
+    "end": 4414,
+    "file": "src/app/cookbook/review.tsx",
+    "line": 115,
+    "start": 4127
+  },
+  "6imU0v": {
+    "col": 18,
+    "defaultMessage": "Nothing to buy yet. Open Meals to choose what to buy, or add an item.",
+    "description": "Empty Shop state when planned meals still need a shopping choice. Names two ways to get items on the list.",
+    "end": 14176,
+    "file": "src/app/(tabs)/shop/index.tsx",
+    "line": 391,
+    "start": 13839
   },
   "77C3do": {
     "col": 21,
@@ -98,6 +278,15 @@
     "line": 45,
     "start": 1286
   },
+  "78XbAU": {
+    "col": 22,
+    "defaultMessage": "Add an item",
+    "description": "Placeholder in the entry field where the cook types what to buy.",
+    "end": 1546,
+    "file": "src/app/shop/add.tsx",
+    "line": 40,
+    "start": 1201
+  },
   "7NwgcX": {
     "col": 13,
     "defaultMessage": "Cancel",
@@ -107,32 +296,50 @@
     "line": 90,
     "start": 3135
   },
+  "8b+Yoq": {
+    "col": 14,
+    "defaultMessage": "Meal",
+    "description": "Fallback title for a meal written in by hand.",
+    "end": 1745,
+    "file": "src/app/meals/written.tsx",
+    "line": 41,
+    "start": 1590
+  },
   "8tYGGP": {
     "col": 28,
     "defaultMessage": "Dinner",
     "description": "Meal slot label for the evening meal.",
-    "end": 523,
+    "end": 571,
     "file": "src/features/meals/labels.ts",
     "line": 6,
-    "start": 194
+    "start": 242
   },
   "96/RrW": {
     "col": 36,
     "defaultMessage": "Past chats",
     "description": "Accessibility label for the shortcut to household chat history.",
-    "end": 13821,
+    "end": 15277,
     "file": "src/app/(tabs)/(meals)/index.tsx",
-    "line": 409,
-    "start": 13616
+    "line": 452,
+    "start": 15072
+  },
+  "97Gs7q": {
+    "col": 8,
+    "defaultMessage": "No ingredient list yet",
+    "description": "Status on a meal written in by hand that has no items to buy yet.",
+    "end": 3931,
+    "file": "src/app/shop/meals.tsx",
+    "line": 106,
+    "start": 3744
   },
   "9rsKGF": {
     "col": 34,
     "defaultMessage": "Select lunch",
     "description": "Action row that opens the meal chooser for lunch, and the heading shown while it is open. Does not plan a meal yet.",
-    "end": 1770,
+    "end": 1818,
     "file": "src/features/meals/labels.ts",
     "line": 40,
-    "start": 1162
+    "start": 1210
   },
   "ARoqs5": {
     "col": 36,
@@ -143,23 +350,104 @@
     "line": 3,
     "start": 82
   },
+  "ASbK1o": {
+    "col": 30,
+    "defaultMessage": "{count, plural, one {1 meal to review} other {# meals to review}}",
+    "description": "Accessibility label for the Shop toolbar button that opens the meals needing a shopping decision. {count} is how many meals.",
+    "end": 3241,
+    "file": "src/app/(tabs)/shop/index.tsx",
+    "line": 74,
+    "start": 2857
+  },
+  "ApC4Uy": {
+    "col": 25,
+    "defaultMessage": "Ingredients, spices & baking",
+    "description": "Shopping category for spices, baking supplies and pantry ingredients.",
+    "end": 2399,
+    "file": "src/features/shop/category-labels.ts",
+    "line": 8,
+    "start": 334
+  },
+  "B2Sv0f": {
+    "col": 15,
+    "defaultMessage": "Magpie saves it to your cookbook and plans it for you.",
+    "description": "Note in the import sheet when the recipe will also fill a meal slot. The meal itself is named on the following line.",
+    "end": 6543,
+    "file": "src/app/cookbook/import.tsx",
+    "line": 168,
+    "start": 6231
+  },
+  "B2WnCm": {
+    "col": 25,
+    "defaultMessage": "Check off {name}",
+    "description": "Accessibility label for the checkbox of a shopping item. Selecting it marks the item as bought. {name} is the item's name.",
+    "end": 1824,
+    "file": "src/features/shop/shop-item-row.tsx",
+    "line": 33,
+    "start": 1269
+  },
+  "B8Psge": {
+    "col": 8,
+    "defaultMessage": "Easy",
+    "description": "Recipe effort level: little work, few steps.",
+    "end": 436,
+    "file": "src/features/meals/effort-label.ts",
+    "line": 10,
+    "start": 323
+  },
   "BNzExh": {
     "col": 28,
     "defaultMessage": "Treat",
     "description": "Meal slot label for a snack or treat.",
-    "end": 523,
+    "end": 571,
     "file": "src/features/meals/labels.ts",
     "line": 6,
-    "start": 194
+    "start": 242
+  },
+  "BUvsPI": {
+    "col": 27,
+    "defaultMessage": "Tomorrow",
+    "description": "Label for the day after today in a planned meal's heading, such as “Tomorrow · Dinner”.",
+    "end": 3981,
+    "file": "src/features/meals/labels.ts",
+    "line": 100,
+    "start": 3516
+  },
+  "BuLRku": {
+    "col": 12,
+    "defaultMessage": "Couldn’t swap item",
+    "description": "Alert title when swapping a shopping item for another option failed.",
+    "end": 10806,
+    "file": "src/app/(tabs)/shop/index.tsx",
+    "line": 299,
+    "start": 10604
+  },
+  "CLXnlV": {
+    "col": 38,
+    "defaultMessage": "Other variants of {name}",
+    "description": "Accessibility label for the row that opens the other versions of a cookbook recipe. {name} is the recipe's name.",
+    "end": 10050,
+    "file": "src/features/cookbook/recipe-browser.tsx",
+    "line": 259,
+    "start": 9674
   },
   "CpnFSJ": {
     "col": 21,
     "defaultMessage": "Browse cookbook",
     "description": "Card that opens the cookbook when there are no matching recommendations.",
-    "end": 18315,
+    "end": 18495,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 478,
-    "start": 18080
+    "line": 483,
+    "start": 18260
+  },
+  "Dkp9Si": {
+    "col": 20,
+    "defaultMessage": "Add {name}",
+    "description": "Accessibility label for a previously bought item that can be added to the list again. {name} is the item's name.",
+    "end": 2104,
+    "file": "src/app/shop/add.tsx",
+    "line": 53,
+    "start": 1569
   },
   "DrcycS": {
     "col": 11,
@@ -174,28 +462,154 @@
     "col": 18,
     "defaultMessage": "Planned",
     "description": "Status on a meal that is planned for today or later.",
-    "end": 6975,
+    "end": 7018,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 201,
-    "start": 6776
+    "line": 203,
+    "start": 6819
   },
   "EoBhsI": {
     "col": 19,
     "defaultMessage": "Write in a meal",
     "description": "Action that lets the user type a meal that is not in the cookbook.",
-    "end": 19204,
+    "end": 19384,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 499,
-    "start": 18983
+    "line": 504,
+    "start": 19163
+  },
+  "Eu3PUg": {
+    "col": 11,
+    "defaultMessage": "Ticked recipes go to your cookbook. Nothing is saved until you add them.",
+    "description": "Instruction above the list of recipes an import found. Each complete recipe starts ticked.",
+    "end": 3311,
+    "file": "src/app/cookbook/review.tsx",
+    "line": 87,
+    "start": 3027
+  },
+  "FABYcO": {
+    "col": 25,
+    "defaultMessage": "Fruit & vegetables",
+    "description": "Shopping category for fresh produce.",
+    "end": 2399,
+    "file": "src/features/shop/category-labels.ts",
+    "line": 8,
+    "start": 334
+  },
+  "FKeUdZ": {
+    "col": 25,
+    "defaultMessage": "Beverages",
+    "description": "Shopping category for drinks.",
+    "end": 2399,
+    "file": "src/features/shop/category-labels.ts",
+    "line": 8,
+    "start": 334
+  },
+  "FjaxBE": {
+    "col": 11,
+    "defaultMessage": "Add",
+    "description": "Title of the Shop toolbar button that opens the item entry sheet.",
+    "end": 4480,
+    "file": "src/app/(tabs)/shop/index.tsx",
+    "line": 110,
+    "start": 4304
+  },
+  "Frra3A": {
+    "col": 25,
+    "defaultMessage": "Other",
+    "description": "Shopping category for items that fit none of the other aisles.",
+    "end": 2399,
+    "file": "src/features/shop/category-labels.ts",
+    "line": 8,
+    "start": 334
+  },
+  "Ftip1w": {
+    "col": 13,
+    "defaultMessage": "Loading item…",
+    "description": "Status in the shopping item sheet while the item is read from the local database.",
+    "end": 4460,
+    "file": "src/app/shop/item.tsx",
+    "line": 133,
+    "start": 4250
+  },
+  "GXiSPF": {
+    "col": 20,
+    "defaultMessage": "{count, plural, one {1 to buy} other {# to buy}}",
+    "description": "Summary above the shopping list. {count} is how many items are still to buy.",
+    "end": 4884,
+    "file": "src/app/(tabs)/shop/index.tsx",
+    "line": 122,
+    "start": 4645
+  },
+  "Gfm4qD": {
+    "col": 21,
+    "defaultMessage": "Import",
+    "description": "Action that starts reading the chosen photos as recipes.",
+    "end": 9697,
+    "file": "src/app/cookbook/import.tsx",
+    "line": 250,
+    "start": 9511
+  },
+  "GsvZC/": {
+    "col": 13,
+    "defaultMessage": "Swap for",
+    "description": "Heading above other ingredient options a recipe allows, such as another cheese. Selecting one changes the shopping item.",
+    "end": 7653,
+    "file": "src/app/shop/item.tsx",
+    "line": 237,
+    "start": 7409
+  },
+  "GwcRqi": {
+    "col": 11,
+    "defaultMessage": "It may have been removed on another device.",
+    "description": "Body under “Item not found”. Explains the likely cause without asking the user to do anything.",
+    "end": 5484,
+    "file": "src/app/shop/item.tsx",
+    "line": 159,
+    "start": 5239
+  },
+  "IAQgpf": {
+    "col": 25,
+    "defaultMessage": "Breakfast & hot drinks",
+    "description": "Shopping category for breakfast goods and coffee or tea.",
+    "end": 2399,
+    "file": "src/features/shop/category-labels.ts",
+    "line": 8,
+    "start": 334
+  },
+  "IOXqGa": {
+    "col": 25,
+    "defaultMessage": "Cold cuts, cheese & deli",
+    "description": "Shopping category for the deli counter and cheese.",
+    "end": 2399,
+    "file": "src/features/shop/category-labels.ts",
+    "line": 8,
+    "start": 334
   },
   "IQG6uc": {
     "col": 18,
     "defaultMessage": "Past meal",
     "description": "Status on a planned meal whose day has already passed.",
-    "end": 6757,
+    "end": 6800,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 196,
-    "start": 6554
+    "line": 198,
+    "start": 6597
+  },
+  "IYPNA9": {
+    "col": 30,
+    "defaultMessage": "Note",
+    "description": "Accessibility label for the free-text note field of a shopping item.",
+    "end": 19580,
+    "file": "src/app/shop/item.tsx",
+    "line": 574,
+    "start": 19400
+  },
+  "IkTWes": {
+    "col": 18,
+    "defaultMessage": "Adding…",
+    "description": "Status while the ticked recipes are being saved.",
+    "end": 5299,
+    "file": "src/app/cookbook/review.tsx",
+    "line": 141,
+    "start": 5104
   },
   "JjUC5I": {
     "col": 15,
@@ -210,73 +624,271 @@
     "col": 34,
     "defaultMessage": "Select dinner",
     "description": "Action row that opens the meal chooser for dinner, and the heading shown while it is open. Does not plan a meal yet.",
-    "end": 1770,
+    "end": 1818,
     "file": "src/features/meals/labels.ts",
     "line": 40,
-    "start": 1162
+    "start": 1210
+  },
+  "KDuWv8": {
+    "col": 18,
+    "defaultMessage": "{count, plural, one {Add 1 recipe} other {Add # recipes}}",
+    "description": "Action that saves the ticked recipes to the cookbook. {count} is how many are ticked.",
+    "end": 5717,
+    "file": "src/app/cookbook/review.tsx",
+    "line": 146,
+    "start": 5318
+  },
+  "KYeM+i": {
+    "col": 18,
+    "defaultMessage": "Import recipe",
+    "description": "Title of the import sheet when it is not tied to a meal slot.",
+    "end": 6014,
+    "file": "src/app/cookbook/import.tsx",
+    "line": 157,
+    "start": 5800
+  },
+  "KyFWof": {
+    "col": 20,
+    "defaultMessage": "Meal",
+    "description": "Fallback name for a planned meal whose dish name is missing.",
+    "end": 13978,
+    "file": "src/app/shop/item.tsx",
+    "line": 411,
+    "start": 13766
+  },
+  "LIn5Ck": {
+    "col": 35,
+    "defaultMessage": "Treat on {day}",
+    "description": "Source of a shopping item that belongs to a planned meal. {day} is a formatted weekday such as Tuesday. Selecting it opens the meal.",
+    "end": 5361,
+    "file": "src/features/meals/labels.ts",
+    "line": 128,
+    "start": 4561
+  },
+  "LMzT/U": {
+    "col": 10,
+    "defaultMessage": "Normal",
+    "description": "Recipe effort level: an ordinary weeknight dish.",
+    "end": 567,
+    "file": "src/features/meals/effort-label.ts",
+    "line": 14,
+    "start": 448
   },
   "M6fYaf": {
     "col": 19,
     "defaultMessage": "Use what I have",
     "description": "Starts a chat to find a meal for this slot using ingredients on hand.",
-    "end": 12771,
+    "end": 12814,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 348,
-    "start": 12547
+    "line": 350,
+    "start": 12590
   },
   "M7dZ14": {
     "col": 6,
     "defaultMessage": "Getting the recipe ready…",
     "description": "Status while a chosen recommendation is being saved and synced.",
-    "end": 3311,
+    "end": 3354,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 107,
-    "start": 3131
+    "line": 109,
+    "start": 3174
+  },
+  "MGQKpS": {
+    "col": 22,
+    "defaultMessage": "Next item",
+    "description": "Placeholder in the entry field after at least one item was added. Keeps the cook typing the next one.",
+    "end": 1546,
+    "file": "src/app/shop/add.tsx",
+    "line": 40,
+    "start": 1201
   },
   "MJTmFc": {
     "col": 17,
     "defaultMessage": "Meals",
     "description": "Title of the meal planning screen.",
-    "end": 12727,
+    "end": 14183,
     "file": "src/app/(tabs)/(meals)/index.tsx",
-    "line": 383,
-    "start": 12594
+    "line": 426,
+    "start": 14050
+  },
+  "NFsZN2": {
+    "col": 28,
+    "defaultMessage": "Please try again.",
+    "description": "Alert body after an action failed. The user can repeat the action.",
+    "end": 1609,
+    "file": "src/features/shop/messages.ts",
+    "line": 5,
+    "start": 232
+  },
+  "Ngz9Xq": {
+    "col": 15,
+    "defaultMessage": "I have it at home",
+    "description": "Action that marks this ingredient as already at home, so it leaves the list for this meal.",
+    "end": 10827,
+    "file": "src/app/shop/item.tsx",
+    "line": 322,
+    "start": 10596
+  },
+  "ODr7zx": {
+    "col": 28,
+    "defaultMessage": "Couldn’t save details",
+    "description": "Alert title when saving a shopping item's note failed, such as when leaving the entry sheet.",
+    "end": 1609,
+    "file": "src/features/shop/messages.ts",
+    "line": 5,
+    "start": 232
+  },
+  "Ofk7Ir": {
+    "col": 35,
+    "defaultMessage": "Lunch on {day}",
+    "description": "Source of a shopping item that belongs to a planned meal. {day} is a formatted weekday such as Tuesday. Selecting it opens the meal.",
+    "end": 5361,
+    "file": "src/features/meals/labels.ts",
+    "line": 128,
+    "start": 4561
+  },
+  "PKr4/s": {
+    "col": 11,
+    "defaultMessage": "Shop",
+    "description": "Label for the tab with the household's shopping list.",
+    "end": 1707,
+    "file": "src/app/(tabs)/_layout.tsx",
+    "line": 44,
+    "start": 1542
   },
   "PZW+tk": {
     "col": 26,
     "defaultMessage": "Long press for other variants",
     "description": "Accessibility hint for opening a recipe's other variants.",
-    "end": 16322,
+    "end": 16408,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 435,
-    "start": 16064
+    "line": 438,
+    "start": 16150
+  },
+  "PmW3EN": {
+    "col": 19,
+    "defaultMessage": "Tell Magpie a recipe you know",
+    "description": "Row that opens the recorder to describe a recipe from memory. The chat checks it before saving.",
+    "end": 12172,
+    "file": "src/app/cookbook/import.tsx",
+    "line": 309,
+    "start": 11932
   },
   "Q5plTF": {
     "col": 13,
     "defaultMessage": "No list yet — create one in Shop first.",
     "description": "Empty state on Meals when the household has no active shopping list.",
-    "end": 15180,
+    "end": 16636,
     "file": "src/app/(tabs)/(meals)/index.tsx",
-    "line": 444,
-    "start": 14957
+    "line": 487,
+    "start": 16413
+  },
+  "QJp8Zx": {
+    "col": 25,
+    "defaultMessage": "Dairy, butter & yogurt",
+    "description": "Shopping category for dairy products.",
+    "end": 2399,
+    "file": "src/features/shop/category-labels.ts",
+    "line": 8,
+    "start": 334
+  },
+  "QW64XA": {
+    "col": 28,
+    "defaultMessage": "Couldn’t check off item",
+    "description": "Alert title when marking a shopping item as bought failed.",
+    "end": 1609,
+    "file": "src/features/shop/messages.ts",
+    "line": 5,
+    "start": 232
+  },
+  "QoZ4P9": {
+    "col": 12,
+    "defaultMessage": "Could not add the recipes",
+    "description": "Alert title when keeping the reviewed recipes failed. The imported text is still there.",
+    "end": 2099,
+    "file": "src/app/cookbook/review.tsx",
+    "line": 51,
+    "start": 1871
+  },
+  "QrHBLE": {
+    "col": 28,
+    "defaultMessage": "Couldn’t add item",
+    "description": "Alert title when adding an item to the shopping list failed.",
+    "end": 1609,
+    "file": "src/features/shop/messages.ts",
+    "line": 5,
+    "start": 232
+  },
+  "RACRTO": {
+    "col": 38,
+    "defaultMessage": "Empty cookbook",
+    "description": "Accessibility label for the illustration shown when the cookbook has no recipes.",
+    "end": 3933,
+    "file": "src/features/cookbook/recipe-browser.tsx",
+    "line": 104,
+    "start": 3699
   },
   "RBdc82": {
     "col": 19,
     "defaultMessage": "Choose what to buy",
     "description": "Action under a planned meal that opens its shopping items.",
-    "end": 9119,
+    "end": 9162,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 258,
-    "start": 8903
+    "line": 260,
+    "start": 8946
+  },
+  "RJfIuU": {
+    "col": 25,
+    "defaultMessage": "Pet supplies",
+    "description": "Shopping category for pet food and supplies.",
+    "end": 2399,
+    "file": "src/features/shop/category-labels.ts",
+    "line": 8,
+    "start": 334
+  },
+  "S3jKdb": {
+    "col": 32,
+    "defaultMessage": "Add an item",
+    "description": "Accessibility label for the field where the cook types what to buy.",
+    "end": 13205,
+    "file": "src/app/shop/add.tsx",
+    "line": 360,
+    "start": 13011
+  },
+  "SOmAkO": {
+    "col": 12,
+    "defaultMessage": "Meals ({count})",
+    "description": "Title of the Shop toolbar button that opens the meals needing a shopping decision. {count} is how many meals.",
+    "end": 3672,
+    "file": "src/app/(tabs)/shop/index.tsx",
+    "line": 86,
+    "start": 3355
+  },
+  "SPd0ko": {
+    "col": 13,
+    "defaultMessage": "Item not found",
+    "description": "Title in the shopping item sheet when the item no longer exists, for example because another device removed it.",
+    "end": 5105,
+    "file": "src/app/shop/item.tsx",
+    "line": 150,
+    "start": 4864
+  },
+  "Sxhuxi": {
+    "col": 18,
+    "defaultMessage": "Swipe left for the next substitute, right for the previous. Tap for details.",
+    "description": "Accessibility hint on a shopping row that offers other ingredient options.",
+    "end": 7458,
+    "file": "src/features/shop/shop-item-row.tsx",
+    "line": 219,
+    "start": 7146
   },
   "SyepTx": {
     "col": 8,
     "defaultMessage": "Finding meals for you…",
     "description": "Status while meal recommendations are loading.",
-    "end": 3505,
+    "end": 3548,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 113,
-    "start": 3349
+    "line": 115,
+    "start": 3392
   },
   "T+fAvK": {
     "col": 9,
@@ -296,6 +908,24 @@
     "line": 79,
     "start": 2779
   },
+  "UTC2ZW": {
+    "col": 8,
+    "defaultMessage": "There’s nothing to paste. Copy a link or recipe first.",
+    "description": "Error when the clipboard holds no recipe link or text. Names the next step.",
+    "end": 5190,
+    "file": "src/app/cookbook/import.tsx",
+    "line": 135,
+    "start": 4949
+  },
+  "Uyn5M2": {
+    "col": 29,
+    "defaultMessage": "Plan {name}",
+    "description": "Accessibility label for a cookbook recipe that fills the meal slot being planned. {name} is the recipe's name. Selecting it plans the recipe.",
+    "end": 1493,
+    "file": "src/features/cookbook/recipe-browser.tsx",
+    "line": 20,
+    "start": 974
+  },
   "V/P0v7": {
     "col": 17,
     "defaultMessage": "Everyone",
@@ -304,6 +934,33 @@
     "file": "src/features/meals/eaters-label.tsx",
     "line": 5,
     "start": 125
+  },
+  "VA0Lxk": {
+    "col": 25,
+    "defaultMessage": "Household",
+    "description": "Shopping category for cleaning and household supplies.",
+    "end": 2399,
+    "file": "src/features/shop/category-labels.ts",
+    "line": 8,
+    "start": 334
+  },
+  "VOBEao": {
+    "col": 16,
+    "defaultMessage": "No cooking",
+    "description": "Recipe effort level for a dish assembled without heat, such as a salad or a sandwich.",
+    "end": 313,
+    "file": "src/features/meals/effort-label.ts",
+    "line": 5,
+    "start": 147
+  },
+  "VhvMsk": {
+    "col": 17,
+    "defaultMessage": "From a website, a message or your own collection",
+    "description": "Detail under the paste row. Names where copied recipe text can come from.",
+    "end": 10879,
+    "file": "src/app/cookbook/import.tsx",
+    "line": 277,
+    "start": 10606
   },
   "VlowD5": {
     "col": 17,
@@ -318,10 +975,10 @@
     "col": 39,
     "defaultMessage": "Hide treat choices",
     "description": "Accessibility label for the control that closes the treat meal chooser. Does not change the planned meal.",
-    "end": 2467,
+    "end": 2515,
     "file": "src/features/meals/labels.ts",
     "line": 59,
-    "start": 1875
+    "start": 1923
   },
   "VvjIbM": {
     "col": 11,
@@ -332,23 +989,41 @@
     "line": 125,
     "start": 4497
   },
+  "W4PF9Z": {
+    "col": 44,
+    "defaultMessage": "Details for {name}",
+    "description": "Accessibility label for the note field of an added shopping item. {name} is the item's name.",
+    "end": 11947,
+    "file": "src/app/shop/add.tsx",
+    "line": 326,
+    "start": 11565
+  },
+  "W6R9iu": {
+    "col": 23,
+    "defaultMessage": "Add a note",
+    "description": "Placeholder in the free-text note field of a shopping item, such as a size or brand.",
+    "end": 19807,
+    "file": "src/app/shop/item.tsx",
+    "line": 579,
+    "start": 19605
+  },
   "WobItN": {
     "col": 10,
     "defaultMessage": "Suggestions couldn’t load. You can still browse your cookbook.",
     "description": "Status when meal recommendations failed, with a fallback action.",
-    "end": 3794,
+    "end": 3837,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 118,
-    "start": 3546
+    "line": 120,
+    "start": 3589
   },
   "XPO+MA": {
     "col": 34,
     "defaultMessage": "Select a treat",
     "description": "Action row that opens the meal chooser for a treat, and the heading shown while it is open. Does not plan a meal yet.",
-    "end": 1770,
+    "end": 1818,
     "file": "src/features/meals/labels.ts",
     "line": 40,
-    "start": 1162
+    "start": 1210
   },
   "XbMjOX": {
     "col": 9,
@@ -359,6 +1034,24 @@
     "line": 156,
     "start": 5380
   },
+  "XcFs+K": {
+    "col": 12,
+    "defaultMessage": "Uncategorised",
+    "description": "Fallback for a shopping item that has no category.",
+    "end": 2772,
+    "file": "src/features/shop/category-menu.ios.tsx",
+    "line": 79,
+    "start": 2609
+  },
+  "Z2IumF": {
+    "col": 25,
+    "defaultMessage": "{count} bought",
+    "description": "Part of a planned meal's shopping status. {count} is how many ingredients are already bought.",
+    "end": 3092,
+    "file": "src/features/meals/shopping-review.ts",
+    "line": 66,
+    "start": 1921
+  },
   "Z9/wRb": {
     "col": 18,
     "defaultMessage": "What ingredients do you have?",
@@ -368,14 +1061,113 @@
     "line": 715,
     "start": 24876
   },
+  "Z9BB32": {
+    "col": 34,
+    "defaultMessage": "Import recipe",
+    "description": "Action that opens the recipe import sheet, where recipes come in from a link, pasted text, photos or a recording.",
+    "end": 367,
+    "file": "src/features/cookbook/messages.ts",
+    "line": 5,
+    "start": 178
+  },
   "aK3PR3": {
     "col": 39,
     "defaultMessage": "Hide lunch choices",
     "description": "Accessibility label for the control that closes the lunch meal chooser. Does not change the planned meal.",
-    "end": 2467,
+    "end": 2515,
     "file": "src/features/meals/labels.ts",
     "line": 59,
-    "start": 1875
+    "start": 1923
+  },
+  "aZ1ogU": {
+    "col": 14,
+    "defaultMessage": "Meal",
+    "description": "Fallback name for a planned meal that has no dish name.",
+    "end": 5970,
+    "file": "src/app/shop/meals.tsx",
+    "line": 166,
+    "start": 5787
+  },
+  "aiCuWd": {
+    "col": 23,
+    "defaultMessage": "Name",
+    "description": "Placeholder in the field holding an item's name.",
+    "end": 18581,
+    "file": "src/app/shop/item.tsx",
+    "line": 548,
+    "start": 18435
+  },
+  "bReaED": {
+    "col": 17,
+    "defaultMessage": "{max} pages is the most for one import. Import these, then the next {max}.",
+    "description": "Limit on photos in one import. {max} is the maximum number of pages. Names the way to continue with the remaining pages.",
+    "end": 8897,
+    "file": "src/app/cookbook/import.tsx",
+    "line": 224,
+    "start": 8465
+  },
+  "bSLf7V": {
+    "col": 28,
+    "defaultMessage": "Couldn’t restore item",
+    "description": "Alert title when putting a checked-off shopping item back on the list failed.",
+    "end": 1609,
+    "file": "src/features/shop/messages.ts",
+    "line": 5,
+    "start": 232
+  },
+  "bbNeZ2": {
+    "col": 8,
+    "defaultMessage": "{count, plural, one {1 on the list} other {# on the list}}",
+    "description": "Status on a meal written in by hand, whose items are already on the shopping list. {count} is how many.",
+    "end": 3735,
+    "file": "src/app/shop/meals.tsx",
+    "line": 97,
+    "start": 3396
+  },
+  "bbY11+": {
+    "col": 20,
+    "defaultMessage": "older matching variant",
+    "description": "Added to a cookbook recipe's accessibility label when a newer version matches the same dish. Lowercase so it reads as a continuation.",
+    "end": 6330,
+    "file": "src/features/cookbook/recipe-browser.tsx",
+    "line": 165,
+    "start": 6027
+  },
+  "bzU5dt": {
+    "col": 29,
+    "defaultMessage": "Use {name}",
+    "description": "Accessibility action that switches a shopping item to another ingredient option. {name} is that option's name.",
+    "end": 9153,
+    "file": "src/features/shop/shop-item-row.tsx",
+    "line": 259,
+    "start": 8771
+  },
+  "cBO33J": {
+    "col": 25,
+    "defaultMessage": "Grain products",
+    "description": "Shopping category for rice, pasta, flour and other grains.",
+    "end": 2399,
+    "file": "src/features/shop/category-labels.ts",
+    "line": 8,
+    "start": 334
+  },
+  "cJ0hCi": {
+    "col": 11,
+    "defaultMessage": "Cookbook",
+    "description": "Label for the tab with the household's saved recipes.",
+    "end": 2102,
+    "file": "src/app/(tabs)/_layout.tsx",
+    "line": 55,
+    "start": 1933
+  },
+  "caJwim": {
+    "col": 17,
+    "defaultMessage": "Paste link or recipe text",
+    "description": "Row that imports a recipe from the clipboard, as a link or as text.",
+    "end": 10508,
+    "file": "src/app/cookbook/import.tsx",
+    "line": 270,
+    "start": 10284
   },
   "cmBFn5": {
     "col": 16,
@@ -386,6 +1178,24 @@
     "line": 60,
     "start": 2016
   },
+  "dCH2P/": {
+    "col": 11,
+    "defaultMessage": "This meal is in the past. Check whether you still want to buy this.",
+    "description": "Warning on an ingredient for a meal whose day has passed. The cook decides whether the item is still needed.",
+    "end": 15341,
+    "file": "src/app/shop/item.tsx",
+    "line": 447,
+    "start": 15044
+  },
+  "eFK5Ok": {
+    "col": 19,
+    "defaultMessage": "Added",
+    "description": "Heading above items added in this entry session, newest last.",
+    "end": 9305,
+    "file": "src/app/shop/add.tsx",
+    "line": 276,
+    "start": 9099
+  },
   "eqjXdk": {
     "col": 16,
     "defaultMessage": "Adding to your cookbook…",
@@ -395,14 +1205,41 @@
     "line": 65,
     "start": 2249
   },
+  "fAyG5b": {
+    "col": 25,
+    "defaultMessage": "Restore {name}",
+    "description": "Accessibility label for the checkbox of a bought shopping item. Selecting it puts the item back on the list. {name} is the item's name.",
+    "end": 1824,
+    "file": "src/features/shop/shop-item-row.tsx",
+    "line": 33,
+    "start": 1269
+  },
+  "g1CIfS": {
+    "col": 25,
+    "defaultMessage": "{count} on the list",
+    "description": "Part of a planned meal's shopping status. {count} is how many ingredients are on the shopping list.",
+    "end": 3092,
+    "file": "src/features/meals/shopping-review.ts",
+    "line": 66,
+    "start": 1921
+  },
   "g4uIZZ": {
     "col": 9,
     "defaultMessage": "{meal} · {date}",
     "description": "Label for a fixed meal slot. {meal} is the standalone Lunch, Dinner or Treat label; {date} is the formatted calendar date.",
-    "end": 1054,
+    "end": 1102,
     "file": "src/features/meals/labels.ts",
     "line": 22,
-    "start": 615
+    "start": 663
+  },
+  "gCjS5j": {
+    "col": 32,
+    "defaultMessage": "Add",
+    "description": "Accessibility label for the button that adds the typed item to the shopping list.",
+    "end": 13965,
+    "file": "src/app/shop/add.tsx",
+    "line": 378,
+    "start": 13765
   },
   "gWOHY1": {
     "col": 19,
@@ -413,14 +1250,95 @@
     "line": 222,
     "start": 7559
   },
+  "gYPHvh": {
+    "col": 30,
+    "defaultMessage": "Import for lunch",
+    "description": "Title of the import sheet when the recipe will fill a lunch slot.",
+    "end": 2337,
+    "file": "src/app/cookbook/import.tsx",
+    "line": 40,
+    "start": 1714
+  },
+  "gnsOl4": {
+    "col": 15,
+    "defaultMessage": "Incomplete",
+    "description": "Heading above recipes an import could not read completely. They cannot be kept.",
+    "end": 4055,
+    "file": "src/app/cookbook/review.tsx",
+    "line": 108,
+    "start": 3842
+  },
+  "h/k4II": {
+    "col": 25,
+    "defaultMessage": "Bread & pastries",
+    "description": "Shopping category for bread and baked goods.",
+    "end": 2399,
+    "file": "src/features/shop/category-labels.ts",
+    "line": 8,
+    "start": 334
+  },
+  "hAVLiO": {
+    "col": 29,
+    "defaultMessage": "On list",
+    "description": "Status on an item that was already on the shopping list before this entry.",
+    "end": 10288,
+    "file": "src/app/shop/add.tsx",
+    "line": 295,
+    "start": 10027
+  },
+  "hGpcZF": {
+    "col": 20,
+    "defaultMessage": "Your cookbook is empty. Import the recipes you love to cook.",
+    "description": "Empty cookbook state, before any recipe was saved or imported.",
+    "end": 4769,
+    "file": "src/features/cookbook/recipe-browser.tsx",
+    "line": 121,
+    "start": 4475
+  },
+  "heIYZX": {
+    "col": 25,
+    "defaultMessage": "{count} to decide",
+    "description": "Status on a planned meal's shopping, while ingredients still await a decision. {count} is how many are left.",
+    "end": 3092,
+    "file": "src/features/meals/shopping-review.ts",
+    "line": 66,
+    "start": 1921
+  },
+  "iQ3uTU": {
+    "col": 25,
+    "defaultMessage": "Home & garden",
+    "description": "Shopping category for home and garden goods.",
+    "end": 2399,
+    "file": "src/features/shop/category-labels.ts",
+    "line": 8,
+    "start": 334
+  },
   "ir/sf1": {
     "col": 26,
     "defaultMessage": "Saves this idea to your cookbook and plans it",
     "description": "Accessibility hint for choosing a seeded meal idea.",
-    "end": 16037,
+    "end": 16123,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 429,
-    "start": 15739
+    "line": 432,
+    "start": 15825
+  },
+  "isMF9L": {
+    "col": 17,
+    "defaultMessage": "Cookbook",
+    "description": "Title of the Cookbook tab, which holds the household's saved recipes.",
+    "end": 512,
+    "file": "src/app/(tabs)/cookbook/_layout.tsx",
+    "line": 13,
+    "start": 327
+  },
+  "j3b4MN": {
+    "col": 25,
+    "defaultMessage": "Fresh meat & fish",
+    "description": "Shopping category for the fresh meat and fish counter.",
+    "end": 2399,
+    "file": "src/features/shop/category-labels.ts",
+    "line": 8,
+    "start": 334
   },
   "j8BV4K": {
     "col": 11,
@@ -431,23 +1349,95 @@
     "line": 34,
     "start": 1183
   },
+  "jD5IVs": {
+    "col": 17,
+    "defaultMessage": "Found recipes",
+    "description": "Title of the sheet that reviews the recipes one import found, before any are saved.",
+    "end": 10414,
+    "file": "src/app/_layout.tsx",
+    "line": 312,
+    "start": 10210
+  },
   "jpoEqR": {
     "col": 12,
     "defaultMessage": "The recipe hasn’t synced yet. Try again in a moment.",
     "description": "Alert body when a recommendation was chosen before its recipe finished syncing.",
-    "end": 8076,
+    "end": 9124,
     "file": "src/app/(tabs)/(meals)/index.tsx",
-    "line": 218,
-    "start": 7813
+    "line": 250,
+    "start": 8861
+  },
+  "jsESf/": {
+    "col": 19,
+    "defaultMessage": "Choose screenshots or photos",
+    "description": "Row that imports recipes from screenshots or photos already on the phone.",
+    "end": 11742,
+    "file": "src/app/cookbook/import.tsx",
+    "line": 299,
+    "start": 11525
   },
   "kM+skD": {
     "col": 43,
     "defaultMessage": "Select {recipe} for dinner",
     "description": "Accessibility label for a recommended dish that will fill the dinner slot. {recipe} is the recipe's display name. Selecting it plans the recipe for dinner.",
-    "end": 3438,
+    "end": 3486,
     "file": "src/features/meals/labels.ts",
     "line": 78,
-    "start": 2584
+    "start": 2632
+  },
+  "kNas2A": {
+    "col": 33,
+    "defaultMessage": "Opens the planned meal",
+    "description": "Accessibility hint for the row in the item sheet that links to the meal this ingredient belongs to.",
+    "end": 13489,
+    "file": "src/app/shop/item.tsx",
+    "line": 401,
+    "start": 13244
+  },
+  "kNt/TP": {
+    "col": 11,
+    "defaultMessage": "Details",
+    "description": "Title of the sheet for an item the cook wrote in. Its name and note can be edited in place.",
+    "end": 17992,
+    "file": "src/app/shop/item.tsx",
+    "line": 529,
+    "start": 17786
+  },
+  "kZIMYp": {
+    "col": 20,
+    "defaultMessage": "No matches for “{query}”.",
+    "description": "Empty search result in the cookbook. {query} is the cook's own search text, kept as typed.",
+    "end": 4454,
+    "file": "src/features/cookbook/recipe-browser.tsx",
+    "line": 113,
+    "start": 4090
+  },
+  "koAL0x": {
+    "col": 12,
+    "defaultMessage": "Please try again.",
+    "description": "Generic alert body after an action failed. The user can repeat it.",
+    "end": 11019,
+    "file": "src/app/(tabs)/shop/index.tsx",
+    "line": 304,
+    "start": 10820
+  },
+  "lwjs+K": {
+    "col": 27,
+    "defaultMessage": "Anything to add? For example, page 2 is the sauce",
+    "description": "Placeholder above the photos of an import. The cook can explain how the pages fit together.",
+    "end": 9328,
+    "file": "src/app/cookbook/import.tsx",
+    "line": 238,
+    "start": 9046
+  },
+  "lz7pcY": {
+    "col": 32,
+    "defaultMessage": "Empty shopping list",
+    "description": "Accessibility label for the illustration shown when the shopping list has no items.",
+    "end": 13682,
+    "file": "src/app/(tabs)/shop/index.tsx",
+    "line": 382,
+    "start": 13464
   },
   "mYhCW0": {
     "col": 36,
@@ -458,6 +1448,42 @@
     "line": 3,
     "start": 82
   },
+  "mZ3Vq4": {
+    "col": 17,
+    "defaultMessage": "Check off",
+    "description": "Action in the shopping item sheet that marks the item as bought.",
+    "end": 9435,
+    "file": "src/app/shop/item.tsx",
+    "line": 286,
+    "start": 9254
+  },
+  "mdefrF": {
+    "col": 12,
+    "defaultMessage": "Could not discard",
+    "description": "Alert title when discarding a reviewed import failed.",
+    "end": 2298,
+    "file": "src/app/cookbook/review.tsx",
+    "line": 56,
+    "start": 2112
+  },
+  "mf5bwq": {
+    "col": 18,
+    "defaultMessage": "Discarding…",
+    "description": "Status while a reviewed import is discarded.",
+    "end": 6185,
+    "file": "src/app/cookbook/review.tsx",
+    "line": 164,
+    "start": 6012
+  },
+  "n7V20c": {
+    "col": 28,
+    "defaultMessage": "Your entry is still here. Please try again.",
+    "description": "Alert body when a shopping item could not be added. The typed text was not cleared.",
+    "end": 1609,
+    "file": "src/features/shop/messages.ts",
+    "line": 5,
+    "start": 232
+  },
   "nJ+B8s": {
     "col": 36,
     "defaultMessage": "Choose another meal",
@@ -466,6 +1492,51 @@
     "file": "src/features/meals/meal-card-menu-messages.ts",
     "line": 3,
     "start": 82
+  },
+  "nuHVV/": {
+    "col": 17,
+    "defaultMessage": "{count, plural, one {Found 1 recipe} other {Found # recipes}}",
+    "description": "Title of the sheet reviewing what an import found. {count} is how many recipes it read.",
+    "end": 2802,
+    "file": "src/app/cookbook/review.tsx",
+    "line": 70,
+    "start": 2458
+  },
+  "oB6Eyg": {
+    "col": 23,
+    "defaultMessage": "Open details",
+    "description": "Accessibility action that opens the shopping item's detail sheet.",
+    "end": 8038,
+    "file": "src/features/shop/shop-item-row.tsx",
+    "line": 234,
+    "start": 7829
+  },
+  "oP0Gad": {
+    "col": 30,
+    "defaultMessage": "Import for a treat",
+    "description": "Title of the import sheet when the recipe will fill a treat slot.",
+    "end": 2337,
+    "file": "src/app/cookbook/import.tsx",
+    "line": 40,
+    "start": 1714
+  },
+  "p1LU3L": {
+    "col": 30,
+    "defaultMessage": "Import for dinner",
+    "description": "Title of the import sheet when the recipe will fill a dinner slot.",
+    "end": 2337,
+    "file": "src/app/cookbook/import.tsx",
+    "line": 40,
+    "start": 1714
+  },
+  "pV8LQi": {
+    "col": 17,
+    "defaultMessage": "Recipe still syncing",
+    "description": "Status on a planned meal whose recipe has not reached this device yet.",
+    "end": 4660,
+    "file": "src/app/shop/meals.tsx",
+    "line": 129,
+    "start": 4478
   },
   "psD7p2": {
     "col": 28,
@@ -480,55 +1551,208 @@
     "col": 28,
     "defaultMessage": "Lunch",
     "description": "Meal slot label for the midday meal.",
-    "end": 523,
+    "end": 571,
     "file": "src/features/meals/labels.ts",
     "line": 6,
-    "start": 194
+    "start": 242
+  },
+  "rIWABd": {
+    "col": 18,
+    "defaultMessage": "Discard all",
+    "description": "Destructive action that throws away everything an import found.",
+    "end": 6418,
+    "file": "src/app/cookbook/review.tsx",
+    "line": 168,
+    "start": 6204
+  },
+  "rejJi+": {
+    "col": 13,
+    "defaultMessage": "Checked",
+    "description": "Heading above the shopping items that were already checked off.",
+    "end": 12738,
+    "file": "src/app/(tabs)/shop/index.tsx",
+    "line": 357,
+    "start": 12576
+  },
+  "ryFpRR": {
+    "col": 25,
+    "defaultMessage": "Frozen & convenience",
+    "description": "Shopping category for frozen food and ready-made items.",
+    "end": 2399,
+    "file": "src/features/shop/category-labels.ts",
+    "line": 8,
+    "start": 334
+  },
+  "s1wweU": {
+    "col": 21,
+    "defaultMessage": "{count, plural, one {1 other variant} other {# other variants}}",
+    "description": "Row that opens the other versions of a recipe. {count} is how many variants exist.",
+    "end": 10703,
+    "file": "src/features/cookbook/recipe-browser.tsx",
+    "line": 272,
+    "start": 10284
   },
   "sEKbW8": {
     "col": 43,
     "defaultMessage": "Select {recipe} for lunch",
     "description": "Accessibility label for a recommended dish that will fill the lunch slot. {recipe} is the recipe's display name. Selecting it plans the recipe for lunch.",
-    "end": 3438,
+    "end": 3486,
     "file": "src/features/meals/labels.ts",
     "line": 78,
-    "start": 2584
+    "start": 2632
+  },
+  "sHammy": {
+    "col": 25,
+    "defaultMessage": "{count} at home",
+    "description": "Part of a planned meal's shopping status. {count} is how many ingredients the cook already has.",
+    "end": 3092,
+    "file": "src/features/meals/shopping-review.ts",
+    "line": 66,
+    "start": 1921
+  },
+  "saRdXm": {
+    "col": 11,
+    "defaultMessage": "No upcoming meals. Plan a meal to choose what to buy here.",
+    "description": "Empty state on the shop's list of upcoming meals, which links each meal to its shopping decisions.",
+    "end": 2391,
+    "file": "src/app/shop/meals.tsx",
+    "line": 55,
+    "start": 2113
+  },
+  "sxAYc+": {
+    "col": 24,
+    "defaultMessage": "Add another page",
+    "description": "Action that adds more photos to the import being prepared.",
+    "end": 8311,
+    "file": "src/app/cookbook/import.tsx",
+    "line": 214,
+    "start": 8073
+  },
+  "tAQv1v": {
+    "col": 35,
+    "defaultMessage": "Dinner on {day}",
+    "description": "Source of a shopping item that belongs to a planned meal. {day} is a formatted weekday such as Tuesday. Selecting it opens the meal.",
+    "end": 5361,
+    "file": "src/features/meals/labels.ts",
+    "line": 128,
+    "start": 4561
   },
   "tSxVv6": {
     "col": 12,
     "defaultMessage": "Picked for you",
     "description": "Heading above a list of meal recommendations.",
-    "end": 3994,
+    "end": 4037,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 125,
-    "start": 3835
+    "line": 127,
+    "start": 3878
   },
   "tYVXhj": {
     "col": 12,
     "defaultMessage": "Please try again.",
     "description": "Generic alert body after planning a meal failed for an unknown reason.",
-    "end": 8292,
+    "end": 9340,
     "file": "src/app/(tabs)/(meals)/index.tsx",
-    "line": 224,
-    "start": 8089
+    "line": 256,
+    "start": 9137
+  },
+  "te9ah1": {
+    "col": 23,
+    "defaultMessage": "Add “{name}”",
+    "description": "Row that adds the typed item to the shopping list. {name} is the user's own text, unmodified.",
+    "end": 8823,
+    "file": "src/app/shop/add.tsx",
+    "line": 258,
+    "start": 8499
+  },
+  "tsQKcF": {
+    "col": 11,
+    "defaultMessage": "Category",
+    "description": "Label of the row that sets a shopping item's category.",
+    "end": 2465,
+    "file": "src/features/shop/category-menu.ios.tsx",
+    "line": 71,
+    "start": 2295
+  },
+  "tu7W2T": {
+    "col": 12,
+    "defaultMessage": "Could not add photos.",
+    "description": "Error in the import sheet when picking photos failed without a message of its own.",
+    "end": 4279,
+    "file": "src/app/cookbook/import.tsx",
+    "line": 102,
+    "start": 4060
+  },
+  "txFdiD": {
+    "col": 24,
+    "defaultMessage": "Opening photos…",
+    "description": "Status while the photo picker is opening.",
+    "end": 8048,
+    "file": "src/app/cookbook/import.tsx",
+    "line": 209,
+    "start": 7828
   },
   "tyszfp": {
     "col": 19,
     "defaultMessage": "I have a dish in mind",
     "description": "Starts a chat to explore how to make a dish the user has in mind for this meal slot.",
-    "end": 13321,
+    "end": 13364,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 361,
-    "start": 13076
+    "line": 363,
+    "start": 13119
+  },
+  "u+lyd2": {
+    "col": 18,
+    "defaultMessage": "Opens item details",
+    "description": "Accessibility hint on a shopping row without other ingredient options.",
+    "end": 7705,
+    "file": "src/features/shop/shop-item-row.tsx",
+    "line": 225,
+    "start": 7477
+  },
+  "uRdLso": {
+    "col": 19,
+    "defaultMessage": "Take photos of cookbook pages",
+    "description": "Row that imports recipes by photographing pages of a book.",
+    "end": 11311,
+    "file": "src/app/cookbook/import.tsx",
+    "line": 289,
+    "start": 11108
+  },
+  "un0Pum": {
+    "col": 25,
+    "defaultMessage": "{count} skipped",
+    "description": "Part of a planned meal's shopping status. {count} is how many ingredients the cook chose to go without.",
+    "end": 3092,
+    "file": "src/features/meals/shopping-review.ts",
+    "line": 66,
+    "start": 1921
+  },
+  "upp2nP": {
+    "col": 17,
+    "defaultMessage": "Big project",
+    "description": "Recipe effort level: a long or involved cook, such as a weekend bake.",
+    "end": 911,
+    "file": "src/features/meals/effort-label.ts",
+    "line": 23,
+    "start": 760
+  },
+  "uq7g3K": {
+    "col": 17,
+    "defaultMessage": "Uncategorised",
+    "description": "Menu option that clears a shopping item's category, so it sits outside the category headings.",
+    "end": 1185,
+    "file": "src/features/shop/category-menu.ios.tsx",
+    "line": 35,
+    "start": 971
   },
   "vxgbIs": {
     "col": 19,
     "defaultMessage": "Import recipe",
     "description": "Action that opens recipe import from an open meal slot.",
-    "end": 18811,
+    "end": 18991,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 490,
-    "start": 18603
+    "line": 495,
+    "start": 18783
   },
   "w+S0BX": {
     "col": 36,
@@ -539,23 +1763,41 @@
     "line": 3,
     "start": 82
   },
+  "wO5FsS": {
+    "col": 29,
+    "defaultMessage": "Open {name}",
+    "description": "Accessibility label for a cookbook recipe. {name} is the recipe's name. Selecting it opens the recipe.",
+    "end": 1493,
+    "file": "src/features/cookbook/recipe-browser.tsx",
+    "line": 20,
+    "start": 974
+  },
   "wTes2b": {
     "col": 12,
     "defaultMessage": "No matching suggestions. Browse your cookbook or write in a meal.",
     "description": "Empty recommendation state with the two fallback actions.",
-    "end": 4261,
+    "end": 4304,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 129,
-    "start": 4007
+    "line": 131,
+    "start": 4050
+  },
+  "wY6RjA": {
+    "col": 19,
+    "defaultMessage": "{days, plural, one {1 day ago} other {# days ago}}",
+    "description": "How long ago a planned meal was, after its slot in a shopping row. {days} is a count of calendar days, 1 or more. Keep it short and lowercase.",
+    "end": 385,
+    "file": "src/features/shop/meal-age.ts",
+    "line": 3,
+    "start": 80
   },
   "wl05lJ": {
     "col": 21,
     "defaultMessage": "Plan with Magpie",
     "description": "Header action that opens the assistant to plan meals.",
-    "end": 14676,
+    "end": 16132,
     "file": "src/app/(tabs)/(meals)/index.tsx",
-    "line": 429,
-    "start": 14459
+    "line": 472,
+    "start": 15915
   },
   "wwnfQI": {
     "col": 17,
@@ -566,13 +1808,103 @@
     "line": 5,
     "start": 125
   },
+  "x6inHj": {
+    "col": 27,
+    "defaultMessage": "Yesterday",
+    "description": "Label for a planned meal from the day before today, in that meal's heading.",
+    "end": 3981,
+    "file": "src/features/meals/labels.ts",
+    "line": 100,
+    "start": 3516
+  },
+  "xU/3JC": {
+    "col": 20,
+    "defaultMessage": "{name}, on the list, edit details",
+    "description": "Accessibility label for an item already on the shopping list. {name} is the item's name. Selecting it edits the item's note.",
+    "end": 2104,
+    "file": "src/app/shop/add.tsx",
+    "line": 53,
+    "start": 1569
+  },
+  "xiyF4r": {
+    "col": 25,
+    "defaultMessage": "Snacks & sweets",
+    "description": "Shopping category for snacks and sweets.",
+    "end": 2399,
+    "file": "src/features/shop/category-labels.ts",
+    "line": 8,
+    "start": 334
+  },
+  "y+jaB0": {
+    "col": 10,
+    "defaultMessage": "Uncategorised",
+    "description": "Fallback for a shopping item whose category is missing. Also the menu option that clears the category.",
+    "end": 12398,
+    "file": "src/app/(tabs)/shop/index.tsx",
+    "line": 344,
+    "start": 12175
+  },
+  "yBelg/": {
+    "col": 15,
+    "defaultMessage": "Remove from list",
+    "description": "Destructive action that takes this item off the shopping list.",
+    "end": 11439,
+    "file": "src/app/shop/item.tsx",
+    "line": 337,
+    "start": 11237
+  },
+  "yKjSE0": {
+    "col": 18,
+    "defaultMessage": "Nothing to buy. Plan a meal to choose what to buy for it, or add an item.",
+    "description": "Empty Shop state when no meal is waiting for a shopping choice. Names the two ways to get items on the list.",
+    "end": 14538,
+    "file": "src/app/(tabs)/shop/index.tsx",
+    "line": 397,
+    "start": 14195
+  },
+  "ycSZ62": {
+    "col": 16,
+    "defaultMessage": "Tell Magpie a recipe",
+    "description": "Title of the sheet where the cook records a recipe they know from memory.",
+    "end": 5689,
+    "file": "src/app/cookbook/import.tsx",
+    "line": 150,
+    "start": 5464
+  },
   "yn0m94": {
     "col": 27,
     "defaultMessage": "Today",
     "description": "Label for the current day in the date strip and day heading.",
-    "end": 3613,
+    "end": 3981,
     "file": "src/features/meals/labels.ts",
     "line": 100,
-    "start": 3468
+    "start": 3516
+  },
+  "yvQ+D7": {
+    "col": 34,
+    "defaultMessage": "{day} · {slot}",
+    "description": "Heading for a planned meal, such as “Today · Dinner” or “Thursday, 10 Sep · Dinner”. {day} is a formatted day or Today, Tomorrow, Yesterday. {slot} is the standalone Lunch, Dinner or Treat label. The two parts may be reordered.",
+    "end": 4444,
+    "file": "src/features/meals/labels.ts",
+    "line": 118,
+    "start": 4077
+  },
+  "zh+xrJ": {
+    "col": 25,
+    "defaultMessage": "Care & health",
+    "description": "Shopping category for personal care and pharmacy items.",
+    "end": 2399,
+    "file": "src/features/shop/category-labels.ts",
+    "line": 8,
+    "start": 334
+  },
+  "zsJZqS": {
+    "col": 17,
+    "defaultMessage": "Shop",
+    "description": "Title of the Shop tab, where the household's shopping list lives.",
+    "end": 500,
+    "file": "src/app/(tabs)/shop/_layout.tsx",
+    "line": 13,
+    "start": 323
   }
 }

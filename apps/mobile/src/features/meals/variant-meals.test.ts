@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { testIntl } from "../../test/intl";
 
 import {
   driftLabel,
@@ -7,6 +8,8 @@ import {
   shoppedLabel,
   variantMeals,
 } from "./variant-meals";
+
+const intl = testIntl();
 
 const v1 = "variant-1";
 const v2 = "variant-2";
@@ -27,8 +30,8 @@ describe("variantMeals", () => {
       today,
     });
     expect(result.selected?.id).toBe("past");
-    expect(mealLabel(result.selected!, new Date(2026, 8, 18))).toBe(
-      "Thursday, 10 Sep · Dinner",
+    expect(mealLabel(intl, result.selected!, new Date(2026, 8, 18))).toBe(
+      "Thursday, Sep 10 · Dinner",
     );
   });
   it("keeps an older page honest after its explicitly selected meal moves to another variant", () => {
@@ -70,24 +73,24 @@ describe("labels", () => {
   });
   it("makes past dates explicit, including yesterday and previous years", () => {
     const on = new Date(2026, 8, 18);
-    expect(mealLabel({ slot_date: "2026-09-17", meal: "dinner" }, on)).toBe(
-      "Yesterday · Dinner",
-    );
-    expect(mealLabel({ slot_date: "2025-09-10", meal: "lunch" }, on)).toBe(
-      "Wednesday, 10 Sep 2025 · Lunch",
-    );
-    expect(mealLabel({ slot_date: "2026-09-19", meal: "lunch" }, on)).toBe(
-      "Tomorrow · Lunch",
-    );
+    expect(
+      mealLabel(intl, { slot_date: "2026-09-17", meal: "dinner" }, on),
+    ).toBe("Yesterday · Dinner");
+    expect(
+      mealLabel(intl, { slot_date: "2025-09-10", meal: "lunch" }, on),
+    ).toBe("Wednesday, Sep 10, 2025 · Lunch");
+    expect(
+      mealLabel(intl, { slot_date: "2026-09-19", meal: "lunch" }, on),
+    ).toBe("Tomorrow · Lunch");
   });
   it("say the day the way the chat message does and count the shopping", () => {
     const on = new Date(2026, 8, 18);
-    expect(mealLabel({ slot_date: "2026-09-18", meal: "dinner" }, on)).toBe(
-      "Today · Dinner",
-    );
-    expect(mealLabel({ slot_date: "2026-09-21", meal: "lunch" }, on)).toBe(
-      "Monday · Lunch",
-    );
+    expect(
+      mealLabel(intl, { slot_date: "2026-09-18", meal: "dinner" }, on),
+    ).toBe("Today · Dinner");
+    expect(
+      mealLabel(intl, { slot_date: "2026-09-21", meal: "lunch" }, on),
+    ).toBe("Monday · Lunch");
     expect(shoppedLabel([])).toBe("No shopping items added");
     expect(shoppedLabel([{ status: "purchased" }, { status: "active" }])).toBe(
       "1 of 2 shopped",

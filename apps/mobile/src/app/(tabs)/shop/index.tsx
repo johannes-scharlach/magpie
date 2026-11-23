@@ -9,6 +9,7 @@ import {
   View,
 } from "react-native";
 import { Image } from "expo-image";
+import { useIntl, type IntlShape } from "react-intl";
 import Animated from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -32,7 +33,7 @@ import {
   type ShopRow,
 } from "@/features/shop/shop-item-row";
 import { SwapSession } from "@/features/shop/swap-session";
-import { sentenceCase } from "@/features/shop/text";
+import { formatCategory } from "@/features/shop/category-labels";
 import { useActiveList } from "@/features/onboarding/access";
 import { useToday } from "@/hooks/use-today";
 
@@ -48,6 +49,7 @@ type Entry = { key: string } & (
 );
 
 export default function Shop() {
+  const intl = useIntl();
   const router = useRouter();
   const list = useActiveList();
   const today = useToday();
@@ -69,11 +71,26 @@ export default function Shop() {
           // count rides along as a Material badge instead of "(3)" in a label.
           icon={Platform.OS === "ios" ? undefined : MEALS_ICON}
           iconRenderingMode="template"
-          accessibilityLabel={`${mealsToReview} ${mealsToReview === 1 ? "meal" : "meals"} to review`}
+          accessibilityLabel={intl.formatMessage(
+            {
+              defaultMessage:
+                "{count, plural, one {1 meal to review} other {# meals to review}}",
+              description:
+                "Accessibility label for the Shop toolbar button that opens the meals needing a shopping decision. {count} is how many meals.",
+            },
+            { count: mealsToReview },
+          )}
           onPress={() => router.push("/shop/meals")}
         >
           {Platform.OS === "ios" ? (
-            `Meals (${mealsToReview})`
+            intl.formatMessage(
+              {
+                defaultMessage: "Meals ({count})",
+                description:
+                  "Title of the Shop toolbar button that opens the meals needing a shopping decision. {count} is how many meals.",
+              },
+              { count: mealsToReview },
+            )
           ) : (
             <Stack.Toolbar.Badge>{`${mealsToReview}`}</Stack.Toolbar.Badge>
           )}
@@ -81,16 +98,45 @@ export default function Shop() {
         <Stack.Toolbar.Button
           icon={Platform.OS === "ios" ? "plus" : ADD_ICON}
           iconRenderingMode="template"
-          accessibilityLabel="Add item"
+          accessibilityLabel={intl.formatMessage({
+            defaultMessage: "Add item",
+            description:
+              "Accessibility label for the Shop toolbar button that opens the item entry sheet.",
+          })}
           onPress={() =>
             router.push({ pathname: "/shop/add", params: { listId: list.id } })
           }
         >
-          Add
+          {intl.formatMessage({
+            defaultMessage: "Add",
+            description:
+              "Title of the Shop toolbar button that opens the item entry sheet.",
+          })}
         </Stack.Toolbar.Button>
       </Stack.Toolbar>
     </>
   );
+}
+
+function buyProgress(intl: IntlShape, toBuy: number, checked: number) {
+  const remaining = intl.formatMessage(
+    {
+      defaultMessage: "{count, plural, one {1 to buy} other {# to buy}}",
+      description:
+        "Summary above the shopping list. {count} is how many items are still to buy.",
+    },
+    { count: toBuy },
+  );
+  if (!checked) return remaining;
+  const checkedLabel = intl.formatMessage(
+    {
+      defaultMessage: "{count} checked",
+      description:
+        "How many shopping items were already checked off, after the count still to buy.",
+    },
+    { count: checked },
+  );
+  return [remaining, checkedLabel].join(" · ");
 }
 
 function ListScreen({
@@ -100,6 +146,7 @@ function ListScreen({
   list: List;
   mealsToReview: number;
 }) {
+  const intl = useIntl();
   const router = useRouter();
   const today = useToday();
   const insets = useSafeAreaInsets();
@@ -248,7 +295,18 @@ function ListScreen({
         release: () => releasePosition(item.id),
         error: () => {
           setHighlighted(null);
-          Alert.alert("Couldn't swap item", "Please try again.");
+          Alert.alert(
+            intl.formatMessage({
+              defaultMessage: "Couldn’t swap item",
+              description:
+                "Alert title when swapping a shopping item for another option failed.",
+            }),
+            intl.formatMessage({
+              defaultMessage: "Please try again.",
+              description:
+                "Generic alert body after an action failed. The user can repeat it.",
+            }),
+          );
         },
       });
       sessions.current.set(item.id, session);
@@ -260,7 +318,14 @@ function ListScreen({
     clearHighlightLater();
     session.select(alternative);
     AccessibilityInfo.announceForAccessibility(
-      `Changed to ${alternative.name}`,
+      intl.formatMessage(
+        {
+          defaultMessage: "Changed to {name}",
+          description:
+            "Screen-reader announcement after a shopping item switched to another ingredient option. {name} is the option now shown.",
+        },
+        { name: alternative.name },
+      ),
     );
     return true;
   }
@@ -274,13 +339,27 @@ function ListScreen({
       entries.push({
         key: `category:${category}`,
         kind: "header",
-        title: sentenceCase(item.category_name ?? "Uncategorised"),
+        title:
+          formatCategory(intl, item.category_id, item.category_name) ??
+          intl.formatMessage({
+            defaultMessage: "Uncategorised",
+            description:
+              "Fallback for a shopping item whose category is missing. Also the menu option that clears the category.",
+          }),
       });
     }
     entries.push({ key: item.id, kind: "item", item });
   }
   if (checked.length) {
-    entries.push({ key: "checked", kind: "header", title: "Checked" });
+    entries.push({
+      key: "checked",
+      kind: "header",
+      title: intl.formatMessage({
+        defaultMessage: "Checked",
+        description:
+          "Heading above the shopping items that were already checked off.",
+      }),
+    });
     for (const item of checked)
       entries.push({ key: item.id, kind: "item", item });
   }
@@ -300,19 +379,33 @@ function ListScreen({
             source={EMPTY_SHOP_ICON}
             contentFit="contain"
             style={{ width: 140, height: 140 }}
-            accessibilityLabel="Empty shopping list"
+            accessibilityLabel={intl.formatMessage({
+              defaultMessage: "Empty shopping list",
+              description:
+                "Accessibility label for the illustration shown when the shopping list has no items.",
+            })}
           />
           <Text variant="muted" className="text-center">
             {active.length === 0
               ? mealsToReview > 0
-                ? "Nothing to buy yet. Open Meals to choose what to buy, or add an item."
-                : "Nothing to buy. Plan a meal to choose what to buy for it, or add an item."
-              : `${active.length} to buy${checked.length ? ` · ${checked.length} checked` : ""}`}
+                ? intl.formatMessage({
+                    defaultMessage:
+                      "Nothing to buy yet. Open Meals to choose what to buy, or add an item.",
+                    description:
+                      "Empty Shop state when planned meals still need a shopping choice. Names two ways to get items on the list.",
+                  })
+                : intl.formatMessage({
+                    defaultMessage:
+                      "Nothing to buy. Plan a meal to choose what to buy for it, or add an item.",
+                    description:
+                      "Empty Shop state when no meal is waiting for a shopping choice. Names the two ways to get items on the list.",
+                  })
+              : buyProgress(intl, active.length, checked.length)}
           </Text>
         </View>
       ) : (
         <Text variant="muted" className="px-4 pb-1 android:pt-3">
-          {`${active.length} to buy${checked.length ? ` · ${checked.length} checked` : ""}`}
+          {buyProgress(intl, active.length, checked.length)}
         </Text>
       )}
       {entries.map((entry, index) => {

@@ -7,6 +7,7 @@ import Animated, {
   LinearTransition,
   ReduceMotion,
 } from "react-native-reanimated";
+import { defineMessages, useIntl } from "react-intl";
 import { useResolveClassNames } from "uniwind";
 
 import { CHECKED_ICON, UNCHECKED_ICON } from "@/components/check-icons";
@@ -23,10 +24,30 @@ import { splitSpec } from "@/features/shop/spec";
 import { capitalize } from "@/features/shop/text";
 import { SwipeItem } from "@/features/shop/swipe-item";
 import { cn } from "@/lib/utils";
-import { slotWhen } from "@/features/meals/slots";
+import { formatPlannedWhen } from "@/features/meals/labels";
+import { shopMessages } from "@/features/shop/messages";
 import { tonalPair } from "@/features/variants/tonal";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { mealAge } from "./meal-age";
+
+const checkBoxMessages = defineMessages<{
+  restore: { name: string };
+  checkOff: { name: string };
+}>(
+  {
+    restore: {
+      defaultMessage: "Restore {name}",
+      description:
+        "Accessibility label for the checkbox of a bought shopping item. Selecting it puts the item back on the list. {name} is the item's name.",
+    },
+    checkOff: {
+      defaultMessage: "Check off {name}",
+      description:
+        "Accessibility label for the checkbox of a shopping item. Selecting it marks the item as bought. {name} is the item's name.",
+    },
+  },
+  { typed: true },
+);
 
 const CHECK_DELAY_MS = 380;
 export const ROW_LAYOUT = LinearTransition.springify()
@@ -66,20 +87,22 @@ export function ShopItemRow({
   onSwap: (item: ShopRow, direction: 1 | -1) => boolean;
   onOpen: (id: string) => void;
 }) {
+  const intl = useIntl();
   const mutedColor = useResolveClassNames("text-muted-foreground").color;
   const dark = useColorScheme() === "dark";
-  const age = item.status === "active" ? mealAge(item.slot_date, today) : null;
+  const age =
+    item.status === "active" ? mealAge(intl, item.slot_date, today) : null;
   // Meal rows say which meal, not the recipe's full name: a dot in the
-  // recipe's tonal hue plus "Tue dinner". The sheet carries the name.
-  const source = item.planned_meal_id
-    ? {
-        when: [slotWhen(item.slot_date, item.meal), age]
-          .filter(Boolean)
-          .join(" · "),
-        past: !!age,
-        color: tonalPair(item.variant_id ?? item.planned_meal_id, dark)[1],
-      }
-    : null;
+  // recipe's tonal hue plus "Dinner on Tuesday". The sheet carries the name.
+  const when = formatPlannedWhen(intl, item.slot_date, item.meal);
+  const source =
+    item.planned_meal_id && when
+      ? {
+          when: [when, age].filter(Boolean).join(" · "),
+          past: !!age,
+          color: tonalPair(item.variant_id ?? item.planned_meal_id, dark)[1],
+        }
+      : null;
   const primaryColor = useResolveClassNames("text-primary").color;
   const purchased = item.status === "purchased";
   const { pending, press, release } = useCheckOff(purchased, () =>
@@ -107,7 +130,10 @@ export function ShopItemRow({
 
   const restore = () =>
     void setItemStatus(item.id, "active").catch(() =>
-      Alert.alert("Couldn't restore item", "Please try again."),
+      Alert.alert(
+        intl.formatMessage(shopMessages.restoreItem),
+        intl.formatMessage(shopMessages.tryAgain),
+      ),
     );
   const swap = (direction: 1 | -1) => !pending && onSwap(item, direction);
   const open = () => onOpen(item.id);
@@ -150,7 +176,12 @@ export function ShopItemRow({
                 }}
                 accessibilityRole="checkbox"
                 accessibilityState={{ checked }}
-                accessibilityLabel={`${purchased ? "Restore" : "Check off"} ${name}`}
+                accessibilityLabel={intl.formatMessage(
+                  purchased
+                    ? checkBoxMessages.restore
+                    : checkBoxMessages.checkOff,
+                  { name },
+                )}
                 className="min-h-12 min-w-12 items-center justify-center"
               >
                 <SymbolView
@@ -180,17 +211,61 @@ export function ShopItemRow({
             accessible
             onAccessibilityTap={open}
             accessibilityRole="button"
-            accessibilityLabel={`${name}${spec ? `, ${spec}` : ""}${source ? `, ${source.past ? "Past meal, " : ""}${source.when}` : ""}`}
+            accessibilityLabel={[name, spec, source?.when]
+              .filter(Boolean)
+              .join(", ")}
             accessibilityHint={
               next || previous
-                ? "Swipe left for the next substitute, right for the previous. Tap for details."
-                : "Opens item details"
+                ? intl.formatMessage({
+                    defaultMessage:
+                      "Swipe left for the next substitute, right for the previous. Tap for details.",
+                    description:
+                      "Accessibility hint on a shopping row that offers other ingredient options.",
+                  })
+                : intl.formatMessage({
+                    defaultMessage: "Opens item details",
+                    description:
+                      "Accessibility hint on a shopping row without other ingredient options.",
+                  })
             }
             accessibilityActions={[
-              { name: "activate", label: "Open details" },
-              ...(next ? [{ name: "next", label: `Use ${next.name}` }] : []),
+              {
+                name: "activate",
+                label: intl.formatMessage({
+                  defaultMessage: "Open details",
+                  description:
+                    "Accessibility action that opens the shopping item's detail sheet.",
+                }),
+              },
+              ...(next
+                ? [
+                    {
+                      name: "next",
+                      label: intl.formatMessage(
+                        {
+                          defaultMessage: "Use {name}",
+                          description:
+                            "Accessibility action that switches a shopping item to another ingredient option. {name} is that option's name.",
+                        },
+                        { name: next.name },
+                      ),
+                    },
+                  ]
+                : []),
               ...(previous
-                ? [{ name: "previous", label: `Use ${previous.name}` }]
+                ? [
+                    {
+                      name: "previous",
+                      label: intl.formatMessage(
+                        {
+                          defaultMessage: "Use {name}",
+                          description:
+                            "Accessibility action that switches a shopping item to another ingredient option. {name} is that option's name.",
+                        },
+                        { name: previous.name },
+                      ),
+                    },
+                  ]
                 : []),
             ]}
             onAccessibilityAction={(event) => {
@@ -221,13 +296,17 @@ export function ShopItemRow({
 }
 
 function useCheckOff(purchased: boolean, commit: () => Promise<void>) {
+  const intl = useIntl();
   const [pending, setPending] = useState(false);
   const [checkOff] = useState(
     () =>
       new CheckOff(CHECK_DELAY_MS, {
         change: setPending,
         error: () =>
-          Alert.alert("Couldn't check off item", "Please try again."),
+          Alert.alert(
+            intl.formatMessage(shopMessages.checkOffItem),
+            intl.formatMessage(shopMessages.tryAgain),
+          ),
       }),
   );
   useEffect(() => () => checkOff.dispose(), [checkOff]);

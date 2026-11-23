@@ -3,6 +3,7 @@ import { useQuery } from "@powersync/react";
 import { router } from "expo-router";
 import { SymbolView } from "expo-symbols";
 import { Pressable, ScrollView, View } from "react-native";
+import { useIntl } from "react-intl";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useResolveClassNames } from "uniwind";
 
@@ -21,6 +22,7 @@ import { useActiveList } from "@/features/onboarding/access";
 import { useToday } from "@/hooks/use-today";
 
 export default function ShopMeals() {
+  const intl = useIntl();
   const list = useActiveList();
   const today = useToday();
   const insets = useSafeAreaInsets();
@@ -50,7 +52,12 @@ export default function ShopMeals() {
     >
       {isLoading ? null : meals.length === 0 ? (
         <Text className="px-6 pt-3">
-          No upcoming meals. Plan a meal to choose what to buy here.
+          {intl.formatMessage({
+            defaultMessage:
+              "No upcoming meals. Plan a meal to choose what to buy here.",
+            description:
+              "Empty state on the shop's list of upcoming meals, which links each meal to its shopping decisions.",
+          })}
         </Text>
       ) : (
         // Meals stay in date order: the badge, not sorting, shows what's open.
@@ -81,18 +88,36 @@ function MealRow({
   /** Separators sit between rows, never after the last one. */
   last: boolean;
 }) {
+  const intl = useIntl();
   const muted = useResolveClassNames("text-muted-foreground").color;
   const checked = !!meal.shopping_reviewed;
   let progress: string;
   if (!meal.variant_id) {
     progress = items.length
-      ? `${items.length} on the list`
-      : "No ingredient list yet";
+      ? intl.formatMessage(
+          {
+            defaultMessage:
+              "{count, plural, one {1 on the list} other {# on the list}}",
+            description:
+              "Status on a meal written in by hand, whose items are already on the shopping list. {count} is how many.",
+          },
+          { count: items.length },
+        )
+      : intl.formatMessage({
+          defaultMessage: "No ingredient list yet",
+          description:
+            "Status on a meal written in by hand that has no items to buy yet.",
+        });
   } else if (!meal.ingredient_lines) {
-    progress = "Recipe still syncing";
+    progress = intl.formatMessage({
+      defaultMessage: "Recipe still syncing",
+      description:
+        "Status on a planned meal whose recipe has not reached this device yet.",
+    });
   } else {
     try {
       progress = shoppingProgress(
+        intl,
         shoppingReview(
           parseIngredientLines(meal.ingredient_lines),
           items,
@@ -101,7 +126,11 @@ function MealRow({
         ),
       );
     } catch {
-      progress = "Recipe still syncing";
+      progress = intl.formatMessage({
+        defaultMessage: "Recipe still syncing",
+        description:
+          "Status on a planned meal whose recipe has not reached this device yet.",
+      });
     }
   }
 
@@ -123,7 +152,7 @@ function MealRow({
     >
       <View className="flex-1 gap-1">
         <Text variant="muted" className="text-xs font-semibold uppercase">
-          {mealLabel(meal)}
+          {mealLabel(intl, meal)}
         </Text>
         <View>
           {checked ? null : (
@@ -133,7 +162,12 @@ function MealRow({
             </View>
           )}
           <Text numberOfLines={2} className="font-medium">
-            {meal.display_name ?? "Meal"}
+            {meal.display_name ??
+              intl.formatMessage({
+                defaultMessage: "Meal",
+                description:
+                  "Fallback name for a planned meal that has no dish name.",
+              })}
           </Text>
         </View>
         <Text variant="muted">{progress}</Text>

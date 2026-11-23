@@ -1,12 +1,13 @@
 import { MenuView, type MenuAction } from "@expo/ui/community/menu";
 import { SymbolView } from "expo-symbols";
 import { View } from "react-native";
+import { useIntl } from "react-intl";
 import { useResolveClassNames } from "uniwind";
 
 import { Text } from "@/components/ui/text";
 
+import { formatCategory } from "./category-labels";
 import type { CategoryMenuProps } from "./category-menu";
-import { sentenceCase } from "./text";
 
 const CHEVRON_ICON = {
   ios: "chevron.up.chevron.down",
@@ -20,6 +21,7 @@ export function CategoryMenu({
   categoryName,
   onSelect,
 }: CategoryMenuProps) {
+  const intl = useIntl();
   const mutedColor = useResolveClassNames("text-muted-foreground").color;
 
   return (
@@ -30,12 +32,16 @@ export function CategoryMenu({
       actions={[
         {
           id: "uncategorised",
-          title: "Uncategorised",
+          title: intl.formatMessage({
+            defaultMessage: "Uncategorised",
+            description:
+              "Menu option that clears a shopping item's category, so it sits outside the category headings.",
+          }),
           state: (!categoryId ? "on" : "off") as MenuAction["state"],
         },
         ...categories.map((cat) => ({
           id: cat.id,
-          title: sentenceCase(cat.name),
+          title: formatCategory(intl, cat.id, cat.name) ?? cat.name ?? "",
           state: (categoryId === cat.id ? "on" : "off") as MenuAction["state"],
         })),
       ]}
@@ -43,12 +49,37 @@ export function CategoryMenu({
       <View
         accessible
         accessibilityRole="button"
-        accessibilityLabel={`Category: ${categoryName ?? "Uncategorised"}`}
+        accessibilityLabel={intl.formatMessage(
+          {
+            defaultMessage: "Category: {name}",
+            description:
+              "Accessibility label for the menu that sets a shopping item's category. {name} is the current category, or Uncategorised.",
+          },
+          {
+            name:
+              categoryName ??
+              intl.formatMessage({
+                defaultMessage: "Uncategorised",
+                description:
+                  "Fallback for a shopping item that has no category.",
+              }),
+          },
+        )}
         className="min-h-12 flex-row items-center gap-2 px-4 py-3 active:bg-accent"
       >
-        <Text className="flex-1 text-base">Category</Text>
+        <Text className="flex-1 text-base">
+          {intl.formatMessage({
+            defaultMessage: "Category",
+            description:
+              "Label of the row that sets a shopping item's category.",
+          })}
+        </Text>
         <Text variant="muted" className="text-base">
-          {sentenceCase(categoryName ?? "Uncategorised")}
+          {formatCategory(intl, categoryId, categoryName) ??
+            intl.formatMessage({
+              defaultMessage: "Uncategorised",
+              description: "Fallback for a shopping item that has no category.",
+            })}
         </Text>
         <SymbolView name={CHEVRON_ICON} tintColor={mutedColor} size={16} />
       </View>

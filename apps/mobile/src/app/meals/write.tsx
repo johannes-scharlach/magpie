@@ -1,6 +1,7 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useRef, useState } from "react";
 import { View } from "react-native";
+import { useIntl } from "react-intl";
 
 import { CloseButton } from "@/components/close-button";
 import { PrimaryAction } from "@/components/action";
@@ -14,6 +15,7 @@ import { useActiveList } from "@/features/onboarding/access";
 import { posthog } from "@/lib/posthog";
 
 export default function WriteMeal() {
+  const intl = useIntl();
   const {
     date,
     slot,
@@ -61,7 +63,7 @@ export default function WriteMeal() {
           <CloseButton onPress={() => router.back()} disabled={saving} />
         </View>
         <Text variant="muted">
-          {mealLabel({ slot_date: date, meal: slot })}
+          {mealLabel(intl, { slot_date: date, meal: slot })}
         </Text>
       </View>
       <View className="mt-6 gap-2 px-6">

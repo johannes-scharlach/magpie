@@ -1,6 +1,7 @@
 import { useQuery } from "@powersync/react";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { ScrollView, View } from "react-native";
+import { useIntl } from "react-intl";
 
 import { Action, PrimaryAction } from "@/components/action";
 import { Button } from "@/components/ui/button";
@@ -12,6 +13,7 @@ import { useActiveList } from "@/features/onboarding/access";
 import { useToday } from "@/hooks/use-today";
 
 export default function WrittenMeal() {
+  const intl = useIntl();
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const list = useActiveList();
@@ -32,7 +34,16 @@ export default function WrittenMeal() {
       contentInsetAdjustmentBehavior="automatic"
       contentContainerClassName="gap-6 p-6"
     >
-      <Stack.Screen options={{ title: meal ? mealLabel(meal) : "Meal" }} />
+      <Stack.Screen
+        options={{
+          title: meal
+            ? mealLabel(intl, meal)
+            : intl.formatMessage({
+                defaultMessage: "Meal",
+                description: "Fallback title for a meal written in by hand.",
+              }),
+        }}
+      />
       {!meal ? (
         <Text variant="muted">
           {isLoading ? "Loading meal…" : "This meal is no longer planned."}
@@ -54,7 +65,7 @@ export default function WrittenMeal() {
               <Text className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 Past meal
               </Text>
-              <Text className="font-semibold">{mealLabel(meal)}</Text>
+              <Text className="font-semibold">{mealLabel(intl, meal)}</Text>
             </View>
           ) : null}
           <Text className="text-2xl font-semibold">{meal.name}</Text>

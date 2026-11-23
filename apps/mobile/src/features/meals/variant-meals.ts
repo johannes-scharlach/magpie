@@ -1,15 +1,9 @@
 import type { MealSync } from "@magpie/meals";
 
-import { dayName } from "@/features/chat/compose";
-import {
-  addDays,
-  dateKey,
-  MONTH_SHORT,
-  SLOT_LABEL,
-  SLOT_ORDER,
-  WEEKDAY_LONG,
-  type MealSlot,
-} from "@/features/meals/slots";
+import type { IntlShape } from "react-intl";
+
+import { SLOT_ORDER, type MealSlot } from "@/features/meals/slots";
+import { formatDayLabel, formatSlotLabel, mealHeadingMessage } from "./labels";
 
 /** The planned_meals columns this module reads. */
 export type MealRow = {
@@ -63,27 +57,19 @@ export function variantMeals<M extends MealRow>(
   return { selected, sibling, lastPast };
 }
 
-/** Upcoming days use chat wording; past meals name yesterday or an explicit date. */
+/** Upcoming days name the weekday; today, tomorrow and yesterday use their own
+ *  label; past meals add the date so the heading stays unambiguous. */
 export function mealLabel(
+  intl: IntlShape,
   meal: Pick<MealRow, "slot_date" | "meal">,
   today: Date = new Date(),
 ): string {
-  const key = meal.slot_date ?? "";
-  let day = dayName(key, today);
-  if (key && key < dateKey(today)) {
-    if (key === dateKey(addDays(today, -1))) {
-      day = "yesterday";
-    } else {
-      const date = new Date(`${key}T12:00:00`);
-      const year =
-        date.getFullYear() === today.getFullYear()
-          ? ""
-          : ` ${date.getFullYear()}`;
-      day = `${WEEKDAY_LONG[date.getDay()]}, ${date.getDate()} ${MONTH_SHORT[date.getMonth()]}${year}`;
-    }
-  }
-  const slot = SLOT_LABEL[meal.meal as MealSlot] ?? meal.meal ?? "";
-  return `${day.charAt(0).toUpperCase()}${day.slice(1)} · ${slot}`;
+  const day = formatDayLabel(intl, meal.slot_date ?? "", today);
+  const slot = SLOT_ORDER.includes(meal.meal as MealSlot)
+    ? formatSlotLabel(intl, meal.meal as MealSlot)
+    : (meal.meal ?? "");
+  if (day && slot) return intl.formatMessage(mealHeadingMessage, { day, slot });
+  return day ?? slot;
 }
 
 /** Shopping progress for the meal's list items. */

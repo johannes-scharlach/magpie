@@ -20,6 +20,7 @@ import {
   View,
   type TextInputInstance,
 } from "react-native";
+import { defineMessages, useIntl } from "react-intl";
 import { useReanimatedKeyboardAnimation } from "react-native-keyboard-controller";
 import Animated, {
   interpolate,
@@ -32,8 +33,41 @@ import { Text } from "@/components/ui/text";
 import { addItem, itemNameKey, setItemSpec } from "@/db/items";
 import type { ListItem } from "@/db/schema";
 import { categorizeItemAsync } from "@/features/shop/categorize";
+import { shopMessages } from "@/features/shop/messages";
 import { capitalize } from "@/features/shop/text";
 import { posthog } from "@/lib/posthog";
+
+const fieldMessages = defineMessages({
+  nextItem: {
+    defaultMessage: "Next item",
+    description:
+      "Placeholder in the entry field after at least one item was added. Keeps the cook typing the next one.",
+  },
+  firstItem: {
+    defaultMessage: "Add an item",
+    description:
+      "Placeholder in the entry field where the cook types what to buy.",
+  },
+});
+
+const rowMessages = defineMessages<{
+  onList: { name: string };
+  add: { name: string };
+}>(
+  {
+    onList: {
+      defaultMessage: "{name}, on the list, edit details",
+      description:
+        "Accessibility label for an item already on the shopping list. {name} is the item's name. Selecting it edits the item's note.",
+    },
+    add: {
+      defaultMessage: "Add {name}",
+      description:
+        "Accessibility label for a previously bought item that can be added to the list again. {name} is the item's name.",
+    },
+  },
+  { typed: true },
+);
 
 /** `existing`: it was already on the List, so this only touched it. */
 type Added = {
@@ -47,6 +81,7 @@ type Added = {
  *  bottom-up against the field, near the thumb. Items added this session
  *  stay visible, their details editable in place and saved on blur. */
 export default function AddItemSheet() {
+  const intl = useIntl();
   const { listId } = useLocalSearchParams<{ listId?: string }>();
   const router = useRouter();
   const navigation = useNavigation();
@@ -94,8 +129,8 @@ export default function AddItemSheet() {
       .then(() => navigation.dispatch(data.action))
       .catch(() =>
         Alert.alert(
-          "Couldn't save details",
-          "Your details are still here. Please try again.",
+          intl.formatMessage(shopMessages.saveDetails),
+          intl.formatMessage(shopMessages.detailsKept),
         ),
       );
   });
@@ -142,8 +177,8 @@ export default function AddItemSheet() {
       void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     } catch {
       Alert.alert(
-        "Couldn't add item",
-        "Your entry is still here. Please try again.",
+        intl.formatMessage(shopMessages.addItem),
+        intl.formatMessage(shopMessages.entryKept),
       );
     } finally {
       busy.current = false;
@@ -159,7 +194,10 @@ export default function AddItemSheet() {
       await saveDetails();
       router.back();
     } catch {
-      Alert.alert("Couldn't save details", "Please try again.");
+      Alert.alert(
+        intl.formatMessage(shopMessages.saveDetails),
+        intl.formatMessage(shopMessages.tryAgain),
+      );
     } finally {
       busy.current = false;
       setSaving(false);
@@ -180,7 +218,13 @@ export default function AddItemSheet() {
               accessibilityRole="button"
               className="px-2 py-1"
             >
-              <Text className="text-base font-semibold text-primary">Done</Text>
+              <Text className="text-base font-semibold text-primary">
+                {intl.formatMessage({
+                  defaultMessage: "Done",
+                  description:
+                    "Action that closes the shopping item entry sheet, keeping what was added.",
+                })}
+              </Text>
             </Pressable>
           ),
         }}
@@ -211,7 +255,14 @@ export default function AddItemSheet() {
               <ItemRow
                 status="add"
                 primary
-                title={`Add “${draft.trim()}”`}
+                title={intl.formatMessage(
+                  {
+                    defaultMessage: "Add “{name}”",
+                    description:
+                      "Row that adds the typed item to the shopping list. {name} is the user's own text, unmodified.",
+                  },
+                  { name: draft.trim() },
+                )}
                 disabled={saving || !listId}
                 onPress={() => void add(draft)}
               />
@@ -221,7 +272,13 @@ export default function AddItemSheet() {
           <>
             {added.length > 0 ? (
               <>
-                <SectionLabel>Added</SectionLabel>
+                <SectionLabel>
+                  {intl.formatMessage({
+                    defaultMessage: "Added",
+                    description:
+                      "Heading above items added in this entry session, newest last.",
+                  })}
+                </SectionLabel>
                 {added.map((item) => (
                   <View
                     key={item.id}
@@ -235,7 +292,11 @@ export default function AddItemSheet() {
                         </Text>
                         {item.existing ? (
                           <Text className="text-[15px] text-muted-foreground">
-                            On list
+                            {intl.formatMessage({
+                              defaultMessage: "On list",
+                              description:
+                                "Status on an item that was already on the shopping list before this entry.",
+                            })}
                           </Text>
                         ) : null}
                       </View>
@@ -250,15 +311,26 @@ export default function AddItemSheet() {
                         onEndEditing={() =>
                           void saveDetails().catch(() =>
                             Alert.alert(
-                              "Couldn't save details",
-                              "Please try again.",
+                              intl.formatMessage(shopMessages.saveDetails),
+                              intl.formatMessage(shopMessages.tryAgain),
                             ),
                           )
                         }
                         editable={!saving}
-                        placeholder="Add details"
+                        placeholder={intl.formatMessage({
+                          defaultMessage: "Add details",
+                          description:
+                            "Placeholder in the note field of an item just added to the list. The note is free text, such as a size or brand.",
+                        })}
                         placeholderTextColor={mutedColor}
-                        accessibilityLabel={`Details for ${item.name}`}
+                        accessibilityLabel={intl.formatMessage(
+                          {
+                            defaultMessage: "Details for {name}",
+                            description:
+                              "Accessibility label for the note field of an added shopping item. {name} is the item's name.",
+                          },
+                          { name: item.name },
+                        )}
                         returnKeyType="done"
                         onSubmitEditing={() => inputRef.current?.focus()}
                         submitBehavior="submit"
@@ -281,9 +353,15 @@ export default function AddItemSheet() {
             value={draft}
             onChangeText={setDraft}
             editable={!!listId}
-            placeholder={added.length ? "Next item" : "Add an item"}
+            placeholder={intl.formatMessage(
+              added.length ? fieldMessages.nextItem : fieldMessages.firstItem,
+            )}
             placeholderTextColor={mutedColor}
-            accessibilityLabel="Add an item"
+            accessibilityLabel={intl.formatMessage({
+              defaultMessage: "Add an item",
+              description:
+                "Accessibility label for the field where the cook types what to buy.",
+            })}
             autoFocus
             autoCapitalize="sentences"
             autoCorrect={false}
@@ -297,7 +375,11 @@ export default function AddItemSheet() {
             onPress={() => void add(draft)}
             disabled={saving || !draft.trim()}
             accessibilityRole="button"
-            accessibilityLabel="Add"
+            accessibilityLabel={intl.formatMessage({
+              defaultMessage: "Add",
+              description:
+                "Accessibility label for the button that adds the typed item to the shopping list.",
+            })}
             hitSlop={8}
           >
             <SymbolView
@@ -351,12 +433,16 @@ function ItemRow({
   disabled: boolean;
   onPress: () => void;
 }) {
+  const intl = useIntl();
   return (
     <Pressable
       disabled={disabled}
       onPress={onPress}
       accessibilityRole="button"
-      accessibilityLabel={`${title}${status === "onList" ? ", on the list, edit details" : ""}`}
+      accessibilityLabel={intl.formatMessage(
+        status === "onList" ? rowMessages.onList : rowMessages.add,
+        { name: title },
+      )}
       className="min-h-12 flex-row items-center gap-3 px-6 py-2.5 active:bg-accent"
     >
       <StatusIcon status={status} />
@@ -369,7 +455,13 @@ function ItemRow({
         ) : null}
       </View>
       {status === "onList" ? (
-        <Text className="text-[15px] text-muted-foreground">On list</Text>
+        <Text className="text-[15px] text-muted-foreground">
+          {intl.formatMessage({
+            defaultMessage: "On list",
+            description:
+              "Status on a search result that is already on the shopping list.",
+          })}
+        </Text>
       ) : null}
     </Pressable>
   );

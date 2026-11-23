@@ -2,6 +2,7 @@ import { useQuery } from "@powersync/react";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useRef, useState } from "react";
 import { FlatList, Pressable, View } from "react-native";
+import { useIntl } from "react-intl";
 
 import { Text } from "@/components/ui/text";
 import type { PlannedMeal, Variant } from "@/db/schema";
@@ -34,6 +35,7 @@ function sizedFor(
 }
 
 export default function RecipeVariants() {
+  const intl = useIntl();
   const { recipeId, id, date, slot } = useLocalSearchParams<{
     recipeId: string;
     id?: string;
@@ -87,7 +89,7 @@ export default function RecipeVariants() {
         options={{
           title:
             date && slot
-              ? mealLabel({ slot_date: date, meal: slot })
+              ? mealLabel(intl, { slot_date: date, meal: slot })
               : "Variants",
           headerBackButtonDisplayMode: "minimal",
         }}
@@ -145,7 +147,7 @@ export default function RecipeVariants() {
               ) : null}
               {planned.map((meal) => (
                 <Text key={meal.id} className="text-sm text-primary">
-                  Planned: {mealLabel(meal)}
+                  Planned: {mealLabel(intl, meal)}
                 </Text>
               ))}
             </Pressable>

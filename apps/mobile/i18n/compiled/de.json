@@ -11,6 +11,18 @@
       "value": "Erneut versuchen"
     }
   ],
+  "/Fo2I2": [
+    {
+      "type": 0,
+      "value": "Fertig"
+    }
+  ],
+  "/woc5o": [
+    {
+      "type": 0,
+      "value": "Aus dem Kochbuch"
+    }
+  ],
   "07x9wI": [
     {
       "type": 1,
@@ -19,6 +31,12 @@
     {
       "type": 0,
       "value": " als Snack einplanen"
+    }
+  ],
+  "0cWlcT": [
+    {
+      "type": 0,
+      "value": "Mehr Aufwand"
     }
   ],
   "0feGXu": [
@@ -39,16 +57,88 @@
       "value": "Wird abgebrochen…"
     }
   ],
+  "1dwtnM": [
+    {
+      "type": 0,
+      "value": "Kategorie: "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "1gWMkH": [
+    {
+      "type": 1,
+      "value": "count"
+    },
+    {
+      "type": 0,
+      "value": " abgehakt"
+    }
+  ],
+  "1q9iJM": [
+    {
+      "type": 0,
+      "value": "Eintrag hinzufügen"
+    }
+  ],
+  "30YoVC": [
+    {
+      "type": 0,
+      "value": "Gewechselt zu "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "3CJl1Z": [
+    {
+      "type": 0,
+      "value": "Ältere passende Variante"
+    }
+  ],
   "3DrMNt": [
     {
       "type": 0,
       "value": "Ausblenden"
     }
   ],
+  "3MDr/G": [
+    {
+      "type": 0,
+      "value": "Auf der Liste"
+    }
+  ],
   "3MwfD7": [
     {
       "type": 0,
       "value": "Haushalt und Konto"
+    }
+  ],
+  "3j+H9P": [
+    {
+      "type": 0,
+      "value": "Name"
+    }
+  ],
+  "3qVWYG": [
+    {
+      "type": 0,
+      "value": "Alles zu Hause"
+    }
+  ],
+  "4ZRn62": [
+    {
+      "type": 0,
+      "value": "Details hinzufügen"
+    }
+  ],
+  "4eyER+": [
+    {
+      "type": 0,
+      "value": "Einträge hinzufügen"
     }
   ],
   "5+uWTl": [
@@ -67,6 +157,48 @@
       "value": "Diese Mahlzeit konnte nicht geplant werden"
     }
   ],
+  "563N8u": [
+    {
+      "type": 0,
+      "value": "Deine Angaben sind noch da. Bitte versuch es erneut."
+    }
+  ],
+  "5AqntS": [
+    {
+      "type": 0,
+      "value": "Eintrag konnte nicht gespeichert werden"
+    }
+  ],
+  "5NKar0": [
+    {
+      "type": 0,
+      "value": "Einkauf für Mahlzeiten"
+    }
+  ],
+  "5dil2Q": [
+    {
+      "type": 0,
+      "value": "Weitere Varianten"
+    }
+  ],
+  "695Ha/": [
+    {
+      "type": 0,
+      "value": "Rezepte suchen"
+    }
+  ],
+  "6DbM9d": [
+    {
+      "type": 0,
+      "value": "Um eines davon hinzuzufügen, importiere alle seine Seiten zusammen."
+    }
+  ],
+  "6imU0v": [
+    {
+      "type": 0,
+      "value": "Noch nichts zu kaufen. Öffne Mahlzeiten, um auszuwählen, was du kaufst, oder füge einen Eintrag hinzu."
+    }
+  ],
   "77C3do": [
     {
       "type": 0,
@@ -81,10 +213,22 @@
       "value": " extra"
     }
   ],
+  "78XbAU": [
+    {
+      "type": 0,
+      "value": "Eintrag hinzufügen"
+    }
+  ],
   "7NwgcX": [
     {
       "type": 0,
       "value": "Abbrechen"
+    }
+  ],
+  "8b+Yoq": [
+    {
+      "type": 0,
+      "value": "Mahlzeit"
     }
   ],
   "8tYGGP": [
@@ -99,6 +243,12 @@
       "value": "Bisherige Chats"
     }
   ],
+  "97Gs7q": [
+    {
+      "type": 0,
+      "value": "Noch keine Zutatenliste"
+    }
+  ],
   "9rsKGF": [
     {
       "type": 0,
@@ -111,16 +261,105 @@
       "value": "Aus dem Plan entfernen"
     }
   ],
+  "ASbK1o": [
+    {
+      "type": 6,
+      "value": "count",
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 0,
+              "value": "1 Mahlzeit zu prüfen"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " Mahlzeiten zu prüfen"
+            }
+          ]
+        }
+      },
+      "offset": 0,
+      "pluralType": "cardinal"
+    }
+  ],
+  "ApC4Uy": [
+    {
+      "type": 0,
+      "value": "Zutaten, Gewürze & Backen"
+    }
+  ],
+  "B2Sv0f": [
+    {
+      "type": 0,
+      "value": "Magpie speichert es in deinem Kochbuch und plant es für dich ein."
+    }
+  ],
+  "B2WnCm": [
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " abhaken"
+    }
+  ],
+  "B8Psge": [
+    {
+      "type": 0,
+      "value": "Einfach"
+    }
+  ],
   "BNzExh": [
     {
       "type": 0,
       "value": "Snack"
     }
   ],
+  "BUvsPI": [
+    {
+      "type": 0,
+      "value": "Morgen"
+    }
+  ],
+  "BuLRku": [
+    {
+      "type": 0,
+      "value": "Eintrag konnte nicht getauscht werden"
+    }
+  ],
+  "CLXnlV": [
+    {
+      "type": 0,
+      "value": "Weitere Varianten von "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
   "CpnFSJ": [
     {
       "type": 0,
       "value": "Kochbuch durchstöbern"
+    }
+  ],
+  "Dkp9Si": [
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " hinzufügen"
     }
   ],
   "DrcycS": [
@@ -149,10 +388,117 @@
       "value": "Mahlzeit eintragen"
     }
   ],
+  "Eu3PUg": [
+    {
+      "type": 0,
+      "value": "Ausgehakte Rezepte kommen in dein Kochbuch. Erst mit dem Hinzufügen wird etwas gespeichert."
+    }
+  ],
+  "FABYcO": [
+    {
+      "type": 0,
+      "value": "Obst & Gemüse"
+    }
+  ],
+  "FKeUdZ": [
+    {
+      "type": 0,
+      "value": "Getränke"
+    }
+  ],
+  "FjaxBE": [
+    {
+      "type": 0,
+      "value": "Hinzufügen"
+    }
+  ],
+  "Frra3A": [
+    {
+      "type": 0,
+      "value": "Sonstiges"
+    }
+  ],
+  "Ftip1w": [
+    {
+      "type": 0,
+      "value": "Eintrag wird geladen…"
+    }
+  ],
+  "GXiSPF": [
+    {
+      "type": 6,
+      "value": "count",
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 0,
+              "value": "1 zu kaufen"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " zu kaufen"
+            }
+          ]
+        }
+      },
+      "offset": 0,
+      "pluralType": "cardinal"
+    }
+  ],
+  "Gfm4qD": [
+    {
+      "type": 0,
+      "value": "Importieren"
+    }
+  ],
+  "GsvZC/": [
+    {
+      "type": 0,
+      "value": "Ersetzen durch"
+    }
+  ],
+  "GwcRqi": [
+    {
+      "type": 0,
+      "value": "Vielleicht wurde er auf einem anderen Gerät entfernt."
+    }
+  ],
+  "IAQgpf": [
+    {
+      "type": 0,
+      "value": "Frühstück & Heißgetränke"
+    }
+  ],
+  "IOXqGa": [
+    {
+      "type": 0,
+      "value": "Aufschnitt, Käse & Feinkost"
+    }
+  ],
   "IQG6uc": [
     {
       "type": 0,
       "value": "Vergangene Mahlzeit"
+    }
+  ],
+  "IYPNA9": [
+    {
+      "type": 0,
+      "value": "Notiz"
+    }
+  ],
+  "IkTWes": [
+    {
+      "type": 0,
+      "value": "Wird hinzugefügt…"
     }
   ],
   "JjUC5I": [
@@ -167,6 +513,63 @@
       "value": "Abendessen wählen"
     }
   ],
+  "KDuWv8": [
+    {
+      "type": 6,
+      "value": "count",
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 0,
+              "value": "1 Rezept hinzufügen"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " Rezepte hinzufügen"
+            }
+          ]
+        }
+      },
+      "offset": 0,
+      "pluralType": "cardinal"
+    }
+  ],
+  "KYeM+i": [
+    {
+      "type": 0,
+      "value": "Rezept importieren"
+    }
+  ],
+  "KyFWof": [
+    {
+      "type": 0,
+      "value": "Mahlzeit"
+    }
+  ],
+  "LIn5Ck": [
+    {
+      "type": 0,
+      "value": "Snack am "
+    },
+    {
+      "type": 1,
+      "value": "day"
+    }
+  ],
+  "LMzT/U": [
+    {
+      "type": 0,
+      "value": "Normal"
+    }
+  ],
   "M6fYaf": [
     {
       "type": 0,
@@ -179,10 +582,50 @@
       "value": "Rezept wird vorbereitet…"
     }
   ],
+  "MGQKpS": [
+    {
+      "type": 0,
+      "value": "Nächster Eintrag"
+    }
+  ],
   "MJTmFc": [
     {
       "type": 0,
       "value": "Mahlzeiten"
+    }
+  ],
+  "NFsZN2": [
+    {
+      "type": 0,
+      "value": "Bitte versuch es erneut."
+    }
+  ],
+  "Ngz9Xq": [
+    {
+      "type": 0,
+      "value": "Hab ich zu Hause"
+    }
+  ],
+  "ODr7zx": [
+    {
+      "type": 0,
+      "value": "Details konnten nicht gespeichert werden"
+    }
+  ],
+  "Ofk7Ir": [
+    {
+      "type": 0,
+      "value": "Mittagessen am "
+    },
+    {
+      "type": 1,
+      "value": "day"
+    }
+  ],
+  "PKr4/s": [
+    {
+      "type": 0,
+      "value": "Einkauf"
     }
   ],
   "PZW+tk": [
@@ -191,16 +634,90 @@
       "value": "Gedrückt halten für andere Varianten"
     }
   ],
+  "PmW3EN": [
+    {
+      "type": 0,
+      "value": "Magpie ein Rezept erzählen, das du kennst"
+    }
+  ],
   "Q5plTF": [
     {
       "type": 0,
       "value": "Noch keine Liste – leg zuerst im Einkauf eine an."
     }
   ],
+  "QJp8Zx": [
+    {
+      "type": 0,
+      "value": "Milchprodukte, Butter & Joghurt"
+    }
+  ],
+  "QW64XA": [
+    {
+      "type": 0,
+      "value": "Eintrag konnte nicht abgehakt werden"
+    }
+  ],
+  "QoZ4P9": [
+    {
+      "type": 0,
+      "value": "Rezepte konnten nicht hinzugefügt werden"
+    }
+  ],
+  "QrHBLE": [
+    {
+      "type": 0,
+      "value": "Eintrag konnte nicht hinzugefügt werden"
+    }
+  ],
+  "RACRTO": [
+    {
+      "type": 0,
+      "value": "Leeres Kochbuch"
+    }
+  ],
   "RBdc82": [
     {
       "type": 0,
       "value": "Wähle aus, was du kaufst"
+    }
+  ],
+  "RJfIuU": [
+    {
+      "type": 0,
+      "value": "Tierbedarf"
+    }
+  ],
+  "S3jKdb": [
+    {
+      "type": 0,
+      "value": "Eintrag hinzufügen"
+    }
+  ],
+  "SOmAkO": [
+    {
+      "type": 0,
+      "value": "Mahlzeiten ("
+    },
+    {
+      "type": 1,
+      "value": "count"
+    },
+    {
+      "type": 0,
+      "value": ")"
+    }
+  ],
+  "SPd0ko": [
+    {
+      "type": 0,
+      "value": "Eintrag nicht gefunden"
+    }
+  ],
+  "Sxhuxi": [
+    {
+      "type": 0,
+      "value": "Wische nach links für den nächsten Ersatz, nach rechts für den vorherigen. Tippe für Details."
     }
   ],
   "SyepTx": [
@@ -306,10 +823,44 @@
       "value": "Abbrechen fehlgeschlagen"
     }
   ],
+  "UTC2ZW": [
+    {
+      "type": 0,
+      "value": "Es gibt nichts zum Einfügen. Kopiere zuerst einen Link oder ein Rezept."
+    }
+  ],
+  "Uyn5M2": [
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " einplanen"
+    }
+  ],
   "V/P0v7": [
     {
       "type": 0,
       "value": "Alle"
+    }
+  ],
+  "VA0Lxk": [
+    {
+      "type": 0,
+      "value": "Haushalt"
+    }
+  ],
+  "VOBEao": [
+    {
+      "type": 0,
+      "value": "Ohne Kochen"
+    }
+  ],
+  "VhvMsk": [
+    {
+      "type": 0,
+      "value": "Von einer Website, aus einer Nachricht oder aus deiner Sammlung"
     }
   ],
   "VlowD5": [
@@ -328,6 +879,22 @@
     {
       "type": 0,
       "value": "Prüfen"
+    }
+  ],
+  "W4PF9Z": [
+    {
+      "type": 0,
+      "value": "Details zu "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "W6R9iu": [
+    {
+      "type": 0,
+      "value": "Notiz hinzufügen"
     }
   ],
   "WobItN": [
@@ -371,10 +938,32 @@
       "pluralType": "cardinal"
     }
   ],
+  "XcFs+K": [
+    {
+      "type": 0,
+      "value": "Ohne Kategorie"
+    }
+  ],
+  "Z2IumF": [
+    {
+      "type": 1,
+      "value": "count"
+    },
+    {
+      "type": 0,
+      "value": " gekauft"
+    }
+  ],
   "Z9/wRb": [
     {
       "type": 0,
       "value": "Welche Zutaten hast du da?"
+    }
+  ],
+  "Z9BB32": [
+    {
+      "type": 0,
+      "value": "Rezept importieren"
     }
   ],
   "aK3PR3": [
@@ -383,16 +972,147 @@
       "value": "Auswahl fürs Mittagessen ausblenden"
     }
   ],
+  "aZ1ogU": [
+    {
+      "type": 0,
+      "value": "Mahlzeit"
+    }
+  ],
+  "aiCuWd": [
+    {
+      "type": 0,
+      "value": "Name"
+    }
+  ],
+  "bReaED": [
+    {
+      "type": 1,
+      "value": "max"
+    },
+    {
+      "type": 0,
+      "value": " Seiten sind das Maximum für einen Import. Importiere diese und dann die nächsten "
+    },
+    {
+      "type": 1,
+      "value": "max"
+    },
+    {
+      "type": 0,
+      "value": "."
+    }
+  ],
+  "bSLf7V": [
+    {
+      "type": 0,
+      "value": "Eintrag konnte nicht zurückgeholt werden"
+    }
+  ],
+  "bbNeZ2": [
+    {
+      "type": 6,
+      "value": "count",
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 0,
+              "value": "1 auf der Liste"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " auf der Liste"
+            }
+          ]
+        }
+      },
+      "offset": 0,
+      "pluralType": "cardinal"
+    }
+  ],
+  "bbY11+": [
+    {
+      "type": 0,
+      "value": "ältere passende Variante"
+    }
+  ],
+  "bzU5dt": [
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " verwenden"
+    }
+  ],
+  "cBO33J": [
+    {
+      "type": 0,
+      "value": "Getreideprodukte"
+    }
+  ],
+  "cJ0hCi": [
+    {
+      "type": 0,
+      "value": "Kochbuch"
+    }
+  ],
+  "caJwim": [
+    {
+      "type": 0,
+      "value": "Link oder Rezepttext einfügen"
+    }
+  ],
   "cmBFn5": [
     {
       "type": 0,
       "value": "Wird zu deinem Plan hinzugefügt…"
     }
   ],
+  "dCH2P/": [
+    {
+      "type": 0,
+      "value": "Diese Mahlzeit liegt in der Vergangenheit. Prüfe, ob du das noch kaufen möchtest."
+    }
+  ],
+  "eFK5Ok": [
+    {
+      "type": 0,
+      "value": "Hinzugefügt"
+    }
+  ],
   "eqjXdk": [
     {
       "type": 0,
       "value": "Wird zu deinem Kochbuch hinzugefügt…"
+    }
+  ],
+  "fAyG5b": [
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " zurückholen"
+    }
+  ],
+  "g1CIfS": [
+    {
+      "type": 1,
+      "value": "count"
+    },
+    {
+      "type": 0,
+      "value": " auf der Liste"
     }
   ],
   "g4uIZZ": [
@@ -409,10 +1129,66 @@
       "value": "date"
     }
   ],
+  "gCjS5j": [
+    {
+      "type": 0,
+      "value": "Hinzufügen"
+    }
+  ],
   "gWOHY1": [
     {
       "type": 0,
       "value": "Aktivitäten im Haushalt"
+    }
+  ],
+  "gYPHvh": [
+    {
+      "type": 0,
+      "value": "Import fürs Mittagessen"
+    }
+  ],
+  "gnsOl4": [
+    {
+      "type": 0,
+      "value": "Unvollständig"
+    }
+  ],
+  "h/k4II": [
+    {
+      "type": 0,
+      "value": "Brot & Gebäck"
+    }
+  ],
+  "hAVLiO": [
+    {
+      "type": 0,
+      "value": "Auf der Liste"
+    }
+  ],
+  "hGpcZF": [
+    {
+      "type": 0,
+      "value": "Dein Kochbuch ist leer. Importiere die Rezepte, die du gern kochst."
+    }
+  ],
+  "heIYZX": [
+    {
+      "type": 0,
+      "value": "Noch "
+    },
+    {
+      "type": 1,
+      "value": "count"
+    },
+    {
+      "type": 0,
+      "value": " offen"
+    }
+  ],
+  "iQ3uTU": [
+    {
+      "type": 0,
+      "value": "Haus & Garten"
     }
   ],
   "ir/sf1": [
@@ -421,16 +1197,40 @@
       "value": "Speichert diese Idee in deinem Kochbuch und plant sie"
     }
   ],
+  "isMF9L": [
+    {
+      "type": 0,
+      "value": "Kochbuch"
+    }
+  ],
+  "j3b4MN": [
+    {
+      "type": 0,
+      "value": "Frisches Fleisch & Fisch"
+    }
+  ],
   "j8BV4K": [
     {
       "type": 0,
       "value": "Mahlzeiten"
     }
   ],
+  "jD5IVs": [
+    {
+      "type": 0,
+      "value": "Gefundene Rezepte"
+    }
+  ],
   "jpoEqR": [
     {
       "type": 0,
       "value": "Das Rezept wurde noch nicht synchronisiert. Versuch es gleich noch einmal."
+    }
+  ],
+  "jsESf/": [
+    {
+      "type": 0,
+      "value": "Screenshots oder Fotos auswählen"
     }
   ],
   "kM+skD": [
@@ -443,16 +1243,137 @@
       "value": " zum Abendessen einplanen"
     }
   ],
+  "kNas2A": [
+    {
+      "type": 0,
+      "value": "Öffnet die geplante Mahlzeit"
+    }
+  ],
+  "kNt/TP": [
+    {
+      "type": 0,
+      "value": "Details"
+    }
+  ],
+  "kZIMYp": [
+    {
+      "type": 0,
+      "value": "Keine Treffer für „"
+    },
+    {
+      "type": 1,
+      "value": "query"
+    },
+    {
+      "type": 0,
+      "value": "“."
+    }
+  ],
+  "koAL0x": [
+    {
+      "type": 0,
+      "value": "Bitte versuch es erneut."
+    }
+  ],
+  "lwjs+K": [
+    {
+      "type": 0,
+      "value": "Noch etwas ergänzen? Zum Beispiel: Seite 2 ist die Soße"
+    }
+  ],
+  "lz7pcY": [
+    {
+      "type": 0,
+      "value": "Leere Einkaufsliste"
+    }
+  ],
   "mYhCW0": [
     {
       "type": 0,
       "value": "Verschieben nach…"
     }
   ],
+  "mZ3Vq4": [
+    {
+      "type": 0,
+      "value": "Abhaken"
+    }
+  ],
+  "mdefrF": [
+    {
+      "type": 0,
+      "value": "Import konnte nicht verworfen werden"
+    }
+  ],
+  "mf5bwq": [
+    {
+      "type": 0,
+      "value": "Wird verworfen…"
+    }
+  ],
+  "n7V20c": [
+    {
+      "type": 0,
+      "value": "Deine Eingabe ist noch da. Bitte versuch es erneut."
+    }
+  ],
   "nJ+B8s": [
     {
       "type": 0,
       "value": "Andere Mahlzeit wählen"
+    }
+  ],
+  "nuHVV/": [
+    {
+      "type": 6,
+      "value": "count",
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 0,
+              "value": "1 Rezept gefunden"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " Rezepte gefunden"
+            }
+          ]
+        }
+      },
+      "offset": 0,
+      "pluralType": "cardinal"
+    }
+  ],
+  "oB6Eyg": [
+    {
+      "type": 0,
+      "value": "Details öffnen"
+    }
+  ],
+  "oP0Gad": [
+    {
+      "type": 0,
+      "value": "Import als Snack"
+    }
+  ],
+  "p1LU3L": [
+    {
+      "type": 0,
+      "value": "Import fürs Abendessen"
+    }
+  ],
+  "pV8LQi": [
+    {
+      "type": 0,
+      "value": "Rezept wird noch synchronisiert"
     }
   ],
   "psD7p2": [
@@ -471,6 +1392,53 @@
       "value": "Mittagessen"
     }
   ],
+  "rIWABd": [
+    {
+      "type": 0,
+      "value": "Alle verwerfen"
+    }
+  ],
+  "rejJi+": [
+    {
+      "type": 0,
+      "value": "Abgehakt"
+    }
+  ],
+  "ryFpRR": [
+    {
+      "type": 0,
+      "value": "Tiefkühl & Fertigprodukte"
+    }
+  ],
+  "s1wweU": [
+    {
+      "type": 6,
+      "value": "count",
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 0,
+              "value": "1 weitere Variante"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " weitere Varianten"
+            }
+          ]
+        }
+      },
+      "offset": 0,
+      "pluralType": "cardinal"
+    }
+  ],
   "sEKbW8": [
     {
       "type": 1,
@@ -479,6 +1447,38 @@
     {
       "type": 0,
       "value": " zum Mittagessen einplanen"
+    }
+  ],
+  "sHammy": [
+    {
+      "type": 1,
+      "value": "count"
+    },
+    {
+      "type": 0,
+      "value": " zu Hause"
+    }
+  ],
+  "saRdXm": [
+    {
+      "type": 0,
+      "value": "Keine anstehenden Mahlzeiten. Plane eine Mahlzeit, um hier auszuwählen, was du kaufst."
+    }
+  ],
+  "sxAYc+": [
+    {
+      "type": 0,
+      "value": "Weitere Seite hinzufügen"
+    }
+  ],
+  "tAQv1v": [
+    {
+      "type": 0,
+      "value": "Abendessen am "
+    },
+    {
+      "type": 1,
+      "value": "day"
     }
   ],
   "tSxVv6": [
@@ -493,10 +1493,76 @@
       "value": "Bitte versuch es erneut."
     }
   ],
+  "te9ah1": [
+    {
+      "type": 0,
+      "value": "„"
+    },
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": "“ hinzufügen"
+    }
+  ],
+  "tsQKcF": [
+    {
+      "type": 0,
+      "value": "Kategorie"
+    }
+  ],
+  "tu7W2T": [
+    {
+      "type": 0,
+      "value": "Fotos konnten nicht hinzugefügt werden."
+    }
+  ],
+  "txFdiD": [
+    {
+      "type": 0,
+      "value": "Fotos werden geöffnet…"
+    }
+  ],
   "tyszfp": [
     {
       "type": 0,
       "value": "Gerichtsidee eingeben"
+    }
+  ],
+  "u+lyd2": [
+    {
+      "type": 0,
+      "value": "Öffnet die Details des Eintrags"
+    }
+  ],
+  "uRdLso": [
+    {
+      "type": 0,
+      "value": "Fotos von Kochbuchseiten machen"
+    }
+  ],
+  "un0Pum": [
+    {
+      "type": 1,
+      "value": "count"
+    },
+    {
+      "type": 0,
+      "value": " übersprungen"
+    }
+  ],
+  "upp2nP": [
+    {
+      "type": 0,
+      "value": "Großes Projekt"
+    }
+  ],
+  "uq7g3K": [
+    {
+      "type": 0,
+      "value": "Ohne Kategorie"
     }
   ],
   "vxgbIs": [
@@ -511,10 +1577,53 @@
       "value": "Erneut planen…"
     }
   ],
+  "wO5FsS": [
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " öffnen"
+    }
+  ],
   "wTes2b": [
     {
       "type": 0,
       "value": "Keine passenden Vorschläge. Durchstöbere dein Kochbuch oder trage eine Mahlzeit ein."
+    }
+  ],
+  "wY6RjA": [
+    {
+      "type": 6,
+      "value": "days",
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 0,
+              "value": "vor 1 Tag"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 0,
+              "value": "vor "
+            },
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " Tagen"
+            }
+          ]
+        }
+      },
+      "offset": 0,
+      "pluralType": "cardinal"
     }
   ],
   "wl05lJ": [
@@ -529,10 +1638,82 @@
       "value": "Niemand"
     }
   ],
+  "x6inHj": [
+    {
+      "type": 0,
+      "value": "Gestern"
+    }
+  ],
+  "xU/3JC": [
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": ", auf der Liste, Details bearbeiten"
+    }
+  ],
+  "xiyF4r": [
+    {
+      "type": 0,
+      "value": "Snacks & Süßes"
+    }
+  ],
+  "y+jaB0": [
+    {
+      "type": 0,
+      "value": "Ohne Kategorie"
+    }
+  ],
+  "yBelg/": [
+    {
+      "type": 0,
+      "value": "Von der Liste entfernen"
+    }
+  ],
+  "yKjSE0": [
+    {
+      "type": 0,
+      "value": "Nichts zu kaufen. Plane eine Mahlzeit, um auszuwählen, was du dafür kaufst, oder füge einen Eintrag hinzu."
+    }
+  ],
+  "ycSZ62": [
+    {
+      "type": 0,
+      "value": "Magpie ein Rezept erzählen"
+    }
+  ],
   "yn0m94": [
     {
       "type": 0,
       "value": "Heute"
+    }
+  ],
+  "yvQ+D7": [
+    {
+      "type": 1,
+      "value": "day"
+    },
+    {
+      "type": 0,
+      "value": " · "
+    },
+    {
+      "type": 1,
+      "value": "slot"
+    }
+  ],
+  "zh+xrJ": [
+    {
+      "type": 0,
+      "value": "Pflege & Gesundheit"
+    }
+  ],
+  "zsJZqS": [
+    {
+      "type": 0,
+      "value": "Einkauf"
     }
   ]
 }

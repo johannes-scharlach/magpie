@@ -1,6 +1,7 @@
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
 import { Alert, ScrollView, View } from "react-native";
+import { useIntl } from "react-intl";
 
 import { Action, PrimaryAction } from "@/components/action";
 import { ChoiceList } from "@/components/choice-list";
@@ -13,6 +14,7 @@ import { cancelImport, confirmImport } from "@/features/meals/import-adapters";
  *  complete recipe starts ticked; the incomplete ones say what is missing and
  *  cannot be kept. Nothing is saved until the cook confirms. */
 export default function ReviewImport() {
+  const intl = useIntl();
   const router = useRouter();
   const { operationId } = useLocalSearchParams<{ operationId: string }>();
   const review = useImportReviews().find(
@@ -45,7 +47,17 @@ export default function ReviewImport() {
     } catch (error) {
       setBusy(null);
       Alert.alert(
-        action === "adding" ? "Could not add the recipes" : "Could not discard",
+        action === "adding"
+          ? intl.formatMessage({
+              defaultMessage: "Could not add the recipes",
+              description:
+                "Alert title when keeping the reviewed recipes failed. The imported text is still there.",
+            })
+          : intl.formatMessage({
+              defaultMessage: "Could not discard",
+              description:
+                "Alert title when discarding a reviewed import failed.",
+            }),
         error instanceof Error ? error.message : String(error),
       );
     }
@@ -55,10 +67,15 @@ export default function ReviewImport() {
     <>
       <Stack.Screen
         options={{
-          title:
-            recipes.length === 1
-              ? "Found 1 recipe"
-              : `Found ${recipes.length} recipes`,
+          title: intl.formatMessage(
+            {
+              defaultMessage:
+                "{count, plural, one {Found 1 recipe} other {Found # recipes}}",
+              description:
+                "Title of the sheet reviewing what an import found. {count} is how many recipes it read.",
+            },
+            { count: recipes.length },
+          ),
         }}
       />
       <ScrollView
@@ -67,8 +84,12 @@ export default function ReviewImport() {
         contentContainerClassName="gap-6 px-6 pt-4 pb-6"
       >
         <Text variant="muted">
-          Ticked recipes go to your cookbook. Nothing is saved until you add
-          them.
+          {intl.formatMessage({
+            defaultMessage:
+              "Ticked recipes go to your cookbook. Nothing is saved until you add them.",
+            description:
+              "Instruction above the list of recipes an import found. Each complete recipe starts ticked.",
+          })}
         </Text>
         {recipes.length ? (
           <ChoiceList
@@ -83,9 +104,20 @@ export default function ReviewImport() {
         ) : null}
         {skipped.length ? (
           <View className="gap-3">
-            <Text className="font-rounded text-lg font-bold">Incomplete</Text>
+            <Text className="font-rounded text-lg font-bold">
+              {intl.formatMessage({
+                defaultMessage: "Incomplete",
+                description:
+                  "Heading above recipes an import could not read completely. They cannot be kept.",
+              })}
+            </Text>
             <Text variant="muted">
-              To add one of these, import all its pages together.
+              {intl.formatMessage({
+                defaultMessage:
+                  "To add one of these, import all its pages together.",
+                description:
+                  "Explains how to recover an incomplete recipe: import the rest of its pages in the same import.",
+              })}
             </Text>
             {skipped.map(({ name, sourceReference, reason }, i) => (
               <View key={i} className="gap-0.5">
@@ -106,10 +138,20 @@ export default function ReviewImport() {
           <PrimaryAction
             label={
               busy === "adding"
-                ? "Adding…"
-                : keep.length === 1
-                  ? "Add 1 recipe"
-                  : `Add ${keep.length} recipes`
+                ? intl.formatMessage({
+                    defaultMessage: "Adding…",
+                    description:
+                      "Status while the ticked recipes are being saved.",
+                  })
+                : intl.formatMessage(
+                    {
+                      defaultMessage:
+                        "{count, plural, one {Add 1 recipe} other {Add # recipes}}",
+                      description:
+                        "Action that saves the ticked recipes to the cookbook. {count} is how many are ticked.",
+                    },
+                    { count: keep.length },
+                  )
             }
             onPress={() =>
               void finish("adding", () => confirmImport(operationId, keep))
@@ -117,7 +159,18 @@ export default function ReviewImport() {
             disabled={keep.length === 0 || busy !== null}
           />
           <Action
-            label={busy === "discarding" ? "Discarding…" : "Discard all"}
+            label={
+              busy === "discarding"
+                ? intl.formatMessage({
+                    defaultMessage: "Discarding…",
+                    description: "Status while a reviewed import is discarded.",
+                  })
+                : intl.formatMessage({
+                    defaultMessage: "Discard all",
+                    description:
+                      "Destructive action that throws away everything an import found.",
+                  })
+            }
             onPress={() =>
               void finish("discarding", () => cancelImport(operationId))
             }

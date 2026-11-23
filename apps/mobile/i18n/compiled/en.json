@@ -11,6 +11,18 @@
       "value": "Retry"
     }
   ],
+  "/Fo2I2": [
+    {
+      "type": 0,
+      "value": "Done"
+    }
+  ],
+  "/woc5o": [
+    {
+      "type": 0,
+      "value": "From cookbook"
+    }
+  ],
   "07x9wI": [
     {
       "type": 0,
@@ -23,6 +35,12 @@
     {
       "type": 0,
       "value": " for a treat"
+    }
+  ],
+  "0cWlcT": [
+    {
+      "type": 0,
+      "value": "More work"
     }
   ],
   "0feGXu": [
@@ -43,16 +61,88 @@
       "value": "Cancelling…"
     }
   ],
+  "1dwtnM": [
+    {
+      "type": 0,
+      "value": "Category: "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "1gWMkH": [
+    {
+      "type": 1,
+      "value": "count"
+    },
+    {
+      "type": 0,
+      "value": " checked"
+    }
+  ],
+  "1q9iJM": [
+    {
+      "type": 0,
+      "value": "Add item"
+    }
+  ],
+  "30YoVC": [
+    {
+      "type": 0,
+      "value": "Changed to "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "3CJl1Z": [
+    {
+      "type": 0,
+      "value": "Older matching variant"
+    }
+  ],
   "3DrMNt": [
     {
       "type": 0,
       "value": "Dismiss"
     }
   ],
+  "3MDr/G": [
+    {
+      "type": 0,
+      "value": "On list"
+    }
+  ],
   "3MwfD7": [
     {
       "type": 0,
       "value": "Household and account"
+    }
+  ],
+  "3j+H9P": [
+    {
+      "type": 0,
+      "value": "Name"
+    }
+  ],
+  "3qVWYG": [
+    {
+      "type": 0,
+      "value": "All at home"
+    }
+  ],
+  "4ZRn62": [
+    {
+      "type": 0,
+      "value": "Add details"
+    }
+  ],
+  "4eyER+": [
+    {
+      "type": 0,
+      "value": "Add items"
     }
   ],
   "5+uWTl": [
@@ -75,6 +165,48 @@
       "value": "Couldn’t plan this meal"
     }
   ],
+  "563N8u": [
+    {
+      "type": 0,
+      "value": "Your details are still here. Please try again."
+    }
+  ],
+  "5AqntS": [
+    {
+      "type": 0,
+      "value": "Couldn’t save item"
+    }
+  ],
+  "5NKar0": [
+    {
+      "type": 0,
+      "value": "Shop for meals"
+    }
+  ],
+  "5dil2Q": [
+    {
+      "type": 0,
+      "value": "Other variants"
+    }
+  ],
+  "695Ha/": [
+    {
+      "type": 0,
+      "value": "Search recipes"
+    }
+  ],
+  "6DbM9d": [
+    {
+      "type": 0,
+      "value": "To add one of these, import all its pages together."
+    }
+  ],
+  "6imU0v": [
+    {
+      "type": 0,
+      "value": "Nothing to buy yet. Open Meals to choose what to buy, or add an item."
+    }
+  ],
   "77C3do": [
     {
       "type": 0,
@@ -89,10 +221,22 @@
       "value": " extra"
     }
   ],
+  "78XbAU": [
+    {
+      "type": 0,
+      "value": "Add an item"
+    }
+  ],
   "7NwgcX": [
     {
       "type": 0,
       "value": "Cancel"
+    }
+  ],
+  "8b+Yoq": [
+    {
+      "type": 0,
+      "value": "Meal"
     }
   ],
   "8tYGGP": [
@@ -107,6 +251,12 @@
       "value": "Past chats"
     }
   ],
+  "97Gs7q": [
+    {
+      "type": 0,
+      "value": "No ingredient list yet"
+    }
+  ],
   "9rsKGF": [
     {
       "type": 0,
@@ -119,16 +269,105 @@
       "value": "Remove from plan"
     }
   ],
+  "ASbK1o": [
+    {
+      "type": 6,
+      "value": "count",
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 0,
+              "value": "1 meal to review"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " meals to review"
+            }
+          ]
+        }
+      },
+      "offset": 0,
+      "pluralType": "cardinal"
+    }
+  ],
+  "ApC4Uy": [
+    {
+      "type": 0,
+      "value": "Ingredients, spices & baking"
+    }
+  ],
+  "B2Sv0f": [
+    {
+      "type": 0,
+      "value": "Magpie saves it to your cookbook and plans it for you."
+    }
+  ],
+  "B2WnCm": [
+    {
+      "type": 0,
+      "value": "Check off "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "B8Psge": [
+    {
+      "type": 0,
+      "value": "Easy"
+    }
+  ],
   "BNzExh": [
     {
       "type": 0,
       "value": "Treat"
     }
   ],
+  "BUvsPI": [
+    {
+      "type": 0,
+      "value": "Tomorrow"
+    }
+  ],
+  "BuLRku": [
+    {
+      "type": 0,
+      "value": "Couldn’t swap item"
+    }
+  ],
+  "CLXnlV": [
+    {
+      "type": 0,
+      "value": "Other variants of "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
   "CpnFSJ": [
     {
       "type": 0,
       "value": "Browse cookbook"
+    }
+  ],
+  "Dkp9Si": [
+    {
+      "type": 0,
+      "value": "Add "
+    },
+    {
+      "type": 1,
+      "value": "name"
     }
   ],
   "DrcycS": [
@@ -157,10 +396,117 @@
       "value": "Write in a meal"
     }
   ],
+  "Eu3PUg": [
+    {
+      "type": 0,
+      "value": "Ticked recipes go to your cookbook. Nothing is saved until you add them."
+    }
+  ],
+  "FABYcO": [
+    {
+      "type": 0,
+      "value": "Fruit & vegetables"
+    }
+  ],
+  "FKeUdZ": [
+    {
+      "type": 0,
+      "value": "Beverages"
+    }
+  ],
+  "FjaxBE": [
+    {
+      "type": 0,
+      "value": "Add"
+    }
+  ],
+  "Frra3A": [
+    {
+      "type": 0,
+      "value": "Other"
+    }
+  ],
+  "Ftip1w": [
+    {
+      "type": 0,
+      "value": "Loading item…"
+    }
+  ],
+  "GXiSPF": [
+    {
+      "type": 6,
+      "value": "count",
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 0,
+              "value": "1 to buy"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " to buy"
+            }
+          ]
+        }
+      },
+      "offset": 0,
+      "pluralType": "cardinal"
+    }
+  ],
+  "Gfm4qD": [
+    {
+      "type": 0,
+      "value": "Import"
+    }
+  ],
+  "GsvZC/": [
+    {
+      "type": 0,
+      "value": "Swap for"
+    }
+  ],
+  "GwcRqi": [
+    {
+      "type": 0,
+      "value": "It may have been removed on another device."
+    }
+  ],
+  "IAQgpf": [
+    {
+      "type": 0,
+      "value": "Breakfast & hot drinks"
+    }
+  ],
+  "IOXqGa": [
+    {
+      "type": 0,
+      "value": "Cold cuts, cheese & deli"
+    }
+  ],
   "IQG6uc": [
     {
       "type": 0,
       "value": "Past meal"
+    }
+  ],
+  "IYPNA9": [
+    {
+      "type": 0,
+      "value": "Note"
+    }
+  ],
+  "IkTWes": [
+    {
+      "type": 0,
+      "value": "Adding…"
     }
   ],
   "JjUC5I": [
@@ -175,6 +521,67 @@
       "value": "Select dinner"
     }
   ],
+  "KDuWv8": [
+    {
+      "type": 6,
+      "value": "count",
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 0,
+              "value": "Add 1 recipe"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 0,
+              "value": "Add "
+            },
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " recipes"
+            }
+          ]
+        }
+      },
+      "offset": 0,
+      "pluralType": "cardinal"
+    }
+  ],
+  "KYeM+i": [
+    {
+      "type": 0,
+      "value": "Import recipe"
+    }
+  ],
+  "KyFWof": [
+    {
+      "type": 0,
+      "value": "Meal"
+    }
+  ],
+  "LIn5Ck": [
+    {
+      "type": 0,
+      "value": "Treat on "
+    },
+    {
+      "type": 1,
+      "value": "day"
+    }
+  ],
+  "LMzT/U": [
+    {
+      "type": 0,
+      "value": "Normal"
+    }
+  ],
   "M6fYaf": [
     {
       "type": 0,
@@ -187,10 +594,50 @@
       "value": "Getting the recipe ready…"
     }
   ],
+  "MGQKpS": [
+    {
+      "type": 0,
+      "value": "Next item"
+    }
+  ],
   "MJTmFc": [
     {
       "type": 0,
       "value": "Meals"
+    }
+  ],
+  "NFsZN2": [
+    {
+      "type": 0,
+      "value": "Please try again."
+    }
+  ],
+  "Ngz9Xq": [
+    {
+      "type": 0,
+      "value": "I have it at home"
+    }
+  ],
+  "ODr7zx": [
+    {
+      "type": 0,
+      "value": "Couldn’t save details"
+    }
+  ],
+  "Ofk7Ir": [
+    {
+      "type": 0,
+      "value": "Lunch on "
+    },
+    {
+      "type": 1,
+      "value": "day"
+    }
+  ],
+  "PKr4/s": [
+    {
+      "type": 0,
+      "value": "Shop"
     }
   ],
   "PZW+tk": [
@@ -199,16 +646,90 @@
       "value": "Long press for other variants"
     }
   ],
+  "PmW3EN": [
+    {
+      "type": 0,
+      "value": "Tell Magpie a recipe you know"
+    }
+  ],
   "Q5plTF": [
     {
       "type": 0,
       "value": "No list yet — create one in Shop first."
     }
   ],
+  "QJp8Zx": [
+    {
+      "type": 0,
+      "value": "Dairy, butter & yogurt"
+    }
+  ],
+  "QW64XA": [
+    {
+      "type": 0,
+      "value": "Couldn’t check off item"
+    }
+  ],
+  "QoZ4P9": [
+    {
+      "type": 0,
+      "value": "Could not add the recipes"
+    }
+  ],
+  "QrHBLE": [
+    {
+      "type": 0,
+      "value": "Couldn’t add item"
+    }
+  ],
+  "RACRTO": [
+    {
+      "type": 0,
+      "value": "Empty cookbook"
+    }
+  ],
   "RBdc82": [
     {
       "type": 0,
       "value": "Choose what to buy"
+    }
+  ],
+  "RJfIuU": [
+    {
+      "type": 0,
+      "value": "Pet supplies"
+    }
+  ],
+  "S3jKdb": [
+    {
+      "type": 0,
+      "value": "Add an item"
+    }
+  ],
+  "SOmAkO": [
+    {
+      "type": 0,
+      "value": "Meals ("
+    },
+    {
+      "type": 1,
+      "value": "count"
+    },
+    {
+      "type": 0,
+      "value": ")"
+    }
+  ],
+  "SPd0ko": [
+    {
+      "type": 0,
+      "value": "Item not found"
+    }
+  ],
+  "Sxhuxi": [
+    {
+      "type": 0,
+      "value": "Swipe left for the next substitute, right for the previous. Tap for details."
     }
   ],
   "SyepTx": [
@@ -322,10 +843,44 @@
       "value": "Could not cancel"
     }
   ],
+  "UTC2ZW": [
+    {
+      "type": 0,
+      "value": "There’s nothing to paste. Copy a link or recipe first."
+    }
+  ],
+  "Uyn5M2": [
+    {
+      "type": 0,
+      "value": "Plan "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
   "V/P0v7": [
     {
       "type": 0,
       "value": "Everyone"
+    }
+  ],
+  "VA0Lxk": [
+    {
+      "type": 0,
+      "value": "Household"
+    }
+  ],
+  "VOBEao": [
+    {
+      "type": 0,
+      "value": "No cooking"
+    }
+  ],
+  "VhvMsk": [
+    {
+      "type": 0,
+      "value": "From a website, a message or your own collection"
     }
   ],
   "VlowD5": [
@@ -344,6 +899,22 @@
     {
       "type": 0,
       "value": "Review"
+    }
+  ],
+  "W4PF9Z": [
+    {
+      "type": 0,
+      "value": "Details for "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "W6R9iu": [
+    {
+      "type": 0,
+      "value": "Add a note"
     }
   ],
   "WobItN": [
@@ -391,10 +962,32 @@
       "pluralType": "cardinal"
     }
   ],
+  "XcFs+K": [
+    {
+      "type": 0,
+      "value": "Uncategorised"
+    }
+  ],
+  "Z2IumF": [
+    {
+      "type": 1,
+      "value": "count"
+    },
+    {
+      "type": 0,
+      "value": " bought"
+    }
+  ],
   "Z9/wRb": [
     {
       "type": 0,
       "value": "What ingredients do you have?"
+    }
+  ],
+  "Z9BB32": [
+    {
+      "type": 0,
+      "value": "Import recipe"
     }
   ],
   "aK3PR3": [
@@ -403,16 +996,147 @@
       "value": "Hide lunch choices"
     }
   ],
+  "aZ1ogU": [
+    {
+      "type": 0,
+      "value": "Meal"
+    }
+  ],
+  "aiCuWd": [
+    {
+      "type": 0,
+      "value": "Name"
+    }
+  ],
+  "bReaED": [
+    {
+      "type": 1,
+      "value": "max"
+    },
+    {
+      "type": 0,
+      "value": " pages is the most for one import. Import these, then the next "
+    },
+    {
+      "type": 1,
+      "value": "max"
+    },
+    {
+      "type": 0,
+      "value": "."
+    }
+  ],
+  "bSLf7V": [
+    {
+      "type": 0,
+      "value": "Couldn’t restore item"
+    }
+  ],
+  "bbNeZ2": [
+    {
+      "type": 6,
+      "value": "count",
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 0,
+              "value": "1 on the list"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " on the list"
+            }
+          ]
+        }
+      },
+      "offset": 0,
+      "pluralType": "cardinal"
+    }
+  ],
+  "bbY11+": [
+    {
+      "type": 0,
+      "value": "older matching variant"
+    }
+  ],
+  "bzU5dt": [
+    {
+      "type": 0,
+      "value": "Use "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "cBO33J": [
+    {
+      "type": 0,
+      "value": "Grain products"
+    }
+  ],
+  "cJ0hCi": [
+    {
+      "type": 0,
+      "value": "Cookbook"
+    }
+  ],
+  "caJwim": [
+    {
+      "type": 0,
+      "value": "Paste link or recipe text"
+    }
+  ],
   "cmBFn5": [
     {
       "type": 0,
       "value": "Adding to your plan…"
     }
   ],
+  "dCH2P/": [
+    {
+      "type": 0,
+      "value": "This meal is in the past. Check whether you still want to buy this."
+    }
+  ],
+  "eFK5Ok": [
+    {
+      "type": 0,
+      "value": "Added"
+    }
+  ],
   "eqjXdk": [
     {
       "type": 0,
       "value": "Adding to your cookbook…"
+    }
+  ],
+  "fAyG5b": [
+    {
+      "type": 0,
+      "value": "Restore "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "g1CIfS": [
+    {
+      "type": 1,
+      "value": "count"
+    },
+    {
+      "type": 0,
+      "value": " on the list"
     }
   ],
   "g4uIZZ": [
@@ -429,10 +1153,62 @@
       "value": "date"
     }
   ],
+  "gCjS5j": [
+    {
+      "type": 0,
+      "value": "Add"
+    }
+  ],
   "gWOHY1": [
     {
       "type": 0,
       "value": "Household activity"
+    }
+  ],
+  "gYPHvh": [
+    {
+      "type": 0,
+      "value": "Import for lunch"
+    }
+  ],
+  "gnsOl4": [
+    {
+      "type": 0,
+      "value": "Incomplete"
+    }
+  ],
+  "h/k4II": [
+    {
+      "type": 0,
+      "value": "Bread & pastries"
+    }
+  ],
+  "hAVLiO": [
+    {
+      "type": 0,
+      "value": "On list"
+    }
+  ],
+  "hGpcZF": [
+    {
+      "type": 0,
+      "value": "Your cookbook is empty. Import the recipes you love to cook."
+    }
+  ],
+  "heIYZX": [
+    {
+      "type": 1,
+      "value": "count"
+    },
+    {
+      "type": 0,
+      "value": " to decide"
+    }
+  ],
+  "iQ3uTU": [
+    {
+      "type": 0,
+      "value": "Home & garden"
     }
   ],
   "ir/sf1": [
@@ -441,16 +1217,40 @@
       "value": "Saves this idea to your cookbook and plans it"
     }
   ],
+  "isMF9L": [
+    {
+      "type": 0,
+      "value": "Cookbook"
+    }
+  ],
+  "j3b4MN": [
+    {
+      "type": 0,
+      "value": "Fresh meat & fish"
+    }
+  ],
   "j8BV4K": [
     {
       "type": 0,
       "value": "Meals"
     }
   ],
+  "jD5IVs": [
+    {
+      "type": 0,
+      "value": "Found recipes"
+    }
+  ],
   "jpoEqR": [
     {
       "type": 0,
       "value": "The recipe hasn’t synced yet. Try again in a moment."
+    }
+  ],
+  "jsESf/": [
+    {
+      "type": 0,
+      "value": "Choose screenshots or photos"
     }
   ],
   "kM+skD": [
@@ -467,16 +1267,141 @@
       "value": " for dinner"
     }
   ],
+  "kNas2A": [
+    {
+      "type": 0,
+      "value": "Opens the planned meal"
+    }
+  ],
+  "kNt/TP": [
+    {
+      "type": 0,
+      "value": "Details"
+    }
+  ],
+  "kZIMYp": [
+    {
+      "type": 0,
+      "value": "No matches for “"
+    },
+    {
+      "type": 1,
+      "value": "query"
+    },
+    {
+      "type": 0,
+      "value": "”."
+    }
+  ],
+  "koAL0x": [
+    {
+      "type": 0,
+      "value": "Please try again."
+    }
+  ],
+  "lwjs+K": [
+    {
+      "type": 0,
+      "value": "Anything to add? For example, page 2 is the sauce"
+    }
+  ],
+  "lz7pcY": [
+    {
+      "type": 0,
+      "value": "Empty shopping list"
+    }
+  ],
   "mYhCW0": [
     {
       "type": 0,
       "value": "Move to…"
     }
   ],
+  "mZ3Vq4": [
+    {
+      "type": 0,
+      "value": "Check off"
+    }
+  ],
+  "mdefrF": [
+    {
+      "type": 0,
+      "value": "Could not discard"
+    }
+  ],
+  "mf5bwq": [
+    {
+      "type": 0,
+      "value": "Discarding…"
+    }
+  ],
+  "n7V20c": [
+    {
+      "type": 0,
+      "value": "Your entry is still here. Please try again."
+    }
+  ],
   "nJ+B8s": [
     {
       "type": 0,
       "value": "Choose another meal"
+    }
+  ],
+  "nuHVV/": [
+    {
+      "type": 6,
+      "value": "count",
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 0,
+              "value": "Found 1 recipe"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 0,
+              "value": "Found "
+            },
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " recipes"
+            }
+          ]
+        }
+      },
+      "offset": 0,
+      "pluralType": "cardinal"
+    }
+  ],
+  "oB6Eyg": [
+    {
+      "type": 0,
+      "value": "Open details"
+    }
+  ],
+  "oP0Gad": [
+    {
+      "type": 0,
+      "value": "Import for a treat"
+    }
+  ],
+  "p1LU3L": [
+    {
+      "type": 0,
+      "value": "Import for dinner"
+    }
+  ],
+  "pV8LQi": [
+    {
+      "type": 0,
+      "value": "Recipe still syncing"
     }
   ],
   "psD7p2": [
@@ -495,6 +1420,53 @@
       "value": "Lunch"
     }
   ],
+  "rIWABd": [
+    {
+      "type": 0,
+      "value": "Discard all"
+    }
+  ],
+  "rejJi+": [
+    {
+      "type": 0,
+      "value": "Checked"
+    }
+  ],
+  "ryFpRR": [
+    {
+      "type": 0,
+      "value": "Frozen & convenience"
+    }
+  ],
+  "s1wweU": [
+    {
+      "type": 6,
+      "value": "count",
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 0,
+              "value": "1 other variant"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " other variants"
+            }
+          ]
+        }
+      },
+      "offset": 0,
+      "pluralType": "cardinal"
+    }
+  ],
   "sEKbW8": [
     {
       "type": 0,
@@ -509,6 +1481,38 @@
       "value": " for lunch"
     }
   ],
+  "sHammy": [
+    {
+      "type": 1,
+      "value": "count"
+    },
+    {
+      "type": 0,
+      "value": " at home"
+    }
+  ],
+  "saRdXm": [
+    {
+      "type": 0,
+      "value": "No upcoming meals. Plan a meal to choose what to buy here."
+    }
+  ],
+  "sxAYc+": [
+    {
+      "type": 0,
+      "value": "Add another page"
+    }
+  ],
+  "tAQv1v": [
+    {
+      "type": 0,
+      "value": "Dinner on "
+    },
+    {
+      "type": 1,
+      "value": "day"
+    }
+  ],
   "tSxVv6": [
     {
       "type": 0,
@@ -521,10 +1525,76 @@
       "value": "Please try again."
     }
   ],
+  "te9ah1": [
+    {
+      "type": 0,
+      "value": "Add “"
+    },
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": "”"
+    }
+  ],
+  "tsQKcF": [
+    {
+      "type": 0,
+      "value": "Category"
+    }
+  ],
+  "tu7W2T": [
+    {
+      "type": 0,
+      "value": "Could not add photos."
+    }
+  ],
+  "txFdiD": [
+    {
+      "type": 0,
+      "value": "Opening photos…"
+    }
+  ],
   "tyszfp": [
     {
       "type": 0,
       "value": "I have a dish in mind"
+    }
+  ],
+  "u+lyd2": [
+    {
+      "type": 0,
+      "value": "Opens item details"
+    }
+  ],
+  "uRdLso": [
+    {
+      "type": 0,
+      "value": "Take photos of cookbook pages"
+    }
+  ],
+  "un0Pum": [
+    {
+      "type": 1,
+      "value": "count"
+    },
+    {
+      "type": 0,
+      "value": " skipped"
+    }
+  ],
+  "upp2nP": [
+    {
+      "type": 0,
+      "value": "Big project"
+    }
+  ],
+  "uq7g3K": [
+    {
+      "type": 0,
+      "value": "Uncategorised"
     }
   ],
   "vxgbIs": [
@@ -539,10 +1609,49 @@
       "value": "Plan again…"
     }
   ],
+  "wO5FsS": [
+    {
+      "type": 0,
+      "value": "Open "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
   "wTes2b": [
     {
       "type": 0,
       "value": "No matching suggestions. Browse your cookbook or write in a meal."
+    }
+  ],
+  "wY6RjA": [
+    {
+      "type": 6,
+      "value": "days",
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 0,
+              "value": "1 day ago"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " days ago"
+            }
+          ]
+        }
+      },
+      "offset": 0,
+      "pluralType": "cardinal"
     }
   ],
   "wl05lJ": [
@@ -557,10 +1666,82 @@
       "value": "Nobody"
     }
   ],
+  "x6inHj": [
+    {
+      "type": 0,
+      "value": "Yesterday"
+    }
+  ],
+  "xU/3JC": [
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": ", on the list, edit details"
+    }
+  ],
+  "xiyF4r": [
+    {
+      "type": 0,
+      "value": "Snacks & sweets"
+    }
+  ],
+  "y+jaB0": [
+    {
+      "type": 0,
+      "value": "Uncategorised"
+    }
+  ],
+  "yBelg/": [
+    {
+      "type": 0,
+      "value": "Remove from list"
+    }
+  ],
+  "yKjSE0": [
+    {
+      "type": 0,
+      "value": "Nothing to buy. Plan a meal to choose what to buy for it, or add an item."
+    }
+  ],
+  "ycSZ62": [
+    {
+      "type": 0,
+      "value": "Tell Magpie a recipe"
+    }
+  ],
   "yn0m94": [
     {
       "type": 0,
       "value": "Today"
+    }
+  ],
+  "yvQ+D7": [
+    {
+      "type": 1,
+      "value": "day"
+    },
+    {
+      "type": 0,
+      "value": " · "
+    },
+    {
+      "type": 1,
+      "value": "slot"
+    }
+  ],
+  "zh+xrJ": [
+    {
+      "type": 0,
+      "value": "Care & health"
+    }
+  ],
+  "zsJZqS": [
+    {
+      "type": 0,
+      "value": "Shop"
     }
   ]
 }
