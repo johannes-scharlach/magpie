@@ -61,6 +61,7 @@ import {
 import { latestRecipeResult } from "@/features/chat/recipe-results";
 import { formatMealTarget } from "@/features/meals/labels";
 import { mealTarget } from "@/features/meals/slots";
+import { useRankedUseUp } from "@/features/meals/use-ranked-use-up";
 import { setChatOnScreen } from "@/features/notifications/chat-on-screen";
 import { useActiveList } from "@/features/onboarding/access";
 import { posthog } from "@/lib/posthog";
@@ -479,6 +480,10 @@ export default function ChatScreen() {
   const starting =
     !!slotEntry && !chat && !firstUser && !chatLoading && !messagesLoading;
   const pickingIngredients = starting && slotEntry === "on_hand";
+  const useUp = useRankedUseUp(
+    conversationListId,
+    pickingIngredients ? target : null,
+  );
   const [picked, setPicked] = useState<PickedIngredient[]>([]);
   const suggestions =
     !busy &&
@@ -720,6 +725,7 @@ export default function ChatScreen() {
           {pickingIngredients ? (
             <OnHandPicker
               listId={conversationListId ?? null}
+              useUp={useUp}
               picked={picked}
               onToggle={(tile) =>
                 setPicked((current) => togglePickedIngredient(current, tile))

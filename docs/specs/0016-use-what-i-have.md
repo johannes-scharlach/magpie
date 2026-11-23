@@ -24,6 +24,8 @@ Compare likely package or whole-produce sizes with amounts used across earlier m
 
 Refresh target-specific results when relevant meals on either side change or the result ages out. Never hold opening, focus, selection or Send on Jev. Without a usable result, show staples and cupboard.
 
+The assessment reads seven calendar days on each side of the target, plus the other slots on the target date (Lunch → Dinner → Treat). The window covers likely short-lived remainders and near-term reservations without treating the plan as an inventory ledger. Reservations outside it are not assessed. The app sends the resolved ingredient lines and quantities from its local plan so pending sync uploads do not delay refresh. It does not send List items, recipe instructions, or household identifiers. A successful result is reused in memory for up to 15 minutes only for the same household, target and plan evidence.
+
 ## Shopping and artwork
 
 Use the same ingredient picture in Meals and Shopping. Shopping gets a recognition-first clay grid: tap to check off, tap a purchased item to restore. Keep quantities, meal context, details and substitutions usable. The picture follows the selected substitution. Both surfaces work for custom items and before art arrives.
