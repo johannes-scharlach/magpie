@@ -6,11 +6,11 @@ import {
   Alert,
   Platform,
   ScrollView,
+  useWindowDimensions,
   View,
 } from "react-native";
 import { Image } from "expo-image";
 import { useIntl, type IntlShape } from "react-intl";
-import Animated from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { Text } from "@/components/ui/text";
@@ -28,10 +28,9 @@ import {
 } from "@/features/shop/held-positions";
 import {
   type Browse,
-  ROW_LAYOUT,
-  ShopItemRow,
+  ShopItemTile,
   type ShopRow,
-} from "@/features/shop/shop-item-row";
+} from "@/features/shop/shop-item-tile";
 import { SwapSession } from "@/features/shop/swap-session";
 import { formatCategory } from "@/features/shop/category-labels";
 import { useActiveList } from "@/features/onboarding/access";
@@ -150,12 +149,14 @@ function ListScreen({
   const router = useRouter();
   const today = useToday();
   const insets = useSafeAreaInsets();
+  const { width, fontScale } = useWindowDimensions();
+  const tileWidth = width < 320 || fontScale >= 1.5 ? "100%" : "50%";
   // Sessions are imperative and never read during render; `browsing` holds
-  // what the rows need to show for each one.
+  // what the tiles need to show for each one.
   const sessions = useRef(new Map<string, SwapSession>());
   const [browsing, setBrowsing] = useState(new Map<string, Held>());
   const [highlighted, setHighlighted] = useState<string | null>(null);
-  // The row whose sheet is open stays lit, so the sheet reads as its detail.
+  // The tile whose sheet is open stays lit, so the sheet reads as its detail.
   const [selected, setSelected] = useState<string | null>(null);
   useFocusEffect(useCallback(() => setSelected(null), []));
   const highlightTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -258,8 +259,8 @@ function ListScreen({
     router.push({ pathname: "/shop/item", params: { itemId: id } });
   }
 
-  function swap(item: ShopRow, direction: 1 | -1) {
-    if (item.ingredient_id == null || item.status === "purchased") return false;
+  function swap(item: ShopRow) {
+    if (item.ingredient_id == null || item.status === "purchased") return;
     let session = sessions.current.get(item.id);
     if (!session) {
       const options = orderedAlternatives(
@@ -270,7 +271,7 @@ function ListScreen({
           item.ingredient_id,
         ),
       );
-      if (options.length < 2) return false;
+      if (options.length < 2) return;
       const hold: HeldPosition = {
         itemId: item.id,
         index: active.findIndex((row) => row.id === item.id),
@@ -312,8 +313,7 @@ function ListScreen({
       sessions.current.set(item.id, session);
     }
     const index = session.options.indexOf(session.selected);
-    const alternative = session.options[index + direction];
-    if (!alternative) return false;
+    const alternative = session.options[index + 1] ?? session.options[0]!;
     setHighlighted(item.id);
     clearHighlightLater();
     session.select(alternative);
@@ -327,10 +327,10 @@ function ListScreen({
         { name: alternative.name },
       ),
     );
-    return true;
   }
 
-  // Headers and rows share one parent: category changes must move, not remount, a row.
+  // Headers span the grid, but all tiles share one parent. Keeping their keys
+  // across categories and check-off preserves pending feedback until sync.
   const entries: Entry[] = [];
   let category: string | null | undefined;
   for (const item of active) {
@@ -408,36 +408,36 @@ function ListScreen({
           {buyProgress(intl, active.length, checked.length)}
         </Text>
       )}
-      {entries.map((entry, index) => {
-        if (entry.kind === "header") {
-          return (
-            <Animated.View
-              key={entry.key}
-              layout={ROW_LAYOUT}
-              className="px-4 pb-1.5 pt-6"
-            >
-              <Text className="text-[13px] font-semibold text-muted-foreground">
+      <View className="flex-row flex-wrap gap-y-2 px-3">
+        {entries.map((entry) => {
+          if (entry.kind === "header") {
+            return (
+              <Text
+                key={entry.key}
+                accessibilityRole="header"
+                className="w-full px-1 pb-0.5 pt-4 font-rounded text-base font-extrabold text-primary"
+              >
                 {entry.title}
               </Text>
-            </Animated.View>
+            );
+          }
+          return (
+            <View key={entry.key} className="px-1" style={{ width: tileWidth }}>
+              <ShopItemTile
+                item={entry.item}
+                today={today}
+                browse={browsing.get(entry.item.id)}
+                highlighted={
+                  highlighted === entry.item.id || selected === entry.item.id
+                }
+                onCheck={check}
+                onSwap={swap}
+                onOpen={open}
+              />
+            </View>
           );
-        }
-        return (
-          <ShopItemRow
-            key={entry.key}
-            item={entry.item}
-            today={today}
-            browse={browsing.get(entry.item.id)}
-            highlighted={
-              highlighted === entry.item.id || selected === entry.item.id
-            }
-            divider={entries[index + 1]?.kind === "item"}
-            onCheck={check}
-            onSwap={swap}
-            onOpen={open}
-          />
-        );
-      })}
+        })}
+      </View>
     </ScrollView>
   );
 }

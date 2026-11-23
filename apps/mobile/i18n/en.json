@@ -102,28 +102,28 @@
     "col": 23,
     "defaultMessage": "{count} checked",
     "description": "How many shopping items were already checked off, after the count still to buy.",
-    "end": 5154,
+    "end": 5117,
     "file": "src/app/(tabs)/shop/index.tsx",
-    "line": 131,
-    "start": 4943
+    "line": 130,
+    "start": 4906
   },
   "1q9iJM": {
     "col": 30,
     "defaultMessage": "Add item",
     "description": "Accessibility label for the Shop toolbar button that opens the item entry sheet.",
-    "end": 4164,
+    "end": 4127,
     "file": "src/app/(tabs)/shop/index.tsx",
-    "line": 101,
-    "start": 3968
+    "line": 100,
+    "start": 3931
   },
   "30YoVC": {
     "col": 6,
     "defaultMessage": "Changed to {name}",
     "description": "Screen-reader announcement after a shopping item switched to another ingredient option. {name} is the option now shown.",
-    "end": 11696,
+    "end": 11733,
     "file": "src/app/(tabs)/shop/index.tsx",
     "line": 321,
-    "start": 11407
+    "start": 11444
   },
   "320qNC": {
     "col": 22,
@@ -291,10 +291,10 @@
     "col": 18,
     "defaultMessage": "Nothing to buy yet. Open Meals to choose what to buy, or add an item.",
     "description": "Empty Shop state when planned meals still need a shopping choice. Names two ways to get items on the list.",
-    "end": 14176,
+    "end": 14263,
     "file": "src/app/(tabs)/shop/index.tsx",
     "line": 391,
-    "start": 13839
+    "start": 13926
   },
   "77C3do": {
     "col": 21,
@@ -381,10 +381,10 @@
     "col": 30,
     "defaultMessage": "{count, plural, one {1 meal to review} other {# meals to review}}",
     "description": "Accessibility label for the Shop toolbar button that opens the meals needing a shopping decision. {count} is how many meals.",
-    "end": 3241,
+    "end": 3204,
     "file": "src/app/(tabs)/shop/index.tsx",
-    "line": 74,
-    "start": 2857
+    "line": 73,
+    "start": 2820
   },
   "ApC4Uy": {
     "col": 25,
@@ -408,10 +408,10 @@
     "col": 25,
     "defaultMessage": "Check off {name}",
     "description": "Accessibility label for the checkbox of a shopping item. Selecting it marks the item as bought. {name} is the item's name.",
-    "end": 1824,
-    "file": "src/features/shop/shop-item-row.tsx",
-    "line": 33,
-    "start": 1269
+    "end": 1726,
+    "file": "src/features/shop/shop-item-tile.tsx",
+    "line": 30,
+    "start": 1171
   },
   "B8Psge": {
     "col": 8,
@@ -444,10 +444,10 @@
     "col": 12,
     "defaultMessage": "Couldn’t swap item",
     "description": "Alert title when swapping a shopping item for another option failed.",
-    "end": 10806,
+    "end": 10864,
     "file": "src/app/(tabs)/shop/index.tsx",
-    "line": 299,
-    "start": 10604
+    "line": 300,
+    "start": 10662
   },
   "CLXnlV": {
     "col": 38,
@@ -543,10 +543,10 @@
     "col": 11,
     "defaultMessage": "Add",
     "description": "Title of the Shop toolbar button that opens the item entry sheet.",
-    "end": 4480,
+    "end": 4443,
     "file": "src/app/(tabs)/shop/index.tsx",
-    "line": 110,
-    "start": 4304
+    "line": 109,
+    "start": 4267
   },
   "Frra3A": {
     "col": 25,
@@ -570,10 +570,10 @@
     "col": 20,
     "defaultMessage": "{count, plural, one {1 to buy} other {# to buy}}",
     "description": "Summary above the shopping list. {count} is how many items are still to buy.",
-    "end": 4884,
+    "end": 4847,
     "file": "src/app/(tabs)/shop/index.tsx",
-    "line": 122,
-    "start": 4645
+    "line": 121,
+    "start": 4608
   },
   "Gfm4qD": {
     "col": 21,
@@ -903,10 +903,10 @@
     "col": 12,
     "defaultMessage": "Meals ({count})",
     "description": "Title of the Shop toolbar button that opens the meals needing a shopping decision. {count} is how many meals.",
-    "end": 3672,
+    "end": 3635,
     "file": "src/app/(tabs)/shop/index.tsx",
-    "line": 86,
-    "start": 3355
+    "line": 85,
+    "start": 3318
   },
   "SPd0ko": {
     "col": 13,
@@ -916,15 +916,6 @@
     "file": "src/app/shop/item.tsx",
     "line": 150,
     "start": 4864
-  },
-  "Sxhuxi": {
-    "col": 18,
-    "defaultMessage": "Swipe left for the next substitute, right for the previous. Tap for details.",
-    "description": "Accessibility hint on a shopping row that offers other ingredient options.",
-    "end": 7458,
-    "file": "src/features/shop/shop-item-row.tsx",
-    "line": 219,
-    "start": 7146
   },
   "SyepTx": {
     "col": 8,
@@ -1179,13 +1170,13 @@
     "start": 6027
   },
   "bzU5dt": {
-    "col": 29,
+    "col": 32,
     "defaultMessage": "Use {name}",
     "description": "Accessibility action that switches a shopping item to another ingredient option. {name} is that option's name.",
-    "end": 9153,
-    "file": "src/features/shop/shop-item-row.tsx",
-    "line": 259,
-    "start": 8771
+    "end": 7930,
+    "file": "src/features/shop/shop-item-tile.tsx",
+    "line": 238,
+    "start": 7617
   },
   "cBO33J": {
     "col": 25,
@@ -1254,10 +1245,10 @@
     "col": 25,
     "defaultMessage": "Restore {name}",
     "description": "Accessibility label for the checkbox of a bought shopping item. Selecting it puts the item back on the list. {name} is the item's name.",
-    "end": 1824,
-    "file": "src/features/shop/shop-item-row.tsx",
-    "line": 33,
-    "start": 1269
+    "end": 1726,
+    "file": "src/features/shop/shop-item-tile.tsx",
+    "line": 30,
+    "start": 1171
   },
   "g1CIfS": {
     "col": 25,
@@ -1479,10 +1470,10 @@
     "col": 12,
     "defaultMessage": "Please try again.",
     "description": "Generic alert body after an action failed. The user can repeat it.",
-    "end": 11019,
+    "end": 11077,
     "file": "src/app/(tabs)/shop/index.tsx",
-    "line": 304,
-    "start": 10820
+    "line": 305,
+    "start": 10878
   },
   "lwjs+K": {
     "col": 27,
@@ -1497,10 +1488,10 @@
     "col": 32,
     "defaultMessage": "Empty shopping list",
     "description": "Accessibility label for the illustration shown when the shopping list has no items.",
-    "end": 13682,
+    "end": 13769,
     "file": "src/app/(tabs)/shop/index.tsx",
     "line": 382,
-    "start": 13464
+    "start": 13551
   },
   "mYhCW0": {
     "col": 36,
@@ -1566,13 +1557,13 @@
     "start": 2458
   },
   "oB6Eyg": {
-    "col": 23,
+    "col": 12,
     "defaultMessage": "Open details",
     "description": "Accessibility action that opens the shopping item's detail sheet.",
-    "end": 8038,
-    "file": "src/features/shop/shop-item-row.tsx",
-    "line": 234,
-    "start": 7829
+    "end": 8642,
+    "file": "src/features/shop/shop-item-tile.tsx",
+    "line": 260,
+    "start": 8449
   },
   "oP0Gad": {
     "col": 30,
@@ -1632,10 +1623,10 @@
     "col": 13,
     "defaultMessage": "Checked",
     "description": "Heading above the shopping items that were already checked off.",
-    "end": 12738,
+    "end": 12825,
     "file": "src/app/(tabs)/shop/index.tsx",
     "line": 357,
-    "start": 12576
+    "start": 12663
   },
   "ryFpRR": {
     "col": 25,
@@ -1772,15 +1763,6 @@
     "line": 363,
     "start": 13119
   },
-  "u+lyd2": {
-    "col": 18,
-    "defaultMessage": "Opens item details",
-    "description": "Accessibility hint on a shopping row without other ingredient options.",
-    "end": 7705,
-    "file": "src/features/shop/shop-item-row.tsx",
-    "line": 225,
-    "start": 7477
-  },
   "uRdLso": {
     "col": 19,
     "defaultMessage": "Take photos of cookbook pages",
@@ -1911,10 +1893,10 @@
     "col": 10,
     "defaultMessage": "Uncategorised",
     "description": "Fallback for a shopping item whose category is missing. Also the menu option that clears the category.",
-    "end": 12398,
+    "end": 12485,
     "file": "src/app/(tabs)/shop/index.tsx",
     "line": 344,
-    "start": 12175
+    "start": 12262
   },
   "yBelg/": {
     "col": 15,
@@ -1929,10 +1911,10 @@
     "col": 18,
     "defaultMessage": "Nothing to buy. Plan a meal to choose what to buy for it, or add an item.",
     "description": "Empty Shop state when no meal is waiting for a shopping choice. Names the two ways to get items on the list.",
-    "end": 14538,
+    "end": 14625,
     "file": "src/app/(tabs)/shop/index.tsx",
     "line": 397,
-    "start": 14195
+    "start": 14282
   },
   "ycSZ62": {
     "col": 16,
