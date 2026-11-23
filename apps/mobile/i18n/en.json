@@ -66,10 +66,10 @@
     "col": 20,
     "defaultMessage": "What would you like to make?",
     "description": "First message prompt for a meal chat based on a dish the user has in mind.",
-    "end": 26344,
+    "end": 26542,
     "file": "src/app/chats/[id].tsx",
-    "line": 744,
-    "start": 26094
+    "line": 750,
+    "start": 26292
   },
   "1+QXgM": {
     "col": 13,
@@ -498,10 +498,10 @@
     "col": 20,
     "defaultMessage": "Add a note",
     "description": "Optional first chat message input alongside ingredients the user has already selected.",
-    "end": 25758,
+    "end": 25956,
     "file": "src/app/chats/[id].tsx",
-    "line": 733,
-    "start": 25514
+    "line": 739,
+    "start": 25712
   },
   "EoBhsI": {
     "col": 19,
@@ -1092,10 +1092,10 @@
     "col": 20,
     "defaultMessage": "What ingredients do you have?",
     "description": "First message prompt for a meal chat based on ingredients on hand.",
-    "end": 26022,
+    "end": 26220,
     "file": "src/app/chats/[id].tsx",
-    "line": 738,
-    "start": 25779
+    "line": 744,
+    "start": 25977
   },
   "Z9BB32": {
     "col": 34,
