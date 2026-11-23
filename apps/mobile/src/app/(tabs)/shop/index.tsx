@@ -18,6 +18,7 @@ import { applySwap, setItemStatus } from "@/db/items";
 import { resolveShoppingItem } from "@/db/meal-ingredients";
 import type { List } from "@/db/schema";
 import { MEALS_WITH_SHOPPING, type ShoppingMeal } from "@/db/shopping-meals";
+import { useIngredientArt } from "@/features/ingredients/ingredient-art";
 import {
   alternativesForItem,
   orderedAlternatives,
@@ -44,7 +45,8 @@ const MEALS_ICON = require("../../../../assets/icons/restaurant.xml");
 const EMPTY_SHOP_ICON = require("../../../../assets/images/spot/empty-shop.webp");
 type Held = Browse & { hold: HeldPosition };
 type Entry = { key: string } & (
-  { kind: "header"; title: string } | { kind: "item"; item: ShopRow }
+  | { kind: "header"; title: string }
+  | { kind: "item"; item: ShopRow; browse: Browse | undefined; name: string }
 );
 
 export default function Shop() {
@@ -332,6 +334,16 @@ function ListScreen({
   // Headers span the grid, but all tiles share one parent. Keeping their keys
   // across categories and check-off preserves pending feedback until sync.
   const entries: Entry[] = [];
+  function addTile(item: ShopRow) {
+    const browse = browsing.get(item.id);
+    entries.push({
+      key: item.id,
+      kind: "item",
+      item,
+      browse,
+      name: browse?.selected.name ?? item.name ?? "",
+    });
+  }
   let category: string | null | undefined;
   for (const item of active) {
     if (item.category_id !== category) {
@@ -348,7 +360,7 @@ function ListScreen({
           }),
       });
     }
-    entries.push({ key: item.id, kind: "item", item });
+    addTile(item);
   }
   if (checked.length) {
     entries.push({
@@ -360,9 +372,12 @@ function ListScreen({
           "Heading above the shopping items that were already checked off.",
       }),
     });
-    for (const item of checked)
-      entries.push({ key: item.id, kind: "item", item });
+    for (const item of checked) addTile(item);
   }
+  // Batch just the names the grid displays, including any unsaved swap.
+  const artFor = useIngredientArt(
+    entries.flatMap((entry) => (entry.kind === "item" ? [entry.name] : [])),
+  );
 
   // Large title collapses only when the ScrollView is the first native
   // child of the screen (expo-router Stack docs). No wrapper View.
@@ -426,7 +441,9 @@ function ListScreen({
               <ShopItemTile
                 item={entry.item}
                 today={today}
-                browse={browsing.get(entry.item.id)}
+                browse={entry.browse}
+                name={entry.name}
+                asset={artFor(entry.name)}
                 highlighted={
                   highlighted === entry.item.id || selected === entry.item.id
                 }

@@ -10,7 +10,6 @@ import { ClayPebble, PressableScale, clayTile } from "@/components/clay";
 import { Text } from "@/components/ui/text";
 import { setItemStatus } from "@/db/items";
 import type { ListItem } from "@/db/schema";
-import { bundledIngredientArt } from "@/features/ingredients/ingredient-art";
 import { formatPlannedWhen } from "@/features/meals/labels";
 import { tonalPair } from "@/features/variants/tonal";
 import { useColorScheme } from "@/hooks/use-color-scheme";
@@ -61,6 +60,8 @@ export function ShopItemTile({
   item,
   today,
   browse,
+  name,
+  asset,
   highlighted,
   onCheck,
   onSwap,
@@ -69,6 +70,8 @@ export function ShopItemTile({
   item: ShopRow;
   today: string;
   browse: Browse | undefined;
+  name: string;
+  asset: number | undefined;
   highlighted: boolean;
   onCheck: (id: string) => Promise<void>;
   onSwap: (item: ShopRow) => void;
@@ -81,9 +84,6 @@ export function ShopItemTile({
   const purchased = item.status === "purchased";
   const { pending, check } = useCheckOff(purchased, () => onCheck(item.id));
   const checked = purchased || pending;
-  // One name drives the label and artwork, including while a swap is saving.
-  const name = browse?.selected.name ?? item.name ?? "";
-  const asset = bundledIngredientArt(name);
   const spec = browse
     ? [browse.selected.qtyText, browse.selected.prepNote]
         .filter(Boolean)
