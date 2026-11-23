@@ -148,10 +148,13 @@ select is((select count(*)::text from household_activities
   'An upload retry is not news');
 
 -- A chat edit ("make it vegan") repoints the meal to a new variant.
-insert into public.recipes (id) values ('f1000000-0000-4000-8000-000000000001');
-insert into public.variants (id, recipe_id, name) values
-  ('f2000000-0000-4000-8000-000000000001', 'f1000000-0000-4000-8000-000000000001', 'Lasagne'),
-  ('f2000000-0000-4000-8000-000000000002', 'f1000000-0000-4000-8000-000000000001', 'Vegan lasagne');
+insert into public.recipes (id, list_id) values
+  ('f1000000-0000-4000-8000-000000000001', 'b1000000-0000-4000-8000-000000000001');
+insert into public.variants (id, recipe_id, list_id, name) values
+  ('f2000000-0000-4000-8000-000000000001', 'f1000000-0000-4000-8000-000000000001',
+   'b1000000-0000-4000-8000-000000000001', 'Lasagne'),
+  ('f2000000-0000-4000-8000-000000000002', 'f1000000-0000-4000-8000-000000000001',
+   'b1000000-0000-4000-8000-000000000001', 'Vegan lasagne');
 set local role authenticated;
 insert into public.planned_meals (id, list_id, recipe_id, variant_id, content_id, slot_date, meal) values
   ('d1000000-0000-4000-8000-000000000006', 'b1000000-0000-4000-8000-000000000001',
