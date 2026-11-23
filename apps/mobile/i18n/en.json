@@ -17,6 +17,15 @@
     "line": 388,
     "start": 14079
   },
+  "+hCyqG": {
+    "col": 23,
+    "defaultMessage": "Pasta",
+    "description": "Default ingredient tile for pasta in the use-what-I-have picker.",
+    "end": 1824,
+    "file": "src/features/chat/on-hand-picker.tsx",
+    "line": 41,
+    "start": 1391
+  },
   "/Fo2I2": {
     "col": 17,
     "defaultMessage": "Done",
@@ -57,10 +66,10 @@
     "col": 20,
     "defaultMessage": "What would you like to make?",
     "description": "First message prompt for a meal chat based on a dish the user has in mind.",
-    "end": 25433,
+    "end": 26344,
     "file": "src/app/chats/[id].tsx",
-    "line": 721,
-    "start": 25183
+    "line": 744,
+    "start": 26094
   },
   "1+QXgM": {
     "col": 13,
@@ -115,6 +124,15 @@
     "file": "src/app/(tabs)/shop/index.tsx",
     "line": 321,
     "start": 11407
+  },
+  "320qNC": {
+    "col": 22,
+    "defaultMessage": "Still selected",
+    "description": "Ingredient picker heading for choices that remain in the draft after their suggestions changed.",
+    "end": 1365,
+    "file": "src/features/chat/on-hand-picker.tsx",
+    "line": 18,
+    "start": 643
   },
   "3CJl1Z": {
     "col": 21,
@@ -232,6 +250,15 @@
     "file": "src/app/_layout.tsx",
     "line": 277,
     "start": 9136
+  },
+  "5aJlCR": {
+    "col": 22,
+    "defaultMessage": "Your cupboard",
+    "description": "Ingredient picker heading for foods the household says it usually keeps. Includes refrigerator and freezer picks.",
+    "end": 1365,
+    "file": "src/features/chat/on-hand-picker.tsx",
+    "line": 18,
+    "start": 643
   },
   "5dil2Q": {
     "col": 31,
@@ -467,6 +494,15 @@
     "line": 203,
     "start": 6819
   },
+  "EO7SGs": {
+    "col": 20,
+    "defaultMessage": "Add a note",
+    "description": "Optional first chat message input alongside ingredients the user has already selected.",
+    "end": 25758,
+    "file": "src/app/chats/[id].tsx",
+    "line": 733,
+    "start": 25514
+  },
   "EoBhsI": {
     "col": 19,
     "defaultMessage": "Write in a meal",
@@ -673,6 +709,15 @@
     "file": "src/features/meals/effort-label.ts",
     "line": 14,
     "start": 448
+  },
+  "LWquky": {
+    "col": 22,
+    "defaultMessage": "Use up first",
+    "description": "Ingredient picker heading for likely remainders to use soon. These are suggestions, not confirmed stock.",
+    "end": 1365,
+    "file": "src/features/chat/on-hand-picker.tsx",
+    "line": 18,
+    "start": 643
   },
   "M6fYaf": {
     "col": 19,
@@ -1053,13 +1098,13 @@
     "start": 1921
   },
   "Z9/wRb": {
-    "col": 18,
+    "col": 20,
     "defaultMessage": "What ingredients do you have?",
     "description": "First message prompt for a meal chat based on ingredients on hand.",
-    "end": 25111,
+    "end": 26022,
     "file": "src/app/chats/[id].tsx",
-    "line": 715,
-    "start": 24876
+    "line": 738,
+    "start": 25779
   },
   "Z9BB32": {
     "col": 34,
@@ -1312,6 +1357,24 @@
     "file": "src/features/shop/category-labels.ts",
     "line": 8,
     "start": 334
+  },
+  "iVyxNU": {
+    "col": 22,
+    "defaultMessage": "Staples",
+    "description": "Ingredient picker heading for common meal bases such as rice and pasta.",
+    "end": 1365,
+    "file": "src/features/chat/on-hand-picker.tsx",
+    "line": 18,
+    "start": 643
+  },
+  "ihg5qC": {
+    "col": 23,
+    "defaultMessage": "Rice",
+    "description": "Default ingredient tile for rice in the use-what-I-have picker.",
+    "end": 1824,
+    "file": "src/features/chat/on-hand-picker.tsx",
+    "line": 41,
+    "start": 1391
   },
   "ir/sf1": {
     "col": 26,
@@ -1627,6 +1690,15 @@
     "file": "src/app/cookbook/import.tsx",
     "line": 214,
     "start": 8073
+  },
+  "t8Vtgp": {
+    "col": 23,
+    "defaultMessage": "Potatoes",
+    "description": "Default ingredient tile for potatoes in the use-what-I-have picker.",
+    "end": 1824,
+    "file": "src/features/chat/on-hand-picker.tsx",
+    "line": 41,
+    "start": 1391
   },
   "tAQv1v": {
     "col": 35,

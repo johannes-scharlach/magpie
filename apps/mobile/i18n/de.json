@@ -9,6 +9,11 @@
     "_p6t_description": "Action that tries loading meal recommendations again.",
     "_p6t_source": "Retry"
   },
+  "+hCyqG": {
+    "defaultMessage": "Nudeln",
+    "_p6t_description": "Default ingredient tile for pasta in the use-what-I-have picker.",
+    "_p6t_source": "Pasta"
+  },
   "/Fo2I2": {
     "defaultMessage": "Fertig",
     "_p6t_description": "Action that closes the shopping item entry sheet, keeping what was added.",
@@ -63,6 +68,11 @@
     "defaultMessage": "Gewechselt zu {name}",
     "_p6t_description": "Screen-reader announcement after a shopping item switched to another ingredient option. {name} is the option now shown.",
     "_p6t_source": "Changed to {name}"
+  },
+  "320qNC": {
+    "defaultMessage": "Weiterhin ausgewählt",
+    "_p6t_description": "Ingredient picker heading for choices that remain in the draft after their suggestions changed.",
+    "_p6t_source": "Still selected"
   },
   "3CJl1Z": {
     "defaultMessage": "Ältere passende Variante",
@@ -128,6 +138,11 @@
     "defaultMessage": "Einkauf für Mahlzeiten",
     "_p6t_description": "Title of the screen that lists upcoming meals and their shopping decisions.",
     "_p6t_source": "Shop for meals"
+  },
+  "5aJlCR": {
+    "defaultMessage": "Deine Vorräte",
+    "_p6t_description": "Ingredient picker heading for foods the household says it usually keeps. Includes refrigerator and freezer picks.",
+    "_p6t_source": "Your cupboard"
   },
   "5dil2Q": {
     "defaultMessage": "Weitere Varianten",
@@ -259,6 +274,11 @@
     "_p6t_description": "Status on a meal that is planned for today or later.",
     "_p6t_source": "Planned"
   },
+  "EO7SGs": {
+    "defaultMessage": "Notiz hinzufügen",
+    "_p6t_description": "Optional first chat message input alongside ingredients the user has already selected.",
+    "_p6t_source": "Add a note"
+  },
   "EoBhsI": {
     "defaultMessage": "Mahlzeit eintragen",
     "_p6t_description": "Action that lets the user type a meal that is not in the cookbook.",
@@ -373,6 +393,11 @@
     "defaultMessage": "Normal",
     "_p6t_description": "Recipe effort level: an ordinary weeknight dish.",
     "_p6t_source": "Normal"
+  },
+  "LWquky": {
+    "defaultMessage": "Zuerst aufbrauchen",
+    "_p6t_description": "Ingredient picker heading for likely remainders to use soon. These are suggestions, not confirmed stock.",
+    "_p6t_source": "Use up first"
   },
   "M6fYaf": {
     "defaultMessage": "Vorhandene Zutaten nutzen",
@@ -729,6 +754,16 @@
     "_p6t_description": "Shopping category for home and garden goods.",
     "_p6t_source": "Home & garden"
   },
+  "iVyxNU": {
+    "defaultMessage": "Grundzutaten",
+    "_p6t_description": "Ingredient picker heading for common meal bases such as rice and pasta.",
+    "_p6t_source": "Staples"
+  },
+  "ihg5qC": {
+    "defaultMessage": "Reis",
+    "_p6t_description": "Default ingredient tile for rice in the use-what-I-have picker.",
+    "_p6t_source": "Rice"
+  },
   "ir/sf1": {
     "defaultMessage": "Speichert diese Idee in deinem Kochbuch und plant sie",
     "_p6t_description": "Accessibility hint for choosing a seeded meal idea.",
@@ -903,6 +938,11 @@
     "defaultMessage": "Weitere Seite hinzufügen",
     "_p6t_description": "Action that adds more photos to the import being prepared.",
     "_p6t_source": "Add another page"
+  },
+  "t8Vtgp": {
+    "defaultMessage": "Kartoffeln",
+    "_p6t_description": "Default ingredient tile for potatoes in the use-what-I-have picker.",
+    "_p6t_source": "Potatoes"
   },
   "tAQv1v": {
     "defaultMessage": "Abendessen am {day}",

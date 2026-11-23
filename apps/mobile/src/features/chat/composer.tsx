@@ -175,6 +175,8 @@ export function Composer({
   emptyAction,
   collapsedAction,
   preferCollapsed = false,
+  autoFocus = false,
+  hasAdditionalContent = false,
 }: {
   placeholder: string;
   busy: boolean;
@@ -186,6 +188,8 @@ export function Composer({
   collapsedAction?: ReactNode;
   /** A suggestion only: focus or starting a draft keeps the field expanded. */
   preferCollapsed?: boolean;
+  autoFocus?: boolean;
+  hasAdditionalContent?: boolean;
 }) {
   const insets = useSafeAreaInsets();
   const inputRef = useRef<TextInputInstance>(null);
@@ -206,6 +210,7 @@ export function Composer({
     focused,
     hasEmptyAction: !!emptyAction,
     recording: voiceOn,
+    hasAdditionalContent,
   });
   const showEmptyAction = trailing === "emptyAction";
   const canSend = trailing === "send" && !busy;
@@ -225,6 +230,10 @@ export function Composer({
   const actionPresence = useSharedValue(showEmptyAction ? 1 : 0);
   const micMix = useSharedValue(trailing === "mic" ? 1 : 0);
   const barWidth = useSharedValue(0);
+
+  useEffect(() => {
+    if (autoFocus) inputRef.current?.focus();
+  }, [autoFocus]);
 
   useEffect(() => {
     expansion.set(
@@ -329,7 +338,8 @@ export function Composer({
 
   function submit() {
     const trimmed = text.trim();
-    if ((!trimmed && !attachments.length) || busy) return;
+    if (busy || (!trimmed && !attachments.length && !hasAdditionalContent))
+      return;
     setText("");
     setAttachments([]);
     setAttachmentError(null);

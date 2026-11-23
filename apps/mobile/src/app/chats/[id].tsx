@@ -28,9 +28,15 @@ import { ActivityView } from "@/features/chat/activity-view";
 import { Composer } from "@/features/chat/composer";
 import {
   dishMessage,
+  onHandSlotMessage,
   slotEntryMessage,
   slotFromEntryMessage,
 } from "@/features/chat/compose";
+import {
+  togglePickedIngredient,
+  type PickedIngredient,
+} from "@/features/chat/ingredient-picker";
+import { OnHandPicker } from "@/features/chat/on-hand-picker";
 import { AssistantMessage, UserMessage } from "@/features/chat/message";
 import {
   peekQueuedMessage,
@@ -472,6 +478,8 @@ export default function ChatScreen() {
       : null;
   const starting =
     !!slotEntry && !chat && !firstUser && !chatLoading && !messagesLoading;
+  const pickingIngredients = starting && slotEntry === "on_hand";
+  const [picked, setPicked] = useState<PickedIngredient[]>([]);
   const suggestions =
     !busy &&
     last?.role === "assistant" &&
@@ -709,14 +717,29 @@ export default function ChatScreen() {
         </KeyboardAwareScrollView>
 
         <KeyboardStickyView>
+          {pickingIngredients ? (
+            <OnHandPicker
+              listId={conversationListId ?? null}
+              picked={picked}
+              onToggle={(tile) =>
+                setPicked((current) => togglePickedIngredient(current, tile))
+              }
+            />
+          ) : null}
           <Composer
             placeholder={
-              starting && slotEntry === "on_hand"
-                ? intl.formatMessage({
-                    defaultMessage: "What ingredients do you have?",
-                    description:
-                      "First message prompt for a meal chat based on ingredients on hand.",
-                  })
+              pickingIngredients
+                ? picked.length
+                  ? intl.formatMessage({
+                      defaultMessage: "Add a note",
+                      description:
+                        "Optional first chat message input alongside ingredients the user has already selected.",
+                    })
+                  : intl.formatMessage({
+                      defaultMessage: "What ingredients do you have?",
+                      description:
+                        "First message prompt for a meal chat based on ingredients on hand.",
+                    })
                 : starting && slotEntry === "dish"
                   ? intl.formatMessage({
                       defaultMessage: "What would you like to make?",
@@ -725,17 +748,35 @@ export default function ChatScreen() {
                     })
                   : "Message"
             }
+            autoFocus={pickingIngredients}
+            hasAdditionalContent={pickingIngredients && picked.length > 0}
             busy={busy || !conversationListId || !(chat || starting)}
             suggestions={suggestions}
             onSend={(text, attachments) => {
               if (starting && entryTarget) {
-                const detail =
-                  text && slotEntry === "dish" ? dishMessage(text) : text;
                 posthog?.capture("meal_ideas_started", {
                   entry_type: slotEntry,
                   attachment_count: attachments.length,
                 });
-                void send(slotEntryMessage(entryTarget, detail), attachments);
+                if (pickingIngredients) {
+                  void send(
+                    onHandSlotMessage(
+                      entryTarget,
+                      picked.map(({ label }) => label),
+                      text,
+                    ),
+                    attachments,
+                  );
+                  setPicked([]);
+                } else {
+                  void send(
+                    slotEntryMessage(
+                      entryTarget,
+                      text ? dishMessage(text) : text,
+                    ),
+                    attachments,
+                  );
+                }
                 return;
               }
               void send(text, attachments);

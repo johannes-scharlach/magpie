@@ -19,6 +19,12 @@ it("swaps the microphone for Send once there is text or an attachment", () => {
   expect(composerTrailing({ ...idle, attachmentCount: 1 })).toBe("send");
 });
 
+it("offers Send when the draft only has picked ingredients", () => {
+  expect(composerTrailing({ ...idle, hasAdditionalContent: true })).toBe(
+    "send",
+  );
+});
+
 it("sends a recording in progress, even on a screen with its own idle action", () => {
   expect(
     composerTrailing({ ...idle, hasEmptyAction: true, recording: true }),
