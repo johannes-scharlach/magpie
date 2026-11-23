@@ -9,6 +9,18 @@ export function ingredientArtStore(
   db: Pick<Pool, "query">,
 ): IngredientArtStore {
   return {
+    async listPublished() {
+      const { rows } = await db.query<{
+        art_id: string;
+        ingredient_name: string;
+      }>(
+        `SELECT art_id, ingredient_name FROM public.ingredient_art_assets
+          ORDER BY ingredient_name`,
+      );
+      return new Map(
+        rows.map(({ art_id, ingredient_name }) => [art_id, ingredient_name]),
+      );
+    },
     async read(keys) {
       const { rows } = await db.query<{
         label_key: string;
@@ -48,15 +60,32 @@ export function ingredientArtStore(
   };
 }
 
-/** Stable identities for T21. Filter out published names when adding art storage. */
+/** Distinct generation needs after alias reuse, excluding completed art. */
 export async function listPendingIngredientArt(
   db: Pick<Pool, "query">,
 ): Promise<string[]> {
   const { rows } = await db.query<{ ingredient_name: string }>(
-    `SELECT DISTINCT ingredient_name
-       FROM public.ingredient_art_aliases
-      WHERE ingredient_name IS NOT NULL
-      ORDER BY ingredient_name`,
+    `SELECT DISTINCT aliases.ingredient_name
+       FROM public.ingredient_art_aliases aliases
+      WHERE aliases.ingredient_name IS NOT NULL
+        AND NOT EXISTS (
+          SELECT 1 FROM public.ingredient_art_assets assets
+           WHERE assets.ingredient_name = aliases.ingredient_name
+        )
+      ORDER BY aliases.ingredient_name`,
   );
   return rows.map(({ ingredient_name }) => ingredient_name);
+}
+
+/** Record only after Storage has accepted the asset. */
+export async function recordIngredientArt(
+  db: Pick<Pool, "query">,
+  ingredient: string,
+  artId: string,
+): Promise<void> {
+  await db.query(
+    `INSERT INTO public.ingredient_art_assets (ingredient_name, art_id)
+     VALUES ($1, $2) ON CONFLICT (ingredient_name) DO NOTHING`,
+    [ingredient, artId],
+  );
 }

@@ -8,6 +8,7 @@ export type IngredientArtResolution =
   { artId: string } | { ingredientName: string };
 
 export type IngredientArtStore = {
+  listPublished(): Promise<ReadonlyMap<string, string>>;
   read(keys: string[]): Promise<ReadonlyMap<string, IngredientArtResolution>>;
   save(entries: ReadonlyMap<string, IngredientArtResolution>): Promise<void>;
 };
@@ -21,7 +22,7 @@ export type MatchIngredientArt = (
 ) => Promise<ReadonlyMap<string, IngredientArtJudgment>>;
 
 const clearMatch = 0.9;
-const knownMissing = new Map([
+const canonicalNames = new Map([
   ["aubergine", "eggplant"],
   ["aubergines", "eggplant"],
   ["eggplant", "eggplant"],
@@ -57,11 +58,18 @@ export async function resolveIngredientArt(
   );
   if (!keys.size) return art;
 
-  let saved = await store.read([...keys.values()]);
+  const [existing, published] = await Promise.all([
+    store.read([...keys.values()]),
+    store.listPublished(),
+  ]);
+  let saved = existing;
+  const byName = new Map([...published].map(([id, name]) => [name, id]));
+  const catalog = new Map([...bundledIngredientArtCatalog, ...published]);
   const learned = new Map<string, IngredientArtResolution>();
   const unmatched = [...keys].filter(([name, key]) => {
     if (saved.has(key)) return false;
-    const canonical = knownMissing.get(name);
+    const canonical = canonicalNames.get(name);
+    if (byName.has(canonical ?? name)) return false;
     if (!canonical) return true;
     learned.set(key, { ingredientName: canonical });
     return false;
@@ -69,13 +77,13 @@ export async function resolveIngredientArt(
   if (unmatched.length) {
     const judgments = await match(
       unmatched.map(([name]) => name),
-      bundledIngredientArtCatalog,
+      catalog,
     );
     for (const [name, key] of unmatched) {
       const answer = judgments.get(name);
       if (!answer || !(answer.confidence >= clearMatch)) continue;
       if ("missing" in answer) learned.set(key, { ingredientName: name });
-      else if (bundledIngredientArtCatalog.has(answer.artId)) {
+      else if (catalog.has(answer.artId)) {
         learned.set(key, { artId: answer.artId });
       }
     }
@@ -88,12 +96,14 @@ export async function resolveIngredientArt(
 
   return art.map((id, index) => {
     if (id) return id;
-    const key = keys.get(names[index]!);
-    const learned = key && saved.get(key);
-    return learned &&
-      "artId" in learned &&
-      bundledIngredientArtCatalog.has(learned.artId)
-      ? learned.artId
-      : null;
+    const name = names[index]!;
+    const key = keys.get(name);
+    const learned = key ? saved.get(key) : undefined;
+    if (learned && "artId" in learned)
+      return catalog.has(learned.artId) ? learned.artId : null;
+    return (
+      byName.get(learned?.ingredientName ?? canonicalNames.get(name) ?? name) ??
+      null
+    );
   });
 }

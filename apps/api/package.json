@@ -11,7 +11,8 @@
     "test": "tsx --env-file-if-exists=.env --test src/*.test.ts",
     "lint": "eslint .",
     "retag": "tsx --env-file-if-exists=.env src/retag-recipes.ts",
-    "art:backfill": "tsx --env-file-if-exists=.env src/backfill-recipe-art.ts"
+    "art:backfill": "tsx --env-file-if-exists=.env src/backfill-recipe-art.ts",
+    "ingredient-art:backfill": "tsx --env-file-if-exists=.env src/backfill-ingredient-art.ts"
   },
   "dependencies": {
     "@ai-sdk/google": "^4.0.113",
@@ -39,6 +40,7 @@
     "@types/uuid": "^11.0.0",
     "esbuild": "^0.28.2",
     "eslint": "^9.39.5",
+    "sharp": "^0.35.5",
     "tsx": "^4.23.12",
     "typescript": "~6.0.3",
     "typescript-eslint": "^8.67.0"

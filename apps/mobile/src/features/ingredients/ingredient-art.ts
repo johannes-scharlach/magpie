@@ -18,7 +18,7 @@ const responseSchema = z.object({ artIds: z.array(z.string().nullable()) });
 /** Decorative art only. Lookup never delays the caller's label or interaction. */
 export function useIngredientArt(
   labels: readonly string[],
-): (label: string) => number | undefined {
+): (label: string) => number | string | undefined {
   const [learned, setLearned] = useState<ReadonlyMap<string, string>>(
     () => new Map(),
   );
@@ -85,8 +85,11 @@ export function useIngredientArt(
 
   return (label) => {
     const id = learned.get(label.trim());
-    return (
-      bundledIngredientArt(label) ?? (id ? bundledArtworkSource(id) : undefined)
-    );
+    const bundled = bundledIngredientArt(label);
+    if (bundled !== undefined || !id) return bundled;
+    if (/^generated-[a-f0-9]{64}$/.test(id)) {
+      return `${env.supabaseUrl.replace(/\/+$/, "")}/storage/v1/object/public/ingredient-art/${id}.webp`;
+    }
+    return bundledArtworkSource(id);
   };
 }

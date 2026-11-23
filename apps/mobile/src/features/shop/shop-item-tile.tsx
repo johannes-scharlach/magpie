@@ -71,7 +71,7 @@ export function ShopItemTile({
   today: string;
   browse: Browse | undefined;
   name: string;
-  asset: number | undefined;
+  asset: number | string | undefined;
   highlighted: boolean;
   onCheck: (id: string) => Promise<void>;
   onSwap: (item: ShopRow) => void;

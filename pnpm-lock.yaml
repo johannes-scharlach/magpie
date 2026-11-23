@@ -31,7 +31,7 @@ importers:
         version: 3.9.10
       sharp:
         specifier: ^0.35.5
-        version: 0.35.5
+        version: 0.35.5(@types/node@26.2.0)
       supabase:
         specifier: ^2.115.0
         version: 2.115.0
@@ -111,6 +111,9 @@ importers:
       eslint:
         specifier: ^9.39.5
         version: 9.39.5(jiti@2.7.0)
+      sharp:
+        specifier: ^0.35.5
+        version: 0.35.5(@types/node@26.2.0)
       tsx:
         specifier: ^4.23.12
         version: 4.23.12
@@ -12328,7 +12331,7 @@ snapshots:
 
   sf-symbols-typescript@2.2.0: {}
 
-  sharp@0.35.5:
+  sharp@0.35.5(@types/node@26.2.0):
     dependencies:
       '@img/colour': 1.1.0
       detect-libc: 2.1.2
@@ -12359,6 +12362,7 @@ snapshots:
       '@img/sharp-win32-arm64': 0.35.5
       '@img/sharp-win32-ia32': 0.35.5
       '@img/sharp-win32-x64': 0.35.5
+      '@types/node': 26.2.0
 
   shebang-command@2.0.0:
     dependencies:
