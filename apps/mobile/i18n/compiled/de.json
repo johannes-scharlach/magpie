@@ -101,6 +101,12 @@
       "value": "Damit ersetzt du die Mahlzeit, die dafür schon im Plan steht."
     }
   ],
+  "1RMvr9": [
+    {
+      "type": 0,
+      "value": "Zutat hinzufügen"
+    }
+  ],
   "1TrkHP": [
     {
       "type": 0,
@@ -141,12 +147,6 @@
     {
       "type": 1,
       "value": "name"
-    }
-  ],
-  "320qNC": [
-    {
-      "type": 0,
-      "value": "Weiterhin ausgewählt"
     }
   ],
   "3CJl1Z": [
@@ -277,12 +277,6 @@
     {
       "type": 0,
       "value": "Einkauf für Mahlzeiten"
-    }
-  ],
-  "5aJlCR": [
-    {
-      "type": 0,
-      "value": "Deine Vorräte"
     }
   ],
   "5cSDJb": [
@@ -582,12 +576,6 @@
     {
       "type": 0,
       "value": "Buchweizen"
-    }
-  ],
-  "EO7SGs": [
-    {
-      "type": 0,
-      "value": "Notiz hinzufügen"
     }
   ],
   "Eo0PBs": [
@@ -1124,6 +1112,12 @@
     {
       "type": 0,
       "value": "Getrocknete Minze"
+    }
+  ],
+  "RytgTs": [
+    {
+      "type": 0,
+      "value": "Weitere Zutat hinzufügen"
     }
   ],
   "S3jKdb": [
@@ -1821,12 +1815,6 @@
     {
       "type": 0,
       "value": "Haus & Garten"
-    }
-  ],
-  "iVyxNU": [
-    {
-      "type": 0,
-      "value": "Grundzutaten"
     }
   ],
   "ihg5qC": [

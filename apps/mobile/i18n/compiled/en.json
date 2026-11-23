@@ -105,6 +105,12 @@
       "value": "This will replace the meal already planned for this slot."
     }
   ],
+  "1RMvr9": [
+    {
+      "type": 0,
+      "value": "Add ingredient"
+    }
+  ],
   "1TrkHP": [
     {
       "type": 0,
@@ -145,12 +151,6 @@
     {
       "type": 1,
       "value": "name"
-    }
-  ],
-  "320qNC": [
-    {
-      "type": 0,
-      "value": "Still selected"
     }
   ],
   "3CJl1Z": [
@@ -285,12 +285,6 @@
     {
       "type": 0,
       "value": "Shop for meals"
-    }
-  ],
-  "5aJlCR": [
-    {
-      "type": 0,
-      "value": "Your cupboard"
     }
   ],
   "5cSDJb": [
@@ -590,12 +584,6 @@
     {
       "type": 0,
       "value": "Buckwheat"
-    }
-  ],
-  "EO7SGs": [
-    {
-      "type": 0,
-      "value": "Add a note"
     }
   ],
   "Eo0PBs": [
@@ -1136,6 +1124,12 @@
     {
       "type": 0,
       "value": "Dried mint"
+    }
+  ],
+  "RytgTs": [
+    {
+      "type": 0,
+      "value": "Add another ingredient"
     }
   ],
   "S3jKdb": [
@@ -1841,12 +1835,6 @@
     {
       "type": 0,
       "value": "Home & garden"
-    }
-  ],
-  "iVyxNU": [
-    {
-      "type": 0,
-      "value": "Staples"
     }
   ],
   "ihg5qC": [

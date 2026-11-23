@@ -59,7 +59,9 @@ export function onHandSlotMessage(
   selected: readonly string[],
   note: string,
 ): string {
-  const ingredients = selected.length ? `I have: ${selected.join(", ")}.` : "";
+  const ingredients = selected.length
+    ? `Use these ingredients in the meal: ${selected.join(", ")}.`
+    : "";
   return slotEntryMessage(
     target,
     [ingredients, note.trim()].filter(Boolean).join("\n"),

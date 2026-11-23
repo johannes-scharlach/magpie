@@ -13,6 +13,7 @@ import { useIntl } from "react-intl";
 import { AppState, Pressable, View } from "react-native";
 import {
   KeyboardAwareScrollView,
+  KeyboardAvoidingView,
   KeyboardStickyView,
   type KeyboardAwareScrollViewRef,
 } from "react-native-keyboard-controller";
@@ -33,6 +34,7 @@ import {
   slotFromEntryMessage,
 } from "@/features/chat/compose";
 import {
+  addTypedIngredient,
   togglePickedIngredient,
   type PickedIngredient,
 } from "@/features/chat/ingredient-picker";
@@ -490,6 +492,7 @@ export default function ChatScreen() {
     pickingIngredients ? target : null,
   );
   const [picked, setPicked] = useState<PickedIngredient[]>([]);
+  const [ingredientDraft, setIngredientDraft] = useState("");
   const suggestions =
     !busy &&
     last?.role === "assistant" &&
@@ -565,186 +568,194 @@ export default function ChatScreen() {
           </Pressable>
         </Link>
       ) : null}
-      <View className="flex-1">
-        <KeyboardAwareScrollView
-          ref={scrollRef}
-          className="flex-1"
-          contentContainerStyle={{ paddingBottom: TRANSCRIPT_BOTTOM }}
-          contentInsetAdjustmentBehavior="automatic"
-          keyboardDismissMode="interactive"
-          keyboardShouldPersistTaps="handled"
-          onLayout={(e) => setViewportHeight(e.nativeEvent.layout.height)}
-          onScrollBeginDrag={() => {
-            pendingScroll.current = null;
-            settled.current = true;
-          }}
-          onContentSizeChange={(_, height) => {
-            contentHeight.current = height;
-            scrollToTurn();
-            // History opens at the bottom. Sending only scrolls once, to
-            // the user message; streaming never moves the reader.
-            if (
-              !settled.current &&
-              !anchor &&
-              !messagesLoading &&
-              shown.length
-            ) {
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior="padding"
+        automaticOffset={pickingIngredients}
+        enabled={pickingIngredients}
+      >
+        {pickingIngredients ? (
+          <OnHandPicker
+            listId={conversationListId ?? null}
+            useUp={useUp}
+            picked={picked}
+            query={ingredientDraft}
+            onToggle={(tile) => {
+              setPicked((current) => togglePickedIngredient(current, tile));
+              setIngredientDraft("");
+            }}
+          />
+        ) : (
+          <KeyboardAwareScrollView
+            ref={scrollRef}
+            className="flex-1"
+            contentContainerStyle={{ paddingBottom: TRANSCRIPT_BOTTOM }}
+            contentInsetAdjustmentBehavior="automatic"
+            keyboardDismissMode="interactive"
+            keyboardShouldPersistTaps="handled"
+            onLayout={(e) => setViewportHeight(e.nativeEvent.layout.height)}
+            onScrollBeginDrag={() => {
+              pendingScroll.current = null;
               settled.current = true;
-              scrollRef.current?.scrollToEnd({ animated: false });
-            }
-          }}
-        >
-          <View
-            className="gap-5"
-            style={{
-              paddingTop: TRANSCRIPT_TOP,
-              // Keep a viewport beneath the turn's start, even after a
-              // short reply finishes. Longer replies consume the space.
-              minHeight:
-                anchor?.y != null
-                  ? Math.max(0, anchor.y - TRANSCRIPT_TOP) +
-                    viewportHeight -
-                    TRANSCRIPT_BOTTOM
-                  : undefined,
+            }}
+            onContentSizeChange={(_, height) => {
+              contentHeight.current = height;
+              scrollToTurn();
+              // History opens at the bottom. Sending only scrolls once, to
+              // the user message; streaming never moves the reader.
+              if (
+                !settled.current &&
+                !anchor &&
+                !messagesLoading &&
+                shown.length
+              ) {
+                settled.current = true;
+                scrollRef.current?.scrollToEnd({ animated: false });
+              }
             }}
           >
-            {shown.map((m) => {
-              if (m.role === "user")
+            <View
+              className="gap-5"
+              style={{
+                paddingTop: TRANSCRIPT_TOP,
+                // Keep a viewport beneath the turn's start, even after a
+                // short reply finishes. Longer replies consume the space.
+                minHeight:
+                  anchor?.y != null
+                    ? Math.max(0, anchor.y - TRANSCRIPT_TOP) +
+                      viewportHeight -
+                      TRANSCRIPT_BOTTOM
+                    : undefined,
+              }}
+            >
+              {shown.map((m) => {
+                if (m.role === "user")
+                  return (
+                    <View
+                      key={m.id}
+                      onLayout={(e) => {
+                        const { y } = e.nativeEvent.layout;
+                        setAnchor((current) =>
+                          current?.id === m.id && current.y !== y
+                            ? { id: m.id, y }
+                            : current,
+                        );
+                      }}
+                    >
+                      <UserMessage parts={m.parts} />
+                    </View>
+                  );
+                const state = turnState(m.parts);
+                const messageBusy = state
+                  ? state.status === "running"
+                  : sending && m.id === inFlight?.id;
+                const steps = activitySteps(m.parts, messageBusy);
                 return (
-                  <View
-                    key={m.id}
-                    onLayout={(e) => {
-                      const { y } = e.nativeEvent.layout;
-                      setAnchor((current) =>
-                        current?.id === m.id && current.y !== y
-                          ? { id: m.id, y }
-                          : current,
-                      );
-                    }}
-                  >
-                    <UserMessage parts={m.parts} />
-                  </View>
-                );
-              const state = turnState(m.parts);
-              const messageBusy = state
-                ? state.status === "running"
-                : sending && m.id === inFlight?.id;
-              const steps = activitySteps(m.parts, messageBusy);
-              return (
-                <View key={m.id}>
-                  {messageBusy || steps.length > 0 ? (
-                    <ActivityView
-                      steps={steps}
-                      busy={messageBusy}
-                      writing={messageText(m.parts).length > 0}
-                      waiting={
-                        checking && state?.userMessageId === activeMessageId
+                  <View key={m.id}>
+                    {messageBusy || steps.length > 0 ? (
+                      <ActivityView
+                        steps={steps}
+                        busy={messageBusy}
+                        writing={messageText(m.parts).length > 0}
+                        waiting={
+                          checking && state?.userMessageId === activeMessageId
+                        }
+                      />
+                    ) : null}
+                    <AssistantMessage
+                      parts={m.parts}
+                      streaming={messageBusy}
+                      showRecipeResults={!!chat?.recipe_id}
+                      onIdea={(idea) =>
+                        void send(`Tell me more about ${idea.title}.`)
+                      }
+                      onSavePlan={
+                        !busy && state?.status !== "failed" && m.id === last?.id
+                          ? (dish) =>
+                              router.push({
+                                pathname: "/variant/plan",
+                                params: {
+                                  dish,
+                                  chatId,
+                                  ...(target && conversationListId
+                                    ? { ...target, listId: conversationListId }
+                                    : {}),
+                                },
+                              } as never)
+                          : undefined
                       }
                     />
-                  ) : null}
-                  <AssistantMessage
-                    parts={m.parts}
-                    streaming={messageBusy}
-                    showRecipeResults={!!chat?.recipe_id}
-                    onIdea={(idea) =>
-                      void send(`Tell me more about ${idea.title}.`)
-                    }
-                    onSavePlan={
-                      !busy && state?.status !== "failed" && m.id === last?.id
-                        ? (dish) =>
-                            router.push({
-                              pathname: "/variant/plan",
-                              params: {
-                                dish,
-                                chatId,
-                                ...(target && conversationListId
-                                  ? { ...target, listId: conversationListId }
-                                  : {}),
-                              },
-                            } as never)
-                        : undefined
-                    }
-                  />
-                  {state?.status === "failed" ? (
-                    <View className="mx-5 mt-2 gap-2">
-                      <Text variant="muted" selectable>
-                        {state.error ??
-                          "This reply was interrupted. Any changes already made are kept."}
-                      </Text>
-                      {!busy && m.id === last?.id ? (
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="self-start"
-                          onPress={() => {
-                            void send(
-                              "Please continue from where you stopped.",
-                            );
-                          }}
-                        >
-                          <Text>Continue</Text>
-                        </Button>
-                      ) : null}
-                    </View>
+                    {state?.status === "failed" ? (
+                      <View className="mx-5 mt-2 gap-2">
+                        <Text variant="muted" selectable>
+                          {state.error ??
+                            "This reply was interrupted. Any changes already made are kept."}
+                        </Text>
+                        {!busy && m.id === last?.id ? (
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="self-start"
+                            onPress={() => {
+                              void send(
+                                "Please continue from where you stopped.",
+                              );
+                            }}
+                          >
+                            <Text>Continue</Text>
+                          </Button>
+                        ) : null}
+                      </View>
+                    ) : null}
+                  </View>
+                );
+              })}
+              {busy &&
+              !shown.some(
+                (message) =>
+                  turnState(message.parts)?.status === "running" ||
+                  (sending && message.id === inFlight?.id),
+              ) ? (
+                <ActivityView
+                  steps={[]}
+                  busy
+                  writing={false}
+                  waiting={checking}
+                />
+              ) : null}
+              {error ? (
+                <View className="mx-5 gap-2">
+                  <Text variant="small" className="text-destructive" selectable>
+                    {error.text}
+                  </Text>
+                  {error.retryable ? (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="self-start"
+                      disabled={busy}
+                      onPress={() => {
+                        void runTurn(error.turn);
+                      }}
+                    >
+                      <Text>Try sending again</Text>
+                    </Button>
                   ) : null}
                 </View>
-              );
-            })}
-            {busy &&
-            !shown.some(
-              (message) =>
-                turnState(message.parts)?.status === "running" ||
-                (sending && message.id === inFlight?.id),
-            ) ? (
-              <ActivityView
-                steps={[]}
-                busy
-                writing={false}
-                waiting={checking}
-              />
-            ) : null}
-            {error ? (
-              <View className="mx-5 gap-2">
-                <Text variant="small" className="text-destructive" selectable>
-                  {error.text}
-                </Text>
-                {error.retryable ? (
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="self-start"
-                    disabled={busy}
-                    onPress={() => {
-                      void runTurn(error.turn);
-                    }}
-                  >
-                    <Text>Try sending again</Text>
-                  </Button>
-                ) : null}
-              </View>
-            ) : null}
-          </View>
-        </KeyboardAwareScrollView>
+              ) : null}
+            </View>
+          </KeyboardAwareScrollView>
+        )}
 
-        <KeyboardStickyView>
-          {pickingIngredients ? (
-            <OnHandPicker
-              listId={conversationListId ?? null}
-              useUp={useUp}
-              picked={picked}
-              onToggle={(tile) =>
-                setPicked((current) => togglePickedIngredient(current, tile))
-              }
-            />
-          ) : null}
+        <KeyboardStickyView enabled={!pickingIngredients}>
           <Composer
             placeholder={
               pickingIngredients
                 ? picked.length
                   ? intl.formatMessage({
-                      defaultMessage: "Add a note",
+                      defaultMessage: "Add another ingredient",
                       description:
-                        "Optional first chat message input alongside ingredients the user has already selected.",
+                        "Input placeholder after at least one ingredient has been added to the meal request.",
                     })
                   : intl.formatMessage({
                       defaultMessage: "What ingredients do you have?",
@@ -760,6 +771,24 @@ export default function ChatScreen() {
                   : "Message"
             }
             autoFocus={pickingIngredients}
+            draft={
+              pickingIngredients
+                ? { text: ingredientDraft, setText: setIngredientDraft }
+                : undefined
+            }
+            addAction={
+              pickingIngredients
+                ? {
+                    label: intl.formatMessage({
+                      defaultMessage: "Add ingredient",
+                      description:
+                        "Adds the typed ingredient to the meal request without sending it.",
+                    }),
+                    onAdd: (text) =>
+                      setPicked((current) => addTypedIngredient(current, text)),
+                  }
+                : undefined
+            }
             hasAdditionalContent={pickingIngredients && picked.length > 0}
             busy={busy || !conversationListId || !(chat || starting)}
             suggestions={suggestions}
@@ -793,7 +822,7 @@ export default function ChatScreen() {
             }}
           />
         </KeyboardStickyView>
-      </View>
+      </KeyboardAvoidingView>
     </View>
   );
 }

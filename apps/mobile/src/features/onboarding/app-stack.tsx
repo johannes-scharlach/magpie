@@ -85,6 +85,7 @@ function InvitationStack({ children }: { children: ReactNode }) {
           />
         </Stack.Protected>
         <Stack.Protected guard={showApp && !invitation.code}>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           {children}
         </Stack.Protected>
         <Stack.Protected guard={!showApp && !invitation.code}>

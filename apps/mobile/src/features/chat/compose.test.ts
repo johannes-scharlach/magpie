@@ -94,10 +94,10 @@ describe("starting from a meal slot", () => {
   it("asks for the chosen lunch with only the selected ingredients and the note", () => {
     const lunch = { date: "2026-09-11", slot: "lunch" } as const;
     expect(onHandSlotMessage(lunch, ["Cabbage", "Rice"], "  No oven.  ")).toBe(
-      "Help me decide what to make for lunch on 2026-09-11.\nI have: Cabbage, Rice.\nNo oven.",
+      "Help me decide what to make for lunch on 2026-09-11.\nUse these ingredients in the meal: Cabbage, Rice.\nNo oven.",
     );
     expect(onHandSlotMessage(lunch, ["Cabbage"], "")).toBe(
-      "Help me decide what to make for lunch on 2026-09-11.\nI have: Cabbage.",
+      "Help me decide what to make for lunch on 2026-09-11.\nUse these ingredients in the meal: Cabbage.",
     );
     expect(onHandSlotMessage(lunch, [], "Some leftovers")).toBe(
       "Help me decide what to make for lunch on 2026-09-11.\nSome leftovers",

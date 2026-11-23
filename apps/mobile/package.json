@@ -7,6 +7,7 @@
     "@expo/dom-webview": "~58.0.2",
     "@expo/metro-runtime": "~58.0.14",
     "@expo/ui": "~58.0.21",
+    "@formatjs/intl-pluralrules": "^7.1.1",
     "@magpie/meals": "workspace:*",
     "@magpie/profile": "workspace:*",
     "@op-engineering/op-sqlite": "^18.2.5",

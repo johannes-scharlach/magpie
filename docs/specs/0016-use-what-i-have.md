@@ -6,13 +6,13 @@ From Meals → Lunch → Use what I have, I can ask for lunch using a few things
 
 ## Picking ingredients
 
-Open the existing slot chat with the input focused. Above it, show scrollable onboarding-style clay tiles. The first row must be usable with the keyboard open. In order:
+Open the existing slot chat with the input focused. Above it, show a vertically scrollable grid of pantry-style ingredient art, with a clay pebble on selected items. The first row must be usable with the keyboard open. Order the grid by:
 
 1. **Use up first** — up to four likely, useful remainders. Omit the section if none qualify.
 2. **Staples** — a short set of meal bases such as rice, potatoes and pasta, prioritizing the household’s usual picks.
 3. **Your cupboard** — specialty ingredients the household keeps.
 
-Show an ingredient once, in its highest-priority section. A tap selects, a second tap deselects. Keep the draft editable; Send works with tiles alone, text alone, or both. Only confirmed selections and typed notes become the request for this slot. Tapping never sends, modifies the shopping list or records inventory.
+Show an ingredient once, at its highest priority. Show only the **Use up first** heading when the input is empty; search results have no headings. A tap selects, a second tap deselects. Typing filters the grid. Tap a match or use **Add** to include a typed ingredient that isn't shown; either action clears the field and keeps the selection editable. With the field empty, **Send** asks Magpie to use the selected ingredients in this slot. Adding or selecting never sends, modifies the shopping list or records inventory.
 
 ## What Jev decides
 

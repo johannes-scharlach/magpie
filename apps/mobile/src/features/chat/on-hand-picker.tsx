@@ -1,10 +1,16 @@
 import { Image } from "expo-image";
 import { SymbolView } from "expo-symbols";
-import { defineMessages, useIntl } from "react-intl";
-import { ScrollView, View } from "react-native";
+import { defineMessage, useIntl } from "react-intl";
+import { ScrollView, useWindowDimensions, View } from "react-native";
+import Animated, {
+  Easing,
+  LinearTransition,
+  ReduceMotion,
+  useReducedMotion,
+} from "react-native-reanimated";
 import { useResolveClassNames } from "uniwind";
 
-import { ClayPebble, PressableScale, clayTile } from "@/components/clay";
+import { ClayPebble, PressableScale } from "@/components/clay";
 import { Text } from "@/components/ui/text";
 import { useIngredientArt } from "@/features/ingredients/ingredient-art";
 import { formatPickerIngredient } from "@/features/ingredients/ingredient-labels";
@@ -16,141 +22,140 @@ import {
   type PickedIngredient,
 } from "./ingredient-picker";
 
-const sectionLabels = defineMessages({
-  useUp: {
-    defaultMessage: "Use up first",
-    description:
-      "Ingredient picker heading for likely remainders to use soon. These are suggestions, not confirmed stock.",
-  },
-  staples: {
-    defaultMessage: "Staples",
-    description:
-      "Ingredient picker heading for common meal bases such as rice and pasta.",
-  },
-  cupboard: {
-    defaultMessage: "Your cupboard",
-    description:
-      "Ingredient picker heading for foods the household says it usually keeps. Includes refrigerator and freezer picks.",
-  },
-  picked: {
-    defaultMessage: "Still selected",
-    description:
-      "Ingredient picker heading for choices that remain in the draft after their suggestions changed.",
-  },
+const useUpHeading = defineMessage({
+  defaultMessage: "Use up first",
+  description:
+    "Ingredient picker heading for likely remainders to use soon. These are suggestions, not confirmed stock.",
 });
+const TILE_MOVE = LinearTransition.duration(140)
+  .easing(Easing.bezier(0.77, 0, 0.175, 1))
+  .reduceMotion(ReduceMotion.System);
 
 export function OnHandPicker({
   listId,
   useUp,
   picked,
+  query,
   onToggle,
 }: {
   listId: string | null;
   /** Ranked labels for this slot. Subsequent results can replace them while drafting. */
   useUp?: readonly string[];
   picked: readonly PickedIngredient[];
+  query: string;
   onToggle: (tile: PickedIngredient) => void;
 }) {
   const intl = useIntl();
+  const reducedMotion = useReducedMotion();
+  const { fontScale, width } = useWindowDimensions();
   const { household } = useHousehold(listId);
   const sections = ingredientPickerSections({
     useUp,
     profile: household?.profile,
     picked,
+    query,
+    displayLabel: (label) => formatPickerIngredient(intl, label),
   });
+  const tiles = sections.flatMap((section) => section.tiles);
+  const useUpTiles = query.trim()
+    ? undefined
+    : sections.find(({ id }) => id === "useUp")?.tiles;
+  const selectedKeys = new Set(picked.map(({ key }) => key));
+  const unselected = (tile: PickedIngredient) => !selectedKeys.has(tile.key);
+  const remainingUseUp = (useUpTiles ?? []).filter(unselected);
+  // The same keyed tile stays in this grid when it moves into the selection.
+  const grid = [
+    ...picked,
+    ...(remainingUseUp.length ? [null, ...remainingUseUp] : []),
+    ...tiles.slice(useUpTiles?.length ?? 0).filter(unselected),
+  ];
   const artFor = useIngredientArt(
-    sections.flatMap(({ tiles }) => tiles.map(({ label }) => label)),
+    grid.flatMap((tile) => (tile ? [tile.label] : [])),
   );
   const selectionColor = useResolveClassNames("text-primary").color;
 
-  // One compact scrolling row shares the composer's keyboard-sticky region.
-  // A tile press is for selecting, never for dismissing the keyboard.
   return (
     <ScrollView
-      horizontal
+      contentInsetAdjustmentBehavior="automatic"
       keyboardShouldPersistTaps="always"
-      showsHorizontalScrollIndicator={false}
-      className="grow-0 bg-background"
-      contentContainerClassName="gap-4 px-4 pb-2"
+      className="flex-1"
+      contentContainerClassName="flex-row flex-wrap items-start gap-2 px-4 py-4"
     >
-      {sections.map(({ id, tiles }) => (
-        <View key={id} className="gap-1.5">
-          <Text
-            accessibilityRole="header"
-            className="font-rounded font-extrabold text-primary"
+      {grid.map((tile) => {
+        if (!tile)
+          return (
+            <Text
+              key="heading:use-up"
+              accessibilityRole="header"
+              className="w-full font-rounded font-extrabold text-primary"
+            >
+              {intl.formatMessage(useUpHeading)}
+            </Text>
+          );
+        const selected = selectedKeys.has(tile.key);
+        const asset = artFor(tile.label);
+        const label = formatPickerIngredient(intl, tile.label);
+        return (
+          <Animated.View
+            key={`tile:${tile.key}`}
+            layout={reducedMotion || query.trim() ? undefined : TILE_MOVE}
+            style={{ width: fontScale > 1.35 || width < 350 ? "48%" : "31%" }}
           >
-            {intl.formatMessage(sectionLabels[id])}
-          </Text>
-          <View className="flex-row gap-2">
-            {tiles.map((tile) => {
-              const selected = picked.some(({ key }) => key === tile.key);
-              const asset = artFor(tile.label);
-              const label = formatPickerIngredient(intl, tile.label);
-              return (
-                <PressableScale
-                  key={tile.key}
-                  accessibilityRole="checkbox"
-                  accessibilityLabel={label}
-                  accessibilityState={{ checked: selected }}
-                  onPress={() => onToggle(tile)}
-                  className="w-24"
-                >
+            <PressableScale
+              accessibilityRole="checkbox"
+              accessibilityLabel={label}
+              accessibilityState={{ checked: selected }}
+              onPress={() => onToggle(tile)}
+            >
+              <View className="min-h-24 items-center justify-center px-1.5 py-1.5">
+                {asset !== undefined ? (
                   <View
-                    className={cn(
-                      "min-h-24 items-center justify-center border px-1.5 py-1.5",
-                      selected
-                        ? "border-primary bg-accent"
-                        : "border-transparent bg-secondary",
-                    )}
-                    style={clayTile}
+                    className="h-13 w-17"
+                    accessibilityElementsHidden
+                    importantForAccessibility="no-hide-descendants"
                   >
-                    {asset !== undefined ? (
-                      <View
-                        className="h-13 w-17"
-                        accessibilityElementsHidden
-                        importantForAccessibility="no-hide-descendants"
-                      >
-                        <ClayPebble seed={tile.key} />
-                        <Image
-                          source={asset}
-                          style={{
-                            position: "absolute",
-                            width: "100%",
-                            height: "100%",
-                          }}
-                          contentFit="contain"
-                        />
-                      </View>
-                    ) : null}
-                    <Text
-                      className="text-center font-rounded text-sm font-bold"
-                      numberOfLines={3}
-                    >
-                      {label}
-                    </Text>
-                    {selected ? (
-                      <View
-                        className="absolute right-1.5 top-1.5"
-                        accessibilityElementsHidden
-                        importantForAccessibility="no-hide-descendants"
-                      >
-                        <SymbolView
-                          name={{
-                            ios: "checkmark.circle.fill",
-                            android: "check_circle",
-                          }}
-                          tintColor={selectionColor}
-                          size={16}
-                        />
-                      </View>
-                    ) : null}
+                    {selected ? <ClayPebble seed={tile.key} /> : null}
+                    <Image
+                      source={asset}
+                      style={{
+                        position: "absolute",
+                        width: "100%",
+                        height: "100%",
+                      }}
+                      contentFit="contain"
+                    />
                   </View>
-                </PressableScale>
-              );
-            })}
-          </View>
-        </View>
-      ))}
+                ) : null}
+                <Text
+                  className={cn(
+                    "text-center font-rounded text-sm font-bold",
+                    selected && "text-primary",
+                  )}
+                  numberOfLines={3}
+                >
+                  {label}
+                </Text>
+                {selected ? (
+                  <View
+                    className="absolute right-1.5 top-1.5"
+                    accessibilityElementsHidden
+                    importantForAccessibility="no-hide-descendants"
+                  >
+                    <SymbolView
+                      name={{
+                        ios: "checkmark.circle.fill",
+                        android: "check_circle",
+                      }}
+                      tintColor={selectionColor}
+                      size={16}
+                    />
+                  </View>
+                ) : null}
+              </View>
+            </PressableScale>
+          </Animated.View>
+        );
+      })}
     </ScrollView>
   );
 }

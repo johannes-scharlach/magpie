@@ -48,10 +48,14 @@ export function ingredientPickerSections({
   useUp = [],
   profile,
   picked = [],
+  query = "",
+  displayLabel = (label) => label,
 }: {
   useUp?: readonly string[];
   profile?: Picks;
   picked?: readonly PickedIngredient[];
+  query?: string;
+  displayLabel?: (label: string) => string;
 }): Section[] {
   const kept = profile
     ? [
@@ -100,7 +104,23 @@ export function ingredientPickerSections({
     { id: "picked", tiles: picked.filter(({ key }) => !seen.has(key)) },
     { id: "cupboard", tiles: cupboard },
   ];
-  return sections.filter(({ tiles }) => tiles.length > 0);
+  const searchKey = searchText(query);
+  return sections
+    .map(({ id, tiles }) => ({
+      id,
+      tiles: searchKey
+        ? tiles.filter(({ label }) =>
+            [label, displayLabel(label)].some((name) =>
+              searchText(name).includes(searchKey),
+            ),
+          )
+        : tiles,
+    }))
+    .filter(({ tiles }) => tiles.length > 0);
+}
+
+function searchText(value: string) {
+  return value.trim().toLowerCase().normalize("NFD").replace(/\p{M}/gu, "");
 }
 
 export function togglePickedIngredient(
@@ -110,4 +130,15 @@ export function togglePickedIngredient(
   return picked.some(({ key }) => key === tile.key)
     ? picked.filter(({ key }) => key !== tile.key)
     : [...picked, tile];
+}
+
+export function addTypedIngredient(
+  picked: readonly PickedIngredient[],
+  text: string,
+): PickedIngredient[] {
+  const label = text.trim();
+  const key = ingredientNameKey(label);
+  return label && !picked.some((tile) => tile.key === key)
+    ? [...picked, { key, label }]
+    : [...picked];
 }

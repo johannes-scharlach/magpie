@@ -74,6 +74,11 @@
     "_p6t_description": "Warning before confirming a recipe for an occupied meal slot.",
     "_p6t_source": "This will replace the meal already planned for this slot."
   },
+  "1RMvr9": {
+    "defaultMessage": "Zutat hinzufügen",
+    "_p6t_description": "Adds the typed ingredient to the meal request without sending it.",
+    "_p6t_source": "Add ingredient"
+  },
   "1TrkHP": {
     "defaultMessage": "Wird abgebrochen…",
     "_p6t_description": "Status while a recipe import is being cancelled.",
@@ -98,11 +103,6 @@
     "defaultMessage": "Gewechselt zu {name}",
     "_p6t_description": "Screen-reader announcement after a shopping item switched to another ingredient option. {name} is the option now shown.",
     "_p6t_source": "Changed to {name}"
-  },
-  "320qNC": {
-    "defaultMessage": "Weiterhin ausgewählt",
-    "_p6t_description": "Ingredient picker heading for choices that remain in the draft after their suggestions changed.",
-    "_p6t_source": "Still selected"
   },
   "3CJl1Z": {
     "defaultMessage": "Ältere passende Variante",
@@ -208,11 +208,6 @@
     "defaultMessage": "Einkauf für Mahlzeiten",
     "_p6t_description": "Title of the screen that lists upcoming meals and their shopping decisions.",
     "_p6t_source": "Shop for meals"
-  },
-  "5aJlCR": {
-    "defaultMessage": "Deine Vorräte",
-    "_p6t_description": "Ingredient picker heading for foods the household says it usually keeps. Includes refrigerator and freezer picks.",
-    "_p6t_source": "Your cupboard"
   },
   "5cSDJb": {
     "defaultMessage": "Sherryessig",
@@ -413,11 +408,6 @@
     "defaultMessage": "Buchweizen",
     "_p6t_description": "Ingredient label for buckwheat.",
     "_p6t_source": "Buckwheat"
-  },
-  "EO7SGs": {
-    "defaultMessage": "Notiz hinzufügen",
-    "_p6t_description": "Optional first chat message input alongside ingredients the user has already selected.",
-    "_p6t_source": "Add a note"
   },
   "Eo0PBs": {
     "defaultMessage": "Fond und Brühe",
@@ -813,6 +803,11 @@
     "defaultMessage": "Getrocknete Minze",
     "_p6t_description": "Ingredient label for dried mint.",
     "_p6t_source": "Dried mint"
+  },
+  "RytgTs": {
+    "defaultMessage": "Weitere Zutat hinzufügen",
+    "_p6t_description": "Input placeholder after at least one ingredient has been added to the meal request.",
+    "_p6t_source": "Add another ingredient"
   },
   "S3jKdb": {
     "defaultMessage": "Eintrag hinzufügen",
@@ -1228,11 +1223,6 @@
     "defaultMessage": "Haus & Garten",
     "_p6t_description": "Shopping category for home and garden goods.",
     "_p6t_source": "Home & garden"
-  },
-  "iVyxNU": {
-    "defaultMessage": "Grundzutaten",
-    "_p6t_description": "Ingredient picker heading for common meal bases such as rice and pasta.",
-    "_p6t_source": "Staples"
   },
   "ihg5qC": {
     "defaultMessage": "Reis",

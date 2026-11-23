@@ -25,6 +25,12 @@ it("offers Send when the draft only has picked ingredients", () => {
   );
 });
 
+it("offers Add while typing an ingredient, then Send for the selections", () => {
+  const draft = { ...idle, hasAddAction: true, hasAdditionalContent: true };
+  expect(composerTrailing({ ...draft, text: "Cabbage" })).toBe("add");
+  expect(composerTrailing(draft)).toBe("send");
+});
+
 it("sends a recording in progress, even on a screen with its own idle action", () => {
   expect(
     composerTrailing({ ...idle, hasEmptyAction: true, recording: true }),

@@ -84,10 +84,10 @@
     "col": 17,
     "defaultMessage": "From cookbook",
     "description": "Title of the sheet that picks an existing cookbook recipe for a meal slot.",
-    "end": 9743,
+    "end": 9673,
     "file": "src/app/_layout.tsx",
-    "line": 290,
-    "start": 9548
+    "line": 289,
+    "start": 9478
   },
   "07x9wI": {
     "col": 43,
@@ -120,10 +120,10 @@
     "col": 20,
     "defaultMessage": "What would you like to make?",
     "description": "First message prompt for a meal chat based on a dish the user has in mind.",
-    "end": 26760,
+    "end": 27431,
     "file": "src/app/chats/[id].tsx",
-    "line": 755,
-    "start": 26510
+    "line": 766,
+    "start": 27181
   },
   "1+QXgM": {
     "col": 13,
@@ -133,6 +133,15 @@
     "file": "src/app/variant/plan.tsx",
     "line": 193,
     "start": 7084
+  },
+  "1RMvr9": {
+    "col": 27,
+    "defaultMessage": "Add ingredient",
+    "description": "Adds the typed ingredient to the meal request without sending it.",
+    "end": 28018,
+    "file": "src/app/chats/[id].tsx",
+    "line": 782,
+    "start": 27791
   },
   "1TrkHP": {
     "col": 12,
@@ -178,15 +187,6 @@
     "file": "src/app/(tabs)/shop/index.tsx",
     "line": 328,
     "start": 11594
-  },
-  "320qNC": {
-    "col": 22,
-    "defaultMessage": "Still selected",
-    "description": "Ingredient picker heading for choices that remain in the draft after their suggestions changed.",
-    "end": 1444,
-    "file": "src/features/chat/on-hand-picker.tsx",
-    "line": 19,
-    "start": 722
   },
   "3CJl1Z": {
     "col": 21,
@@ -300,10 +300,10 @@
     "col": 17,
     "defaultMessage": "Add items",
     "description": "Title of the sheet where the cook types shopping items one after another.",
-    "end": 11144,
+    "end": 11074,
     "file": "src/app/_layout.tsx",
-    "line": 337,
-    "start": 10954
+    "line": 336,
+    "start": 10884
   },
   "4mRMWi": {
     "col": 62,
@@ -372,19 +372,10 @@
     "col": 17,
     "defaultMessage": "Shop for meals",
     "description": "Title of the screen that lists upcoming meals and their shopping decisions.",
-    "end": 9333,
+    "end": 9263,
     "file": "src/app/_layout.tsx",
-    "line": 277,
-    "start": 9136
-  },
-  "5aJlCR": {
-    "col": 22,
-    "defaultMessage": "Your cupboard",
-    "description": "Ingredient picker heading for foods the household says it usually keeps. Includes refrigerator and freezer picks.",
-    "end": 1444,
-    "file": "src/features/chat/on-hand-picker.tsx",
-    "line": 19,
-    "start": 722
+    "line": 276,
+    "start": 9066
   },
   "5cSDJb": {
     "col": 62,
@@ -745,15 +736,6 @@
     "file": "src/features/ingredients/ingredient-labels.ts",
     "line": 10,
     "start": 349
-  },
-  "EO7SGs": {
-    "col": 20,
-    "defaultMessage": "Add a note",
-    "description": "Optional first chat message input alongside ingredients the user has already selected.",
-    "end": 26174,
-    "file": "src/app/chats/[id].tsx",
-    "line": 744,
-    "start": 25930
   },
   "Eo0PBs": {
     "col": 62,
@@ -1134,13 +1116,13 @@
     "start": 448
   },
   "LWquky": {
-    "col": 22,
+    "col": 21,
     "defaultMessage": "Use up first",
     "description": "Ingredient picker heading for likely remainders to use soon. These are suggestions, not confirmed stock.",
-    "end": 1444,
+    "end": 1029,
     "file": "src/features/chat/on-hand-picker.tsx",
-    "line": 19,
-    "start": 722
+    "line": 25,
+    "start": 850
   },
   "LZ9KXr": {
     "col": 62,
@@ -1465,6 +1447,15 @@
     "file": "src/features/ingredients/ingredient-labels.ts",
     "line": 10,
     "start": 349
+  },
+  "RytgTs": {
+    "col": 20,
+    "defaultMessage": "Add another ingredient",
+    "description": "Input placeholder after at least one ingredient has been added to the meal request.",
+    "end": 26845,
+    "file": "src/app/chats/[id].tsx",
+    "line": 755,
+    "start": 26592
   },
   "S3jKdb": {
     "col": 32,
@@ -1803,10 +1794,10 @@
     "col": 20,
     "defaultMessage": "What ingredients do you have?",
     "description": "First message prompt for a meal chat based on ingredients on hand.",
-    "end": 26438,
+    "end": 27109,
     "file": "src/app/chats/[id].tsx",
-    "line": 749,
-    "start": 26195
+    "line": 760,
+    "start": 26866
   },
   "Z9BB32": {
     "col": 34,
@@ -2213,15 +2204,6 @@
     "line": 8,
     "start": 334
   },
-  "iVyxNU": {
-    "col": 22,
-    "defaultMessage": "Staples",
-    "description": "Ingredient picker heading for common meal bases such as rice and pasta.",
-    "end": 1444,
-    "file": "src/features/chat/on-hand-picker.tsx",
-    "line": 19,
-    "start": 722
-  },
   "ihg5qC": {
     "col": 62,
     "defaultMessage": "Rice",
@@ -2271,10 +2253,10 @@
     "col": 17,
     "defaultMessage": "Found recipes",
     "description": "Title of the sheet that reviews the recipes one import found, before any are saved.",
-    "end": 10414,
+    "end": 10344,
     "file": "src/app/_layout.tsx",
-    "line": 312,
-    "start": 10210
+    "line": 311,
+    "start": 10140
   },
   "jnmwpe": {
     "col": 62,

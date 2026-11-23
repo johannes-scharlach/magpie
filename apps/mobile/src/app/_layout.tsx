@@ -96,7 +96,6 @@ function AppScreens() {
   const intl = useIntl();
   return (
     <>
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen
         name="household"
         options={{

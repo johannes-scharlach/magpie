@@ -177,6 +177,8 @@ export function Composer({
   preferCollapsed = false,
   autoFocus = false,
   hasAdditionalContent = false,
+  draft,
+  addAction,
 }: {
   placeholder: string;
   busy: boolean;
@@ -190,10 +192,13 @@ export function Composer({
   preferCollapsed?: boolean;
   autoFocus?: boolean;
   hasAdditionalContent?: boolean;
+  draft?: { text: string; setText: (text: string) => void };
+  addAction?: { label: string; onAdd: (text: string) => void };
 }) {
   const insets = useSafeAreaInsets();
   const inputRef = useRef<TextInputInstance>(null);
-  const [text, setText] = useState("");
+  const [localText, setLocalText] = useState("");
+  const { text, setText } = draft ?? { text: localText, setText: setLocalText };
   const [focused, setFocused] = useState(false);
   const [attachments, setAttachments] = useState<ImageAttachment[]>([]);
   const [attachmentError, setAttachmentError] = useState<string | null>(null);
@@ -211,9 +216,10 @@ export function Composer({
     hasEmptyAction: !!emptyAction,
     recording: voiceOn,
     hasAdditionalContent,
+    hasAddAction: !!addAction,
   });
   const showEmptyAction = trailing === "emptyAction";
-  const canSend = trailing === "send" && !busy;
+  const canSubmit = (trailing === "add" || trailing === "send") && !busy;
   const collapsed =
     preferCollapsed &&
     !!collapsedAction &&
@@ -340,6 +346,11 @@ export function Composer({
     const trimmed = text.trim();
     if (busy || (!trimmed && !attachments.length && !hasAdditionalContent))
       return;
+    if (addAction && trimmed) {
+      addAction.onAdd(trimmed);
+      setText("");
+      return;
+    }
     setText("");
     setAttachments([]);
     setAttachmentError(null);
@@ -580,8 +591,10 @@ export function Composer({
                       placeholder={placeholder}
                       placeholderTextColor={placeholderColor}
                       multiline
-                      returnKeyType="send"
-                      submitBehavior="blurAndSubmit"
+                      returnKeyType={trailing === "add" ? "done" : "send"}
+                      submitBehavior={
+                        trailing === "add" ? "submit" : "blurAndSubmit"
+                      }
                       onSubmitEditing={submit}
                       style={{
                         includeFontPadding: false,
@@ -602,24 +615,35 @@ export function Composer({
                               ? sendVoice()
                               : submit())
                         }
-                        disabled={trailing === "mic" ? busy : !canSend}
+                        disabled={trailing === "mic" ? busy : !canSubmit}
                         accessibilityLabel={
-                          trailing === "mic" ? "Record voice message" : "Send"
+                          trailing === "mic"
+                            ? "Record voice message"
+                            : trailing === "add"
+                              ? addAction?.label
+                              : "Send"
                         }
                         accessibilityRole="button"
                         hitSlop={{ right: 4 }}
                         className="h-12 w-10 items-center justify-center active:opacity-60"
                         style={
-                          (trailing === "mic" ? busy : !canSend)
+                          (trailing === "mic" ? busy : !canSubmit)
                             ? { opacity: 0.35 }
                             : undefined
                         }
                       >
                         <Animated.View style={sendIconStyle}>
                           <SymbolView
-                            name={SEND_ICON}
+                            name={
+                              trailing === "add"
+                                ? {
+                                    ios: "plus.circle.fill",
+                                    android: "add_circle",
+                                  }
+                                : SEND_ICON
+                            }
                             tintColor={
-                              canSend ? primaryColor : placeholderColor
+                              canSubmit ? primaryColor : placeholderColor
                             }
                             size={26}
                           />
