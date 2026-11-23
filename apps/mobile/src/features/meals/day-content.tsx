@@ -43,6 +43,7 @@ type Props = {
   list: List;
   importJobs: ImportJobs;
   plannedFor: (date: string, slot: MealSlot) => DisplayPlannedMeal | null;
+  dinnerSuggestion?: string;
   recommendations: (slot: MealSlot) => MealRecommendations;
   isSelecting: (slot: MealSlot) => boolean;
   onRetry: (slot: MealSlot) => void;
@@ -69,6 +70,7 @@ export function DayContent({
   list,
   importJobs,
   plannedFor,
+  dinnerSuggestion,
   recommendations,
   isSelecting,
   onRetry,
@@ -149,6 +151,7 @@ export function DayContent({
               plannedMealId={plannedMealId(list.id, dateStr, slot)}
               listId={list.id}
               recipe={recipe}
+              reminderVisit={slot === "dinner" ? dinnerSuggestion : undefined}
               isPast={mealIsPast(dateStr, today)}
               showShoppingPrompt={
                 !!recipe && !recipe.shoppingReviewed && dateStr >= today

@@ -1,7 +1,7 @@
 begin;
 create extension if not exists pgtap with schema extensions;
 set local search_path = public, extensions;
-select plan(4);
+select plan(6);
 
 -- An empty day after the last planned one (spec 0010): the next two days,
 -- then the first day of the household's usual block, Monday or Saturday.
@@ -89,6 +89,26 @@ select results_eq(
     ('meal_reminder', '2026-10-14', null::uuid, '[]'::jsonb, 0)$$,
   'The worker reads the day as it is at send time, with what is left to buy');
 select set_config('request.jwt.claim.role', '', true);
+
+select set_config('request.jwt.claim.sub', 'a1000000-0000-4000-8000-000000000001', true);
+select register_push_device(
+  'a3000000-0000-4000-8000-000000000001', 'ExpoPushToken[upgrade-test]',
+  'ios', 'Europe/Berlin', true
+);
+select is(
+  (select supports_dinner_suggestions from push_devices
+   where installation_id = 'a3000000-0000-4000-8000-000000000001'),
+  true, 'The app opts its installation into suggestion pushes'
+);
+select register_push_device(
+  'a3000000-0000-4000-8000-000000000001', 'ExpoPushToken[upgrade-test]',
+  'ios', 'Europe/Berlin'
+);
+select is(
+  (select supports_dinner_suggestions from push_devices
+   where installation_id = 'a3000000-0000-4000-8000-000000000001'),
+  false, 'An older app on the same installation opts back out'
+);
 
 select * from finish();
 rollback;

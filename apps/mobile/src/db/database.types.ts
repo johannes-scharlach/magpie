@@ -572,6 +572,35 @@ export type Database = {
         };
         Relationships: [];
       };
+      meal_reminder_suggestions: {
+        Row: {
+          created_at: string;
+          list_id: string;
+          recommendations: Json | null;
+          reminder_date: string;
+        };
+        Insert: {
+          created_at?: string;
+          list_id: string;
+          recommendations?: Json | null;
+          reminder_date: string;
+        };
+        Update: {
+          created_at?: string;
+          list_id?: string;
+          recommendations?: Json | null;
+          reminder_date?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "meal_reminder_suggestions_list_id_fkey";
+            columns: ["list_id"];
+            isOneToOne: false;
+            referencedRelation: "lists";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       notification_deliveries: {
         Row: {
           activity_id: string | null;
@@ -779,6 +808,7 @@ export type Database = {
           installation_id: string;
           platform: string;
           registered_at: string;
+          supports_dinner_suggestions: boolean;
           time_zone: string | null;
           user_id: string;
         };
@@ -790,6 +820,7 @@ export type Database = {
           installation_id: string;
           platform: string;
           registered_at?: string;
+          supports_dinner_suggestions?: boolean;
           time_zone?: string | null;
           user_id: string;
         };
@@ -801,6 +832,7 @@ export type Database = {
           installation_id?: string;
           platform?: string;
           registered_at?: string;
+          supports_dinner_suggestions?: boolean;
           time_zone?: string | null;
           user_id?: string;
         };
@@ -1013,6 +1045,16 @@ export type Database = {
         Returns: undefined;
       };
       register_push_device: {
+        Args: {
+          target_expo_push_token: string;
+          target_installation_id: string;
+          target_platform: string;
+          target_supports_dinner_suggestions?: boolean;
+          target_time_zone?: string;
+        };
+        Returns: string;
+      };
+      register_push_device_base: {
         Args: {
           target_expo_push_token: string;
           target_installation_id: string;

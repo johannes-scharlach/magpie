@@ -61,6 +61,7 @@ export async function registerPushDevice(): Promise<void> {
     // Push text says "today" and "tomorrow" in this zone; refreshed on every
     // foregrounding, so travel catches up.
     target_time_zone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    target_supports_dinner_suggestions: true,
   });
   if (error) throw error;
 }

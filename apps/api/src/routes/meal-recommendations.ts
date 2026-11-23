@@ -1,3 +1,4 @@
+import { timingSafeEqual } from "node:crypto";
 import { Hono } from "hono";
 import { HTTPException } from "hono/http-exception";
 import { z } from "zod";
@@ -10,6 +11,12 @@ import {
   saveSeededMeal,
 } from "../meal-recommendation-store.js";
 import { recommendMeals } from "../meal-recommendations.js";
+import {
+  prepareReminderSuggestion,
+  readReminderSuggestions,
+  recommendationCards,
+  ReminderDay,
+} from "../meal-reminder-suggestions.js";
 import { MEAL_SLOTS } from "../plan.js";
 
 const RequestSchema = z.object({
@@ -23,6 +30,40 @@ const SeedSchema = z.object({
 });
 
 export const mealRecommendations = new Hono<AppBindings>();
+export const mealReminderWorker = new Hono<AppBindings>();
+
+mealReminderWorker.post("/", async (c) => {
+  const expected = Buffer.from(process.env.NOTIFICATION_WORKER_SECRET ?? "");
+  const supplied = Buffer.from(c.req.header("x-notification-secret") ?? "");
+  if (
+    !expected.length ||
+    expected.length !== supplied.length ||
+    !timingSafeEqual(expected, supplied)
+  ) {
+    throw new HTTPException(401);
+  }
+  const parsed = ReminderDay.extend({ userId: z.uuid() }).safeParse(
+    await c.req.json().catch(() => null),
+  );
+  if (!parsed.success) throw new HTTPException(400);
+  const suggestion = await prepareReminderSuggestion(
+    parsed.data.userId,
+    parsed.data,
+    AbortSignal.timeout(30_000),
+  );
+  return c.json({ suggestion });
+});
+
+mealRecommendations.post("/reminder", async (c) => {
+  const parsed = ReminderDay.safeParse(await c.req.json().catch(() => null));
+  if (!parsed.success) throw new HTTPException(400);
+  return c.json({
+    recommendations: await readReminderSuggestions(
+      c.get("user").id,
+      parsed.data,
+    ),
+  });
+});
 
 mealRecommendations.post("/", async (c) => {
   const parsed = RequestSchema.safeParse(await c.req.json().catch(() => null));
@@ -53,17 +94,7 @@ mealRecommendations.post("/", async (c) => {
     state,
     AbortSignal.any([c.req.raw.signal, AbortSignal.timeout(30000)]),
   );
-  return c.json({
-    recommendations: recommendations.map(
-      ({ id, recipeId, seedKey, name, totalTime }) => ({
-        id,
-        recipeId,
-        seedKey,
-        name,
-        totalTime,
-      }),
-    ),
-  });
+  return c.json({ recommendations: recommendationCards(recommendations) });
 });
 
 mealRecommendations.post("/seed", async (c) => {

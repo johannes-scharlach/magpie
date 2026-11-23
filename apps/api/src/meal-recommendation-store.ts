@@ -25,6 +25,7 @@ export async function loadRecommendationState(
   listId: string,
   date: string,
   slot: string,
+  cookbookScope: "member" | "household" = "member",
 ): Promise<RecommendationState> {
   await assertListMember(client, userId, listId);
   const profile = (
@@ -51,9 +52,10 @@ export async function loadRecommendationState(
     FROM recipes r
     JOIN LATERAL (SELECT * FROM variants WHERE recipe_id = r.id ORDER BY created_at DESC, id LIMIT 1) v ON true
     WHERE EXISTS (SELECT 1 FROM list_members WHERE list_id = r.list_id AND user_id = $1)
+      AND (NOT $3::boolean OR r.list_id = $2)
     ORDER BY r.created_at DESC, r.id LIMIT 80
   `,
-      [userId],
+      [userId, listId, cookbookScope === "household"],
     )
   ).rows;
   const plannedMeals = (

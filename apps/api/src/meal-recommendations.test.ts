@@ -533,6 +533,38 @@ test(
         ),
         /access/i,
       );
+
+      // The first member can browse another household; the second cannot.
+      const secondMember = randomUUID();
+      const privateRecipe = randomUUID();
+      await client.query("INSERT INTO list_members VALUES ($1,$2), ($3,$4)", [
+        other,
+        user,
+        home,
+        secondMember,
+      ]);
+      await client.query(
+        "INSERT INTO recipes VALUES ($1,$2,now(),'italian','[]')",
+        [privateRecipe, other],
+      );
+      await client.query(
+        "INSERT INTO variants VALUES ($1,$2,'other cookbook',null,null,'[]','easy','[]',now())",
+        [randomUUID(), privateRecipe],
+      );
+      for (const member of [user, secondMember]) {
+        const shared = await loadRecommendationState(
+          client as PoolClient,
+          member,
+          home,
+          "2026-11-07",
+          "dinner",
+          "household",
+        );
+        assert.deepEqual(
+          shared.candidates.filter((c) => !c.seedKey).map((c) => c.name),
+          ["latest"],
+        );
+      }
     } finally {
       await client.end();
     }

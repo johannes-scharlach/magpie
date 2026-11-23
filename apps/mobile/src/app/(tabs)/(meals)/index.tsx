@@ -9,6 +9,7 @@ import {
   Alert,
   Pressable,
   ScrollView,
+  type ScrollViewInstance,
   useWindowDimensions,
   View,
 } from "react-native";
@@ -41,14 +42,23 @@ import {
 } from "@/features/meals/use-meal-recommendations";
 import { useToday } from "@/hooks/use-today";
 
+function slotKey(listId: string | undefined, date: string, slot: MealSlot) {
+  return `${listId ?? ""}:${date}:${slot}`;
+}
+
 export default function Meals() {
   const intl = useIntl();
   const iconColor = useResolveClassNames("text-foreground").color;
   const eatersLabel = useEatersLabel();
   const [{ dates, todayIndex }] = useState(stripDates);
-  const { date: requestedDate, at } = useLocalSearchParams<{
+  const {
+    date: requestedDate,
+    at,
+    dinnerSuggestion,
+  } = useLocalSearchParams<{
     date?: string;
     at?: string;
+    dinnerSuggestion?: string;
   }>();
   const [selected, setSelected] = useState(() => {
     if (requestedDate && dates.some((d) => dateKey(d) === requestedDate)) {
@@ -75,6 +85,20 @@ export default function Meals() {
 
   const list = useActiveList();
   const recommendations = useMealRecommendations(list?.id);
+  const { load } = recommendations;
+  const [dismissedSuggestion, setDismissedSuggestion] = useState<string | null>(
+    null,
+  );
+  const reminderDate =
+    at && at !== dismissedSuggestion && list?.id && dinnerSuggestion === list.id
+      ? dates.some((day) => dateKey(day) === requestedDate) && requestedDate
+      : undefined;
+  const scroll = useRef<ScrollViewInstance>(null);
+  useEffect(() => {
+    if (!reminderDate || !at) return;
+    void load(reminderDate, "dinner", "reminder");
+    scroll.current?.scrollTo({ y: 0, animated: false });
+  }, [at, load, reminderDate]);
   const selectingSlots = useRef(new Set<string>());
   const [selecting, setSelecting] = useState<Set<string>>(new Set());
 
@@ -121,9 +145,11 @@ export default function Meals() {
   });
 
   function plannedFor(date: string, slot: MealSlot): DisplayPlannedMeal | null {
-    const k = `${date}:${slot}`;
+    const k = slotKey(list?.id, date, slot);
     if (k in pending) return pending[k] ?? null;
-    const row = planned.find((p) => p.slot_date === date && p.meal === slot);
+    const row = planned.find(
+      (p) => p.list_id === list?.id && p.slot_date === date && p.meal === slot,
+    );
     if (!row) return null;
     const v = row.variant_id ? variantById.get(row.variant_id) : null;
     const eaterIds = parseEaterIds(row.eater_ids);
@@ -145,8 +171,11 @@ export default function Meals() {
   // clear optimistic pending once the real row arrives / disappears
   useEffect(() => {
     for (const [k, p] of Object.entries(pending)) {
-      const [date, slot] = k.split(":") as [string, MealSlot];
-      const row = planned.find((r) => r.slot_date === date && r.meal === slot);
+      const [listId, date, slot] = k.split(":");
+      if (listId !== list?.id) continue;
+      const row = planned.find(
+        (r) => r.list_id === listId && r.slot_date === date && r.meal === slot,
+      );
       if ((p === null && !row) || (p && row?.variant_id === p.variantId)) {
         // eslint-disable-next-line react-hooks/set-state-in-effect -- clearing optimistic pending once PowerSync catches up
         setPending((prev) => {
@@ -156,13 +185,16 @@ export default function Meals() {
         });
       }
     }
-  }, [planned, pending]);
+  }, [list?.id, planned, pending]);
 
   function setOpen(date: string, slot: MealSlot, open: boolean) {
+    if (date === reminderDate && slot === "dinner" && at) {
+      setDismissedSuggestion(at);
+    }
     if (open) void recommendations.load(date, slot);
     setOpenSlots((prev) => {
       const next = new Set(prev);
-      const k = `${date}:${slot}`;
+      const k = slotKey(list?.id, date, slot);
       if (open) next.add(k);
       else next.delete(k);
       return next;
@@ -171,7 +203,7 @@ export default function Meals() {
 
   async function onPlan(date: string, slot: MealSlot, recipe: DisplayRecipe) {
     if (!list) return;
-    const k = `${date}:${slot}`;
+    const k = slotKey(list.id, date, slot);
     if (selectingSlots.current.has(k)) return;
     selectingSlots.current.add(k);
     setSelecting(new Set(selectingSlots.current));
@@ -239,7 +271,7 @@ export default function Meals() {
 
   async function changeMeal(date: string, slot: MealSlot) {
     if (!list) return;
-    const k = `${date}:${slot}`;
+    const k = slotKey(list?.id, date, slot);
     setPending((prev) => ({ ...prev, [k]: null }));
     setOpen(date, slot, true);
     try {
@@ -255,7 +287,7 @@ export default function Meals() {
 
   async function skipMeal(date: string, slot: MealSlot) {
     if (!list) return;
-    const k = `${date}:${slot}`;
+    const k = slotKey(list?.id, date, slot);
     setPending((prev) => ({ ...prev, [k]: null }));
     setOpen(date, slot, false);
     try {
@@ -313,6 +345,8 @@ export default function Meals() {
 
   function dayPage(date: Date, index: number) {
     const key = dateKey(date);
+    const isReminderSlot = (slot: MealSlot) =>
+      key === reminderDate && slot === "dinner";
     // Only the selected day and its neighbours mount; the rest hold their slot.
     if (!list || Math.abs(index - selIndex) > 1)
       return <View key={key} style={{ width }} />;
@@ -325,8 +359,13 @@ export default function Meals() {
           list={list}
           importJobs={importJobs}
           plannedFor={plannedFor}
+          dinnerSuggestion={key === reminderDate ? at : undefined}
           recommendations={(slot) => {
-            const found = recommendations.get(key, slot);
+            const found = recommendations.get(
+              key,
+              slot,
+              isReminderSlot(slot) ? "reminder" : "live",
+            );
             return {
               ...found,
               recipes: found.recipes.map((recipe) => ({
@@ -335,9 +374,13 @@ export default function Meals() {
               })),
             };
           }}
-          isSelecting={(slot) => selecting.has(`${key}:${slot}`)}
-          onRetry={(slot) => void recommendations.load(key, slot)}
-          isOpen={(slot) => openSlots.has(`${key}:${slot}`)}
+          isSelecting={(slot) => selecting.has(slotKey(list.id, key, slot))}
+          onRetry={(slot) =>
+            void load(key, slot, isReminderSlot(slot) ? "reminder" : "live")
+          }
+          isOpen={(slot) =>
+            isReminderSlot(slot) || openSlots.has(slotKey(list.id, key, slot))
+          }
           onPlan={(slot, r) => void onPlan(key, slot, r)}
           onEditEaters={(slot, r) => editEaters(key, slot, r)}
           onChange={(slot) => void changeMeal(key, slot)}
@@ -451,6 +494,7 @@ export default function Meals() {
         </View>
       ) : (
         <ScrollView
+          ref={scroll}
           className="flex-1 bg-background"
           contentInsetAdjustmentBehavior="automatic"
           contentContainerClassName="flex-grow"
