@@ -45,6 +45,7 @@ type Props = {
   /** Only true for an unreviewed meal planned for today or later. */
   showShoppingPrompt: boolean;
   contenders: Recipe[];
+  reminderVisit?: string;
   recommendationsLoading: boolean;
   recommendationsFailed: boolean;
   selecting: boolean;
@@ -85,6 +86,7 @@ export function MealSection({
   isPast,
   showShoppingPrompt,
   contenders,
+  reminderVisit,
   recommendationsLoading,
   recommendationsFailed,
   selecting,
@@ -394,11 +396,12 @@ export function MealSection({
             </View>
             <GestureDetector gesture={contendersScroll}>
               <ScrollView
+                key={reminderVisit}
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={{ paddingHorizontal: 24, gap: 12 }}
               >
-                {contenders.map((c) => (
+                {contenders.map((c, index) => (
                   <Pressable
                     key={c.id}
                     accessibilityRole="button"
@@ -459,7 +462,9 @@ export function MealSection({
                         numberOfLines={2}
                         className="min-h-10 text-sm font-medium leading-5"
                       >
-                        {seededLook(c.name)?.shortName ?? c.name}
+                        {reminderVisit && index === 0
+                          ? c.name
+                          : (seededLook(c.name)?.shortName ?? c.name)}
                       </Text>
                     </View>
                   </Pressable>

@@ -14,16 +14,20 @@ Shaped in conversation, 2026-10-09. Design: ADR 25. Delivery: ADR 19.
    weekend cooks and holidays without nagging. Never planned: Mondays.
 4. Text:
 
-   | Day      | Title            | Body                                                 |
-   | -------- | ---------------- | ---------------------------------------------------- |
-   | One meal | Today's dinner   | Lasagne · 2 items still to buy                       |
-   | Several  | Today            | Lunch: Soup · Dinner: Lasagne · 2 items still to buy |
-   | Empty    | Tonight's dinner | One of seven lines, rotating by date                 |
+   | Day      | Title          | Body                                                 |
+   | -------- | -------------- | ---------------------------------------------------- |
+   | One meal | Today's dinner | Lasagne · 2 items still to buy                       |
+   | Several  | Today          | Lunch: Soup · Dinner: Lasagne · 2 items still to buy |
+   | Empty    | Dinner idea    | The household's top dinner suggestion                |
 
    Items to buy are active List items of today's meals; none, no mention.
-   The empty-day lines are in `_shared/meal-reminder-text.ts`.
+   If no suggestion is available, the empty-day push uses “Tonight's dinner”
+   and a rotating line from `_shared/meal-reminder-text.ts`.
 
-5. Tapping opens Meals on that day.
+5. Tapping opens Meals in that household on that day. A suggestion push opens
+   Dinner with the named recipe first, then the rest of the saved shortlist.
+   If dinner is already planned, the plan takes precedence. Nothing is planned
+   just by tapping the push.
 6. Reminders stay out of the activity feed. Devices without a time zone
    (older builds) get none.
 7. Not in scope: off switch, per-meal reminders, smarter copy (last meal,
@@ -55,3 +59,26 @@ Deploy `notification-worker` first: an old worker would send reminders as
 broken meal pushes, while the new one works with the old schema. Then apply
 the migration and run `pnpm db:types`. No sync or mobile
 change needed. Needs the Vault secrets from spec 0007.
+
+## Shared dinner suggestions
+
+The first eligible empty-day delivery triggers Jev from the API. It uses the
+household's preferences, plans, and cookbook plus built-in recipes. The
+server-only `meal_reminder_suggestions` table stores one shortlist per household
+and reminder date, so members and devices get the same pick even across time
+zones. The worker sends the name only after saving the shortlist, and only to
+devices that registered support for opening it. Older builds still get generic
+reminders. Other notifications and planned-day reminders do not wait for Jev.
+
+Apply `20261123100000_meal_reminder_suggestions.sql` and release the API, edge
+functions, and mobile tap handling. Enable the integration by setting
+`MEAL_REMINDER_API_URL` to the API origin in the edge functions and
+`NOTIFICATION_WORKER_SECRET` in the API to match the edge secret. Leave the URL
+unset to keep generic pushes. With no Jev key or usable result, the worker
+falls back to the generic reminder.
+
+Device check: use two phones with members of one household, one with another household
+selected. Verify both see the same named pick, tapping switches households
+and shows that recipe first, and planning dinner on one device makes the other
+show the plan instead. Verify planned-day and generic fallback pushes still
+open the date without expanding suggestions.

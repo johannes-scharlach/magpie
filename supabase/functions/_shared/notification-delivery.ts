@@ -83,8 +83,18 @@ export async function dispatchNotificationBatch(
     const receipts = claimed.filter(
       (delivery) => delivery.status === 'ticketed',
     );
+    const apiUrl = Deno.env.get('MEAL_REMINDER_API_URL');
+    const secret = Deno.env.get('NOTIFICATION_WORKER_SECRET');
+    const empty = pushes.filter((delivery) =>
+      delivery.kind === 'meal_reminder' && delivery.day_meals?.length === 0 &&
+      delivery.slot_date !== null && apiUrl && secret
+    );
+    const ideas = new Set(empty);
     await Promise.all([
-      sendPushes(supabase, pushes, claimId),
+      sendPushes(supabase, pushes.filter((delivery) => !ideas.has(delivery)), claimId),
+      ...(apiUrl && secret && empty.length
+        ? [sendDinnerSuggestions(supabase, empty, claimId, apiUrl, secret)]
+        : []),
       checkReceipts(supabase, receipts, claimId),
     ]);
     processed += claimed.length;
@@ -92,10 +102,56 @@ export async function dispatchNotificationBatch(
   return processed;
 }
 
+async function sendDinnerSuggestions(
+  supabase: SupabaseClient,
+  deliveries: ClaimedDelivery[],
+  claimId: string,
+  apiUrl: string,
+  secret: string,
+) {
+  const { data, error } = await supabase
+    .from('push_devices')
+    .select('id')
+    .in('id', [...new Set(deliveries.map((d) => d.device_id))])
+    .eq('supports_dinner_suggestions', true);
+  if (error) console.error('Could not load dinner suggestion support', error.message);
+  const supported = new Set((data ?? []).map((d) => d.id));
+  const key = (d: ClaimedDelivery) => `${d.list_id}:${d.slot_date}`;
+  const unique = new Map(
+    deliveries.filter((d) => supported.has(d.device_id)).map((d) => [key(d), d]),
+  );
+  const dishes = new Map(
+    await Promise.all([...unique].map(async ([k, d]) => {
+      try {
+        const response = await fetch(new URL('/internal/meal-reminder', apiUrl), {
+          method: 'POST',
+          redirect: 'error',
+          headers: { 'content-type': 'application/json', 'x-notification-secret': secret },
+          body: JSON.stringify({ listId: d.list_id, date: d.slot_date, userId: d.user_id }),
+          signal: AbortSignal.timeout(35_000),
+        });
+        if (!response.ok) throw new Error(`meal_reminder_http_${response.status}`);
+        const { suggestion } = await response.json();
+        return [k, typeof suggestion === 'string' ? suggestion : undefined] as const;
+      } catch (error) {
+        console.error('Dinner suggestion unavailable', error);
+        return [k, undefined] as const;
+      }
+    })),
+  );
+  await sendPushes(
+    supabase,
+    deliveries,
+    claimId,
+    (d) => supported.has(d.device_id) ? dishes.get(key(d)) : undefined,
+  );
+}
+
 async function sendPushes(
   supabase: SupabaseClient,
   deliveries: ClaimedDelivery[],
   claimId: string,
+  suggestion?: (delivery: ClaimedDelivery) => string | undefined,
 ) {
   if (!deliveries.length) return;
   const now = new Date();
@@ -104,7 +160,7 @@ async function sendPushes(
       method: 'POST',
       headers: expoHeaders(),
       body: JSON.stringify(
-        deliveries.map((delivery) => pushMessage(delivery, now)),
+        deliveries.map((delivery) => pushMessage(delivery, now, suggestion?.(delivery))),
       ),
       signal: AbortSignal.timeout(10_000),
     });
@@ -271,8 +327,12 @@ async function applyDecision(
 }
 
 // Rendered at send time, so a retry hours later still names the right day.
-export function pushMessage(delivery: ClaimedDelivery, now: Date) {
-  const { title, body } = pushText(delivery, now);
+export function pushMessage(delivery: ClaimedDelivery, now: Date, suggestedDish?: string) {
+  const dinnerIdea = delivery.kind === 'meal_reminder' &&
+    delivery.day_meals?.length === 0 && suggestedDish;
+  const { title, body } = dinnerIdea
+    ? { title: 'Dinner idea', body: dinnerIdea }
+    : pushText(delivery, now);
   return {
     to: delivery.expo_push_token,
     title,
@@ -288,6 +348,7 @@ export function pushMessage(delivery: ClaimedDelivery, now: Date) {
       slotDate: delivery.slot_date,
       chatId: delivery.chat_id,
       operationId: delivery.import_operation_id,
+      ...(dinnerIdea ? { dinnerSuggestion: true } : {}),
     },
   };
 }

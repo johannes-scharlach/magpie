@@ -17,7 +17,10 @@ import { recipes } from "./routes/recipes.js";
 import { invitations } from "./routes/invitations.js";
 import { favicons } from "./routes/favicons.js";
 import { sharedRecipes } from "./routes/shared-recipes.js";
-import { mealRecommendations } from "./routes/meal-recommendations.js";
+import {
+  mealRecommendations,
+  mealReminderWorker,
+} from "./routes/meal-recommendations.js";
 
 export const app = new Hono<AppBindings>();
 
@@ -59,6 +62,7 @@ app.use(
 
 // Unauthenticated on purpose: Fly's health check has no token to present.
 app.get("/health", (c) => c.json({ ok: true }));
+app.route("/internal/meal-reminder", mealReminderWorker);
 app.route("/", favicons);
 app.route("/join", invitations);
 app.route("/r", sharedRecipes);

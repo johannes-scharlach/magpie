@@ -129,3 +129,28 @@ Deno.test('a chat reply opens its chat', () => {
   );
   assertEquals(message.data.chatId, 'chat-1');
 });
+
+Deno.test('only an empty-day push with a saved pick promises a dinner idea', () => {
+  const empty = {
+    ...join,
+    activity_id: null,
+    kind: 'meal_reminder' as const,
+    slot_date: '2026-10-07',
+    day_meals: [],
+    items_to_buy: 0,
+  };
+  const idea = pushMessage(empty, now, 'Lemon chickpea bowls');
+  assertEquals([idea.title, idea.body], ['Dinner idea', 'Lemon chickpea bowls']);
+  assertEquals(idea.data.dinnerSuggestion, true);
+  assertEquals(idea.data.listId, 'list-1');
+  assertEquals(idea.data.slotDate, '2026-10-07');
+
+  assertEquals(pushMessage(empty, now).data.dinnerSuggestion, undefined);
+  const planned = pushMessage(
+    { ...empty, day_meals: [{ meal: 'dinner', name: 'Lasagne' }] },
+    now,
+    'Lemon chickpea bowls',
+  );
+  assertEquals(planned.body, 'Lasagne');
+  assertEquals(planned.data.dinnerSuggestion, undefined);
+});

@@ -25,7 +25,15 @@ export function notificationRoute(
   if (data.kind !== "member_joined" && typeof data.slotDate === "string") {
     return {
       pathname: "/",
-      params: { date: data.slotDate, at: responseId },
+      params: {
+        date: data.slotDate,
+        at: responseId,
+        ...(data.kind === "meal_reminder" &&
+        data.dinnerSuggestion === true &&
+        typeof data.listId === "string"
+          ? { dinnerSuggestion: data.listId }
+          : {}),
+      },
     };
   }
   return "/household-activity";

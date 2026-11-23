@@ -4,7 +4,7 @@ import { ListAccessError } from "./errors.js";
 
 /** Throws ListAccessError if the user is not currently a member of the list. */
 export async function assertListMember(
-  client: Client,
+  client: Pick<Client, "query">,
   userId: string,
   listId: string,
 ): Promise<void> {

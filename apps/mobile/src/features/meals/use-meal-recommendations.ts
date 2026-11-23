@@ -55,11 +55,13 @@ export type MealRecommendations = {
   loading: boolean;
   failed: boolean;
 };
+type Source = "live" | "reminder";
 const empty: MealRecommendations = {
   recipes: [],
   loading: false,
   failed: false,
 };
+const awaitingReminder: MealRecommendations = { ...empty, loading: true };
 
 export function useMealRecommendations(listId: string | undefined) {
   const [entries, setEntries] = useState<Record<string, MealRecommendations>>(
@@ -73,23 +75,31 @@ export function useMealRecommendations(listId: string | undefined) {
       active.clear();
     };
   }, [listId]);
-  const key = (date: string, slot: MealSlot) => `${listId}:${date}:${slot}`;
+  const key = (date: string, slot: MealSlot, source: Source) =>
+    `${listId}:${date}:${slot}:${source}`;
 
   const load = useCallback(
-    async (date: string, slot: MealSlot) => {
+    async (date: string, slot: MealSlot, source: Source = "live") => {
       if (!listId) return;
-      const k = `${listId}:${date}:${slot}`;
+      const k = `${listId}:${date}:${slot}:${source}`;
       if (requests.current.has(k)) return;
       const controller = new AbortController();
       requests.current.set(k, controller);
-      const timeout = setTimeout(() => controller.abort(), 35000);
+      const timeout = setTimeout(
+        () => controller.abort(),
+        source === "reminder" ? 10000 : 35000,
+      );
       setEntries((prev) => ({
         ...prev,
         [k]: { recipes: [], loading: true, failed: false },
       }));
       try {
         const result = RecommendationsSchema.parse(
-          await request("", { listId, date, slot }, controller.signal),
+          await request(
+            source === "reminder" ? "/reminder" : "",
+            { listId, date, slot },
+            controller.signal,
+          ),
         );
         if (requests.current.get(k) === controller) {
           setEntries((prev) => ({
@@ -117,7 +127,9 @@ export function useMealRecommendations(listId: string | undefined) {
   );
 
   return {
-    get: (date: string, slot: MealSlot) => entries[key(date, slot)] ?? empty,
+    get: (date: string, slot: MealSlot, source: Source = "live") =>
+      entries[key(date, slot, source)] ??
+      (source === "reminder" ? awaitingReminder : empty),
     load,
   };
 }

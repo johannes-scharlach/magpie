@@ -18,6 +18,23 @@ describe("notification route", () => {
     );
   });
 
+  it("opens a shared dinner shortlist for the household and date from the push", () => {
+    expect(
+      notificationRoute(
+        {
+          kind: "meal_reminder",
+          slotDate: "2026-10-08",
+          listId: "list-1",
+          dinnerSuggestion: true,
+        },
+        "n2",
+      ),
+    ).toEqual({
+      pathname: "/",
+      params: { date: "2026-10-08", at: "n2", dinnerSuggestion: "list-1" },
+    });
+  });
+
   it("opens the chat a reply push is about", () => {
     expect(
       notificationRoute({ kind: "chat_reply", chatId: "chat-1" }, "n1"),
