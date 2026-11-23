@@ -8,13 +8,16 @@ export function composerTrailing({
   focused,
   hasEmptyAction,
   recording,
+  hasAdditionalContent = false,
 }: {
   text: string;
   attachmentCount: number;
   focused: boolean;
   hasEmptyAction: boolean;
   recording: boolean;
+  hasAdditionalContent?: boolean;
 }): "send" | "mic" | "emptyAction" {
-  if (recording || text.trim() || attachmentCount) return "send";
+  if (recording || text.trim() || attachmentCount || hasAdditionalContent)
+    return "send";
   return hasEmptyAction && !focused ? "emptyAction" : "mic";
 }

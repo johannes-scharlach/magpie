@@ -319,7 +319,11 @@ const deliveredAssets: Partial<Record<ArtworkId, number>> = {
 };
 
 export function hasArtwork(id: string): id is ArtworkId {
-  return id in deliveredAssets;
+  return Object.hasOwn(deliveredAssets, id);
+}
+
+export function bundledArtworkSource(id: string): number | undefined {
+  return hasArtwork(id) ? deliveredAssets[id] : undefined;
 }
 
 export function Artwork({
@@ -329,7 +333,7 @@ export function Artwork({
   id: ArtworkId;
   hero?: boolean;
 }) {
-  const asset = deliveredAssets[id];
+  const asset = bundledArtworkSource(id);
   if (asset) {
     return (
       <View

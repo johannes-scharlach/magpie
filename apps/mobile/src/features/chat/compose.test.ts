@@ -5,6 +5,7 @@ import {
   dishMessage,
   entryMessage,
   mealPlanMessage,
+  onHandSlotMessage,
   saveAndPlanMessage,
   slotEntryMessage,
   slotFromEntryMessage,
@@ -89,6 +90,19 @@ describe("dishMessage", () => {
 
 describe("starting from a meal slot", () => {
   const target = { date: "2026-09-10", slot: "dinner" } as const;
+
+  it("asks for the chosen lunch with only the selected ingredients and the note", () => {
+    const lunch = { date: "2026-09-11", slot: "lunch" } as const;
+    expect(onHandSlotMessage(lunch, ["Cabbage", "Rice"], "  No oven.  ")).toBe(
+      "Help me decide what to make for lunch on 2026-09-11.\nI have: Cabbage, Rice.\nNo oven.",
+    );
+    expect(onHandSlotMessage(lunch, ["Cabbage"], "")).toBe(
+      "Help me decide what to make for lunch on 2026-09-11.\nI have: Cabbage.",
+    );
+    expect(onHandSlotMessage(lunch, [], "Some leftovers")).toBe(
+      "Help me decide what to make for lunch on 2026-09-11.\nSome leftovers",
+    );
+  });
 
   it("puts the exact slot and ingredients in the first message and recovers the slot from history", () => {
     const text = slotEntryMessage(target, "I have chickpeas.");

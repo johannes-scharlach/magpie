@@ -11,6 +11,12 @@
       "value": "Erneut versuchen"
     }
   ],
+  "+hCyqG": [
+    {
+      "type": 0,
+      "value": "Nudeln"
+    }
+  ],
   "/Fo2I2": [
     {
       "type": 0,
@@ -93,6 +99,12 @@
       "value": "name"
     }
   ],
+  "320qNC": [
+    {
+      "type": 0,
+      "value": "Weiterhin ausgewählt"
+    }
+  ],
   "3CJl1Z": [
     {
       "type": 0,
@@ -173,6 +185,12 @@
     {
       "type": 0,
       "value": "Einkauf für Mahlzeiten"
+    }
+  ],
+  "5aJlCR": [
+    {
+      "type": 0,
+      "value": "Deine Vorräte"
     }
   ],
   "5dil2Q": [
@@ -382,6 +400,12 @@
       "value": "Geplant"
     }
   ],
+  "EO7SGs": [
+    {
+      "type": 0,
+      "value": "Notiz hinzufügen"
+    }
+  ],
   "EoBhsI": [
     {
       "type": 0,
@@ -568,6 +592,12 @@
     {
       "type": 0,
       "value": "Normal"
+    }
+  ],
+  "LWquky": [
+    {
+      "type": 0,
+      "value": "Zuerst aufbrauchen"
     }
   ],
   "M6fYaf": [
@@ -1191,6 +1221,18 @@
       "value": "Haus & Garten"
     }
   ],
+  "iVyxNU": [
+    {
+      "type": 0,
+      "value": "Grundzutaten"
+    }
+  ],
+  "ihg5qC": [
+    {
+      "type": 0,
+      "value": "Reis"
+    }
+  ],
   "ir/sf1": [
     {
       "type": 0,
@@ -1469,6 +1511,12 @@
     {
       "type": 0,
       "value": "Weitere Seite hinzufügen"
+    }
+  ],
+  "t8Vtgp": [
+    {
+      "type": 0,
+      "value": "Kartoffeln"
     }
   ],
   "tAQv1v": [
