@@ -509,11 +509,6 @@
     "_p6t_description": "Title in the shopping item sheet when the item no longer exists, for example because another device removed it.",
     "_p6t_source": "Item not found"
   },
-  "Sxhuxi": {
-    "defaultMessage": "Wische nach links für den nächsten Ersatz, nach rechts für den vorherigen. Tippe für Details.",
-    "_p6t_description": "Accessibility hint on a shopping row that offers other ingredient options.",
-    "_p6t_source": "Swipe left for the next substitute, right for the previous. Tap for details."
-  },
   "SyepTx": {
     "defaultMessage": "Mahlzeiten werden gesucht…",
     "_p6t_description": "Status while meal recommendations are loading.",
@@ -983,11 +978,6 @@
     "defaultMessage": "Gerichtsidee eingeben",
     "_p6t_description": "Starts a chat to explore how to make a dish the user has in mind for this meal slot.",
     "_p6t_source": "I have a dish in mind"
-  },
-  "u+lyd2": {
-    "defaultMessage": "Öffnet die Details des Eintrags",
-    "_p6t_description": "Accessibility hint on a shopping row without other ingredient options.",
-    "_p6t_source": "Opens item details"
   },
   "uRdLso": {
     "defaultMessage": "Fotos von Kochbuchseiten machen",
