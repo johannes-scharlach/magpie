@@ -1,13 +1,16 @@
-import type { Pool } from "pg";
-
 import type {
   IngredientArtResolution,
   IngredientArtStore,
 } from "./ingredient-art.js";
 
-export function ingredientArtStore(
-  db: Pick<Pool, "query">,
-): IngredientArtStore {
+type IngredientArtDb = {
+  query<Row extends Record<string, unknown>>(
+    sql: string,
+    values?: unknown[],
+  ): Promise<{ rows: Row[] }>;
+};
+
+export function ingredientArtStore(db: IngredientArtDb): IngredientArtStore {
   return {
     async listPublished() {
       const { rows } = await db.query<{
@@ -62,7 +65,7 @@ export function ingredientArtStore(
 
 /** Distinct generation needs after alias reuse, excluding completed art. */
 export async function listPendingIngredientArt(
-  db: Pick<Pool, "query">,
+  db: IngredientArtDb,
 ): Promise<string[]> {
   const { rows } = await db.query<{ ingredient_name: string }>(
     `SELECT DISTINCT aliases.ingredient_name
@@ -79,7 +82,7 @@ export async function listPendingIngredientArt(
 
 /** Record only after Storage has accepted the asset. */
 export async function recordIngredientArt(
-  db: Pick<Pool, "query">,
+  db: IngredientArtDb,
   ingredient: string,
   artId: string,
 ): Promise<void> {
@@ -87,5 +90,20 @@ export async function recordIngredientArt(
     `INSERT INTO public.ingredient_art_assets (ingredient_name, art_id)
      VALUES ($1, $2) ON CONFLICT (ingredient_name) DO NOTHING`,
     [ingredient, artId],
+  );
+}
+
+/** Promote queued names without rewriting their label keys or existing aliases. */
+export async function reusePublishedIngredientArt(
+  db: IngredientArtDb,
+  aliases: ReadonlyMap<string, string>,
+): Promise<void> {
+  if (!aliases.size) return;
+  await db.query(
+    `UPDATE public.ingredient_art_aliases AS alias
+        SET art_id = reuse.art_id, ingredient_name = NULL
+       FROM unnest($1::text[], $2::text[]) AS reuse(ingredient_name, art_id)
+      WHERE alias.ingredient_name = reuse.ingredient_name`,
+    [[...aliases.keys()], [...aliases.values()]],
   );
 }

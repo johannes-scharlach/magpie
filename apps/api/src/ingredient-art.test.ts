@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { it } from "node:test";
 import { knownIngredientArt } from "@magpie/profile";
 import {
+  reconsiderIngredientArt,
   resolveIngredientArt,
   type IngredientArtResolution,
 } from "./ingredient-art.js";
@@ -25,17 +26,17 @@ it("learns only clear aliases to existing art and reuses them across requests", 
     },
   };
   const result = await resolveIngredientArt(
-    ["Rice", "Kichererbsen", "Tomato purée", "Unknown spice", "Kichererbsen"],
+    ["Rice", "Pois chiches", "Tomato purée", "Unknown spice", "Pois chiches"],
     store,
     async (names, catalog) => {
       assert.deepEqual(names, [
-        "kichererbsen",
+        "pois chiches",
         "tomato purée",
         "unknown spice",
       ]);
       assert.equal(catalog.get("ingredient-chickpeas"), "Chickpeas");
       return new Map([
-        ["kichererbsen", { artId: "ingredient-chickpeas", confidence: 0.99 }],
+        ["pois chiches", { artId: "ingredient-chickpeas", confidence: 0.99 }],
         [
           "tomato purée",
           { artId: "ingredient-canned-tomatoes", confidence: 0.35 },
@@ -53,7 +54,7 @@ it("learns only clear aliases to existing art and reuses them across requests", 
   ]);
   assert.equal(saved.size, 1);
   assert.deepEqual(
-    await resolveIngredientArt([" KICHERERBSEN "], store, async () =>
+    await resolveIngredientArt([" POIS CHICHES "], store, async () =>
       assert.fail("Do not ask Jev for a saved alias"),
     ),
     ["ingredient-chickpeas"],
@@ -129,15 +130,38 @@ it("resolves published art through existing aliases and offers it for new transl
     [artId, artId, null, "pantry-rice"],
   );
   assert.deepEqual(
-    await resolveIngredientArt(["Berenjena"], store, async (names, catalog) => {
-      assert.deepEqual(names, ["berenjena"]);
+    await resolveIngredientArt(["Melanzana"], store, async (names, catalog) => {
+      assert.deepEqual(names, ["melanzana"]);
       assert.equal(catalog.get(artId), "eggplant");
-      return new Map([["berenjena", { artId, confidence: 0.99 }]]);
+      return new Map([["melanzana", { artId, confidence: 0.99 }]]);
     }),
     [artId],
   );
   assert.deepEqual(
-    await resolveIngredientArt(["Berenjena"], store, neverJudge),
+    await resolveIngredientArt(["Melanzana"], store, neverJudge),
     [artId],
+  );
+});
+
+it("reschedules only clear queued misses after new art is published", async () => {
+  const artId = `generated-${"a".repeat(64)}`;
+  const result = await reconsiderIngredientArt(
+    ["aubergine", "melanzana", "tomato paste", "tomatenmark", "ambiguous herb"],
+    new Map([[artId, "eggplant"]]),
+    async (names) => {
+      assert.deepEqual(names, ["melanzana", "tomato paste", "ambiguous herb"]);
+      return new Map([
+        ["melanzana", { artId, confidence: 0.99 }],
+        ["tomato paste", { missing: true, confidence: 0.97 }],
+      ]);
+    },
+  );
+  assert.deepEqual(result.pending, ["tomato paste"]);
+  assert.deepEqual(
+    [...result.aliases],
+    [
+      ["aubergine", artId],
+      ["melanzana", artId],
+    ],
   );
 });

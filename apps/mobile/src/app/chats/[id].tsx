@@ -37,6 +37,7 @@ import {
   type PickedIngredient,
 } from "@/features/chat/ingredient-picker";
 import { OnHandPicker } from "@/features/chat/on-hand-picker";
+import type { OnHandEntry } from "@/features/chat/on-hand-transcript";
 import { AssistantMessage, UserMessage } from "@/features/chat/message";
 import {
   peekQueuedMessage,
@@ -396,11 +397,15 @@ export default function ChatScreen() {
     text: string,
     attachments: ImageAttachment[] = [],
     id2 = Crypto.randomUUID(),
+    onHandEntry?: OnHandEntry,
   ) {
     posthog?.capture("chat_message_sent", {
       has_attachments: attachments.length > 0,
     });
-    await runTurn({ message: userMessage(text, id2), attachments });
+    const message = userMessage(text, id2);
+    if (onHandEntry)
+      message.parts.push({ type: "data-onHandEntry", data: onHandEntry });
+    await runTurn({ message, attachments });
   }
 
   // The reply stream lives only while this chat is on screen and the app is
@@ -765,13 +770,12 @@ export default function ChatScreen() {
                   attachment_count: attachments.length,
                 });
                 if (pickingIngredients) {
+                  const ingredients = picked.map(({ label }) => label);
                   void send(
-                    onHandSlotMessage(
-                      entryTarget,
-                      picked.map(({ label }) => label),
-                      text,
-                    ),
+                    onHandSlotMessage(entryTarget, ingredients, text),
                     attachments,
+                    undefined,
+                    { target: entryTarget, ingredients, note: text.trim() },
                   );
                   setPicked([]);
                 } else {

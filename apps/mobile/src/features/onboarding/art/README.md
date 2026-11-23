@@ -527,3 +527,7 @@ Individual ingredients are produced in 4×4 grid sprite sheets (16 items per she
 - `spritesheet-french-british-1.jpg`: 16 French & British items (sliced to PNG masters).
 - `spritesheet-north-african-1.jpg`: 16 North African items (master saved, ready to slice).
 - `spritesheet-central-eastern-european-1.jpg`: 16 Central/Eastern European items (prompt documented in handoff artifact).
+
+## Third-party ingredient art
+
+`ingredient-cabbage.png` and its optimized WebP use [Green cabbage by nello](https://commons.wikimedia.org/wiki/File:Green_cabbage.svg), released under CC0. This is a recognizable cabbage fallback, not part of the clay sprite sheets.

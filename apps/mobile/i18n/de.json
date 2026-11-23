@@ -4,10 +4,30 @@
     "_p6t_description": "Accessibility label for the control that closes the dinner meal chooser. Does not change the planned meal.",
     "_p6t_source": "Hide dinner choices"
   },
+  "+/TLY1": {
+    "defaultMessage": "Buttermilch",
+    "_p6t_description": "Ingredient label for buttermilk.",
+    "_p6t_source": "Buttermilk"
+  },
+  "+/pl0R": {
+    "defaultMessage": "Gerösteter Sesam",
+    "_p6t_description": "Ingredient label for toasted, not raw, sesame seeds.",
+    "_p6t_source": "Toasted sesame seeds"
+  },
   "+TPLLR": {
     "defaultMessage": "Erneut versuchen",
     "_p6t_description": "Action that tries loading meal recommendations again.",
     "_p6t_source": "Retry"
+  },
+  "+YaaW0": {
+    "defaultMessage": "Cayennepfeffer",
+    "_p6t_description": "Ingredient label for ground cayenne pepper.",
+    "_p6t_source": "Cayenne"
+  },
+  "+fSCny": {
+    "defaultMessage": "Hilf mir zu entscheiden, was ich am {date} zum Mittagessen machen kann.",
+    "_p6t_description": "First user bubble in the on-hand chat for lunch. {date} is a formatted calendar date.",
+    "_p6t_source": "Help me decide what to make for lunch on {date}."
   },
   "+hCyqG": {
     "defaultMessage": "Nudeln",
@@ -19,6 +39,11 @@
     "_p6t_description": "Action that closes the shopping item entry sheet, keeping what was added.",
     "_p6t_source": "Done"
   },
+  "/JrTfa": {
+    "defaultMessage": "Eiernudeln",
+    "_p6t_description": "Ingredient label for noodles made with egg.",
+    "_p6t_source": "Egg noodles"
+  },
   "/woc5o": {
     "defaultMessage": "Aus dem Kochbuch",
     "_p6t_description": "Title of the sheet that picks an existing cookbook recipe for a meal slot.",
@@ -28,6 +53,11 @@
     "defaultMessage": "{recipe} als Snack einplanen",
     "_p6t_description": "Accessibility label for a recommended dish that will fill the treat slot. {recipe} is the recipe's display name. Selecting it plans the recipe as a treat.",
     "_p6t_source": "Select {recipe} for a treat"
+  },
+  "0LCXVE": {
+    "defaultMessage": "Milch",
+    "_p6t_description": "Ingredient label for milk.",
+    "_p6t_source": "Milk"
   },
   "0cWlcT": {
     "defaultMessage": "Mehr Aufwand",
@@ -94,15 +124,40 @@
     "_p6t_description": "Accessibility label for the household settings shortcut.",
     "_p6t_source": "Household and account"
   },
+  "3UhufF": {
+    "defaultMessage": "Honig",
+    "_p6t_description": "Ingredient label for honey.",
+    "_p6t_source": "Honey"
+  },
+  "3Vm4wl": {
+    "defaultMessage": "Basmatireis",
+    "_p6t_description": "Ingredient label for basmati rice, not generic rice.",
+    "_p6t_source": "Basmati rice"
+  },
+  "3hJUI7": {
+    "defaultMessage": "Apfelessig",
+    "_p6t_description": "Ingredient label for apple cider vinegar.",
+    "_p6t_source": "Apple cider vinegar"
+  },
   "3j+H9P": {
     "defaultMessage": "Name",
     "_p6t_description": "Accessibility label for the field holding a shopping item's name.",
     "_p6t_source": "Name"
   },
+  "3qHK+E": {
+    "defaultMessage": "Sesamöl",
+    "_p6t_description": "Ingredient label for sesame oil.",
+    "_p6t_source": "Sesame oil"
+  },
   "3qVWYG": {
     "defaultMessage": "Alles zu Hause",
     "_p6t_description": "Status on a planned meal's shopping when every ingredient was marked as already at home.",
     "_p6t_source": "All at home"
+  },
+  "4IdVo9": {
+    "defaultMessage": "Safran",
+    "_p6t_description": "Ingredient label for saffron.",
+    "_p6t_source": "Saffron"
   },
   "4ZRn62": {
     "defaultMessage": "Details hinzufügen",
@@ -113,6 +168,11 @@
     "defaultMessage": "Einträge hinzufügen",
     "_p6t_description": "Title of the sheet where the cook types shopping items one after another.",
     "_p6t_source": "Add items"
+  },
+  "4mRMWi": {
+    "defaultMessage": "Wacholderbeeren",
+    "_p6t_description": "Ingredient label for juniper berries.",
+    "_p6t_source": "Juniper berries"
   },
   "5+uWTl": {
     "defaultMessage": "{host} wird gelesen…",
@@ -134,6 +194,16 @@
     "_p6t_description": "Alert title when renaming a standalone shopping item or saving its note failed.",
     "_p6t_source": "Couldn’t save item"
   },
+  "5CIPRC": {
+    "defaultMessage": "Rosenwasser",
+    "_p6t_description": "Ingredient label for culinary rose water.",
+    "_p6t_source": "Rose water"
+  },
+  "5Fo3Gs": {
+    "defaultMessage": "Gewürze und Kräuter",
+    "_p6t_description": "Ingredient label for the household's general stock of seasonings.",
+    "_p6t_source": "Spices & herbs"
+  },
   "5NKar0": {
     "defaultMessage": "Einkauf für Mahlzeiten",
     "_p6t_description": "Title of the screen that lists upcoming meals and their shopping decisions.",
@@ -144,10 +214,20 @@
     "_p6t_description": "Ingredient picker heading for foods the household says it usually keeps. Includes refrigerator and freezer picks.",
     "_p6t_source": "Your cupboard"
   },
+  "5cSDJb": {
+    "defaultMessage": "Sherryessig",
+    "_p6t_description": "Ingredient label for sherry vinegar.",
+    "_p6t_source": "Sherry vinegar"
+  },
   "5dil2Q": {
     "defaultMessage": "Weitere Varianten",
     "_p6t_description": "Menu action that opens the other versions of a recipe.",
     "_p6t_source": "Other variants"
+  },
+  "5s1Uy+": {
+    "defaultMessage": "Getrocknete rote Chilis",
+    "_p6t_description": "Ingredient label for dried red chillies.",
+    "_p6t_source": "Dried red chillies"
   },
   "695Ha/": {
     "defaultMessage": "Rezepte suchen",
@@ -164,6 +244,16 @@
     "_p6t_description": "Empty Shop state when planned meals still need a shopping choice. Names two ways to get items on the list.",
     "_p6t_source": "Nothing to buy yet. Open Meals to choose what to buy, or add an item."
   },
+  "6kj6Yf": {
+    "defaultMessage": "Szechuanpfeffer",
+    "_p6t_description": "Ingredient label for Sichuan peppercorns, not black pepper.",
+    "_p6t_source": "Sichuan peppercorns"
+  },
+  "6z+I5B": {
+    "defaultMessage": "Brokkoli",
+    "_p6t_description": "Ingredient label for broccoli.",
+    "_p6t_source": "Broccoli"
+  },
   "77C3do": {
     "defaultMessage": "+{extra} extra",
     "_p6t_description": "Suffix on a meal badge for food beyond the named eaters, such as guests or leftovers.",
@@ -178,6 +268,16 @@
     "defaultMessage": "Abbrechen",
     "_p6t_description": "Action that cancels a running recipe import.",
     "_p6t_source": "Cancel"
+  },
+  "7jls0t": {
+    "defaultMessage": "Piment",
+    "_p6t_description": "Ingredient label for the single spice also called pimento, not a spice blend.",
+    "_p6t_source": "Allspice"
+  },
+  "8QJH4w": {
+    "defaultMessage": "Speck",
+    "_p6t_description": "Ingredient label for bacon.",
+    "_p6t_source": "Bacon"
   },
   "8b+Yoq": {
     "defaultMessage": "Mahlzeit",
@@ -204,6 +304,11 @@
     "_p6t_description": "Action row that opens the meal chooser for lunch, and the heading shown while it is open. Does not plan a meal yet.",
     "_p6t_source": "Select lunch"
   },
+  "A1qmAy": {
+    "defaultMessage": "Mais aus der Dose",
+    "_p6t_description": "Ingredient label for sweet corn kernels from a tin or can.",
+    "_p6t_source": "Canned sweetcorn"
+  },
   "ARoqs5": {
     "defaultMessage": "Aus dem Plan entfernen",
     "_p6t_description": "Destructive menu action that removes the meal from the plan.",
@@ -213,6 +318,16 @@
     "defaultMessage": "{count, plural, one {1 Mahlzeit zu prüfen} other {# Mahlzeiten zu prüfen}}",
     "_p6t_description": "Accessibility label for the Shop toolbar button that opens the meals needing a shopping decision. {count} is how many meals.",
     "_p6t_source": "{count, plural, one {1 meal to review} other {# meals to review}}"
+  },
+  "ASxQxO": {
+    "defaultMessage": "Kohl",
+    "_p6t_description": "Ingredient label for a head of cabbage, not kale or Napa cabbage.",
+    "_p6t_source": "Cabbage"
+  },
+  "AoKrPI": {
+    "defaultMessage": "Jasminreis",
+    "_p6t_description": "Ingredient label for jasmine rice, not generic rice.",
+    "_p6t_source": "Jasmine rice"
   },
   "ApC4Uy": {
     "defaultMessage": "Zutaten, Gewürze & Backen",
@@ -254,10 +369,25 @@
     "_p6t_description": "Accessibility label for the row that opens the other versions of a cookbook recipe. {name} is the recipe's name.",
     "_p6t_source": "Other variants of {name}"
   },
+  "CSe0ZZ": {
+    "defaultMessage": "Salzzitronen",
+    "_p6t_description": "Ingredient label for salt-preserved lemons, not fresh lemons.",
+    "_p6t_source": "Preserved lemons"
+  },
   "CpnFSJ": {
     "defaultMessage": "Kochbuch durchstöbern",
     "_p6t_description": "Card that opens the cookbook when there are no matching recommendations.",
     "_p6t_source": "Browse cookbook"
+  },
+  "DXtaav": {
+    "defaultMessage": "Rote Linsen",
+    "_p6t_description": "Ingredient label for red lentils.",
+    "_p6t_source": "Red lentils"
+  },
+  "DetB6u": {
+    "defaultMessage": "Das habe ich da: {ingredients}.",
+    "_p6t_description": "User bubble stating only the ingredients the user selected. {ingredients} is a localized list of ingredient names.",
+    "_p6t_source": "I have: {ingredients}."
   },
   "Dkp9Si": {
     "defaultMessage": "{name} hinzufügen",
@@ -274,10 +404,25 @@
     "_p6t_description": "Status on a meal that is planned for today or later.",
     "_p6t_source": "Planned"
   },
+  "E1XLxG": {
+    "defaultMessage": "Getrocknete Shiitake",
+    "_p6t_description": "Ingredient label for dried shiitake mushrooms.",
+    "_p6t_source": "Dried shiitake"
+  },
+  "E7bsvX": {
+    "defaultMessage": "Buchweizen",
+    "_p6t_description": "Ingredient label for buckwheat.",
+    "_p6t_source": "Buckwheat"
+  },
   "EO7SGs": {
     "defaultMessage": "Notiz hinzufügen",
     "_p6t_description": "Optional first chat message input alongside ingredients the user has already selected.",
     "_p6t_source": "Add a note"
+  },
+  "Eo0PBs": {
+    "defaultMessage": "Fond und Brühe",
+    "_p6t_description": "Ingredient label for cooking stock or broth.",
+    "_p6t_source": "Stock & broth"
   },
   "EoBhsI": {
     "defaultMessage": "Mahlzeit eintragen",
@@ -288,6 +433,21 @@
     "defaultMessage": "Ausgehakte Rezepte kommen in dein Kochbuch. Erst mit dem Hinzufügen wird etwas gespeichert.",
     "_p6t_description": "Instruction above the list of recipes an import found. Each complete recipe starts ticked.",
     "_p6t_source": "Ticked recipes go to your cookbook. Nothing is saved until you add them."
+  },
+  "Exrxnw": {
+    "defaultMessage": "Balsamicoessig",
+    "_p6t_description": "Ingredient label for balsamic vinegar.",
+    "_p6t_source": "Balsamic vinegar"
+  },
+  "F+jWGP": {
+    "defaultMessage": "Rote Bete",
+    "_p6t_description": "Ingredient label for beetroot.",
+    "_p6t_source": "Beetroot"
+  },
+  "F5dNDH": {
+    "defaultMessage": "Austernsauce",
+    "_p6t_description": "Ingredient label for oyster sauce.",
+    "_p6t_source": "Oyster sauce"
   },
   "FABYcO": {
     "defaultMessage": "Obst & Gemüse",
@@ -314,6 +474,21 @@
     "_p6t_description": "Status in the shopping item sheet while the item is read from the local database.",
     "_p6t_source": "Loading item…"
   },
+  "GFHv6h": {
+    "defaultMessage": "Kalamata-Oliven",
+    "_p6t_description": "Ingredient label for Kalamata olives.",
+    "_p6t_source": "Kalamata olives"
+  },
+  "GOZ0II": {
+    "defaultMessage": "Paellareis",
+    "_p6t_description": "Ingredient label for rice intended for paella.",
+    "_p6t_source": "Paella rice"
+  },
+  "GPpmuY": {
+    "defaultMessage": "Kardamom",
+    "_p6t_description": "Ingredient label for cardamom.",
+    "_p6t_source": "Cardamom"
+  },
   "GXiSPF": {
     "defaultMessage": "{count, plural, one {1 zu kaufen} other {# zu kaufen}}",
     "_p6t_description": "Summary above the shopping list. {count} is how many items are still to buy.",
@@ -334,10 +509,35 @@
     "_p6t_description": "Body under “Item not found”. Explains the likely cause without asking the user to do anything.",
     "_p6t_source": "It may have been removed on another device."
   },
+  "HkN0Rx": {
+    "defaultMessage": "Chinakohl",
+    "_p6t_description": "Ingredient label for Napa cabbage, distinct from a regular head of cabbage.",
+    "_p6t_source": "Chinese cabbage"
+  },
+  "I/PQEx": {
+    "defaultMessage": "Kokosmilch",
+    "_p6t_description": "Ingredient label for coconut milk.",
+    "_p6t_source": "Coconut milk"
+  },
+  "I8R/3P": {
+    "defaultMessage": "Ahornsirup",
+    "_p6t_description": "Ingredient label for maple syrup.",
+    "_p6t_source": "Maple syrup"
+  },
   "IAQgpf": {
     "defaultMessage": "Frühstück & Heißgetränke",
     "_p6t_description": "Shopping category for breakfast goods and coffee or tea.",
     "_p6t_source": "Breakfast & hot drinks"
+  },
+  "IDMNhd": {
+    "defaultMessage": "Tiefgekühlte grüne Bohnen",
+    "_p6t_description": "Ingredient label for green beans kept in the freezer.",
+    "_p6t_source": "Frozen green beans"
+  },
+  "INfXb3": {
+    "defaultMessage": "Geräuchertes Paprikapulver",
+    "_p6t_description": "Ingredient label for smoked paprika powder.",
+    "_p6t_source": "Smoked paprika"
   },
   "IOXqGa": {
     "defaultMessage": "Aufschnitt, Käse & Feinkost",
@@ -354,20 +554,50 @@
     "_p6t_description": "Accessibility label for the free-text note field of a shopping item.",
     "_p6t_source": "Note"
   },
+  "IYre+r": {
+    "defaultMessage": "Getrockneter Majoran",
+    "_p6t_description": "Ingredient label for dried marjoram.",
+    "_p6t_source": "Dried marjoram"
+  },
   "IkTWes": {
     "defaultMessage": "Wird hinzugefügt…",
     "_p6t_description": "Status while the ticked recipes are being saved.",
     "_p6t_source": "Adding…"
+  },
+  "JGA8YW": {
+    "defaultMessage": "Sojasauce",
+    "_p6t_description": "Ingredient label for soy sauce.",
+    "_p6t_source": "Soy sauce"
+  },
+  "JJsn5S": {
+    "defaultMessage": "Limetten",
+    "_p6t_description": "Ingredient label for fresh limes.",
+    "_p6t_source": "Limes"
+  },
+  "Jf3Q+U": {
+    "defaultMessage": "Kapern",
+    "_p6t_description": "Ingredient label for capers.",
+    "_p6t_source": "Capers"
   },
   "JjUC5I": {
     "defaultMessage": "Erneut versuchen",
     "_p6t_description": "Action that retries a failed recipe import.",
     "_p6t_source": "Retry"
   },
+  "JyczPr": {
+    "defaultMessage": "Zitronengras",
+    "_p6t_description": "Ingredient label for lemongrass.",
+    "_p6t_source": "Lemongrass"
+  },
   "K4evxe": {
     "defaultMessage": "Abendessen wählen",
     "_p6t_description": "Action row that opens the meal chooser for dinner, and the heading shown while it is open. Does not plan a meal yet.",
     "_p6t_source": "Select dinner"
+  },
+  "K8dZji": {
+    "defaultMessage": "Essig",
+    "_p6t_description": "Ingredient label for vinegar of any kind.",
+    "_p6t_source": "Vinegar"
   },
   "KDuWv8": {
     "defaultMessage": "{count, plural, one {1 Rezept hinzufügen} other {# Rezepte hinzufügen}}",
@@ -378,6 +608,11 @@
     "defaultMessage": "Rezept importieren",
     "_p6t_description": "Title of the import sheet when it is not tied to a meal slot.",
     "_p6t_source": "Import recipe"
+  },
+  "Kw9IYj": {
+    "defaultMessage": "Ceylon-Zimt",
+    "_p6t_description": "Ingredient label for Ceylon cinnamon.",
+    "_p6t_source": "Ceylon cinnamon"
   },
   "KyFWof": {
     "defaultMessage": "Mahlzeit",
@@ -399,6 +634,21 @@
     "_p6t_description": "Ingredient picker heading for likely remainders to use soon. These are suggestions, not confirmed stock.",
     "_p6t_source": "Use up first"
   },
+  "LZ9KXr": {
+    "defaultMessage": "Tiefgekühlter Spinat",
+    "_p6t_description": "Ingredient label for spinach kept in the freezer, not fresh spinach.",
+    "_p6t_source": "Frozen spinach"
+  },
+  "Ln/mSQ": {
+    "defaultMessage": "Getrocknete Limetten",
+    "_p6t_description": "Ingredient label for whole dried limes used as a seasoning.",
+    "_p6t_source": "Dried limes"
+  },
+  "M5FHGv": {
+    "defaultMessage": "Orangenblütenwasser",
+    "_p6t_description": "Ingredient label for culinary orange blossom water.",
+    "_p6t_source": "Orange blossom water"
+  },
   "M6fYaf": {
     "defaultMessage": "Vorhandene Zutaten nutzen",
     "_p6t_description": "Starts a chat to find a meal for this slot using ingredients on hand.",
@@ -408,6 +658,11 @@
     "defaultMessage": "Rezept wird vorbereitet…",
     "_p6t_description": "Status while a chosen recommendation is being saved and synced.",
     "_p6t_source": "Getting the recipe ready…"
+  },
+  "MG/rFQ": {
+    "defaultMessage": "Tomaten",
+    "_p6t_description": "Ingredient label for fresh tomatoes, not canned tomatoes.",
+    "_p6t_source": "Tomatoes"
   },
   "MGQKpS": {
     "defaultMessage": "Nächster Eintrag",
@@ -419,25 +674,70 @@
     "_p6t_description": "Title of the meal planning screen.",
     "_p6t_source": "Meals"
   },
+  "MY8DcY": {
+    "defaultMessage": "Griechischer Joghurt",
+    "_p6t_description": "Ingredient label for thick Greek yoghurt.",
+    "_p6t_source": "Greek yoghurt"
+  },
+  "MePzE9": {
+    "defaultMessage": "Eier",
+    "_p6t_description": "Ingredient label for eggs.",
+    "_p6t_source": "Eggs"
+  },
+  "Mxz/tk": {
+    "defaultMessage": "Käse",
+    "_p6t_description": "Ingredient label for cheese of any kind.",
+    "_p6t_source": "Cheese"
+  },
   "NFsZN2": {
     "defaultMessage": "Bitte versuch es erneut.",
     "_p6t_description": "Alert body after an action failed. The user can repeat the action.",
     "_p6t_source": "Please try again."
+  },
+  "NVd5Xb": {
+    "defaultMessage": "Palmzucker",
+    "_p6t_description": "Ingredient label for palm sugar.",
+    "_p6t_source": "Palm sugar"
   },
   "Ngz9Xq": {
     "defaultMessage": "Hab ich zu Hause",
     "_p6t_description": "Action that marks this ingredient as already at home, so it leaves the list for this meal.",
     "_p6t_source": "I have it at home"
   },
+  "NhFnM9": {
+    "defaultMessage": "Violetter Mais",
+    "_p6t_description": "Ingredient label for purple corn.",
+    "_p6t_source": "Purple corn"
+  },
   "ODr7zx": {
     "defaultMessage": "Details konnten nicht gespeichert werden",
     "_p6t_description": "Alert title when saving a shopping item's note failed, such as when leaving the entry sheet.",
     "_p6t_source": "Couldn’t save details"
   },
+  "ON74RR": {
+    "defaultMessage": "Risottoreis",
+    "_p6t_description": "Ingredient label for rice intended for risotto.",
+    "_p6t_source": "Risotto rice"
+  },
+  "OQMtm+": {
+    "defaultMessage": "Sternanis",
+    "_p6t_description": "Ingredient label for star anise.",
+    "_p6t_source": "Star anise"
+  },
   "Ofk7Ir": {
     "defaultMessage": "Mittagessen am {day}",
     "_p6t_description": "Source of a shopping item that belongs to a planned meal. {day} is a formatted weekday such as Tuesday. Selecting it opens the meal.",
     "_p6t_source": "Lunch on {day}"
+  },
+  "OiCDgb": {
+    "defaultMessage": "Senfkörner",
+    "_p6t_description": "Ingredient label for mustard seeds.",
+    "_p6t_source": "Mustard seeds"
+  },
+  "P3BLrX": {
+    "defaultMessage": "Tiefgekühlte Kabeljaufilets",
+    "_p6t_description": "Ingredient label for cod fillets kept in the freezer.",
+    "_p6t_source": "Frozen cod fillets"
   },
   "PKr4/s": {
     "defaultMessage": "Einkauf",
@@ -469,6 +769,11 @@
     "_p6t_description": "Alert title when marking a shopping item as bought failed.",
     "_p6t_source": "Couldn’t check off item"
   },
+  "QcKrjy": {
+    "defaultMessage": "Hilf mir zu entscheiden, was ich am {date} als Snack machen kann.",
+    "_p6t_description": "First user bubble in the on-hand chat for a snack or treat. {date} is a formatted calendar date.",
+    "_p6t_source": "Help me decide what treat to make on {date}."
+  },
   "QoZ4P9": {
     "defaultMessage": "Rezepte konnten nicht hinzugefügt werden",
     "_p6t_description": "Alert title when keeping the reviewed recipes failed. The imported text is still there.",
@@ -478,6 +783,11 @@
     "defaultMessage": "Eintrag konnte nicht hinzugefügt werden",
     "_p6t_description": "Alert title when adding an item to the shopping list failed.",
     "_p6t_source": "Couldn’t add item"
+  },
+  "Qtby9H": {
+    "defaultMessage": "Thai-Currypaste",
+    "_p6t_description": "Ingredient label for Thai curry paste.",
+    "_p6t_source": "Thai curry paste"
   },
   "RACRTO": {
     "defaultMessage": "Leeres Kochbuch",
@@ -489,10 +799,20 @@
     "_p6t_description": "Action under a planned meal that opens its shopping items.",
     "_p6t_source": "Choose what to buy"
   },
+  "RHYND+": {
+    "defaultMessage": "Dünne Reisnudeln",
+    "_p6t_description": "Ingredient label for thin rice vermicelli noodles.",
+    "_p6t_source": "Rice vermicelli"
+  },
   "RJfIuU": {
     "defaultMessage": "Tierbedarf",
     "_p6t_description": "Shopping category for pet food and supplies.",
     "_p6t_source": "Pet supplies"
+  },
+  "Rn/xwI": {
+    "defaultMessage": "Getrocknete Minze",
+    "_p6t_description": "Ingredient label for dried mint.",
+    "_p6t_source": "Dried mint"
   },
   "S3jKdb": {
     "defaultMessage": "Eintrag hinzufügen",
@@ -509,6 +829,16 @@
     "_p6t_description": "Title in the shopping item sheet when the item no longer exists, for example because another device removed it.",
     "_p6t_source": "Item not found"
   },
+  "SUdryO": {
+    "defaultMessage": "Haferflocken",
+    "_p6t_description": "Ingredient label for oats used in cooking.",
+    "_p6t_source": "Oats"
+  },
+  "Sfk7X5": {
+    "defaultMessage": "Flache Reisnudeln",
+    "_p6t_description": "Ingredient label for flat noodles made from rice.",
+    "_p6t_source": "Flat rice noodles"
+  },
   "SyepTx": {
     "defaultMessage": "Mahlzeiten werden gesucht…",
     "_p6t_description": "Status while meal recommendations are loading.",
@@ -519,15 +849,50 @@
     "_p6t_description": "Status on the import review row. The count is complete recipes the cook can keep. Incomplete counts recipes with missing material, not pages. These recipes cannot be kept. Keep this summary short.",
     "_p6t_source": "{incomplete, plural, =0 {{count, plural, one {Found # recipe} other {Found # recipes}}} other {{count, plural, one {# complete recipe} other {# complete recipes}}, {incomplete, number} incomplete}}"
   },
+  "T0BdU/": {
+    "defaultMessage": "Tiefgekühlte Erbsen",
+    "_p6t_description": "Ingredient label for peas kept in the freezer.",
+    "_p6t_source": "Frozen peas"
+  },
+  "T1MrUj": {
+    "defaultMessage": "Weißer Pfeffer",
+    "_p6t_description": "Ingredient label for white pepper.",
+    "_p6t_source": "White pepper"
+  },
   "TL4aTD": {
     "defaultMessage": "Abbrechen fehlgeschlagen",
     "_p6t_description": "Alert title when cancelling a recipe import failed.",
     "_p6t_source": "Could not cancel"
   },
+  "Toypf8": {
+    "defaultMessage": "Getrocknete Steinpilze",
+    "_p6t_description": "Ingredient label for dried porcini mushrooms.",
+    "_p6t_source": "Dried porcini"
+  },
+  "UEfZxM": {
+    "defaultMessage": "Reispapier",
+    "_p6t_description": "Ingredient label for edible rice paper wrappers.",
+    "_p6t_source": "Rice paper"
+  },
+  "UM9B23": {
+    "defaultMessage": "Saure Sahne",
+    "_p6t_description": "Ingredient label for cultured dairy sour cream.",
+    "_p6t_source": "Sour cream"
+  },
   "UTC2ZW": {
     "defaultMessage": "Es gibt nichts zum Einfügen. Kopiere zuerst einen Link oder ein Rezept.",
     "_p6t_description": "Error when the clipboard holds no recipe link or text. Names the next step.",
     "_p6t_source": "There’s nothing to paste. Copy a link or recipe first."
+  },
+  "UWgdkR": {
+    "defaultMessage": "Tiefgekühlte Hähnchenbrust",
+    "_p6t_description": "Ingredient label for chicken breast kept in the freezer.",
+    "_p6t_source": "Frozen chicken breast"
+  },
+  "Upe39V": {
+    "defaultMessage": "Kümmel",
+    "_p6t_description": "Ingredient label for caraway seed, not cumin.",
+    "_p6t_source": "Caraway seeds"
   },
   "Uyn5M2": {
     "defaultMessage": "{name} einplanen",
@@ -538,6 +903,11 @@
     "defaultMessage": "Alle",
     "_p6t_description": "Badge on a planned meal when every household member is eating it.",
     "_p6t_source": "Everyone"
+  },
+  "V69jiW": {
+    "defaultMessage": "Fischsauce",
+    "_p6t_description": "Ingredient label for fish sauce.",
+    "_p6t_source": "Fish sauce"
   },
   "VA0Lxk": {
     "defaultMessage": "Haushalt",
@@ -584,6 +954,11 @@
     "_p6t_description": "Status when meal recommendations failed, with a fallback action.",
     "_p6t_source": "Suggestions couldn’t load. You can still browse your cookbook."
   },
+  "X9+Cfa": {
+    "defaultMessage": "Tomatenmark",
+    "_p6t_description": "Ingredient label for concentrated tomato paste, not canned tomatoes.",
+    "_p6t_source": "Tomato paste"
+  },
   "XPO+MA": {
     "defaultMessage": "Snack wählen",
     "_p6t_description": "Action row that opens the meal chooser for a treat, and the heading shown while it is open. Does not plan a meal yet.",
@@ -598,6 +973,26 @@
     "defaultMessage": "Ohne Kategorie",
     "_p6t_description": "Fallback for a shopping item that has no category.",
     "_p6t_source": "Uncategorised"
+  },
+  "XeDN6z": {
+    "defaultMessage": "Glasnudeln",
+    "_p6t_description": "Ingredient label for translucent starch noodles.",
+    "_p6t_source": "Glass noodles"
+  },
+  "XqB47B": {
+    "defaultMessage": "Tiefgekühltes Hackfleisch",
+    "_p6t_description": "Ingredient label for ground meat kept in the freezer.",
+    "_p6t_source": "Frozen minced meat"
+  },
+  "XqVcNe": {
+    "defaultMessage": "Olivenöl",
+    "_p6t_description": "Ingredient label for olive oil.",
+    "_p6t_source": "Olive oil"
+  },
+  "YvO1Gd": {
+    "defaultMessage": "Mehl",
+    "_p6t_description": "Ingredient label for ordinary flour.",
+    "_p6t_source": "Flour"
   },
   "Z2IumF": {
     "defaultMessage": "{count} gekauft",
@@ -614,6 +1009,11 @@
     "_p6t_description": "Action that opens the recipe import sheet, where recipes come in from a link, pasted text, photos or a recording.",
     "_p6t_source": "Import recipe"
   },
+  "ZlvlTo": {
+    "defaultMessage": "Dunkle Sojasauce",
+    "_p6t_description": "Ingredient label for dark soy sauce, not generic soy sauce.",
+    "_p6t_source": "Dark soy sauce"
+  },
   "aK3PR3": {
     "defaultMessage": "Auswahl fürs Mittagessen ausblenden",
     "_p6t_description": "Accessibility label for the control that closes the lunch meal chooser. Does not change the planned meal.",
@@ -628,6 +1028,16 @@
     "defaultMessage": "Name",
     "_p6t_description": "Placeholder in the field holding an item's name.",
     "_p6t_source": "Name"
+  },
+  "ajARYO": {
+    "defaultMessage": "Melasse",
+    "_p6t_description": "Ingredient label for molasses.",
+    "_p6t_source": "Molasses"
+  },
+  "aybrav": {
+    "defaultMessage": "Knoblauch",
+    "_p6t_description": "Ingredient label for garlic.",
+    "_p6t_source": "Garlic"
   },
   "bReaED": {
     "defaultMessage": "{max} Seiten sind das Maximum für einen Import. Importiere diese und dann die nächsten {max}.",
@@ -648,6 +1058,16 @@
     "defaultMessage": "ältere passende Variante",
     "_p6t_description": "Added to a cookbook recipe's accessibility label when a newer version matches the same dish. Lowercase so it reads as a continuation.",
     "_p6t_source": "older matching variant"
+  },
+  "bcV9dh": {
+    "defaultMessage": "Pilze",
+    "_p6t_description": "Ingredient label for mushrooms of any kind.",
+    "_p6t_source": "Mushrooms"
+  },
+  "bgvW1g": {
+    "defaultMessage": "Arganöl",
+    "_p6t_description": "Ingredient label for edible argan oil.",
+    "_p6t_source": "Argan oil"
   },
   "bzU5dt": {
     "defaultMessage": "{name} verwenden",
@@ -684,15 +1104,45 @@
     "_p6t_description": "Heading above items added in this entry session, newest last.",
     "_p6t_source": "Added"
   },
+  "eGi+Yv": {
+    "defaultMessage": "Weinblätter",
+    "_p6t_description": "Ingredient label for grapevine leaves used in cooking.",
+    "_p6t_source": "Vine leaves"
+  },
   "eqjXdk": {
     "defaultMessage": "Wird zu deinem Kochbuch hinzugefügt…",
     "_p6t_description": "Status while an imported recipe is being added to the cookbook.",
     "_p6t_source": "Adding to your cookbook…"
   },
+  "f1JzTe": {
+    "defaultMessage": "Zitronen",
+    "_p6t_description": "Ingredient label for fresh lemons.",
+    "_p6t_source": "Lemons"
+  },
   "fAyG5b": {
     "defaultMessage": "{name} zurückholen",
     "_p6t_description": "Accessibility label for the checkbox of a bought shopping item. Selecting it puts the item back on the list. {name} is the item's name.",
     "_p6t_source": "Restore {name}"
+  },
+  "fb/Ao6": {
+    "defaultMessage": "Sahne",
+    "_p6t_description": "Ingredient label for liquid dairy cream.",
+    "_p6t_source": "Cream"
+  },
+  "fhGTXb": {
+    "defaultMessage": "Mexikanischer Oregano",
+    "_p6t_description": "Ingredient label for Mexican oregano.",
+    "_p6t_source": "Mexican oregano"
+  },
+  "fhyk8i": {
+    "defaultMessage": "Hilf mir zu entscheiden, was ich am {date} zum Abendessen machen kann.",
+    "_p6t_description": "First user bubble in the on-hand chat for dinner. {date} is a formatted calendar date.",
+    "_p6t_source": "Help me decide what to make for dinner on {date}."
+  },
+  "g/+sAy": {
+    "defaultMessage": "Linsen",
+    "_p6t_description": "Ingredient label for lentils of any kind.",
+    "_p6t_source": "Lentils"
   },
   "g1CIfS": {
     "defaultMessage": "{count} auf der Liste",
@@ -709,6 +1159,11 @@
     "_p6t_description": "Accessibility label for the button that adds the typed item to the shopping list.",
     "_p6t_source": "Add"
   },
+  "gP684I": {
+    "defaultMessage": "Erdnussbutter",
+    "_p6t_description": "Ingredient label for peanut butter.",
+    "_p6t_source": "Peanut butter"
+  },
   "gWOHY1": {
     "defaultMessage": "Aktivitäten im Haushalt",
     "_p6t_description": "Settings row that opens the household's recent meal and shopping changes.",
@@ -718,6 +1173,11 @@
     "defaultMessage": "Import fürs Mittagessen",
     "_p6t_description": "Title of the import sheet when the recipe will fill a lunch slot.",
     "_p6t_source": "Import for lunch"
+  },
+  "gdsVkk": {
+    "defaultMessage": "Grünkohl",
+    "_p6t_description": "Ingredient label for kale, not a head of cabbage.",
+    "_p6t_source": "Kale"
   },
   "gnsOl4": {
     "defaultMessage": "Unvollständig",
@@ -739,10 +1199,30 @@
     "_p6t_description": "Empty cookbook state, before any recipe was saved or imported.",
     "_p6t_source": "Your cookbook is empty. Import the recipes you love to cook."
   },
+  "hK8iO5": {
+    "defaultMessage": "Japanischer Rundkornreis",
+    "_p6t_description": "Ingredient label for Japanese short-grain rice.",
+    "_p6t_source": "Japanese short-grain rice"
+  },
+  "hP10JF": {
+    "defaultMessage": "Maisgrieß",
+    "_p6t_description": "Ingredient label for ground dried corn.",
+    "_p6t_source": "Cornmeal"
+  },
   "heIYZX": {
     "defaultMessage": "Noch {count} offen",
     "_p6t_description": "Status on a planned meal's shopping, while ingredients still await a decision. {count} is how many are left.",
     "_p6t_source": "{count} to decide"
+  },
+  "ho+Myd": {
+    "defaultMessage": "Blätterteig",
+    "_p6t_description": "Ingredient label for puff pastry dough.",
+    "_p6t_source": "Puff pastry"
+  },
+  "iAuVE1": {
+    "defaultMessage": "Butter",
+    "_p6t_description": "Ingredient label for butter.",
+    "_p6t_source": "Butter"
   },
   "iQ3uTU": {
     "defaultMessage": "Haus & Garten",
@@ -784,6 +1264,11 @@
     "_p6t_description": "Title of the sheet that reviews the recipes one import found, before any are saved.",
     "_p6t_source": "Found recipes"
   },
+  "jnmwpe": {
+    "defaultMessage": "Zuckermais",
+    "_p6t_description": "Ingredient label for sweet corn kernels.",
+    "_p6t_source": "Sweetcorn"
+  },
   "jpoEqR": {
     "defaultMessage": "Das Rezept wurde noch nicht synchronisiert. Versuch es gleich noch einmal.",
     "_p6t_description": "Alert body when a recommendation was chosen before its recipe finished syncing.",
@@ -793,6 +1278,11 @@
     "defaultMessage": "Screenshots oder Fotos auswählen",
     "_p6t_description": "Row that imports recipes from screenshots or photos already on the phone.",
     "_p6t_source": "Choose screenshots or photos"
+  },
+  "k7Qsdl": {
+    "defaultMessage": "Naturjoghurt",
+    "_p6t_description": "Ingredient label for unflavored plain yoghurt.",
+    "_p6t_source": "Plain yoghurt"
   },
   "kM+skD": {
     "defaultMessage": "{recipe} zum Abendessen einplanen",
@@ -829,15 +1319,30 @@
     "_p6t_description": "Accessibility label for the illustration shown when the shopping list has no items.",
     "_p6t_source": "Empty shopping list"
   },
+  "mPiQwY": {
+    "defaultMessage": "Tiefgekühlte Lachsfilets",
+    "_p6t_description": "Ingredient label for salmon fillets kept in the freezer.",
+    "_p6t_source": "Frozen salmon fillets"
+  },
   "mYhCW0": {
     "defaultMessage": "Verschieben nach…",
     "_p6t_description": "Menu action that moves the planned meal to another day or slot.",
     "_p6t_source": "Move to…"
   },
+  "mYkZwS": {
+    "defaultMessage": "Paprika",
+    "_p6t_description": "Ingredient label for sweet bell peppers, not hot chiles.",
+    "_p6t_source": "Bell peppers"
+  },
   "mZ3Vq4": {
     "defaultMessage": "Abhaken",
     "_p6t_description": "Action in the shopping item sheet that marks the item as bought.",
     "_p6t_source": "Check off"
+  },
+  "mdE/gA": {
+    "defaultMessage": "Spinat",
+    "_p6t_description": "Ingredient label for fresh spinach, not frozen spinach.",
+    "_p6t_source": "Spinach"
   },
   "mdefrF": {
     "defaultMessage": "Import konnte nicht verworfen werden",
@@ -849,6 +1354,11 @@
     "_p6t_description": "Status while a reviewed import is discarded.",
     "_p6t_source": "Discarding…"
   },
+  "moJlXM": {
+    "defaultMessage": "Schalotten",
+    "_p6t_description": "Ingredient label for shallots.",
+    "_p6t_source": "Shallots"
+  },
   "n7V20c": {
     "defaultMessage": "Deine Eingabe ist noch da. Bitte versuch es erneut.",
     "_p6t_description": "Alert body when a shopping item could not be added. The typed text was not cleared.",
@@ -858,6 +1368,16 @@
     "defaultMessage": "Andere Mahlzeit wählen",
     "_p6t_description": "Menu action that replaces the planned meal.",
     "_p6t_source": "Choose another meal"
+  },
+  "nnIJBX": {
+    "defaultMessage": "Kokosraspeln",
+    "_p6t_description": "Ingredient label for grated dried coconut.",
+    "_p6t_source": "Desiccated coconut"
+  },
+  "npFROj": {
+    "defaultMessage": "Meerrettich",
+    "_p6t_description": "Ingredient label for horseradish.",
+    "_p6t_source": "Horseradish"
   },
   "nuHVV/": {
     "defaultMessage": "{count, plural, one {1 Rezept gefunden} other {# Rezepte gefunden}}",
@@ -874,10 +1394,20 @@
     "_p6t_description": "Title of the import sheet when the recipe will fill a treat slot.",
     "_p6t_source": "Import for a treat"
   },
+  "oS9hzf": {
+    "defaultMessage": "Aubergine",
+    "_p6t_description": "Ingredient label for eggplant, also known as aubergine.",
+    "_p6t_source": "Eggplant"
+  },
   "p1LU3L": {
     "defaultMessage": "Import fürs Abendessen",
     "_p6t_description": "Title of the import sheet when the recipe will fill a dinner slot.",
     "_p6t_source": "Import for dinner"
+  },
+  "p9XrRV": {
+    "defaultMessage": "Äpfel",
+    "_p6t_description": "Ingredient label for apples.",
+    "_p6t_source": "Apples"
   },
   "pV8LQi": {
     "defaultMessage": "Rezept wird noch synchronisiert",
@@ -889,10 +1419,30 @@
     "_p6t_description": "Accessibility label for the menu on a planned meal card.",
     "_p6t_source": "Actions for {recipe}"
   },
+  "pzslaG": {
+    "defaultMessage": "Schwarze Bohnen",
+    "_p6t_description": "Ingredient label for black beans.",
+    "_p6t_source": "Black beans"
+  },
+  "qAqot2": {
+    "defaultMessage": "Kichererbsen",
+    "_p6t_description": "Ingredient label for chickpeas, also known as garbanzo beans.",
+    "_p6t_source": "Chickpeas"
+  },
+  "qI9bjH": {
+    "defaultMessage": "Sardellen",
+    "_p6t_description": "Ingredient label for anchovies.",
+    "_p6t_source": "Anchovies"
+  },
   "qKQpsZ": {
     "defaultMessage": "Mittagessen",
     "_p6t_description": "Meal slot label for the midday meal.",
     "_p6t_source": "Lunch"
+  },
+  "qpCKU+": {
+    "defaultMessage": "Curryblätter",
+    "_p6t_description": "Ingredient label for curry leaves, not curry powder.",
+    "_p6t_source": "Curry leaves"
   },
   "rIWABd": {
     "defaultMessage": "Alle verwerfen",
@@ -904,6 +1454,11 @@
     "_p6t_description": "Heading above the shopping items that were already checked off.",
     "_p6t_source": "Checked"
   },
+  "rvjJhe": {
+    "defaultMessage": "Lauch",
+    "_p6t_description": "Ingredient label for leeks, not onions.",
+    "_p6t_source": "Leeks"
+  },
   "ryFpRR": {
     "defaultMessage": "Tiefkühl & Fertigprodukte",
     "_p6t_description": "Shopping category for frozen food and ready-made items.",
@@ -913,6 +1468,11 @@
     "defaultMessage": "{count, plural, one {1 weitere Variante} other {# weitere Varianten}}",
     "_p6t_description": "Row that opens the other versions of a recipe. {count} is how many variants exist.",
     "_p6t_source": "{count, plural, one {1 other variant} other {# other variants}}"
+  },
+  "s4pdpH": {
+    "defaultMessage": "Maistortillas",
+    "_p6t_description": "Ingredient label for tortillas made with corn, not wheat.",
+    "_p6t_source": "Corn tortillas"
   },
   "sEKbW8": {
     "defaultMessage": "{recipe} zum Mittagessen einplanen",
@@ -929,6 +1489,11 @@
     "_p6t_description": "Empty state on the shop's list of upcoming meals, which links each meal to its shopping decisions.",
     "_p6t_source": "No upcoming meals. Plan a meal to choose what to buy here."
   },
+  "sjP2sW": {
+    "defaultMessage": "Roggenmehl",
+    "_p6t_description": "Ingredient label for rye flour.",
+    "_p6t_source": "Rye flour"
+  },
   "sxAYc+": {
     "defaultMessage": "Weitere Seite hinzufügen",
     "_p6t_description": "Action that adds more photos to the import being prepared.",
@@ -943,6 +1508,11 @@
     "defaultMessage": "Abendessen am {day}",
     "_p6t_description": "Source of a shopping item that belongs to a planned meal. {day} is a formatted weekday such as Tuesday. Selecting it opens the meal.",
     "_p6t_source": "Dinner on {day}"
+  },
+  "tOVnQs": {
+    "defaultMessage": "Zucker",
+    "_p6t_description": "Ingredient label for ordinary sugar.",
+    "_p6t_source": "Sugar"
   },
   "tSxVv6": {
     "defaultMessage": "Für dich ausgewählt",
@@ -974,15 +1544,35 @@
     "_p6t_description": "Status while the photo picker is opening.",
     "_p6t_source": "Opening photos…"
   },
+  "txl8bJ": {
+    "defaultMessage": "Kokosöl",
+    "_p6t_description": "Ingredient label for coconut oil.",
+    "_p6t_source": "Coconut oil"
+  },
   "tyszfp": {
     "defaultMessage": "Gerichtsidee eingeben",
     "_p6t_description": "Starts a chat to explore how to make a dish the user has in mind for this meal slot.",
     "_p6t_source": "I have a dish in mind"
   },
+  "u1tQl6": {
+    "defaultMessage": "Reisessig",
+    "_p6t_description": "Ingredient label for rice vinegar.",
+    "_p6t_source": "Rice vinegar"
+  },
+  "uD0uYB": {
+    "defaultMessage": "Dosentomaten",
+    "_p6t_description": "Ingredient label for tomatoes from a tin or can, not concentrated paste.",
+    "_p6t_source": "Canned tomatoes"
+  },
   "uRdLso": {
     "defaultMessage": "Fotos von Kochbuchseiten machen",
     "_p6t_description": "Row that imports recipes by photographing pages of a book.",
     "_p6t_source": "Take photos of cookbook pages"
+  },
+  "uaSwYG": {
+    "defaultMessage": "Bohnen aus der Dose",
+    "_p6t_description": "Ingredient label for beans from a tin or can.",
+    "_p6t_source": "Canned beans"
   },
   "un0Pum": {
     "defaultMessage": "{count} übersprungen",
@@ -1009,10 +1599,25 @@
     "_p6t_description": "Menu action that plans the same meal again on another day.",
     "_p6t_source": "Plan again…"
   },
+  "w5xQJj": {
+    "defaultMessage": "Karotten",
+    "_p6t_description": "Ingredient label for carrots.",
+    "_p6t_source": "Carrots"
+  },
+  "wJYtvY": {
+    "defaultMessage": "Hoisinsauce",
+    "_p6t_description": "Ingredient label for hoisin sauce.",
+    "_p6t_source": "Hoisin sauce"
+  },
   "wO5FsS": {
     "defaultMessage": "{name} öffnen",
     "_p6t_description": "Accessibility label for a cookbook recipe. {name} is the recipe's name. Selecting it opens the recipe.",
     "_p6t_source": "Open {name}"
+  },
+  "wRsD6i": {
+    "defaultMessage": "Eingelegte Gurken",
+    "_p6t_description": "Ingredient label for pickled cucumbers.",
+    "_p6t_source": "Pickled cucumbers"
   },
   "wTes2b": {
     "defaultMessage": "Keine passenden Vorschläge. Durchstöbere dein Kochbuch oder trage eine Mahlzeit ein.",
@@ -1039,6 +1644,16 @@
     "_p6t_description": "Label for a planned meal from the day before today, in that meal's heading.",
     "_p6t_source": "Yesterday"
   },
+  "x9K9Dw": {
+    "defaultMessage": "Tiefgekühlte Garnelen",
+    "_p6t_description": "Ingredient label for prawns kept in the freezer.",
+    "_p6t_source": "Frozen prawns"
+  },
+  "xQqc4Z": {
+    "defaultMessage": "Guavenpaste",
+    "_p6t_description": "Ingredient label for guava paste.",
+    "_p6t_source": "Guava paste"
+  },
   "xU/3JC": {
     "defaultMessage": "{name}, auf der Liste, Details bearbeiten",
     "_p6t_description": "Accessibility label for an item already on the shopping list. {name} is the item's name. Selecting it edits the item's note.",
@@ -1049,10 +1664,30 @@
     "_p6t_description": "Shopping category for snacks and sweets.",
     "_p6t_source": "Snacks & sweets"
   },
+  "xqikFt": {
+    "defaultMessage": "Zwiebeln",
+    "_p6t_description": "Ingredient label for onions.",
+    "_p6t_source": "Onions"
+  },
   "y+jaB0": {
     "defaultMessage": "Ohne Kategorie",
     "_p6t_description": "Fallback for a shopping item whose category is missing. Also the menu option that clears the category.",
     "_p6t_source": "Uncategorised"
+  },
+  "y6vW60": {
+    "defaultMessage": "Kreuzkümmelsamen",
+    "_p6t_description": "Ingredient label for cumin seed, not caraway.",
+    "_p6t_source": "Cumin seeds"
+  },
+  "y7bFsu": {
+    "defaultMessage": "Thunfisch aus der Dose",
+    "_p6t_description": "Ingredient label for tuna from a tin or can.",
+    "_p6t_source": "Tinned tuna"
+  },
+  "yAWQXw": {
+    "defaultMessage": "Nudeln",
+    "_p6t_description": "Ingredient label for noodles without a specific variety.",
+    "_p6t_source": "Noodles"
   },
   "yBelg/": {
     "defaultMessage": "Von der Liste entfernen",
@@ -1063,6 +1698,11 @@
     "defaultMessage": "Nichts zu kaufen. Plane eine Mahlzeit, um auszuwählen, was du dafür kaufst, oder füge einen Eintrag hinzu.",
     "_p6t_description": "Empty Shop state when no meal is waiting for a shopping choice. Names the two ways to get items on the list.",
     "_p6t_source": "Nothing to buy. Plan a meal to choose what to buy for it, or add an item."
+  },
+  "yROF5b": {
+    "defaultMessage": "Dijon-Senf",
+    "_p6t_description": "Ingredient label for Dijon mustard.",
+    "_p6t_source": "Dijon mustard"
   },
   "ycSZ62": {
     "defaultMessage": "Magpie ein Rezept erzählen",
@@ -1078,6 +1718,11 @@
     "defaultMessage": "{day} · {slot}",
     "_p6t_description": "Heading for a planned meal, such as “Today · Dinner” or “Thursday, 10 Sep · Dinner”. {day} is a formatted day or Today, Tomorrow, Yesterday. {slot} is the standalone Lunch, Dinner or Treat label. The two parts may be reordered.",
     "_p6t_source": "{day} · {slot}"
+  },
+  "z7jmJ7": {
+    "defaultMessage": "Teffmehl",
+    "_p6t_description": "Ingredient label for teff flour.",
+    "_p6t_source": "Teff flour"
   },
   "zh+xrJ": {
     "defaultMessage": "Pflege & Gesundheit",

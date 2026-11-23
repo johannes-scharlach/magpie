@@ -28,15 +28,19 @@ const cache = createUseUpCache(async (snapshot, signal) => {
   const { data } = await supabase.auth.getSession();
   if (!data.session || data.session.user.id !== userId || signal.aborted)
     throw new Error("No active session for this assessment");
-  const response = await fetch(`${env.apiUrl}/v1/use-up`, {
-    method: "POST",
-    signal,
-    headers: {
-      "content-type": "application/json",
-      authorization: `Bearer ${data.session.access_token}`,
+  const response = await fetch(
+    `${env.supabaseUrl.replace(/\/+$/, "")}/functions/v1/use-up`,
+    {
+      method: "POST",
+      signal,
+      headers: {
+        "content-type": "application/json",
+        authorization: `Bearer ${data.session.access_token}`,
+        apikey: env.supabasePublishableKey,
+      },
+      body: JSON.stringify(request),
     },
-    body: JSON.stringify(request),
-  });
+  );
   if (!response.ok) throw new Error("Use-up assessment unavailable");
   return Response.parse(await response.json()).ingredients;
 });

@@ -4,10 +4,10 @@ export type IngredientArtCell = { ingredient: string; cell: number };
 
 type CellResult = IngredientArtCell &
   (
-    | { outcome: "published" | "missing" }
+    | { outcome: "published" | "missing" | "review" }
     | {
         outcome: "retry";
-        stage: "draw" | "crop" | "matte" | "publish";
+        stage: "draw" | "crop" | "matte" | "review" | "publish";
         error: unknown;
       }
   );
@@ -15,6 +15,10 @@ type CellResult = IngredientArtCell &
 type SheetTools = {
   draw(prompt: string): Promise<Uint8Array>;
   matte(crop: Uint8Array): Promise<Uint8Array | null>;
+  confirmSubject(
+    slot: IngredientArtCell,
+    webp: Uint8Array,
+  ): Promise<boolean | "review">;
   publish(ingredient: string, webp: Uint8Array): Promise<void>;
 };
 
@@ -98,7 +102,7 @@ export async function fillIngredientArtSheet(
   const results: CellResult[] = [];
   const cellSize = Math.floor(size / side);
   for (const slot of cells) {
-    let stage: "crop" | "matte" | "publish" = "crop";
+    let stage: "crop" | "matte" | "review" | "publish" = "crop";
     try {
       const row = Math.floor(slot.cell / side);
       const col = slot.cell % side;
@@ -119,6 +123,14 @@ export async function fillIngredientArtSheet(
         results.push({ ...slot, outcome: "missing" });
         continue;
       }
+      stage = "review";
+      const confirmed = await tools.confirmSubject(slot, webp);
+      if (confirmed === "review") {
+        results.push({ ...slot, outcome: "review" });
+        continue;
+      }
+      if (!confirmed)
+        throw new Error("The assigned ingredient was not confirmed");
       stage = "publish";
       await tools.publish(slot.ingredient, webp);
       results.push({ ...slot, outcome: "published" });

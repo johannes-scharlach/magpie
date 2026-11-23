@@ -22,7 +22,6 @@ import {
   mealRecommendations,
   mealReminderWorker,
 } from "./routes/meal-recommendations.js";
-import { useUp } from "./routes/use-up.js";
 
 export const app = new Hono<AppBindings>();
 
@@ -78,7 +77,6 @@ app.route("/v1/ingredient-art", ingredientArt);
 app.route("/v1/recipes", recipes);
 app.route("/v1/planned-meals", plannedMeals);
 app.route("/v1/meal-recommendations", mealRecommendations);
-app.route("/v1/use-up", useUp);
 
 // OAuth discovery and the consent page sit at the origin root, not under /v1.
 app.route("/", oauth);

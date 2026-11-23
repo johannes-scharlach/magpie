@@ -4,7 +4,7 @@ import {
   mealIngredients,
   parseMealSwaps,
   nearbyUseUpDates,
-  USE_UP_SLOTS,
+  MEAL_SLOTS,
   type UseUpRequest,
   type UseUpTarget,
 } from "@magpie/meals";
@@ -31,7 +31,7 @@ export function projectUseUpPlan(
   const meals: UseUpRequest["meals"] = [];
   try {
     for (const row of rows) {
-      const slot = USE_UP_SLOTS.find((slot) => slot === row.meal);
+      const slot = MEAL_SLOTS.find((slot) => slot === row.meal);
       const date = row.slot_date;
       if (!slot || date < from || date > through || !row.variant_id) continue;
       if (compareUseUpSlots({ date, slot }, target) === 0) continue;

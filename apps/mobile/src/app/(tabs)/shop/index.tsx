@@ -22,6 +22,7 @@ import { useIngredientArt } from "@/features/ingredients/ingredient-art";
 import {
   alternativesForItem,
   orderedAlternatives,
+  adjacentAlternative,
 } from "@/features/shop/alternatives";
 import {
   type HeldPosition,
@@ -314,8 +315,12 @@ function ListScreen({
       });
       sessions.current.set(item.id, session);
     }
-    const index = session.options.indexOf(session.selected);
-    const alternative = session.options[index + 1] ?? session.options[0]!;
+    const alternative = adjacentAlternative(
+      session.selected.name,
+      session.options,
+      1,
+    );
+    if (!alternative) return;
     setHighlighted(item.id);
     clearHighlightLater();
     session.select(alternative);

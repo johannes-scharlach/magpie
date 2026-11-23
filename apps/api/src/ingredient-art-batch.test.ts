@@ -5,7 +5,10 @@ import { join } from "node:path";
 import { it } from "node:test";
 import sharp from "sharp";
 
-import { fillIngredientArtSheet } from "./ingredient-art-batch.js";
+import {
+  fillIngredientArtSheet,
+  type IngredientArtCell,
+} from "./ingredient-art-batch.js";
 import { prepareIngredientArtSheet } from "./ingredient-art-sheet.js";
 
 it("publishes only usable assigned cells and retries in place without redrawing completed ingredients", async () => {
@@ -57,6 +60,15 @@ it("publishes only usable assigned cells and retries in place without redrawing 
         .webp({ lossless: true })
         .toBuffer();
     },
+    confirmSubject: async (_slot: IngredientArtCell, webp: Uint8Array) => {
+      const center = await sharp(webp)
+        .extract({ left: 26, top: 26, width: 1, height: 1 })
+        .raw()
+        .toBuffer();
+      // The fourth cutout is structurally valid, but the reviewer cannot
+      // confirm that it depicts the assigned sunchoke until the retry.
+      return center[0] !== 205 || retry;
+    },
     publish: async (ingredient: string, webp: Uint8Array) => {
       const center = await sharp(webp)
         .extract({ left: 26, top: 26, width: 1, height: 1 })
@@ -79,16 +91,10 @@ it("publishes only usable assigned cells and retries in place without redrawing 
       ["eggplant", 0, "published"],
       ["celery root", 1, "missing"],
       ["tomato paste", 2, "retry"],
-      ["sunchoke", 3, "published"],
+      ["sunchoke", 3, "retry"],
     ],
   );
-  assert.deepEqual(
-    [...published],
-    [
-      ["eggplant", 128],
-      ["sunchoke", 205],
-    ],
-  );
+  assert.deepEqual([...published], [["eggplant", 128]]);
   assert.match(draws[0]!, /row 1, column 1: "eggplant"/);
   assert.match(draws[0]!, /row 2, column 1: "tomato paste"/);
 
@@ -102,9 +108,9 @@ it("publishes only usable assigned cells and retries in place without redrawing 
     [...published],
     [
       ["eggplant", 128],
-      ["sunchoke", 205],
       ["celery root", 191],
       ["tomato paste", 204],
+      ["sunchoke", 205],
     ],
   );
   assert.deepEqual(await fillIngredientArtSheet(plan, 2, pending(), tools), []);

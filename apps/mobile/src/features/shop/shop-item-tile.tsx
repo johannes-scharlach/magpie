@@ -17,7 +17,7 @@ import { cn } from "@/lib/utils";
 
 import {
   alternativesForItem,
-  orderedAlternatives,
+  adjacentAlternative,
   type Alternative,
 } from "./alternatives";
 import { CheckOff } from "./check-off";
@@ -101,21 +101,19 @@ export function ShopItemTile({
       ? [when, age].filter(Boolean).join(" · ")
       : null;
 
-  const options =
-    purchased || item.ingredient_id == null
-      ? []
-      : (browse?.options ??
-        orderedAlternatives(
-          item.name ?? "",
-          alternativesForItem(
-            item.name ?? "",
-            item.ingredient_lines,
-            item.ingredient_id,
-          ),
-        ));
-  const optionIndex = browse ? options.indexOf(browse.selected) : 0;
   const quickSwap =
-    options.length > 1 ? (options[optionIndex + 1] ?? options[0]) : undefined;
+    purchased || item.ingredient_id == null
+      ? null
+      : adjacentAlternative(
+          name,
+          browse?.options ??
+            alternativesForItem(
+              item.name ?? "",
+              item.ingredient_lines,
+              item.ingredient_id,
+            ),
+          1,
+        );
 
   function toggle() {
     if (!purchased) {

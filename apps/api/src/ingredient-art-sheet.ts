@@ -22,6 +22,22 @@ const sheetPlan = z
       new Set(cells.map(({ ingredient }) => ingredient)).size === cells.length,
   );
 
+export async function readIngredientArtSheet(path: string, target: string) {
+  const raw = await readFile(path, "utf8").catch(
+    (error: NodeJS.ErrnoException) => {
+      if (error.code !== "ENOENT") throw error;
+      return null;
+    },
+  );
+  if (raw === null) return null;
+  const plan = sheetPlan.parse(JSON.parse(raw));
+  if (plan.target !== target)
+    throw new Error(
+      "The saved sheet belongs to a different Supabase project. Use another --plan.",
+    );
+  return plan;
+}
+
 /** Persist before the paid call so retries can leave finished cells blank. */
 export async function prepareIngredientArtSheet(
   path: string,
@@ -29,18 +45,8 @@ export async function prepareIngredientArtSheet(
   pending: string[],
   side: number,
 ): Promise<z.infer<typeof sheetPlan>> {
-  const raw = await readFile(path, "utf8").catch(
-    (error: NodeJS.ErrnoException) => {
-      if (error.code !== "ENOENT") throw error;
-      return null;
-    },
-  );
-  if (raw !== null) {
-    const previous = sheetPlan.parse(JSON.parse(raw));
-    if (previous.target !== target)
-      throw new Error(
-        "The saved sheet belongs to a different Supabase project. Use another --plan.",
-      );
+  const previous = await readIngredientArtSheet(path, target);
+  if (previous) {
     const names = new Set(pending);
     if (previous.cells.some(({ ingredient }) => names.has(ingredient)))
       return previous;

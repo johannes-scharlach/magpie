@@ -91,6 +91,7 @@ const deliveredAssets: Partial<Record<ArtworkId, number>> = {
   "ingredient-argan-oil": require("./art/optimized/ingredient-argan-oil.webp"),
   "ingredient-asafoetida": require("./art/optimized/ingredient-asafoetida.webp"),
   "ingredient-bacon": require("./art/optimized/ingredient-bacon.webp"),
+  "ingredient-cabbage": require("./art/optimized/ingredient-cabbage.webp"),
   "ingredient-bagoong": require("./art/optimized/ingredient-bagoong.webp"),
   "ingredient-baharat": require("./art/optimized/ingredient-baharat.webp"),
   "ingredient-balsamic-vinegar": require("./art/optimized/ingredient-balsamic-vinegar.webp"),

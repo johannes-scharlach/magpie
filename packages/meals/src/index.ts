@@ -56,10 +56,11 @@ export function itemNameKey(name: string): string {
   return name.trim().toLowerCase().replace(/\s+/g, " ");
 }
 
-export const USE_UP_SLOTS = ["lunch", "dinner", "treat"] as const;
+export const MEAL_SLOTS = ["lunch", "dinner", "treat"] as const;
+export type MealSlot = (typeof MEAL_SLOTS)[number];
 export type UseUpTarget = {
   date: string;
-  slot: (typeof USE_UP_SLOTS)[number];
+  slot: MealSlot;
 };
 export type UseUpRequest = {
   target: UseUpTarget;
@@ -71,7 +72,7 @@ export type UseUpRequest = {
 export function compareUseUpSlots(a: UseUpTarget, b: UseUpTarget): number {
   return (
     a.date.localeCompare(b.date) ||
-    USE_UP_SLOTS.indexOf(a.slot) - USE_UP_SLOTS.indexOf(b.slot)
+    MEAL_SLOTS.indexOf(a.slot) - MEAL_SLOTS.indexOf(b.slot)
   );
 }
 

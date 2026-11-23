@@ -1,4 +1,5 @@
 import type { PoolClient } from "pg";
+import type { MealSlot } from "@magpie/meals";
 
 import { magpieUuidV5 } from "./magpie-uuid.js";
 import { pool } from "./db.js";
@@ -14,8 +15,7 @@ import {
  * hand are indistinguishable. Shopping is an explicit choice (ADR 16).
  * Change both together.
  */
-export const MEAL_SLOTS = ["lunch", "dinner", "treat"] as const;
-export type MealSlot = (typeof MEAL_SLOTS)[number];
+export { MEAL_SLOTS, type MealSlot } from "@magpie/meals";
 
 export function plannedMealId(
   listId: string,

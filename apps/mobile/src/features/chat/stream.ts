@@ -5,8 +5,9 @@ import { env } from "@/lib/env";
 import { supabase } from "@/lib/supabase";
 import { dateKey } from "@/features/meals/slots";
 import type { QueuedMessage } from "./message-queue";
+import type { OnHandEntry } from "./on-hand-transcript";
 
-/** Mirrors the server-written data parts; no client writes turn outcomes. */
+/** Mirrors the server-written turn state; no client writes turn outcomes. */
 export type ChatTurnState = {
   userMessageId: string;
   status: "running" | "completed" | "failed";
@@ -14,7 +15,7 @@ export type ChatTurnState = {
 };
 export type AssistantUIMessage = UIMessage<
   never,
-  { suggestions: string[]; turn: ChatTurnState }
+  { suggestions: string[]; turn: ChatTurnState; onHandEntry: OnHandEntry }
 >;
 export type Parts = AssistantUIMessage["parts"];
 

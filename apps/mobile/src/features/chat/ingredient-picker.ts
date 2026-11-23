@@ -10,7 +10,6 @@ import { ingredientNameKey } from "@/features/ingredients/ingredient-name";
 export type PickedIngredient = {
   key: string;
   label: string;
-  fallbackStaple?: boolean;
 };
 type Picks = Pick<
   CookingProfile,
@@ -65,9 +64,11 @@ export function ingredientPickerSections({
         ...profile.pantry.other,
         ...profile.fresh_ingredients.other,
         ...profile.keeps.map((id) =>
-          id.startsWith("frozen-")
-            ? `Frozen ${ingredientLabel(id).toLowerCase()}`
-            : ingredientLabel(id),
+          id === "canned-corn"
+            ? pantryOptions[id]
+            : id.startsWith("frozen-")
+              ? `Frozen ${ingredientLabel(id).toLowerCase()}`
+              : ingredientLabel(id),
         ),
         ...Object.values(profile.extras).flat(),
       ]
@@ -76,29 +77,21 @@ export function ingredientPickerSections({
     MEAL_BASES.has(ingredientNameKey(label)),
   );
   const seen = new Set<string>();
-  function take(
-    labels: readonly string[],
-    limit = Infinity,
-    fallbacks: readonly string[] = [],
-  ) {
+  function take(labels: readonly string[], limit = Infinity) {
     const tiles: PickedIngredient[] = [];
-    for (const [index, label] of [...labels, ...fallbacks].entries()) {
+    for (const label of labels) {
       const name = label.trim();
       const key = ingredientNameKey(name);
       if (!name || seen.has(key)) continue;
       seen.add(key);
-      tiles.push({
-        key,
-        label: name,
-        ...(index >= labels.length ? { fallbackStaple: true } : {}),
-      });
+      tiles.push({ key, label: name });
       if (tiles.length === limit) break;
     }
     return tiles;
   }
 
   const useUpTiles = take(useUp, 4);
-  const staples = take(usualBases, 6, DEFAULT_STAPLES);
+  const staples = take([...usualBases, ...DEFAULT_STAPLES], 6);
   const cupboard = take(kept);
   const sections: Section[] = [
     { id: "useUp", tiles: useUpTiles },

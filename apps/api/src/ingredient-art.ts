@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 import {
   bundledIngredientArtCatalog,
+  ingredientNameKey,
   knownIngredientArt,
 } from "@magpie/profile";
 
@@ -22,14 +23,16 @@ export type MatchIngredientArt = (
 ) => Promise<ReadonlyMap<string, IngredientArtJudgment>>;
 
 const clearMatch = 0.9;
-const canonicalNames = new Map([
-  ["aubergine", "eggplant"],
-  ["aubergines", "eggplant"],
-  ["eggplant", "eggplant"],
-  ["eggplants", "eggplant"],
-  ["tomato paste", "tomato paste"],
-  ["tomatenmark", "tomato paste"],
+const knownUndrawnNames = new Set([
+  "eggplant",
+  "spring onions",
+  "tomato paste",
+  "zucchini",
 ]);
+export function canonicalArtName(label: string): string | undefined {
+  const subject = ingredientNameKey(label).replaceAll("-", " ");
+  return knownUndrawnNames.has(subject) ? subject : undefined;
+}
 // Not a food classifier. This excludes obvious notes, amounts and sentences
 // with punctuation before Jev judges whether it is a plain ingredient name.
 const namePattern = /^[\p{L}\p{M}]+(?:[ ’'-][\p{L}\p{M}]+){0,7}$/u;
@@ -63,12 +66,14 @@ export async function resolveIngredientArt(
     store.listPublished(),
   ]);
   let saved = existing;
-  const byName = new Map([...published].map(([id, name]) => [name, id]));
+  const byName = new Map(
+    [...published].map(([id, name]) => [canonicalArtName(name) ?? name, id]),
+  );
   const catalog = new Map([...bundledIngredientArtCatalog, ...published]);
   const learned = new Map<string, IngredientArtResolution>();
   const unmatched = [...keys].filter(([name, key]) => {
     if (saved.has(key)) return false;
-    const canonical = canonicalNames.get(name);
+    const canonical = canonicalArtName(name);
     if (byName.has(canonical ?? name)) return false;
     if (!canonical) return true;
     learned.set(key, { ingredientName: canonical });
@@ -101,9 +106,46 @@ export async function resolveIngredientArt(
     const learned = key ? saved.get(key) : undefined;
     if (learned && "artId" in learned)
       return catalog.has(learned.artId) ? learned.artId : null;
-    return (
-      byName.get(learned?.ingredientName ?? canonicalNames.get(name) ?? name) ??
-      null
-    );
+    const subject = learned?.ingredientName ?? name;
+    return byName.get(canonicalArtName(subject) ?? subject) ?? null;
   });
+}
+
+/** Revisit queued misses against artwork that didn't exist at lookup time. */
+export async function reconsiderIngredientArt(
+  names: string[],
+  published: ReadonlyMap<string, string>,
+  match?: MatchIngredientArt,
+) {
+  const byName = new Map(
+    [...published].map(([id, name]) => [canonicalArtName(name) ?? name, id]),
+  );
+  const groups = new Map<string, string[]>();
+  for (const name of names) {
+    const key = canonicalArtName(name) ?? name;
+    groups.set(key, [...(groups.get(key) ?? []), name]);
+  }
+  const pending: string[] = [];
+  const aliases = new Map<string, string>();
+  const unmatched: string[] = [];
+  const reuse = (key: string, id: string) => {
+    for (const name of groups.get(key)!) aliases.set(name, id);
+  };
+  for (const key of groups.keys()) {
+    const artId = knownIngredientArt(key) ?? byName.get(key);
+    if (artId) reuse(key, artId);
+    else unmatched.push(key);
+  }
+  if (!match || !published.size) return { pending: unmatched, aliases };
+  for (let i = 0; i < unmatched.length; i += 12) {
+    const batch = unmatched.slice(i, i + 12);
+    const judgments = await match(batch, published);
+    for (const key of batch) {
+      const answer = judgments.get(key);
+      if (!answer || !(answer.confidence >= clearMatch)) continue;
+      if ("missing" in answer) pending.push(key);
+      else if (published.has(answer.artId)) reuse(key, answer.artId);
+    }
+  }
+  return { pending, aliases };
 }

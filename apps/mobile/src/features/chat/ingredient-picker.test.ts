@@ -35,3 +35,22 @@ it("keeps a picked tile editable after refresh without selecting its replacement
   expect(picked.map((tile) => tile.label)).toEqual(["Cabbage"]);
   expect(togglePickedIngredient(picked, after.at(-1)!.tiles[0]!)).toEqual([]);
 });
+
+it("keeps the highest-priority translation without merging different forms or foods", () => {
+  const sections = ingredientPickerSections({
+    useUp: ["Berenjena", "Kohl", "Tomatenmark", "TK-Spinat"],
+    profile: {
+      keeps: ["canned-tomatoes", "frozen-spinach"],
+      pantry: { other: [] },
+      fresh_ingredients: { other: ["Eggplant", "Cabbage", "Kale", "Spinach"] },
+      extras: {},
+    },
+  });
+  expect(
+    sections.map(({ id, tiles }) => [id, tiles.map(({ label }) => label)]),
+  ).toEqual([
+    ["useUp", ["Berenjena", "Kohl", "Tomatenmark", "TK-Spinat"]],
+    ["staples", ["Rice", "Potatoes", "Pasta"]],
+    ["cupboard", ["Kale", "Spinach", "Canned tomatoes"]],
+  ]);
+});

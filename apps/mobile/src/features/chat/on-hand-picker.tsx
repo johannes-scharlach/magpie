@@ -7,6 +7,7 @@ import { useResolveClassNames } from "uniwind";
 import { ClayPebble, PressableScale, clayTile } from "@/components/clay";
 import { Text } from "@/components/ui/text";
 import { useIngredientArt } from "@/features/ingredients/ingredient-art";
+import { formatPickerIngredient } from "@/features/ingredients/ingredient-labels";
 import { useHousehold } from "@/features/profile/use-household";
 import { cn } from "@/lib/utils";
 
@@ -35,24 +36,6 @@ const sectionLabels = defineMessages({
     defaultMessage: "Still selected",
     description:
       "Ingredient picker heading for choices that remain in the draft after their suggestions changed.",
-  },
-});
-
-const fallbackLabels = defineMessages({
-  rice: {
-    defaultMessage: "Rice",
-    description:
-      "Default ingredient tile for rice in the use-what-I-have picker.",
-  },
-  potatoes: {
-    defaultMessage: "Potatoes",
-    description:
-      "Default ingredient tile for potatoes in the use-what-I-have picker.",
-  },
-  pasta: {
-    defaultMessage: "Pasta",
-    description:
-      "Default ingredient tile for pasta in the use-what-I-have picker.",
   },
 });
 
@@ -102,12 +85,7 @@ export function OnHandPicker({
             {tiles.map((tile) => {
               const selected = picked.some(({ key }) => key === tile.key);
               const asset = artFor(tile.label);
-              const fallback =
-                tile.fallbackStaple &&
-                fallbackLabels[tile.key as keyof typeof fallbackLabels];
-              const label = fallback
-                ? intl.formatMessage(fallback)
-                : tile.label;
+              const label = formatPickerIngredient(intl, tile.label);
               return (
                 <PressableScale
                   key={tile.key}

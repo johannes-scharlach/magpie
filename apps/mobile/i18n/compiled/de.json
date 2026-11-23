@@ -5,10 +5,42 @@
       "value": "Auswahl fürs Abendessen ausblenden"
     }
   ],
+  "+/TLY1": [
+    {
+      "type": 0,
+      "value": "Buttermilch"
+    }
+  ],
+  "+/pl0R": [
+    {
+      "type": 0,
+      "value": "Gerösteter Sesam"
+    }
+  ],
   "+TPLLR": [
     {
       "type": 0,
       "value": "Erneut versuchen"
+    }
+  ],
+  "+YaaW0": [
+    {
+      "type": 0,
+      "value": "Cayennepfeffer"
+    }
+  ],
+  "+fSCny": [
+    {
+      "type": 0,
+      "value": "Hilf mir zu entscheiden, was ich am "
+    },
+    {
+      "type": 1,
+      "value": "date"
+    },
+    {
+      "type": 0,
+      "value": " zum Mittagessen machen kann."
     }
   ],
   "+hCyqG": [
@@ -21,6 +53,12 @@
     {
       "type": 0,
       "value": "Fertig"
+    }
+  ],
+  "/JrTfa": [
+    {
+      "type": 0,
+      "value": "Eiernudeln"
     }
   ],
   "/woc5o": [
@@ -37,6 +75,12 @@
     {
       "type": 0,
       "value": " als Snack einplanen"
+    }
+  ],
+  "0LCXVE": [
+    {
+      "type": 0,
+      "value": "Milch"
     }
   ],
   "0cWlcT": [
@@ -129,16 +173,46 @@
       "value": "Haushalt und Konto"
     }
   ],
+  "3UhufF": [
+    {
+      "type": 0,
+      "value": "Honig"
+    }
+  ],
+  "3Vm4wl": [
+    {
+      "type": 0,
+      "value": "Basmatireis"
+    }
+  ],
+  "3hJUI7": [
+    {
+      "type": 0,
+      "value": "Apfelessig"
+    }
+  ],
   "3j+H9P": [
     {
       "type": 0,
       "value": "Name"
     }
   ],
+  "3qHK+E": [
+    {
+      "type": 0,
+      "value": "Sesamöl"
+    }
+  ],
   "3qVWYG": [
     {
       "type": 0,
       "value": "Alles zu Hause"
+    }
+  ],
+  "4IdVo9": [
+    {
+      "type": 0,
+      "value": "Safran"
     }
   ],
   "4ZRn62": [
@@ -151,6 +225,12 @@
     {
       "type": 0,
       "value": "Einträge hinzufügen"
+    }
+  ],
+  "4mRMWi": [
+    {
+      "type": 0,
+      "value": "Wacholderbeeren"
     }
   ],
   "5+uWTl": [
@@ -181,6 +261,18 @@
       "value": "Eintrag konnte nicht gespeichert werden"
     }
   ],
+  "5CIPRC": [
+    {
+      "type": 0,
+      "value": "Rosenwasser"
+    }
+  ],
+  "5Fo3Gs": [
+    {
+      "type": 0,
+      "value": "Gewürze und Kräuter"
+    }
+  ],
   "5NKar0": [
     {
       "type": 0,
@@ -193,10 +285,22 @@
       "value": "Deine Vorräte"
     }
   ],
+  "5cSDJb": [
+    {
+      "type": 0,
+      "value": "Sherryessig"
+    }
+  ],
   "5dil2Q": [
     {
       "type": 0,
       "value": "Weitere Varianten"
+    }
+  ],
+  "5s1Uy+": [
+    {
+      "type": 0,
+      "value": "Getrocknete rote Chilis"
     }
   ],
   "695Ha/": [
@@ -215,6 +319,18 @@
     {
       "type": 0,
       "value": "Noch nichts zu kaufen. Öffne Mahlzeiten, um auszuwählen, was du kaufst, oder füge einen Eintrag hinzu."
+    }
+  ],
+  "6kj6Yf": [
+    {
+      "type": 0,
+      "value": "Szechuanpfeffer"
+    }
+  ],
+  "6z+I5B": [
+    {
+      "type": 0,
+      "value": "Brokkoli"
     }
   ],
   "77C3do": [
@@ -241,6 +357,18 @@
     {
       "type": 0,
       "value": "Abbrechen"
+    }
+  ],
+  "7jls0t": [
+    {
+      "type": 0,
+      "value": "Piment"
+    }
+  ],
+  "8QJH4w": [
+    {
+      "type": 0,
+      "value": "Speck"
     }
   ],
   "8b+Yoq": [
@@ -271,6 +399,12 @@
     {
       "type": 0,
       "value": "Mittagessen wählen"
+    }
+  ],
+  "A1qmAy": [
+    {
+      "type": 0,
+      "value": "Mais aus der Dose"
     }
   ],
   "ARoqs5": [
@@ -306,6 +440,18 @@
       },
       "offset": 0,
       "pluralType": "cardinal"
+    }
+  ],
+  "ASxQxO": [
+    {
+      "type": 0,
+      "value": "Kohl"
+    }
+  ],
+  "AoKrPI": [
+    {
+      "type": 0,
+      "value": "Jasminreis"
     }
   ],
   "ApC4Uy": [
@@ -364,10 +510,36 @@
       "value": "name"
     }
   ],
+  "CSe0ZZ": [
+    {
+      "type": 0,
+      "value": "Salzzitronen"
+    }
+  ],
   "CpnFSJ": [
     {
       "type": 0,
       "value": "Kochbuch durchstöbern"
+    }
+  ],
+  "DXtaav": [
+    {
+      "type": 0,
+      "value": "Rote Linsen"
+    }
+  ],
+  "DetB6u": [
+    {
+      "type": 0,
+      "value": "Das habe ich da: "
+    },
+    {
+      "type": 1,
+      "value": "ingredients"
+    },
+    {
+      "type": 0,
+      "value": "."
     }
   ],
   "Dkp9Si": [
@@ -400,10 +572,28 @@
       "value": "Geplant"
     }
   ],
+  "E1XLxG": [
+    {
+      "type": 0,
+      "value": "Getrocknete Shiitake"
+    }
+  ],
+  "E7bsvX": [
+    {
+      "type": 0,
+      "value": "Buchweizen"
+    }
+  ],
   "EO7SGs": [
     {
       "type": 0,
       "value": "Notiz hinzufügen"
+    }
+  ],
+  "Eo0PBs": [
+    {
+      "type": 0,
+      "value": "Fond und Brühe"
     }
   ],
   "EoBhsI": [
@@ -416,6 +606,24 @@
     {
       "type": 0,
       "value": "Ausgehakte Rezepte kommen in dein Kochbuch. Erst mit dem Hinzufügen wird etwas gespeichert."
+    }
+  ],
+  "Exrxnw": [
+    {
+      "type": 0,
+      "value": "Balsamicoessig"
+    }
+  ],
+  "F+jWGP": [
+    {
+      "type": 0,
+      "value": "Rote Bete"
+    }
+  ],
+  "F5dNDH": [
+    {
+      "type": 0,
+      "value": "Austernsauce"
     }
   ],
   "FABYcO": [
@@ -446,6 +654,24 @@
     {
       "type": 0,
       "value": "Eintrag wird geladen…"
+    }
+  ],
+  "GFHv6h": [
+    {
+      "type": 0,
+      "value": "Kalamata-Oliven"
+    }
+  ],
+  "GOZ0II": [
+    {
+      "type": 0,
+      "value": "Paellareis"
+    }
+  ],
+  "GPpmuY": [
+    {
+      "type": 0,
+      "value": "Kardamom"
     }
   ],
   "GXiSPF": [
@@ -495,10 +721,40 @@
       "value": "Vielleicht wurde er auf einem anderen Gerät entfernt."
     }
   ],
+  "HkN0Rx": [
+    {
+      "type": 0,
+      "value": "Chinakohl"
+    }
+  ],
+  "I/PQEx": [
+    {
+      "type": 0,
+      "value": "Kokosmilch"
+    }
+  ],
+  "I8R/3P": [
+    {
+      "type": 0,
+      "value": "Ahornsirup"
+    }
+  ],
   "IAQgpf": [
     {
       "type": 0,
       "value": "Frühstück & Heißgetränke"
+    }
+  ],
+  "IDMNhd": [
+    {
+      "type": 0,
+      "value": "Tiefgekühlte grüne Bohnen"
+    }
+  ],
+  "INfXb3": [
+    {
+      "type": 0,
+      "value": "Geräuchertes Paprikapulver"
     }
   ],
   "IOXqGa": [
@@ -519,10 +775,34 @@
       "value": "Notiz"
     }
   ],
+  "IYre+r": [
+    {
+      "type": 0,
+      "value": "Getrockneter Majoran"
+    }
+  ],
   "IkTWes": [
     {
       "type": 0,
       "value": "Wird hinzugefügt…"
+    }
+  ],
+  "JGA8YW": [
+    {
+      "type": 0,
+      "value": "Sojasauce"
+    }
+  ],
+  "JJsn5S": [
+    {
+      "type": 0,
+      "value": "Limetten"
+    }
+  ],
+  "Jf3Q+U": [
+    {
+      "type": 0,
+      "value": "Kapern"
     }
   ],
   "JjUC5I": [
@@ -531,10 +811,22 @@
       "value": "Erneut versuchen"
     }
   ],
+  "JyczPr": [
+    {
+      "type": 0,
+      "value": "Zitronengras"
+    }
+  ],
   "K4evxe": [
     {
       "type": 0,
       "value": "Abendessen wählen"
+    }
+  ],
+  "K8dZji": [
+    {
+      "type": 0,
+      "value": "Essig"
     }
   ],
   "KDuWv8": [
@@ -572,6 +864,12 @@
       "value": "Rezept importieren"
     }
   ],
+  "Kw9IYj": [
+    {
+      "type": 0,
+      "value": "Ceylon-Zimt"
+    }
+  ],
   "KyFWof": [
     {
       "type": 0,
@@ -600,6 +898,24 @@
       "value": "Zuerst aufbrauchen"
     }
   ],
+  "LZ9KXr": [
+    {
+      "type": 0,
+      "value": "Tiefgekühlter Spinat"
+    }
+  ],
+  "Ln/mSQ": [
+    {
+      "type": 0,
+      "value": "Getrocknete Limetten"
+    }
+  ],
+  "M5FHGv": [
+    {
+      "type": 0,
+      "value": "Orangenblütenwasser"
+    }
+  ],
   "M6fYaf": [
     {
       "type": 0,
@@ -610,6 +926,12 @@
     {
       "type": 0,
       "value": "Rezept wird vorbereitet…"
+    }
+  ],
+  "MG/rFQ": [
+    {
+      "type": 0,
+      "value": "Tomaten"
     }
   ],
   "MGQKpS": [
@@ -624,10 +946,34 @@
       "value": "Mahlzeiten"
     }
   ],
+  "MY8DcY": [
+    {
+      "type": 0,
+      "value": "Griechischer Joghurt"
+    }
+  ],
+  "MePzE9": [
+    {
+      "type": 0,
+      "value": "Eier"
+    }
+  ],
+  "Mxz/tk": [
+    {
+      "type": 0,
+      "value": "Käse"
+    }
+  ],
   "NFsZN2": [
     {
       "type": 0,
       "value": "Bitte versuch es erneut."
+    }
+  ],
+  "NVd5Xb": [
+    {
+      "type": 0,
+      "value": "Palmzucker"
     }
   ],
   "Ngz9Xq": [
@@ -636,10 +982,28 @@
       "value": "Hab ich zu Hause"
     }
   ],
+  "NhFnM9": [
+    {
+      "type": 0,
+      "value": "Violetter Mais"
+    }
+  ],
   "ODr7zx": [
     {
       "type": 0,
       "value": "Details konnten nicht gespeichert werden"
+    }
+  ],
+  "ON74RR": [
+    {
+      "type": 0,
+      "value": "Risottoreis"
+    }
+  ],
+  "OQMtm+": [
+    {
+      "type": 0,
+      "value": "Sternanis"
     }
   ],
   "Ofk7Ir": [
@@ -650,6 +1014,18 @@
     {
       "type": 1,
       "value": "day"
+    }
+  ],
+  "OiCDgb": [
+    {
+      "type": 0,
+      "value": "Senfkörner"
+    }
+  ],
+  "P3BLrX": [
+    {
+      "type": 0,
+      "value": "Tiefgekühlte Kabeljaufilets"
     }
   ],
   "PKr4/s": [
@@ -688,6 +1064,20 @@
       "value": "Eintrag konnte nicht abgehakt werden"
     }
   ],
+  "QcKrjy": [
+    {
+      "type": 0,
+      "value": "Hilf mir zu entscheiden, was ich am "
+    },
+    {
+      "type": 1,
+      "value": "date"
+    },
+    {
+      "type": 0,
+      "value": " als Snack machen kann."
+    }
+  ],
   "QoZ4P9": [
     {
       "type": 0,
@@ -698,6 +1088,12 @@
     {
       "type": 0,
       "value": "Eintrag konnte nicht hinzugefügt werden"
+    }
+  ],
+  "Qtby9H": [
+    {
+      "type": 0,
+      "value": "Thai-Currypaste"
     }
   ],
   "RACRTO": [
@@ -712,10 +1108,22 @@
       "value": "Wähle aus, was du kaufst"
     }
   ],
+  "RHYND+": [
+    {
+      "type": 0,
+      "value": "Dünne Reisnudeln"
+    }
+  ],
   "RJfIuU": [
     {
       "type": 0,
       "value": "Tierbedarf"
+    }
+  ],
+  "Rn/xwI": [
+    {
+      "type": 0,
+      "value": "Getrocknete Minze"
     }
   ],
   "S3jKdb": [
@@ -742,6 +1150,18 @@
     {
       "type": 0,
       "value": "Eintrag nicht gefunden"
+    }
+  ],
+  "SUdryO": [
+    {
+      "type": 0,
+      "value": "Haferflocken"
+    }
+  ],
+  "Sfk7X5": [
+    {
+      "type": 0,
+      "value": "Flache Reisnudeln"
     }
   ],
   "SyepTx": [
@@ -841,16 +1261,58 @@
       "pluralType": "cardinal"
     }
   ],
+  "T0BdU/": [
+    {
+      "type": 0,
+      "value": "Tiefgekühlte Erbsen"
+    }
+  ],
+  "T1MrUj": [
+    {
+      "type": 0,
+      "value": "Weißer Pfeffer"
+    }
+  ],
   "TL4aTD": [
     {
       "type": 0,
       "value": "Abbrechen fehlgeschlagen"
     }
   ],
+  "Toypf8": [
+    {
+      "type": 0,
+      "value": "Getrocknete Steinpilze"
+    }
+  ],
+  "UEfZxM": [
+    {
+      "type": 0,
+      "value": "Reispapier"
+    }
+  ],
+  "UM9B23": [
+    {
+      "type": 0,
+      "value": "Saure Sahne"
+    }
+  ],
   "UTC2ZW": [
     {
       "type": 0,
       "value": "Es gibt nichts zum Einfügen. Kopiere zuerst einen Link oder ein Rezept."
+    }
+  ],
+  "UWgdkR": [
+    {
+      "type": 0,
+      "value": "Tiefgekühlte Hähnchenbrust"
+    }
+  ],
+  "Upe39V": [
+    {
+      "type": 0,
+      "value": "Kümmel"
     }
   ],
   "Uyn5M2": [
@@ -867,6 +1329,12 @@
     {
       "type": 0,
       "value": "Alle"
+    }
+  ],
+  "V69jiW": [
+    {
+      "type": 0,
+      "value": "Fischsauce"
     }
   ],
   "VA0Lxk": [
@@ -927,6 +1395,12 @@
       "value": "Vorschläge konnten nicht geladen werden. Du kannst trotzdem dein Kochbuch durchstöbern."
     }
   ],
+  "X9+Cfa": [
+    {
+      "type": 0,
+      "value": "Tomatenmark"
+    }
+  ],
   "XPO+MA": [
     {
       "type": 0,
@@ -968,6 +1442,30 @@
       "value": "Ohne Kategorie"
     }
   ],
+  "XeDN6z": [
+    {
+      "type": 0,
+      "value": "Glasnudeln"
+    }
+  ],
+  "XqB47B": [
+    {
+      "type": 0,
+      "value": "Tiefgekühltes Hackfleisch"
+    }
+  ],
+  "XqVcNe": [
+    {
+      "type": 0,
+      "value": "Olivenöl"
+    }
+  ],
+  "YvO1Gd": [
+    {
+      "type": 0,
+      "value": "Mehl"
+    }
+  ],
   "Z2IumF": [
     {
       "type": 1,
@@ -990,6 +1488,12 @@
       "value": "Rezept importieren"
     }
   ],
+  "ZlvlTo": [
+    {
+      "type": 0,
+      "value": "Dunkle Sojasauce"
+    }
+  ],
   "aK3PR3": [
     {
       "type": 0,
@@ -1006,6 +1510,18 @@
     {
       "type": 0,
       "value": "Name"
+    }
+  ],
+  "ajARYO": [
+    {
+      "type": 0,
+      "value": "Melasse"
+    }
+  ],
+  "aybrav": [
+    {
+      "type": 0,
+      "value": "Knoblauch"
     }
   ],
   "bReaED": [
@@ -1067,6 +1583,18 @@
       "value": "ältere passende Variante"
     }
   ],
+  "bcV9dh": [
+    {
+      "type": 0,
+      "value": "Pilze"
+    }
+  ],
+  "bgvW1g": [
+    {
+      "type": 0,
+      "value": "Arganöl"
+    }
+  ],
   "bzU5dt": [
     {
       "type": 1,
@@ -1113,10 +1641,22 @@
       "value": "Hinzugefügt"
     }
   ],
+  "eGi+Yv": [
+    {
+      "type": 0,
+      "value": "Weinblätter"
+    }
+  ],
   "eqjXdk": [
     {
       "type": 0,
       "value": "Wird zu deinem Kochbuch hinzugefügt…"
+    }
+  ],
+  "f1JzTe": [
+    {
+      "type": 0,
+      "value": "Zitronen"
     }
   ],
   "fAyG5b": [
@@ -1127,6 +1667,38 @@
     {
       "type": 0,
       "value": " zurückholen"
+    }
+  ],
+  "fb/Ao6": [
+    {
+      "type": 0,
+      "value": "Sahne"
+    }
+  ],
+  "fhGTXb": [
+    {
+      "type": 0,
+      "value": "Mexikanischer Oregano"
+    }
+  ],
+  "fhyk8i": [
+    {
+      "type": 0,
+      "value": "Hilf mir zu entscheiden, was ich am "
+    },
+    {
+      "type": 1,
+      "value": "date"
+    },
+    {
+      "type": 0,
+      "value": " zum Abendessen machen kann."
+    }
+  ],
+  "g/+sAy": [
+    {
+      "type": 0,
+      "value": "Linsen"
     }
   ],
   "g1CIfS": [
@@ -1159,6 +1731,12 @@
       "value": "Hinzufügen"
     }
   ],
+  "gP684I": [
+    {
+      "type": 0,
+      "value": "Erdnussbutter"
+    }
+  ],
   "gWOHY1": [
     {
       "type": 0,
@@ -1169,6 +1747,12 @@
     {
       "type": 0,
       "value": "Import fürs Mittagessen"
+    }
+  ],
+  "gdsVkk": [
+    {
+      "type": 0,
+      "value": "Grünkohl"
     }
   ],
   "gnsOl4": [
@@ -1195,6 +1779,18 @@
       "value": "Dein Kochbuch ist leer. Importiere die Rezepte, die du gern kochst."
     }
   ],
+  "hK8iO5": [
+    {
+      "type": 0,
+      "value": "Japanischer Rundkornreis"
+    }
+  ],
+  "hP10JF": [
+    {
+      "type": 0,
+      "value": "Maisgrieß"
+    }
+  ],
   "heIYZX": [
     {
       "type": 0,
@@ -1207,6 +1803,18 @@
     {
       "type": 0,
       "value": " offen"
+    }
+  ],
+  "ho+Myd": [
+    {
+      "type": 0,
+      "value": "Blätterteig"
+    }
+  ],
+  "iAuVE1": [
+    {
+      "type": 0,
+      "value": "Butter"
     }
   ],
   "iQ3uTU": [
@@ -1257,6 +1865,12 @@
       "value": "Gefundene Rezepte"
     }
   ],
+  "jnmwpe": [
+    {
+      "type": 0,
+      "value": "Zuckermais"
+    }
+  ],
   "jpoEqR": [
     {
       "type": 0,
@@ -1267,6 +1881,12 @@
     {
       "type": 0,
       "value": "Screenshots oder Fotos auswählen"
+    }
+  ],
+  "k7Qsdl": [
+    {
+      "type": 0,
+      "value": "Naturjoghurt"
     }
   ],
   "kM+skD": [
@@ -1323,16 +1943,34 @@
       "value": "Leere Einkaufsliste"
     }
   ],
+  "mPiQwY": [
+    {
+      "type": 0,
+      "value": "Tiefgekühlte Lachsfilets"
+    }
+  ],
   "mYhCW0": [
     {
       "type": 0,
       "value": "Verschieben nach…"
     }
   ],
+  "mYkZwS": [
+    {
+      "type": 0,
+      "value": "Paprika"
+    }
+  ],
   "mZ3Vq4": [
     {
       "type": 0,
       "value": "Abhaken"
+    }
+  ],
+  "mdE/gA": [
+    {
+      "type": 0,
+      "value": "Spinat"
     }
   ],
   "mdefrF": [
@@ -1347,6 +1985,12 @@
       "value": "Wird verworfen…"
     }
   ],
+  "moJlXM": [
+    {
+      "type": 0,
+      "value": "Schalotten"
+    }
+  ],
   "n7V20c": [
     {
       "type": 0,
@@ -1357,6 +2001,18 @@
     {
       "type": 0,
       "value": "Andere Mahlzeit wählen"
+    }
+  ],
+  "nnIJBX": [
+    {
+      "type": 0,
+      "value": "Kokosraspeln"
+    }
+  ],
+  "npFROj": [
+    {
+      "type": 0,
+      "value": "Meerrettich"
     }
   ],
   "nuHVV/": [
@@ -1400,10 +2056,22 @@
       "value": "Import als Snack"
     }
   ],
+  "oS9hzf": [
+    {
+      "type": 0,
+      "value": "Aubergine"
+    }
+  ],
   "p1LU3L": [
     {
       "type": 0,
       "value": "Import fürs Abendessen"
+    }
+  ],
+  "p9XrRV": [
+    {
+      "type": 0,
+      "value": "Äpfel"
     }
   ],
   "pV8LQi": [
@@ -1422,10 +2090,34 @@
       "value": "recipe"
     }
   ],
+  "pzslaG": [
+    {
+      "type": 0,
+      "value": "Schwarze Bohnen"
+    }
+  ],
+  "qAqot2": [
+    {
+      "type": 0,
+      "value": "Kichererbsen"
+    }
+  ],
+  "qI9bjH": [
+    {
+      "type": 0,
+      "value": "Sardellen"
+    }
+  ],
   "qKQpsZ": [
     {
       "type": 0,
       "value": "Mittagessen"
+    }
+  ],
+  "qpCKU+": [
+    {
+      "type": 0,
+      "value": "Curryblätter"
     }
   ],
   "rIWABd": [
@@ -1438,6 +2130,12 @@
     {
       "type": 0,
       "value": "Abgehakt"
+    }
+  ],
+  "rvjJhe": [
+    {
+      "type": 0,
+      "value": "Lauch"
     }
   ],
   "ryFpRR": [
@@ -1475,6 +2173,12 @@
       "pluralType": "cardinal"
     }
   ],
+  "s4pdpH": [
+    {
+      "type": 0,
+      "value": "Maistortillas"
+    }
+  ],
   "sEKbW8": [
     {
       "type": 1,
@@ -1501,6 +2205,12 @@
       "value": "Keine anstehenden Mahlzeiten. Plane eine Mahlzeit, um hier auszuwählen, was du kaufst."
     }
   ],
+  "sjP2sW": [
+    {
+      "type": 0,
+      "value": "Roggenmehl"
+    }
+  ],
   "sxAYc+": [
     {
       "type": 0,
@@ -1521,6 +2231,12 @@
     {
       "type": 1,
       "value": "day"
+    }
+  ],
+  "tOVnQs": [
+    {
+      "type": 0,
+      "value": "Zucker"
     }
   ],
   "tSxVv6": [
@@ -1567,16 +2283,40 @@
       "value": "Fotos werden geöffnet…"
     }
   ],
+  "txl8bJ": [
+    {
+      "type": 0,
+      "value": "Kokosöl"
+    }
+  ],
   "tyszfp": [
     {
       "type": 0,
       "value": "Gerichtsidee eingeben"
     }
   ],
+  "u1tQl6": [
+    {
+      "type": 0,
+      "value": "Reisessig"
+    }
+  ],
+  "uD0uYB": [
+    {
+      "type": 0,
+      "value": "Dosentomaten"
+    }
+  ],
   "uRdLso": [
     {
       "type": 0,
       "value": "Fotos von Kochbuchseiten machen"
+    }
+  ],
+  "uaSwYG": [
+    {
+      "type": 0,
+      "value": "Bohnen aus der Dose"
     }
   ],
   "un0Pum": [
@@ -1613,6 +2353,18 @@
       "value": "Erneut planen…"
     }
   ],
+  "w5xQJj": [
+    {
+      "type": 0,
+      "value": "Karotten"
+    }
+  ],
+  "wJYtvY": [
+    {
+      "type": 0,
+      "value": "Hoisinsauce"
+    }
+  ],
   "wO5FsS": [
     {
       "type": 1,
@@ -1621,6 +2373,12 @@
     {
       "type": 0,
       "value": " öffnen"
+    }
+  ],
+  "wRsD6i": [
+    {
+      "type": 0,
+      "value": "Eingelegte Gurken"
     }
   ],
   "wTes2b": [
@@ -1680,6 +2438,18 @@
       "value": "Gestern"
     }
   ],
+  "x9K9Dw": [
+    {
+      "type": 0,
+      "value": "Tiefgekühlte Garnelen"
+    }
+  ],
+  "xQqc4Z": [
+    {
+      "type": 0,
+      "value": "Guavenpaste"
+    }
+  ],
   "xU/3JC": [
     {
       "type": 1,
@@ -1696,10 +2466,34 @@
       "value": "Snacks & Süßes"
     }
   ],
+  "xqikFt": [
+    {
+      "type": 0,
+      "value": "Zwiebeln"
+    }
+  ],
   "y+jaB0": [
     {
       "type": 0,
       "value": "Ohne Kategorie"
+    }
+  ],
+  "y6vW60": [
+    {
+      "type": 0,
+      "value": "Kreuzkümmelsamen"
+    }
+  ],
+  "y7bFsu": [
+    {
+      "type": 0,
+      "value": "Thunfisch aus der Dose"
+    }
+  ],
+  "yAWQXw": [
+    {
+      "type": 0,
+      "value": "Nudeln"
     }
   ],
   "yBelg/": [
@@ -1712,6 +2506,12 @@
     {
       "type": 0,
       "value": "Nichts zu kaufen. Plane eine Mahlzeit, um auszuwählen, was du dafür kaufst, oder füge einen Eintrag hinzu."
+    }
+  ],
+  "yROF5b": [
+    {
+      "type": 0,
+      "value": "Dijon-Senf"
     }
   ],
   "ycSZ62": [
@@ -1738,6 +2538,12 @@
     {
       "type": 1,
       "value": "slot"
+    }
+  ],
+  "z7jmJ7": [
+    {
+      "type": 0,
+      "value": "Teffmehl"
     }
   ],
   "zh+xrJ": [

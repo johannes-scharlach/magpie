@@ -1,6 +1,7 @@
 import { Image } from "expo-image";
 import { SymbolView } from "expo-symbols";
 import { useMemo, useRef, useState } from "react";
+import { useIntl } from "react-intl";
 import {
   Pressable,
   ScrollView,
@@ -15,6 +16,7 @@ import { Text } from "@/components/ui/text";
 import { cn } from "@/lib/utils";
 
 import { Markdown } from "./markdown";
+import { formatOnHandTranscript, readOnHandEntry } from "./on-hand-transcript";
 import { MessageMenu } from "./message-menu";
 import { audioParts, imageParts } from "./image-attachment";
 import { VoiceMessage } from "./voice-message";
@@ -31,7 +33,10 @@ const CHEVRON_ICON = {
 
 export function UserMessage({ parts }: { parts: Parts }) {
   const { width: windowWidth } = useWindowDimensions();
-  const text = messageText(parts);
+  const intl = useIntl();
+  const part = parts.find((part) => part.type === "data-onHandEntry");
+  const entry = readOnHandEntry(part?.data);
+  const text = entry ? formatOnHandTranscript(intl, entry) : messageText(parts);
   const images = imageParts(parts);
   const recordings = audioParts(parts);
   return (
