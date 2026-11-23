@@ -6,7 +6,7 @@ import { useResolveClassNames } from "uniwind";
 
 import { ClayPebble, PressableScale, clayTile } from "@/components/clay";
 import { Text } from "@/components/ui/text";
-import { bundledIngredientArt } from "@/features/ingredients/ingredient-art";
+import { useIngredientArt } from "@/features/ingredients/ingredient-art";
 import { useHousehold } from "@/features/profile/use-household";
 import { cn } from "@/lib/utils";
 
@@ -75,6 +75,9 @@ export function OnHandPicker({
     profile: household?.profile,
     picked,
   });
+  const artFor = useIngredientArt(
+    sections.flatMap(({ tiles }) => tiles.map(({ label }) => label)),
+  );
   const selectionColor = useResolveClassNames("text-primary").color;
 
   // One compact scrolling row shares the composer's keyboard-sticky region.
@@ -98,7 +101,7 @@ export function OnHandPicker({
           <View className="flex-row gap-2">
             {tiles.map((tile) => {
               const selected = picked.some(({ key }) => key === tile.key);
-              const asset = bundledIngredientArt(tile.label);
+              const asset = artFor(tile.label);
               const fallback =
                 tile.fallbackStaple &&
                 fallbackLabels[tile.key as keyof typeof fallbackLabels];

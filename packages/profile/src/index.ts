@@ -1168,6 +1168,79 @@ export function ingredientId(name: string, group?: string): string | undefined {
       : undefined)
   );
 }
+
+const ingredientNameAliases = new Map([
+  ["basmati", "basmati-rice"],
+  ["canned-sweetcorn", "canned-corn"],
+  ["canned-tuna-fish", "canned-tuna"],
+  ["garbanzo-beans", "chickpeas"],
+  ["greek-yogurt", "greek-yoghurt"],
+  ["kartoffel", "potatoes"],
+  ["kartoffeln", "potatoes"],
+  ["lemon", "lemons"],
+  ["lime", "limes"],
+  ["onion", "onions"],
+  ["plain-yogurt", "plain-yoghurt"],
+  ["potato", "potatoes"],
+  ["reis", "rice"],
+  ["tinned-tomatoes", "canned-tomatoes"],
+  ["tinned-tuna", "canned-tuna"],
+  ["zitronen", "lemons"],
+]);
+
+/** Existing picker key. Model art aliases must never participate in this key. */
+export function ingredientNameKey(label: string): string {
+  const key = label
+    .normalize("NFKD")
+    .replace(/\p{M}/gu, "")
+    .toLowerCase()
+    .trim()
+    .replace(/[^\p{L}\p{N}]+/gu, "-")
+    .replace(/^-|-$/g, "");
+  return ingredientNameAliases.get(key) ?? (key || label.trim().toLowerCase());
+}
+
+// Only these fresh onboarding options have shipped images. Pantry and
+// specialty ingredients ship the complete catalog. Keep in step with artwork.tsx.
+const picturedFresh = [
+  "eggs",
+  "milk",
+  "butter",
+  "cheese",
+  "greek-yoghurt",
+  "plain-yoghurt",
+  "cream",
+  "garlic",
+  "onions",
+] as const;
+
+export const bundledIngredientArtCatalog: ReadonlyMap<string, string> = new Map(
+  [
+    ...Object.entries(ingredientOptions).map(
+      ([id, label]) =>
+        [
+          `ingredient-${id}`,
+          id.startsWith("frozen-") ? `Frozen ${label}` : label,
+        ] as const,
+    ),
+    ...Object.entries(pantryOptions).map(
+      ([id, label]) => [`pantry-${id}`, label] as const,
+    ),
+    ...picturedFresh.map((id) => [`fresh-${id}`, freshOptions[id]] as const),
+  ],
+);
+
+export function knownIngredientArt(label: string): string | undefined {
+  const exact = label.trim().toLowerCase();
+  if (bundledIngredientArtCatalog.has(exact)) return exact;
+  const key = ingredientNameKey(label);
+  return [
+    `ingredient-${ingredientId(label) ?? key}`,
+    `pantry-${key}`,
+    `fresh-${key}`,
+  ].find((id) => bundledIngredientArtCatalog.has(id));
+}
+
 export const avoidanceKinds = {
   allergy: "Allergy",
   restriction: "Must avoid",
