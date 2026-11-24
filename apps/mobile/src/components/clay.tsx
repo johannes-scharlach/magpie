@@ -2,6 +2,7 @@ import { useState, type ReactNode } from "react";
 import {
   Platform,
   Pressable,
+  View,
   type PressableProps,
   type ViewStyle,
 } from "react-native";
@@ -37,6 +38,23 @@ export const clayTile: ViewStyle = {
   borderCurve: "continuous",
 };
 
+export function IngredientTileSurface({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <View
+      className={cn("rounded-2xl border border-border bg-card", className)}
+      style={{ borderCurve: "continuous" }}
+    >
+      {children}
+    </View>
+  );
+}
+
 // Visual prototype: five pressed-clay pebbles, not containers for the artwork.
 // Broad, smooth curves keep the irregularity quiet rather than wobbly.
 const PEBBLES = [
@@ -47,7 +65,7 @@ const PEBBLES = [
   "M49 7 C71 1 96 7 110 26 C124 45 116 65 98 78 C80 91 55 89 33 82 C11 75 0 62 5 43 C10 24 27 13 49 7 Z",
 ] as const;
 
-/** The same item keeps its pebble across selection, reordering and screens. */
+/** The clay backing signals selection. The same item keeps its shape when reordered. */
 export function ClayPebble({ seed }: { seed: string }) {
   const fill = useResolveClassNames("bg-accent").backgroundColor;
   let hash = 0;
@@ -98,8 +116,14 @@ const EASE_OUT = [0.23, 1, 0.32, 1] as const;
 export function PressableScale({
   children,
   tilt = 0,
+  stretch = false,
+  className,
   ...props
-}: Omit<PressableProps, "children"> & { children: ReactNode; tilt?: number }) {
+}: Omit<PressableProps, "children"> & {
+  children: ReactNode;
+  tilt?: number;
+  stretch?: boolean;
+}) {
   const [pressed, setPressed] = useState(false);
   const reduced = useReducedMotion();
   const scale = pressed && !reduced ? 0.97 : 1;
@@ -107,6 +131,7 @@ export function PressableScale({
     <Pressable
       pressRetentionOffset={16}
       {...props}
+      className={stretch ? cn(className, "grow") : className}
       onPressIn={(e) => {
         setPressed(true);
         props.onPressIn?.(e);
@@ -118,6 +143,7 @@ export function PressableScale({
     >
       <Animated.View
         style={{
+          flexGrow: stretch ? 1 : undefined,
           transform: [{ rotate: `${tilt}deg` }, { scale }],
           transitionProperty: "transform",
           transitionDuration: 120,

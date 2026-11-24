@@ -16,7 +16,7 @@ type Picks = Pick<
   "keeps" | "extras" | "pantry" | "fresh_ingredients"
 >;
 type Section = {
-  id: "useUp" | "staples" | "cupboard" | "picked";
+  id: "useUp" | "fresh" | "staples" | "cupboard" | "picked";
   tiles: PickedIngredient[];
 };
 
@@ -25,6 +25,19 @@ const DEFAULT_STAPLES = [
   freshOptions.potatoes,
   pantryOptions.pasta,
 ];
+const PERISHABLE_KEEPS = new Set([
+  "bacon",
+  "cabbage",
+  "cream",
+  "dill",
+  "greek-yoghurt",
+  "lemongrass",
+  "lemons",
+  "limes",
+  "plain-yoghurt",
+  "sour-cream",
+  "tofu",
+]);
 const MEAL_BASES = new Set([
   ...DEFAULT_STAPLES.map(ingredientNameKey),
   "arborio-rice",
@@ -50,21 +63,26 @@ export function ingredientPickerSections({
   picked = [],
   query = "",
   displayLabel = (label) => label,
+  freshFirst = false,
 }: {
   useUp?: readonly string[];
   profile?: Picks;
   picked?: readonly PickedIngredient[];
   query?: string;
   displayLabel?: (label: string) => string;
+  freshFirst?: boolean;
 }): Section[] {
+  const fresh = profile
+    ? Object.entries(freshOptions).flatMap(([id, label]) =>
+        profile.fresh_ingredients[id] === true ? [label] : [],
+      )
+    : [];
   const kept = profile
     ? [
         ...Object.entries(pantryOptions).flatMap(([id, label]) =>
           profile.pantry[id] === true ? [label] : [],
         ),
-        ...Object.entries(freshOptions).flatMap(([id, label]) =>
-          profile.fresh_ingredients[id] === true ? [label] : [],
-        ),
+        ...fresh,
         ...profile.pantry.other,
         ...profile.fresh_ingredients.other,
         ...profile.keeps.map((id) =>
@@ -95,10 +113,23 @@ export function ingredientPickerSections({
   }
 
   const useUpTiles = take(useUp, 4);
-  const staples = take([...usualBases, ...DEFAULT_STAPLES], 6);
+  const freshTiles = freshFirst
+    ? take(
+        [
+          ...(profile?.fresh_ingredients.other ?? []),
+          ...fresh,
+          ...(profile?.keeps ?? [])
+            .filter((id) => PERISHABLE_KEEPS.has(id))
+            .map(ingredientLabel),
+        ],
+        3,
+      )
+    : [];
+  const staples = take([...usualBases, ...DEFAULT_STAPLES], freshFirst ? 3 : 6);
   const cupboard = take(kept);
   const sections: Section[] = [
     { id: "useUp", tiles: useUpTiles },
+    { id: "fresh", tiles: freshTiles },
     { id: "staples", tiles: staples },
     // Keep retired picks editable without a scroll through the whole cupboard.
     { id: "picked", tiles: picked.filter(({ key }) => !seen.has(key)) },
@@ -117,6 +148,42 @@ export function ingredientPickerSections({
         : tiles,
     }))
     .filter(({ tiles }) => tiles.length > 0);
+}
+
+type OnHandGroup = {
+  id: "useUp" | "quickPicks" | "cupboard" | "matches";
+  tiles: PickedIngredient[];
+};
+
+export function onHandPickerGroups(
+  sections: Section[],
+  query: string,
+  displayLabel: (label: string) => string,
+  locale: string,
+): OnHandGroup[] {
+  const available = sections.filter(({ id }) => id !== "picked");
+  const sorted = (tiles: PickedIngredient[]) =>
+    [...tiles].sort((a, b) =>
+      displayLabel(a.label).localeCompare(displayLabel(b.label), locale),
+    );
+  const tilesFor = (id: Section["id"]) =>
+    available.find((section) => section.id === id)?.tiles ?? [];
+  const groups: OnHandGroup[] = query.trim()
+    ? [
+        {
+          id: "matches",
+          tiles: sorted(available.flatMap(({ tiles }) => tiles)),
+        },
+      ]
+    : [
+        { id: "useUp", tiles: tilesFor("useUp") },
+        {
+          id: "quickPicks",
+          tiles: sorted([...tilesFor("fresh"), ...tilesFor("staples")]),
+        },
+        { id: "cupboard", tiles: sorted(tilesFor("cupboard")) },
+      ];
+  return groups.filter(({ tiles }) => tiles.length > 0);
 }
 
 function searchText(value: string) {

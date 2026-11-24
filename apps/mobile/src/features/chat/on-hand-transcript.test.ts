@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
 import { createIntl, type MessageDescriptor } from "react-intl";
-import { expect, it } from "vitest";
+import { expect, it, vi } from "vitest";
 
 import de from "../../../i18n/compiled/de.json";
 import { formatOnHandTranscript } from "./on-hand-transcript";
@@ -37,4 +37,16 @@ it("formats the same saved selections for the current reader without translating
   expect(formatOnHandTranscript(intl("de"), entry)).toMatch(
     /Mittagessen.*\n.*\nNo oven, please\.$/,
   );
+
+  vi.stubGlobal(
+    "Intl",
+    Object.create(Intl, { ListFormat: { value: undefined } }),
+  );
+  try {
+    expect(formatOnHandTranscript(intl("de"), entry)).toContain(
+      "Kohl, Tiefgekühlte grüne Bohnen, Grandma's mix",
+    );
+  } finally {
+    vi.unstubAllGlobals();
+  }
 });

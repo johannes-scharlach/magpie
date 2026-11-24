@@ -139,14 +139,14 @@
       "value": "Eintrag hinzufügen"
     }
   ],
-  "30YoVC": [
-    {
-      "type": 0,
-      "value": "Gewechselt zu "
-    },
+  "2H3Nev": [
     {
       "type": 1,
       "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " hinzufügen"
     }
   ],
   "3CJl1Z": [
@@ -159,12 +159,6 @@
     {
       "type": 0,
       "value": "Ausblenden"
-    }
-  ],
-  "3MDr/G": [
-    {
-      "type": 0,
-      "value": "Auf der Liste"
     }
   ],
   "3MwfD7": [
@@ -488,12 +482,6 @@
       "value": "Morgen"
     }
   ],
-  "BuLRku": [
-    {
-      "type": 0,
-      "value": "Eintrag konnte nicht getauscht werden"
-    }
-  ],
   "CLXnlV": [
     {
       "type": 0,
@@ -520,30 +508,6 @@
     {
       "type": 0,
       "value": "Rote Linsen"
-    }
-  ],
-  "DetB6u": [
-    {
-      "type": 0,
-      "value": "Das habe ich da: "
-    },
-    {
-      "type": 1,
-      "value": "ingredients"
-    },
-    {
-      "type": 0,
-      "value": "."
-    }
-  ],
-  "Dkp9Si": [
-    {
-      "type": 1,
-      "value": "name"
-    },
-    {
-      "type": 0,
-      "value": " hinzufügen"
     }
   ],
   "DrcycS": [
@@ -576,6 +540,12 @@
     {
       "type": 0,
       "value": "Buchweizen"
+    }
+  ],
+  "Eifh/c": [
+    {
+      "type": 0,
+      "value": "Mahlzeitenideen finden"
     }
   ],
   "Eo0PBs": [
@@ -864,6 +834,12 @@
       "value": "Mahlzeit"
     }
   ],
+  "KzNp0d": [
+    {
+      "type": 0,
+      "value": "Zutat suchen oder hinzufügen"
+    }
+  ],
   "LIn5Ck": [
     {
       "type": 0,
@@ -1040,6 +1016,12 @@
       "value": "Noch keine Liste – leg zuerst im Einkauf eine an."
     }
   ],
+  "QI5FZT": [
+    {
+      "type": 0,
+      "value": "Weitere Zutaten"
+    }
+  ],
   "QJp8Zx": [
     {
       "type": 0,
@@ -1108,16 +1090,36 @@
       "value": "Tierbedarf"
     }
   ],
+  "RTXE+W": [
+    {
+      "type": 6,
+      "value": "count",
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 0,
+              "value": "Ideen mit dieser Zutat finden"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 0,
+              "value": "Ideen mit diesen Zutaten finden"
+            }
+          ]
+        }
+      },
+      "offset": 0,
+      "pluralType": "cardinal"
+    }
+  ],
   "Rn/xwI": [
     {
       "type": 0,
       "value": "Getrocknete Minze"
-    }
-  ],
-  "RytgTs": [
-    {
-      "type": 0,
-      "value": "Weitere Zutat hinzufügen"
     }
   ],
   "S3jKdb": [
@@ -1470,12 +1472,6 @@
       "value": " gekauft"
     }
   ],
-  "Z9/wRb": [
-    {
-      "type": 0,
-      "value": "Welche Zutaten hast du da?"
-    }
-  ],
   "Z9BB32": [
     {
       "type": 0,
@@ -1589,16 +1585,6 @@
       "value": "Arganöl"
     }
   ],
-  "bzU5dt": [
-    {
-      "type": 1,
-      "value": "name"
-    },
-    {
-      "type": 0,
-      "value": " verwenden"
-    }
-  ],
   "cBO33J": [
     {
       "type": 0,
@@ -1627,12 +1613,6 @@
     {
       "type": 0,
       "value": "Diese Mahlzeit liegt in der Vergangenheit. Prüfe, ob du das noch kaufen möchtest."
-    }
-  ],
-  "eFK5Ok": [
-    {
-      "type": 0,
-      "value": "Hinzugefügt"
     }
   ],
   "eGi+Yv": [
@@ -1759,12 +1739,6 @@
     {
       "type": 0,
       "value": "Brot & Gebäck"
-    }
-  ],
-  "hAVLiO": [
-    {
-      "type": 0,
-      "value": "Auf der Liste"
     }
   ],
   "hGpcZF": [
@@ -1911,12 +1885,6 @@
     {
       "type": 0,
       "value": "“."
-    }
-  ],
-  "koAL0x": [
-    {
-      "type": 0,
-      "value": "Bitte versuch es erneut."
     }
   ],
   "lwjs+K": [
@@ -2177,6 +2145,20 @@
       "value": " zum Mittagessen einplanen"
     }
   ],
+  "sFrF/1": [
+    {
+      "type": 0,
+      "value": "Ich möchte "
+    },
+    {
+      "type": 1,
+      "value": "ingredients"
+    },
+    {
+      "type": 0,
+      "value": " aufbrauchen."
+    }
+  ],
   "sHammy": [
     {
       "type": 1,
@@ -2239,20 +2221,6 @@
       "value": "Bitte versuch es erneut."
     }
   ],
-  "te9ah1": [
-    {
-      "type": 0,
-      "value": "„"
-    },
-    {
-      "type": 1,
-      "value": "name"
-    },
-    {
-      "type": 0,
-      "value": "“ hinzufügen"
-    }
-  ],
   "tsQKcF": [
     {
       "type": 0,
@@ -2305,6 +2273,12 @@
     {
       "type": 0,
       "value": "Bohnen aus der Dose"
+    }
+  ],
+  "un/qzF": [
+    {
+      "type": 0,
+      "value": "Schnellauswahl"
     }
   ],
   "un0Pum": [
@@ -2438,16 +2412,6 @@
       "value": "Guavenpaste"
     }
   ],
-  "xU/3JC": [
-    {
-      "type": 1,
-      "value": "name"
-    },
-    {
-      "type": 0,
-      "value": ", auf der Liste, Details bearbeiten"
-    }
-  ],
   "xiyF4r": [
     {
       "type": 0,
@@ -2464,6 +2428,12 @@
     {
       "type": 0,
       "value": "Ohne Kategorie"
+    }
+  ],
+  "y62jKy": [
+    {
+      "type": 0,
+      "value": "Womit möchtest du kochen?"
     }
   ],
   "y6vW60": [

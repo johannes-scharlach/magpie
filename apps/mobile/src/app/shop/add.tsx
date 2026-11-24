@@ -1,5 +1,6 @@
 import { useQuery } from "@powersync/react";
 import * as Haptics from "expo-haptics";
+import { Image } from "expo-image";
 import {
   Stack,
   useLocalSearchParams,
@@ -29,10 +30,16 @@ import Animated, {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useResolveClassNames } from "uniwind";
 
+import { PressableScale } from "@/components/clay";
 import { Text } from "@/components/ui/text";
 import { addItem, itemNameKey, setItemSpec } from "@/db/items";
 import type { ListItem } from "@/db/schema";
+import { ingredientPickerSections } from "@/features/chat/ingredient-picker";
+import { useIngredientArt } from "@/features/ingredients/ingredient-art";
+import { formatPickerIngredient } from "@/features/ingredients/ingredient-labels";
+import { useHousehold } from "@/features/profile/use-household";
 import { categorizeItemAsync } from "@/features/shop/categorize";
+import { shoppingItemMove } from "@/features/shop/item-motion";
 import { shopMessages } from "@/features/shop/messages";
 import { capitalize } from "@/features/shop/text";
 import { posthog } from "@/lib/posthog";
@@ -50,39 +57,30 @@ const fieldMessages = defineMessages({
   },
 });
 
-const rowMessages = defineMessages<{
-  onList: { name: string };
-  add: { name: string };
-}>(
+const suggestionMessages = defineMessages<{ add: { name: string } }>(
   {
-    onList: {
-      defaultMessage: "{name}, on the list, edit details",
-      description:
-        "Accessibility label for an item already on the shopping list. {name} is the item's name. Selecting it edits the item's note.",
-    },
     add: {
       defaultMessage: "Add {name}",
       description:
-        "Accessibility label for a previously bought item that can be added to the list again. {name} is the item's name.",
+        "Accessibility label for a suggested item that can be added to the shopping list. {name} is the item's name.",
     },
   },
   { typed: true },
 );
 
-/** `existing`: it was already on the List, so this only touched it. */
 type Added = {
   id: string;
   name: string;
   spec: string | null;
-  existing: boolean;
 };
 
 /** Continuous entry: type, Return, type the next one. Everything sits
- *  bottom-up against the field, near the thumb. Items added this session
- *  stay visible, their details editable in place and saved on blur. */
+ *  together above the field. Items added this session stay at the top,
+ *  with their details editable in place and saved on blur. */
 export default function AddItemSheet() {
   const intl = useIntl();
   const { listId } = useLocalSearchParams<{ listId?: string }>();
+  const { household } = useHousehold(listId ?? null);
   const router = useRouter();
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
@@ -102,6 +100,7 @@ export default function AddItemSheet() {
   const busy = useRef(false);
   const [saving, setSaving] = useState(false);
   const [draft, setDraft] = useState("");
+  const [settleItems, setSettleItems] = useState(false);
   const [added, setAdded] = useState<Added[]>([]);
   const [details, setDetails] = useState<Record<string, string>>({});
   const primaryColor = useResolveClassNames("text-primary").color;
@@ -110,14 +109,57 @@ export default function AddItemSheet() {
 
   const { data: matches } = useQuery<ListItem>(
     `SELECT * FROM list_items
-      WHERE list_id = ? AND planned_meal_id IS NULL
-        AND ? != '' AND instr(name_key, ?) > 0
+      WHERE list_id = ? AND planned_meal_id IS NULL AND status = 'purchased'
+        AND ((? = '' AND purchase_count > 0)
+             OR (? != '' AND instr(name_key, ?) > 0))
       ORDER BY CASE WHEN name_key = ? THEN 0 ELSE 1 END,
                purchase_count DESC, updated_at DESC
       LIMIT 12`,
-    [listId ?? "", needle, needle, needle],
+    [listId ?? "", needle, needle, needle, needle],
   );
-  const hasExactMatch = matches.some((item) => item.name_key === needle);
+  const { data: activeItems } = useQuery<Pick<ListItem, "id" | "name_key">>(
+    `SELECT id, name_key FROM list_items
+      WHERE list_id = ? AND planned_meal_id IS NULL AND status = 'active'`,
+    [listId ?? ""],
+  );
+  const seen = new Set([
+    ...activeItems.map(({ name_key }) => name_key),
+    ...added.map(({ name }) => itemNameKey(name)),
+  ]);
+  const suggestions = [
+    ...matches.flatMap((item) =>
+      item.name
+        ? [
+            {
+              name: item.name,
+              artLabel: item.name,
+            },
+          ]
+        : [],
+    ),
+    ...ingredientPickerSections({
+      profile: household?.profile,
+      query: draft,
+      displayLabel: (name) => formatPickerIngredient(intl, name),
+    }).flatMap(({ tiles }) =>
+      tiles.map(({ label }) => ({
+        name: formatPickerIngredient(intl, label),
+        artLabel: label,
+      })),
+    ),
+  ]
+    .filter(({ name }) => {
+      const key = itemNameKey(name);
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    })
+    .slice(0, 18)
+    .sort((a, b) => a.name.localeCompare(b.name, intl.locale));
+  const artFor = useIngredientArt([
+    ...added.map(({ name }) => name),
+    ...suggestions.map(({ artLabel }) => artLabel),
+  ]);
 
   const unsaved = added.filter(
     (item) =>
@@ -149,11 +191,18 @@ export default function AddItemSheet() {
 
   async function add(name: string) {
     if (!listId || !name.trim() || busy.current) return;
+    const active = activeItems.find(
+      (item) => item.name_key === itemNameKey(name),
+    );
+    if (active) {
+      await edit(active.id);
+      return;
+    }
     busy.current = true;
     setSaving(true);
     const submittedDraft = draft;
-    const existing = matches.some(
-      (m) => m.name_key === itemNameKey(name) && m.status === "active",
+    const wasPurchased = matches.some(
+      (item) => item.name_key === itemNameKey(name),
     );
     try {
       await saveDetails();
@@ -162,14 +211,15 @@ export default function AddItemSheet() {
       if (!item.categoryId) {
         void categorizeItemAsync(item.id, item.name);
       }
-      // Newest last, next to the field; re-adding moves it down.
+      // Store in entry order; render newest first.
+      setSettleItems(true);
       setAdded((current) => [
         ...current.filter((a) => a.id !== item.id),
-        { id: item.id, name: item.name, spec: item.spec, existing },
+        { id: item.id, name: item.name, spec: item.spec },
       ]);
       setDetails((current) => ({ ...current, [item.id]: item.spec ?? "" }));
       posthog?.capture("shopping_item_added", {
-        reactivated_existing_item: existing,
+        reactivated_existing_item: wasPurchased,
         needs_category: !item.categoryId,
       });
       setDraft((current) => (current === submittedDraft ? "" : current));
@@ -179,6 +229,25 @@ export default function AddItemSheet() {
       Alert.alert(
         intl.formatMessage(shopMessages.addItem),
         intl.formatMessage(shopMessages.entryKept),
+      );
+    } finally {
+      busy.current = false;
+      setSaving(false);
+    }
+  }
+
+  async function edit(id: string) {
+    if (busy.current) return;
+    busy.current = true;
+    setSaving(true);
+    try {
+      await saveDetails();
+      setDraft("");
+      router.push({ pathname: "/shop/item", params: { itemId: id } });
+    } catch {
+      Alert.alert(
+        intl.formatMessage(shopMessages.saveDetails),
+        intl.formatMessage(shopMessages.detailsKept),
       );
     } finally {
       busy.current = false;
@@ -233,125 +302,113 @@ export default function AddItemSheet() {
         className="flex-1"
         keyboardShouldPersistTaps="handled"
         keyboardDismissMode="interactive"
-        // Padding, not content insets: insets push a bottom-anchored list
-        // under the field.
+        // Reserve room below the sheet's floating navigation bar.
         contentInsetAdjustmentBehavior="never"
-        contentContainerClassName="grow justify-end pb-3"
+        contentContainerClassName="pb-3"
         contentContainerStyle={{ paddingTop: headerHeight }}
       >
-        {needle ? (
-          <>
-            {matches.map((item) => (
-              <ItemRow
-                key={item.id}
-                status={item.status === "active" ? "onList" : "add"}
-                title={capitalize(item.name ?? "")}
-                subtitle={item.spec}
-                disabled={saving}
-                onPress={() => void add(item.name ?? "")}
-              />
-            ))}
-            {!hasExactMatch ? (
-              <ItemRow
-                status="add"
-                primary
-                title={intl.formatMessage(
-                  {
-                    defaultMessage: "Add “{name}”",
-                    description:
-                      "Row that adds the typed item to the shopping list. {name} is the user's own text, unmodified.",
-                  },
-                  { name: draft.trim() },
-                )}
-                disabled={saving || !listId}
-                onPress={() => void add(draft)}
-              />
-            ) : null}
-          </>
-        ) : (
-          <>
-            {added.length > 0 ? (
-              <>
-                <SectionLabel>
-                  {intl.formatMessage({
-                    defaultMessage: "Added",
-                    description:
-                      "Heading above items added in this entry session, newest last.",
-                  })}
-                </SectionLabel>
-                {added.map((item) => (
-                  <View
-                    key={item.id}
-                    className="min-h-12 flex-row items-start gap-3 px-6 py-2.5"
-                  >
-                    <StatusIcon status={item.existing ? "onList" : "added"} />
-                    <View className="flex-1">
-                      <View className="flex-row items-baseline gap-3">
-                        <Text className="flex-1 text-[17px]">
-                          {capitalize(item.name)}
-                        </Text>
-                        {item.existing ? (
-                          <Text className="text-[15px] text-muted-foreground">
-                            {intl.formatMessage({
-                              defaultMessage: "On list",
-                              description:
-                                "Status on an item that was already on the shopping list before this entry.",
-                            })}
-                          </Text>
-                        ) : null}
-                      </View>
-                      <TextInput
-                        value={details[item.id] ?? ""}
-                        onChangeText={(text) =>
-                          setDetails((current) => ({
-                            ...current,
-                            [item.id]: text,
-                          }))
-                        }
-                        onEndEditing={() =>
-                          void saveDetails().catch(() =>
-                            Alert.alert(
-                              intl.formatMessage(shopMessages.saveDetails),
-                              intl.formatMessage(shopMessages.tryAgain),
-                            ),
-                          )
-                        }
-                        editable={!saving}
-                        placeholder={intl.formatMessage({
-                          defaultMessage: "Add details",
-                          description:
-                            "Placeholder in the note field of an item just added to the list. The note is free text, such as a size or brand.",
-                        })}
-                        placeholderTextColor={mutedColor}
-                        accessibilityLabel={intl.formatMessage(
-                          {
-                            defaultMessage: "Details for {name}",
-                            description:
-                              "Accessibility label for the note field of an added shopping item. {name} is the item's name.",
-                          },
-                          { name: item.name },
-                        )}
-                        returnKeyType="done"
-                        onSubmitEditing={() => inputRef.current?.focus()}
-                        submitBehavior="submit"
-                        selectionColor={primaryColor}
-                        className="py-0.5 text-[15px] text-muted-foreground placeholder:text-muted-foreground/60"
-                      />
-                    </View>
+        <View className="px-4 pt-3">
+          {[
+            ...[...added].reverse().map((item) => (
+              <Animated.View
+                key={itemNameKey(item.name)}
+                layout={settleItems ? shoppingItemMove : undefined}
+                className="min-h-12 flex-row items-start gap-3 border-b border-border/60 px-2 py-2.5"
+              >
+                <ItemArt asset={artFor(item.name)} />
+                <View className="flex-1">
+                  <View className="flex-row items-baseline gap-3">
+                    <Text className="flex-1 text-[17px]">
+                      {capitalize(item.name)}
+                    </Text>
                   </View>
-                ))}
-              </>
-            ) : null}
-          </>
-        )}
+                  <TextInput
+                    value={details[item.id] ?? ""}
+                    onChangeText={(text) =>
+                      setDetails((current) => ({
+                        ...current,
+                        [item.id]: text,
+                      }))
+                    }
+                    onEndEditing={() =>
+                      void saveDetails().catch(() =>
+                        Alert.alert(
+                          intl.formatMessage(shopMessages.saveDetails),
+                          intl.formatMessage(shopMessages.tryAgain),
+                        ),
+                      )
+                    }
+                    editable={!saving}
+                    placeholder={intl.formatMessage({
+                      defaultMessage: "Add details",
+                      description:
+                        "Placeholder in the note field of an item just added to the list. The note is free text, such as a size or brand.",
+                    })}
+                    placeholderTextColor={mutedColor}
+                    accessibilityLabel={intl.formatMessage(
+                      {
+                        defaultMessage: "Details for {name}",
+                        description:
+                          "Accessibility label for the note field of an added shopping item. {name} is the item's name.",
+                      },
+                      { name: item.name },
+                    )}
+                    returnKeyType="done"
+                    onSubmitEditing={() => inputRef.current?.focus()}
+                    submitBehavior="submit"
+                    selectionColor={primaryColor}
+                    className="py-0.5 text-[15px] text-muted-foreground placeholder:text-muted-foreground/60"
+                  />
+                </View>
+              </Animated.View>
+            )),
+            ...suggestions.map(({ name, artLabel }) => (
+              <Animated.View
+                key={itemNameKey(name)}
+                layout={settleItems ? shoppingItemMove : undefined}
+              >
+                <PressableScale
+                  className="min-h-12 justify-center border-b border-border/60"
+                  disabled={saving || !listId}
+                  onPress={() => void add(name)}
+                  accessibilityRole="button"
+                  accessibilityLabel={intl.formatMessage(
+                    suggestionMessages.add,
+                    {
+                      name,
+                    },
+                  )}
+                >
+                  <View className="flex-row items-center gap-3 px-2 py-1">
+                    <Text className="flex-1 font-rounded text-base font-bold">
+                      {capitalize(name)}
+                    </Text>
+                    {artFor(artLabel) !== undefined ? (
+                      <ItemArt asset={artFor(artLabel)} />
+                    ) : null}
+                    <SymbolView
+                      name={{ ios: "plus", android: "add" }}
+                      tintColor={mutedColor}
+                      size={16}
+                      accessibilityElementsHidden
+                      importantForAccessibility="no-hide-descendants"
+                    />
+                  </View>
+                </PressableScale>
+              </Animated.View>
+            )),
+          ]}
+        </View>
       </ScrollView>
       <View className="px-4 pt-2">
-        {/* Field text shares the row icons' leading edge. */}
-        <View className="h-11 flex-row items-center rounded-full bg-muted pl-2 pr-1">
+        <View className="h-11 flex-row items-center rounded-full bg-muted ps-4 pe-1.5">
           <TextInput
             ref={inputRef}
             value={draft}
-            onChangeText={setDraft}
+            onChangeText={(text) => {
+              setSettleItems(false);
+              setDraft(text);
+            }}
             editable={!!listId}
             placeholder={intl.formatMessage(
               added.length ? fieldMessages.nextItem : fieldMessages.firstItem,
@@ -365,6 +422,7 @@ export default function AddItemSheet() {
             autoFocus
             autoCapitalize="sentences"
             autoCorrect={false}
+            autoComplete="off"
             returnKeyType="next"
             submitBehavior="submit"
             onSubmitEditing={() => void add(draft)}
@@ -394,83 +452,31 @@ export default function AddItemSheet() {
   );
 }
 
-type Status = "add" | "added" | "onList";
-
-const statusSymbol = {
-  add: { ios: "plus.circle", android: "add_circle_outline" },
-  added: { ios: "checkmark", android: "check" },
-  onList: { ios: "checkmark", android: "check" },
-} as const;
-
-/** One leading slot for status everywhere: a plain check means on the
- *  List, plum when this session put it there. Not Shop's filled check
- *  circle, which means bought. */
-function StatusIcon({ status }: { status: Status }) {
-  const primaryColor = useResolveClassNames("text-primary").color;
+function ItemArt({
+  asset,
+}: {
+  asset: ReturnType<ReturnType<typeof useIngredientArt>>;
+}) {
   const mutedColor = useResolveClassNames("text-muted-foreground").color;
   return (
-    <SymbolView
-      name={statusSymbol[status]}
-      tintColor={status === "onList" ? mutedColor : primaryColor}
-      size={22}
-      style={{ width: 22, height: 22 }}
-    />
-  );
-}
-
-function ItemRow({
-  status,
-  primary,
-  title,
-  subtitle,
-  disabled,
-  onPress,
-}: {
-  status: Status;
-  primary?: boolean;
-  title: string;
-  subtitle?: string | null;
-  disabled: boolean;
-  onPress: () => void;
-}) {
-  const intl = useIntl();
-  return (
-    <Pressable
-      disabled={disabled}
-      onPress={onPress}
-      accessibilityRole="button"
-      accessibilityLabel={intl.formatMessage(
-        status === "onList" ? rowMessages.onList : rowMessages.add,
-        { name: title },
-      )}
-      className="min-h-12 flex-row items-center gap-3 px-6 py-2.5 active:bg-accent"
+    <View
+      className="h-10 w-12 items-center justify-center"
+      accessibilityElementsHidden
+      importantForAccessibility="no-hide-descendants"
     >
-      <StatusIcon status={status} />
-      <View className="flex-1">
-        <Text className={primary ? "text-[17px] text-primary" : "text-[17px]"}>
-          {title}
-        </Text>
-        {subtitle ? (
-          <Text className="text-[15px] text-muted-foreground">{subtitle}</Text>
-        ) : null}
-      </View>
-      {status === "onList" ? (
-        <Text className="text-[15px] text-muted-foreground">
-          {intl.formatMessage({
-            defaultMessage: "On list",
-            description:
-              "Status on a search result that is already on the shopping list.",
-          })}
-        </Text>
-      ) : null}
-    </Pressable>
-  );
-}
-
-function SectionLabel({ children }: { children: string }) {
-  return (
-    <Text className="px-6 pb-1 pt-4 text-[13px] text-muted-foreground">
-      {children}
-    </Text>
+      {asset !== undefined ? (
+        <Image
+          source={asset}
+          style={{ width: "100%", height: "100%" }}
+          contentFit="contain"
+        />
+      ) : (
+        <SymbolView
+          name={{ ios: "bag", android: "shopping_bag" }}
+          tintColor={mutedColor}
+          size={22}
+        />
+      )}
+    </View>
   );
 }

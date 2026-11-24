@@ -143,10 +143,10 @@
       "value": "Add item"
     }
   ],
-  "30YoVC": [
+  "2H3Nev": [
     {
       "type": 0,
-      "value": "Changed to "
+      "value": "Add "
     },
     {
       "type": 1,
@@ -163,12 +163,6 @@
     {
       "type": 0,
       "value": "Dismiss"
-    }
-  ],
-  "3MDr/G": [
-    {
-      "type": 0,
-      "value": "On list"
     }
   ],
   "3MwfD7": [
@@ -496,12 +490,6 @@
       "value": "Tomorrow"
     }
   ],
-  "BuLRku": [
-    {
-      "type": 0,
-      "value": "Couldn’t swap item"
-    }
-  ],
   "CLXnlV": [
     {
       "type": 0,
@@ -528,30 +516,6 @@
     {
       "type": 0,
       "value": "Red lentils"
-    }
-  ],
-  "DetB6u": [
-    {
-      "type": 0,
-      "value": "I have: "
-    },
-    {
-      "type": 1,
-      "value": "ingredients"
-    },
-    {
-      "type": 0,
-      "value": "."
-    }
-  ],
-  "Dkp9Si": [
-    {
-      "type": 0,
-      "value": "Add "
-    },
-    {
-      "type": 1,
-      "value": "name"
     }
   ],
   "DrcycS": [
@@ -584,6 +548,12 @@
     {
       "type": 0,
       "value": "Buckwheat"
+    }
+  ],
+  "Eifh/c": [
+    {
+      "type": 0,
+      "value": "Find meal ideas"
     }
   ],
   "Eo0PBs": [
@@ -876,6 +846,12 @@
       "value": "Meal"
     }
   ],
+  "KzNp0d": [
+    {
+      "type": 0,
+      "value": "Search or add an ingredient"
+    }
+  ],
   "LIn5Ck": [
     {
       "type": 0,
@@ -1052,6 +1028,12 @@
       "value": "No list yet — create one in Shop first."
     }
   ],
+  "QI5FZT": [
+    {
+      "type": 0,
+      "value": "More ingredients"
+    }
+  ],
   "QJp8Zx": [
     {
       "type": 0,
@@ -1120,16 +1102,36 @@
       "value": "Pet supplies"
     }
   ],
+  "RTXE+W": [
+    {
+      "type": 6,
+      "value": "count",
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 0,
+              "value": "Find ideas with this ingredient"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 0,
+              "value": "Find ideas with these ingredients"
+            }
+          ]
+        }
+      },
+      "offset": 0,
+      "pluralType": "cardinal"
+    }
+  ],
   "Rn/xwI": [
     {
       "type": 0,
       "value": "Dried mint"
-    }
-  ],
-  "RytgTs": [
-    {
-      "type": 0,
-      "value": "Add another ingredient"
     }
   ],
   "S3jKdb": [
@@ -1494,12 +1496,6 @@
       "value": " bought"
     }
   ],
-  "Z9/wRb": [
-    {
-      "type": 0,
-      "value": "What ingredients do you have?"
-    }
-  ],
   "Z9BB32": [
     {
       "type": 0,
@@ -1613,16 +1609,6 @@
       "value": "Argan oil"
     }
   ],
-  "bzU5dt": [
-    {
-      "type": 0,
-      "value": "Use "
-    },
-    {
-      "type": 1,
-      "value": "name"
-    }
-  ],
   "cBO33J": [
     {
       "type": 0,
@@ -1651,12 +1637,6 @@
     {
       "type": 0,
       "value": "This meal is in the past. Check whether you still want to buy this."
-    }
-  ],
-  "eFK5Ok": [
-    {
-      "type": 0,
-      "value": "Added"
     }
   ],
   "eGi+Yv": [
@@ -1783,12 +1763,6 @@
     {
       "type": 0,
       "value": "Bread & pastries"
-    }
-  ],
-  "hAVLiO": [
-    {
-      "type": 0,
-      "value": "On list"
     }
   ],
   "hGpcZF": [
@@ -1935,12 +1909,6 @@
     {
       "type": 0,
       "value": "”."
-    }
-  ],
-  "koAL0x": [
-    {
-      "type": 0,
-      "value": "Please try again."
     }
   ],
   "lwjs+K": [
@@ -2209,6 +2177,20 @@
       "value": " for lunch"
     }
   ],
+  "sFrF/1": [
+    {
+      "type": 0,
+      "value": "I’d like to use up "
+    },
+    {
+      "type": 1,
+      "value": "ingredients"
+    },
+    {
+      "type": 0,
+      "value": "."
+    }
+  ],
   "sHammy": [
     {
       "type": 1,
@@ -2271,20 +2253,6 @@
       "value": "Please try again."
     }
   ],
-  "te9ah1": [
-    {
-      "type": 0,
-      "value": "Add “"
-    },
-    {
-      "type": 1,
-      "value": "name"
-    },
-    {
-      "type": 0,
-      "value": "”"
-    }
-  ],
   "tsQKcF": [
     {
       "type": 0,
@@ -2337,6 +2305,12 @@
     {
       "type": 0,
       "value": "Canned beans"
+    }
+  ],
+  "un/qzF": [
+    {
+      "type": 0,
+      "value": "Quick picks"
     }
   ],
   "un0Pum": [
@@ -2466,16 +2440,6 @@
       "value": "Guava paste"
     }
   ],
-  "xU/3JC": [
-    {
-      "type": 1,
-      "value": "name"
-    },
-    {
-      "type": 0,
-      "value": ", on the list, edit details"
-    }
-  ],
   "xiyF4r": [
     {
       "type": 0,
@@ -2492,6 +2456,12 @@
     {
       "type": 0,
       "value": "Uncategorised"
+    }
+  ],
+  "y62jKy": [
+    {
+      "type": 0,
+      "value": "What do you want to cook with?"
     }
   ],
   "y6vW60": [

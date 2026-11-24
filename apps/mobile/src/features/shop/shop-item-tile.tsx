@@ -6,22 +6,13 @@ import { defineMessages, useIntl } from "react-intl";
 import { useResolveClassNames } from "uniwind";
 
 import { CHECKED_ICON, UNCHECKED_ICON } from "@/components/check-icons";
-import { ClayPebble, PressableScale, clayTile } from "@/components/clay";
+import { PressableScale } from "@/components/clay";
 import { Text } from "@/components/ui/text";
 import { setItemStatus } from "@/db/items";
 import type { ListItem } from "@/db/schema";
-import { formatPlannedWhen } from "@/features/meals/labels";
-import { tonalPair } from "@/features/variants/tonal";
-import { useColorScheme } from "@/hooks/use-color-scheme";
 import { cn } from "@/lib/utils";
 
-import {
-  alternativesForItem,
-  adjacentAlternative,
-  type Alternative,
-} from "./alternatives";
 import { CheckOff } from "./check-off";
-import { mealAge } from "./meal-age";
 import { shopMessages } from "./messages";
 import { splitSpec } from "./spec";
 import { capitalize } from "./text";
@@ -51,69 +42,33 @@ export type ShopRow = ListItem & {
   category_name: string | null;
   ingredient_lines: string | null;
   ingredient_swaps: string | null;
-  slot_date: string | null;
-  meal: string | null;
 };
-export type Browse = { options: Alternative[]; selected: Alternative };
 
 export function ShopItemTile({
   item,
-  today,
-  browse,
-  name,
   asset,
   highlighted,
-  onCheck,
-  onSwap,
   onOpen,
 }: {
   item: ShopRow;
-  today: string;
-  browse: Browse | undefined;
-  name: string;
   asset: number | string | undefined;
   highlighted: boolean;
-  onCheck: (id: string) => Promise<void>;
-  onSwap: (item: ShopRow) => void;
   onOpen: (id: string) => void;
 }) {
   const intl = useIntl();
   const mutedColor = useResolveClassNames("text-muted-foreground").color;
   const primaryColor = useResolveClassNames("text-primary").color;
-  const dark = useColorScheme() === "dark";
+  const name = item.name ?? "";
   const purchased = item.status === "purchased";
-  const { pending, check } = useCheckOff(purchased, () => onCheck(item.id));
+  const { pending, check } = useCheckOff(purchased, () =>
+    setItemStatus(item.id, "purchased"),
+  );
   const checked = purchased || pending;
-  const spec = browse
-    ? [browse.selected.qtyText, browse.selected.prepNote]
-        .filter(Boolean)
-        .join(", ")
-    : item.spec;
   // Recipe prep stays in details when there is an amount. Standalone notes
   // belong to the user and are always displayed as written.
   const quantity = item.planned_meal_id
-    ? (splitSpec(spec).amount ?? spec)
-    : spec;
-  const when = formatPlannedWhen(intl, item.slot_date, item.meal);
-  const age = purchased ? null : mealAge(intl, item.slot_date, today);
-  const mealContext =
-    item.planned_meal_id && when
-      ? [when, age].filter(Boolean).join(" · ")
-      : null;
-
-  const quickSwap =
-    purchased || item.ingredient_id == null
-      ? null
-      : adjacentAlternative(
-          name,
-          browse?.options ??
-            alternativesForItem(
-              item.name ?? "",
-              item.ingredient_lines,
-              item.ingredient_id,
-            ),
-          1,
-        );
+    ? (splitSpec(item.spec).amount ?? item.spec)
+    : item.spec;
 
   function toggle() {
     if (!purchased) {
@@ -131,14 +86,12 @@ export function ShopItemTile({
   return (
     <View
       className={cn(
-        "flex-1 border",
-        checked || highlighted ? "bg-accent" : "bg-secondary",
-        highlighted ? "border-primary" : "border-transparent",
+        "flex-row items-center border-b border-border/60",
+        highlighted && "bg-muted",
       )}
-      style={clayTile}
     >
       <PressableScale
-        className="flex-1"
+        className="min-h-14 flex-1 justify-center self-stretch"
         accessibilityRole="checkbox"
         accessibilityState={{ checked }}
         accessibilityLabel={[
@@ -147,132 +100,77 @@ export function ShopItemTile({
             { name },
           ),
           quantity,
-          mealContext,
         ]
           .filter(Boolean)
           .join(", ")}
         onPress={toggle}
       >
-        <View className="gap-1 px-3 pb-1 pt-2">
+        <View className="flex-row items-center gap-3 py-1.5">
           <View
-            className="h-16 items-center justify-center"
-            pointerEvents="none"
             accessibilityElementsHidden
             importantForAccessibility="no-hide-descendants"
           >
-            {asset !== undefined ? (
-              <View className={cn("h-14 w-19", checked && "opacity-60")}>
-                <ClayPebble seed={name} />
-                <Image
-                  source={asset}
-                  recyclingKey={String(asset)}
-                  contentFit="contain"
-                  style={{
-                    position: "absolute",
-                    width: "110%",
-                    height: "110%",
-                    top: "-5%",
-                    start: "-5%",
-                  }}
-                />
-              </View>
-            ) : (
-              <SymbolView
-                name={{ ios: "bag", android: "shopping_bag" }}
-                tintColor={mutedColor}
-                size={26}
-              />
-            )}
-            <View className="absolute end-0 top-0">
-              <SymbolView
-                name={checked ? CHECKED_ICON : UNCHECKED_ICON}
-                tintColor={checked ? primaryColor : mutedColor}
-                weight="medium"
-                size={22}
-              />
-            </View>
+            <SymbolView
+              name={checked ? CHECKED_ICON : UNCHECKED_ICON}
+              tintColor={checked ? primaryColor : mutedColor}
+              weight="medium"
+              size={22}
+            />
           </View>
-          <Text
-            className={cn(
-              "text-center font-rounded text-base font-bold",
-              checked && "text-muted-foreground line-through",
-            )}
-          >
-            {capitalize(name)}
-          </Text>
-          {quantity ? (
+          <View className="flex-1">
             <Text
-              className="text-center text-sm font-medium"
-              style={{ fontVariant: ["tabular-nums"] }}
+              className={cn(
+                "font-rounded text-base font-bold",
+                checked && "text-muted-foreground line-through",
+              )}
             >
-              {quantity}
+              {capitalize(name)}
             </Text>
-          ) : null}
-          {item.planned_meal_id && mealContext ? (
-            <View className="flex-row items-center justify-center gap-1.5">
-              <View
-                className="size-2 rounded-full"
-                style={{
-                  backgroundColor: tonalPair(
-                    item.variant_id ?? item.planned_meal_id,
-                    dark,
-                  )[1],
-                }}
-              />
+            {quantity ? (
               <Text
-                variant="muted"
-                className={cn("shrink text-xs", age && "font-medium")}
+                className="text-sm font-medium text-muted-foreground"
+                style={{ fontVariant: ["tabular-nums"] }}
               >
-                {mealContext}
+                {quantity}
               </Text>
+            ) : null}
+          </View>
+          {asset !== undefined ? (
+            <View
+              className={cn("h-12 w-16", checked && "opacity-60")}
+              accessibilityElementsHidden
+              importantForAccessibility="no-hide-descendants"
+            >
+              <Image
+                source={asset}
+                recyclingKey={String(asset)}
+                contentFit="contain"
+                style={{ position: "absolute", width: "100%", height: "100%" }}
+              />
             </View>
           ) : null}
         </View>
       </PressableScale>
-      <View className="flex-row justify-end px-1">
-        {quickSwap ? (
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel={intl.formatMessage(
-              {
-                defaultMessage: "Use {name}",
-                description:
-                  "Accessibility action that switches a shopping item to another ingredient option. {name} is that option's name.",
-              },
-              { name: quickSwap.name },
-            )}
-            disabled={pending}
-            onPress={() => onSwap(item)}
-            className="size-12 items-center justify-center rounded-full active:bg-background disabled:opacity-50"
-          >
-            <SymbolView
-              name={{ ios: "arrow.left.arrow.right", android: "swap_horiz" }}
-              tintColor={mutedColor}
-              size={18}
-            />
-          </Pressable>
-        ) : null}
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel={[
-            intl.formatMessage({
-              defaultMessage: "Open details",
-              description:
-                "Accessibility action that opens the shopping item's detail sheet.",
-            }),
-            name,
-          ].join(", ")}
-          disabled={pending}
-          onPress={() => onOpen(item.id)}
-          className="size-12 items-center justify-center rounded-full active:bg-background disabled:opacity-50"
-        >
-          <SymbolView
-            name={{ ios: "info.circle", android: "info" }}
-            tintColor={mutedColor}
-            size={18}
-          />
-        </Pressable>
-      </View>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={[
+          intl.formatMessage({
+            defaultMessage: "Open details",
+            description:
+              "Accessibility action that opens the shopping item's detail sheet.",
+          }),
+          name,
+        ].join(", ")}
+        disabled={pending}
+        onPress={() => onOpen(item.id)}
+        className="size-11 items-center justify-center rounded-full active:bg-muted disabled:opacity-50"
+      >
+        <SymbolView
+          name={{ ios: "chevron.right", android: "chevron_right" }}
+          tintColor={mutedColor}
+          size={14}
+        />
+      </Pressable>
     </View>
   );
 }

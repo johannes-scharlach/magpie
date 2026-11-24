@@ -99,10 +99,10 @@
     "_p6t_description": "Accessibility label for the Shop toolbar button that opens the item entry sheet.",
     "_p6t_source": "Add item"
   },
-  "30YoVC": {
-    "defaultMessage": "Gewechselt zu {name}",
-    "_p6t_description": "Screen-reader announcement after a shopping item switched to another ingredient option. {name} is the option now shown.",
-    "_p6t_source": "Changed to {name}"
+  "2H3Nev": {
+    "defaultMessage": "{name} hinzufügen",
+    "_p6t_description": "Accessibility label for a suggested item that can be added to the shopping list. {name} is the item's name.",
+    "_p6t_source": "Add {name}"
   },
   "3CJl1Z": {
     "defaultMessage": "Ältere passende Variante",
@@ -113,11 +113,6 @@
     "defaultMessage": "Ausblenden",
     "_p6t_description": "Action that hides a failed recipe import.",
     "_p6t_source": "Dismiss"
-  },
-  "3MDr/G": {
-    "defaultMessage": "Auf der Liste",
-    "_p6t_description": "Status on a search result that is already on the shopping list.",
-    "_p6t_source": "On list"
   },
   "3MwfD7": {
     "defaultMessage": "Haushalt und Konto",
@@ -354,11 +349,6 @@
     "_p6t_description": "Label for the day after today in a planned meal's heading, such as “Tomorrow · Dinner”.",
     "_p6t_source": "Tomorrow"
   },
-  "BuLRku": {
-    "defaultMessage": "Eintrag konnte nicht getauscht werden",
-    "_p6t_description": "Alert title when swapping a shopping item for another option failed.",
-    "_p6t_source": "Couldn’t swap item"
-  },
   "CLXnlV": {
     "defaultMessage": "Weitere Varianten von {name}",
     "_p6t_description": "Accessibility label for the row that opens the other versions of a cookbook recipe. {name} is the recipe's name.",
@@ -379,16 +369,6 @@
     "_p6t_description": "Ingredient label for red lentils.",
     "_p6t_source": "Red lentils"
   },
-  "DetB6u": {
-    "defaultMessage": "Das habe ich da: {ingredients}.",
-    "_p6t_description": "User bubble stating only the ingredients the user selected. {ingredients} is a localized list of ingredient names.",
-    "_p6t_source": "I have: {ingredients}."
-  },
-  "Dkp9Si": {
-    "defaultMessage": "{name} hinzufügen",
-    "_p6t_description": "Accessibility label for a previously bought item that can be added to the list again. {name} is the item's name.",
-    "_p6t_source": "Add {name}"
-  },
   "DrcycS": {
     "defaultMessage": "„{text}“ wird gelesen…",
     "_p6t_description": "Status while a recipe is being read from pasted text, with its first line.",
@@ -408,6 +388,11 @@
     "defaultMessage": "Buchweizen",
     "_p6t_description": "Ingredient label for buckwheat.",
     "_p6t_source": "Buckwheat"
+  },
+  "Eifh/c": {
+    "defaultMessage": "Mahlzeitenideen finden",
+    "_p6t_description": "Primary action in the ingredient picker when the cook has attached a photo without selecting ingredients. Requests ideas for the selected meal slot.",
+    "_p6t_source": "Find meal ideas"
   },
   "Eo0PBs": {
     "defaultMessage": "Fond und Brühe",
@@ -609,6 +594,11 @@
     "_p6t_description": "Fallback name for a planned meal whose dish name is missing.",
     "_p6t_source": "Meal"
   },
+  "KzNp0d": {
+    "defaultMessage": "Zutat suchen oder hinzufügen",
+    "_p6t_description": "Placeholder in the ingredient picker field. Typing filters suggestions, and any typed ingredient can be added to the draft.",
+    "_p6t_source": "Search or add an ingredient"
+  },
   "LIn5Ck": {
     "defaultMessage": "Snack am {day}",
     "_p6t_description": "Source of a shopping item that belongs to a planned meal. {day} is a formatted weekday such as Tuesday. Selecting it opens the meal.",
@@ -749,6 +739,11 @@
     "_p6t_description": "Empty state on Meals when the household has no active shopping list.",
     "_p6t_source": "No list yet — create one in Shop first."
   },
+  "QI5FZT": {
+    "defaultMessage": "Weitere Zutaten",
+    "_p6t_description": "Ingredient picker section for the rest of the household's ingredients, alphabetized by their displayed names.",
+    "_p6t_source": "More ingredients"
+  },
   "QJp8Zx": {
     "defaultMessage": "Milchprodukte, Butter & Joghurt",
     "_p6t_description": "Shopping category for dairy products.",
@@ -799,15 +794,15 @@
     "_p6t_description": "Shopping category for pet food and supplies.",
     "_p6t_source": "Pet supplies"
   },
+  "RTXE+W": {
+    "defaultMessage": "{count, plural, one {Ideen mit dieser Zutat finden} other {Ideen mit diesen Zutaten finden}}",
+    "_p6t_description": "Primary action in the meal ingredient picker. {count} is the number of selected ingredients to use in the meal ideas.",
+    "_p6t_source": "{count, plural, one {Find ideas with this ingredient} other {Find ideas with these ingredients}}"
+  },
   "Rn/xwI": {
     "defaultMessage": "Getrocknete Minze",
     "_p6t_description": "Ingredient label for dried mint.",
     "_p6t_source": "Dried mint"
-  },
-  "RytgTs": {
-    "defaultMessage": "Weitere Zutat hinzufügen",
-    "_p6t_description": "Input placeholder after at least one ingredient has been added to the meal request.",
-    "_p6t_source": "Add another ingredient"
   },
   "S3jKdb": {
     "defaultMessage": "Eintrag hinzufügen",
@@ -994,11 +989,6 @@
     "_p6t_description": "Part of a planned meal's shopping status. {count} is how many ingredients are already bought.",
     "_p6t_source": "{count} bought"
   },
-  "Z9/wRb": {
-    "defaultMessage": "Welche Zutaten hast du da?",
-    "_p6t_description": "First message prompt for a meal chat based on ingredients on hand.",
-    "_p6t_source": "What ingredients do you have?"
-  },
   "Z9BB32": {
     "defaultMessage": "Rezept importieren",
     "_p6t_description": "Action that opens the recipe import sheet, where recipes come in from a link, pasted text, photos or a recording.",
@@ -1064,11 +1054,6 @@
     "_p6t_description": "Ingredient label for edible argan oil.",
     "_p6t_source": "Argan oil"
   },
-  "bzU5dt": {
-    "defaultMessage": "{name} verwenden",
-    "_p6t_description": "Accessibility action that switches a shopping item to another ingredient option. {name} is that option's name.",
-    "_p6t_source": "Use {name}"
-  },
   "cBO33J": {
     "defaultMessage": "Getreideprodukte",
     "_p6t_description": "Shopping category for rice, pasta, flour and other grains.",
@@ -1093,11 +1078,6 @@
     "defaultMessage": "Diese Mahlzeit liegt in der Vergangenheit. Prüfe, ob du das noch kaufen möchtest.",
     "_p6t_description": "Warning on an ingredient for a meal whose day has passed. The cook decides whether the item is still needed.",
     "_p6t_source": "This meal is in the past. Check whether you still want to buy this."
-  },
-  "eFK5Ok": {
-    "defaultMessage": "Hinzugefügt",
-    "_p6t_description": "Heading above items added in this entry session, newest last.",
-    "_p6t_source": "Added"
   },
   "eGi+Yv": {
     "defaultMessage": "Weinblätter",
@@ -1183,11 +1163,6 @@
     "defaultMessage": "Brot & Gebäck",
     "_p6t_description": "Shopping category for bread and baked goods.",
     "_p6t_source": "Bread & pastries"
-  },
-  "hAVLiO": {
-    "defaultMessage": "Auf der Liste",
-    "_p6t_description": "Status on an item that was already on the shopping list before this entry.",
-    "_p6t_source": "On list"
   },
   "hGpcZF": {
     "defaultMessage": "Dein Kochbuch ist leer. Importiere die Rezepte, die du gern kochst.",
@@ -1293,11 +1268,6 @@
     "defaultMessage": "Keine Treffer für „{query}“.",
     "_p6t_description": "Empty search result in the cookbook. {query} is the cook's own search text, kept as typed.",
     "_p6t_source": "No matches for “{query}”."
-  },
-  "koAL0x": {
-    "defaultMessage": "Bitte versuch es erneut.",
-    "_p6t_description": "Generic alert body after an action failed. The user can repeat it.",
-    "_p6t_source": "Please try again."
   },
   "lwjs+K": {
     "defaultMessage": "Noch etwas ergänzen? Zum Beispiel: Seite 2 ist die Soße",
@@ -1469,6 +1439,11 @@
     "_p6t_description": "Accessibility label for a recommended dish that will fill the lunch slot. {recipe} is the recipe's display name. Selecting it plans the recipe for lunch.",
     "_p6t_source": "Select {recipe} for lunch"
   },
+  "sFrF/1": {
+    "defaultMessage": "Ich möchte {ingredients} aufbrauchen.",
+    "_p6t_description": "User bubble naming the selected ingredients the cook wants to put to use. They may have them now or expect to have them by the planned meal. {ingredients} is a localized list of ingredient names.",
+    "_p6t_source": "I’d like to use up {ingredients}."
+  },
   "sHammy": {
     "defaultMessage": "{count} zu Hause",
     "_p6t_description": "Part of a planned meal's shopping status. {count} is how many ingredients the cook already has.",
@@ -1514,11 +1489,6 @@
     "_p6t_description": "Generic alert body after planning a meal failed for an unknown reason.",
     "_p6t_source": "Please try again."
   },
-  "te9ah1": {
-    "defaultMessage": "„{name}“ hinzufügen",
-    "_p6t_description": "Row that adds the typed item to the shopping list. {name} is the user's own text, unmodified.",
-    "_p6t_source": "Add “{name}”"
-  },
   "tsQKcF": {
     "defaultMessage": "Kategorie",
     "_p6t_description": "Label of the row that sets a shopping item's category.",
@@ -1563,6 +1533,11 @@
     "defaultMessage": "Bohnen aus der Dose",
     "_p6t_description": "Ingredient label for beans from a tin or can.",
     "_p6t_source": "Canned beans"
+  },
+  "un/qzF": {
+    "defaultMessage": "Schnellauswahl",
+    "_p6t_description": "Ingredient picker section for fresh ingredients and staples the household often uses.",
+    "_p6t_source": "Quick picks"
   },
   "un0Pum": {
     "defaultMessage": "{count} übersprungen",
@@ -1644,11 +1619,6 @@
     "_p6t_description": "Ingredient label for guava paste.",
     "_p6t_source": "Guava paste"
   },
-  "xU/3JC": {
-    "defaultMessage": "{name}, auf der Liste, Details bearbeiten",
-    "_p6t_description": "Accessibility label for an item already on the shopping list. {name} is the item's name. Selecting it edits the item's note.",
-    "_p6t_source": "{name}, on the list, edit details"
-  },
   "xiyF4r": {
     "defaultMessage": "Snacks & Süßes",
     "_p6t_description": "Shopping category for snacks and sweets.",
@@ -1663,6 +1633,11 @@
     "defaultMessage": "Ohne Kategorie",
     "_p6t_description": "Fallback for a shopping item whose category is missing. Also the menu option that clears the category.",
     "_p6t_source": "Uncategorised"
+  },
+  "y62jKy": {
+    "defaultMessage": "Womit möchtest du kochen?",
+    "_p6t_description": "Heading above the ingredient picker for a planned meal. Invites the cook to choose ingredients they want to cook with.",
+    "_p6t_source": "What do you want to cook with?"
   },
   "y6vW60": {
     "defaultMessage": "Kreuzkümmelsamen",

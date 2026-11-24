@@ -38,7 +38,10 @@ import {
   togglePickedIngredient,
   type PickedIngredient,
 } from "@/features/chat/ingredient-picker";
-import { OnHandPicker } from "@/features/chat/on-hand-picker";
+import {
+  OnHandPicker,
+  PickedIngredients,
+} from "@/features/chat/on-hand-picker";
 import type { OnHandEntry } from "@/features/chat/on-hand-transcript";
 import { AssistantMessage, UserMessage } from "@/features/chat/message";
 import {
@@ -751,17 +754,11 @@ export default function ChatScreen() {
           <Composer
             placeholder={
               pickingIngredients
-                ? picked.length
-                  ? intl.formatMessage({
-                      defaultMessage: "Add another ingredient",
-                      description:
-                        "Input placeholder after at least one ingredient has been added to the meal request.",
-                    })
-                  : intl.formatMessage({
-                      defaultMessage: "What ingredients do you have?",
-                      description:
-                        "First message prompt for a meal chat based on ingredients on hand.",
-                    })
+                ? intl.formatMessage({
+                    defaultMessage: "Search or add an ingredient",
+                    description:
+                      "Placeholder in the ingredient picker field. Typing filters suggestions, and any typed ingredient can be added to the draft.",
+                  })
                 : starting && slotEntry === "dish"
                   ? intl.formatMessage({
                       defaultMessage: "What would you like to make?",
@@ -770,7 +767,6 @@ export default function ChatScreen() {
                     })
                   : "Message"
             }
-            autoFocus={pickingIngredients}
             draft={
               pickingIngredients
                 ? { text: ingredientDraft, setText: setIngredientDraft }
@@ -784,12 +780,36 @@ export default function ChatScreen() {
                       description:
                         "Adds the typed ingredient to the meal request without sending it.",
                     }),
+                    submitLabel: picked.length
+                      ? intl.formatMessage(
+                          {
+                            defaultMessage:
+                              "{count, plural, one {Find ideas with this ingredient} other {Find ideas with these ingredients}}",
+                            description:
+                              "Primary action in the meal ingredient picker. {count} is the number of selected ingredients to use in the meal ideas.",
+                          },
+                          { count: picked.length },
+                        )
+                      : intl.formatMessage({
+                          defaultMessage: "Find meal ideas",
+                          description:
+                            "Primary action in the ingredient picker when the cook has attached a photo without selecting ingredients. Requests ideas for the selected meal slot.",
+                        }),
                     onAdd: (text) =>
                       setPicked((current) => addTypedIngredient(current, text)),
+                    selection: picked.length ? (
+                      <PickedIngredients
+                        picked={picked}
+                        onRemove={(tile) =>
+                          setPicked((current) =>
+                            togglePickedIngredient(current, tile),
+                          )
+                        }
+                      />
+                    ) : undefined,
                   }
                 : undefined
             }
-            hasAdditionalContent={pickingIngredients && picked.length > 0}
             busy={busy || !conversationListId || !(chat || starting)}
             suggestions={suggestions}
             onSend={(text, attachments) => {

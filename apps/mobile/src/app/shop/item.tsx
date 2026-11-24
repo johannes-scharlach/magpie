@@ -415,7 +415,7 @@ function MealDetails({ item, category, saving, onClose }: DetailsProps) {
                     })}
                 </Text>
                 {when ? (
-                  // Same dot as the List row, so the colour means this recipe.
+                  // Keep the recipe's color alongside its meal date.
                   <View className="flex-row items-center gap-1.5">
                     <View
                       className="size-2 rounded-full"
@@ -440,7 +440,7 @@ function MealDetails({ item, category, saving, onClose }: DetailsProps) {
             </Pressable>
           </Link>
         ) : null}
-        {category}
+        <View className="px-4 py-2">{category}</View>
       </Group>
       {age ? (
         <Text>

@@ -57,17 +57,21 @@ export function formatOnHandTranscript(
     dateStyle: "medium",
   });
   const ask = intl.formatMessage(targetMessages[target.slot], { date });
-  const picked = ingredients.length
+  const labels = ingredients.map((label) =>
+    formatPickerIngredient(intl, label),
+  );
+  const picked = labels.length
     ? intl.formatMessage(
         {
-          defaultMessage: "I have: {ingredients}.",
+          defaultMessage: "I’d like to use up {ingredients}.",
           description:
-            "User bubble stating only the ingredients the user selected. {ingredients} is a localized list of ingredient names.",
+            "User bubble naming the selected ingredients the cook wants to put to use. They may have them now or expect to have them by the planned meal. {ingredients} is a localized list of ingredient names.",
         },
         {
-          ingredients: intl.formatList(
-            ingredients.map((label) => formatPickerIngredient(intl, label)),
-          ),
+          ingredients:
+            labels.length > 1 && typeof Intl.ListFormat === "function"
+              ? new Intl.ListFormat(intl.locale).format(labels)
+              : labels.join(", "),
         },
       )
     : "";

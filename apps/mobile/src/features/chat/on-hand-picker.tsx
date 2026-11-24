@@ -1,6 +1,6 @@
 import { Image } from "expo-image";
 import { SymbolView } from "expo-symbols";
-import { defineMessage, useIntl } from "react-intl";
+import { defineMessages, useIntl } from "react-intl";
 import { ScrollView, useWindowDimensions, View } from "react-native";
 import Animated, {
   Easing,
@@ -10,7 +10,11 @@ import Animated, {
 } from "react-native-reanimated";
 import { useResolveClassNames } from "uniwind";
 
-import { ClayPebble, PressableScale } from "@/components/clay";
+import {
+  ClayPebble,
+  IngredientTileSurface,
+  PressableScale,
+} from "@/components/clay";
 import { Text } from "@/components/ui/text";
 import { useIngredientArt } from "@/features/ingredients/ingredient-art";
 import { formatPickerIngredient } from "@/features/ingredients/ingredient-labels";
@@ -19,13 +23,26 @@ import { cn } from "@/lib/utils";
 
 import {
   ingredientPickerSections,
+  onHandPickerGroups,
   type PickedIngredient,
 } from "./ingredient-picker";
 
-const useUpHeading = defineMessage({
-  defaultMessage: "Use up first",
-  description:
-    "Ingredient picker heading for likely remainders to use soon. These are suggestions, not confirmed stock.",
+const groupHeadings = defineMessages({
+  useUp: {
+    defaultMessage: "Use up first",
+    description:
+      "Ingredient picker heading for likely remainders to use soon. These are suggestions, not confirmed stock.",
+  },
+  quickPicks: {
+    defaultMessage: "Quick picks",
+    description:
+      "Ingredient picker section for fresh ingredients and staples the household often uses.",
+  },
+  cupboard: {
+    defaultMessage: "More ingredients",
+    description:
+      "Ingredient picker section for the rest of the household's ingredients, alphabetized by their displayed names.",
+  },
 });
 const TILE_MOVE = LinearTransition.duration(140)
   .easing(Easing.bezier(0.77, 0, 0.175, 1))
@@ -49,47 +66,56 @@ export function OnHandPicker({
   const reducedMotion = useReducedMotion();
   const { fontScale, width } = useWindowDimensions();
   const { household } = useHousehold(listId);
+  const displayLabel = (label: string) => formatPickerIngredient(intl, label);
   const sections = ingredientPickerSections({
     useUp,
     profile: household?.profile,
-    picked,
+    freshFirst: true,
     query,
-    displayLabel: (label) => formatPickerIngredient(intl, label),
+    displayLabel,
   });
-  const tiles = sections.flatMap((section) => section.tiles);
-  const useUpTiles = query.trim()
-    ? undefined
-    : sections.find(({ id }) => id === "useUp")?.tiles;
   const selectedKeys = new Set(picked.map(({ key }) => key));
-  const unselected = (tile: PickedIngredient) => !selectedKeys.has(tile.key);
-  const remainingUseUp = (useUpTiles ?? []).filter(unselected);
-  // The same keyed tile stays in this grid when it moves into the selection.
-  const grid = [
-    ...picked,
-    ...(remainingUseUp.length ? [null, ...remainingUseUp] : []),
-    ...tiles.slice(useUpTiles?.length ?? 0).filter(unselected),
-  ];
+  const searching = !!query.trim();
+  const grid = onHandPickerGroups(
+    sections,
+    query,
+    displayLabel,
+    intl.locale,
+  ).flatMap(({ id, tiles }) => (id === "matches" ? tiles : [id, ...tiles]));
   const artFor = useIngredientArt(
-    grid.flatMap((tile) => (tile ? [tile.label] : [])),
+    grid.flatMap((tile) => (typeof tile === "string" ? [] : [tile.label])),
   );
   const selectionColor = useResolveClassNames("text-primary").color;
 
   return (
     <ScrollView
       contentInsetAdjustmentBehavior="automatic"
+      keyboardDismissMode="on-drag"
       keyboardShouldPersistTaps="always"
       className="flex-1"
-      contentContainerClassName="flex-row flex-wrap items-start gap-2 px-4 py-4"
+      contentContainerClassName="flex-row flex-wrap gap-y-2 px-3 pb-4 pt-2"
     >
+      {!searching ? (
+        <Text
+          accessibilityRole="header"
+          className="w-full px-1 pb-1 font-rounded text-lg font-extrabold"
+        >
+          {intl.formatMessage({
+            defaultMessage: "What do you want to cook with?",
+            description:
+              "Heading above the ingredient picker for a planned meal. Invites the cook to choose ingredients they want to cook with.",
+          })}
+        </Text>
+      ) : null}
       {grid.map((tile) => {
-        if (!tile)
+        if (typeof tile === "string")
           return (
             <Text
-              key="heading:use-up"
+              key={`heading:${tile}`}
               accessibilityRole="header"
-              className="w-full font-rounded font-extrabold text-primary"
+              className="w-full px-1 pt-1 font-rounded font-extrabold text-primary"
             >
-              {intl.formatMessage(useUpHeading)}
+              {intl.formatMessage(groupHeadings[tile])}
             </Text>
           );
         const selected = selectedKeys.has(tile.key);
@@ -98,16 +124,20 @@ export function OnHandPicker({
         return (
           <Animated.View
             key={`tile:${tile.key}`}
-            layout={reducedMotion || query.trim() ? undefined : TILE_MOVE}
-            style={{ width: fontScale > 1.35 || width < 350 ? "48%" : "31%" }}
+            layout={reducedMotion || searching ? undefined : TILE_MOVE}
+            className="px-1"
+            style={{
+              width: fontScale > 1.35 || width < 350 ? "50%" : "33.3333%",
+            }}
           >
             <PressableScale
+              stretch
               accessibilityRole="checkbox"
               accessibilityLabel={label}
               accessibilityState={{ checked: selected }}
               onPress={() => onToggle(tile)}
             >
-              <View className="min-h-24 items-center justify-center px-1.5 py-1.5">
+              <IngredientTileSurface className="min-h-22 grow items-center justify-center gap-1 px-2 py-1">
                 {asset !== undefined ? (
                   <View
                     className="h-13 w-17"
@@ -137,7 +167,7 @@ export function OnHandPicker({
                 </Text>
                 {selected ? (
                   <View
-                    className="absolute right-1.5 top-1.5"
+                    className="absolute end-2 top-1.5"
                     accessibilityElementsHidden
                     importantForAccessibility="no-hide-descendants"
                   >
@@ -151,9 +181,58 @@ export function OnHandPicker({
                     />
                   </View>
                 ) : null}
-              </View>
+              </IngredientTileSurface>
             </PressableScale>
           </Animated.View>
+        );
+      })}
+    </ScrollView>
+  );
+}
+
+export function PickedIngredients({
+  picked,
+  onRemove,
+}: {
+  picked: readonly PickedIngredient[];
+  onRemove: (tile: PickedIngredient) => void;
+}) {
+  const intl = useIntl();
+  const color = useResolveClassNames("text-primary").color;
+  return (
+    <ScrollView
+      horizontal
+      keyboardShouldPersistTaps="always"
+      contentContainerClassName="items-center gap-2 px-4"
+      showsHorizontalScrollIndicator={false}
+      className="grow-0"
+    >
+      {[...picked].reverse().map((tile) => {
+        const label = formatPickerIngredient(intl, tile.label);
+        return (
+          <PressableScale
+            key={tile.key}
+            accessibilityRole="checkbox"
+            accessibilityState={{ checked: true }}
+            accessibilityLabel={label}
+            onPress={() => onRemove(tile)}
+          >
+            <View className="min-h-11 justify-center">
+              <View className="max-w-64 flex-row items-center gap-2 rounded-full bg-accent px-3 py-1.5">
+                <Text
+                  numberOfLines={1}
+                  className="shrink font-rounded text-sm font-bold text-primary"
+                >
+                  {label}
+                </Text>
+                <SymbolView
+                  name={{ ios: "xmark", android: "close" }}
+                  tintColor={color}
+                  size={12}
+                />
+              </View>
+            </View>
+          </PressableScale>
         );
       })}
     </ScrollView>

@@ -7,6 +7,7 @@ import {
   View,
   type TextInputInstance,
 } from "react-native";
+import { useReanimatedKeyboardAnimation } from "react-native-keyboard-controller";
 import Animated, {
   Easing,
   FadeIn,
@@ -27,6 +28,7 @@ import Animated, {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useResolveClassNames } from "uniwind";
 
+import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
 import { cn } from "@/lib/utils";
 
@@ -175,8 +177,6 @@ export function Composer({
   emptyAction,
   collapsedAction,
   preferCollapsed = false,
-  autoFocus = false,
-  hasAdditionalContent = false,
   draft,
   addAction,
 }: {
@@ -190,12 +190,25 @@ export function Composer({
   collapsedAction?: ReactNode;
   /** A suggestion only: focus or starting a draft keeps the field expanded. */
   preferCollapsed?: boolean;
-  autoFocus?: boolean;
-  hasAdditionalContent?: boolean;
   draft?: { text: string; setText: (text: string) => void };
-  addAction?: { label: string; onAdd: (text: string) => void };
+  addAction?: {
+    label: string;
+    submitLabel: string;
+    onAdd: (text: string) => void;
+    selection?: ReactNode;
+  };
 }) {
   const insets = useSafeAreaInsets();
+  const keyboard = useReanimatedKeyboardAnimation();
+  const bottomPadding = floating
+    ? insets.bottom + 12
+    : Math.max(insets.bottom, 8);
+  const pickerMode = !!addAction;
+  const bottomStyle = useAnimatedStyle(() => ({
+    paddingBottom: pickerMode
+      ? interpolate(keyboard.progress.get(), [0, 1], [bottomPadding, 8])
+      : bottomPadding,
+  }));
   const inputRef = useRef<TextInputInstance>(null);
   const [localText, setLocalText] = useState("");
   const { text, setText } = draft ?? { text: localText, setText: setLocalText };
@@ -215,10 +228,12 @@ export function Composer({
     focused,
     hasEmptyAction: !!emptyAction,
     recording: voiceOn,
-    hasAdditionalContent,
+    hasAdditionalContent: !!addAction?.selection,
     hasAddAction: !!addAction,
   });
   const showEmptyAction = trailing === "emptyAction";
+  const submitLabel =
+    trailing === "send" && !voiceOn ? addAction?.submitLabel : undefined;
   const canSubmit = (trailing === "add" || trailing === "send") && !busy;
   const collapsed =
     preferCollapsed &&
@@ -236,10 +251,6 @@ export function Composer({
   const actionPresence = useSharedValue(showEmptyAction ? 1 : 0);
   const micMix = useSharedValue(trailing === "mic" ? 1 : 0);
   const barWidth = useSharedValue(0);
-
-  useEffect(() => {
-    if (autoFocus) inputRef.current?.focus();
-  }, [autoFocus]);
 
   useEffect(() => {
     expansion.set(
@@ -344,7 +355,7 @@ export function Composer({
 
   function submit() {
     const trimmed = text.trim();
-    if (busy || (!trimmed && !attachments.length && !hasAdditionalContent))
+    if (busy || (!trimmed && !attachments.length && !addAction?.selection))
       return;
     if (addAction && trimmed) {
       addAction.onAdd(trimmed);
@@ -403,14 +414,11 @@ export function Composer({
   }
 
   return (
-    <View
+    <Animated.View
       className={floating ? "" : "border-t border-border/40 bg-background"}
-      style={{
-        paddingBottom: floating
-          ? insets.bottom + 12
-          : Math.max(insets.bottom, 8),
-      }}
+      style={bottomStyle}
     >
+      {addAction?.selection}
       {suggestions.length && !busy && !voiceOn ? (
         <ScrollView
           horizontal
@@ -590,6 +598,8 @@ export function Composer({
                       onBlur={() => setFocused(false)}
                       placeholder={placeholder}
                       placeholderTextColor={placeholderColor}
+                      autoCorrect={pickerMode ? false : undefined}
+                      spellCheck={pickerMode ? false : undefined}
                       multiline
                       returnKeyType={trailing === "add" ? "done" : "send"}
                       submitBehavior={
@@ -605,7 +615,7 @@ export function Composer({
                   )}
                   {/* Send (or the mic while there is nothing to send) sits
                       inside the field; emptyAction replaces it outside while idle. */}
-                  {showEmptyAction ? null : (
+                  {showEmptyAction || submitLabel ? null : (
                     <Animated.View entering={swapIn} exiting={swapOut}>
                       <Pressable
                         onPress={() =>
@@ -674,6 +684,21 @@ export function Composer({
           </LayoutAnimationConfig>
         </Animated.View>
       </View>
-    </View>
+      {submitLabel ? (
+        <Button
+          size="lg"
+          className="mx-4 mt-2 h-auto min-h-11"
+          disabled={!canSubmit}
+          onPress={() => {
+            inputRef.current?.blur();
+            submit();
+          }}
+        >
+          <Text className="text-center font-rounded text-base font-bold">
+            {submitLabel}
+          </Text>
+        </Button>
+      ) : null}
+    </Animated.View>
   );
 }

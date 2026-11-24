@@ -6,13 +6,13 @@ From Meals → Lunch → Use what I have, I can ask for lunch using a few things
 
 ## Picking ingredients
 
-Open the existing slot chat with the input focused. Above it, show a vertically scrollable grid of pantry-style ingredient art, with a clay pebble on selected items. The first row must be usable with the keyboard open. Order the grid by:
+Open the existing slot chat with a vertically scrollable grid of pantry-style ingredient art. Open the keyboard when the cook taps the search field, and keep the first row usable while typing. Mark selected items with a clay pebble and keep the selection beside the composer. Order the grid by:
 
 1. **Use up first** — up to four likely, useful remainders. Omit the section if none qualify.
-2. **Staples** — a short set of meal bases such as rice, potatoes and pasta, prioritizing the household’s usual picks.
-3. **Your cupboard** — specialty ingredients the household keeps.
+2. **Quick picks** — up to three fresh picks and three meal bases. Prefer the household’s usual picks. Display them alphabetically.
+3. **More ingredients** — remaining ingredients the household keeps, in alphabetical order.
 
-Show an ingredient once, at its highest priority. Show only the **Use up first** heading when the input is empty; search results have no headings. A tap selects, a second tap deselects. Typing filters the grid. Tap a match or use **Add** to include a typed ingredient that isn't shown; either action clears the field and keeps the selection editable. With the field empty, **Send** asks Magpie to use the selected ingredients in this slot. Adding or selecting never sends, modifies the shopping list or records inventory.
+Show an ingredient once in the grid, at its highest priority. Ask what the cook wants to cook with above the grid. Typing replaces the sections with one alphabetical list of matches. A tap selects, a second tap deselects. Tap a match or use **Add** to include a typed ingredient that isn't shown; either action clears the field and keeps the selection editable. With the field empty, **Find ideas with these ingredients** asks Magpie for ideas featuring the selected ingredients in this slot. Meal ideas can also use other ingredients. Adding or selecting never sends, modifies the shopping list or records inventory.
 
 ## What Jev decides
 
@@ -28,7 +28,9 @@ The assessment reads seven calendar days on each side of the target, plus the ot
 
 ## Shopping and artwork
 
-Use the same ingredient picture in Meals and Shopping. Shopping gets a recognition-first clay grid: tap to check off, tap a purchased item to restore. Keep quantities, meal context, details and substitutions usable. The picture follows the selected substitution. Both surfaces work for custom items and before art arrives.
+Use the same ingredient picture in Meals and Shopping. Shopping uses a checklist grouped by aisle, with aligned checkboxes, names and quantities, and artwork for recognition. Tap to check off, or tap a purchased item to restore. Open item details for meal context and substitutions. The picture follows the selected substitution. Both surfaces work for custom items and before art arrives.
+
+**Add items** opens as a page sheet with a heading-free list of frequent purchases and household staples. Use shopping history first when choosing suggestions and display the resulting rows in alphabetical order. Typing filters the suggestions. Suggestions exclude items already on the list. Tapping a suggestion or adding typed text saves immediately and keeps entry ready for the next item. Items added in this session appear at the top with editable details. Submitting an exact name already on the list opens its details instead of adding it again. Done closes the sheet.
 
 Resolve bundled onboarding art and known aliases first. A shared picture does not change a household’s label or merge shopping items. For unresolved labels, Jev can suggest cross-language reuse: eggplant and aubergine can share a picture; tomato paste and canned tomatoes should not. Accept only clear matches, otherwise leave unresolved. Generate from ingredient names, not household notes.
 
@@ -36,4 +38,4 @@ Batch unresolved ingredients into sprite sheets using the checked-in [ingredient
 
 ## Delivery
 
-First prove a cabbage-to-lunch flow with bundled art. Validate the keyboard-open picker on a small phone and the shopping grid with a realistic grocery list. Art generation is independent of releasing either surface. This feature does not maintain pantry stock, infer purchases, or reserve quantities as database inventory.
+Validate that the picker helps cooks use up ingredients both today and at future meals, including fresh produce, herbs and partial packs of meat. Verify the keyboard-open picker on a small phone and Shopping with a realistic grocery list. Art generation is independent of releasing either surface. This feature does not maintain pantry stock, infer purchases, or reserve quantities as database inventory.
