@@ -8,6 +8,14 @@ it("cannot present an old result after a reservation changes, even when the old 
     (snapshot) => new Promise((resolve) => pending.set(snapshot, resolve)),
   );
   const scope = "household/Friday lunch";
+  const published: (readonly string[])[] = [];
+  const unsubscribe = cache.subscribe(() => {
+    const result = cache.read(
+      scope,
+      "Wednesday uses cabbage; Friday reserves the rest",
+    );
+    if (result) published.push(result.ingredients);
+  });
   const withoutDinner = cache.refresh(scope, "Wednesday uses cabbage");
   const withDinner = cache.refresh(
     scope,
@@ -22,6 +30,8 @@ it("cannot present an old result after a reservation changes, even when the old 
   pending.get("Wednesday uses cabbage")!(["cabbage"]);
   await withoutDinner;
 
+  expect(published).toEqual([[]]);
+  unsubscribe();
   expect(cache.read(scope, "Wednesday uses cabbage")).toBeNull();
   expect(
     cache.read(scope, "Wednesday uses cabbage; Friday reserves the rest")

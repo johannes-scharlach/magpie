@@ -2,29 +2,23 @@
 
 ## Promise
 
-From Meals → Lunch → Use what I have, I can ask for lunch using a few things in my kitchen without typing. If I plan lunch three days ahead, Magpie considers what will be available **then** and what I have already earmarked for another meal.
+From Meals → Lunch → Use what I have, I can ask for lunch using a few things in my kitchen without typing. Nearby planned meals suggest perishable ingredients I may already have or can buy and use across meals.
 
 ## Picking ingredients
 
-Open the existing slot chat with a vertically scrollable grid of pantry-style ingredient art. Open the keyboard when the cook taps the search field, and keep the first row usable while typing. Mark selected items with a clay pebble and keep the selection beside the composer. Order the grid by:
-
-1. **Use up first** — up to four likely, useful remainders. Omit the section if none qualify.
-2. **Quick picks** — up to three fresh picks and three meal bases. Prefer the household’s usual picks. Display them alphabetically.
-3. **More ingredients** — remaining ingredients the household keeps, in alphabetical order.
+Open the existing slot chat with a vertically scrollable grid of pantry-style ingredient art. Open the keyboard when the cook taps the search field, and keep the first row usable while typing. Mark selected items with a clay pebble and keep the selection beside the composer. Show up to six ranked meal-plan ingredients under **From your meal plan**. **Show more** continues the same grid with the remaining qualifying results. Put household ingredients under **More ingredients**, alphabetized by their displayed names.
 
 Show an ingredient once in the grid, at its highest priority. Ask what the cook wants to cook with above the grid. Typing replaces the sections with one alphabetical list of matches. A tap selects, a second tap deselects. Tap a match or use **Add** to include a typed ingredient that isn't shown; either action clears the field and keeps the selection editable. With the field empty, **Find ideas with these ingredients** asks Magpie for ideas featuring the selected ingredients in this slot. Meal ideas can also use other ingredients. Adding or selecting never sends, modifies the shopping list or records inventory.
 
 ## What Jev decides
 
-Use the household meal plan alone, independent of shopping-list use. Evaluate relative to the target **date and slot**, not the day the picker opens. Assume past planned meals were normally cooked; assume future plans before the target will be cooked by then. Follow moved meals at their new slots and ignore skipped ones. Use actual variant quantities and selected alternatives; a meal without ingredient evidence cannot establish a quantity.
+Use the household meal plan alone, independent of shopping-list use or at-home marks. Meals before and after the target are equally valid evidence of ingredients the cook might have or buy. Follow moved meals at their new slots and ignore skipped ingredients. Use recipe quantities and selected alternatives.
 
-Compare likely package or whole-produce sizes with amounts used across earlier meals. Recipe wording is usage evidence, not a purchase measurement. Protect amounts needed by already-planned later meals within the ingredient’s plausible usable life. A later meal can claim some of a remainder but cannot create it earlier. Rank what is plausibly **both free to use and worth using soon**, considering perishability and elapsed time. Do not show estimated grams or ask users to confirm whether a meal was cooked.
+For each ingredient, Jev classifies storage needs in the recipe’s language and separately judges the chance of a usable remainder, how soon it will lose quality, and the relative cost of wasting it. A remainder needs at least a 0.4 probability and an urgency score of at least 1.1 on the 0–3 scale. Exclude ingredients classified as shelf-stable or long-keeping. Treat whole retail packs and produce bought as whole loose units as evidence against a remainder. A recipe using half a whole item can leave a useful remainder. Rank eligible ingredients by urgency, boosted by up to 100% for valuable remainders. Use remainder probability to break ties.
 
-**Acceptance story:** On Monday I plan Friday lunch. Wednesday uses “1 small head of cabbage (400 g).” A head might weigh 1.2 kg; cabbage is plausible without any purchase record. If Friday dinner needs all the likely remainder, omit it. If dinner only needs a few leaves, lunch may still get the tile. Moving Wednesday’s meal to Saturday removes it as a source. Dry pasta usually belongs under Staples even when half the packet remains.
+Refresh target-specific results when relevant meals on either side change or the result ages out. Never hold opening, focus, selection or Send on Jev. While suggestions load, show placeholders in the grid and list while search and the current selection remain usable. If the wait reaches five seconds, show the alphabetical ingredient list. Offer **Show meal plan suggestions** when a late result arrives. Reuse a cached result on the next visit when the evidence still matches.
 
-Refresh target-specific results when relevant meals on either side change or the result ages out. Never hold opening, focus, selection or Send on Jev. Without a usable result, show staples and cupboard.
-
-The assessment reads seven calendar days on each side of the target, plus the other slots on the target date (Lunch → Dinner → Treat). The window covers likely short-lived remainders and near-term reservations without treating the plan as an inventory ledger. Reservations outside it are not assessed. The app sends the resolved ingredient lines and quantities from its local plan so pending sync uploads do not delay refresh. It does not send List items, recipe instructions, or household identifiers. A successful result is reused in memory for up to 15 minutes only for the same household, target and plan evidence.
+The assessment reads seven calendar days on each side of the target, plus the other slots on the target date. The window keeps the evidence close to the meal being planned. The app sends the resolved ingredient lines and quantities from its local plan so pending sync uploads do not delay refresh. It does not send List items, recipe instructions, or household identifiers. A successful result is reused in memory for up to 15 minutes only for the same household, target and plan evidence.
 
 ## Shopping and artwork
 

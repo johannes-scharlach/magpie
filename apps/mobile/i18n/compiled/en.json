@@ -61,12 +61,6 @@
       "value": "Egg noodles"
     }
   ],
-  "/MIOpc": [
-    {
-      "type": 0,
-      "value": "See fewer"
-    }
-  ],
   "/woc5o": [
     {
       "type": 0,
@@ -403,6 +397,12 @@
       "value": "Select lunch"
     }
   ],
+  "9vJlfs": [
+    {
+      "type": 0,
+      "value": "Show less"
+    }
+  ],
   "A1qmAy": [
     {
       "type": 0,
@@ -548,6 +548,12 @@
     {
       "type": 0,
       "value": "Dried shiitake"
+    }
+  ],
+  "E4Rmf7": [
+    {
+      "type": 0,
+      "value": "Show meal plan suggestions"
     }
   ],
   "E7bsvX": [
@@ -946,12 +952,6 @@
       "value": "Palm sugar"
     }
   ],
-  "NZ29RJ": [
-    {
-      "type": 0,
-      "value": "See all"
-    }
-  ],
   "Ngz9Xq": [
     {
       "type": 0,
@@ -1026,12 +1026,6 @@
     {
       "type": 0,
       "value": "Tell Magpie a recipe you know"
-    }
-  ],
-  "PuKajS": [
-    {
-      "type": 0,
-      "value": "From your meal plan"
     }
   ],
   "Q5plTF": [
@@ -1285,6 +1279,12 @@
     {
       "type": 0,
       "value": "Dried porcini"
+    }
+  ],
+  "UESQpV": [
+    {
+      "type": 0,
+      "value": "Show more"
     }
   ],
   "UEfZxM": [
@@ -1651,6 +1651,12 @@
     {
       "type": 1,
       "value": "name"
+    }
+  ],
+  "fQhqRI": [
+    {
+      "type": 0,
+      "value": "From your meal plan"
     }
   ],
   "fb/Ao6": [
@@ -2319,12 +2325,6 @@
     {
       "type": 0,
       "value": "Canned beans"
-    }
-  ],
-  "un/qzF": [
-    {
-      "type": 0,
-      "value": "Quick picks"
     }
   ],
   "un0Pum": [

@@ -3,45 +3,42 @@ import { expect, it } from "vitest";
 import {
   addTypedIngredient,
   ingredientPickerSections,
-  onHandPickerGroups,
+  onHandIngredientChoices,
   togglePickedIngredient,
   type PickedIngredient,
 } from "./ingredient-picker";
 
-it("preserves the use-up ranking and alphabetizes the other choices by displayed name", () => {
-  const groups = onHandPickerGroups(
-    [
-      {
-        id: "useUp",
-        tiles: [
-          { key: "pear", label: "Pear" },
-          { key: "apple", label: "Apple" },
-        ],
-      },
-      { id: "fresh", tiles: [{ key: "lemon", label: "Lemon" }] },
-      { id: "staples", tiles: [{ key: "rice", label: "Rice" }] },
-      {
-        id: "cupboard",
-        tiles: [
-          { key: "tea", label: "Tea" },
-          { key: "sugar", label: "Sugar" },
-        ],
-      },
-    ],
-    "",
-    (label) =>
-      new Map([
-        ["Lemon", "Zitrone"],
-        ["Rice", "Reis"],
-      ]).get(label) ?? label,
-    "de",
-  );
-  expect(
-    groups.map(({ id, tiles }) => [id, tiles.map(({ label }) => label)]),
-  ).toEqual([
-    ["useUp", ["Pear", "Apple"]],
-    ["quickPicks", ["Rice", "Lemon"]],
-    ["cupboard", ["Sugar", "Tea"]],
+it("leaves unfilled grid slots empty and sorts the household list alphabetically", () => {
+  const profile = {
+    keeps: ["cream", "jasmine-rice", "noodles", "miso", "cabbage"],
+    pantry: { other: [] },
+    fresh_ingredients: { other: ["Chicken breast"] },
+    extras: { japanese: ["Yuzu kosho"], fridge: ["Farmhouse curd"] },
+  };
+  const picker = onHandIngredientChoices({
+    useUp: ["Dill", "Broccoli", "DILL"],
+    profile,
+    query: "",
+    displayLabel: (label) => (label === "Broccoli" ? "Brokkoli" : label),
+    locale: "de",
+  });
+
+  expect(picker.featured.map(({ label }) => label)).toEqual([
+    "Dill",
+    "Broccoli",
+  ]);
+  expect(picker.other.map(({ label }) => label)).toEqual([
+    "Cabbage",
+    "Chicken breast",
+    "Cream",
+    "Egg noodles",
+    "Farmhouse curd",
+    "Jasmine rice",
+    "Miso",
+    "Pasta",
+    "Potatoes",
+    "Rice",
+    "Yuzu kosho",
   ]);
 });
 
@@ -69,23 +66,52 @@ it("filters sections by a partial localized name without changing a picked ingre
   expect(ingredientPickerSections({ picked }).at(1)?.tiles).toEqual(picked);
 });
 
-it("leads with four distinct use-up labels, then usual staples, then cupboard picks", () => {
-  const sections = ingredientPickerSections({
-    useUp: ["Cabbage", " potato ", "POTATOES", "Tofu", "Leeks", "Spinach"],
+it("keeps six ranked ingredients in the grid and preserves the order of overflow", () => {
+  const options = {
+    useUp: [
+      "Dill",
+      "Queso fresco",
+      "Parsley",
+      "Cilantro",
+      "Provolone",
+      " PROVOLONE ",
+      "’Nduja",
+      "Labneh",
+      "Broccoli",
+    ],
     profile: {
-      keeps: ["basmati-rice", "tofu"],
+      keeps: ["provolone", "miso"],
       pantry: { other: [] },
       fresh_ingredients: { other: [] },
-      extras: { cupboard: ["Miso"] },
+      extras: {},
     },
-  });
-  expect(
-    sections.map(({ id, tiles }) => [id, tiles.map((tile) => tile.label)]),
-  ).toEqual([
-    ["useUp", ["Cabbage", "potato", "Tofu", "Leeks"]],
-    ["staples", ["Basmati rice", "Rice", "Pasta"]],
-    ["cupboard", ["Miso"]],
+    displayLabel: (label: string) => label,
+    locale: "en",
+  };
+  const picker = onHandIngredientChoices({ ...options, query: "" });
+  expect(picker.featured.map(({ label }) => label)).toEqual([
+    "Dill",
+    "Queso fresco",
+    "Parsley",
+    "Cilantro",
+    "Provolone",
+    "’Nduja",
   ]);
+  expect(picker.moreFromMealPlan.map(({ label }) => label)).toEqual([
+    "Labneh",
+    "Broccoli",
+  ]);
+  expect(picker.other.map(({ label }) => label)).toEqual([
+    "Miso",
+    "Pasta",
+    "Potatoes",
+    "Rice",
+  ]);
+  expect(
+    onHandIngredientChoices({ ...options, query: "provol" }).other.map(
+      ({ label }) => label,
+    ),
+  ).toEqual(["Provolone"]);
 });
 
 it("keeps a picked tile editable after refresh without selecting its replacement", () => {
@@ -99,23 +125,24 @@ it("keeps a picked tile editable after refresh without selecting its replacement
   expect(togglePickedIngredient(picked, after.at(-1)!.tiles[0]!)).toEqual([]);
 });
 
-it("offers fresh household picks before staple shortcuts in Meals", () => {
-  const sections = ingredientPickerSections({
-    freshFirst: true,
-    useUp: ["Broccoli"],
-    profile: {
-      keeps: ["basmati-rice", "bacon"],
-      pantry: { other: ["Miso"] },
-      fresh_ingredients: {
-        broccoli: true,
-        other: ["Parsley", "Chicken breast"],
-      },
-      extras: {},
-    },
-  });
-  expect(
-    sections.slice(0, 2).map(({ tiles }) => tiles.map(({ label }) => label)),
-  ).toEqual([["Broccoli"], ["Parsley", "Chicken breast", "Bacon"]]);
+it("keeps the grid empty when Jev has no result and keeps the household list searchable", () => {
+  const profile = {
+    keeps: ["cream", "miso"],
+    pantry: { other: ["Tahini"] },
+    fresh_ingredients: { other: ["Chicken breast"] },
+    extras: { japanese: ["Yuzu kosho"] },
+  };
+  const options = {
+    profile,
+    displayLabel: (label: string) => (label === "Cream" ? "Sahne" : label),
+    locale: "de",
+  };
+  const picker = onHandIngredientChoices({ ...options, query: "" });
+  expect(picker.featured).toEqual([]);
+  expect(picker.other.map(({ label }) => label)).toContain("Yuzu kosho");
+  const search = onHandIngredientChoices({ ...options, query: "sahn" });
+  expect(search.featured).toEqual([]);
+  expect(search.other.map(({ label }) => label)).toEqual(["Cream"]);
 });
 
 it("keeps the highest-priority translation without merging different forms or foods", () => {

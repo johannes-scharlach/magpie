@@ -80,15 +80,6 @@
     "line": 10,
     "start": 349
   },
-  "/MIOpc": {
-    "col": 22,
-    "defaultMessage": "See fewer",
-    "description": "Collapses the illustrated suggestions to a single row in the meal ingredient picker.",
-    "end": 6279,
-    "file": "src/features/chat/on-hand-picker.tsx",
-    "line": 171,
-    "start": 6030
-  },
   "/woc5o": {
     "col": 17,
     "defaultMessage": "From cookbook",
@@ -219,10 +210,10 @@
     "col": 38,
     "defaultMessage": "Household and account",
     "description": "Accessibility label for the household settings shortcut.",
-    "end": 14640,
+    "end": 14634,
     "file": "src/app/(tabs)/(meals)/index.tsx",
     "line": 436,
-    "start": 14423
+    "start": 14417
   },
   "3UhufF": {
     "col": 62,
@@ -327,10 +318,10 @@
     "col": 8,
     "defaultMessage": "Couldn’t plan this meal",
     "description": "Alert title when a chosen meal could not be saved.",
-    "end": 8755,
+    "end": 8749,
     "file": "src/app/(tabs)/(meals)/index.tsx",
     "line": 244,
-    "start": 8594
+    "start": 8588
   },
   "563N8u": {
     "col": 28,
@@ -513,13 +504,13 @@
     "start": 265
   },
   "96/RrW": {
-    "col": 36,
+    "col": 34,
     "defaultMessage": "Past chats",
     "description": "Accessibility label for the shortcut to household chat history.",
-    "end": 15277,
+    "end": 15204,
     "file": "src/app/(tabs)/(meals)/index.tsx",
-    "line": 452,
-    "start": 15072
+    "line": 451,
+    "start": 15007
   },
   "97Gs7q": {
     "col": 8,
@@ -538,6 +529,15 @@
     "file": "src/features/meals/labels.ts",
     "line": 46,
     "start": 1233
+  },
+  "9vJlfs": {
+    "col": 22,
+    "defaultMessage": "Show less",
+    "description": "Collapses the additional ranked meal-plan ingredients in the ingredient picker.",
+    "end": 7718,
+    "file": "src/features/chat/on-hand-picker.tsx",
+    "line": 205,
+    "start": 7474
   },
   "A1qmAy": {
     "col": 62,
@@ -700,6 +700,15 @@
     "file": "src/features/ingredients/ingredient-labels.ts",
     "line": 10,
     "start": 349
+  },
+  "E4Rmf7": {
+    "col": 19,
+    "defaultMessage": "Show meal plan suggestions",
+    "description": "Action in the ingredient picker that reveals suggestions from the meal plan after they finish loading.",
+    "end": 6997,
+    "file": "src/features/chat/on-hand-picker.tsx",
+    "line": 189,
+    "start": 6729
   },
   "E7bsvX": {
     "col": 62,
@@ -1164,10 +1173,10 @@
     "col": 17,
     "defaultMessage": "Meals",
     "description": "Title of the meal planning screen.",
-    "end": 14183,
+    "end": 14177,
     "file": "src/app/(tabs)/(meals)/index.tsx",
     "line": 426,
-    "start": 14050
+    "start": 14044
   },
   "MY8DcY": {
     "col": 62,
@@ -1213,15 +1222,6 @@
     "file": "src/features/ingredients/ingredient-labels.ts",
     "line": 10,
     "start": 349
-  },
-  "NZ29RJ": {
-    "col": 22,
-    "defaultMessage": "See all",
-    "description": "Expands the illustrated suggestions in the meal ingredient picker.",
-    "end": 6531,
-    "file": "src/features/chat/on-hand-picker.tsx",
-    "line": 176,
-    "start": 6302
   },
   "Ngz9Xq": {
     "col": 15,
@@ -1331,32 +1331,23 @@
     "line": 309,
     "start": 11932
   },
-  "PuKajS": {
-    "col": 22,
-    "defaultMessage": "From your meal plan",
-    "description": "Ingredient picker heading for likely ingredients left from earlier planned meals.",
-    "end": 1328,
-    "file": "src/features/chat/on-hand-picker.tsx",
-    "line": 21,
-    "start": 779
-  },
   "Q5plTF": {
     "col": 13,
     "defaultMessage": "No list yet — create one in Shop first.",
     "description": "Empty state on Meals when the household has no active shopping list.",
-    "end": 16636,
+    "end": 15948,
     "file": "src/app/(tabs)/(meals)/index.tsx",
-    "line": 487,
-    "start": 16413
+    "line": 471,
+    "start": 15725
   },
   "QI5FZT": {
     "col": 22,
     "defaultMessage": "More ingredients",
     "description": "Ingredient picker section for the rest of the household's ingredients, alphabetized by their displayed names.",
-    "end": 1328,
+    "end": 1489,
     "file": "src/features/chat/on-hand-picker.tsx",
-    "line": 21,
-    "start": 779
+    "line": 28,
+    "start": 1107
   },
   "QJp8Zx": {
     "col": 25,
@@ -1555,6 +1546,15 @@
     "file": "src/features/ingredients/ingredient-labels.ts",
     "line": 10,
     "start": 349
+  },
+  "UESQpV": {
+    "col": 22,
+    "defaultMessage": "Show more",
+    "description": "Expands the additional ranked meal-plan ingredients in the ingredient picker.",
+    "end": 7983,
+    "file": "src/features/chat/on-hand-picker.tsx",
+    "line": 210,
+    "start": 7741
   },
   "UEfZxM": {
     "col": 62,
@@ -1988,6 +1988,15 @@
     "line": 20,
     "start": 777
   },
+  "fQhqRI": {
+    "col": 22,
+    "defaultMessage": "From your meal plan",
+    "description": "Heading for the ranked grid of ingredients suggested from nearby planned meals.",
+    "end": 1489,
+    "file": "src/features/chat/on-hand-picker.tsx",
+    "line": 28,
+    "start": 1107
+  },
   "fb/Ao6": {
     "col": 62,
     "defaultMessage": "Cream",
@@ -2136,10 +2145,10 @@
     "col": 11,
     "defaultMessage": "No matching ingredients",
     "description": "Shown below ingredient search when nothing matches. Users can still add the name they typed.",
-    "end": 7434,
+    "end": 9658,
     "file": "src/features/chat/on-hand-picker.tsx",
-    "line": 203,
-    "start": 7211
+    "line": 255,
+    "start": 9435
   },
   "heIYZX": {
     "col": 25,
@@ -2244,10 +2253,10 @@
     "col": 12,
     "defaultMessage": "The recipe hasn’t synced yet. Try again in a moment.",
     "description": "Alert body when a recommendation was chosen before its recipe finished syncing.",
-    "end": 9124,
+    "end": 9118,
     "file": "src/app/(tabs)/(meals)/index.tsx",
     "line": 250,
-    "start": 8861
+    "start": 8855
   },
   "jsESf/": {
     "col": 19,
@@ -2721,10 +2730,10 @@
     "col": 12,
     "defaultMessage": "Please try again.",
     "description": "Generic alert body after planning a meal failed for an unknown reason.",
-    "end": 9340,
+    "end": 9334,
     "file": "src/app/(tabs)/(meals)/index.tsx",
     "line": 256,
-    "start": 9137
+    "start": 9131
   },
   "tsQKcF": {
     "col": 11,
@@ -2806,15 +2815,6 @@
     "file": "src/features/ingredients/ingredient-labels.ts",
     "line": 10,
     "start": 349
-  },
-  "un/qzF": {
-    "col": 22,
-    "defaultMessage": "Quick picks",
-    "description": "Ingredient picker section for fresh ingredients and staples the household often uses.",
-    "end": 1328,
-    "file": "src/features/chat/on-hand-picker.tsx",
-    "line": 21,
-    "start": 779
   },
   "un0Pum": {
     "col": 25,

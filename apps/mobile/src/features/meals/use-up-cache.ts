@@ -18,6 +18,18 @@ export function createUseUpCache(
   now = Date.now,
 ) {
   const entries = new Map<string, Entry>();
+  const listeners = new Set<() => void>();
+
+  function subscribe(listener: () => void) {
+    listeners.add(listener);
+    return () => {
+      listeners.delete(listener);
+    };
+  }
+
+  function notify() {
+    for (const listener of listeners) listener();
+  }
   function read(scope: string, snapshot: string): Result | null {
     const entry = entries.get(scope);
     if (entry?.snapshot !== snapshot) return null;
@@ -26,8 +38,16 @@ export function createUseUpCache(
   }
 
   function clear(scope: string) {
-    entries.get(scope)?.controller.abort();
+    const entry = entries.get(scope);
+    if (!entry) return;
+    entry.controller.abort();
     entries.delete(scope);
+    if (entry.result) notify();
+  }
+
+  function expire(scope: string) {
+    const result = entries.get(scope)?.result;
+    if (result && result.expiresAt <= now()) clear(scope);
   }
 
   function refresh(scope: string, snapshot: string): Promise<void> {
@@ -60,9 +80,10 @@ export function createUseUpCache(
       }
     })().finally(() => {
       entry.pending = undefined;
+      if (entries.get(scope) === entry) notify();
     });
     return entry.pending;
   }
 
-  return { read, refresh, clear };
+  return { read, refresh, clear, expire, subscribe };
 }

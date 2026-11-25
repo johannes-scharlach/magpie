@@ -44,11 +44,6 @@
     "_p6t_description": "Ingredient label for noodles made with egg.",
     "_p6t_source": "Egg noodles"
   },
-  "/MIOpc": {
-    "defaultMessage": "Weniger anzeigen",
-    "_p6t_description": "Collapses the illustrated suggestions to a single row in the meal ingredient picker.",
-    "_p6t_source": "See fewer"
-  },
   "/woc5o": {
     "defaultMessage": "Aus dem Kochbuch",
     "_p6t_description": "Title of the sheet that picks an existing cookbook recipe for a meal slot.",
@@ -299,6 +294,11 @@
     "_p6t_description": "Action row that opens the meal chooser for lunch, and the heading shown while it is open. Does not plan a meal yet.",
     "_p6t_source": "Select lunch"
   },
+  "9vJlfs": {
+    "defaultMessage": "Weniger anzeigen",
+    "_p6t_description": "Collapses the additional ranked meal-plan ingredients in the ingredient picker.",
+    "_p6t_source": "Show less"
+  },
   "A1qmAy": {
     "defaultMessage": "Mais aus der Dose",
     "_p6t_description": "Ingredient label for sweet corn kernels from a tin or can.",
@@ -388,6 +388,11 @@
     "defaultMessage": "Getrocknete Shiitake",
     "_p6t_description": "Ingredient label for dried shiitake mushrooms.",
     "_p6t_source": "Dried shiitake"
+  },
+  "E4Rmf7": {
+    "defaultMessage": "Vorschläge aus dem Essensplan",
+    "_p6t_description": "Action in the ingredient picker that reveals suggestions from the meal plan after they finish loading.",
+    "_p6t_source": "Show meal plan suggestions"
   },
   "E7bsvX": {
     "defaultMessage": "Buchweizen",
@@ -674,11 +679,6 @@
     "_p6t_description": "Ingredient label for palm sugar.",
     "_p6t_source": "Palm sugar"
   },
-  "NZ29RJ": {
-    "defaultMessage": "Alle anzeigen",
-    "_p6t_description": "Expands the illustrated suggestions in the meal ingredient picker.",
-    "_p6t_source": "See all"
-  },
   "Ngz9Xq": {
     "defaultMessage": "Hab ich zu Hause",
     "_p6t_description": "Action that marks this ingredient as already at home, so it leaves the list for this meal.",
@@ -738,11 +738,6 @@
     "defaultMessage": "Magpie ein Rezept erzählen, das du kennst",
     "_p6t_description": "Row that opens the recorder to describe a recipe from memory. The chat checks it before saving.",
     "_p6t_source": "Tell Magpie a recipe you know"
-  },
-  "PuKajS": {
-    "defaultMessage": "Aus deinem Essensplan",
-    "_p6t_description": "Ingredient picker heading for likely ingredients left from earlier planned meals.",
-    "_p6t_source": "From your meal plan"
   },
   "Q5plTF": {
     "defaultMessage": "Noch keine Liste – leg zuerst im Einkauf eine an.",
@@ -863,6 +858,11 @@
     "defaultMessage": "Getrocknete Steinpilze",
     "_p6t_description": "Ingredient label for dried porcini mushrooms.",
     "_p6t_source": "Dried porcini"
+  },
+  "UESQpV": {
+    "defaultMessage": "Mehr anzeigen",
+    "_p6t_description": "Expands the additional ranked meal-plan ingredients in the ingredient picker.",
+    "_p6t_source": "Show more"
   },
   "UEfZxM": {
     "defaultMessage": "Reispapier",
@@ -1103,6 +1103,11 @@
     "defaultMessage": "{name} zurückholen",
     "_p6t_description": "Accessibility label for the checkbox of a bought shopping item. Selecting it puts the item back on the list. {name} is the item's name.",
     "_p6t_source": "Restore {name}"
+  },
+  "fQhqRI": {
+    "defaultMessage": "Aus deinem Essensplan",
+    "_p6t_description": "Heading for the ranked grid of ingredients suggested from nearby planned meals.",
+    "_p6t_source": "From your meal plan"
   },
   "fb/Ao6": {
     "defaultMessage": "Sahne",
@@ -1558,11 +1563,6 @@
     "defaultMessage": "Bohnen aus der Dose",
     "_p6t_description": "Ingredient label for beans from a tin or can.",
     "_p6t_source": "Canned beans"
-  },
-  "un/qzF": {
-    "defaultMessage": "Schnellauswahl",
-    "_p6t_description": "Ingredient picker section for fresh ingredients and staples the household often uses.",
-    "_p6t_source": "Quick picks"
   },
   "un0Pum": {
     "defaultMessage": "{count} übersprungen",
