@@ -35,7 +35,7 @@ export function projectUseUpPlan(
       const date = row.slot_date;
       if (!slot || date < from || date > through || !row.variant_id) continue;
       if (compareUseUpSlots({ date, slot }, target) === 0) continue;
-      // Do not publish a fresh assessment with a partially synced reservation.
+      // Wait for the ingredient lines before assessing a partially synced plan.
       if (row.ingredient_lines == null) return null;
       const lines = IngredientLines.parse(JSON.parse(row.ingredient_lines));
       const ingredients = mealIngredients(

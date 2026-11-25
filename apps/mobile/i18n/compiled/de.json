@@ -61,12 +61,6 @@
       "value": "Eiernudeln"
     }
   ],
-  "/MIOpc": [
-    {
-      "type": 0,
-      "value": "Weniger anzeigen"
-    }
-  ],
   "/woc5o": [
     {
       "type": 0,
@@ -395,6 +389,12 @@
       "value": "Mittagessen wählen"
     }
   ],
+  "9vJlfs": [
+    {
+      "type": 0,
+      "value": "Weniger anzeigen"
+    }
+  ],
   "A1qmAy": [
     {
       "type": 0,
@@ -540,6 +540,12 @@
     {
       "type": 0,
       "value": "Getrocknete Shiitake"
+    }
+  ],
+  "E4Rmf7": [
+    {
+      "type": 0,
+      "value": "Vorschläge aus dem Essensplan"
     }
   ],
   "E7bsvX": [
@@ -934,12 +940,6 @@
       "value": "Palmzucker"
     }
   ],
-  "NZ29RJ": [
-    {
-      "type": 0,
-      "value": "Alle anzeigen"
-    }
-  ],
   "Ngz9Xq": [
     {
       "type": 0,
@@ -1014,12 +1014,6 @@
     {
       "type": 0,
       "value": "Magpie ein Rezept erzählen, das du kennst"
-    }
-  ],
-  "PuKajS": [
-    {
-      "type": 0,
-      "value": "Aus deinem Essensplan"
     }
   ],
   "Q5plTF": [
@@ -1265,6 +1259,12 @@
     {
       "type": 0,
       "value": "Getrocknete Steinpilze"
+    }
+  ],
+  "UESQpV": [
+    {
+      "type": 0,
+      "value": "Mehr anzeigen"
     }
   ],
   "UEfZxM": [
@@ -1627,6 +1627,12 @@
     {
       "type": 0,
       "value": " zurückholen"
+    }
+  ],
+  "fQhqRI": [
+    {
+      "type": 0,
+      "value": "Aus deinem Essensplan"
     }
   ],
   "fb/Ao6": [
@@ -2287,12 +2293,6 @@
     {
       "type": 0,
       "value": "Bohnen aus der Dose"
-    }
-  ],
-  "un/qzF": [
-    {
-      "type": 0,
-      "value": "Schnellauswahl"
     }
   ],
   "un0Pum": [

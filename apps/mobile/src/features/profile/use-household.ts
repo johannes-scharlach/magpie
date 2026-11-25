@@ -3,15 +3,16 @@ import { useMemo } from "react";
 import { decodeHousehold } from "@/db/profiles";
 
 export function useHousehold(listId: string | null) {
-  const { data: profiles } = useQuery<Record<string, unknown>>(
-    "SELECT * FROM household_profiles WHERE id = ?",
-    [listId],
-  );
-  const { data: people } = useQuery<Record<string, unknown>>(
+  const { data: profiles, isLoading: profileLoading } = useQuery<
+    Record<string, unknown>
+  >("SELECT * FROM household_profiles WHERE id = ?", [listId]);
+  const { data: people, isLoading: peopleLoading } = useQuery<
+    Record<string, unknown>
+  >(
     "SELECT * FROM household_people WHERE list_id = ? ORDER BY created_at, id",
     [listId],
   );
-  return useMemo(() => {
+  const result = useMemo(() => {
     if (!profiles[0]) return { household: null, error: null };
     try {
       return { household: decodeHousehold(profiles[0], people), error: null };
@@ -23,4 +24,8 @@ export function useHousehold(listId: string | null) {
       };
     }
   }, [profiles, people]);
+  return {
+    ...result,
+    isLoading: !!listId && (profileLoading || peopleLoading),
+  };
 }

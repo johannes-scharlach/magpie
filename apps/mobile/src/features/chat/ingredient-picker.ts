@@ -16,28 +16,17 @@ type Picks = Pick<
   "keeps" | "extras" | "pantry" | "fresh_ingredients"
 >;
 type Section = {
-  id: "useUp" | "fresh" | "staples" | "cupboard" | "picked";
+  id: "useUp" | "staples" | "cupboard" | "picked";
   tiles: PickedIngredient[];
 };
+
+export const SUGGESTED_INGREDIENT_LIMIT = 6;
 
 const DEFAULT_STAPLES = [
   pantryOptions.rice,
   freshOptions.potatoes,
   pantryOptions.pasta,
 ];
-const PERISHABLE_KEEPS = new Set([
-  "bacon",
-  "cabbage",
-  "cream",
-  "dill",
-  "greek-yoghurt",
-  "lemongrass",
-  "lemons",
-  "limes",
-  "plain-yoghurt",
-  "sour-cream",
-  "tofu",
-]);
 const MEAL_BASES = new Set([
   ...DEFAULT_STAPLES.map(ingredientNameKey),
   "arborio-rice",
@@ -63,14 +52,12 @@ export function ingredientPickerSections({
   picked = [],
   query = "",
   displayLabel = (label) => label,
-  freshFirst = false,
 }: {
   useUp?: readonly string[];
   profile?: Picks;
   picked?: readonly PickedIngredient[];
   query?: string;
   displayLabel?: (label: string) => string;
-  freshFirst?: boolean;
 }): Section[] {
   const fresh = profile
     ? Object.entries(freshOptions).flatMap(([id, label]) =>
@@ -112,24 +99,11 @@ export function ingredientPickerSections({
     return tiles;
   }
 
-  const useUpTiles = take(useUp, 4);
-  const freshTiles = freshFirst
-    ? take(
-        [
-          ...(profile?.fresh_ingredients.other ?? []),
-          ...fresh,
-          ...(profile?.keeps ?? [])
-            .filter((id) => PERISHABLE_KEEPS.has(id))
-            .map(ingredientLabel),
-        ],
-        3,
-      )
-    : [];
-  const staples = take([...usualBases, ...DEFAULT_STAPLES], freshFirst ? 3 : 6);
+  const useUpTiles = take(useUp);
+  const staples = take([...usualBases, ...DEFAULT_STAPLES], 6);
   const cupboard = take(kept);
   const sections: Section[] = [
     { id: "useUp", tiles: useUpTiles },
-    { id: "fresh", tiles: freshTiles },
     { id: "staples", tiles: staples },
     // Keep retired picks editable without a scroll through the whole cupboard.
     { id: "picked", tiles: picked.filter(({ key }) => !seen.has(key)) },
@@ -150,40 +124,44 @@ export function ingredientPickerSections({
     .filter(({ tiles }) => tiles.length > 0);
 }
 
-type OnHandGroup = {
-  id: "useUp" | "quickPicks" | "cupboard" | "matches";
-  tiles: PickedIngredient[];
-};
+export function onHandIngredientChoices({
+  useUp,
+  profile,
+  query,
+  displayLabel,
+  locale,
+}: {
+  useUp?: readonly string[];
+  profile?: Picks;
+  query: string;
+  displayLabel: (label: string) => string;
+  locale: string;
+}) {
+  const sections = ingredientPickerSections({
+    useUp,
+    profile,
+    query,
+    displayLabel,
+  });
+  const available = sections.flatMap(({ tiles }) => tiles);
+  const alphabetical = (a: PickedIngredient, b: PickedIngredient) =>
+    displayLabel(a.label).localeCompare(displayLabel(b.label), locale);
+  if (query.trim())
+    return {
+      featured: [],
+      moreFromMealPlan: [],
+      other: available.sort(alphabetical),
+    };
 
-export function onHandPickerGroups(
-  sections: Section[],
-  query: string,
-  displayLabel: (label: string) => string,
-  locale: string,
-): OnHandGroup[] {
-  const available = sections.filter(({ id }) => id !== "picked");
-  const sorted = (tiles: PickedIngredient[]) =>
-    [...tiles].sort((a, b) =>
-      displayLabel(a.label).localeCompare(displayLabel(b.label), locale),
-    );
-  const tilesFor = (id: Section["id"]) =>
-    available.find((section) => section.id === id)?.tiles ?? [];
-  const groups: OnHandGroup[] = query.trim()
-    ? [
-        {
-          id: "matches",
-          tiles: sorted(available.flatMap(({ tiles }) => tiles)),
-        },
-      ]
-    : [
-        { id: "useUp", tiles: tilesFor("useUp") },
-        {
-          id: "quickPicks",
-          tiles: sorted([...tilesFor("fresh"), ...tilesFor("staples")]),
-        },
-        { id: "cupboard", tiles: sorted(tilesFor("cupboard")) },
-      ];
-  return groups.filter(({ tiles }) => tiles.length > 0);
+  const remainders = sections.find(({ id }) => id === "useUp")?.tiles ?? [];
+  return {
+    featured: remainders.slice(0, SUGGESTED_INGREDIENT_LIMIT),
+    moreFromMealPlan: remainders.slice(SUGGESTED_INGREDIENT_LIMIT),
+    other: sections
+      .filter(({ id }) => id !== "useUp")
+      .flatMap(({ tiles }) => tiles)
+      .sort(alphabetical),
+  };
 }
 
 function searchText(value: string) {
