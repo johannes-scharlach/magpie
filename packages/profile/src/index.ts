@@ -326,6 +326,7 @@ export const ingredientOptions = {
   "puff-pastry": "Puff pastry",
   tofu: "Tofu",
   bacon: "Bacon",
+  cabbage: "Cabbage",
   lemons: "Lemons",
   limes: "Limes",
   // Frozen is its own id: frozen spinach isn't fresh spinach.
@@ -1168,6 +1169,128 @@ export function ingredientId(name: string, group?: string): string | undefined {
       : undefined)
   );
 }
+
+const ingredientNameAliases = new Map([
+  ["aubergine", "eggplant"],
+  ["aubergines", "eggplant"],
+  ["berenjena", "eggplant"],
+  ["berenjenas", "eggplant"],
+  ["eggplants", "eggplant"],
+  ["basmati", "basmati-rice"],
+  ["basmatireis", "basmati-rice"],
+  ["cabbages", "cabbage"],
+  ["courgette", "zucchini"],
+  ["courgettes", "zucchini"],
+  ["dosentomaten", "canned-tomatoes"],
+  ["chinakohl", "chinese-cabbage"],
+  ["grunkohl", "kale"],
+  ["green-onion", "spring-onions"],
+  ["green-onions", "spring-onions"],
+  ["canned-sweetcorn", "canned-corn"],
+  ["canned-tuna-fish", "canned-tuna"],
+  ["garbanzo-beans", "chickpeas"],
+  ["greek-yogurt", "greek-yoghurt"],
+  ["kartoffel", "potatoes"],
+  ["kartoffeln", "potatoes"],
+  ["kichererbsen", "chickpeas"],
+  ["kohl", "cabbage"],
+  ["knoblauch", "garlic"],
+  ["lemon", "lemons"],
+  ["lauch", "leeks"],
+  ["lime", "limes"],
+  ["onion", "onions"],
+  ["zwiebel", "onions"],
+  ["zwiebeln", "onions"],
+  ["plain-yogurt", "plain-yoghurt"],
+  ["potato", "potatoes"],
+  ["reis", "rice"],
+  ["jasminreis", "jasmine-rice"],
+  ["olivenol", "olive-oil"],
+  ["sojasauce", "soy-sauce"],
+  ["scallion", "spring-onions"],
+  ["scallions", "spring-onions"],
+  ["spring-onion", "spring-onions"],
+  ["eiernudeln", "egg-noodles"],
+  ["spinat", "spinach"],
+  ["tk-erbsen", "frozen-peas"],
+  ["tk-grune-bohnen", "frozen-green-beans"],
+  ["tk-garnelen", "frozen-prawns"],
+  ["tk-hackfleisch", "frozen-minced-meat"],
+  ["tk-hahnchenbrust", "frozen-chicken-breast"],
+  ["tk-lachsfilets", "frozen-salmon-fillets"],
+  ["tk-kabeljaufilets", "frozen-cod-fillets"],
+  ["tiefgekuhlte-erbsen", "frozen-peas"],
+  ["tiefgekuhlte-grune-bohnen", "frozen-green-beans"],
+  ["tiefgekuhlte-garnelen", "frozen-prawns"],
+  ["tiefgekuhltes-hackfleisch", "frozen-minced-meat"],
+  ["tiefgekuhlte-hahnchenbrust", "frozen-chicken-breast"],
+  ["tiefgekuhlte-lachsfilets", "frozen-salmon-fillets"],
+  ["tiefgekuhlte-kabeljaufilets", "frozen-cod-fillets"],
+  ["tiefgekuhlter-spinat", "frozen-spinach"],
+  ["tiefkuhlspinat", "frozen-spinach"],
+  ["tk-spinat", "frozen-spinach"],
+  ["tomatenmark", "tomato-paste"],
+  ["tomate", "tomatoes"],
+  ["tomaten", "tomatoes"],
+  ["tinned-tomatoes", "canned-tomatoes"],
+  ["tinned-tuna", "canned-tuna"],
+  ["zitronen", "lemons"],
+  ["zucchinis", "zucchini"],
+]);
+
+/** Existing picker key. Model art aliases must never participate in this key. */
+export function ingredientNameKey(label: string): string {
+  const key = label
+    .normalize("NFKD")
+    .replace(/\p{M}/gu, "")
+    .toLowerCase()
+    .trim()
+    .replace(/[^\p{L}\p{N}]+/gu, "-")
+    .replace(/^-|-$/g, "");
+  return ingredientNameAliases.get(key) ?? (key || label.trim().toLowerCase());
+}
+
+// Only these fresh onboarding options have shipped images. Pantry and
+// specialty ingredients ship the complete catalog. Keep in step with artwork.tsx.
+const picturedFresh = [
+  "eggs",
+  "milk",
+  "butter",
+  "cheese",
+  "greek-yoghurt",
+  "plain-yoghurt",
+  "cream",
+  "garlic",
+  "onions",
+] as const;
+
+export const bundledIngredientArtCatalog: ReadonlyMap<string, string> = new Map(
+  [
+    ...Object.entries(ingredientOptions).map(
+      ([id, label]) =>
+        [
+          `ingredient-${id}`,
+          id.startsWith("frozen-") ? `Frozen ${label}` : label,
+        ] as const,
+    ),
+    ...Object.entries(pantryOptions).map(
+      ([id, label]) => [`pantry-${id}`, label] as const,
+    ),
+    ...picturedFresh.map((id) => [`fresh-${id}`, freshOptions[id]] as const),
+  ],
+);
+
+export function knownIngredientArt(label: string): string | undefined {
+  const exact = label.trim().toLowerCase();
+  if (bundledIngredientArtCatalog.has(exact)) return exact;
+  const key = ingredientNameKey(label);
+  return [
+    `ingredient-${ingredientId(label) ?? key}`,
+    `pantry-${key}`,
+    `fresh-${key}`,
+  ].find((id) => bundledIngredientArtCatalog.has(id));
+}
+
 export const avoidanceKinds = {
   allergy: "Allergy",
   restriction: "Must avoid",

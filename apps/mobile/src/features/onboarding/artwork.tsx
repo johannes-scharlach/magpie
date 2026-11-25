@@ -91,6 +91,7 @@ const deliveredAssets: Partial<Record<ArtworkId, number>> = {
   "ingredient-argan-oil": require("./art/optimized/ingredient-argan-oil.webp"),
   "ingredient-asafoetida": require("./art/optimized/ingredient-asafoetida.webp"),
   "ingredient-bacon": require("./art/optimized/ingredient-bacon.webp"),
+  "ingredient-cabbage": require("./art/optimized/ingredient-cabbage.webp"),
   "ingredient-bagoong": require("./art/optimized/ingredient-bagoong.webp"),
   "ingredient-baharat": require("./art/optimized/ingredient-baharat.webp"),
   "ingredient-balsamic-vinegar": require("./art/optimized/ingredient-balsamic-vinegar.webp"),
@@ -319,7 +320,11 @@ const deliveredAssets: Partial<Record<ArtworkId, number>> = {
 };
 
 export function hasArtwork(id: string): id is ArtworkId {
-  return id in deliveredAssets;
+  return Object.hasOwn(deliveredAssets, id);
+}
+
+export function bundledArtworkSource(id: string): number | undefined {
+  return hasArtwork(id) ? deliveredAssets[id] : undefined;
 }
 
 export function Artwork({
@@ -329,7 +334,7 @@ export function Artwork({
   id: ArtworkId;
   hero?: boolean;
 }) {
-  const asset = deliveredAssets[id];
+  const asset = bundledArtworkSource(id);
   if (asset) {
     return (
       <View

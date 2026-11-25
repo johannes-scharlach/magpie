@@ -1,7 +1,9 @@
-export type MealSlot = "lunch" | "dinner" | "treat";
+import { MEAL_SLOTS, type MealSlot } from "@magpie/meals";
+
+export type { MealSlot };
 export type MealTarget = { date: string; slot: MealSlot };
 
-export const SLOT_ORDER: MealSlot[] = ["lunch", "dinner", "treat"];
+export const SLOT_ORDER = MEAL_SLOTS;
 export const SLOT_LABEL: Record<MealSlot, string> = {
   lunch: "Lunch",
   dinner: "Dinner",

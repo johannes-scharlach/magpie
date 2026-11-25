@@ -96,7 +96,6 @@ function AppScreens() {
   const intl = useIntl();
   return (
     <>
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen
         name="household"
         options={{
@@ -318,43 +317,6 @@ function AppScreens() {
             Platform.OS === "ios"
               ? { backgroundColor: "transparent" }
               : undefined,
-        }}
-      />
-      <Stack.Screen
-        name="shop/item"
-        options={{
-          presentation: "formSheet",
-          sheetAllowedDetents: "fitToContents",
-          sheetGrabberVisible: true,
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="shop/add"
-        options={{
-          presentation: "pageSheet",
-          headerShown: true,
-          title: intl.formatMessage({
-            defaultMessage: "Add items",
-            description:
-              "Title of the sheet where the cook types shopping items one after another.",
-          }),
-          // iOS supplies the sheet surface; Android needs an
-          // opaque screen so content cannot overlap during pushes.
-          contentStyle:
-            Platform.OS === "ios"
-              ? { backgroundColor: "transparent" }
-              : undefined,
-        }}
-      />
-      {/* Conversations sit above the tab bar. */}
-      <Stack.Screen
-        name="chats/[id]"
-        options={{
-          presentation: "card",
-          // The linked-recipe banner sits above the transcript,
-          // outside any scroll view, so the header stays solid.
-          headerTransparent: false,
         }}
       />
       <Stack.Screen

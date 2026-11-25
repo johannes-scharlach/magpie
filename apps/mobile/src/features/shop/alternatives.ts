@@ -83,12 +83,3 @@ export function adjacentAlternative(
   if (current < 0 || options.length < 2) return null;
   return options[(current + direction + options.length) % options.length];
 }
-
-/** A browsing strip has ends; rotate only when starting a new session. */
-export function orderedAlternatives(name: string, options: Alternative[]) {
-  const current = options.findIndex(
-    (option) => nameKey(option.name) === nameKey(name),
-  );
-  if (current < 0) return [];
-  return [...options.slice(current), ...options.slice(0, current)];
-}

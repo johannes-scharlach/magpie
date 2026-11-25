@@ -1,6 +1,12 @@
 import { defineMessage, defineMessages, type IntlShape } from "react-intl";
 
-import { addDays, dateKey, type MealSlot, type MealTarget } from "./slots";
+import {
+  addDays,
+  dateKey,
+  SLOT_ORDER,
+  type MealSlot,
+  type MealTarget,
+} from "./slots";
 
 /** Standalone slot labels, used as headings and badges. */
 export const slotMessages = defineMessages({
@@ -191,10 +197,10 @@ export function formatPlannedWhen(
   date: string | null,
   meal: string | null,
 ): string | null {
-  if (!date || !(meal === "lunch" || meal === "dinner" || meal === "treat"))
-    return null;
+  const slot = SLOT_ORDER.find((value) => value === meal);
+  if (!date || !slot) return null;
   const parsed = new Date(`${date}T12:00:00`);
   if (Number.isNaN(parsed.getTime())) return null;
   const day = intl.formatDate(parsed, { weekday: "long" });
-  return intl.formatMessage(plannedWhenMessages[meal], { day });
+  return intl.formatMessage(plannedWhenMessages[slot], { day });
 }

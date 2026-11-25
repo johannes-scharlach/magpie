@@ -1,0 +1,109 @@
+import type {
+  IngredientArtResolution,
+  IngredientArtStore,
+} from "./ingredient-art.js";
+
+type IngredientArtDb = {
+  query<Row extends Record<string, unknown>>(
+    sql: string,
+    values?: unknown[],
+  ): Promise<{ rows: Row[] }>;
+};
+
+export function ingredientArtStore(db: IngredientArtDb): IngredientArtStore {
+  return {
+    async listPublished() {
+      const { rows } = await db.query<{
+        art_id: string;
+        ingredient_name: string;
+      }>(
+        `SELECT art_id, ingredient_name FROM public.ingredient_art_assets
+          ORDER BY ingredient_name`,
+      );
+      return new Map(
+        rows.map(({ art_id, ingredient_name }) => [art_id, ingredient_name]),
+      );
+    },
+    async read(keys) {
+      const { rows } = await db.query<{
+        label_key: string;
+        art_id: string | null;
+        ingredient_name: string | null;
+      }>(
+        `SELECT label_key, art_id, ingredient_name
+           FROM public.ingredient_art_aliases
+          WHERE label_key = ANY($1::text[])`,
+        [keys],
+      );
+      return new Map<string, IngredientArtResolution>(
+        rows.map(({ label_key, art_id, ingredient_name }) => [
+          label_key,
+          art_id !== null
+            ? { artId: art_id }
+            : { ingredientName: ingredient_name! },
+        ]),
+      );
+    },
+    async save(entries) {
+      const keys: string[] = [];
+      const ids: (string | null)[] = [];
+      const names: (string | null)[] = [];
+      for (const [key, entry] of entries) {
+        keys.push(key);
+        ids.push("artId" in entry ? entry.artId : null);
+        names.push("ingredientName" in entry ? entry.ingredientName : null);
+      }
+      await db.query(
+        `INSERT INTO public.ingredient_art_aliases (label_key, art_id, ingredient_name)
+         SELECT * FROM unnest($1::text[], $2::text[], $3::text[])
+         ON CONFLICT (label_key) DO NOTHING`,
+        [keys, ids, names],
+      );
+    },
+  };
+}
+
+/** Distinct generation needs after alias reuse, excluding completed art. */
+export async function listPendingIngredientArt(
+  db: IngredientArtDb,
+): Promise<string[]> {
+  const { rows } = await db.query<{ ingredient_name: string }>(
+    `SELECT DISTINCT aliases.ingredient_name
+       FROM public.ingredient_art_aliases aliases
+      WHERE aliases.ingredient_name IS NOT NULL
+        AND NOT EXISTS (
+          SELECT 1 FROM public.ingredient_art_assets assets
+           WHERE assets.ingredient_name = aliases.ingredient_name
+        )
+      ORDER BY aliases.ingredient_name`,
+  );
+  return rows.map(({ ingredient_name }) => ingredient_name);
+}
+
+/** Record only after Storage has accepted the asset. */
+export async function recordIngredientArt(
+  db: IngredientArtDb,
+  ingredient: string,
+  artId: string,
+): Promise<void> {
+  await db.query(
+    `INSERT INTO public.ingredient_art_assets (ingredient_name, art_id)
+     VALUES ($1, $2) ON CONFLICT (ingredient_name) DO NOTHING`,
+    [ingredient, artId],
+  );
+}
+
+/** Promote queued names without rewriting their label keys or existing aliases. */
+export async function reusePublishedIngredientArt(
+  db: IngredientArtDb,
+  aliases: ReadonlyMap<string, string>,
+): Promise<void> {
+  if (!aliases.size) return;
+  await db.query(
+    `UPDATE public.ingredient_art_aliases AS alias
+        SET art_id = reuse.art_id, ingredient_name = NULL
+       FROM unnest($1::text[], $2::text[]) AS reuse(ingredient_name, art_id)
+      WHERE alias.ingredient_name = reuse.ingredient_name`,
+    [[...aliases.keys()], [...aliases.values()]],
+  );
+}

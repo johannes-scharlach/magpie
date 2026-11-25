@@ -31,7 +31,7 @@ importers:
         version: 3.9.10
       sharp:
         specifier: ^0.35.5
-        version: 0.35.5
+        version: 0.35.5(@types/node@26.2.0)
       supabase:
         specifier: ^2.115.0
         version: 2.115.0
@@ -93,6 +93,9 @@ importers:
         specifier: ^4.6.7
         version: 4.6.7
     devDependencies:
+      '@electric-sql/pglite':
+        specifier: ^0.6.0
+        version: 0.6.0
       '@eslint/js':
         specifier: ^9.39.5
         version: 9.39.5
@@ -111,6 +114,9 @@ importers:
       eslint:
         specifier: ^9.39.5
         version: 9.39.5(jiti@2.7.0)
+      sharp:
+        specifier: ^0.35.5
+        version: 0.35.5(@types/node@26.2.0)
       tsx:
         specifier: ^4.23.12
         version: 4.23.12
@@ -135,6 +141,9 @@ importers:
       '@expo/ui':
         specifier: ~58.0.21
         version: 58.0.21(@babel/core@7.29.7)(expo@58.0.16)(react-dom@19.3.0(react@19.3.0))(react-native-worklets@0.13.0(@babel/core@7.29.7)(@react-native/metro-config@0.88.0(@babel/core@7.29.7))(react-native@0.88.0(@babel/core@7.29.7)(@react-native/metro-config@0.88.0(@babel/core@7.29.7))(@types/react@19.3.0)(react@19.3.0))(react@19.3.0))(react-native@0.88.0(@babel/core@7.29.7)(@react-native/metro-config@0.88.0(@babel/core@7.29.7))(@types/react@19.3.0)(react@19.3.0))(react@19.3.0)
+      '@formatjs/intl-pluralrules':
+        specifier: ^7.1.1
+        version: 7.1.1
       '@magpie/meals':
         specifier: workspace:*
         version: link:../../packages/meals
@@ -906,6 +915,9 @@ packages:
     peerDependencies:
       '@noble/ciphers': ^1.0.0
 
+  '@electric-sql/pglite@0.6.0':
+    resolution: {integrity: sha512-g3tAPFjRLEdN1g5FvawTl4ETo9LtmVwBRUJYnH6Erl6mhlKFRGB2mYhPABffIuXMYxki64mX0Al8U4UFUhuYDQ==}
+
   '@emnapi/core@1.10.0':
     resolution: {integrity: sha512-yq6OkJ4p82CAfPl0u9mQebQHKPJkY7WrIuk205cTYnYe+k2Z8YBh11FrbRG/H6ihirqcacOgl2BIO8oyMQLeXw==}
 
@@ -1332,6 +1344,9 @@ packages:
     resolution: {integrity: sha512-EbxYllZ7/ozONVZd425cm4XnolfW+AmSFT5aP7Jdno6oc3WrYQcHz2CO20z/2rwWwYgztmV2PXvYH+BQ8YFjqg==}
     hasBin: true
 
+  '@formatjs/bigdecimal@0.2.11':
+    resolution: {integrity: sha512-HPfzK4SCEU4K++s2GI8h3FaSqdR+F2UbFZ6X9655ZwQj6Enca41ddYyZwDu2nkDeLiBKY5pdXYHjcoAs00/vUQ==}
+
   '@formatjs/cli-native-darwin-arm64@1.1.34':
     resolution: {integrity: sha512-ExxsQ1i8uLEXlIGKDkgCMEmHopWWk0eqszsQMViKDy/VtVo3OwVwom9H6uji4SGsXU6iW0au+vM1eKoA9jz65A==}
     cpu: [arm64]
@@ -1407,6 +1422,9 @@ packages:
   '@formatjs/fast-memoize@3.1.7':
     resolution: {integrity: sha512-zXfhLpvA6T7+efdt9JLbBwZ00tT7NsBMDVnDu8rpHeNNv8KfRZAMo2gkG0k9lK/Nzc//3kJ9pImsfuJxk3KhUA==}
 
+  '@formatjs/fast-memoize@3.1.8':
+    resolution: {integrity: sha512-Y9YFFfeBDkAWmLWD3LVNHbHlyELsP2lYRNoY6+QhtPh1/ujCiX5QYBzAqe0cWdkCxKVezHLt0qjWz1veEUV7UA==}
+
   '@formatjs/icu-messageformat-parser@3.5.14':
     resolution: {integrity: sha512-jDvgtoLqe3U6yzoBlToMTkWBe38qSi7LN7kFlnXzd5ig8nn+4tSlED0xtEtdYakZVZGJJY2rW1D5xS3BFZh6kA==}
 
@@ -1418,6 +1436,12 @@ packages:
 
   '@formatjs/icu-skeleton-parser@2.1.13':
     resolution: {integrity: sha512-IdAJ9NrHn7AF0zqncD9UpxQozTYyJtbwwrZnJMEKVxTcOOXtVkUb2XYTpNOGTAv58NCsk0rjRB9G+i2SvBmGAQ==}
+
+  '@formatjs/intl-localematcher@0.10.2':
+    resolution: {integrity: sha512-KvXcVOPLYRQ5s6O0MrHePLIIhkSUm5bZbsEHGmKI3xXoy7hvGxUoagaobAIi8/hc9YabgHvLDFeeqbrjPNIKwg==}
+
+  '@formatjs/intl-pluralrules@7.1.1':
+    resolution: {integrity: sha512-w4UWRJsAGB6ke79R3JWkAS5v57zzsNtp/hLDPsLYNR2Y5z1qJ7QySje405LzUSr5Ziomqd7V8qj0IgJ02UqYPA==}
 
   '@formatjs/intl@6.1.5':
     resolution: {integrity: sha512-WicSXzsz4wO1ksJb6Pp9a+vdOpIkidcEm8ldVtXkqFoMB/o/ETEikyPeCFgTVuSTLBb7ZNJ3ZLKXSQ/X/0+BAg==}
@@ -7081,6 +7105,8 @@ snapshots:
     dependencies:
       '@noble/ciphers': 1.3.0
 
+  '@electric-sql/pglite@0.6.0': {}
+
   '@emnapi/core@1.10.0':
     dependencies:
       '@emnapi/wasi-threads': 1.2.1
@@ -7632,6 +7658,8 @@ snapshots:
       chalk: 4.1.2
       js-yaml: 4.3.1
 
+  '@formatjs/bigdecimal@0.2.11': {}
+
   '@formatjs/cli-native-darwin-arm64@1.1.34':
     optional: true
 
@@ -7669,6 +7697,8 @@ snapshots:
 
   '@formatjs/fast-memoize@3.1.7': {}
 
+  '@formatjs/fast-memoize@3.1.8': {}
+
   '@formatjs/icu-messageformat-parser@3.5.14':
     dependencies:
       '@formatjs/icu-skeleton-parser': 2.1.11
@@ -7680,6 +7710,15 @@ snapshots:
   '@formatjs/icu-skeleton-parser@2.1.11': {}
 
   '@formatjs/icu-skeleton-parser@2.1.13': {}
+
+  '@formatjs/intl-localematcher@0.10.2':
+    dependencies:
+      '@formatjs/fast-memoize': 3.1.8
+
+  '@formatjs/intl-pluralrules@7.1.1':
+    dependencies:
+      '@formatjs/bigdecimal': 0.2.11
+      '@formatjs/intl-localematcher': 0.10.2
 
   '@formatjs/intl@6.1.5':
     dependencies:
@@ -12328,7 +12367,7 @@ snapshots:
 
   sf-symbols-typescript@2.2.0: {}
 
-  sharp@0.35.5:
+  sharp@0.35.5(@types/node@26.2.0):
     dependencies:
       '@img/colour': 1.1.0
       detect-libc: 2.1.2
@@ -12359,6 +12398,7 @@ snapshots:
       '@img/sharp-win32-arm64': 0.35.5
       '@img/sharp-win32-ia32': 0.35.5
       '@img/sharp-win32-x64': 0.35.5
+      '@types/node': 26.2.0
 
   shebang-command@2.0.0:
     dependencies:

@@ -1,7 +1,15 @@
 {
   "imports": {
+    "@ai-sdk/provider": "npm:@ai-sdk/provider@4.0.36",
+    "@ai-sdk/typesafe-ai": "npm:@ai-sdk/typesafe-ai@3.0.34",
+    "@magpie/meals": "../../packages/meals/src/index.ts",
+    "@magpie/profile": "../../packages/profile/src/index.ts",
     "@supabase/supabase-js": "jsr:@supabase/supabase-js@^2",
-    "@std/http": "jsr:@std/http@^1"
+    "@std/http": "jsr:@std/http@^1",
+    "hono": "npm:hono@4.13.3",
+    "hono/body-limit": "npm:hono@4.13.3/body-limit",
+    "hono/http-exception": "npm:hono@4.13.3/http-exception",
+    "zod": "npm:zod@4.6.7"
   },
   "compilerOptions": {
     "strict": true,

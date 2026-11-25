@@ -56,6 +56,35 @@ export function itemNameKey(name: string): string {
   return name.trim().toLowerCase().replace(/\s+/g, " ");
 }
 
+export const MEAL_SLOTS = ["lunch", "dinner", "treat"] as const;
+export type MealSlot = (typeof MEAL_SLOTS)[number];
+export type UseUpTarget = {
+  date: string;
+  slot: MealSlot;
+};
+export type UseUpRequest = {
+  target: UseUpTarget;
+  meals: (UseUpTarget & {
+    ingredients: { name: string; quantity: string | null }[];
+  })[];
+};
+
+export function compareUseUpSlots(a: UseUpTarget, b: UseUpTarget): number {
+  return (
+    a.date.localeCompare(b.date) ||
+    MEAL_SLOTS.indexOf(a.slot) - MEAL_SLOTS.indexOf(b.slot)
+  );
+}
+
+export function nearbyUseUpDates(date: string) {
+  const offset = (days: number) => {
+    const day = new Date(`${date}T00:00:00Z`);
+    day.setUTCDate(day.getUTCDate() + days);
+    return day.toISOString().slice(0, 10);
+  };
+  return { from: offset(-7), through: offset(7) };
+}
+
 /**
  * The recipe line an item belongs to: the one whose ingredient, or one of
  * whose listed swaps, has this name. Null when no line or more than one

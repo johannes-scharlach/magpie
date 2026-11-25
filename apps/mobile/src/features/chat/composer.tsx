@@ -7,6 +7,7 @@ import {
   View,
   type TextInputInstance,
 } from "react-native";
+import { useReanimatedKeyboardAnimation } from "react-native-keyboard-controller";
 import Animated, {
   Easing,
   FadeIn,
@@ -27,6 +28,7 @@ import Animated, {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useResolveClassNames } from "uniwind";
 
+import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
 import { cn } from "@/lib/utils";
 
@@ -175,6 +177,8 @@ export function Composer({
   emptyAction,
   collapsedAction,
   preferCollapsed = false,
+  draft,
+  addAction,
 }: {
   placeholder: string;
   busy: boolean;
@@ -186,10 +190,30 @@ export function Composer({
   collapsedAction?: ReactNode;
   /** A suggestion only: focus or starting a draft keeps the field expanded. */
   preferCollapsed?: boolean;
+  draft?: { text: string; setText: (text: string) => void };
+  addAction?: {
+    label: string;
+    submitLabel: string;
+    onAdd: (text: string) => void;
+    selection?: ReactNode;
+    heading: ReactNode;
+    results: ReactNode;
+  };
 }) {
   const insets = useSafeAreaInsets();
+  const keyboard = useReanimatedKeyboardAnimation();
+  const bottomPadding = floating
+    ? insets.bottom + 12
+    : Math.max(insets.bottom, 8);
+  const pickerMode = !!addAction;
+  const bottomStyle = useAnimatedStyle(() => ({
+    paddingBottom: pickerMode
+      ? interpolate(keyboard.progress.get(), [0, 1], [bottomPadding, 8])
+      : bottomPadding,
+  }));
   const inputRef = useRef<TextInputInstance>(null);
-  const [text, setText] = useState("");
+  const [localText, setLocalText] = useState("");
+  const { text, setText } = draft ?? { text: localText, setText: setLocalText };
   const [focused, setFocused] = useState(false);
   const [attachments, setAttachments] = useState<ImageAttachment[]>([]);
   const [attachmentError, setAttachmentError] = useState<string | null>(null);
@@ -206,9 +230,13 @@ export function Composer({
     focused,
     hasEmptyAction: !!emptyAction,
     recording: voiceOn,
+    hasAdditionalContent: !!addAction?.selection,
+    hasAddAction: !!addAction,
   });
   const showEmptyAction = trailing === "emptyAction";
-  const canSend = trailing === "send" && !busy;
+  const submitLabel =
+    trailing === "send" && !voiceOn ? addAction?.submitLabel : undefined;
+  const canSubmit = (trailing === "add" || trailing === "send") && !busy;
   const collapsed =
     preferCollapsed &&
     !!collapsedAction &&
@@ -329,7 +357,13 @@ export function Composer({
 
   function submit() {
     const trimmed = text.trim();
-    if ((!trimmed && !attachments.length) || busy) return;
+    if (busy || (!trimmed && !attachments.length && !addAction?.selection))
+      return;
+    if (addAction && trimmed) {
+      addAction.onAdd(trimmed);
+      setText("");
+      return;
+    }
     setText("");
     setAttachments([]);
     setAttachmentError(null);
@@ -381,14 +415,36 @@ export function Composer({
     }
   }
 
+  const attachmentContent = (
+    <>
+      {attachments.length ? (
+        <View className="px-2 pt-2">
+          <ImageAttachmentStrip
+            attachments={attachments}
+            onRemove={(index) =>
+              setAttachments((current) => current.filter((_, i) => i !== index))
+            }
+          />
+        </View>
+      ) : null}
+      {attachmentError ? (
+        <Text className="px-4 pt-2 text-destructive" accessibilityRole="alert">
+          {attachmentError}
+        </Text>
+      ) : null}
+    </>
+  );
+
   return (
-    <View
-      className={floating ? "" : "border-t border-border/40 bg-background"}
-      style={{
-        paddingBottom: floating
-          ? insets.bottom + 12
-          : Math.max(insets.bottom, 8),
-      }}
+    <Animated.View
+      className={
+        pickerMode
+          ? "flex-1"
+          : floating
+            ? ""
+            : "border-t border-border/40 bg-background"
+      }
+      style={bottomStyle}
     >
       {suggestions.length && !busy && !voiceOn ? (
         <ScrollView
@@ -410,21 +466,8 @@ export function Composer({
           ))}
         </ScrollView>
       ) : null}
-      {attachments.length ? (
-        <View className="px-2 pt-2">
-          <ImageAttachmentStrip
-            attachments={attachments}
-            onRemove={(index) =>
-              setAttachments((current) => current.filter((_, i) => i !== index))
-            }
-          />
-        </View>
-      ) : null}
-      {attachmentError ? (
-        <Text className="px-4 pt-2 text-destructive" accessibilityRole="alert">
-          {attachmentError}
-        </Text>
-      ) : null}
+      {!pickerMode ? attachmentContent : null}
+      {addAction?.heading}
       {/* Both layouts stay mounted. Hiding the field must never discard its
           text, selection, attachments, or an image picker still in flight.
           Only the active row takes space or participates in accessibility. */}
@@ -495,7 +538,12 @@ export function Composer({
         >
           {/* No swap animation when the composer first appears. */}
           <LayoutAnimationConfig skipEntering>
-            <View className="flex-row items-end gap-2 px-4 pt-2">
+            <View
+              className={cn(
+                "flex-row items-end gap-2 px-4 pt-2",
+                pickerMode && "pb-2",
+              )}
+            >
               <Animated.View
                 layout={reduced || collapsed ? undefined : FIELD_LAYOUT}
                 className={cn(
@@ -518,6 +566,17 @@ export function Composer({
                         size={22}
                       />
                     </Pressable>
+                  ) : pickerMode ? (
+                    <View
+                      className="size-12 items-center justify-center"
+                      accessible={false}
+                    >
+                      <SymbolView
+                        name={{ ios: "magnifyingglass", android: "search" }}
+                        tintColor={placeholderColor}
+                        size={20}
+                      />
+                    </View>
                   ) : (
                     <ImageAttachmentMenu
                       onSelect={(source) => void addAttachments(source)}
@@ -568,10 +627,15 @@ export function Composer({
                       onFocus={() => setFocused(true)}
                       onBlur={() => setFocused(false)}
                       placeholder={placeholder}
+                      accessibilityLabel={pickerMode ? placeholder : undefined}
                       placeholderTextColor={placeholderColor}
+                      autoCorrect={pickerMode ? false : undefined}
+                      spellCheck={pickerMode ? false : undefined}
                       multiline
-                      returnKeyType="send"
-                      submitBehavior="blurAndSubmit"
+                      returnKeyType={trailing === "add" ? "done" : "send"}
+                      submitBehavior={
+                        trailing === "add" ? "submit" : "blurAndSubmit"
+                      }
                       onSubmitEditing={submit}
                       style={{
                         includeFontPadding: false,
@@ -582,7 +646,7 @@ export function Composer({
                   )}
                   {/* Send (or the mic while there is nothing to send) sits
                       inside the field; emptyAction replaces it outside while idle. */}
-                  {showEmptyAction ? null : (
+                  {showEmptyAction || submitLabel ? null : (
                     <Animated.View entering={swapIn} exiting={swapOut}>
                       <Pressable
                         onPress={() =>
@@ -592,24 +656,35 @@ export function Composer({
                               ? sendVoice()
                               : submit())
                         }
-                        disabled={trailing === "mic" ? busy : !canSend}
+                        disabled={trailing === "mic" ? busy : !canSubmit}
                         accessibilityLabel={
-                          trailing === "mic" ? "Record voice message" : "Send"
+                          trailing === "mic"
+                            ? "Record voice message"
+                            : trailing === "add"
+                              ? addAction?.label
+                              : "Send"
                         }
                         accessibilityRole="button"
                         hitSlop={{ right: 4 }}
                         className="h-12 w-10 items-center justify-center active:opacity-60"
                         style={
-                          (trailing === "mic" ? busy : !canSend)
+                          (trailing === "mic" ? busy : !canSubmit)
                             ? { opacity: 0.35 }
                             : undefined
                         }
                       >
                         <Animated.View style={sendIconStyle}>
                           <SymbolView
-                            name={SEND_ICON}
+                            name={
+                              trailing === "add"
+                                ? {
+                                    ios: "plus.circle.fill",
+                                    android: "add_circle",
+                                  }
+                                : SEND_ICON
+                            }
                             tintColor={
-                              canSend ? primaryColor : placeholderColor
+                              canSubmit ? primaryColor : placeholderColor
                             }
                             size={26}
                           />
@@ -629,6 +704,14 @@ export function Composer({
                   )}
                 </Animated.View>
               </Animated.View>
+              {pickerMode && !voiceOn ? (
+                <View className="rounded-3xl bg-muted">
+                  <ImageAttachmentMenu
+                    onSelect={(source) => void addAttachments(source)}
+                    disabled={busy}
+                  />
+                </View>
+              ) : null}
               {showEmptyAction ? (
                 <Animated.View entering={swapIn} exiting={swapOut}>
                   <Animated.View style={expandedContentStyle}>
@@ -640,6 +723,28 @@ export function Composer({
           </LayoutAnimationConfig>
         </Animated.View>
       </View>
-    </View>
+      {addAction?.results}
+      {pickerMode ? attachmentContent : null}
+      {addAction?.selection ? (
+        <View className="border-t border-border/60 pt-1">
+          {addAction.selection}
+        </View>
+      ) : null}
+      {submitLabel ? (
+        <Button
+          size="lg"
+          className="mx-4 mt-2 h-auto min-h-11"
+          disabled={!canSubmit}
+          onPress={() => {
+            inputRef.current?.blur();
+            submit();
+          }}
+        >
+          <Text className="text-center font-rounded text-base font-bold">
+            {submitLabel}
+          </Text>
+        </Button>
+      ) : null}
+    </Animated.View>
   );
 }

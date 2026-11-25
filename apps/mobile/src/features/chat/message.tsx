@@ -1,6 +1,7 @@
 import { Image } from "expo-image";
 import { SymbolView } from "expo-symbols";
 import { useMemo, useRef, useState } from "react";
+import { useIntl } from "react-intl";
 import {
   Pressable,
   ScrollView,
@@ -15,6 +16,12 @@ import { Text } from "@/components/ui/text";
 import { cn } from "@/lib/utils";
 
 import { Markdown } from "./markdown";
+import {
+  formatOnHandIngredients,
+  formatOnHandTranscript,
+  onHandEntryFromParts,
+  type OnHandEntry,
+} from "./on-hand-transcript";
 import { MessageMenu } from "./message-menu";
 import { audioParts, imageParts } from "./image-attachment";
 import { VoiceMessage } from "./voice-message";
@@ -29,13 +36,50 @@ const CHEVRON_ICON = {
   web: "chevron_right",
 } as const;
 
-export function UserMessage({ parts }: { parts: Parts }) {
+export function UserMessage({
+  parts,
+  showSelection,
+  onEditSelection,
+}: {
+  parts: Parts;
+  showSelection?: boolean;
+  onEditSelection?: (entry: OnHandEntry) => void;
+}) {
   const { width: windowWidth } = useWindowDimensions();
-  const text = messageText(parts);
+  const intl = useIntl();
+  const entry = onHandEntryFromParts(parts);
+  const selection = showSelection && entry?.ingredients.length ? entry : null;
+  const text = selection
+    ? selection.note
+    : entry
+      ? formatOnHandTranscript(intl, entry)
+      : messageText(parts);
   const images = imageParts(parts);
   const recordings = audioParts(parts);
   return (
     <View className="mx-5 items-end gap-2">
+      {selection ? (
+        <View className="w-full flex-row items-center gap-3 border-b border-border/60 pb-2">
+          <Text className="flex-1 font-rounded text-base font-bold text-primary">
+            {formatOnHandIngredients(intl, selection.ingredients)}
+          </Text>
+          {onEditSelection ? (
+            <Pressable
+              className="min-h-11 justify-center px-1 active:opacity-60"
+              accessibilityRole="button"
+              onPress={() => onEditSelection(selection)}
+            >
+              <Text className="font-semibold text-primary">
+                {intl.formatMessage({
+                  defaultMessage: "Edit",
+                  description:
+                    "Opens the ingredient picker with the current meal idea ingredients selected.",
+                })}
+              </Text>
+            </Pressable>
+          ) : null}
+        </View>
+      ) : null}
       {recordings.map((recording) => (
         <VoiceMessage key={recording.url} url={recording.url} />
       ))}

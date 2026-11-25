@@ -27,11 +27,37 @@ export function itemId(listId: string, name: string): string {
   return magpieUuidV5(`${listId}:${itemNameKey(name)}`);
 }
 
-/**
- * Add an item, or bring it back if it is sitting in the recent strip.
- * Idempotent by construction: same list plus same name is the same row.
- */
-export async function addItem(listId: string, name: string, spec?: string) {
+type StandaloneItem = Pick<
+  ListItem,
+  | "id"
+  | "name"
+  | "name_key"
+  | "spec"
+  | "status"
+  | "category_id"
+  | "purchase_count"
+  | "updated_at"
+>;
+type ItemAdd = {
+  id: string;
+  name: string;
+  spec: string | null;
+  categoryId: string | null;
+  undo: ItemAddUndo | null;
+};
+export type ItemAddUndo = {
+  id: string;
+  name: string;
+  spec: string | null;
+  previous: StandaloneItem | null;
+};
+
+/** Add a standalone item or reactivate its existing history in one write. */
+export async function addItem(
+  listId: string,
+  name: string,
+  spec?: string,
+): Promise<ItemAdd | undefined> {
   const trimmed = name.trim();
   if (!trimmed) return;
 
@@ -39,63 +65,38 @@ export async function addItem(listId: string, name: string, spec?: string) {
   const nameKey = itemNameKey(trimmed);
   const now = new Date().toISOString();
 
-  // PowerSync's local tables are views over ps_data__*, and SQLite has no
-  // UPSERT on a view — so the read and the branch happen here instead, in
-  // one write transaction to keep it atomic.
+  // PowerSync's local tables are views, so SQLite cannot UPSERT here.
+  // Prefer the deterministic id, but reuse older rows with the same name.
   return powersync.writeTransaction(async (tx) => {
-    const existing = await tx.getOptional<{
-      id: string;
-      spec: string | null;
-      category_id: string | null;
-    }>(`SELECT id, spec, category_id FROM list_items WHERE id = ?`, [id]);
-
-    if (existing) {
-      await tx.execute(
-        `UPDATE list_items
-            SET status     = 'active',
-                name       = ?,
-                spec       = COALESCE(?, spec),
-                updated_at = ?
-          WHERE id = ?`,
-        [trimmed, spec ?? null, now, id],
-      );
-      return {
-        id,
-        name: trimmed,
-        spec: spec ?? existing.spec,
-        categoryId: existing.category_id,
-      };
-    }
-
-    // Seeded or legacy rows may have a random id while still sharing the same
-    // (list_id, name_key). Updating them keeps the local device consistent
-    // and avoids the server-side partial unique violation.
-    const legacy = await tx.getOptional<{
-      id: string;
-      spec: string | null;
-      category_id: string | null;
-    }>(
-      `SELECT id, spec, category_id FROM list_items
-        WHERE list_id = ? AND name_key = ? AND planned_meal_id IS NULL
-        LIMIT 1`,
-      [listId, nameKey],
+    const existing = await tx.getOptional<StandaloneItem>(
+      `SELECT id, name, name_key, spec, status, category_id, purchase_count, updated_at
+       FROM list_items
+       WHERE list_id = ? AND (id = ? OR (name_key = ? AND planned_meal_id IS NULL))
+       ORDER BY id = ? DESC LIMIT 1`,
+      [listId, id, nameKey, id],
     );
-
-    if (legacy) {
+    if (existing) {
+      const nextSpec = spec ?? existing.spec;
       await tx.execute(
         `UPDATE list_items
-            SET status     = 'active',
-                name       = ?,
-                spec       = COALESCE(?, spec),
-                updated_at = ?
+            SET status = 'active', name = ?, spec = ?, updated_at = ?
           WHERE id = ?`,
-        [trimmed, spec ?? null, now, legacy.id],
+        [trimmed, nextSpec, now, existing.id],
       );
       return {
-        id: legacy.id,
+        id: existing.id,
         name: trimmed,
-        spec: spec ?? legacy.spec,
-        categoryId: legacy.category_id,
+        spec: nextSpec,
+        categoryId: existing.category_id,
+        undo:
+          existing.status === "active"
+            ? null
+            : {
+                id: existing.id,
+                name: trimmed,
+                spec: nextSpec,
+                previous: existing,
+              },
       };
     }
 
@@ -105,7 +106,51 @@ export async function addItem(listId: string, name: string, spec?: string) {
        VALUES (?, ?, ?, ?, NULL, ?, 'active', 0, ?, ?)`,
       [id, listId, trimmed, nameKey, spec ?? null, now, now],
     );
-    return { id, name: trimmed, spec: spec ?? null, categoryId: null };
+    return {
+      id,
+      name: trimmed,
+      spec: spec ?? null,
+      categoryId: null,
+      undo: { id, name: trimmed, spec: spec ?? null, previous: null },
+    };
+  });
+}
+
+/** Undo this sheet's addition without checking it off or discarding past purchases. */
+export async function undoItemAdd({ id, name, spec, previous }: ItemAddUndo) {
+  return powersync.writeTransaction(async (tx) => {
+    const item = await tx.getOptional<StandaloneItem>(
+      `SELECT id, name, name_key, spec, status, category_id, purchase_count, updated_at
+       FROM list_items WHERE id = ? AND planned_meal_id IS NULL`,
+      [id],
+    );
+    if (!item || item.status !== "active") return;
+    // Server sync can rewrite updated_at. Compare the shopping data itself.
+    if (
+      item.name !== name ||
+      item.spec !== spec ||
+      item.purchase_count !== (previous ? previous.purchase_count : 0) ||
+      item.category_id !== (previous?.category_id ?? null)
+    )
+      throw new Error("The shopping item changed after it was added.");
+
+    if (previous) {
+      await tx.execute(
+        `UPDATE list_items
+            SET status = ?, name = ?, name_key = ?, spec = ?, updated_at = ?
+          WHERE id = ?`,
+        [
+          previous.status,
+          previous.name,
+          previous.name_key,
+          previous.spec,
+          previous.updated_at,
+          id,
+        ],
+      );
+    } else {
+      await tx.execute("DELETE FROM list_items WHERE id = ?", [id]);
+    }
   });
 }
 

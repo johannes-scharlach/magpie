@@ -1,6 +1,7 @@
 import { Stack } from "expo-router";
 import { type ReactNode, useEffect } from "react";
 import { Alert, Platform } from "react-native";
+import { useIntl } from "react-intl";
 import { roundedHeader } from "@/components/clay";
 import {
   InvitationProvider,
@@ -21,6 +22,7 @@ export function AppStack({ children }: { children: ReactNode }) {
 }
 
 function InvitationStack({ children }: { children: ReactNode }) {
+  const intl = useIntl();
   const access = useHouseholdAccess();
   const invitation = useInvitation();
   const { draft, ready, clear, isPreparing } = useOnboarding();
@@ -85,6 +87,41 @@ function InvitationStack({ children }: { children: ReactNode }) {
           />
         </Stack.Protected>
         <Stack.Protected guard={showApp && !invitation.code}>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="shop/add"
+            options={{
+              presentation: "pageSheet",
+              headerShown: true,
+              headerBackVisible: Platform.OS !== "ios",
+              title: intl.formatMessage({
+                defaultMessage: "Add items",
+                description:
+                  "Title of the sheet where the cook types shopping items one after another.",
+              }),
+              contentStyle:
+                Platform.OS === "ios"
+                  ? { backgroundColor: "transparent" }
+                  : undefined,
+            }}
+          />
+          <Stack.Screen
+            name="shop/item"
+            options={{
+              presentation: "formSheet",
+              sheetAllowedDetents: "fitToContents",
+              sheetGrabberVisible: true,
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="chats/[id]"
+            options={{
+              presentation: "card",
+              // The linked-recipe banner sits outside the transcript.
+              headerTransparent: false,
+            }}
+          />
           {children}
         </Stack.Protected>
         <Stack.Protected guard={!showApp && !invitation.code}>

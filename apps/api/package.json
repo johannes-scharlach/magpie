@@ -11,7 +11,8 @@
     "test": "tsx --env-file-if-exists=.env --test src/*.test.ts",
     "lint": "eslint .",
     "retag": "tsx --env-file-if-exists=.env src/retag-recipes.ts",
-    "art:backfill": "tsx --env-file-if-exists=.env src/backfill-recipe-art.ts"
+    "art:backfill": "tsx --env-file-if-exists=.env src/backfill-recipe-art.ts",
+    "ingredient-art:backfill": "tsx --env-file-if-exists=.env src/backfill-ingredient-art.ts"
   },
   "dependencies": {
     "@ai-sdk/google": "^4.0.113",
@@ -33,12 +34,14 @@
     "zod": "^4.6.7"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "^0.6.0",
     "@eslint/js": "^9.39.5",
     "@types/node": "^26.2.0",
     "@types/pg": "^8.23.1",
     "@types/uuid": "^11.0.0",
     "esbuild": "^0.28.2",
     "eslint": "^9.39.5",
+    "sharp": "^0.35.5",
     "tsx": "^4.23.12",
     "typescript": "~6.0.3",
     "typescript-eslint": "^8.67.0"

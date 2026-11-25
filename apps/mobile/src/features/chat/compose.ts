@@ -54,6 +54,29 @@ export function slotEntryMessage(target: MealTarget, text: string): string {
   return `Help me decide what to make for ${target.slot} on ${target.date}.${text ? `\n${text}` : ""}`;
 }
 
+export function onHandSlotMessage(
+  target: MealTarget,
+  selected: readonly string[],
+  note: string,
+  revised = false,
+): string {
+  const ingredients = selected.length
+    ? `Use these ingredients in the meal: ${selected.join(", ")}.`
+    : "";
+  return slotEntryMessage(
+    target,
+    [
+      revised
+        ? "Give me new meal ideas based on this selection. It replaces my earlier ingredient choices."
+        : "",
+      ingredients,
+      note.trim(),
+    ]
+      .filter(Boolean)
+      .join("\n"),
+  );
+}
+
 /** The first persisted user message carries the slot even when opened from history. */
 export function slotFromEntryMessage(text: string): MealTarget | null {
   const match =

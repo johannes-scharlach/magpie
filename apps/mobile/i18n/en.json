@@ -3,10 +3,28 @@
     "col": 39,
     "defaultMessage": "Hide dinner choices",
     "description": "Accessibility label for the control that closes the dinner meal chooser. Does not change the planned meal.",
-    "end": 2515,
+    "end": 2538,
     "file": "src/features/meals/labels.ts",
-    "line": 59,
-    "start": 1923
+    "line": 65,
+    "start": 1946
+  },
+  "+/TLY1": {
+    "col": 62,
+    "defaultMessage": "Buttermilk",
+    "description": "Ingredient label for buttermilk.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "+/pl0R": {
+    "col": 62,
+    "defaultMessage": "Toasted sesame seeds",
+    "description": "Ingredient label for toasted, not raw, sesame seeds.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
   },
   "+TPLLR": {
     "col": 21,
@@ -17,32 +35,86 @@
     "line": 388,
     "start": 14079
   },
+  "+YaaW0": {
+    "col": 62,
+    "defaultMessage": "Cayenne",
+    "description": "Ingredient label for ground cayenne pepper.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "+fSCny": {
+    "col": 23,
+    "defaultMessage": "Help me decide what to make for lunch on {date}.",
+    "description": "First user bubble in the on-hand chat for lunch. {date} is a formatted calendar date.",
+    "end": 1787,
+    "file": "src/features/chat/on-hand-transcript.ts",
+    "line": 35,
+    "start": 1015
+  },
+  "+hCyqG": {
+    "col": 62,
+    "defaultMessage": "Pasta",
+    "description": "Default ingredient tile for pasta in the use-what-I-have picker.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
   "/Fo2I2": {
     "col": 17,
     "defaultMessage": "Done",
     "description": "Action that closes the shopping item entry sheet, keeping what was added.",
-    "end": 7472,
+    "end": 12947,
     "file": "src/app/shop/add.tsx",
-    "line": 222,
-    "start": 7263
+    "line": 391,
+    "start": 12738
+  },
+  "/JrTfa": {
+    "col": 62,
+    "defaultMessage": "Egg noodles",
+    "description": "Ingredient label for noodles made with egg.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "/MIOpc": {
+    "col": 22,
+    "defaultMessage": "See fewer",
+    "description": "Collapses the illustrated suggestions to a single row in the meal ingredient picker.",
+    "end": 6279,
+    "file": "src/features/chat/on-hand-picker.tsx",
+    "line": 171,
+    "start": 6030
   },
   "/woc5o": {
     "col": 17,
     "defaultMessage": "From cookbook",
     "description": "Title of the sheet that picks an existing cookbook recipe for a meal slot.",
-    "end": 9743,
+    "end": 9673,
     "file": "src/app/_layout.tsx",
-    "line": 290,
-    "start": 9548
+    "line": 289,
+    "start": 9478
   },
   "07x9wI": {
     "col": 43,
     "defaultMessage": "Select {recipe} for a treat",
     "description": "Accessibility label for a recommended dish that will fill the treat slot. {recipe} is the recipe's display name. Selecting it plans the recipe as a treat.",
-    "end": 3486,
+    "end": 3509,
     "file": "src/features/meals/labels.ts",
-    "line": 78,
-    "start": 2632
+    "line": 84,
+    "start": 2655
+  },
+  "0LCXVE": {
+    "col": 62,
+    "defaultMessage": "Milk",
+    "description": "Ingredient label for milk.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
   },
   "0cWlcT": {
     "col": 15,
@@ -57,10 +129,10 @@
     "col": 20,
     "defaultMessage": "What would you like to make?",
     "description": "First message prompt for a meal chat based on a dish the user has in mind.",
-    "end": 25433,
+    "end": 28209,
     "file": "src/app/chats/[id].tsx",
-    "line": 721,
-    "start": 25183
+    "line": 786,
+    "start": 27959
   },
   "1+QXgM": {
     "col": 13,
@@ -70,6 +142,15 @@
     "file": "src/app/variant/plan.tsx",
     "line": 193,
     "start": 7084
+  },
+  "1RMvr9": {
+    "col": 27,
+    "defaultMessage": "Add ingredient",
+    "description": "Adds the typed ingredient to the meal request without sending it.",
+    "end": 28753,
+    "file": "src/app/chats/[id].tsx",
+    "line": 801,
+    "start": 28526
   },
   "1TrkHP": {
     "col": 12,
@@ -93,28 +174,28 @@
     "col": 23,
     "defaultMessage": "{count} checked",
     "description": "How many shopping items were already checked off, after the count still to buy.",
-    "end": 5154,
+    "end": 4893,
     "file": "src/app/(tabs)/shop/index.tsx",
-    "line": 131,
-    "start": 4943
+    "line": 111,
+    "start": 4682
   },
   "1q9iJM": {
     "col": 30,
     "defaultMessage": "Add item",
     "description": "Accessibility label for the Shop toolbar button that opens the item entry sheet.",
-    "end": 4164,
+    "end": 3903,
     "file": "src/app/(tabs)/shop/index.tsx",
-    "line": 101,
-    "start": 3968
+    "line": 81,
+    "start": 3707
   },
-  "30YoVC": {
-    "col": 6,
-    "defaultMessage": "Changed to {name}",
-    "description": "Screen-reader announcement after a shopping item switched to another ingredient option. {name} is the option now shown.",
-    "end": 11696,
-    "file": "src/app/(tabs)/shop/index.tsx",
-    "line": 321,
-    "start": 11407
+  "2H3Nev": {
+    "col": 27,
+    "defaultMessage": "Add {name}",
+    "description": "Accessibility label for a suggested item that can be added to the shopping list. {name} is the item's name.",
+    "end": 2594,
+    "file": "src/app/shop/add.tsx",
+    "line": 66,
+    "start": 2081
   },
   "3CJl1Z": {
     "col": 21,
@@ -134,15 +215,6 @@
     "line": 40,
     "start": 1343
   },
-  "3MDr/G": {
-    "col": 11,
-    "defaultMessage": "On list",
-    "description": "Status on a search result that is already on the shopping list.",
-    "end": 16290,
-    "file": "src/app/shop/add.tsx",
-    "line": 459,
-    "start": 16112
-  },
   "3MwfD7": {
     "col": 38,
     "defaultMessage": "Household and account",
@@ -152,14 +224,50 @@
     "line": 436,
     "start": 14423
   },
+  "3UhufF": {
+    "col": 62,
+    "defaultMessage": "Honey",
+    "description": "Ingredient label for honey.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "3Vm4wl": {
+    "col": 62,
+    "defaultMessage": "Basmati rice",
+    "description": "Ingredient label for basmati rice, not generic rice.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "3hJUI7": {
+    "col": 62,
+    "defaultMessage": "Apple cider vinegar",
+    "description": "Ingredient label for apple cider vinegar.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
   "3j+H9P": {
     "col": 30,
     "defaultMessage": "Name",
     "description": "Accessibility label for the field holding a shopping item's name.",
-    "end": 18410,
+    "end": 18435,
     "file": "src/app/shop/item.tsx",
     "line": 543,
-    "start": 18233
+    "start": 18258
+  },
+  "3qHK+E": {
+    "col": 62,
+    "defaultMessage": "Sesame oil",
+    "description": "Ingredient label for sesame oil.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
   },
   "3qVWYG": {
     "col": 23,
@@ -170,23 +278,41 @@
     "line": 103,
     "start": 3118
   },
+  "4IdVo9": {
+    "col": 62,
+    "defaultMessage": "Saffron",
+    "description": "Ingredient label for saffron.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
   "4ZRn62": {
-    "col": 37,
+    "col": 33,
     "defaultMessage": "Add details",
     "description": "Placeholder in the note field of an item just added to the list. The note is free text, such as a size or brand.",
-    "end": 11461,
+    "end": 15052,
     "file": "src/app/shop/add.tsx",
-    "line": 320,
-    "start": 11174
+    "line": 442,
+    "start": 14781
   },
   "4eyER+": {
-    "col": 17,
+    "col": 21,
     "defaultMessage": "Add items",
     "description": "Title of the sheet where the cook types shopping items one after another.",
-    "end": 11144,
-    "file": "src/app/_layout.tsx",
-    "line": 337,
-    "start": 10954
+    "end": 3340,
+    "file": "src/features/onboarding/app-stack.tsx",
+    "line": 97,
+    "start": 3134
+  },
+  "4mRMWi": {
+    "col": 62,
+    "defaultMessage": "Juniper berries",
+    "description": "Ingredient label for juniper berries.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
   },
   "5+uWTl": {
     "col": 11,
@@ -224,14 +350,41 @@
     "line": 5,
     "start": 232
   },
+  "5CIPRC": {
+    "col": 62,
+    "defaultMessage": "Rose water",
+    "description": "Ingredient label for culinary rose water.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "5Fo3Gs": {
+    "col": 62,
+    "defaultMessage": "Spices & herbs",
+    "description": "Ingredient label for the household's general stock of seasonings.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
   "5NKar0": {
     "col": 17,
     "defaultMessage": "Shop for meals",
     "description": "Title of the screen that lists upcoming meals and their shopping decisions.",
-    "end": 9333,
+    "end": 9263,
     "file": "src/app/_layout.tsx",
-    "line": 277,
-    "start": 9136
+    "line": 276,
+    "start": 9066
+  },
+  "5cSDJb": {
+    "col": 62,
+    "defaultMessage": "Sherry vinegar",
+    "description": "Ingredient label for sherry vinegar.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
   },
   "5dil2Q": {
     "col": 31,
@@ -241,6 +394,15 @@
     "file": "src/features/cookbook/recipe-browser.tsx",
     "line": 238,
     "start": 8947
+  },
+  "5s1Uy+": {
+    "col": 62,
+    "defaultMessage": "Dried red chillies",
+    "description": "Ingredient label for dried red chillies.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
   },
   "695Ha/": {
     "col": 21,
@@ -264,10 +426,28 @@
     "col": 18,
     "defaultMessage": "Nothing to buy yet. Open Meals to choose what to buy, or add an item.",
     "description": "Empty Shop state when planned meals still need a shopping choice. Names two ways to get items on the list.",
-    "end": 14176,
+    "end": 10067,
     "file": "src/app/(tabs)/shop/index.tsx",
-    "line": 391,
-    "start": 13839
+    "line": 262,
+    "start": 9730
+  },
+  "6kj6Yf": {
+    "col": 62,
+    "defaultMessage": "Sichuan peppercorns",
+    "description": "Ingredient label for Sichuan peppercorns, not black pepper.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "6z+I5B": {
+    "col": 62,
+    "defaultMessage": "Broccoli",
+    "description": "Ingredient label for broccoli.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
   },
   "77C3do": {
     "col": 21,
@@ -282,10 +462,10 @@
     "col": 22,
     "defaultMessage": "Add an item",
     "description": "Placeholder in the entry field where the cook types what to buy.",
-    "end": 1546,
+    "end": 2051,
     "file": "src/app/shop/add.tsx",
-    "line": 40,
-    "start": 1201
+    "line": 53,
+    "start": 1706
   },
   "7NwgcX": {
     "col": 13,
@@ -295,6 +475,24 @@
     "file": "src/features/meals/import-job-status.tsx",
     "line": 90,
     "start": 3135
+  },
+  "7jls0t": {
+    "col": 62,
+    "defaultMessage": "Allspice",
+    "description": "Ingredient label for the single spice also called pimento, not a spice blend.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "8QJH4w": {
+    "col": 62,
+    "defaultMessage": "Bacon",
+    "description": "Ingredient label for bacon.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
   },
   "8b+Yoq": {
     "col": 14,
@@ -309,10 +507,10 @@
     "col": 28,
     "defaultMessage": "Dinner",
     "description": "Meal slot label for the evening meal.",
-    "end": 571,
+    "end": 594,
     "file": "src/features/meals/labels.ts",
-    "line": 6,
-    "start": 242
+    "line": 12,
+    "start": 265
   },
   "96/RrW": {
     "col": 36,
@@ -336,10 +534,19 @@
     "col": 34,
     "defaultMessage": "Select lunch",
     "description": "Action row that opens the meal chooser for lunch, and the heading shown while it is open. Does not plan a meal yet.",
-    "end": 1818,
+    "end": 1841,
     "file": "src/features/meals/labels.ts",
-    "line": 40,
-    "start": 1210
+    "line": 46,
+    "start": 1233
+  },
+  "A1qmAy": {
+    "col": 62,
+    "defaultMessage": "Canned sweetcorn",
+    "description": "Ingredient label for sweet corn kernels from a tin or can.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
   },
   "ARoqs5": {
     "col": 36,
@@ -354,10 +561,28 @@
     "col": 30,
     "defaultMessage": "{count, plural, one {1 meal to review} other {# meals to review}}",
     "description": "Accessibility label for the Shop toolbar button that opens the meals needing a shopping decision. {count} is how many meals.",
-    "end": 3241,
+    "end": 2980,
     "file": "src/app/(tabs)/shop/index.tsx",
-    "line": 74,
-    "start": 2857
+    "line": 54,
+    "start": 2596
+  },
+  "ASxQxO": {
+    "col": 62,
+    "defaultMessage": "Cabbage",
+    "description": "Ingredient label for a head of cabbage, not kale or Napa cabbage.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "AoKrPI": {
+    "col": 62,
+    "defaultMessage": "Jasmine rice",
+    "description": "Ingredient label for jasmine rice, not generic rice.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
   },
   "ApC4Uy": {
     "col": 25,
@@ -381,10 +606,10 @@
     "col": 25,
     "defaultMessage": "Check off {name}",
     "description": "Accessibility label for the checkbox of a shopping item. Selecting it marks the item as bought. {name} is the item's name.",
-    "end": 1824,
-    "file": "src/features/shop/shop-item-row.tsx",
-    "line": 33,
-    "start": 1269
+    "end": 1332,
+    "file": "src/features/shop/shop-item-tile.tsx",
+    "line": 20,
+    "start": 777
   },
   "B8Psge": {
     "col": 8,
@@ -399,28 +624,19 @@
     "col": 28,
     "defaultMessage": "Treat",
     "description": "Meal slot label for a snack or treat.",
-    "end": 571,
+    "end": 594,
     "file": "src/features/meals/labels.ts",
-    "line": 6,
-    "start": 242
+    "line": 12,
+    "start": 265
   },
   "BUvsPI": {
     "col": 27,
     "defaultMessage": "Tomorrow",
     "description": "Label for the day after today in a planned meal's heading, such as “Tomorrow · Dinner”.",
-    "end": 3981,
+    "end": 4004,
     "file": "src/features/meals/labels.ts",
-    "line": 100,
-    "start": 3516
-  },
-  "BuLRku": {
-    "col": 12,
-    "defaultMessage": "Couldn’t swap item",
-    "description": "Alert title when swapping a shopping item for another option failed.",
-    "end": 10806,
-    "file": "src/app/(tabs)/shop/index.tsx",
-    "line": 299,
-    "start": 10604
+    "line": 106,
+    "start": 3539
   },
   "CLXnlV": {
     "col": 38,
@@ -431,6 +647,15 @@
     "line": 259,
     "start": 9674
   },
+  "CSe0ZZ": {
+    "col": 62,
+    "defaultMessage": "Preserved lemons",
+    "description": "Ingredient label for salt-preserved lemons, not fresh lemons.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
   "CpnFSJ": {
     "col": 21,
     "defaultMessage": "Browse cookbook",
@@ -440,14 +665,14 @@
     "line": 483,
     "start": 18260
   },
-  "Dkp9Si": {
-    "col": 20,
-    "defaultMessage": "Add {name}",
-    "description": "Accessibility label for a previously bought item that can be added to the list again. {name} is the item's name.",
-    "end": 2104,
-    "file": "src/app/shop/add.tsx",
-    "line": 53,
-    "start": 1569
+  "DXtaav": {
+    "col": 62,
+    "defaultMessage": "Red lentils",
+    "description": "Ingredient label for red lentils.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
   },
   "DrcycS": {
     "col": 11,
@@ -467,6 +692,33 @@
     "line": 203,
     "start": 6819
   },
+  "E1XLxG": {
+    "col": 62,
+    "defaultMessage": "Dried shiitake",
+    "description": "Ingredient label for dried shiitake mushrooms.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "E7bsvX": {
+    "col": 62,
+    "defaultMessage": "Buckwheat",
+    "description": "Ingredient label for buckwheat.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "Eo0PBs": {
+    "col": 62,
+    "defaultMessage": "Stock & broth",
+    "description": "Ingredient label for cooking stock or broth.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
   "EoBhsI": {
     "col": 19,
     "defaultMessage": "Write in a meal",
@@ -484,6 +736,33 @@
     "file": "src/app/cookbook/review.tsx",
     "line": 87,
     "start": 3027
+  },
+  "Exrxnw": {
+    "col": 62,
+    "defaultMessage": "Balsamic vinegar",
+    "description": "Ingredient label for balsamic vinegar.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "F+jWGP": {
+    "col": 62,
+    "defaultMessage": "Beetroot",
+    "description": "Ingredient label for beetroot.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "F5dNDH": {
+    "col": 62,
+    "defaultMessage": "Oyster sauce",
+    "description": "Ingredient label for oyster sauce.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
   },
   "FABYcO": {
     "col": 25,
@@ -507,10 +786,10 @@
     "col": 11,
     "defaultMessage": "Add",
     "description": "Title of the Shop toolbar button that opens the item entry sheet.",
-    "end": 4480,
+    "end": 4219,
     "file": "src/app/(tabs)/shop/index.tsx",
-    "line": 110,
-    "start": 4304
+    "line": 90,
+    "start": 4043
   },
   "Frra3A": {
     "col": 25,
@@ -530,14 +809,41 @@
     "line": 133,
     "start": 4250
   },
+  "GFHv6h": {
+    "col": 62,
+    "defaultMessage": "Kalamata olives",
+    "description": "Ingredient label for Kalamata olives.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "GOZ0II": {
+    "col": 62,
+    "defaultMessage": "Paella rice",
+    "description": "Ingredient label for rice intended for paella.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "GPpmuY": {
+    "col": 62,
+    "defaultMessage": "Cardamom",
+    "description": "Ingredient label for cardamom.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
   "GXiSPF": {
     "col": 20,
     "defaultMessage": "{count, plural, one {1 to buy} other {# to buy}}",
     "description": "Summary above the shopping list. {count} is how many items are still to buy.",
-    "end": 4884,
+    "end": 4623,
     "file": "src/app/(tabs)/shop/index.tsx",
-    "line": 122,
-    "start": 4645
+    "line": 102,
+    "start": 4384
   },
   "Gfm4qD": {
     "col": 21,
@@ -566,6 +872,33 @@
     "line": 159,
     "start": 5239
   },
+  "HkN0Rx": {
+    "col": 62,
+    "defaultMessage": "Chinese cabbage",
+    "description": "Ingredient label for Napa cabbage, distinct from a regular head of cabbage.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "I/PQEx": {
+    "col": 62,
+    "defaultMessage": "Coconut milk",
+    "description": "Ingredient label for coconut milk.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "I8R/3P": {
+    "col": 62,
+    "defaultMessage": "Maple syrup",
+    "description": "Ingredient label for maple syrup.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
   "IAQgpf": {
     "col": 25,
     "defaultMessage": "Breakfast & hot drinks",
@@ -574,6 +907,24 @@
     "file": "src/features/shop/category-labels.ts",
     "line": 8,
     "start": 334
+  },
+  "IDMNhd": {
+    "col": 62,
+    "defaultMessage": "Frozen green beans",
+    "description": "Ingredient label for green beans kept in the freezer.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "INfXb3": {
+    "col": 62,
+    "defaultMessage": "Smoked paprika",
+    "description": "Ingredient label for smoked paprika powder.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
   },
   "IOXqGa": {
     "col": 25,
@@ -597,10 +948,19 @@
     "col": 30,
     "defaultMessage": "Note",
     "description": "Accessibility label for the free-text note field of a shopping item.",
-    "end": 19580,
+    "end": 19605,
     "file": "src/app/shop/item.tsx",
     "line": 574,
-    "start": 19400
+    "start": 19425
+  },
+  "IYre+r": {
+    "col": 62,
+    "defaultMessage": "Dried marjoram",
+    "description": "Ingredient label for dried marjoram.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
   },
   "IkTWes": {
     "col": 18,
@@ -611,6 +971,33 @@
     "line": 141,
     "start": 5104
   },
+  "JGA8YW": {
+    "col": 62,
+    "defaultMessage": "Soy sauce",
+    "description": "Ingredient label for soy sauce.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "JJsn5S": {
+    "col": 62,
+    "defaultMessage": "Limes",
+    "description": "Ingredient label for fresh limes.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "Jf3Q+U": {
+    "col": 62,
+    "defaultMessage": "Capers",
+    "description": "Ingredient label for capers.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
   "JjUC5I": {
     "col": 15,
     "defaultMessage": "Retry",
@@ -620,14 +1007,32 @@
     "line": 31,
     "start": 1018
   },
+  "JyczPr": {
+    "col": 62,
+    "defaultMessage": "Lemongrass",
+    "description": "Ingredient label for lemongrass.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
   "K4evxe": {
     "col": 34,
     "defaultMessage": "Select dinner",
     "description": "Action row that opens the meal chooser for dinner, and the heading shown while it is open. Does not plan a meal yet.",
-    "end": 1818,
+    "end": 1841,
     "file": "src/features/meals/labels.ts",
-    "line": 40,
-    "start": 1210
+    "line": 46,
+    "start": 1233
+  },
+  "K8dZji": {
+    "col": 62,
+    "defaultMessage": "Vinegar",
+    "description": "Ingredient label for vinegar of any kind.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
   },
   "KDuWv8": {
     "col": 18,
@@ -647,6 +1052,15 @@
     "line": 157,
     "start": 5800
   },
+  "Kw9IYj": {
+    "col": 62,
+    "defaultMessage": "Ceylon cinnamon",
+    "description": "Ingredient label for Ceylon cinnamon.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
   "KyFWof": {
     "col": 20,
     "defaultMessage": "Meal",
@@ -656,14 +1070,23 @@
     "line": 411,
     "start": 13766
   },
+  "KzNp0d": {
+    "col": 18,
+    "defaultMessage": "Search or add an ingredient",
+    "description": "Placeholder in the ingredient picker field. Typing filters suggestions, and any typed ingredient can be added to the draft.",
+    "end": 27887,
+    "file": "src/app/chats/[id].tsx",
+    "line": 780,
+    "start": 27597
+  },
   "LIn5Ck": {
     "col": 35,
     "defaultMessage": "Treat on {day}",
     "description": "Source of a shopping item that belongs to a planned meal. {day} is a formatted weekday such as Tuesday. Selecting it opens the meal.",
-    "end": 5361,
+    "end": 5384,
     "file": "src/features/meals/labels.ts",
-    "line": 128,
-    "start": 4561
+    "line": 134,
+    "start": 4584
   },
   "LMzT/U": {
     "col": 10,
@@ -673,6 +1096,33 @@
     "file": "src/features/meals/effort-label.ts",
     "line": 14,
     "start": 448
+  },
+  "LZ9KXr": {
+    "col": 62,
+    "defaultMessage": "Frozen spinach",
+    "description": "Ingredient label for spinach kept in the freezer, not fresh spinach.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "Ln/mSQ": {
+    "col": 62,
+    "defaultMessage": "Dried limes",
+    "description": "Ingredient label for whole dried limes used as a seasoning.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "M5FHGv": {
+    "col": 62,
+    "defaultMessage": "Orange blossom water",
+    "description": "Ingredient label for culinary orange blossom water.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
   },
   "M6fYaf": {
     "col": 19,
@@ -692,14 +1142,23 @@
     "line": 109,
     "start": 3174
   },
+  "MG/rFQ": {
+    "col": 62,
+    "defaultMessage": "Tomatoes",
+    "description": "Ingredient label for fresh tomatoes, not canned tomatoes.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
   "MGQKpS": {
     "col": 22,
     "defaultMessage": "Next item",
     "description": "Placeholder in the entry field after at least one item was added. Keeps the cook typing the next one.",
-    "end": 1546,
+    "end": 2051,
     "file": "src/app/shop/add.tsx",
-    "line": 40,
-    "start": 1201
+    "line": 53,
+    "start": 1706
   },
   "MJTmFc": {
     "col": 17,
@@ -710,6 +1169,33 @@
     "line": 426,
     "start": 14050
   },
+  "MY8DcY": {
+    "col": 62,
+    "defaultMessage": "Greek yoghurt",
+    "description": "Ingredient label for thick Greek yoghurt.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "MePzE9": {
+    "col": 62,
+    "defaultMessage": "Eggs",
+    "description": "Ingredient label for eggs.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "Mxz/tk": {
+    "col": 62,
+    "defaultMessage": "Cheese",
+    "description": "Ingredient label for cheese of any kind.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
   "NFsZN2": {
     "col": 28,
     "defaultMessage": "Please try again.",
@@ -718,6 +1204,24 @@
     "file": "src/features/shop/messages.ts",
     "line": 5,
     "start": 232
+  },
+  "NVd5Xb": {
+    "col": 62,
+    "defaultMessage": "Palm sugar",
+    "description": "Ingredient label for palm sugar.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "NZ29RJ": {
+    "col": 22,
+    "defaultMessage": "See all",
+    "description": "Expands the illustrated suggestions in the meal ingredient picker.",
+    "end": 6531,
+    "file": "src/features/chat/on-hand-picker.tsx",
+    "line": 176,
+    "start": 6302
   },
   "Ngz9Xq": {
     "col": 15,
@@ -728,6 +1232,15 @@
     "line": 322,
     "start": 10596
   },
+  "NhFnM9": {
+    "col": 62,
+    "defaultMessage": "Purple corn",
+    "description": "Ingredient label for purple corn.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
   "ODr7zx": {
     "col": 28,
     "defaultMessage": "Couldn’t save details",
@@ -737,14 +1250,59 @@
     "line": 5,
     "start": 232
   },
+  "ON74RR": {
+    "col": 62,
+    "defaultMessage": "Risotto rice",
+    "description": "Ingredient label for rice intended for risotto.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "OQMtm+": {
+    "col": 62,
+    "defaultMessage": "Star anise",
+    "description": "Ingredient label for star anise.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "OeHrQA": {
+    "col": 12,
+    "defaultMessage": "Couldn’t undo the addition",
+    "description": "Alert title when the Add items sheet could not undo a suggestion added to the shopping list.",
+    "end": 11099,
+    "file": "src/app/shop/add.tsx",
+    "line": 324,
+    "start": 10865
+  },
   "Ofk7Ir": {
     "col": 35,
     "defaultMessage": "Lunch on {day}",
     "description": "Source of a shopping item that belongs to a planned meal. {day} is a formatted weekday such as Tuesday. Selecting it opens the meal.",
-    "end": 5361,
+    "end": 5384,
     "file": "src/features/meals/labels.ts",
-    "line": 128,
-    "start": 4561
+    "line": 134,
+    "start": 4584
+  },
+  "OiCDgb": {
+    "col": 62,
+    "defaultMessage": "Mustard seeds",
+    "description": "Ingredient label for mustard seeds.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "P3BLrX": {
+    "col": 62,
+    "defaultMessage": "Frozen cod fillets",
+    "description": "Ingredient label for cod fillets kept in the freezer.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
   },
   "PKr4/s": {
     "col": 11,
@@ -773,6 +1331,15 @@
     "line": 309,
     "start": 11932
   },
+  "PuKajS": {
+    "col": 22,
+    "defaultMessage": "From your meal plan",
+    "description": "Ingredient picker heading for likely ingredients left from earlier planned meals.",
+    "end": 1328,
+    "file": "src/features/chat/on-hand-picker.tsx",
+    "line": 21,
+    "start": 779
+  },
   "Q5plTF": {
     "col": 13,
     "defaultMessage": "No list yet — create one in Shop first.",
@@ -781,6 +1348,15 @@
     "file": "src/app/(tabs)/(meals)/index.tsx",
     "line": 487,
     "start": 16413
+  },
+  "QI5FZT": {
+    "col": 22,
+    "defaultMessage": "More ingredients",
+    "description": "Ingredient picker section for the rest of the household's ingredients, alphabetized by their displayed names.",
+    "end": 1328,
+    "file": "src/features/chat/on-hand-picker.tsx",
+    "line": 21,
+    "start": 779
   },
   "QJp8Zx": {
     "col": 25,
@@ -800,6 +1376,15 @@
     "line": 5,
     "start": 232
   },
+  "QcKrjy": {
+    "col": 23,
+    "defaultMessage": "Help me decide what treat to make on {date}.",
+    "description": "First user bubble in the on-hand chat for a snack or treat. {date} is a formatted calendar date.",
+    "end": 1787,
+    "file": "src/features/chat/on-hand-transcript.ts",
+    "line": 35,
+    "start": 1015
+  },
   "QoZ4P9": {
     "col": 12,
     "defaultMessage": "Could not add the recipes",
@@ -817,6 +1402,15 @@
     "file": "src/features/shop/messages.ts",
     "line": 5,
     "start": 232
+  },
+  "Qtby9H": {
+    "col": 62,
+    "defaultMessage": "Thai curry paste",
+    "description": "Ingredient label for Thai curry paste.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
   },
   "RACRTO": {
     "col": 38,
@@ -836,6 +1430,15 @@
     "line": 260,
     "start": 8946
   },
+  "RHYND+": {
+    "col": 62,
+    "defaultMessage": "Rice vermicelli",
+    "description": "Ingredient label for thin rice vermicelli noodles.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
   "RJfIuU": {
     "col": 25,
     "defaultMessage": "Pet supplies",
@@ -845,23 +1448,32 @@
     "line": 8,
     "start": 334
   },
+  "Rn/xwI": {
+    "col": 62,
+    "defaultMessage": "Dried mint",
+    "description": "Ingredient label for dried mint.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
   "S3jKdb": {
     "col": 32,
     "defaultMessage": "Add an item",
     "description": "Accessibility label for the field where the cook types what to buy.",
-    "end": 13205,
+    "end": 18963,
     "file": "src/app/shop/add.tsx",
-    "line": 360,
-    "start": 13011
+    "line": 533,
+    "start": 18769
   },
   "SOmAkO": {
     "col": 12,
     "defaultMessage": "Meals ({count})",
     "description": "Title of the Shop toolbar button that opens the meals needing a shopping decision. {count} is how many meals.",
-    "end": 3672,
+    "end": 3411,
     "file": "src/app/(tabs)/shop/index.tsx",
-    "line": 86,
-    "start": 3355
+    "line": 66,
+    "start": 3094
   },
   "SPd0ko": {
     "col": 13,
@@ -872,14 +1484,23 @@
     "line": 150,
     "start": 4864
   },
-  "Sxhuxi": {
-    "col": 18,
-    "defaultMessage": "Swipe left for the next substitute, right for the previous. Tap for details.",
-    "description": "Accessibility hint on a shopping row that offers other ingredient options.",
-    "end": 7458,
-    "file": "src/features/shop/shop-item-row.tsx",
-    "line": 219,
-    "start": 7146
+  "SUdryO": {
+    "col": 62,
+    "defaultMessage": "Oats",
+    "description": "Ingredient label for oats used in cooking.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "Sfk7X5": {
+    "col": 62,
+    "defaultMessage": "Flat rice noodles",
+    "description": "Ingredient label for flat noodles made from rice.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
   },
   "SyepTx": {
     "col": 8,
@@ -899,6 +1520,24 @@
     "line": 108,
     "start": 3700
   },
+  "T0BdU/": {
+    "col": 62,
+    "defaultMessage": "Frozen peas",
+    "description": "Ingredient label for peas kept in the freezer.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "T1MrUj": {
+    "col": 62,
+    "defaultMessage": "White pepper",
+    "description": "Ingredient label for white pepper.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
   "TL4aTD": {
     "col": 16,
     "defaultMessage": "Could not cancel",
@@ -908,6 +1547,33 @@
     "line": 79,
     "start": 2779
   },
+  "Toypf8": {
+    "col": 62,
+    "defaultMessage": "Dried porcini",
+    "description": "Ingredient label for dried porcini mushrooms.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "UEfZxM": {
+    "col": 62,
+    "defaultMessage": "Rice paper",
+    "description": "Ingredient label for edible rice paper wrappers.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "UM9B23": {
+    "col": 62,
+    "defaultMessage": "Sour cream",
+    "description": "Ingredient label for cultured dairy sour cream.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
   "UTC2ZW": {
     "col": 8,
     "defaultMessage": "There’s nothing to paste. Copy a link or recipe first.",
@@ -916,6 +1582,24 @@
     "file": "src/app/cookbook/import.tsx",
     "line": 135,
     "start": 4949
+  },
+  "UWgdkR": {
+    "col": 62,
+    "defaultMessage": "Frozen chicken breast",
+    "description": "Ingredient label for chicken breast kept in the freezer.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "Upe39V": {
+    "col": 62,
+    "defaultMessage": "Caraway seeds",
+    "description": "Ingredient label for caraway seed, not cumin.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
   },
   "Uyn5M2": {
     "col": 29,
@@ -934,6 +1618,15 @@
     "file": "src/features/meals/eaters-label.tsx",
     "line": 5,
     "start": 125
+  },
+  "V69jiW": {
+    "col": 62,
+    "defaultMessage": "Fish sauce",
+    "description": "Ingredient label for fish sauce.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
   },
   "VA0Lxk": {
     "col": 25,
@@ -975,10 +1668,10 @@
     "col": 39,
     "defaultMessage": "Hide treat choices",
     "description": "Accessibility label for the control that closes the treat meal chooser. Does not change the planned meal.",
-    "end": 2515,
+    "end": 2538,
     "file": "src/features/meals/labels.ts",
-    "line": 59,
-    "start": 1923
+    "line": 65,
+    "start": 1946
   },
   "VvjIbM": {
     "col": 11,
@@ -990,22 +1683,22 @@
     "start": 4497
   },
   "W4PF9Z": {
-    "col": 44,
+    "col": 40,
     "defaultMessage": "Details for {name}",
     "description": "Accessibility label for the note field of an added shopping item. {name} is the item's name.",
-    "end": 11947,
+    "end": 15502,
     "file": "src/app/shop/add.tsx",
-    "line": 326,
-    "start": 11565
+    "line": 448,
+    "start": 15148
   },
   "W6R9iu": {
     "col": 23,
     "defaultMessage": "Add a note",
     "description": "Placeholder in the free-text note field of a shopping item, such as a size or brand.",
-    "end": 19807,
+    "end": 19832,
     "file": "src/app/shop/item.tsx",
     "line": 579,
-    "start": 19605
+    "start": 19630
   },
   "WobItN": {
     "col": 10,
@@ -1016,14 +1709,23 @@
     "line": 120,
     "start": 3589
   },
+  "X9+Cfa": {
+    "col": 62,
+    "defaultMessage": "Tomato paste",
+    "description": "Ingredient label for concentrated tomato paste, not canned tomatoes.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
   "XPO+MA": {
     "col": 34,
     "defaultMessage": "Select a treat",
     "description": "Action row that opens the meal chooser for a treat, and the heading shown while it is open. Does not plan a meal yet.",
-    "end": 1818,
+    "end": 1841,
     "file": "src/features/meals/labels.ts",
-    "line": 40,
-    "start": 1210
+    "line": 46,
+    "start": 1233
   },
   "XbMjOX": {
     "col": 9,
@@ -1043,6 +1745,42 @@
     "line": 79,
     "start": 2609
   },
+  "XeDN6z": {
+    "col": 62,
+    "defaultMessage": "Glass noodles",
+    "description": "Ingredient label for translucent starch noodles.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "XqB47B": {
+    "col": 62,
+    "defaultMessage": "Frozen minced meat",
+    "description": "Ingredient label for ground meat kept in the freezer.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "XqVcNe": {
+    "col": 62,
+    "defaultMessage": "Olive oil",
+    "description": "Ingredient label for olive oil.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "YvO1Gd": {
+    "col": 62,
+    "defaultMessage": "Flour",
+    "description": "Ingredient label for ordinary flour.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
   "Z2IumF": {
     "col": 25,
     "defaultMessage": "{count} bought",
@@ -1051,15 +1789,6 @@
     "file": "src/features/meals/shopping-review.ts",
     "line": 66,
     "start": 1921
-  },
-  "Z9/wRb": {
-    "col": 18,
-    "defaultMessage": "What ingredients do you have?",
-    "description": "First message prompt for a meal chat based on ingredients on hand.",
-    "end": 25111,
-    "file": "src/app/chats/[id].tsx",
-    "line": 715,
-    "start": 24876
   },
   "Z9BB32": {
     "col": 34,
@@ -1070,14 +1799,23 @@
     "line": 5,
     "start": 178
   },
+  "ZlvlTo": {
+    "col": 62,
+    "defaultMessage": "Dark soy sauce",
+    "description": "Ingredient label for dark soy sauce, not generic soy sauce.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
   "aK3PR3": {
     "col": 39,
     "defaultMessage": "Hide lunch choices",
     "description": "Accessibility label for the control that closes the lunch meal chooser. Does not change the planned meal.",
-    "end": 2515,
+    "end": 2538,
     "file": "src/features/meals/labels.ts",
-    "line": 59,
-    "start": 1923
+    "line": 65,
+    "start": 1946
   },
   "aZ1ogU": {
     "col": 14,
@@ -1092,10 +1830,28 @@
     "col": 23,
     "defaultMessage": "Name",
     "description": "Placeholder in the field holding an item's name.",
-    "end": 18581,
+    "end": 18606,
     "file": "src/app/shop/item.tsx",
     "line": 548,
-    "start": 18435
+    "start": 18460
+  },
+  "ajARYO": {
+    "col": 62,
+    "defaultMessage": "Molasses",
+    "description": "Ingredient label for molasses.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "aybrav": {
+    "col": 62,
+    "defaultMessage": "Garlic",
+    "description": "Ingredient label for garlic.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
   },
   "bReaED": {
     "col": 17,
@@ -1133,14 +1889,23 @@
     "line": 165,
     "start": 6027
   },
-  "bzU5dt": {
-    "col": 29,
-    "defaultMessage": "Use {name}",
-    "description": "Accessibility action that switches a shopping item to another ingredient option. {name} is that option's name.",
-    "end": 9153,
-    "file": "src/features/shop/shop-item-row.tsx",
-    "line": 259,
-    "start": 8771
+  "bcV9dh": {
+    "col": 62,
+    "defaultMessage": "Mushrooms",
+    "description": "Ingredient label for mushrooms of any kind.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "bgvW1g": {
+    "col": 62,
+    "defaultMessage": "Argan oil",
+    "description": "Ingredient label for edible argan oil.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
   },
   "cBO33J": {
     "col": 25,
@@ -1182,19 +1947,19 @@
     "col": 11,
     "defaultMessage": "This meal is in the past. Check whether you still want to buy this.",
     "description": "Warning on an ingredient for a meal whose day has passed. The cook decides whether the item is still needed.",
-    "end": 15341,
+    "end": 15366,
     "file": "src/app/shop/item.tsx",
     "line": 447,
-    "start": 15044
+    "start": 15069
   },
-  "eFK5Ok": {
-    "col": 19,
-    "defaultMessage": "Added",
-    "description": "Heading above items added in this entry session, newest last.",
-    "end": 9305,
-    "file": "src/app/shop/add.tsx",
-    "line": 276,
-    "start": 9099
+  "eGi+Yv": {
+    "col": 62,
+    "defaultMessage": "Vine leaves",
+    "description": "Ingredient label for grapevine leaves used in cooking.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
   },
   "eqjXdk": {
     "col": 16,
@@ -1205,14 +1970,59 @@
     "line": 65,
     "start": 2249
   },
+  "f1JzTe": {
+    "col": 62,
+    "defaultMessage": "Lemons",
+    "description": "Ingredient label for fresh lemons.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
   "fAyG5b": {
     "col": 25,
     "defaultMessage": "Restore {name}",
     "description": "Accessibility label for the checkbox of a bought shopping item. Selecting it puts the item back on the list. {name} is the item's name.",
-    "end": 1824,
-    "file": "src/features/shop/shop-item-row.tsx",
-    "line": 33,
-    "start": 1269
+    "end": 1332,
+    "file": "src/features/shop/shop-item-tile.tsx",
+    "line": 20,
+    "start": 777
+  },
+  "fb/Ao6": {
+    "col": 62,
+    "defaultMessage": "Cream",
+    "description": "Ingredient label for liquid dairy cream.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "fhGTXb": {
+    "col": 62,
+    "defaultMessage": "Mexican oregano",
+    "description": "Ingredient label for Mexican oregano.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "fhyk8i": {
+    "col": 23,
+    "defaultMessage": "Help me decide what to make for dinner on {date}.",
+    "description": "First user bubble in the on-hand chat for dinner. {date} is a formatted calendar date.",
+    "end": 1787,
+    "file": "src/features/chat/on-hand-transcript.ts",
+    "line": 35,
+    "start": 1015
+  },
+  "g/+sAy": {
+    "col": 62,
+    "defaultMessage": "Lentils",
+    "description": "Ingredient label for lentils of any kind.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
   },
   "g1CIfS": {
     "col": 25,
@@ -1227,19 +2037,28 @@
     "col": 9,
     "defaultMessage": "{meal} · {date}",
     "description": "Label for a fixed meal slot. {meal} is the standalone Lunch, Dinner or Treat label; {date} is the formatted calendar date.",
-    "end": 1102,
+    "end": 1125,
     "file": "src/features/meals/labels.ts",
-    "line": 22,
-    "start": 663
+    "line": 28,
+    "start": 686
   },
   "gCjS5j": {
     "col": 32,
     "defaultMessage": "Add",
     "description": "Accessibility label for the button that adds the typed item to the shopping list.",
-    "end": 13965,
+    "end": 19754,
     "file": "src/app/shop/add.tsx",
-    "line": 378,
-    "start": 13765
+    "line": 552,
+    "start": 19554
+  },
+  "gP684I": {
+    "col": 62,
+    "defaultMessage": "Peanut butter",
+    "description": "Ingredient label for peanut butter.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
   },
   "gWOHY1": {
     "col": 19,
@@ -1259,6 +2078,15 @@
     "line": 40,
     "start": 1714
   },
+  "gdsVkk": {
+    "col": 62,
+    "defaultMessage": "Kale",
+    "description": "Ingredient label for kale, not a head of cabbage.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
   "gnsOl4": {
     "col": 15,
     "defaultMessage": "Incomplete",
@@ -1277,15 +2105,6 @@
     "line": 8,
     "start": 334
   },
-  "hAVLiO": {
-    "col": 29,
-    "defaultMessage": "On list",
-    "description": "Status on an item that was already on the shopping list before this entry.",
-    "end": 10288,
-    "file": "src/app/shop/add.tsx",
-    "line": 295,
-    "start": 10027
-  },
   "hGpcZF": {
     "col": 20,
     "defaultMessage": "Your cookbook is empty. Import the recipes you love to cook.",
@@ -1294,6 +2113,33 @@
     "file": "src/features/cookbook/recipe-browser.tsx",
     "line": 121,
     "start": 4475
+  },
+  "hK8iO5": {
+    "col": 62,
+    "defaultMessage": "Japanese short-grain rice",
+    "description": "Ingredient label for Japanese short-grain rice.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "hP10JF": {
+    "col": 62,
+    "defaultMessage": "Cornmeal",
+    "description": "Ingredient label for ground dried corn.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "hPjexc": {
+    "col": 11,
+    "defaultMessage": "No matching ingredients",
+    "description": "Shown below ingredient search when nothing matches. Users can still add the name they typed.",
+    "end": 7434,
+    "file": "src/features/chat/on-hand-picker.tsx",
+    "line": 203,
+    "start": 7211
   },
   "heIYZX": {
     "col": 25,
@@ -1304,6 +2150,24 @@
     "line": 66,
     "start": 1921
   },
+  "ho+Myd": {
+    "col": 62,
+    "defaultMessage": "Puff pastry",
+    "description": "Ingredient label for puff pastry dough.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "iAuVE1": {
+    "col": 62,
+    "defaultMessage": "Butter",
+    "description": "Ingredient label for butter.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
   "iQ3uTU": {
     "col": 25,
     "defaultMessage": "Home & garden",
@@ -1312,6 +2176,15 @@
     "file": "src/features/shop/category-labels.ts",
     "line": 8,
     "start": 334
+  },
+  "ihg5qC": {
+    "col": 62,
+    "defaultMessage": "Rice",
+    "description": "Default ingredient tile for rice in the use-what-I-have picker.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
   },
   "ir/sf1": {
     "col": 26,
@@ -1353,10 +2226,19 @@
     "col": 17,
     "defaultMessage": "Found recipes",
     "description": "Title of the sheet that reviews the recipes one import found, before any are saved.",
-    "end": 10414,
+    "end": 10344,
     "file": "src/app/_layout.tsx",
-    "line": 312,
-    "start": 10210
+    "line": 311,
+    "start": 10140
+  },
+  "jnmwpe": {
+    "col": 62,
+    "defaultMessage": "Sweetcorn",
+    "description": "Ingredient label for sweet corn kernels.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
   },
   "jpoEqR": {
     "col": 12,
@@ -1376,14 +2258,32 @@
     "line": 299,
     "start": 11525
   },
+  "k7Qsdl": {
+    "col": 62,
+    "defaultMessage": "Plain yoghurt",
+    "description": "Ingredient label for unflavored plain yoghurt.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "kCZCba": {
+    "col": 17,
+    "defaultMessage": "Edit",
+    "description": "Opens the ingredient picker with the current meal idea ingredients selected.",
+    "end": 2562,
+    "file": "src/features/chat/message.tsx",
+    "line": 73,
+    "start": 2350
+  },
   "kM+skD": {
     "col": 43,
     "defaultMessage": "Select {recipe} for dinner",
     "description": "Accessibility label for a recommended dish that will fill the dinner slot. {recipe} is the recipe's display name. Selecting it plans the recipe for dinner.",
-    "end": 3486,
+    "end": 3509,
     "file": "src/features/meals/labels.ts",
-    "line": 78,
-    "start": 2632
+    "line": 84,
+    "start": 2655
   },
   "kNas2A": {
     "col": 33,
@@ -1398,10 +2298,10 @@
     "col": 11,
     "defaultMessage": "Details",
     "description": "Title of the sheet for an item the cook wrote in. Its name and note can be edited in place.",
-    "end": 17992,
+    "end": 18017,
     "file": "src/app/shop/item.tsx",
     "line": 529,
-    "start": 17786
+    "start": 17811
   },
   "kZIMYp": {
     "col": 20,
@@ -1411,15 +2311,6 @@
     "file": "src/features/cookbook/recipe-browser.tsx",
     "line": 113,
     "start": 4090
-  },
-  "koAL0x": {
-    "col": 12,
-    "defaultMessage": "Please try again.",
-    "description": "Generic alert body after an action failed. The user can repeat it.",
-    "end": 11019,
-    "file": "src/app/(tabs)/shop/index.tsx",
-    "line": 304,
-    "start": 10820
   },
   "lwjs+K": {
     "col": 27,
@@ -1434,10 +2325,19 @@
     "col": 32,
     "defaultMessage": "Empty shopping list",
     "description": "Accessibility label for the illustration shown when the shopping list has no items.",
-    "end": 13682,
+    "end": 9573,
     "file": "src/app/(tabs)/shop/index.tsx",
-    "line": 382,
-    "start": 13464
+    "line": 253,
+    "start": 9355
+  },
+  "mPiQwY": {
+    "col": 62,
+    "defaultMessage": "Frozen salmon fillets",
+    "description": "Ingredient label for salmon fillets kept in the freezer.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
   },
   "mYhCW0": {
     "col": 36,
@@ -1448,6 +2348,15 @@
     "line": 3,
     "start": 82
   },
+  "mYkZwS": {
+    "col": 62,
+    "defaultMessage": "Bell peppers",
+    "description": "Ingredient label for sweet bell peppers, not hot chiles.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
   "mZ3Vq4": {
     "col": 17,
     "defaultMessage": "Check off",
@@ -1456,6 +2365,15 @@
     "file": "src/app/shop/item.tsx",
     "line": 286,
     "start": 9254
+  },
+  "mdE/gA": {
+    "col": 62,
+    "defaultMessage": "Spinach",
+    "description": "Ingredient label for fresh spinach, not frozen spinach.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
   },
   "mdefrF": {
     "col": 12,
@@ -1475,6 +2393,15 @@
     "line": 164,
     "start": 6012
   },
+  "moJlXM": {
+    "col": 62,
+    "defaultMessage": "Shallots",
+    "description": "Ingredient label for shallots.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
   "n7V20c": {
     "col": 28,
     "defaultMessage": "Your entry is still here. Please try again.",
@@ -1493,6 +2420,24 @@
     "line": 3,
     "start": 82
   },
+  "nnIJBX": {
+    "col": 62,
+    "defaultMessage": "Desiccated coconut",
+    "description": "Ingredient label for grated dried coconut.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "npFROj": {
+    "col": 62,
+    "defaultMessage": "Horseradish",
+    "description": "Ingredient label for horseradish.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
   "nuHVV/": {
     "col": 17,
     "defaultMessage": "{count, plural, one {Found 1 recipe} other {Found # recipes}}",
@@ -1503,13 +2448,13 @@
     "start": 2458
   },
   "oB6Eyg": {
-    "col": 23,
+    "col": 27,
     "defaultMessage": "Open details",
     "description": "Accessibility action that opens the shopping item's detail sheet.",
-    "end": 8038,
-    "file": "src/features/shop/shop-item-row.tsx",
-    "line": 234,
-    "start": 7829
+    "end": 3900,
+    "file": "src/features/shop/shop-item-tile.tsx",
+    "line": 121,
+    "start": 3723
   },
   "oP0Gad": {
     "col": 30,
@@ -1520,6 +2465,15 @@
     "line": 40,
     "start": 1714
   },
+  "oS9hzf": {
+    "col": 62,
+    "defaultMessage": "Eggplant",
+    "description": "Ingredient label for eggplant, also known as aubergine.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
   "p1LU3L": {
     "col": 30,
     "defaultMessage": "Import for dinner",
@@ -1528,6 +2482,15 @@
     "file": "src/app/cookbook/import.tsx",
     "line": 40,
     "start": 1714
+  },
+  "p9XrRV": {
+    "col": 62,
+    "defaultMessage": "Apples",
+    "description": "Ingredient label for apples.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
   },
   "pV8LQi": {
     "col": 17,
@@ -1547,14 +2510,59 @@
     "line": 79,
     "start": 2199
   },
+  "pzslaG": {
+    "col": 62,
+    "defaultMessage": "Black beans",
+    "description": "Ingredient label for black beans.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "q3s1bA": {
+    "col": 31,
+    "defaultMessage": "Cancel",
+    "description": "Closes the ingredient editor and returns to the previous meal ideas.",
+    "end": 30671,
+    "file": "src/app/chats/[id].tsx",
+    "line": 835,
+    "start": 30409
+  },
+  "qAqot2": {
+    "col": 62,
+    "defaultMessage": "Chickpeas",
+    "description": "Ingredient label for chickpeas, also known as garbanzo beans.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "qI9bjH": {
+    "col": 62,
+    "defaultMessage": "Anchovies",
+    "description": "Ingredient label for anchovies.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
   "qKQpsZ": {
     "col": 28,
     "defaultMessage": "Lunch",
     "description": "Meal slot label for the midday meal.",
-    "end": 571,
+    "end": 594,
     "file": "src/features/meals/labels.ts",
-    "line": 6,
-    "start": 242
+    "line": 12,
+    "start": 265
+  },
+  "qpCKU+": {
+    "col": 62,
+    "defaultMessage": "Curry leaves",
+    "description": "Ingredient label for curry leaves, not curry powder.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
   },
   "rIWABd": {
     "col": 18,
@@ -1569,10 +2577,28 @@
     "col": 13,
     "defaultMessage": "Checked",
     "description": "Heading above the shopping items that were already checked off.",
-    "end": 12738,
+    "end": 8434,
     "file": "src/app/(tabs)/shop/index.tsx",
-    "line": 357,
-    "start": 12576
+    "line": 218,
+    "start": 8272
+  },
+  "rvjJhe": {
+    "col": 62,
+    "defaultMessage": "Leeks",
+    "description": "Ingredient label for leeks, not onions.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "rxfA+v": {
+    "col": 27,
+    "defaultMessage": "Undo adding {name}",
+    "description": "Accessibility label for a checked suggestion. Tapping it removes the item just added by this sheet. {name} is the item's name.",
+    "end": 2594,
+    "file": "src/app/shop/add.tsx",
+    "line": 66,
+    "start": 2081
   },
   "ryFpRR": {
     "col": 25,
@@ -1592,14 +2618,32 @@
     "line": 272,
     "start": 10284
   },
+  "s4pdpH": {
+    "col": 62,
+    "defaultMessage": "Corn tortillas",
+    "description": "Ingredient label for tortillas made with corn, not wheat.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
   "sEKbW8": {
     "col": 43,
     "defaultMessage": "Select {recipe} for lunch",
     "description": "Accessibility label for a recommended dish that will fill the lunch slot. {recipe} is the recipe's display name. Selecting it plans the recipe for lunch.",
-    "end": 3486,
+    "end": 3509,
     "file": "src/features/meals/labels.ts",
-    "line": 78,
-    "start": 2632
+    "line": 84,
+    "start": 2655
+  },
+  "sFrF/1": {
+    "col": 6,
+    "defaultMessage": "I’d like to use up {ingredients}.",
+    "description": "User bubble naming the selected ingredients the cook wants to put to use. They may have them now or expect to have them by the planned meal. {ingredients} is a localized list of ingredient names.",
+    "end": 2902,
+    "file": "src/features/chat/on-hand-transcript.ts",
+    "line": 81,
+    "start": 2469
   },
   "sHammy": {
     "col": 25,
@@ -1619,6 +2663,15 @@
     "line": 55,
     "start": 2113
   },
+  "sjP2sW": {
+    "col": 62,
+    "defaultMessage": "Rye flour",
+    "description": "Ingredient label for rye flour.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
   "sxAYc+": {
     "col": 24,
     "defaultMessage": "Add another page",
@@ -1628,14 +2681,32 @@
     "line": 214,
     "start": 8073
   },
+  "t8Vtgp": {
+    "col": 62,
+    "defaultMessage": "Potatoes",
+    "description": "Default ingredient tile for potatoes in the use-what-I-have picker.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
   "tAQv1v": {
     "col": 35,
     "defaultMessage": "Dinner on {day}",
     "description": "Source of a shopping item that belongs to a planned meal. {day} is a formatted weekday such as Tuesday. Selecting it opens the meal.",
-    "end": 5361,
+    "end": 5384,
     "file": "src/features/meals/labels.ts",
-    "line": 128,
-    "start": 4561
+    "line": 134,
+    "start": 4584
+  },
+  "tOVnQs": {
+    "col": 62,
+    "defaultMessage": "Sugar",
+    "description": "Ingredient label for ordinary sugar.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
   },
   "tSxVv6": {
     "col": 12,
@@ -1654,15 +2725,6 @@
     "file": "src/app/(tabs)/(meals)/index.tsx",
     "line": 256,
     "start": 9137
-  },
-  "te9ah1": {
-    "col": 23,
-    "defaultMessage": "Add “{name}”",
-    "description": "Row that adds the typed item to the shopping list. {name} is the user's own text, unmodified.",
-    "end": 8823,
-    "file": "src/app/shop/add.tsx",
-    "line": 258,
-    "start": 8499
   },
   "tsQKcF": {
     "col": 11,
@@ -1691,6 +2753,15 @@
     "line": 209,
     "start": 7828
   },
+  "txl8bJ": {
+    "col": 62,
+    "defaultMessage": "Coconut oil",
+    "description": "Ingredient label for coconut oil.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
   "tyszfp": {
     "col": 19,
     "defaultMessage": "I have a dish in mind",
@@ -1700,14 +2771,23 @@
     "line": 363,
     "start": 13119
   },
-  "u+lyd2": {
-    "col": 18,
-    "defaultMessage": "Opens item details",
-    "description": "Accessibility hint on a shopping row without other ingredient options.",
-    "end": 7705,
-    "file": "src/features/shop/shop-item-row.tsx",
-    "line": 225,
-    "start": 7477
+  "u1tQl6": {
+    "col": 62,
+    "defaultMessage": "Rice vinegar",
+    "description": "Ingredient label for rice vinegar.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "uD0uYB": {
+    "col": 62,
+    "defaultMessage": "Canned tomatoes",
+    "description": "Ingredient label for tomatoes from a tin or can, not concentrated paste.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
   },
   "uRdLso": {
     "col": 19,
@@ -1717,6 +2797,24 @@
     "file": "src/app/cookbook/import.tsx",
     "line": 289,
     "start": 11108
+  },
+  "uaSwYG": {
+    "col": 62,
+    "defaultMessage": "Canned beans",
+    "description": "Ingredient label for beans from a tin or can.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "un/qzF": {
+    "col": 22,
+    "defaultMessage": "Quick picks",
+    "description": "Ingredient picker section for fresh ingredients and staples the household often uses.",
+    "end": 1328,
+    "file": "src/features/chat/on-hand-picker.tsx",
+    "line": 21,
+    "start": 779
   },
   "un0Pum": {
     "col": 25,
@@ -1763,6 +2861,24 @@
     "line": 3,
     "start": 82
   },
+  "w5xQJj": {
+    "col": 62,
+    "defaultMessage": "Carrots",
+    "description": "Ingredient label for carrots.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "wJYtvY": {
+    "col": 62,
+    "defaultMessage": "Hoisin sauce",
+    "description": "Ingredient label for hoisin sauce.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
   "wO5FsS": {
     "col": 29,
     "defaultMessage": "Open {name}",
@@ -1771,6 +2887,15 @@
     "file": "src/features/cookbook/recipe-browser.tsx",
     "line": 20,
     "start": 974
+  },
+  "wRsD6i": {
+    "col": 62,
+    "defaultMessage": "Pickled cucumbers",
+    "description": "Ingredient label for pickled cucumbers.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
   },
   "wTes2b": {
     "col": 12,
@@ -1812,19 +2937,28 @@
     "col": 27,
     "defaultMessage": "Yesterday",
     "description": "Label for a planned meal from the day before today, in that meal's heading.",
-    "end": 3981,
+    "end": 4004,
     "file": "src/features/meals/labels.ts",
-    "line": 100,
-    "start": 3516
+    "line": 106,
+    "start": 3539
   },
-  "xU/3JC": {
-    "col": 20,
-    "defaultMessage": "{name}, on the list, edit details",
-    "description": "Accessibility label for an item already on the shopping list. {name} is the item's name. Selecting it edits the item's note.",
-    "end": 2104,
-    "file": "src/app/shop/add.tsx",
-    "line": 53,
-    "start": 1569
+  "x9K9Dw": {
+    "col": 62,
+    "defaultMessage": "Frozen prawns",
+    "description": "Ingredient label for prawns kept in the freezer.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "xQqc4Z": {
+    "col": 62,
+    "defaultMessage": "Guava paste",
+    "description": "Ingredient label for guava paste.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
   },
   "xiyF4r": {
     "col": 25,
@@ -1835,14 +2969,59 @@
     "line": 8,
     "start": 334
   },
+  "xqikFt": {
+    "col": 62,
+    "defaultMessage": "Onions",
+    "description": "Ingredient label for onions.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
   "y+jaB0": {
     "col": 10,
     "defaultMessage": "Uncategorised",
     "description": "Fallback for a shopping item whose category is missing. Also the menu option that clears the category.",
-    "end": 12398,
+    "end": 8131,
     "file": "src/app/(tabs)/shop/index.tsx",
-    "line": 344,
-    "start": 12175
+    "line": 205,
+    "start": 7908
+  },
+  "y62jKy": {
+    "col": 27,
+    "defaultMessage": "What do you want to cook with?",
+    "description": "Heading above the ingredient picker for a planned meal. Invites the cook to choose ingredients they want to cook with.",
+    "end": 29728,
+    "file": "src/app/chats/[id].tsx",
+    "line": 817,
+    "start": 29408
+  },
+  "y6vW60": {
+    "col": 62,
+    "defaultMessage": "Cumin seeds",
+    "description": "Ingredient label for cumin seed, not caraway.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "y7bFsu": {
+    "col": 62,
+    "defaultMessage": "Tinned tuna",
+    "description": "Ingredient label for tuna from a tin or can.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
+  },
+  "yAWQXw": {
+    "col": 62,
+    "defaultMessage": "Noodles",
+    "description": "Ingredient label for noodles without a specific variety.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
   },
   "yBelg/": {
     "col": 15,
@@ -1857,10 +3036,19 @@
     "col": 18,
     "defaultMessage": "Nothing to buy. Plan a meal to choose what to buy for it, or add an item.",
     "description": "Empty Shop state when no meal is waiting for a shopping choice. Names the two ways to get items on the list.",
-    "end": 14538,
+    "end": 10429,
     "file": "src/app/(tabs)/shop/index.tsx",
-    "line": 397,
-    "start": 14195
+    "line": 268,
+    "start": 10086
+  },
+  "yROF5b": {
+    "col": 62,
+    "defaultMessage": "Dijon mustard",
+    "description": "Ingredient label for Dijon mustard.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
   },
   "ycSZ62": {
     "col": 16,
@@ -1875,19 +3063,28 @@
     "col": 27,
     "defaultMessage": "Today",
     "description": "Label for the current day in the date strip and day heading.",
-    "end": 3981,
+    "end": 4004,
     "file": "src/features/meals/labels.ts",
-    "line": 100,
-    "start": 3516
+    "line": 106,
+    "start": 3539
   },
   "yvQ+D7": {
     "col": 34,
     "defaultMessage": "{day} · {slot}",
     "description": "Heading for a planned meal, such as “Today · Dinner” or “Thursday, 10 Sep · Dinner”. {day} is a formatted day or Today, Tomorrow, Yesterday. {slot} is the standalone Lunch, Dinner or Treat label. The two parts may be reordered.",
-    "end": 4444,
+    "end": 4467,
     "file": "src/features/meals/labels.ts",
-    "line": 118,
-    "start": 4077
+    "line": 124,
+    "start": 4100
+  },
+  "z7jmJ7": {
+    "col": 62,
+    "defaultMessage": "Teff flour",
+    "description": "Ingredient label for teff flour.",
+    "end": 16044,
+    "file": "src/features/ingredients/ingredient-labels.ts",
+    "line": 10,
+    "start": 349
   },
   "zh+xrJ": {
     "col": 25,
@@ -1902,9 +3099,18 @@
     "col": 17,
     "defaultMessage": "Shop",
     "description": "Title of the Shop tab, where the household's shopping list lives.",
-    "end": 500,
+    "end": 629,
     "file": "src/app/(tabs)/shop/_layout.tsx",
-    "line": 13,
-    "start": 323
+    "line": 15,
+    "start": 452
+  },
+  "zvjc6B": {
+    "col": 33,
+    "defaultMessage": "Find meal ideas",
+    "description": "Primary action in the meal ingredient picker. Requests meal ideas using the selected ingredients or attachments.",
+    "end": 29063,
+    "file": "src/app/chats/[id].tsx",
+    "line": 806,
+    "start": 28788
   }
 }

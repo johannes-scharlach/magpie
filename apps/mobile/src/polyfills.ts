@@ -1,3 +1,8 @@
+// FormatJS needs plural rules for ICU messages on runtimes that lack them.
+import "@formatjs/intl-pluralrules/polyfill.js";
+import "@formatjs/intl-pluralrules/locale-data/en.js";
+import "@formatjs/intl-pluralrules/locale-data/de.js";
+
 import {
   TextDecoderStream,
   TextEncoderStream,

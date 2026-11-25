@@ -85,3 +85,7 @@ not evidence of more confidence.
   The database check includes same-day slots and future plans without touching
   household data. A passing example is a regression check, not allergy certification.
 - Shared rules: `pnpm --filter @magpie/meals test`
+- Use-up Edge assessment (no paid calls by default):
+  `deno test --config supabase/functions/deno.json --allow-env --allow-read supabase/functions/use-up/rank.test.ts`.
+  Paid checks require explicit `RUN_PAID_USE_UP_TESTS=1`, a provider key and
+  network permission.
