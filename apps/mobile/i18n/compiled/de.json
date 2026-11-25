@@ -61,6 +61,12 @@
       "value": "Eiernudeln"
     }
   ],
+  "/MIOpc": [
+    {
+      "type": 0,
+      "value": "Weniger anzeigen"
+    }
+  ],
   "/woc5o": [
     {
       "type": 0,
@@ -542,12 +548,6 @@
       "value": "Buchweizen"
     }
   ],
-  "Eifh/c": [
-    {
-      "type": 0,
-      "value": "Mahlzeitenideen finden"
-    }
-  ],
   "Eo0PBs": [
     {
       "type": 0,
@@ -856,12 +856,6 @@
       "value": "Normal"
     }
   ],
-  "LWquky": [
-    {
-      "type": 0,
-      "value": "Zuerst aufbrauchen"
-    }
-  ],
   "LZ9KXr": [
     {
       "type": 0,
@@ -940,6 +934,12 @@
       "value": "Palmzucker"
     }
   ],
+  "NZ29RJ": [
+    {
+      "type": 0,
+      "value": "Alle anzeigen"
+    }
+  ],
   "Ngz9Xq": [
     {
       "type": 0,
@@ -968,6 +968,12 @@
     {
       "type": 0,
       "value": "Sternanis"
+    }
+  ],
+  "OeHrQA": [
+    {
+      "type": 0,
+      "value": "Hinzufügen konnte nicht rückgängig gemacht werden"
     }
   ],
   "Ofk7Ir": [
@@ -1008,6 +1014,12 @@
     {
       "type": 0,
       "value": "Magpie ein Rezept erzählen, das du kennst"
+    }
+  ],
+  "PuKajS": [
+    {
+      "type": 0,
+      "value": "Aus deinem Essensplan"
     }
   ],
   "Q5plTF": [
@@ -1088,32 +1100,6 @@
     {
       "type": 0,
       "value": "Tierbedarf"
-    }
-  ],
-  "RTXE+W": [
-    {
-      "type": 6,
-      "value": "count",
-      "options": {
-        "one": {
-          "value": [
-            {
-              "type": 0,
-              "value": "Ideen mit dieser Zutat finden"
-            }
-          ]
-        },
-        "other": {
-          "value": [
-            {
-              "type": 0,
-              "value": "Ideen mit diesen Zutaten finden"
-            }
-          ]
-        }
-      },
-      "offset": 0,
-      "pluralType": "cardinal"
     }
   ],
   "Rn/xwI": [
@@ -1759,6 +1745,12 @@
       "value": "Maisgrieß"
     }
   ],
+  "hPjexc": [
+    {
+      "type": 0,
+      "value": "Keine passenden Zutaten"
+    }
+  ],
   "heIYZX": [
     {
       "type": 0,
@@ -1849,6 +1841,12 @@
     {
       "type": 0,
       "value": "Naturjoghurt"
+    }
+  ],
+  "kCZCba": [
+    {
+      "type": 0,
+      "value": "Bearbeiten"
     }
   ],
   "kM+skD": [
@@ -2052,6 +2050,12 @@
       "value": "Schwarze Bohnen"
     }
   ],
+  "q3s1bA": [
+    {
+      "type": 0,
+      "value": "Abbrechen"
+    }
+  ],
   "qAqot2": [
     {
       "type": 0,
@@ -2092,6 +2096,16 @@
     {
       "type": 0,
       "value": "Lauch"
+    }
+  ],
+  "rxfA+v": [
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " wieder entfernen"
     }
   ],
   "ryFpRR": [
@@ -2514,6 +2528,12 @@
     {
       "type": 0,
       "value": "Einkauf"
+    }
+  ],
+  "zvjc6B": [
+    {
+      "type": 0,
+      "value": "Kochideen finden"
     }
   ]
 }

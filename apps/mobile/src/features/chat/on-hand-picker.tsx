@@ -1,20 +1,11 @@
 import { Image } from "expo-image";
 import { SymbolView } from "expo-symbols";
+import { useState } from "react";
 import { defineMessages, useIntl } from "react-intl";
-import { ScrollView, useWindowDimensions, View } from "react-native";
-import Animated, {
-  Easing,
-  LinearTransition,
-  ReduceMotion,
-  useReducedMotion,
-} from "react-native-reanimated";
+import { Pressable, ScrollView, View } from "react-native";
 import { useResolveClassNames } from "uniwind";
 
-import {
-  ClayPebble,
-  IngredientTileSurface,
-  PressableScale,
-} from "@/components/clay";
+import { ClayPebble, PressableScale } from "@/components/clay";
 import { Text } from "@/components/ui/text";
 import { useIngredientArt } from "@/features/ingredients/ingredient-art";
 import { formatPickerIngredient } from "@/features/ingredients/ingredient-labels";
@@ -29,9 +20,9 @@ import {
 
 const groupHeadings = defineMessages({
   useUp: {
-    defaultMessage: "Use up first",
+    defaultMessage: "From your meal plan",
     description:
-      "Ingredient picker heading for likely remainders to use soon. These are suggestions, not confirmed stock.",
+      "Ingredient picker heading for likely ingredients left from earlier planned meals.",
   },
   quickPicks: {
     defaultMessage: "Quick picks",
@@ -44,10 +35,6 @@ const groupHeadings = defineMessages({
       "Ingredient picker section for the rest of the household's ingredients, alphabetized by their displayed names.",
   },
 });
-const TILE_MOVE = LinearTransition.duration(140)
-  .easing(Easing.bezier(0.77, 0, 0.175, 1))
-  .reduceMotion(ReduceMotion.System);
-
 export function OnHandPicker({
   listId,
   useUp,
@@ -63,9 +50,8 @@ export function OnHandPicker({
   onToggle: (tile: PickedIngredient) => void;
 }) {
   const intl = useIntl();
-  const reducedMotion = useReducedMotion();
-  const { fontScale, width } = useWindowDimensions();
   const { household } = useHousehold(listId);
+  const [expanded, setExpanded] = useState(false);
   const displayLabel = (label: string) => formatPickerIngredient(intl, label);
   const sections = ingredientPickerSections({
     useUp,
@@ -75,117 +61,153 @@ export function OnHandPicker({
     displayLabel,
   });
   const selectedKeys = new Set(picked.map(({ key }) => key));
-  const searching = !!query.trim();
-  const grid = onHandPickerGroups(
-    sections,
-    query,
-    displayLabel,
-    intl.locale,
-  ).flatMap(({ id, tiles }) => (id === "matches" ? tiles : [id, ...tiles]));
+  const groups = onHandPickerGroups(sections, query, displayLabel, intl.locale);
   const artFor = useIngredientArt(
-    grid.flatMap((tile) => (typeof tile === "string" ? [] : [tile.label])),
+    groups.flatMap(({ tiles }) => tiles.map(({ label }) => label)),
   );
   const selectionColor = useResolveClassNames("text-primary").color;
 
+  function choice(tile: PickedIngredient, illustrated: boolean) {
+    const selected = selectedKeys.has(tile.key);
+    const label = displayLabel(tile.label);
+    const asset = artFor(tile.label);
+    const art =
+      asset !== undefined ? (
+        <View
+          className={illustrated ? "h-12 w-16" : "h-8 w-10"}
+          accessibilityElementsHidden
+          importantForAccessibility="no-hide-descendants"
+        >
+          {illustrated && selected ? <ClayPebble seed={tile.key} /> : null}
+          <Image
+            source={asset}
+            style={{ position: "absolute", width: "100%", height: "100%" }}
+            contentFit="contain"
+          />
+        </View>
+      ) : null;
+    return (
+      <Pressable
+        key={tile.key}
+        className={
+          illustrated
+            ? "w-1/3 items-center justify-start px-1.5 py-2 active:opacity-60"
+            : "min-h-12 flex-row items-center gap-2.5 border-b border-border/60 py-1.5 active:opacity-60"
+        }
+        accessibilityRole="checkbox"
+        accessibilityLabel={label}
+        accessibilityState={{ checked: selected }}
+        onPress={() => onToggle(tile)}
+      >
+        {illustrated ? <View className="h-12 justify-center">{art}</View> : art}
+        <Text
+          className={cn(
+            "font-rounded font-bold",
+            illustrated ? "text-center text-sm" : "flex-1",
+            selected && "text-primary",
+          )}
+        >
+          {label}
+        </Text>
+        {selected ? (
+          <View
+            className={illustrated ? "absolute end-2 top-2" : "ms-auto"}
+            accessibilityElementsHidden
+            importantForAccessibility="no-hide-descendants"
+          >
+            <SymbolView
+              name={{ ios: "checkmark.circle.fill", android: "check_circle" }}
+              tintColor={selectionColor}
+              size={18}
+            />
+          </View>
+        ) : null}
+      </Pressable>
+    );
+  }
+
+  // The meal-plan suggestions take precedence, then the household shortcuts.
+  // Anything outside the visible row can still be found in the alphabetical list.
+  const planned = groups.find(({ id }) => id === "useUp");
+  const quick = groups.find(({ id }) => id === "quickPicks");
+  const featured = planned ?? quick;
+  const visible = featured?.tiles.slice(0, expanded ? undefined : 3) ?? [];
+  const visibleKeys = new Set(visible.map(({ key }) => key));
+  const other = groups
+    .flatMap(({ tiles }) => tiles)
+    .filter(({ key }) => !visibleKeys.has(key))
+    .sort((a, b) =>
+      displayLabel(a.label).localeCompare(displayLabel(b.label), intl.locale),
+    );
+
   return (
     <ScrollView
-      contentInsetAdjustmentBehavior="automatic"
+      contentInsetAdjustmentBehavior="never"
       keyboardDismissMode="on-drag"
       keyboardShouldPersistTaps="always"
       className="flex-1"
-      contentContainerClassName="flex-row flex-wrap gap-y-2 px-3 pb-4 pt-2"
+      contentContainerClassName="px-4 pb-4"
     >
-      {!searching ? (
+      {featured ? (
+        <View className="pb-3 pt-1">
+          <View className="flex-row items-center justify-between gap-2">
+            <Text
+              accessibilityRole="header"
+              className="shrink font-rounded font-extrabold text-primary"
+            >
+              {intl.formatMessage(
+                groupHeadings[planned ? "useUp" : "quickPicks"],
+              )}
+            </Text>
+            {featured.tiles.length > 3 ? (
+              <Pressable
+                accessibilityRole="button"
+                accessibilityState={{ expanded }}
+                className="min-h-11 justify-center px-1 active:opacity-60"
+                onPress={() => setExpanded((current) => !current)}
+              >
+                <Text className="text-sm font-semibold text-primary">
+                  {expanded
+                    ? intl.formatMessage({
+                        defaultMessage: "See fewer",
+                        description:
+                          "Collapses the illustrated suggestions to a single row in the meal ingredient picker.",
+                      })
+                    : intl.formatMessage({
+                        defaultMessage: "See all",
+                        description:
+                          "Expands the illustrated suggestions in the meal ingredient picker.",
+                      })}
+                </Text>
+              </Pressable>
+            ) : null}
+          </View>
+          <View className="flex-row flex-wrap">
+            {visible.map((tile) => choice(tile, true))}
+          </View>
+        </View>
+      ) : null}
+      {featured && other.length ? (
         <Text
           accessibilityRole="header"
-          className="w-full px-1 pb-1 font-rounded text-lg font-extrabold"
+          className="pb-1 pt-2 font-rounded font-extrabold text-primary"
+        >
+          {intl.formatMessage(groupHeadings.cupboard)}
+        </Text>
+      ) : null}
+      {query.trim() && !other.length ? (
+        <Text
+          accessibilityLiveRegion="polite"
+          className="py-3 text-sm text-muted-foreground"
         >
           {intl.formatMessage({
-            defaultMessage: "What do you want to cook with?",
+            defaultMessage: "No matching ingredients",
             description:
-              "Heading above the ingredient picker for a planned meal. Invites the cook to choose ingredients they want to cook with.",
+              "Shown below ingredient search when nothing matches. Users can still add the name they typed.",
           })}
         </Text>
       ) : null}
-      {grid.map((tile) => {
-        if (typeof tile === "string")
-          return (
-            <Text
-              key={`heading:${tile}`}
-              accessibilityRole="header"
-              className="w-full px-1 pt-1 font-rounded font-extrabold text-primary"
-            >
-              {intl.formatMessage(groupHeadings[tile])}
-            </Text>
-          );
-        const selected = selectedKeys.has(tile.key);
-        const asset = artFor(tile.label);
-        const label = formatPickerIngredient(intl, tile.label);
-        return (
-          <Animated.View
-            key={`tile:${tile.key}`}
-            layout={reducedMotion || searching ? undefined : TILE_MOVE}
-            className="px-1"
-            style={{
-              width: fontScale > 1.35 || width < 350 ? "50%" : "33.3333%",
-            }}
-          >
-            <PressableScale
-              stretch
-              accessibilityRole="checkbox"
-              accessibilityLabel={label}
-              accessibilityState={{ checked: selected }}
-              onPress={() => onToggle(tile)}
-            >
-              <IngredientTileSurface className="min-h-22 grow items-center justify-center gap-1 px-2 py-1">
-                {asset !== undefined ? (
-                  <View
-                    className="h-13 w-17"
-                    accessibilityElementsHidden
-                    importantForAccessibility="no-hide-descendants"
-                  >
-                    {selected ? <ClayPebble seed={tile.key} /> : null}
-                    <Image
-                      source={asset}
-                      style={{
-                        position: "absolute",
-                        width: "100%",
-                        height: "100%",
-                      }}
-                      contentFit="contain"
-                    />
-                  </View>
-                ) : null}
-                <Text
-                  className={cn(
-                    "text-center font-rounded text-sm font-bold",
-                    selected && "text-primary",
-                  )}
-                  numberOfLines={3}
-                >
-                  {label}
-                </Text>
-                {selected ? (
-                  <View
-                    className="absolute end-2 top-1.5"
-                    accessibilityElementsHidden
-                    importantForAccessibility="no-hide-descendants"
-                  >
-                    <SymbolView
-                      name={{
-                        ios: "checkmark.circle.fill",
-                        android: "check_circle",
-                      }}
-                      tintColor={selectionColor}
-                      size={16}
-                    />
-                  </View>
-                ) : null}
-              </IngredientTileSurface>
-            </PressableScale>
-          </Animated.View>
-        );
-      })}
+      {other.map((tile) => choice(tile, false))}
     </ScrollView>
   );
 }

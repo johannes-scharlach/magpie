@@ -12,7 +12,7 @@ import {
   usePreventRemove,
 } from "expo-router/react-navigation";
 import { SymbolView } from "expo-symbols";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Alert,
   Pressable,
@@ -32,7 +32,13 @@ import { useResolveClassNames } from "uniwind";
 
 import { PressableScale } from "@/components/clay";
 import { Text } from "@/components/ui/text";
-import { addItem, itemNameKey, setItemSpec } from "@/db/items";
+import {
+  addItem,
+  itemNameKey,
+  setItemSpec,
+  undoItemAdd,
+  type ItemAddUndo,
+} from "@/db/items";
 import type { ListItem } from "@/db/schema";
 import { ingredientPickerSections } from "@/features/chat/ingredient-picker";
 import { useIngredientArt } from "@/features/ingredients/ingredient-art";
@@ -57,16 +63,27 @@ const fieldMessages = defineMessages({
   },
 });
 
-const suggestionMessages = defineMessages<{ add: { name: string } }>(
+const suggestionMessages = defineMessages<{
+  add: { name: string };
+  undo: { name: string };
+}>(
   {
     add: {
       defaultMessage: "Add {name}",
       description:
         "Accessibility label for a suggested item that can be added to the shopping list. {name} is the item's name.",
     },
+    undo: {
+      defaultMessage: "Undo adding {name}",
+      description:
+        "Accessibility label for a checked suggestion. Tapping it removes the item just added by this sheet. {name} is the item's name.",
+    },
   },
   { typed: true },
 );
+
+type Suggestion = { name: string; artLabel: string };
+type SuggestionAdd = { suggestion: Suggestion; undo: ItemAddUndo };
 
 type Added = {
   id: string;
@@ -102,6 +119,21 @@ export default function AddItemSheet() {
   const [draft, setDraft] = useState("");
   const [settleItems, setSettleItems] = useState(false);
   const [added, setAdded] = useState<Added[]>([]);
+  const [suggestionAdds, setSuggestionAdds] = useState<
+    Record<string, SuggestionAdd>
+  >({});
+  const [lockedSuggestions, setLockedSuggestions] = useState<
+    Suggestion[] | null
+  >(null);
+  const classifyOnClose = useRef<Map<string, string> | null>(null);
+  useEffect(() => {
+    const pending = new Map<string, string>();
+    classifyOnClose.current = pending;
+    return () => {
+      classifyOnClose.current = null;
+      for (const [id, name] of pending) void categorizeItemAsync(id, name);
+    };
+  }, []);
   const [details, setDetails] = useState<Record<string, string>>({});
   const primaryColor = useResolveClassNames("text-primary").color;
   const mutedColor = useResolveClassNames("text-muted-foreground").color;
@@ -123,39 +155,46 @@ export default function AddItemSheet() {
     [listId ?? ""],
   );
   const seen = new Set([
-    ...activeItems.map(({ name_key }) => name_key),
+    ...activeItems.flatMap(({ name_key }) =>
+      name_key && !suggestionAdds[name_key] ? [name_key] : [],
+    ),
     ...added.map(({ name }) => itemNameKey(name)),
   ]);
-  const suggestions = [
-    ...matches.flatMap((item) =>
-      item.name
-        ? [
-            {
-              name: item.name,
-              artLabel: item.name,
-            },
-          ]
-        : [],
-    ),
-    ...ingredientPickerSections({
-      profile: household?.profile,
-      query: draft,
-      displayLabel: (name) => formatPickerIngredient(intl, name),
-    }).flatMap(({ tiles }) =>
-      tiles.map(({ label }) => ({
-        name: formatPickerIngredient(intl, label),
-        artLabel: label,
-      })),
-    ),
-  ]
-    .filter(({ name }) => {
-      const key = itemNameKey(name);
-      if (seen.has(key)) return false;
-      seen.add(key);
-      return true;
-    })
-    .slice(0, 18)
-    .sort((a, b) => a.name.localeCompare(b.name, intl.locale));
+  const suggestions =
+    lockedSuggestions ??
+    [
+      ...Object.values(suggestionAdds).flatMap(({ suggestion }) =>
+        itemNameKey(suggestion.name).includes(needle) ? [suggestion] : [],
+      ),
+      ...matches.flatMap((item) =>
+        item.name
+          ? [
+              {
+                name: item.name,
+                artLabel: item.name,
+              },
+            ]
+          : [],
+      ),
+      ...ingredientPickerSections({
+        profile: household?.profile,
+        query: draft,
+        displayLabel: (name) => formatPickerIngredient(intl, name),
+      }).flatMap(({ tiles }) =>
+        tiles.map(({ label }) => ({
+          name: formatPickerIngredient(intl, label),
+          artLabel: label,
+        })),
+      ),
+    ]
+      .filter(({ name }) => {
+        const key = itemNameKey(name);
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      })
+      .slice(0, 18)
+      .sort((a, b) => a.name.localeCompare(b.name, intl.locale));
   const artFor = useIngredientArt([
     ...added.map(({ name }) => name),
     ...suggestions.map(({ artLabel }) => artLabel),
@@ -222,6 +261,7 @@ export default function AddItemSheet() {
         reactivated_existing_item: wasPurchased,
         needs_category: !item.categoryId,
       });
+      setLockedSuggestions(null);
       setDraft((current) => (current === submittedDraft ? "" : current));
       inputRef.current?.focus();
       void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -236,6 +276,65 @@ export default function AddItemSheet() {
     }
   }
 
+  async function toggleSuggestion(suggestion: Suggestion) {
+    if (!listId || busy.current) return;
+    const key = itemNameKey(suggestion.name);
+    const current = suggestionAdds[key];
+    // A purchase-history suggestion leaves the query as soon as it is added.
+    // Freeze the visible order until the user types again.
+    setLockedSuggestions(suggestions);
+    busy.current = true;
+    setSaving(true);
+    try {
+      if (current) {
+        await undoItemAdd(current.undo);
+        classifyOnClose.current?.delete(current.undo.id);
+        setSuggestionAdds((entries) => {
+          const next = { ...entries };
+          delete next[key];
+          return next;
+        });
+      } else {
+        const item = await addItem(listId, suggestion.name);
+        if (!item?.undo) {
+          setLockedSuggestions(null);
+          return;
+        }
+        const { undo } = item;
+        const needsCategory = !item.categoryId;
+        if (needsCategory) {
+          // Keep the category untouched while the suggestion can still be undone.
+          const pending = classifyOnClose.current;
+          if (pending) pending.set(item.id, item.name);
+          else void categorizeItemAsync(item.id, item.name);
+        }
+        setSuggestionAdds((entries) => ({
+          ...entries,
+          [key]: { suggestion, undo },
+        }));
+        posthog?.capture("shopping_item_added", {
+          reactivated_existing_item: undo.previous?.status === "purchased",
+          needs_category: needsCategory,
+        });
+      }
+      void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    } catch {
+      Alert.alert(
+        current
+          ? intl.formatMessage({
+              defaultMessage: "Couldn’t undo the addition",
+              description:
+                "Alert title when the Add items sheet could not undo a suggestion added to the shopping list.",
+            })
+          : intl.formatMessage(shopMessages.addItem),
+        intl.formatMessage(shopMessages.tryAgain),
+      );
+    } finally {
+      busy.current = false;
+      setSaving(false);
+    }
+  }
+
   async function edit(id: string) {
     if (busy.current) return;
     busy.current = true;
@@ -243,6 +342,7 @@ export default function AddItemSheet() {
     try {
       await saveDetails();
       setDraft("");
+      setLockedSuggestions(null);
       router.push({ pathname: "/shop/item", params: { itemId: id } });
     } catch {
       Alert.alert(
@@ -362,41 +462,54 @@ export default function AddItemSheet() {
                 </View>
               </Animated.View>
             )),
-            ...suggestions.map(({ name, artLabel }) => (
-              <Animated.View
-                key={itemNameKey(name)}
-                layout={settleItems ? shoppingItemMove : undefined}
-              >
-                <PressableScale
-                  className="min-h-12 justify-center border-b border-border/60"
-                  disabled={saving || !listId}
-                  onPress={() => void add(name)}
-                  accessibilityRole="button"
-                  accessibilityLabel={intl.formatMessage(
-                    suggestionMessages.add,
-                    {
-                      name,
-                    },
-                  )}
+            ...suggestions.map((suggestion) => {
+              const { name, artLabel } = suggestion;
+              const checked = !!suggestionAdds[itemNameKey(name)];
+              return (
+                <Animated.View
+                  key={itemNameKey(name)}
+                  layout={settleItems ? shoppingItemMove : undefined}
                 >
-                  <View className="flex-row items-center gap-3 px-2 py-1">
-                    <Text className="flex-1 font-rounded text-base font-bold">
-                      {capitalize(name)}
-                    </Text>
-                    {artFor(artLabel) !== undefined ? (
-                      <ItemArt asset={artFor(artLabel)} />
-                    ) : null}
-                    <SymbolView
-                      name={{ ios: "plus", android: "add" }}
-                      tintColor={mutedColor}
-                      size={16}
-                      accessibilityElementsHidden
-                      importantForAccessibility="no-hide-descendants"
-                    />
-                  </View>
-                </PressableScale>
-              </Animated.View>
-            )),
+                  <PressableScale
+                    className="min-h-12 justify-center border-b border-border/60"
+                    disabled={saving || !listId}
+                    onPress={() => void toggleSuggestion(suggestion)}
+                    accessibilityRole="checkbox"
+                    accessibilityState={{ checked }}
+                    accessibilityLabel={intl.formatMessage(
+                      checked
+                        ? suggestionMessages.undo
+                        : suggestionMessages.add,
+                      { name },
+                    )}
+                  >
+                    <View className="flex-row items-center gap-3 px-2 py-1">
+                      <Text className="flex-1 font-rounded text-base font-bold">
+                        {capitalize(name)}
+                      </Text>
+                      {artFor(artLabel) !== undefined ? (
+                        <ItemArt asset={artFor(artLabel)} />
+                      ) : null}
+                      <View
+                        className="w-5 items-center"
+                        accessibilityElementsHidden
+                        importantForAccessibility="no-hide-descendants"
+                      >
+                        <SymbolView
+                          name={
+                            checked
+                              ? { ios: "checkmark", android: "check" }
+                              : { ios: "plus", android: "add" }
+                          }
+                          tintColor={checked ? primaryColor : mutedColor}
+                          size={16}
+                        />
+                      </View>
+                    </View>
+                  </PressableScale>
+                </Animated.View>
+              );
+            }),
           ]}
         </View>
       </ScrollView>
@@ -407,11 +520,14 @@ export default function AddItemSheet() {
             value={draft}
             onChangeText={(text) => {
               setSettleItems(false);
+              setLockedSuggestions(null);
               setDraft(text);
             }}
             editable={!!listId}
             placeholder={intl.formatMessage(
-              added.length ? fieldMessages.nextItem : fieldMessages.firstItem,
+              added.length || Object.keys(suggestionAdds).length
+                ? fieldMessages.nextItem
+                : fieldMessages.firstItem,
             )}
             placeholderTextColor={mutedColor}
             accessibilityLabel={intl.formatMessage({

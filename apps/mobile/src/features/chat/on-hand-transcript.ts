@@ -4,6 +4,8 @@ import { z } from "zod";
 import { formatPickerIngredient } from "@/features/ingredients/ingredient-labels";
 import { mealTarget, type MealTarget } from "@/features/meals/slots";
 
+import type { Parts } from "./stream";
+
 export type OnHandEntry = {
   target: MealTarget;
   ingredients: readonly string[];
@@ -15,6 +17,12 @@ const entrySchema = z.object({
   ingredients: z.array(z.string()),
   note: z.string(),
 });
+
+export function onHandEntryFromParts(parts: Parts) {
+  return readOnHandEntry(
+    parts.find((part) => part.type === "data-onHandEntry")?.data,
+  );
+}
 
 export function readOnHandEntry(value: unknown): OnHandEntry | null {
   const result = entrySchema.safeParse(value);
@@ -49,6 +57,18 @@ const targetMessages = defineMessages<{
   { typed: true },
 );
 
+export function formatOnHandIngredients(
+  intl: IntlShape,
+  ingredients: readonly string[],
+): string {
+  const labels = ingredients.map((label) =>
+    formatPickerIngredient(intl, label),
+  );
+  return labels.length > 1 && typeof Intl.ListFormat === "function"
+    ? new Intl.ListFormat(intl.locale).format(labels)
+    : labels.join(", ");
+}
+
 export function formatOnHandTranscript(
   intl: IntlShape,
   { target, ingredients, note }: OnHandEntry,
@@ -57,10 +77,7 @@ export function formatOnHandTranscript(
     dateStyle: "medium",
   });
   const ask = intl.formatMessage(targetMessages[target.slot], { date });
-  const labels = ingredients.map((label) =>
-    formatPickerIngredient(intl, label),
-  );
-  const picked = labels.length
+  const picked = ingredients.length
     ? intl.formatMessage(
         {
           defaultMessage: "I’d like to use up {ingredients}.",
@@ -68,10 +85,7 @@ export function formatOnHandTranscript(
             "User bubble naming the selected ingredients the cook wants to put to use. They may have them now or expect to have them by the planned meal. {ingredients} is a localized list of ingredient names.",
         },
         {
-          ingredients:
-            labels.length > 1 && typeof Intl.ListFormat === "function"
-              ? new Intl.ListFormat(intl.locale).format(labels)
-              : labels.join(", "),
+          ingredients: formatOnHandIngredients(intl, ingredients),
         },
       )
     : "";

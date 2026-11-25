@@ -196,6 +196,8 @@ export function Composer({
     submitLabel: string;
     onAdd: (text: string) => void;
     selection?: ReactNode;
+    heading: ReactNode;
+    results: ReactNode;
   };
 }) {
   const insets = useSafeAreaInsets();
@@ -413,12 +415,37 @@ export function Composer({
     }
   }
 
+  const attachmentContent = (
+    <>
+      {attachments.length ? (
+        <View className="px-2 pt-2">
+          <ImageAttachmentStrip
+            attachments={attachments}
+            onRemove={(index) =>
+              setAttachments((current) => current.filter((_, i) => i !== index))
+            }
+          />
+        </View>
+      ) : null}
+      {attachmentError ? (
+        <Text className="px-4 pt-2 text-destructive" accessibilityRole="alert">
+          {attachmentError}
+        </Text>
+      ) : null}
+    </>
+  );
+
   return (
     <Animated.View
-      className={floating ? "" : "border-t border-border/40 bg-background"}
+      className={
+        pickerMode
+          ? "flex-1"
+          : floating
+            ? ""
+            : "border-t border-border/40 bg-background"
+      }
       style={bottomStyle}
     >
-      {addAction?.selection}
       {suggestions.length && !busy && !voiceOn ? (
         <ScrollView
           horizontal
@@ -439,21 +466,8 @@ export function Composer({
           ))}
         </ScrollView>
       ) : null}
-      {attachments.length ? (
-        <View className="px-2 pt-2">
-          <ImageAttachmentStrip
-            attachments={attachments}
-            onRemove={(index) =>
-              setAttachments((current) => current.filter((_, i) => i !== index))
-            }
-          />
-        </View>
-      ) : null}
-      {attachmentError ? (
-        <Text className="px-4 pt-2 text-destructive" accessibilityRole="alert">
-          {attachmentError}
-        </Text>
-      ) : null}
+      {!pickerMode ? attachmentContent : null}
+      {addAction?.heading}
       {/* Both layouts stay mounted. Hiding the field must never discard its
           text, selection, attachments, or an image picker still in flight.
           Only the active row takes space or participates in accessibility. */}
@@ -524,7 +538,12 @@ export function Composer({
         >
           {/* No swap animation when the composer first appears. */}
           <LayoutAnimationConfig skipEntering>
-            <View className="flex-row items-end gap-2 px-4 pt-2">
+            <View
+              className={cn(
+                "flex-row items-end gap-2 px-4 pt-2",
+                pickerMode && "pb-2",
+              )}
+            >
               <Animated.View
                 layout={reduced || collapsed ? undefined : FIELD_LAYOUT}
                 className={cn(
@@ -547,6 +566,17 @@ export function Composer({
                         size={22}
                       />
                     </Pressable>
+                  ) : pickerMode ? (
+                    <View
+                      className="size-12 items-center justify-center"
+                      accessible={false}
+                    >
+                      <SymbolView
+                        name={{ ios: "magnifyingglass", android: "search" }}
+                        tintColor={placeholderColor}
+                        size={20}
+                      />
+                    </View>
                   ) : (
                     <ImageAttachmentMenu
                       onSelect={(source) => void addAttachments(source)}
@@ -597,6 +627,7 @@ export function Composer({
                       onFocus={() => setFocused(true)}
                       onBlur={() => setFocused(false)}
                       placeholder={placeholder}
+                      accessibilityLabel={pickerMode ? placeholder : undefined}
                       placeholderTextColor={placeholderColor}
                       autoCorrect={pickerMode ? false : undefined}
                       spellCheck={pickerMode ? false : undefined}
@@ -673,6 +704,14 @@ export function Composer({
                   )}
                 </Animated.View>
               </Animated.View>
+              {pickerMode && !voiceOn ? (
+                <View className="rounded-3xl bg-muted">
+                  <ImageAttachmentMenu
+                    onSelect={(source) => void addAttachments(source)}
+                    disabled={busy}
+                  />
+                </View>
+              ) : null}
               {showEmptyAction ? (
                 <Animated.View entering={swapIn} exiting={swapOut}>
                   <Animated.View style={expandedContentStyle}>
@@ -684,6 +723,13 @@ export function Composer({
           </LayoutAnimationConfig>
         </Animated.View>
       </View>
+      {addAction?.results}
+      {pickerMode ? attachmentContent : null}
+      {addAction?.selection ? (
+        <View className="border-t border-border/60 pt-1">
+          {addAction.selection}
+        </View>
+      ) : null}
       {submitLabel ? (
         <Button
           size="lg"

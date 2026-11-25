@@ -61,6 +61,12 @@
       "value": "Egg noodles"
     }
   ],
+  "/MIOpc": [
+    {
+      "type": 0,
+      "value": "See fewer"
+    }
+  ],
   "/woc5o": [
     {
       "type": 0,
@@ -550,12 +556,6 @@
       "value": "Buckwheat"
     }
   ],
-  "Eifh/c": [
-    {
-      "type": 0,
-      "value": "Find meal ideas"
-    }
-  ],
   "Eo0PBs": [
     {
       "type": 0,
@@ -868,12 +868,6 @@
       "value": "Normal"
     }
   ],
-  "LWquky": [
-    {
-      "type": 0,
-      "value": "Use up first"
-    }
-  ],
   "LZ9KXr": [
     {
       "type": 0,
@@ -952,6 +946,12 @@
       "value": "Palm sugar"
     }
   ],
+  "NZ29RJ": [
+    {
+      "type": 0,
+      "value": "See all"
+    }
+  ],
   "Ngz9Xq": [
     {
       "type": 0,
@@ -980,6 +980,12 @@
     {
       "type": 0,
       "value": "Star anise"
+    }
+  ],
+  "OeHrQA": [
+    {
+      "type": 0,
+      "value": "Couldn’t undo the addition"
     }
   ],
   "Ofk7Ir": [
@@ -1020,6 +1026,12 @@
     {
       "type": 0,
       "value": "Tell Magpie a recipe you know"
+    }
+  ],
+  "PuKajS": [
+    {
+      "type": 0,
+      "value": "From your meal plan"
     }
   ],
   "Q5plTF": [
@@ -1100,32 +1112,6 @@
     {
       "type": 0,
       "value": "Pet supplies"
-    }
-  ],
-  "RTXE+W": [
-    {
-      "type": 6,
-      "value": "count",
-      "options": {
-        "one": {
-          "value": [
-            {
-              "type": 0,
-              "value": "Find ideas with this ingredient"
-            }
-          ]
-        },
-        "other": {
-          "value": [
-            {
-              "type": 0,
-              "value": "Find ideas with these ingredients"
-            }
-          ]
-        }
-      },
-      "offset": 0,
-      "pluralType": "cardinal"
     }
   ],
   "Rn/xwI": [
@@ -1783,6 +1769,12 @@
       "value": "Cornmeal"
     }
   ],
+  "hPjexc": [
+    {
+      "type": 0,
+      "value": "No matching ingredients"
+    }
+  ],
   "heIYZX": [
     {
       "type": 1,
@@ -1869,6 +1861,12 @@
     {
       "type": 0,
       "value": "Plain yoghurt"
+    }
+  ],
+  "kCZCba": [
+    {
+      "type": 0,
+      "value": "Edit"
     }
   ],
   "kM+skD": [
@@ -2080,6 +2078,12 @@
       "value": "Black beans"
     }
   ],
+  "q3s1bA": [
+    {
+      "type": 0,
+      "value": "Cancel"
+    }
+  ],
   "qAqot2": [
     {
       "type": 0,
@@ -2120,6 +2124,16 @@
     {
       "type": 0,
       "value": "Leeks"
+    }
+  ],
+  "rxfA+v": [
+    {
+      "type": 0,
+      "value": "Undo adding "
+    },
+    {
+      "type": 1,
+      "value": "name"
     }
   ],
   "ryFpRR": [
@@ -2542,6 +2556,12 @@
     {
       "type": 0,
       "value": "Shop"
+    }
+  ],
+  "zvjc6B": [
+    {
+      "type": 0,
+      "value": "Find meal ideas"
     }
   ]
 }

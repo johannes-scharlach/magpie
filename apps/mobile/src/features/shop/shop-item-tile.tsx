@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils";
 
 import { CheckOff } from "./check-off";
 import { shopMessages } from "./messages";
-import { splitSpec } from "./spec";
+import { splitShoppingName, splitSpec } from "./spec";
 import { capitalize } from "./text";
 
 const checkBoxMessages = defineMessages<{
@@ -59,6 +59,10 @@ export function ShopItemTile({
   const mutedColor = useResolveClassNames("text-muted-foreground").color;
   const primaryColor = useResolveClassNames("text-primary").color;
   const name = item.name ?? "";
+  const { primary, alternative } = splitShoppingName(
+    name,
+    !!item.planned_meal_id,
+  );
   const purchased = item.status === "purchased";
   const { pending, check } = useCheckOff(purchased, () =>
     setItemStatus(item.id, "purchased"),
@@ -69,6 +73,7 @@ export function ShopItemTile({
   const quantity = item.planned_meal_id
     ? (splitSpec(item.spec).amount ?? item.spec)
     : item.spec;
+  const detail = [quantity, alternative].filter(Boolean).join(" · ");
 
   function toggle() {
     if (!purchased) {
@@ -91,85 +96,80 @@ export function ShopItemTile({
       )}
     >
       <PressableScale
-        className="min-h-14 flex-1 justify-center self-stretch"
+        className="w-11 items-start justify-center self-stretch"
         accessibilityRole="checkbox"
         accessibilityState={{ checked }}
-        accessibilityLabel={[
-          intl.formatMessage(
-            checked ? checkBoxMessages.restore : checkBoxMessages.checkOff,
-            { name },
-          ),
-          quantity,
-        ]
-          .filter(Boolean)
-          .join(", ")}
+        accessibilityLabel={intl.formatMessage(
+          purchased ? checkBoxMessages.restore : checkBoxMessages.checkOff,
+          { name: primary },
+        )}
+        disabled={pending}
         onPress={toggle}
       >
-        <View className="flex-row items-center gap-3 py-1.5">
-          <View
-            accessibilityElementsHidden
-            importantForAccessibility="no-hide-descendants"
-          >
-            <SymbolView
-              name={checked ? CHECKED_ICON : UNCHECKED_ICON}
-              tintColor={checked ? primaryColor : mutedColor}
-              weight="medium"
-              size={22}
-            />
-          </View>
-          <View className="flex-1">
-            <Text
-              className={cn(
-                "font-rounded text-base font-bold",
-                checked && "text-muted-foreground line-through",
-              )}
-            >
-              {capitalize(name)}
-            </Text>
-            {quantity ? (
-              <Text
-                className="text-sm font-medium text-muted-foreground"
-                style={{ fontVariant: ["tabular-nums"] }}
-              >
-                {quantity}
-              </Text>
-            ) : null}
-          </View>
-          {asset !== undefined ? (
-            <View
-              className={cn("h-12 w-16", checked && "opacity-60")}
-              accessibilityElementsHidden
-              importantForAccessibility="no-hide-descendants"
-            >
-              <Image
-                source={asset}
-                recyclingKey={String(asset)}
-                contentFit="contain"
-                style={{ position: "absolute", width: "100%", height: "100%" }}
-              />
-            </View>
-          ) : null}
-        </View>
+        <SymbolView
+          name={checked ? CHECKED_ICON : UNCHECKED_ICON}
+          tintColor={checked ? primaryColor : mutedColor}
+          weight="medium"
+          size={22}
+        />
       </PressableScale>
       <Pressable
         accessibilityRole="button"
-        accessibilityLabel={[
-          intl.formatMessage({
-            defaultMessage: "Open details",
-            description:
-              "Accessibility action that opens the shopping item's detail sheet.",
-          }),
-          name,
-        ].join(", ")}
+        accessibilityLabel={[capitalize(primary), detail]
+          .filter(Boolean)
+          .join(", ")}
+        accessibilityHint={intl.formatMessage({
+          defaultMessage: "Open details",
+          description:
+            "Accessibility action that opens the shopping item's detail sheet.",
+        })}
         disabled={pending}
         onPress={() => onOpen(item.id)}
-        className="size-11 items-center justify-center rounded-full active:bg-muted disabled:opacity-50"
+        className="min-h-14 flex-1 flex-row items-center gap-2 self-stretch py-1.5 active:opacity-60"
       >
-        <SymbolView
-          name={{ ios: "chevron.right", android: "chevron_right" }}
-          tintColor={mutedColor}
-          size={14}
-        />
+        <View className="flex-1">
+          <Text
+            className={cn(
+              "font-rounded text-base font-bold",
+              checked && "text-muted-foreground line-through",
+            )}
+          >
+            {capitalize(primary)}
+          </Text>
+          {detail ? (
+            <Text
+              className="text-sm font-medium text-muted-foreground"
+              style={{ fontVariant: ["tabular-nums"] }}
+            >
+              {detail}
+            </Text>
+          ) : null}
+        </View>
+        {asset !== undefined ? (
+          <View
+            className={cn("h-11 w-14", checked && "opacity-60")}
+            accessibilityElementsHidden
+            importantForAccessibility="no-hide-descendants"
+          >
+            <Image
+              source={asset}
+              recyclingKey={String(asset)}
+              contentFit="contain"
+              style={{ width: "100%", height: "100%" }}
+            />
+          </View>
+        ) : null}
+        <View
+          className="w-7 items-center"
+          accessibilityElementsHidden
+          importantForAccessibility="no-hide-descendants"
+        >
+          <SymbolView
+            name={{ ios: "chevron.right", android: "chevron_right" }}
+            tintColor={mutedColor}
+            size={13}
+          />
+        </View>
       </Pressable>
     </View>
   );

@@ -10,7 +10,7 @@ import {
 } from "expo-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useIntl } from "react-intl";
-import { AppState, Pressable, View } from "react-native";
+import { AppState, Keyboard, Pressable, View } from "react-native";
 import {
   KeyboardAwareScrollView,
   KeyboardAvoidingView,
@@ -42,7 +42,10 @@ import {
   OnHandPicker,
   PickedIngredients,
 } from "@/features/chat/on-hand-picker";
-import type { OnHandEntry } from "@/features/chat/on-hand-transcript";
+import {
+  onHandEntryFromParts,
+  type OnHandEntry,
+} from "@/features/chat/on-hand-transcript";
 import { AssistantMessage, UserMessage } from "@/features/chat/message";
 import {
   peekQueuedMessage,
@@ -489,7 +492,13 @@ export default function ChatScreen() {
       : null;
   const starting =
     !!slotEntry && !chat && !firstUser && !chatLoading && !messagesLoading;
-  const pickingIngredients = starting && slotEntry === "on_hand";
+  const [editingIngredients, setEditingIngredients] =
+    useState<OnHandEntry | null>(null);
+  const pickingIngredients =
+    (starting && slotEntry === "on_hand") || !!editingIngredients;
+  const latestSelection = shown.findLast(
+    (message) => message.role === "user" && onHandEntryFromParts(message.parts),
+  );
   const useUp = useRankedUseUp(
     conversationListId,
     pickingIngredients ? target : null,
@@ -577,18 +586,7 @@ export default function ChatScreen() {
         automaticOffset={pickingIngredients}
         enabled={pickingIngredients}
       >
-        {pickingIngredients ? (
-          <OnHandPicker
-            listId={conversationListId ?? null}
-            useUp={useUp}
-            picked={picked}
-            query={ingredientDraft}
-            onToggle={(tile) => {
-              setPicked((current) => togglePickedIngredient(current, tile));
-              setIngredientDraft("");
-            }}
-          />
-        ) : (
+        {!pickingIngredients ? (
           <KeyboardAwareScrollView
             ref={scrollRef}
             className="flex-1"
@@ -645,7 +643,28 @@ export default function ChatScreen() {
                         );
                       }}
                     >
-                      <UserMessage parts={m.parts} />
+                      <UserMessage
+                        parts={m.parts}
+                        showSelection={m.id === latestSelection?.id}
+                        onEditSelection={
+                          !busy &&
+                          !error &&
+                          !!conversationListId &&
+                          m.id === latestSelection?.id
+                            ? (selection) => {
+                                Keyboard.dismiss();
+                                setIngredientDraft("");
+                                setPicked(
+                                  selection.ingredients.reduce(
+                                    addTypedIngredient,
+                                    [],
+                                  ),
+                                );
+                                setEditingIngredients(selection);
+                              }
+                            : undefined
+                        }
+                      />
                     </View>
                   );
                 const state = turnState(m.parts);
@@ -748,10 +767,14 @@ export default function ChatScreen() {
               ) : null}
             </View>
           </KeyboardAwareScrollView>
-        )}
+        ) : null}
 
-        <KeyboardStickyView enabled={!pickingIngredients}>
+        <KeyboardStickyView
+          enabled={!pickingIngredients}
+          style={pickingIngredients ? { flex: 1 } : undefined}
+        >
           <Composer
+            key={pickingIngredients ? "ingredients" : "chat"}
             placeholder={
               pickingIngredients
                 ? intl.formatMessage({
@@ -780,21 +803,59 @@ export default function ChatScreen() {
                       description:
                         "Adds the typed ingredient to the meal request without sending it.",
                     }),
-                    submitLabel: picked.length
-                      ? intl.formatMessage(
-                          {
-                            defaultMessage:
-                              "{count, plural, one {Find ideas with this ingredient} other {Find ideas with these ingredients}}",
+                    submitLabel: intl.formatMessage({
+                      defaultMessage: "Find meal ideas",
+                      description:
+                        "Primary action in the meal ingredient picker. Requests meal ideas using the selected ingredients or attachments.",
+                    }),
+                    heading: (
+                      <View className="flex-row items-center justify-between gap-2 px-4 pt-2">
+                        <Text
+                          accessibilityRole="header"
+                          className="shrink font-rounded text-lg font-extrabold"
+                        >
+                          {intl.formatMessage({
+                            defaultMessage: "What do you want to cook with?",
                             description:
-                              "Primary action in the meal ingredient picker. {count} is the number of selected ingredients to use in the meal ideas.",
-                          },
-                          { count: picked.length },
-                        )
-                      : intl.formatMessage({
-                          defaultMessage: "Find meal ideas",
-                          description:
-                            "Primary action in the ingredient picker when the cook has attached a photo without selecting ingredients. Requests ideas for the selected meal slot.",
-                        }),
+                              "Heading above the ingredient picker for a planned meal. Invites the cook to choose ingredients they want to cook with.",
+                          })}
+                        </Text>
+                        {editingIngredients ? (
+                          <Pressable
+                            accessibilityRole="button"
+                            className="min-h-11 justify-center px-1 active:opacity-60"
+                            onPress={() => {
+                              Keyboard.dismiss();
+                              settled.current = false;
+                              setAnchor(null);
+                              setEditingIngredients(null);
+                            }}
+                          >
+                            <Text className="font-semibold text-primary">
+                              {intl.formatMessage({
+                                defaultMessage: "Cancel",
+                                description:
+                                  "Closes the ingredient editor and returns to the previous meal ideas.",
+                              })}
+                            </Text>
+                          </Pressable>
+                        ) : null}
+                      </View>
+                    ),
+                    results: (
+                      <OnHandPicker
+                        listId={conversationListId ?? null}
+                        useUp={useUp}
+                        picked={picked}
+                        query={ingredientDraft}
+                        onToggle={(tile) => {
+                          setPicked((current) =>
+                            togglePickedIngredient(current, tile),
+                          );
+                          setIngredientDraft("");
+                        }}
+                      />
+                    ),
                     onAdd: (text) =>
                       setPicked((current) => addTypedIngredient(current, text)),
                     selection: picked.length ? (
@@ -813,26 +874,33 @@ export default function ChatScreen() {
             busy={busy || !conversationListId || !(chat || starting)}
             suggestions={suggestions}
             onSend={(text, attachments) => {
-              if (starting && entryTarget) {
-                posthog?.capture("meal_ideas_started", {
-                  entry_type: slotEntry,
-                  attachment_count: attachments.length,
-                });
+              const meal = editingIngredients?.target ?? entryTarget;
+              if (meal && (starting || editingIngredients)) {
+                if (starting) {
+                  posthog?.capture("meal_ideas_started", {
+                    entry_type: slotEntry,
+                    attachment_count: attachments.length,
+                  });
+                }
                 if (pickingIngredients) {
                   const ingredients = picked.map(({ label }) => label);
+                  const note = editingIngredients?.note ?? text.trim();
                   void send(
-                    onHandSlotMessage(entryTarget, ingredients, text),
+                    onHandSlotMessage(
+                      meal,
+                      ingredients,
+                      note,
+                      !!editingIngredients,
+                    ),
                     attachments,
                     undefined,
-                    { target: entryTarget, ingredients, note: text.trim() },
+                    { target: meal, ingredients, note },
                   );
+                  setEditingIngredients(null);
                   setPicked([]);
                 } else {
                   void send(
-                    slotEntryMessage(
-                      entryTarget,
-                      text ? dishMessage(text) : text,
-                    ),
+                    slotEntryMessage(meal, text ? dishMessage(text) : text),
                     attachments,
                   );
                 }

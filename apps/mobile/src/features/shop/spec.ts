@@ -24,3 +24,11 @@ export function splitSpec(spec: string | null) {
     ? { amount: prettyQuantity(first), note: rest.join(", ") || null }
     : { amount: null, note: spec };
 }
+
+/** Older meal ingredients can carry alternatives in the stored recipe name. */
+export function splitShoppingName(name: string, fromMeal: boolean) {
+  const match = fromMeal ? /^(.+?)(\s+(?:or|oder)\s+.+)$/iu.exec(name) : null;
+  return match
+    ? { primary: match[1]!, alternative: match[2]!.trim() }
+    : { primary: name, alternative: null };
+}

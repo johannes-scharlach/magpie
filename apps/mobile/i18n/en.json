@@ -48,10 +48,10 @@
     "col": 23,
     "defaultMessage": "Help me decide what to make for lunch on {date}.",
     "description": "First user bubble in the on-hand chat for lunch. {date} is a formatted calendar date.",
-    "end": 1594,
+    "end": 1787,
     "file": "src/features/chat/on-hand-transcript.ts",
-    "line": 27,
-    "start": 822
+    "line": 35,
+    "start": 1015
   },
   "+hCyqG": {
     "col": 62,
@@ -66,10 +66,10 @@
     "col": 17,
     "defaultMessage": "Done",
     "description": "Action that closes the shopping item entry sheet, keeping what was added.",
-    "end": 9552,
+    "end": 12947,
     "file": "src/app/shop/add.tsx",
-    "line": 291,
-    "start": 9343
+    "line": 391,
+    "start": 12738
   },
   "/JrTfa": {
     "col": 62,
@@ -79,6 +79,15 @@
     "file": "src/features/ingredients/ingredient-labels.ts",
     "line": 10,
     "start": 349
+  },
+  "/MIOpc": {
+    "col": 22,
+    "defaultMessage": "See fewer",
+    "description": "Collapses the illustrated suggestions to a single row in the meal ingredient picker.",
+    "end": 6279,
+    "file": "src/features/chat/on-hand-picker.tsx",
+    "line": 171,
+    "start": 6030
   },
   "/woc5o": {
     "col": 17,
@@ -120,10 +129,10 @@
     "col": 20,
     "defaultMessage": "What would you like to make?",
     "description": "First message prompt for a meal chat based on a dish the user has in mind.",
-    "end": 27194,
+    "end": 28209,
     "file": "src/app/chats/[id].tsx",
-    "line": 763,
-    "start": 26944
+    "line": 786,
+    "start": 27959
   },
   "1+QXgM": {
     "col": 13,
@@ -138,10 +147,10 @@
     "col": 27,
     "defaultMessage": "Add ingredient",
     "description": "Adds the typed ingredient to the meal request without sending it.",
-    "end": 27738,
+    "end": 28753,
     "file": "src/app/chats/[id].tsx",
-    "line": 778,
-    "start": 27511
+    "line": 801,
+    "start": 28526
   },
   "1TrkHP": {
     "col": 12,
@@ -165,28 +174,28 @@
     "col": 23,
     "defaultMessage": "{count} checked",
     "description": "How many shopping items were already checked off, after the count still to buy.",
-    "end": 4835,
+    "end": 4893,
     "file": "src/app/(tabs)/shop/index.tsx",
-    "line": 110,
-    "start": 4624
+    "line": 111,
+    "start": 4682
   },
   "1q9iJM": {
     "col": 30,
     "defaultMessage": "Add item",
     "description": "Accessibility label for the Shop toolbar button that opens the item entry sheet.",
-    "end": 3845,
+    "end": 3903,
     "file": "src/app/(tabs)/shop/index.tsx",
-    "line": 80,
-    "start": 3649
+    "line": 81,
+    "start": 3707
   },
   "2H3Nev": {
     "col": 27,
     "defaultMessage": "Add {name}",
     "description": "Accessibility label for a suggested item that can be added to the shopping list. {name} is the item's name.",
-    "end": 2292,
+    "end": 2594,
     "file": "src/app/shop/add.tsx",
-    "line": 60,
-    "start": 2028
+    "line": 66,
+    "start": 2081
   },
   "3CJl1Z": {
     "col": 21,
@@ -282,10 +291,10 @@
     "col": 33,
     "defaultMessage": "Add details",
     "description": "Placeholder in the note field of an item just added to the list. The note is free text, such as a size or brand.",
-    "end": 11657,
+    "end": 15052,
     "file": "src/app/shop/add.tsx",
-    "line": 342,
-    "start": 11386
+    "line": 442,
+    "start": 14781
   },
   "4eyER+": {
     "col": 21,
@@ -417,10 +426,10 @@
     "col": 18,
     "defaultMessage": "Nothing to buy yet. Open Meals to choose what to buy, or add an item.",
     "description": "Empty Shop state when planned meals still need a shopping choice. Names two ways to get items on the list.",
-    "end": 9690,
+    "end": 10067,
     "file": "src/app/(tabs)/shop/index.tsx",
-    "line": 250,
-    "start": 9353
+    "line": 262,
+    "start": 9730
   },
   "6kj6Yf": {
     "col": 62,
@@ -453,10 +462,10 @@
     "col": 22,
     "defaultMessage": "Add an item",
     "description": "Placeholder in the entry field where the cook types what to buy.",
-    "end": 1998,
+    "end": 2051,
     "file": "src/app/shop/add.tsx",
-    "line": 47,
-    "start": 1653
+    "line": 53,
+    "start": 1706
   },
   "7NwgcX": {
     "col": 13,
@@ -552,10 +561,10 @@
     "col": 30,
     "defaultMessage": "{count, plural, one {1 meal to review} other {# meals to review}}",
     "description": "Accessibility label for the Shop toolbar button that opens the meals needing a shopping decision. {count} is how many meals.",
-    "end": 2922,
+    "end": 2980,
     "file": "src/app/(tabs)/shop/index.tsx",
-    "line": 53,
-    "start": 2538
+    "line": 54,
+    "start": 2596
   },
   "ASxQxO": {
     "col": 62,
@@ -597,10 +606,10 @@
     "col": 25,
     "defaultMessage": "Check off {name}",
     "description": "Accessibility label for the checkbox of a shopping item. Selecting it marks the item as bought. {name} is the item's name.",
-    "end": 1313,
+    "end": 1332,
     "file": "src/features/shop/shop-item-tile.tsx",
     "line": 20,
-    "start": 758
+    "start": 777
   },
   "B8Psge": {
     "col": 8,
@@ -701,15 +710,6 @@
     "line": 10,
     "start": 349
   },
-  "Eifh/c": {
-    "col": 24,
-    "defaultMessage": "Find meal ideas",
-    "description": "Primary action in the ingredient picker when the cook has attached a photo without selecting ingredients. Requests ideas for the selected meal slot.",
-    "end": 28683,
-    "file": "src/app/chats/[id].tsx",
-    "line": 793,
-    "start": 28356
-  },
   "Eo0PBs": {
     "col": 62,
     "defaultMessage": "Stock & broth",
@@ -786,10 +786,10 @@
     "col": 11,
     "defaultMessage": "Add",
     "description": "Title of the Shop toolbar button that opens the item entry sheet.",
-    "end": 4161,
+    "end": 4219,
     "file": "src/app/(tabs)/shop/index.tsx",
-    "line": 89,
-    "start": 3985
+    "line": 90,
+    "start": 4043
   },
   "Frra3A": {
     "col": 25,
@@ -840,10 +840,10 @@
     "col": 20,
     "defaultMessage": "{count, plural, one {1 to buy} other {# to buy}}",
     "description": "Summary above the shopping list. {count} is how many items are still to buy.",
-    "end": 4565,
+    "end": 4623,
     "file": "src/app/(tabs)/shop/index.tsx",
-    "line": 101,
-    "start": 4326
+    "line": 102,
+    "start": 4384
   },
   "Gfm4qD": {
     "col": 21,
@@ -1074,10 +1074,10 @@
     "col": 18,
     "defaultMessage": "Search or add an ingredient",
     "description": "Placeholder in the ingredient picker field. Typing filters suggestions, and any typed ingredient can be added to the draft.",
-    "end": 26872,
+    "end": 27887,
     "file": "src/app/chats/[id].tsx",
-    "line": 757,
-    "start": 26582
+    "line": 780,
+    "start": 27597
   },
   "LIn5Ck": {
     "col": 35,
@@ -1096,15 +1096,6 @@
     "file": "src/features/meals/effort-label.ts",
     "line": 14,
     "start": 448
-  },
-  "LWquky": {
-    "col": 22,
-    "defaultMessage": "Use up first",
-    "description": "Ingredient picker heading for likely remainders to use soon. These are suggestions, not confirmed stock.",
-    "end": 1469,
-    "file": "src/features/chat/on-hand-picker.tsx",
-    "line": 30,
-    "start": 904
   },
   "LZ9KXr": {
     "col": 62,
@@ -1164,10 +1155,10 @@
     "col": 22,
     "defaultMessage": "Next item",
     "description": "Placeholder in the entry field after at least one item was added. Keeps the cook typing the next one.",
-    "end": 1998,
+    "end": 2051,
     "file": "src/app/shop/add.tsx",
-    "line": 47,
-    "start": 1653
+    "line": 53,
+    "start": 1706
   },
   "MJTmFc": {
     "col": 17,
@@ -1223,6 +1214,15 @@
     "line": 10,
     "start": 349
   },
+  "NZ29RJ": {
+    "col": 22,
+    "defaultMessage": "See all",
+    "description": "Expands the illustrated suggestions in the meal ingredient picker.",
+    "end": 6531,
+    "file": "src/features/chat/on-hand-picker.tsx",
+    "line": 176,
+    "start": 6302
+  },
   "Ngz9Xq": {
     "col": 15,
     "defaultMessage": "I have it at home",
@@ -1267,6 +1267,15 @@
     "file": "src/features/ingredients/ingredient-labels.ts",
     "line": 10,
     "start": 349
+  },
+  "OeHrQA": {
+    "col": 12,
+    "defaultMessage": "Couldn’t undo the addition",
+    "description": "Alert title when the Add items sheet could not undo a suggestion added to the shopping list.",
+    "end": 11099,
+    "file": "src/app/shop/add.tsx",
+    "line": 324,
+    "start": 10865
   },
   "Ofk7Ir": {
     "col": 35,
@@ -1322,6 +1331,15 @@
     "line": 309,
     "start": 11932
   },
+  "PuKajS": {
+    "col": 22,
+    "defaultMessage": "From your meal plan",
+    "description": "Ingredient picker heading for likely ingredients left from earlier planned meals.",
+    "end": 1328,
+    "file": "src/features/chat/on-hand-picker.tsx",
+    "line": 21,
+    "start": 779
+  },
   "Q5plTF": {
     "col": 13,
     "defaultMessage": "No list yet — create one in Shop first.",
@@ -1335,10 +1353,10 @@
     "col": 22,
     "defaultMessage": "More ingredients",
     "description": "Ingredient picker section for the rest of the household's ingredients, alphabetized by their displayed names.",
-    "end": 1469,
+    "end": 1328,
     "file": "src/features/chat/on-hand-picker.tsx",
-    "line": 30,
-    "start": 904
+    "line": 21,
+    "start": 779
   },
   "QJp8Zx": {
     "col": 25,
@@ -1362,10 +1380,10 @@
     "col": 23,
     "defaultMessage": "Help me decide what treat to make on {date}.",
     "description": "First user bubble in the on-hand chat for a snack or treat. {date} is a formatted calendar date.",
-    "end": 1594,
+    "end": 1787,
     "file": "src/features/chat/on-hand-transcript.ts",
-    "line": 27,
-    "start": 822
+    "line": 35,
+    "start": 1015
   },
   "QoZ4P9": {
     "col": 12,
@@ -1430,15 +1448,6 @@
     "line": 8,
     "start": 334
   },
-  "RTXE+W": {
-    "col": 24,
-    "defaultMessage": "{count, plural, one {Find ideas with this ingredient} other {Find ideas with these ingredients}}",
-    "description": "Primary action in the meal ingredient picker. {count} is the number of selected ingredients to use in the meal ideas.",
-    "end": 28331,
-    "file": "src/app/chats/[id].tsx",
-    "line": 784,
-    "start": 27811
-  },
   "Rn/xwI": {
     "col": 62,
     "defaultMessage": "Dried mint",
@@ -1452,19 +1461,19 @@
     "col": 32,
     "defaultMessage": "Add an item",
     "description": "Accessibility label for the field where the cook types what to buy.",
-    "end": 14790,
+    "end": 18963,
     "file": "src/app/shop/add.tsx",
-    "line": 417,
-    "start": 14596
+    "line": 533,
+    "start": 18769
   },
   "SOmAkO": {
     "col": 12,
     "defaultMessage": "Meals ({count})",
     "description": "Title of the Shop toolbar button that opens the meals needing a shopping decision. {count} is how many meals.",
-    "end": 3353,
+    "end": 3411,
     "file": "src/app/(tabs)/shop/index.tsx",
-    "line": 65,
-    "start": 3036
+    "line": 66,
+    "start": 3094
   },
   "SPd0ko": {
     "col": 13,
@@ -1677,10 +1686,10 @@
     "col": 40,
     "defaultMessage": "Details for {name}",
     "description": "Accessibility label for the note field of an added shopping item. {name} is the item's name.",
-    "end": 12107,
+    "end": 15502,
     "file": "src/app/shop/add.tsx",
-    "line": 348,
-    "start": 11753
+    "line": 448,
+    "start": 15148
   },
   "W6R9iu": {
     "col": 23,
@@ -1974,10 +1983,10 @@
     "col": 25,
     "defaultMessage": "Restore {name}",
     "description": "Accessibility label for the checkbox of a bought shopping item. Selecting it puts the item back on the list. {name} is the item's name.",
-    "end": 1313,
+    "end": 1332,
     "file": "src/features/shop/shop-item-tile.tsx",
     "line": 20,
-    "start": 758
+    "start": 777
   },
   "fb/Ao6": {
     "col": 62,
@@ -2001,10 +2010,10 @@
     "col": 23,
     "defaultMessage": "Help me decide what to make for dinner on {date}.",
     "description": "First user bubble in the on-hand chat for dinner. {date} is a formatted calendar date.",
-    "end": 1594,
+    "end": 1787,
     "file": "src/features/chat/on-hand-transcript.ts",
-    "line": 27,
-    "start": 822
+    "line": 35,
+    "start": 1015
   },
   "g/+sAy": {
     "col": 62,
@@ -2037,10 +2046,10 @@
     "col": 32,
     "defaultMessage": "Add",
     "description": "Accessibility label for the button that adds the typed item to the shopping list.",
-    "end": 15581,
+    "end": 19754,
     "file": "src/app/shop/add.tsx",
-    "line": 436,
-    "start": 15381
+    "line": 552,
+    "start": 19554
   },
   "gP684I": {
     "col": 62,
@@ -2122,6 +2131,15 @@
     "file": "src/features/ingredients/ingredient-labels.ts",
     "line": 10,
     "start": 349
+  },
+  "hPjexc": {
+    "col": 11,
+    "defaultMessage": "No matching ingredients",
+    "description": "Shown below ingredient search when nothing matches. Users can still add the name they typed.",
+    "end": 7434,
+    "file": "src/features/chat/on-hand-picker.tsx",
+    "line": 203,
+    "start": 7211
   },
   "heIYZX": {
     "col": 25,
@@ -2249,6 +2267,15 @@
     "line": 10,
     "start": 349
   },
+  "kCZCba": {
+    "col": 17,
+    "defaultMessage": "Edit",
+    "description": "Opens the ingredient picker with the current meal idea ingredients selected.",
+    "end": 2562,
+    "file": "src/features/chat/message.tsx",
+    "line": 73,
+    "start": 2350
+  },
   "kM+skD": {
     "col": 43,
     "defaultMessage": "Select {recipe} for dinner",
@@ -2298,10 +2325,10 @@
     "col": 32,
     "defaultMessage": "Empty shopping list",
     "description": "Accessibility label for the illustration shown when the shopping list has no items.",
-    "end": 9196,
+    "end": 9573,
     "file": "src/app/(tabs)/shop/index.tsx",
-    "line": 241,
-    "start": 8978
+    "line": 253,
+    "start": 9355
   },
   "mPiQwY": {
     "col": 62,
@@ -2421,13 +2448,13 @@
     "start": 2458
   },
   "oB6Eyg": {
-    "col": 10,
+    "col": 27,
     "defaultMessage": "Open details",
     "description": "Accessibility action that opens the shopping item's detail sheet.",
-    "end": 5006,
+    "end": 3900,
     "file": "src/features/shop/shop-item-tile.tsx",
-    "line": 157,
-    "start": 4821
+    "line": 121,
+    "start": 3723
   },
   "oP0Gad": {
     "col": 30,
@@ -2492,6 +2519,15 @@
     "line": 10,
     "start": 349
   },
+  "q3s1bA": {
+    "col": 31,
+    "defaultMessage": "Cancel",
+    "description": "Closes the ingredient editor and returns to the previous meal ideas.",
+    "end": 30671,
+    "file": "src/app/chats/[id].tsx",
+    "line": 835,
+    "start": 30409
+  },
   "qAqot2": {
     "col": 62,
     "defaultMessage": "Chickpeas",
@@ -2541,10 +2577,10 @@
     "col": 13,
     "defaultMessage": "Checked",
     "description": "Heading above the shopping items that were already checked off.",
-    "end": 8253,
+    "end": 8434,
     "file": "src/app/(tabs)/shop/index.tsx",
-    "line": 213,
-    "start": 8091
+    "line": 218,
+    "start": 8272
   },
   "rvjJhe": {
     "col": 62,
@@ -2554,6 +2590,15 @@
     "file": "src/features/ingredients/ingredient-labels.ts",
     "line": 10,
     "start": 349
+  },
+  "rxfA+v": {
+    "col": 27,
+    "defaultMessage": "Undo adding {name}",
+    "description": "Accessibility label for a checked suggestion. Tapping it removes the item just added by this sheet. {name} is the item's name.",
+    "end": 2594,
+    "file": "src/app/shop/add.tsx",
+    "line": 66,
+    "start": 2081
   },
   "ryFpRR": {
     "col": 25,
@@ -2595,10 +2640,10 @@
     "col": 6,
     "defaultMessage": "I’d like to use up {ingredients}.",
     "description": "User bubble naming the selected ingredients the cook wants to put to use. They may have them now or expect to have them by the planned meal. {ingredients} is a localized list of ingredient names.",
-    "end": 2574,
+    "end": 2902,
     "file": "src/features/chat/on-hand-transcript.ts",
-    "line": 64,
-    "start": 2015
+    "line": 81,
+    "start": 2469
   },
   "sHammy": {
     "col": 25,
@@ -2766,10 +2811,10 @@
     "col": 22,
     "defaultMessage": "Quick picks",
     "description": "Ingredient picker section for fresh ingredients and staples the household often uses.",
-    "end": 1469,
+    "end": 1328,
     "file": "src/features/chat/on-hand-picker.tsx",
-    "line": 30,
-    "start": 904
+    "line": 21,
+    "start": 779
   },
   "un0Pum": {
     "col": 25,
@@ -2937,19 +2982,19 @@
     "col": 10,
     "defaultMessage": "Uncategorised",
     "description": "Fallback for a shopping item whose category is missing. Also the menu option that clears the category.",
-    "end": 7950,
+    "end": 8131,
     "file": "src/app/(tabs)/shop/index.tsx",
-    "line": 200,
-    "start": 7727
+    "line": 205,
+    "start": 7908
   },
   "y62jKy": {
-    "col": 11,
+    "col": 27,
     "defaultMessage": "What do you want to cook with?",
     "description": "Heading above the ingredient picker for a planned meal. Invites the cook to choose ingredients they want to cook with.",
-    "end": 3477,
-    "file": "src/features/chat/on-hand-picker.tsx",
-    "line": 103,
-    "start": 3221
+    "end": 29728,
+    "file": "src/app/chats/[id].tsx",
+    "line": 817,
+    "start": 29408
   },
   "y6vW60": {
     "col": 62,
@@ -2991,10 +3036,10 @@
     "col": 18,
     "defaultMessage": "Nothing to buy. Plan a meal to choose what to buy for it, or add an item.",
     "description": "Empty Shop state when no meal is waiting for a shopping choice. Names the two ways to get items on the list.",
-    "end": 10052,
+    "end": 10429,
     "file": "src/app/(tabs)/shop/index.tsx",
-    "line": 256,
-    "start": 9709
+    "line": 268,
+    "start": 10086
   },
   "yROF5b": {
     "col": 62,
@@ -3058,5 +3103,14 @@
     "file": "src/app/(tabs)/shop/_layout.tsx",
     "line": 15,
     "start": 452
+  },
+  "zvjc6B": {
+    "col": 33,
+    "defaultMessage": "Find meal ideas",
+    "description": "Primary action in the meal ingredient picker. Requests meal ideas using the selected ingredients or attachments.",
+    "end": 29063,
+    "file": "src/app/chats/[id].tsx",
+    "line": 806,
+    "start": 28788
   }
 }

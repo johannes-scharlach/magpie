@@ -14,6 +14,7 @@ import { MEALS_WITH_SHOPPING, type ShoppingMeal } from "@/db/shopping-meals";
 import { useIngredientArt } from "@/features/ingredients/ingredient-art";
 import { shoppingItemMove } from "@/features/shop/item-motion";
 import { ShopItemTile, type ShopRow } from "@/features/shop/shop-item-tile";
+import { splitShoppingName } from "@/features/shop/spec";
 import { formatCategory } from "@/features/shop/category-labels";
 import { useActiveList } from "@/features/onboarding/access";
 import { useToday } from "@/hooks/use-today";
@@ -118,6 +119,10 @@ function buyProgress(intl: IntlShape, toBuy: number, checked: number) {
   return [remaining, checkedLabel].join(" · ");
 }
 
+function shoppingName(item: ShopRow) {
+  return splitShoppingName(item.name ?? "", !!item.planned_meal_id).primary;
+}
+
 function ListScreen({
   list,
   mealsToReview,
@@ -170,7 +175,7 @@ function ListScreen({
           (categoryById.get(b.category_id ?? "")?.sort_order ??
             Number.MAX_SAFE_INTEGER) ||
         (a.category_id ?? "").localeCompare(b.category_id ?? "") ||
-        (a.name ?? "").localeCompare(b.name ?? "", intl.locale) ||
+        shoppingName(a).localeCompare(shoppingName(b), intl.locale) ||
         a.id.localeCompare(b.id),
     );
   const checked = rows
@@ -221,8 +226,14 @@ function ListScreen({
   // Batch the names displayed by the grid.
   const artFor = useIngredientArt(
     entries.flatMap((entry) =>
-      entry.kind === "item" ? [entry.item.name ?? ""] : [],
+      entry.kind === "item"
+        ? [shoppingName(entry.item), entry.item.name ?? ""]
+        : [],
     ),
+  );
+
+  const stickyHeaders = entries.flatMap((entry, index) =>
+    entry.kind === "header" ? [index + 1] : [],
   );
 
   return (
@@ -230,6 +241,7 @@ function ListScreen({
       className="flex-1 bg-background"
       contentInsetAdjustmentBehavior="automatic"
       removeClippedSubviews={false}
+      stickyHeaderIndices={stickyHeaders}
       contentContainerStyle={{ paddingBottom: insets.bottom + 24 }}
     >
       {entries.length === 0 ? (
@@ -267,36 +279,37 @@ function ListScreen({
           {buyProgress(intl, active.length, checked.length)}
         </Text>
       )}
-      <View className="px-4">
-        {entries.map((entry) => {
-          if (entry.kind === "header") {
-            return (
-              <Animated.View
-                key={entry.key}
-                layout={shoppingItemMove}
-                className="w-full"
-              >
-                <Text
-                  accessibilityRole="header"
-                  className="pb-1 pt-4 font-rounded text-base font-extrabold text-primary"
-                >
-                  {entry.title}
-                </Text>
-              </Animated.View>
-            );
-          }
+      {entries.map((entry) => {
+        if (entry.kind === "header") {
           return (
-            <Animated.View key={entry.key} layout={shoppingItemMove}>
-              <ShopItemTile
-                item={entry.item}
-                asset={artFor(entry.item.name ?? "")}
-                highlighted={selected === entry.item.id}
-                onOpen={open}
-              />
-            </Animated.View>
+            <View key={entry.key} className="bg-background px-4">
+              <Text
+                accessibilityRole="header"
+                className="pb-1 pt-4 font-rounded text-base font-extrabold text-primary"
+              >
+                {entry.title}
+              </Text>
+            </View>
           );
-        })}
-      </View>
+        }
+        return (
+          <Animated.View
+            key={entry.key}
+            layout={shoppingItemMove}
+            className="px-4"
+          >
+            <ShopItemTile
+              item={entry.item}
+              asset={
+                artFor(shoppingName(entry.item)) ??
+                artFor(entry.item.name ?? "")
+              }
+              highlighted={selected === entry.item.id}
+              onOpen={open}
+            />
+          </Animated.View>
+        );
+      })}
     </ScrollView>
   );
 }

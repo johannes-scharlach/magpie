@@ -44,6 +44,11 @@
     "_p6t_description": "Ingredient label for noodles made with egg.",
     "_p6t_source": "Egg noodles"
   },
+  "/MIOpc": {
+    "defaultMessage": "Weniger anzeigen",
+    "_p6t_description": "Collapses the illustrated suggestions to a single row in the meal ingredient picker.",
+    "_p6t_source": "See fewer"
+  },
   "/woc5o": {
     "defaultMessage": "Aus dem Kochbuch",
     "_p6t_description": "Title of the sheet that picks an existing cookbook recipe for a meal slot.",
@@ -389,11 +394,6 @@
     "_p6t_description": "Ingredient label for buckwheat.",
     "_p6t_source": "Buckwheat"
   },
-  "Eifh/c": {
-    "defaultMessage": "Mahlzeitenideen finden",
-    "_p6t_description": "Primary action in the ingredient picker when the cook has attached a photo without selecting ingredients. Requests ideas for the selected meal slot.",
-    "_p6t_source": "Find meal ideas"
-  },
   "Eo0PBs": {
     "defaultMessage": "Fond und Brühe",
     "_p6t_description": "Ingredient label for cooking stock or broth.",
@@ -609,11 +609,6 @@
     "_p6t_description": "Recipe effort level: an ordinary weeknight dish.",
     "_p6t_source": "Normal"
   },
-  "LWquky": {
-    "defaultMessage": "Zuerst aufbrauchen",
-    "_p6t_description": "Ingredient picker heading for likely remainders to use soon. These are suggestions, not confirmed stock.",
-    "_p6t_source": "Use up first"
-  },
   "LZ9KXr": {
     "defaultMessage": "Tiefgekühlter Spinat",
     "_p6t_description": "Ingredient label for spinach kept in the freezer, not fresh spinach.",
@@ -679,6 +674,11 @@
     "_p6t_description": "Ingredient label for palm sugar.",
     "_p6t_source": "Palm sugar"
   },
+  "NZ29RJ": {
+    "defaultMessage": "Alle anzeigen",
+    "_p6t_description": "Expands the illustrated suggestions in the meal ingredient picker.",
+    "_p6t_source": "See all"
+  },
   "Ngz9Xq": {
     "defaultMessage": "Hab ich zu Hause",
     "_p6t_description": "Action that marks this ingredient as already at home, so it leaves the list for this meal.",
@@ -703,6 +703,11 @@
     "defaultMessage": "Sternanis",
     "_p6t_description": "Ingredient label for star anise.",
     "_p6t_source": "Star anise"
+  },
+  "OeHrQA": {
+    "defaultMessage": "Hinzufügen konnte nicht rückgängig gemacht werden",
+    "_p6t_description": "Alert title when the Add items sheet could not undo a suggestion added to the shopping list.",
+    "_p6t_source": "Couldn’t undo the addition"
   },
   "Ofk7Ir": {
     "defaultMessage": "Mittagessen am {day}",
@@ -733,6 +738,11 @@
     "defaultMessage": "Magpie ein Rezept erzählen, das du kennst",
     "_p6t_description": "Row that opens the recorder to describe a recipe from memory. The chat checks it before saving.",
     "_p6t_source": "Tell Magpie a recipe you know"
+  },
+  "PuKajS": {
+    "defaultMessage": "Aus deinem Essensplan",
+    "_p6t_description": "Ingredient picker heading for likely ingredients left from earlier planned meals.",
+    "_p6t_source": "From your meal plan"
   },
   "Q5plTF": {
     "defaultMessage": "Noch keine Liste – leg zuerst im Einkauf eine an.",
@@ -793,11 +803,6 @@
     "defaultMessage": "Tierbedarf",
     "_p6t_description": "Shopping category for pet food and supplies.",
     "_p6t_source": "Pet supplies"
-  },
-  "RTXE+W": {
-    "defaultMessage": "{count, plural, one {Ideen mit dieser Zutat finden} other {Ideen mit diesen Zutaten finden}}",
-    "_p6t_description": "Primary action in the meal ingredient picker. {count} is the number of selected ingredients to use in the meal ideas.",
-    "_p6t_source": "{count, plural, one {Find ideas with this ingredient} other {Find ideas with these ingredients}}"
   },
   "Rn/xwI": {
     "defaultMessage": "Getrocknete Minze",
@@ -1179,6 +1184,11 @@
     "_p6t_description": "Ingredient label for ground dried corn.",
     "_p6t_source": "Cornmeal"
   },
+  "hPjexc": {
+    "defaultMessage": "Keine passenden Zutaten",
+    "_p6t_description": "Shown below ingredient search when nothing matches. Users can still add the name they typed.",
+    "_p6t_source": "No matching ingredients"
+  },
   "heIYZX": {
     "defaultMessage": "Noch {count} offen",
     "_p6t_description": "Status on a planned meal's shopping, while ingredients still await a decision. {count} is how many are left.",
@@ -1248,6 +1258,11 @@
     "defaultMessage": "Naturjoghurt",
     "_p6t_description": "Ingredient label for unflavored plain yoghurt.",
     "_p6t_source": "Plain yoghurt"
+  },
+  "kCZCba": {
+    "defaultMessage": "Bearbeiten",
+    "_p6t_description": "Opens the ingredient picker with the current meal idea ingredients selected.",
+    "_p6t_source": "Edit"
   },
   "kM+skD": {
     "defaultMessage": "{recipe} zum Abendessen einplanen",
@@ -1384,6 +1399,11 @@
     "_p6t_description": "Ingredient label for black beans.",
     "_p6t_source": "Black beans"
   },
+  "q3s1bA": {
+    "defaultMessage": "Abbrechen",
+    "_p6t_description": "Closes the ingredient editor and returns to the previous meal ideas.",
+    "_p6t_source": "Cancel"
+  },
   "qAqot2": {
     "defaultMessage": "Kichererbsen",
     "_p6t_description": "Ingredient label for chickpeas, also known as garbanzo beans.",
@@ -1418,6 +1438,11 @@
     "defaultMessage": "Lauch",
     "_p6t_description": "Ingredient label for leeks, not onions.",
     "_p6t_source": "Leeks"
+  },
+  "rxfA+v": {
+    "defaultMessage": "{name} wieder entfernen",
+    "_p6t_description": "Accessibility label for a checked suggestion. Tapping it removes the item just added by this sheet. {name} is the item's name.",
+    "_p6t_source": "Undo adding {name}"
   },
   "ryFpRR": {
     "defaultMessage": "Tiefkühl & Fertigprodukte",
@@ -1698,5 +1723,10 @@
     "defaultMessage": "Einkauf",
     "_p6t_description": "Title of the Shop tab, where the household's shopping list lives.",
     "_p6t_source": "Shop"
+  },
+  "zvjc6B": {
+    "defaultMessage": "Kochideen finden",
+    "_p6t_description": "Primary action in the meal ingredient picker. Requests meal ideas using the selected ingredients or attachments.",
+    "_p6t_source": "Find meal ideas"
   }
 }
