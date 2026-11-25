@@ -74,9 +74,7 @@ export default function RootLayout() {
                   <NotificationProvider>
                     <ThemeProvider value={theme}>
                       <NotificationPrompt />
-                      <AppStack>
-                        <AppScreens />
-                      </AppStack>
+                      <RootScreens />
                       <StatusBar style="auto" />
                     </ThemeProvider>
                   </NotificationProvider>
@@ -90,12 +88,14 @@ export default function RootLayout() {
   );
 }
 
-/** Every pushed screen's chrome. Separate from RootLayout so titles resolve
- *  through IntlProvider's active locale. */
-function AppScreens() {
+/** Every pushed screen's chrome. Owns AppStack so the screens stay direct
+ *  children of its Stack — expo-router drops screen definitions wrapped in
+ *  another component. Separate from RootLayout so titles resolve through
+ *  IntlProvider's active locale. */
+function RootScreens() {
   const intl = useIntl();
   return (
-    <>
+    <AppStack>
       <Stack.Screen
         name="household"
         options={{
@@ -339,6 +339,6 @@ function AppScreens() {
           animation: "fade_from_bottom",
         }}
       />
-    </>
+    </AppStack>
   );
 }
