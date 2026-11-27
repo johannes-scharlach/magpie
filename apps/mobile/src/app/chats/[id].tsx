@@ -284,6 +284,10 @@ export default function ChatScreen() {
         signal: controller.signal,
         recipeContext: queuedMsg?.recipeContext,
         mealContext: queuedMsg?.mealContext,
+        rhymeReference:
+          queuedMsg?.messageId === turn.message.id
+            ? queuedMsg.rhymeReference
+            : undefined,
         entry: queuedMsg?.entry ?? slotEntry,
         idea: queuedMsg?.idea,
       })) {
@@ -309,7 +313,14 @@ export default function ChatScreen() {
         setSendError({
           text:
             e instanceof ChatRequestRejected
-              ? e.message
+              ? e.code === "MEAL_RHYME_REFERENCE_CHANGED"
+                ? intl.formatMessage({
+                    defaultMessage:
+                      "That recent meal changed. Go back and choose a meal again.",
+                    description:
+                      "The meal selected as inspiration was removed or replaced before Magpie could read it.",
+                  })
+                : e.message
               : "Your message couldn't be sent.",
           turn,
           retryable: !(e instanceof ChatRequestRejected) || e.retryable,

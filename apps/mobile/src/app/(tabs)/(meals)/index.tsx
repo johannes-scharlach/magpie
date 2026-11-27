@@ -1,12 +1,22 @@
 import { useQuery } from "@powersync/react";
 import * as Crypto from "expo-crypto";
-import { Link, Stack, router, useLocalSearchParams } from "expo-router";
+import { Stack, router, useLocalSearchParams } from "expo-router";
+import { useHeaderHeight } from "expo-router/react-navigation";
 import { SymbolView } from "expo-symbols";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+  type ComponentRef,
+} from "react";
 import { useIntl } from "react-intl";
 import {
   ActivityIndicator,
   Alert,
+  Keyboard,
   Pressable,
   ScrollView,
   type ScrollViewInstance,
@@ -14,6 +24,10 @@ import {
   View,
 } from "react-native";
 import { GestureDetector } from "react-native-gesture-handler";
+import {
+  KeyboardAvoidingView,
+  useKeyboardState,
+} from "react-native-keyboard-controller";
 import Animated from "react-native-reanimated";
 import { useResolveClassNames } from "uniwind";
 
@@ -22,16 +36,30 @@ import { useAuth } from "@/db/provider";
 import type { Variant as DbVariant } from "@/db/schema";
 import { MEALS_WITH_SHOPPING, type ShoppingMeal } from "@/db/shopping-meals";
 import { clearPlannedMeal, setPlannedMeal } from "@/db/planned-meals";
+import { dishMessage, slotEntryMessage } from "@/features/chat/compose";
+import { queueMessage } from "@/features/chat/message-queue";
 import {
   DayContent,
   type DisplayPlannedMeal,
   type DisplayRecipe,
+  type RecentMealReference,
 } from "@/features/meals/day-content";
 import { DayStrip } from "@/features/meals/day-strip";
 import { useEatersLabel } from "@/features/meals/eaters-label";
 import { parseEaterIds, toEaters } from "@/features/meals/eaters";
-import { dateKey, stripDates, type MealSlot } from "@/features/meals/slots";
+import { formatMealTarget } from "@/features/meals/labels";
+import {
+  MealTypingLayout,
+  type ChooserFrame,
+} from "@/features/meals/meal-choice-entry";
+import {
+  dateKey,
+  stripDates,
+  type MealSlot,
+  type MealTarget,
+} from "@/features/meals/slots";
 import { usePanSwipeDay } from "@/features/meals/use-pan-swipe-day";
+import { recentMealReferences } from "@/features/meals/variant-meals";
 import { useImportJobs } from "@/features/meals/use-import-jobs";
 import { useActiveList } from "@/features/onboarding/access";
 import { HouseholdAvatars } from "@/features/profile/household-avatars";
@@ -94,6 +122,57 @@ export default function Meals() {
       ? dates.some((day) => dateKey(day) === requestedDate) && requestedDate
       : undefined;
   const scroll = useRef<ScrollViewInstance>(null);
+  const scrollContent = useRef<ComponentRef<typeof View>>(null);
+  const scrollY = useRef(0);
+  const beforeTypingY = useRef<number | null>(null);
+  const [focusedChooser, setFocusedChooser] = useState<{
+    frame: ChooserFrame;
+    target: MealTarget;
+  } | null>(null);
+  const [viewportHeight, setViewportHeight] = useState(0);
+  const headerHeight = useHeaderHeight();
+  const keyboardHeight = useKeyboardState((state) => state.height);
+  const pinnedChooser = keyboardHeight > 0 ? focusedChooser : null;
+  const pinnedFrame = pinnedChooser?.frame ?? null;
+  const typing = pinnedChooser !== null;
+
+  function onChooserFocusChange(
+    frame: ChooserFrame,
+    target: MealTarget | null,
+  ) {
+    if (target) {
+      if (!typing) beforeTypingY.current = scrollY.current;
+      setFocusedChooser({ frame, target });
+    } else {
+      setFocusedChooser((current) =>
+        current?.frame === frame ? null : current,
+      );
+    }
+  }
+
+  const alignChooser = useCallback(() => {
+    if (!pinnedFrame?.current || !scrollContent.current) return;
+    pinnedFrame.current.measureLayout(scrollContent.current, (_x, y) => {
+      scroll.current?.scrollTo({ y, animated: false });
+    });
+  }, [pinnedFrame]);
+
+  useLayoutEffect(() => {
+    if (!pinnedFrame) return;
+    const frame = requestAnimationFrame(alignChooser);
+    return () => cancelAnimationFrame(frame);
+  }, [alignChooser, pinnedFrame, viewportHeight]);
+
+  useLayoutEffect(() => {
+    if (typing) return;
+    if (beforeTypingY.current === null) return;
+    const y = beforeTypingY.current;
+    const frame = requestAnimationFrame(() => {
+      beforeTypingY.current = null;
+      scroll.current?.scrollTo({ y, animated: false });
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [typing]);
   useEffect(() => {
     if (!reminderDate || !at) return;
     void load(reminderDate, "dinner", "reminder");
@@ -102,7 +181,7 @@ export default function Meals() {
   const selectingSlots = useRef(new Set<string>());
   const [selecting, setSelecting] = useState<Set<string>>(new Set());
 
-  const { data: planned } = useQuery<ShoppingMeal>(
+  const { data: planned, isLoading: historyLoading } = useQuery<ShoppingMeal>(
     `${MEALS_WITH_SHOPPING} WHERE pm.list_id = ?`,
     [list?.id ?? ""],
   );
@@ -129,19 +208,38 @@ export default function Meals() {
     [variants],
   );
   const todayKey = useToday();
+  const recentMeals = useMemo(
+    (): RecentMealReference[] =>
+      list
+        ? recentMealReferences(planned, list.id, todayKey).map((meal) => ({
+            plannedMealId: meal.id,
+            contentId: meal.content_id,
+            date: meal.slot_date,
+            variantId: meal.variant_id,
+            name: meal.display_name,
+            artPath: variantById.get(meal.variant_id ?? "")?.art_path,
+          }))
+        : [],
+    [list, planned, todayKey, variantById],
+  );
   const selIndex = Math.max(
     0,
     dates.findIndex((d) => dateKey(d) === selected),
   );
+  const selectDay = useCallback((day: string) => {
+    Keyboard.dismiss();
+    setSelected(day);
+  }, []);
   const commitDay = useCallback(
-    (index: number) => setSelected(dateKey(dates[index]!)),
-    [dates],
+    (index: number) => selectDay(dateKey(dates[index]!)),
+    [dates, selectDay],
   );
   const { gesture: dayPan, dragStyle } = usePanSwipeDay({
     width,
     count: dates.length,
     index: selIndex,
     onCommit: commitDay,
+    enabled: !typing,
   });
 
   function plannedFor(date: string, slot: MealSlot): DisplayPlannedMeal | null {
@@ -191,7 +289,7 @@ export default function Meals() {
     if (date === reminderDate && slot === "dinner" && at) {
       setDismissedSuggestion(at);
     }
-    if (open) void recommendations.load(date, slot);
+    if (open) void load(date, slot);
     setOpenSlots((prev) => {
       const next = new Set(prev);
       const k = slotKey(list?.id, date, slot);
@@ -305,6 +403,60 @@ export default function Meals() {
     router.push({ pathname: "/cookbook/import", params: { slot, date } });
   }
 
+  function startSlotChat(
+    date: string,
+    slot: MealSlot,
+    entry: "on_hand" | "dish",
+    dish?: string,
+  ) {
+    if (!list) return;
+    const chatId = Crypto.randomUUID();
+    if (dish) {
+      queueMessage({
+        chatId,
+        listId: list.id,
+        messageId: Crypto.randomUUID(),
+        text: slotEntryMessage({ date, slot }, dishMessage(dish)),
+        attachments: [],
+      });
+    }
+    router.push({
+      pathname: "/chats/[id]",
+      params: { id: chatId, date, slot, entry, listId: list.id },
+    });
+  }
+
+  function startRhyme(date: string, slot: MealSlot, meal: RecentMealReference) {
+    if (!list || !recentMeals.includes(meal)) return;
+    const chatId = Crypto.randomUUID();
+    queueMessage({
+      chatId,
+      listId: list.id,
+      messageId: Crypto.randomUUID(),
+      text: slotEntryMessage(
+        { date, slot },
+        intl.formatMessage(
+          {
+            defaultMessage: "Give me three meal ideas like {meal}.",
+            description:
+              "Chat message sent when the cook chooses a recent meal as inspiration. {meal} is the name of the selected meal.",
+          },
+          { meal: meal.name },
+        ),
+      ),
+      attachments: [],
+      rhymeReference: {
+        plannedMealId: meal.plannedMealId,
+        contentId: meal.contentId,
+        locale: intl.locale,
+      },
+    });
+    router.push({
+      pathname: "/chats/[id]",
+      params: { id: chatId, date, slot, listId: list.id },
+    });
+  }
+
   function editEaters(
     date: string,
     slot: MealSlot,
@@ -360,6 +512,8 @@ export default function Meals() {
           importJobs={importJobs}
           plannedFor={plannedFor}
           dinnerSuggestion={key === reminderDate ? at : undefined}
+          recentMeals={recentMeals}
+          historyLoading={historyLoading}
           recommendations={(slot) => {
             const found = recommendations.get(
               key,
@@ -390,18 +544,10 @@ export default function Meals() {
           onHide={(slot) => void onHideOpen(key, slot)}
           onSetOpen={(slot, open) => setOpen(key, slot, open)}
           onImport={(slot) => openImport(key, slot)}
-          onStartChat={(slot, entry) =>
-            router.push({
-              pathname: "/chats/[id]",
-              params: {
-                id: Crypto.randomUUID(),
-                date: key,
-                slot,
-                entry,
-                listId: list.id,
-              },
-            })
+          onStartChat={(slot, entry, dish) =>
+            startSlotChat(key, slot, entry, dish)
           }
+          onRhyme={(slot, meal) => startRhyme(key, slot, meal)}
           onCookbook={(slot) =>
             router.push({
               pathname: "/meals/pick",
@@ -423,62 +569,51 @@ export default function Meals() {
     <>
       <Stack.Screen
         options={{
-          title: intl.formatMessage({
-            defaultMessage: "Meals",
-            description: "Title of the meal planning screen.",
-          }),
-          headerLargeTitle: true,
-          headerLeft: list
-            ? () => (
+          title: pinnedChooser
+            ? formatMealTarget(intl, pinnedChooser.target)
+            : intl.formatMessage({
+                defaultMessage: "Meals",
+                description: "Title of the meal planning screen.",
+              }),
+          headerLargeTitle: !typing,
+          headerLeft:
+            list && !typing
+              ? () => (
+                  <Pressable
+                    onPress={() => router.push("/household")}
+                    hitSlop={8}
+                    accessibilityLabel={intl.formatMessage({
+                      defaultMessage: "Household and account",
+                      description:
+                        "Accessibility label for the household settings shortcut.",
+                    })}
+                    accessibilityRole="button"
+                    className="p-1"
+                  >
+                    <HouseholdAvatars listId={list.id} />
+                  </Pressable>
+                )
+              : undefined,
+          headerRight: typing
+            ? undefined
+            : () => (
                 <Pressable
-                  onPress={() => router.push("/household")}
-                  hitSlop={8}
+                  onPress={() => router.push("/chats/history")}
                   accessibilityLabel={intl.formatMessage({
-                    defaultMessage: "Household and account",
+                    defaultMessage: "Past chats",
                     description:
-                      "Accessibility label for the household settings shortcut.",
+                      "Accessibility label for the shortcut to household chat history.",
                   })}
                   accessibilityRole="button"
-                  className="p-1"
-                >
-                  <HouseholdAvatars listId={list.id} />
-                </Pressable>
-              )
-            : undefined,
-          headerRight: () => (
-            <View className="flex-row items-center">
-              <Pressable
-                onPress={() => router.push("/chats/history")}
-                accessibilityLabel={intl.formatMessage({
-                  defaultMessage: "Past chats",
-                  description:
-                    "Accessibility label for the shortcut to household chat history.",
-                })}
-                accessibilityRole="button"
-                className="min-h-11 justify-center px-2 active:opacity-60"
-              >
-                <SymbolView
-                  name={{ ios: "clock.arrow.circlepath", android: "history" }}
-                  tintColor={iconColor}
-                  size={22}
-                />
-              </Pressable>
-              <Link href="/meals/plan" asChild>
-                <Pressable
-                  accessibilityRole="link"
                   className="min-h-11 justify-center px-2 active:opacity-60"
                 >
-                  <Text className="text-link">
-                    {intl.formatMessage({
-                      defaultMessage: "Plan with Magpie",
-                      description:
-                        "Header action that opens the assistant to plan meals.",
-                    })}
-                  </Text>
+                  <SymbolView
+                    name={{ ios: "clock.arrow.circlepath", android: "history" }}
+                    tintColor={iconColor}
+                    size={22}
+                  />
                 </Pressable>
-              </Link>
-            </View>
-          ),
+              ),
         }}
       />
       {!list ? (
@@ -493,40 +628,73 @@ export default function Meals() {
           <ActivityIndicator />
         </View>
       ) : (
-        <ScrollView
-          ref={scroll}
-          className="flex-1 bg-background"
-          contentInsetAdjustmentBehavior="automatic"
-          contentContainerClassName="flex-grow"
+        <KeyboardAvoidingView
+          style={{
+            flex: 1,
+            // Typing owns the viewport insets while the iOS scroll view is pinned.
+            paddingTop:
+              typing && process.env.EXPO_OS === "ios" ? headerHeight : 0,
+          }}
+          behavior="padding"
+          automaticOffset
+          enabled={process.env.EXPO_OS === "ios" && focusedChooser !== null}
         >
-          <View className="mt-4">
-            <DayStrip
-              dates={dates}
-              todayIndex={todayIndex}
-              selected={selected}
-              onSelect={setSelected}
-            />
-          </View>
+          <ScrollView
+            ref={scroll}
+            className="flex-1 bg-background"
+            contentInsetAdjustmentBehavior={typing ? "never" : "automatic"}
+            keyboardShouldPersistTaps="handled"
+            keyboardDismissMode="on-drag"
+            scrollEnabled={!typing}
+            contentContainerClassName="flex-grow"
+            onLayout={(event) =>
+              setViewportHeight(event.nativeEvent.layout.height)
+            }
+            onScroll={(event) => {
+              scrollY.current = event.nativeEvent.contentOffset.y;
+            }}
+            scrollEventThrottle={16}
+            onContentSizeChange={alignChooser}
+          >
+            <View ref={scrollContent} collapsable={false} className="grow">
+              <View className="mt-4">
+                <DayStrip
+                  dates={dates}
+                  todayIndex={todayIndex}
+                  selected={selected}
+                  onSelect={selectDay}
+                />
+              </View>
 
-          <GestureDetector gesture={dayPan}>
-            <Animated.View
-              style={[
-                dragStyle,
-                {
-                  flexGrow: 1,
-                  flexDirection: "row",
-                  overflow: "hidden",
-                  paddingBottom: 40,
-                  // explicit: a stretched row would be viewport-wide and the
-                  // page offset would push every page off-screen
-                  width: width * dates.length,
-                },
-              ]}
-            >
-              {dates.map(dayPage)}
-            </Animated.View>
-          </GestureDetector>
-        </ScrollView>
+              <GestureDetector gesture={dayPan}>
+                <Animated.View
+                  style={[
+                    dragStyle,
+                    {
+                      flexGrow: 1,
+                      flexDirection: "row",
+                      overflow: "hidden",
+                      paddingBottom: 40,
+                      // explicit: a stretched row would be viewport-wide and the
+                      // page offset would push every page off-screen
+                      width: width * dates.length,
+                    },
+                  ]}
+                >
+                  <MealTypingLayout
+                    value={{
+                      height: viewportHeight,
+                      pinnedFrame,
+                      onFocusChange: onChooserFocusChange,
+                    }}
+                  >
+                    {dates.map(dayPage)}
+                  </MealTypingLayout>
+                </Animated.View>
+              </GestureDetector>
+            </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
       )}
     </>
   );

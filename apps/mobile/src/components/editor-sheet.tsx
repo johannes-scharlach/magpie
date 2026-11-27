@@ -28,18 +28,22 @@ export type EditorSheetHandle = { dismiss: () => void };
 export function EditorSheet({
   ref,
   title,
+  closeLabel,
+  compact = false,
   onDismiss,
   children,
 }: {
   ref?: Ref<EditorSheetHandle>;
   title: string;
+  closeLabel?: string;
+  compact?: boolean;
   onDismiss: () => void;
   children: ReactNode;
   autoFocusInput?: RefObject<TextInputInstance | null>;
 }) {
   const { width } = useWindowDimensions();
   const insets = useSafeAreaInsets();
-  const bottomInset = Math.max(insets.bottom, 16);
+  const bottomInset = compact ? 8 : Math.max(insets.bottom, 16);
   const [contentHeight, setContentHeight] = useState<number>(240);
   const [isPresented, setIsPresented] = useState(true);
   useImperativeHandle(
@@ -76,7 +80,8 @@ export function EditorSheet({
               className="gap-5"
               onLayout={(e) => {
                 const h = e.nativeEvent.layout.height;
-                const target = h + 12 + bottomInset + 16;
+                // UIKit already adds the home-indicator inset below the detent.
+                const target = h + 12 + bottomInset + (compact ? 0 : 16);
                 if (h > 40 && Math.abs(contentHeight - target) > 4) {
                   setContentHeight(target);
                 }
@@ -89,7 +94,10 @@ export function EditorSheet({
                 >
                   {title}
                 </Text>
-                <CloseButton onPress={() => setIsPresented(false)} />
+                <CloseButton
+                  label={closeLabel}
+                  onPress={() => setIsPresented(false)}
+                />
               </View>
               {children}
             </View>

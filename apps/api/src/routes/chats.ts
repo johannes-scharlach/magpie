@@ -23,11 +23,19 @@ import { captureChatGenerationContext } from "../chat-generation-context.js";
 import { pool } from "../db.js";
 import { env } from "../env.js";
 import { readHousehold } from "../household.js";
-import { readChatMeal, readChatVariant } from "../chat-variants.js";
+import {
+  readChatMeal,
+  readChatVariant,
+  readMealRhymeReference,
+} from "../chat-variants.js";
 import { AppError } from "../errors.js";
 import { PLAN_PROMPT } from "../plan-prompt.js";
 import {
   ChatEntrySchema,
+  isMealRhymePitch,
+  MEAL_RHYME_PART,
+  MEAL_RHYME_PROMPT,
+  MealRhymeReferenceSchema,
   orderRecipeSeed,
   RecipeContextSchema,
   MealContextSchema,
@@ -241,6 +249,7 @@ chats.post("/:id/messages", async (c) => {
       localDate?: unknown;
       recipeContext?: unknown;
       mealContext?: unknown;
+      rhymeReference?: unknown;
       entry?: unknown;
       idea?: unknown;
     }>()
@@ -251,6 +260,7 @@ chats.post("/:id/messages", async (c) => {
       localDate: undefined,
       recipeContext: undefined,
       mealContext: undefined,
+      rhymeReference: undefined,
       entry: undefined,
       idea: undefined,
     }));
@@ -273,6 +283,8 @@ chats.post("/:id/messages", async (c) => {
     );
   }
   const message = validated.data[0];
+  // Rhyme markers in saved history only come from a server-validated read.
+  message.parts = message.parts.filter((part) => part.type !== MEAL_RHYME_PART);
   if (!UUID.test(message.id))
     return c.json(
       { error: { code: "INVALID_REQUEST", message: "Invalid message ID" } },
@@ -315,6 +327,23 @@ chats.post("/:id/messages", async (c) => {
       400,
     );
   }
+  const rhymeReference =
+    body.rhymeReference === undefined
+      ? null
+      : MealRhymeReferenceSchema.safeParse(body.rhymeReference);
+  if (
+    rhymeReference &&
+    (!rhymeReference.success || start || mealContext || entry)
+  )
+    return c.json(
+      {
+        error: {
+          code: "INVALID_REQUEST",
+          message: "Invalid recent meal reference",
+        },
+      },
+      400,
+    );
   // The tapped seeded idea's title, for its twists (spec 0013).
   const idea =
     entry?.data === "idea" && typeof body.idea === "string"
@@ -348,6 +377,7 @@ chats.post("/:id/messages", async (c) => {
   let history: MessageRow[];
   let chat: RecipeChat;
   let initialRecipeRead: UIMessage | null = null;
+  let rhymeBrief: string | null = null;
   let isNewChat = false;
   const assistantId = randomUUID();
   const client = await pool.connect();
@@ -487,6 +517,49 @@ chats.post("/:id/messages", async (c) => {
       );
     } else {
       chat = existing.rows[0]!;
+      if (rhymeReference)
+        throw new AppError(
+          "INVALID_REQUEST",
+          "Choose a recent meal to start a new conversation.",
+          409,
+        );
+    }
+    let source = rhymeReference?.data;
+    if (
+      !isNewChat &&
+      textOf(message) === "Please continue from where you stopped."
+    ) {
+      const previous = await client.query<MessageRow>(
+        `SELECT id, role, parts FROM chat_messages
+          WHERE chat_id = $1 ORDER BY created_at DESC, id DESC LIMIT 2`,
+        [chatId],
+      );
+      const [reply, request] = previous.rows;
+      if (
+        reply?.role === "assistant" &&
+        reply.parts.some(
+          (part) =>
+            part.type === "data-turn" &&
+            (part.data as { status?: string } | null)?.status === "failed",
+        ) &&
+        request?.role === "user"
+      ) {
+        const savedSource = request.parts.find(
+          (part) => part.type === MEAL_RHYME_PART,
+        );
+        if (savedSource && "data" in savedSource)
+          source = MealRhymeReferenceSchema.safeParse(savedSource.data).data;
+      }
+    }
+    if (source) {
+      const snapshot = await readMealRhymeReference(
+        client,
+        listId,
+        source,
+        today,
+      );
+      message.parts.push({ type: MEAL_RHYME_PART, data: source });
+      rhymeBrief = `${MEAL_RHYME_PROMPT}\n\nResponse language: ${source.locale}\nSelected recent meal:\n${JSON.stringify(snapshot)}`;
     }
     await client.query(
       `INSERT INTO chat_messages (id, chat_id, list_id, role, parts, created_at)
@@ -557,7 +630,9 @@ chats.post("/:id/messages", async (c) => {
 
   // A fresh seeded-idea chat opens fast: the light model fits pre-written
   // twists to the household. Later turns take the normal path.
-  const brief = isNewChat && chat.entry === "idea" ? twistBrief(idea) : null;
+  const brief =
+    rhymeBrief ??
+    (isNewChat && chat.entry === "idea" ? twistBrief(idea) : null);
   const system = [
     ASSISTANT_SYSTEM_PROMPT,
     PLAN_PROMPT,
@@ -611,7 +686,7 @@ chats.post("/:id/messages", async (c) => {
       briefSystem
         ? streamText({
             ...captureContext,
-            model: google(UTILITY_MODEL),
+            model: google(rhymeBrief ? CHAT_MODEL : UTILITY_MODEL),
             system: briefSystem,
             messages: await convertToModelMessages(uiMessages),
             onError: () => {},
@@ -637,11 +712,14 @@ chats.post("/:id/messages", async (c) => {
             // Local Storage URLs are private addresses; download them plainly.
             experimental_download: downloadMedia,
           }),
+    validateText: rhymeBrief ? isMealRhymePitch : undefined,
     suggestions: (text) =>
-      generateSuggestions(text, {
-        userText: textOf(message),
-        household,
-      }),
+      rhymeBrief
+        ? Promise.resolve([])
+        : generateSuggestions(text, {
+            userText: textOf(message),
+            household,
+          }),
     save: async (reply) => {
       await pool.query(
         "UPDATE chat_messages SET parts = $2::jsonb WHERE id = $1",

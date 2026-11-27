@@ -18,7 +18,7 @@ import {
 import { magpieUuidV5 } from "./magpie-uuid.js";
 import { assertListMemberUntilCommit } from "./list-authorization.js";
 import type { CookRecipeInput } from "./recipe-schema.js";
-import type { RecipeChat } from "./recipe-chat.js";
+import type { MealRhymeReference, RecipeChat } from "./recipe-chat.js";
 import type { ShoppingItem } from "./shopping-revision.js";
 import { repointMealVariant } from "./reconcile-meal-shopping.js";
 import { findVariantIdentity, insertVariant, variantUrl } from "./variants.js";
@@ -282,6 +282,52 @@ export async function readChatMeal(
     items: items.map((item) =>
       resolveMealItem(item, lines, meal.ingredient_swaps),
     ),
+  };
+}
+
+/** The selected meal is a reference, never the subject of a recipe rewrite. */
+export async function readMealRhymeReference(
+  client: Client,
+  listId: string,
+  reference: MealRhymeReference,
+  today: string,
+) {
+  const { rows } = await client.query<{
+    name: string | null;
+    description: string | null;
+    cuisine: string | null;
+    ingredient_lines: VariantRow["ingredient_lines"] | null;
+    ingredient_swaps: MealSwaps;
+    instructions: VariantRow["instructions"] | null;
+  }>(
+    `SELECT COALESCE(pm.name, v.name) AS name, v.description, r.cuisine,
+            v.ingredient_lines, pm.ingredient_swaps, v.instructions
+       FROM planned_meals pm
+       LEFT JOIN variants v ON v.id = pm.variant_id AND v.list_id = pm.list_id
+       LEFT JOIN recipes r ON r.id = pm.recipe_id AND r.list_id = pm.list_id
+      WHERE pm.id = $1 AND pm.list_id = $2 AND pm.content_id = $3
+        AND pm.slot_date < $4`,
+    [reference.plannedMealId, listId, reference.contentId, today],
+  );
+  const row = rows[0];
+  if (!row?.name)
+    throw new AppError(
+      "MEAL_RHYME_REFERENCE_CHANGED",
+      "That recent meal changed. Go back and choose a meal again.",
+      409,
+    );
+  return {
+    name: row.name,
+    description: row.description,
+    cuisine: row.cuisine ? cuisineLabel(row.cuisine) : null,
+    ingredients: mealIngredients(
+      row.ingredient_lines ?? [],
+      row.ingredient_swaps ?? {},
+    ).map(({ line, chosen }) => ({
+      original: line.item_name,
+      used: chosen,
+    })),
+    instructions: row.instructions,
   };
 }
 

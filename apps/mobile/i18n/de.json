@@ -99,6 +99,15 @@
     "_p6t_description": "Accessibility label for the Shop toolbar button that opens the item entry sheet.",
     "_p6t_source": "Add item"
   },
+  "1ugpQ6": {
+    "col": 22,
+    "defaultMessage": "Idee aus einer früheren Mahlzeit holen",
+    "description": "Opens a list of past meals to choose one as inspiration for a new dish.",
+    "end": 10142,
+    "file": "src/features/meals/meal-choice-entry.tsx",
+    "line": 307,
+    "start": 9887
+  },
   "2H3Nev": {
     "defaultMessage": "{name} hinzufügen",
     "_p6t_description": "Accessibility label for a suggested item that can be added to the shopping list. {name} is the item's name.",
@@ -204,6 +213,11 @@
     "_p6t_description": "Title of the screen that lists upcoming meals and their shopping decisions.",
     "_p6t_source": "Shop for meals"
   },
+  "5bifwC": {
+    "defaultMessage": "Keine passenden Rezepte in deinem Kochbuch.",
+    "_p6t_description": "Search found no saved recipes. The cook can still ask for help or save the text as a written meal.",
+    "_p6t_source": "No matching recipes in your cookbook."
+  },
   "5cSDJb": {
     "defaultMessage": "Sherryessig",
     "_p6t_description": "Ingredient label for sherry vinegar.",
@@ -289,6 +303,11 @@
     "_p6t_description": "Status on a meal written in by hand that has no items to buy yet.",
     "_p6t_source": "No ingredient list yet"
   },
+  "9GToKv": {
+    "defaultMessage": "Beim Kochen helfen lassen",
+    "_p6t_description": "Starts a cooking conversation about the dish in the meal slot’s text field.",
+    "_p6t_source": "Help me make this"
+  },
   "9rsKGF": {
     "defaultMessage": "Mittagessen wählen",
     "_p6t_description": "Action row that opens the meal chooser for lunch, and the heading shown while it is open. Does not plan a meal yet.",
@@ -369,6 +388,15 @@
     "_p6t_description": "Card that opens the cookbook when there are no matching recommendations.",
     "_p6t_source": "Browse cookbook"
   },
+  "DCqTvc": {
+    "col": 15,
+    "defaultMessage": "{slot, select, lunch {Neues Mittagessen vorschlagen} dinner {Neues Abendessen vorschlagen} treat {Neuen Snack vorschlagen} other {Neues Gericht vorschlagen}}",
+    "description": "Confirms the selected past meal as inspiration and starts a chat for a new suggestion. Selector values are lunch, dinner and treat.",
+    "end": 18607,
+    "file": "src/features/meals/meal-choice-entry.tsx",
+    "line": 554,
+    "start": 18137
+  },
   "DXtaav": {
     "defaultMessage": "Rote Linsen",
     "_p6t_description": "Ingredient label for red lentils.",
@@ -378,6 +406,11 @@
     "defaultMessage": "„{text}“ wird gelesen…",
     "_p6t_description": "Status while a recipe is being read from pasted text, with its first line.",
     "_p6t_source": "Reading “{text}”…"
+  },
+  "Dun8QS": {
+    "defaultMessage": "Diese Mahlzeit hat sich geändert. Geh zurück und wähle erneut eine Mahlzeit aus.",
+    "_p6t_description": "The meal selected as inspiration was removed or replaced before Magpie could read it.",
+    "_p6t_source": "That recent meal changed. Go back and choose a meal again."
   },
   "Dw5A9f": {
     "defaultMessage": "Geplant",
@@ -444,6 +477,15 @@
     "_p6t_description": "Title of the Shop toolbar button that opens the item entry sheet.",
     "_p6t_source": "Add"
   },
+  "FpnEry": {
+    "col": 21,
+    "defaultMessage": "Gericht eingeben",
+    "description": "Empty meal chooser input. Typing searches saved recipes and lets the cook ask for help or plan their own dish.",
+    "end": 2931,
+    "file": "src/features/meals/meal-choice-entry.tsx",
+    "line": 85,
+    "start": 2734
+  },
   "Frra3A": {
     "defaultMessage": "Sonstiges",
     "_p6t_description": "Shopping category for items that fit none of the other aisles.",
@@ -489,10 +531,20 @@
     "_p6t_description": "Body under “Item not found”. Explains the likely cause without asking the user to do anything.",
     "_p6t_source": "It may have been removed on another device."
   },
+  "HENepm": {
+    "defaultMessage": "Wie eingegeben speichern",
+    "_p6t_description": "Adds the dish to the meal plan using the typed name, without creating a recipe.",
+    "_p6t_source": "Save as written"
+  },
   "HkN0Rx": {
     "defaultMessage": "Chinakohl",
     "_p6t_description": "Ingredient label for Napa cabbage, distinct from a regular head of cabbage.",
     "_p6t_source": "Chinese cabbage"
+  },
+  "HkdZkp": {
+    "defaultMessage": "Aus deinem Kochbuch",
+    "_p6t_description": "Heading that identifies matching saved recipes when the cook types a dish in the meal chooser.",
+    "_p6t_source": "From your cookbook"
   },
   "I/PQEx": {
     "defaultMessage": "Kokosmilch",
@@ -544,6 +596,11 @@
     "_p6t_description": "Status while the ticked recipes are being saved.",
     "_p6t_source": "Adding…"
   },
+  "IokKA5": {
+    "defaultMessage": "Die Mahlzeit konnte nicht hinzugefügt werden. Bitte versuch es erneut.",
+    "_p6t_description": "An attempt to save a written-in meal failed.",
+    "_p6t_source": "Couldn’t add this meal. Try again."
+  },
   "JGA8YW": {
     "defaultMessage": "Sojasauce",
     "_p6t_description": "Ingredient label for soy sauce.",
@@ -563,6 +620,15 @@
     "defaultMessage": "Erneut versuchen",
     "_p6t_description": "Action that retries a failed recipe import.",
     "_p6t_source": "Retry"
+  },
+  "JoJ12K": {
+    "col": 14,
+    "defaultMessage": "Wähle eine frühere Mahlzeit. Magpie schlägt dir dann ein neues Gericht vor.",
+    "description": "Explains that the selected past meal is inspiration for a new dish suggestion.",
+    "end": 15279,
+    "file": "src/features/meals/meal-choice-entry.tsx",
+    "line": 476,
+    "start": 15007
   },
   "JyczPr": {
     "defaultMessage": "Zitronengras",
@@ -634,6 +700,11 @@
     "_p6t_description": "Starts a chat to find a meal for this slot using ingredients on hand.",
     "_p6t_source": "Use what I have"
   },
+  "M7G18s": {
+    "defaultMessage": "Kochbuch durchstöbern",
+    "_p6t_description": "Action opening the full cookbook to select a recipe for this meal slot.",
+    "_p6t_source": "Browse cookbook"
+  },
   "M7dZ14": {
     "defaultMessage": "Rezept wird vorbereitet…",
     "_p6t_description": "Status while a chosen recommendation is being saved and synced.",
@@ -693,6 +764,15 @@
     "defaultMessage": "Details konnten nicht gespeichert werden",
     "_p6t_description": "Alert title when saving a shopping item's note failed, such as when leaving the entry sheet.",
     "_p6t_source": "Couldn’t save details"
+  },
+  "OMmcHh": {
+    "col": 19,
+    "defaultMessage": "Mit Zutaten anfangen",
+    "description": "Starts a chat to find a meal for this slot using ingredients on hand.",
+    "end": 10858,
+    "file": "src/features/meals/meal-choice-entry.tsx",
+    "line": 323,
+    "start": 10627
   },
   "ON74RR": {
     "defaultMessage": "Risottoreis",
@@ -778,6 +858,11 @@
     "defaultMessage": "Thai-Currypaste",
     "_p6t_description": "Ingredient label for Thai curry paste.",
     "_p6t_source": "Thai curry paste"
+  },
+  "QwnvXR": {
+    "defaultMessage": "{name} einplanen",
+    "_p6t_description": "Action for a cookbook search match that adds the recipe to the open meal slot. {name} is the recipe name.",
+    "_p6t_source": "Plan {name}"
   },
   "RACRTO": {
     "defaultMessage": "Leeres Kochbuch",
@@ -1179,6 +1264,15 @@
     "_p6t_description": "Empty cookbook state, before any recipe was saved or imported.",
     "_p6t_source": "Your cookbook is empty. Import the recipes you love to cook."
   },
+  "hHe0qV": {
+    "col": 9,
+    "defaultMessage": "{slot, select, lunch {Mittagessen am {weekday}} dinner {Abendessen am {weekday}} treat {Snack am {weekday}} other {Mahlzeit am {weekday}}} · {date}",
+    "description": "Heading in the empty meal chooser, such as Friday lunch · Nov 27. The weekday is written out and the date has a short month and day. Selector values are lunch, dinner and treat.",
+    "end": 7862,
+    "file": "src/features/meals/labels.ts",
+    "line": 213,
+    "start": 7310
+  },
   "hK8iO5": {
     "defaultMessage": "Japanischer Rundkornreis",
     "_p6t_description": "Ingredient label for Japanese short-grain rice.",
@@ -1208,6 +1302,15 @@
     "defaultMessage": "Butter",
     "_p6t_description": "Ingredient label for butter.",
     "_p6t_source": "Butter"
+  },
+  "iHUavl": {
+    "col": 11,
+    "defaultMessage": "{slot, select, lunch {Welche Mahlzeit soll als Inspiration fürs Mittagessen dienen?} dinner {Welche Mahlzeit soll als Inspiration fürs Abendessen dienen?} treat {Welche Mahlzeit soll als Inspiration für einen Snack dienen?} other {Welche Mahlzeit soll als Inspiration für ein neues Gericht dienen?}}",
+    "description": "Heading before selecting a past meal as inspiration for a new dish. Selector values are lunch, dinner and treat.",
+    "end": 14889,
+    "file": "src/features/meals/meal-choice-entry.tsx",
+    "line": 464,
+    "start": 14410
   },
   "iQ3uTU": {
     "defaultMessage": "Haus & Garten",
@@ -1439,6 +1542,11 @@
     "_p6t_description": "Heading above the shopping items that were already checked off.",
     "_p6t_source": "Checked"
   },
+  "rty5Dk": {
+    "defaultMessage": "Schlag mir drei Gerichte vor, die „{meal}“ ähneln.",
+    "_p6t_description": "Chat message sent when the cook chooses a recent meal as inspiration. {meal} is the name of the selected meal.",
+    "_p6t_source": "Give me three meal ideas like {meal}."
+  },
   "rvjJhe": {
     "defaultMessage": "Lauch",
     "_p6t_description": "Ingredient label for leeks, not onions.",
@@ -1469,6 +1577,15 @@
     "_p6t_description": "Accessibility label for a recommended dish that will fill the lunch slot. {recipe} is the recipe's display name. Selecting it plans the recipe for lunch.",
     "_p6t_source": "Select {recipe} for lunch"
   },
+  "sEo7Gc": {
+    "col": 18,
+    "defaultMessage": "Mahlzeitauswahl schließen",
+    "description": "Accessibility label for dismissing the open meal chooser.",
+    "end": 5300,
+    "file": "src/features/meals/meal-choice-entry.tsx",
+    "line": 170,
+    "start": 5133
+  },
   "sFrF/1": {
     "defaultMessage": "Ich möchte {ingredients} aufbrauchen.",
     "_p6t_description": "User bubble naming the selected ingredients the cook wants to put to use. They may have them now or expect to have them by the planned meal. {ingredients} is a localized list of ingredient names.",
@@ -1478,6 +1595,15 @@
     "defaultMessage": "{count} zu Hause",
     "_p6t_description": "Part of a planned meal's shopping status. {count} is how many ingredients the cook already has.",
     "_p6t_source": "{count} at home"
+  },
+  "sPBf1o": {
+    "col": 14,
+    "defaultMessage": "Es gibt noch keine früheren Mahlzeiten zur Auswahl.",
+    "description": "Shown when the history picker no longer has any past meals available.",
+    "end": 15526,
+    "file": "src/features/meals/meal-choice-entry.tsx",
+    "line": 482,
+    "start": 15294
   },
   "saRdXm": {
     "defaultMessage": "Keine anstehenden Mahlzeiten. Plane eine Mahlzeit, um hier auszuwählen, was du kaufst.",
@@ -1618,11 +1744,6 @@
     "defaultMessage": "{days, plural, one {vor 1 Tag} other {vor # Tagen}}",
     "_p6t_description": "How long ago a planned meal was, after its slot in a shopping row. {days} is a count of calendar days, 1 or more. Keep it short and lowercase.",
     "_p6t_source": "{days, plural, one {1 day ago} other {# days ago}}"
-  },
-  "wl05lJ": {
-    "defaultMessage": "Mit Magpie planen",
-    "_p6t_description": "Header action that opens the assistant to plan meals.",
-    "_p6t_source": "Plan with Magpie"
   },
   "wwnfQI": {
     "defaultMessage": "Niemand",

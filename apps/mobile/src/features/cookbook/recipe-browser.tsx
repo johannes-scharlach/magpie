@@ -1,6 +1,5 @@
 import { Link, Stack, router } from "expo-router";
 import { Image } from "expo-image";
-import { LinearGradient } from "expo-linear-gradient";
 import { useState, type ReactNode } from "react";
 import { ActivityIndicator, FlatList, Pressable, View } from "react-native";
 import { defineMessages, useIntl } from "react-intl";
@@ -8,9 +7,7 @@ import { useResolveClassNames } from "uniwind";
 import { Text } from "@/components/ui/text";
 import type { Variant } from "@/db/schema";
 import { formatEffort } from "@/features/meals/effort-label";
-import { RecipeArt } from "@/features/meals/recipe-art";
-import { tonalPair } from "@/features/variants/tonal";
-import { useColorScheme } from "@/hooks/use-color-scheme";
+import { RecipeListArt } from "@/features/meals/recipe-art";
 import type { MealSlot } from "@/features/meals/slots";
 import { importRecipeAction } from "./messages";
 import { useRecipeChoices } from "./use-recipe-choices";
@@ -56,7 +53,6 @@ export function RecipeBrowser({
   const intl = useIntl();
   const [search, setSearch] = useState("");
   const { choices, isLoading } = useRecipeChoices(search);
-  const dark = useColorScheme() === "dark";
   const foreground = useResolveClassNames("text-foreground").color;
   const muted = useResolveClassNames("text-muted-foreground").color;
   return (
@@ -175,25 +171,11 @@ export function RecipeBrowser({
               onPress={target ? () => onSelect?.(variant) : undefined}
               className="flex-row items-center gap-4 px-6 py-3 active:bg-accent"
             >
-              {/* The dish stands on its tile and spills over the top and
-                  sides, up to the row's edge but not over the hairline. */}
-              <View className="size-[72px]">
-                <LinearGradient
-                  colors={tonalPair(variant.id, dark)}
-                  start={{ x: 0.15, y: 0 }}
-                  end={{ x: 0.85, y: 1 }}
-                  style={{
-                    flex: 1,
-                    borderRadius: 18,
-                    borderCurve: "continuous",
-                  }}
-                />
-                <RecipeArt
-                  name={variant.name}
-                  artPath={artPath}
-                  inset={{ top: -12, right: -6, bottom: 4, left: -6 }}
-                />
-              </View>
+              <RecipeListArt
+                id={variant.id}
+                name={variant.name}
+                artPath={artPath}
+              />
               <View className="flex-1 gap-1">
                 <Text className="font-medium" numberOfLines={2}>
                   {variant.name ?? "…"}

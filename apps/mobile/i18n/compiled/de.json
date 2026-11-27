@@ -139,6 +139,12 @@
       "value": "Eintrag hinzufügen"
     }
   ],
+  "1ugpQ6": [
+    {
+      "type": 0,
+      "value": "Idee aus einer früheren Mahlzeit holen"
+    }
+  ],
   "2H3Nev": [
     {
       "type": 1,
@@ -273,6 +279,12 @@
       "value": "Einkauf für Mahlzeiten"
     }
   ],
+  "5bifwC": [
+    {
+      "type": 0,
+      "value": "Keine passenden Rezepte in deinem Kochbuch."
+    }
+  ],
   "5cSDJb": [
     {
       "type": 0,
@@ -381,6 +393,12 @@
     {
       "type": 0,
       "value": "Noch keine Zutatenliste"
+    }
+  ],
+  "9GToKv": [
+    {
+      "type": 0,
+      "value": "Beim Kochen helfen lassen"
     }
   ],
   "9rsKGF": [
@@ -510,6 +528,46 @@
       "value": "Kochbuch durchstöbern"
     }
   ],
+  "DCqTvc": [
+    {
+      "type": 5,
+      "value": "slot",
+      "options": {
+        "lunch": {
+          "value": [
+            {
+              "type": 0,
+              "value": "Neues Mittagessen vorschlagen"
+            }
+          ]
+        },
+        "dinner": {
+          "value": [
+            {
+              "type": 0,
+              "value": "Neues Abendessen vorschlagen"
+            }
+          ]
+        },
+        "treat": {
+          "value": [
+            {
+              "type": 0,
+              "value": "Neuen Snack vorschlagen"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 0,
+              "value": "Neues Gericht vorschlagen"
+            }
+          ]
+        }
+      }
+    }
+  ],
   "DXtaav": [
     {
       "type": 0,
@@ -528,6 +586,12 @@
     {
       "type": 0,
       "value": "“ wird gelesen…"
+    }
+  ],
+  "Dun8QS": [
+    {
+      "type": 0,
+      "value": "Diese Mahlzeit hat sich geändert. Geh zurück und wähle erneut eine Mahlzeit aus."
     }
   ],
   "Dw5A9f": [
@@ -608,6 +672,12 @@
       "value": "Hinzufügen"
     }
   ],
+  "FpnEry": [
+    {
+      "type": 0,
+      "value": "Gericht eingeben"
+    }
+  ],
   "Frra3A": [
     {
       "type": 0,
@@ -685,10 +755,22 @@
       "value": "Vielleicht wurde er auf einem anderen Gerät entfernt."
     }
   ],
+  "HENepm": [
+    {
+      "type": 0,
+      "value": "Wie eingegeben speichern"
+    }
+  ],
   "HkN0Rx": [
     {
       "type": 0,
       "value": "Chinakohl"
+    }
+  ],
+  "HkdZkp": [
+    {
+      "type": 0,
+      "value": "Aus deinem Kochbuch"
     }
   ],
   "I/PQEx": [
@@ -751,6 +833,12 @@
       "value": "Wird hinzugefügt…"
     }
   ],
+  "IokKA5": [
+    {
+      "type": 0,
+      "value": "Die Mahlzeit konnte nicht hinzugefügt werden. Bitte versuch es erneut."
+    }
+  ],
   "JGA8YW": [
     {
       "type": 0,
@@ -773,6 +861,12 @@
     {
       "type": 0,
       "value": "Erneut versuchen"
+    }
+  ],
+  "JoJ12K": [
+    {
+      "type": 0,
+      "value": "Wähle eine frühere Mahlzeit. Magpie schlägt dir dann ein neues Gericht vor."
     }
   ],
   "JyczPr": [
@@ -886,6 +980,12 @@
       "value": "Vorhandene Zutaten nutzen"
     }
   ],
+  "M7G18s": [
+    {
+      "type": 0,
+      "value": "Kochbuch durchstöbern"
+    }
+  ],
   "M7dZ14": [
     {
       "type": 0,
@@ -956,6 +1056,12 @@
     {
       "type": 0,
       "value": "Details konnten nicht gespeichert werden"
+    }
+  ],
+  "OMmcHh": [
+    {
+      "type": 0,
+      "value": "Mit Zutaten anfangen"
     }
   ],
   "ON74RR": [
@@ -1070,6 +1176,16 @@
     {
       "type": 0,
       "value": "Thai-Currypaste"
+    }
+  ],
+  "QwnvXR": [
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " einplanen"
     }
   ],
   "RACRTO": [
@@ -1739,6 +1855,70 @@
       "value": "Dein Kochbuch ist leer. Importiere die Rezepte, die du gern kochst."
     }
   ],
+  "hHe0qV": [
+    {
+      "type": 5,
+      "value": "slot",
+      "options": {
+        "lunch": {
+          "value": [
+            {
+              "type": 0,
+              "value": "Mittagessen am "
+            },
+            {
+              "type": 1,
+              "value": "weekday"
+            }
+          ]
+        },
+        "dinner": {
+          "value": [
+            {
+              "type": 0,
+              "value": "Abendessen am "
+            },
+            {
+              "type": 1,
+              "value": "weekday"
+            }
+          ]
+        },
+        "treat": {
+          "value": [
+            {
+              "type": 0,
+              "value": "Snack am "
+            },
+            {
+              "type": 1,
+              "value": "weekday"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 0,
+              "value": "Mahlzeit am "
+            },
+            {
+              "type": 1,
+              "value": "weekday"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": 0,
+      "value": " · "
+    },
+    {
+      "type": 1,
+      "value": "date"
+    }
+  ],
   "hK8iO5": [
     {
       "type": 0,
@@ -1781,6 +1961,46 @@
     {
       "type": 0,
       "value": "Butter"
+    }
+  ],
+  "iHUavl": [
+    {
+      "type": 5,
+      "value": "slot",
+      "options": {
+        "lunch": {
+          "value": [
+            {
+              "type": 0,
+              "value": "Welche Mahlzeit soll als Inspiration fürs Mittagessen dienen?"
+            }
+          ]
+        },
+        "dinner": {
+          "value": [
+            {
+              "type": 0,
+              "value": "Welche Mahlzeit soll als Inspiration fürs Abendessen dienen?"
+            }
+          ]
+        },
+        "treat": {
+          "value": [
+            {
+              "type": 0,
+              "value": "Welche Mahlzeit soll als Inspiration für einen Snack dienen?"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 0,
+              "value": "Welche Mahlzeit soll als Inspiration für ein neues Gericht dienen?"
+            }
+          ]
+        }
+      }
     }
   ],
   "iQ3uTU": [
@@ -2098,6 +2318,20 @@
       "value": "Abgehakt"
     }
   ],
+  "rty5Dk": [
+    {
+      "type": 0,
+      "value": "Schlag mir drei Gerichte vor, die „"
+    },
+    {
+      "type": 1,
+      "value": "meal"
+    },
+    {
+      "type": 0,
+      "value": "“ ähneln."
+    }
+  ],
   "rvjJhe": [
     {
       "type": 0,
@@ -2165,6 +2399,12 @@
       "value": " zum Mittagessen einplanen"
     }
   ],
+  "sEo7Gc": [
+    {
+      "type": 0,
+      "value": "Mahlzeitauswahl schließen"
+    }
+  ],
   "sFrF/1": [
     {
       "type": 0,
@@ -2187,6 +2427,12 @@
     {
       "type": 0,
       "value": " zu Hause"
+    }
+  ],
+  "sPBf1o": [
+    {
+      "type": 0,
+      "value": "Es gibt noch keine früheren Mahlzeiten zur Auswahl."
     }
   ],
   "saRdXm": [
@@ -2394,12 +2640,6 @@
       },
       "offset": 0,
       "pluralType": "cardinal"
-    }
-  ],
-  "wl05lJ": [
-    {
-      "type": 0,
-      "value": "Mit Magpie planen"
     }
   ],
   "wwnfQI": [

@@ -22,6 +22,42 @@ const slotIndex = (meal: string | null) =>
     ? SLOT_ORDER.length
     : SLOT_ORDER.indexOf(meal as MealSlot);
 
+/** Recent entries on this household's calendar are the best record of what
+ * they ate. Today's slots still belong to the plan. */
+export function recentMealReferences<
+  M extends {
+    id: string;
+    list_id: string | null;
+    slot_date: string | null;
+    meal: string | null;
+    display_name: string | null;
+    content_id: string | null;
+  },
+>(meals: readonly M[], listId: string, today: string) {
+  return meals
+    .filter(
+      (
+        meal,
+      ): meal is M & {
+        display_name: string;
+        content_id: string;
+        slot_date: string;
+      } =>
+        meal.list_id === listId &&
+        mealIsPast(meal.slot_date, today) &&
+        SLOT_ORDER.includes(meal.meal as MealSlot) &&
+        !!meal.display_name &&
+        !!meal.content_id,
+    )
+    .sort(
+      (a, b) =>
+        (b.slot_date ?? "").localeCompare(a.slot_date ?? "") ||
+        slotIndex(b.meal) - slotIndex(a.meal) ||
+        a.id.localeCompare(b.id),
+    )
+    .slice(0, 10);
+}
+
 /**
  * Which meal a variant page is about (spec 0004). The meal the card opened
  * wins; otherwise the nearest upcoming meal on this variant. A sibling is an

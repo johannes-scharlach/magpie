@@ -11,6 +11,7 @@ export type QueuedMessage = {
   chatId?: string;
   listId?: string;
   mealContext?: { plannedMealId: string };
+  rhymeReference?: { plannedMealId: string; contentId: string; locale: string };
   recipeContext?: {
     variantId: string;
     recipeId: string;

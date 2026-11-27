@@ -3,13 +3,23 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Link, router } from "expo-router";
 import { useMemo } from "react";
 import { useIntl } from "react-intl";
-import { ActivityIndicator, Pressable, ScrollView, View } from "react-native";
+import {
+  ActivityIndicator,
+  Pressable,
+  ScrollView,
+  View,
+  useWindowDimensions,
+} from "react-native";
 import {
   Gesture,
   GestureDetector,
   type LegacyPanGesture,
 } from "react-native-gesture-handler";
-import Animated from "react-native-reanimated";
+import Animated, {
+  Easing,
+  FadeInDown,
+  ReduceMotion,
+} from "react-native-reanimated";
 import { useResolveClassNames } from "uniwind";
 
 import { Button } from "@/components/ui/button";
@@ -19,7 +29,11 @@ import { startShoppingChat } from "@/features/meals/start-shopping-chat";
 import { useMealSelectionTransition } from "@/features/meals/use-meal-selection-transition";
 import { tonalPair } from "@/features/variants/tonal";
 import { useColorScheme } from "@/hooks/use-color-scheme";
-import type { DisplayRecipe, DisplayPlannedMeal } from "./day-content";
+import type {
+  DisplayRecipe,
+  DisplayPlannedMeal,
+  RecentMealReference,
+} from "./day-content";
 import {
   hideSlotChoicesMessages,
   selectRecipeForSlotMessages,
@@ -27,6 +41,7 @@ import {
   slotMessages,
 } from "./labels";
 import { RecipeArt } from "./recipe-art";
+import { MealChoiceEntry } from "./meal-choice-entry";
 import { seededLook } from "./seeded-look";
 import type { MealSlot } from "./slots";
 
@@ -41,11 +56,15 @@ type Props = {
   listId: string;
   /** Planned recipe, or null when the slot is still open. */
   recipe: DisplayPlannedMeal | null;
+  open: boolean;
+  onOpen: () => void;
   isPast: boolean;
   /** Only true for an unreviewed meal planned for today or later. */
   showShoppingPrompt: boolean;
   contenders: Recipe[];
   reminderVisit?: string;
+  recentMeals: RecentMealReference[];
+  historyLoading: boolean;
   recommendationsLoading: boolean;
   recommendationsFailed: boolean;
   selecting: boolean;
@@ -59,7 +78,8 @@ type Props = {
   /** Open slot's × — hides the slot behind "+ Select …". */
   onHide: () => void;
   onImport: () => void;
-  onStartChat: (entry: "on_hand" | "dish") => void;
+  onStartChat: (entry: "on_hand" | "dish", dish?: string) => void;
+  onRhyme: (meal: RecentMealReference) => void;
   onCookbook: () => void;
   onWriteIn: () => void;
 };
@@ -69,12 +89,19 @@ const CHECK_ICON = {
   ios: "checkmark",
   android: "check",
 } as const;
+const SUGGESTION_ENTRANCES = [0, 1, 2].map((index) =>
+  FadeInDown.duration(155)
+    .delay(index * 35)
+    .easing(Easing.bezier(0.23, 1, 0.32, 1))
+    .withInitialValues({ opacity: 0, transform: [{ translateY: -4 }] })
+    .reduceMotion(ReduceMotion.System),
+);
 const PAST_ICON = { ios: "clock", android: "history" } as const;
 
 /**
  * One meal slot of a day. Planned: a card (tap to view, … for actions).
- * Open: a full-bleed horizontal carousel of contenders plus Import / cookbook.
- * Handles its own horizontal padding so the carousel scrolls edge to edge.
+ * Open: inline search and suggestions, with separate flows for inspiration
+ * from a past meal and cooking with ingredients on hand.
  */
 export function MealSection({
   dayPan,
@@ -83,10 +110,14 @@ export function MealSection({
   plannedMealId,
   listId,
   recipe,
+  open,
+  onOpen,
   isPast,
   showShoppingPrompt,
   contenders,
   reminderVisit,
+  recentMeals,
+  historyLoading,
   recommendationsLoading,
   recommendationsFailed,
   selecting,
@@ -100,6 +131,7 @@ export function MealSection({
   onHide,
   onImport,
   onStartChat,
+  onRhyme,
   onCookbook,
   onWriteIn,
 }: Props) {
@@ -145,6 +177,8 @@ export function MealSection({
     plannedHeadingStyle,
   } = useMealSelectionTransition(recipe?.id);
   const planned = !!recipe;
+  const { fontScale } = useWindowDimensions();
+  const titleHeight = Math.max(40, 40 * fontScale);
   const contendersScroll = useMemo(
     () =>
       Gesture.Native()
@@ -155,7 +189,207 @@ export function MealSection({
     [dayPan],
   );
 
-  return (
+  function recommendations() {
+    const scroll = (
+      <ScrollView
+        key={reminderVisit}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{ paddingHorizontal: 24, gap: 12 }}
+      >
+        {contenders.map((c, index) => (
+          <Animated.View
+            key={c.id}
+            entering={reminderVisit ? undefined : SUGGESTION_ENTRANCES[index]}
+          >
+            <Pressable
+              accessibilityRole="button"
+              disabled={selecting}
+              accessibilityLabel={intl.formatMessage(
+                selectRecipeForSlotMessages[slot],
+                { recipe: c.name },
+              )}
+              onPress={(event) => selectContender(c.id, event, () => onPlan(c))}
+              onLongPress={c.seedKey ? undefined : () => openVersions(c)}
+              accessibilityHint={
+                c.seedKey
+                  ? intl.formatMessage({
+                      defaultMessage:
+                        "Saves this idea to your cookbook and plans it",
+                      description:
+                        "Accessibility hint for choosing a seeded meal idea.",
+                    })
+                  : intl.formatMessage({
+                      defaultMessage: "Long press for other variants",
+                      description:
+                        "Accessibility hint for opening a recipe's other variants.",
+                    })
+              }
+              className="w-40 overflow-hidden rounded-xl border border-border bg-card"
+            >
+              <View className="h-24">
+                <LinearGradient
+                  colors={tonalPair(c.id, dark)}
+                  start={{ x: 0.15, y: 0 }}
+                  end={{ x: 0.85, y: 1 }}
+                  style={{ flex: 1 }}
+                />
+                <RecipeArt name={c.name} artPath={c.artPath} inset={8} />
+                {c.totalTime ? (
+                  <Text className="absolute bottom-2 left-2 max-w-[90%] rounded-full bg-background/50 mix-blend-hard-light px-2.5 py-1 text-xs font-medium">
+                    {c.totalTime}
+                  </Text>
+                ) : null}
+              </View>
+              <View className="p-3">
+                <Text
+                  numberOfLines={2}
+                  style={{ minHeight: titleHeight }}
+                  className="text-sm font-medium leading-5"
+                >
+                  {reminderVisit && index === 0
+                    ? c.name
+                    : (seededLook(c.name)?.shortName ?? c.name)}
+                </Text>
+              </View>
+            </Pressable>
+          </Animated.View>
+        ))}
+        {reminderVisit ? (
+          <Pressable
+            accessibilityRole="button"
+            onPress={onCookbook}
+            className="w-40 min-h-36 items-center justify-center gap-3 rounded-xl border border-border bg-card p-4"
+          >
+            <SymbolView
+              name={{ ios: "book", android: "menu_book" }}
+              size={28}
+              tintColor={muted}
+            />
+            <Text className="text-center font-medium">
+              {intl.formatMessage({
+                defaultMessage: "Browse cookbook",
+                description:
+                  "Card that opens the cookbook when there are no matching recommendations.",
+              })}
+            </Text>
+          </Pressable>
+        ) : null}
+      </ScrollView>
+    );
+    return (
+      <View className="gap-3">
+        <View className="px-6">{recommendationStatus}</View>
+        {!reminderVisit && recommendationsLoading ? (
+          <View
+            className="flex-row gap-3 overflow-hidden px-6"
+            accessibilityElementsHidden
+            importantForAccessibility="no-hide-descendants"
+          >
+            {SUGGESTION_ENTRANCES.map((_, index) => (
+              <View
+                key={index}
+                className="w-40 shrink-0 overflow-hidden rounded-xl border border-border bg-card"
+              >
+                <View className="h-24 bg-muted" />
+                <View className="p-3">
+                  <View
+                    style={{ height: titleHeight }}
+                    className="justify-center"
+                  >
+                    <View className="h-2.5 w-3/4 rounded-full bg-muted" />
+                  </View>
+                </View>
+              </View>
+            ))}
+          </View>
+        ) : reminderVisit || contenders.length > 0 ? (
+          <GestureDetector gesture={contendersScroll}>{scroll}</GestureDetector>
+        ) : null}
+      </View>
+    );
+  }
+
+  function openVersions(c: Recipe) {
+    router.push({
+      pathname: "/variant/versions",
+      params: {
+        recipeId: c.recipeId ?? "",
+        id: c.id,
+        date,
+        slot,
+      },
+    });
+  }
+
+  const recommendationStatus = (
+    <View
+      className="flex-row items-center gap-2"
+      accessibilityLiveRegion="polite"
+    >
+      {recommendationsLoading || selecting ? (
+        <ActivityIndicator size="small" />
+      ) : null}
+      <Text variant="muted" className="flex-1 text-sm">
+        {status}
+      </Text>
+      {recommendationsFailed ? (
+        <Pressable accessibilityRole="button" hitSlop={12} onPress={onRetry}>
+          <Text className="text-link">
+            {intl.formatMessage({
+              defaultMessage: "Retry",
+              description:
+                "Action that tries loading meal recommendations again.",
+            })}
+          </Text>
+        </Pressable>
+      ) : null}
+    </View>
+  );
+
+  const chooser =
+    open && !reminderVisit ? (
+      <MealChoiceEntry
+        key={plannedMealId}
+        date={date}
+        slot={slot}
+        listId={listId}
+        recentMeals={recentMeals}
+        historyLoading={historyLoading}
+        selecting={selecting}
+        suggestions={<View className="-mx-6">{recommendations()}</View>}
+        onClose={onHide}
+        onPlan={onPlan}
+        onUseIngredients={() => onStartChat("on_hand")}
+        onStartDish={(dish) => onStartChat("dish", dish)}
+        onRhyme={onRhyme}
+        onCookbook={onCookbook}
+        onImport={onImport}
+      />
+    ) : null;
+
+  if (!recipe && !open) {
+    return (
+      <>
+        <Pressable
+          accessibilityRole="button"
+          onPress={onOpen}
+          className="flex-row items-center gap-2 px-6"
+        >
+          <SymbolView
+            name={{ ios: "plus", android: "add" }}
+            tintColor={muted}
+            size={16}
+          />
+          <Text className="text-muted-foreground">
+            {intl.formatMessage(selectSlotMessages[slot])}
+          </Text>
+        </Pressable>
+      </>
+    );
+  }
+
+  const section = (
     <View className="gap-3">
       {/* Keep the longer heading and the status text in flow in both states.
           Opacity changes; the header's height and the card's origin do not. */}
@@ -338,7 +572,7 @@ export function MealSection({
               </Animated.View>
             </Animated.View>
           </View>
-        ) : (
+        ) : reminderVisit ? (
           <View className="gap-3">
             <View className="flex-row flex-wrap gap-3 px-6">
               <Button
@@ -368,127 +602,7 @@ export function MealSection({
                 </Text>
               </Button>
             </View>
-            <View
-              className="flex-row items-center gap-2 px-6"
-              accessibilityLiveRegion="polite"
-            >
-              {recommendationsLoading || selecting ? (
-                <ActivityIndicator size="small" />
-              ) : null}
-              <Text variant="muted" className="flex-1 text-sm">
-                {status}
-              </Text>
-              {recommendationsFailed ? (
-                <Pressable
-                  accessibilityRole="button"
-                  hitSlop={12}
-                  onPress={onRetry}
-                >
-                  <Text className="text-link">
-                    {intl.formatMessage({
-                      defaultMessage: "Retry",
-                      description:
-                        "Action that tries loading meal recommendations again.",
-                    })}
-                  </Text>
-                </Pressable>
-              ) : null}
-            </View>
-            <GestureDetector gesture={contendersScroll}>
-              <ScrollView
-                key={reminderVisit}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{ paddingHorizontal: 24, gap: 12 }}
-              >
-                {contenders.map((c, index) => (
-                  <Pressable
-                    key={c.id}
-                    accessibilityRole="button"
-                    disabled={selecting}
-                    accessibilityLabel={intl.formatMessage(
-                      selectRecipeForSlotMessages[slot],
-                      { recipe: c.name },
-                    )}
-                    onPress={(event) =>
-                      selectContender(c.id, event, () => onPlan(c))
-                    }
-                    onLongPress={
-                      c.seedKey
-                        ? undefined
-                        : () =>
-                            router.push({
-                              pathname: "/variant/versions",
-                              params: {
-                                recipeId: c.recipeId ?? "",
-                                id: c.id,
-                                date,
-                                slot,
-                              },
-                            })
-                    }
-                    accessibilityHint={
-                      c.seedKey
-                        ? intl.formatMessage({
-                            defaultMessage:
-                              "Saves this idea to your cookbook and plans it",
-                            description:
-                              "Accessibility hint for choosing a seeded meal idea.",
-                          })
-                        : intl.formatMessage({
-                            defaultMessage: "Long press for other variants",
-                            description:
-                              "Accessibility hint for opening a recipe's other variants.",
-                          })
-                    }
-                    className="w-40 overflow-hidden rounded-xl border border-border bg-card"
-                  >
-                    <View className="h-24">
-                      <LinearGradient
-                        colors={tonalPair(c.id, dark)}
-                        start={{ x: 0.15, y: 0 }}
-                        end={{ x: 0.85, y: 1 }}
-                        style={{ flex: 1 }}
-                      />
-                      <RecipeArt name={c.name} artPath={c.artPath} inset={8} />
-                      {c.totalTime ? (
-                        <Text className="absolute bottom-2 left-2 max-w-[90%] rounded-full bg-background/50 mix-blend-hard-light px-2.5 py-1 text-xs font-medium">
-                          {c.totalTime}
-                        </Text>
-                      ) : null}
-                    </View>
-                    <View className="p-3">
-                      <Text
-                        numberOfLines={2}
-                        className="min-h-10 text-sm font-medium leading-5"
-                      >
-                        {reminderVisit && index === 0
-                          ? c.name
-                          : (seededLook(c.name)?.shortName ?? c.name)}
-                      </Text>
-                    </View>
-                  </Pressable>
-                ))}
-                <Pressable
-                  accessibilityRole="button"
-                  onPress={onCookbook}
-                  className="w-40 min-h-36 items-center justify-center gap-3 rounded-xl border border-border bg-card p-4"
-                >
-                  <SymbolView
-                    name={{ ios: "book", android: "menu_book" }}
-                    size={28}
-                    tintColor={muted}
-                  />
-                  <Text className="text-center font-medium">
-                    {intl.formatMessage({
-                      defaultMessage: "Browse cookbook",
-                      description:
-                        "Card that opens the cookbook when there are no matching recommendations.",
-                    })}
-                  </Text>
-                </Pressable>
-              </ScrollView>
-            </GestureDetector>
+            {recommendations()}
             <View className="flex-row gap-3 px-6">
               <Button variant="outline" className="flex-1" onPress={onImport}>
                 <Text>
@@ -510,8 +624,12 @@ export function MealSection({
               </Button>
             </View>
           </View>
+        ) : (
+          <View className="px-6">{chooser}</View>
         )}
       </View>
     </View>
   );
+
+  return section;
 }
