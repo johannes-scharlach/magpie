@@ -2,14 +2,22 @@ import { SymbolView } from "expo-symbols";
 import { Pressable } from "react-native";
 import { useResolveClassNames } from "uniwind";
 
-export type CloseButtonProps = { onPress: () => void; disabled?: boolean };
+export type CloseButtonProps = {
+  onPress: () => void;
+  disabled?: boolean;
+  label?: string;
+};
 
-export function CloseButton({ onPress, disabled }: CloseButtonProps) {
+export function CloseButton({
+  onPress,
+  disabled,
+  label = "Close",
+}: CloseButtonProps) {
   const foreground = useResolveClassNames("text-foreground").color;
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityLabel="Close"
+      accessibilityLabel={label}
       disabled={disabled}
       onPress={onPress}
       className="size-11 items-center justify-center rounded-full bg-muted disabled:opacity-50"

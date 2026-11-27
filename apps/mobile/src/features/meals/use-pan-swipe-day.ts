@@ -31,6 +31,7 @@ type Options = {
   count: number;
   /** page the row rests on — follows the day strip */
   index: number;
+  enabled?: boolean;
   /**
    * Fires as soon as a swipe decides its page, while the settle spring is
    * still running, so the screen can mount the new neighbours in time.
@@ -44,7 +45,13 @@ type Options = {
  * on commit, so there's no JS/UI-thread frame to keep in sync. A new drag
  * picks the spring up mid-flight, so swipes can follow each other quickly.
  */
-export function usePanSwipeDay({ width, count, index, onCommit }: Options) {
+export function usePanSwipeDay({
+  width,
+  count,
+  index,
+  onCommit,
+  enabled = true,
+}: Options) {
   const offset = useSharedValue(-index * width);
   const context = useSharedValue(0);
   const target = useSharedValue(index);
@@ -63,6 +70,7 @@ export function usePanSwipeDay({ width, count, index, onCommit }: Options) {
   const gesture = useMemo(
     () =>
       Gesture.Pan()
+        .enabled(enabled)
         .activeOffsetX([-10, 10])
         .failOffsetY([-10, 10]) // vertical scroll always wins first
         .onStart(() => {
@@ -109,7 +117,17 @@ export function usePanSwipeDay({ width, count, index, onCommit }: Options) {
             }),
           );
         }),
-    [width, count, commitThreshold, onCommit, offset, context, target, tick],
+    [
+      width,
+      count,
+      commitThreshold,
+      onCommit,
+      enabled,
+      offset,
+      context,
+      target,
+      tick,
+    ],
   );
 
   const dragStyle = useAnimatedStyle(() => ({

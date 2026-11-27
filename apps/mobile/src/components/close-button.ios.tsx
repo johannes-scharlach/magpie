@@ -15,6 +15,7 @@ import type { CloseButtonProps } from "./close-button";
 export function CloseButton({
   onPress,
   disabled: isDisabled = false,
+  label = "Close",
 }: CloseButtonProps) {
   const foreground = useResolveClassNames("text-foreground").color;
   return (
@@ -24,7 +25,7 @@ export function CloseButton({
       ignoreSafeArea="all"
     >
       <Button
-        label="Close"
+        label={label}
         systemImage="xmark"
         onPress={onPress}
         modifiers={[

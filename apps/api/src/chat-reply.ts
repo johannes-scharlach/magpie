@@ -38,6 +38,8 @@ export function createChatReply<TOOLS extends ToolSet>(opts: {
     stream: ReadableStream<TextStreamPart<TOOLS>>;
     text: PromiseLike<string>;
   }>;
+  /** A focused reply may need a complete result before the app enables its action. */
+  validateText?: (text: string) => boolean;
   suggestions: (text: string) => Promise<string[]>;
   save: (message: AssistantUIMessage) => Promise<void>;
   /** Tells the asker the saved reply is ready (ADR 26). */
@@ -91,8 +93,21 @@ export function createChatReply<TOOLS extends ToolSet>(opts: {
           sendFinish: false,
           onError: chatToolErrorText,
         });
-        for await (const chunk of ui) writer.write(chunk);
-        if (finished && !error) text = await result.text;
+        for await (const chunk of ui) {
+          if (!opts.validateText) writer.write(chunk);
+        }
+        if (finished && !error) {
+          text = await result.text;
+          if (opts.validateText) {
+            if (opts.validateText(text)) {
+              writer.write({ type: "text-start", id: "text" });
+              writer.write({ type: "text-delta", id: "text", delta: text });
+              writer.write({ type: "text-end", id: "text" });
+            } else {
+              error = errorTextFor(undefined);
+            }
+          }
+        }
       } catch (cause) {
         console.error("chat generation failed", cause);
         error = errorTextFor(cause);

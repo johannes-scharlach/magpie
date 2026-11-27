@@ -5,6 +5,7 @@ import {
   driftLabel,
   mealIsPast,
   mealLabel,
+  recentMealReferences,
   shoppedLabel,
   variantMeals,
 } from "./variant-meals";
@@ -21,6 +22,43 @@ const meals = [
   { id: "mon-lunch", variant_id: v1, slot_date: "2026-09-21", meal: "lunch" },
 ];
 const today = "2026-09-18";
+
+describe("recentMealReferences", () => {
+  it("shows at most ten past meals from this household in meal order", () => {
+    const history = [
+      {
+        id: "today",
+        list_id: "household",
+        slot_date: today,
+        meal: "dinner",
+        display_name: "Today",
+        content_id: "today-content",
+      },
+      {
+        id: "other-household",
+        list_id: "other",
+        slot_date: "2026-09-17",
+        meal: "dinner",
+        display_name: "Other household",
+        content_id: "other-content",
+      },
+      ...Array.from({ length: 12 }, (_, index) => ({
+        id: String(index),
+        list_id: "household",
+        slot_date:
+          index < 2
+            ? "2026-09-17"
+            : `2026-09-${String(16 - index).padStart(2, "0")}`,
+        meal: index ? "dinner" : "lunch",
+        display_name: "Bread and cheese",
+        content_id: `meal-${index}`,
+      })),
+    ];
+    expect(
+      recentMealReferences(history, "household", today).map((row) => row.id),
+    ).toEqual(["1", "0", "2", "3", "4", "5", "6", "7", "8", "9"]);
+  });
+});
 
 describe("variantMeals", () => {
   it("keeps the past meal opened from the calendar even when this recipe is planned again", () => {

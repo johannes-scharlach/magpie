@@ -29,12 +29,16 @@ import type { EditorSheetHandle } from "./editor-sheet";
 export function EditorSheet({
   ref,
   title,
+  closeLabel,
+  compact = false,
   onDismiss,
   children,
   autoFocusInput,
 }: {
   ref?: Ref<EditorSheetHandle>;
   title: string;
+  closeLabel?: string;
+  compact?: boolean;
   onDismiss: () => void;
   children: ReactNode;
   autoFocusInput?: RefObject<TextInputInstance | null>;
@@ -82,7 +86,7 @@ export function EditorSheet({
       >
         <Column
           modifiers={[
-            padding(24, 0, 24, Math.max(insets.bottom, 16)),
+            padding(24, 0, 24, Math.max(insets.bottom, compact ? 8 : 16)),
             // This modifier registers a native event; it doesn't call the handler during render.
             // eslint-disable-next-line react-hooks/refs
             onGloballyPositioned(() => void focusAfterPresentation()),
@@ -100,7 +104,10 @@ export function EditorSheet({
                 >
                   {title}
                 </Text>
-                <CloseButton onPress={() => void dismiss()} />
+                <CloseButton
+                  label={closeLabel}
+                  onPress={() => void dismiss()}
+                />
               </View>
               {children}
             </View>

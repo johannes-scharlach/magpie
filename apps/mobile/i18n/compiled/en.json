@@ -143,6 +143,12 @@
       "value": "Add item"
     }
   ],
+  "1ugpQ6": [
+    {
+      "type": 0,
+      "value": "Get an idea from a past meal"
+    }
+  ],
   "2H3Nev": [
     {
       "type": 0,
@@ -281,6 +287,12 @@
       "value": "Shop for meals"
     }
   ],
+  "5bifwC": [
+    {
+      "type": 0,
+      "value": "No matching recipes in your cookbook."
+    }
+  ],
   "5cSDJb": [
     {
       "type": 0,
@@ -389,6 +401,12 @@
     {
       "type": 0,
       "value": "No ingredient list yet"
+    }
+  ],
+  "9GToKv": [
+    {
+      "type": 0,
+      "value": "Help me make this"
     }
   ],
   "9rsKGF": [
@@ -518,6 +536,46 @@
       "value": "Browse cookbook"
     }
   ],
+  "DCqTvc": [
+    {
+      "type": 5,
+      "value": "slot",
+      "options": {
+        "lunch": {
+          "value": [
+            {
+              "type": 0,
+              "value": "Suggest a new lunch"
+            }
+          ]
+        },
+        "dinner": {
+          "value": [
+            {
+              "type": 0,
+              "value": "Suggest a new dinner"
+            }
+          ]
+        },
+        "treat": {
+          "value": [
+            {
+              "type": 0,
+              "value": "Suggest a new treat"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 0,
+              "value": "Suggest a new dish"
+            }
+          ]
+        }
+      }
+    }
+  ],
   "DXtaav": [
     {
       "type": 0,
@@ -536,6 +594,12 @@
     {
       "type": 0,
       "value": "”…"
+    }
+  ],
+  "Dun8QS": [
+    {
+      "type": 0,
+      "value": "That recent meal changed. Go back and choose a meal again."
     }
   ],
   "Dw5A9f": [
@@ -616,6 +680,12 @@
       "value": "Add"
     }
   ],
+  "FpnEry": [
+    {
+      "type": 0,
+      "value": "Type a dish"
+    }
+  ],
   "Frra3A": [
     {
       "type": 0,
@@ -693,10 +763,22 @@
       "value": "It may have been removed on another device."
     }
   ],
+  "HENepm": [
+    {
+      "type": 0,
+      "value": "Save as written"
+    }
+  ],
   "HkN0Rx": [
     {
       "type": 0,
       "value": "Chinese cabbage"
+    }
+  ],
+  "HkdZkp": [
+    {
+      "type": 0,
+      "value": "From your cookbook"
     }
   ],
   "I/PQEx": [
@@ -759,6 +841,12 @@
       "value": "Adding…"
     }
   ],
+  "IokKA5": [
+    {
+      "type": 0,
+      "value": "Couldn’t add this meal. Try again."
+    }
+  ],
   "JGA8YW": [
     {
       "type": 0,
@@ -781,6 +869,12 @@
     {
       "type": 0,
       "value": "Retry"
+    }
+  ],
+  "JoJ12K": [
+    {
+      "type": 0,
+      "value": "Pick a past meal and Magpie will suggest a new dish."
     }
   ],
   "JyczPr": [
@@ -898,6 +992,12 @@
       "value": "Use what I have"
     }
   ],
+  "M7G18s": [
+    {
+      "type": 0,
+      "value": "Browse cookbook"
+    }
+  ],
   "M7dZ14": [
     {
       "type": 0,
@@ -968,6 +1068,12 @@
     {
       "type": 0,
       "value": "Couldn’t save details"
+    }
+  ],
+  "OMmcHh": [
+    {
+      "type": 0,
+      "value": "Start with ingredients"
     }
   ],
   "ON74RR": [
@@ -1082,6 +1188,16 @@
     {
       "type": 0,
       "value": "Thai curry paste"
+    }
+  ],
+  "QwnvXR": [
+    {
+      "type": 0,
+      "value": "Plan "
+    },
+    {
+      "type": 1,
+      "value": "name"
     }
   ],
   "RACRTO": [
@@ -1763,6 +1879,70 @@
       "value": "Your cookbook is empty. Import the recipes you love to cook."
     }
   ],
+  "hHe0qV": [
+    {
+      "type": 5,
+      "value": "slot",
+      "options": {
+        "lunch": {
+          "value": [
+            {
+              "type": 1,
+              "value": "weekday"
+            },
+            {
+              "type": 0,
+              "value": " lunch"
+            }
+          ]
+        },
+        "dinner": {
+          "value": [
+            {
+              "type": 1,
+              "value": "weekday"
+            },
+            {
+              "type": 0,
+              "value": " dinner"
+            }
+          ]
+        },
+        "treat": {
+          "value": [
+            {
+              "type": 1,
+              "value": "weekday"
+            },
+            {
+              "type": 0,
+              "value": " treat"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 1,
+              "value": "weekday"
+            },
+            {
+              "type": 0,
+              "value": " meal"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": 0,
+      "value": " · "
+    },
+    {
+      "type": 1,
+      "value": "date"
+    }
+  ],
   "hK8iO5": [
     {
       "type": 0,
@@ -1801,6 +1981,46 @@
     {
       "type": 0,
       "value": "Butter"
+    }
+  ],
+  "iHUavl": [
+    {
+      "type": 5,
+      "value": "slot",
+      "options": {
+        "lunch": {
+          "value": [
+            {
+              "type": 0,
+              "value": "Which meal should inspire lunch?"
+            }
+          ]
+        },
+        "dinner": {
+          "value": [
+            {
+              "type": 0,
+              "value": "Which meal should inspire dinner?"
+            }
+          ]
+        },
+        "treat": {
+          "value": [
+            {
+              "type": 0,
+              "value": "Which meal should inspire a treat?"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 0,
+              "value": "Which meal should inspire a new dish?"
+            }
+          ]
+        }
+      }
     }
   ],
   "iQ3uTU": [
@@ -2126,6 +2346,20 @@
       "value": "Checked"
     }
   ],
+  "rty5Dk": [
+    {
+      "type": 0,
+      "value": "Give me three meal ideas like "
+    },
+    {
+      "type": 1,
+      "value": "meal"
+    },
+    {
+      "type": 0,
+      "value": "."
+    }
+  ],
   "rvjJhe": [
     {
       "type": 0,
@@ -2197,6 +2431,12 @@
       "value": " for lunch"
     }
   ],
+  "sEo7Gc": [
+    {
+      "type": 0,
+      "value": "Close meal chooser"
+    }
+  ],
   "sFrF/1": [
     {
       "type": 0,
@@ -2219,6 +2459,12 @@
     {
       "type": 0,
       "value": " at home"
+    }
+  ],
+  "sPBf1o": [
+    {
+      "type": 0,
+      "value": "There are no past meals to choose from."
     }
   ],
   "saRdXm": [
@@ -2422,12 +2668,6 @@
       },
       "offset": 0,
       "pluralType": "cardinal"
-    }
-  ],
-  "wl05lJ": [
-    {
-      "type": 0,
-      "value": "Plan with Magpie"
     }
   ],
   "wwnfQI": [

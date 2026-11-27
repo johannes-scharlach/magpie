@@ -24,6 +24,7 @@ export class ChatRequestRejected extends Error {
   constructor(
     message: string,
     readonly retryable = false,
+    readonly code?: string,
   ) {
     super(message);
   }
@@ -54,6 +55,7 @@ export async function* streamReply(opts: {
   signal?: AbortSignal;
   recipeContext?: QueuedMessage["recipeContext"];
   mealContext?: QueuedMessage["mealContext"];
+  rhymeReference?: QueuedMessage["rhymeReference"];
   entry?: QueuedMessage["entry"];
   idea?: QueuedMessage["idea"];
 }): AsyncGenerator<AssistantUIMessage> {
@@ -74,6 +76,7 @@ export async function* streamReply(opts: {
       throw new ChatRequestRejected(
         body?.error?.message ?? "Your message couldn't be sent.",
         response.status === 429 || body?.error?.code === "CHAT_BUSY",
+        body?.error?.code,
       );
     }
     return response;
@@ -95,6 +98,7 @@ export async function* streamReply(opts: {
         localDate: dateKey(new Date()),
         recipeContext: opts.recipeContext,
         mealContext: opts.mealContext,
+        rhymeReference: opts.rhymeReference,
         entry: opts.entry,
         idea: opts.idea,
       },

@@ -27,13 +27,13 @@
     "start": 349
   },
   "+TPLLR": {
-    "col": 21,
+    "col": 13,
     "defaultMessage": "Retry",
     "description": "Action that tries loading meal recommendations again.",
-    "end": 14285,
+    "end": 11108,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 388,
-    "start": 14079
+    "line": 339,
+    "start": 10934
   },
   "+YaaW0": {
     "col": 62,
@@ -84,10 +84,10 @@
     "col": 17,
     "defaultMessage": "From cookbook",
     "description": "Title of the sheet that picks an existing cookbook recipe for a meal slot.",
-    "end": 9673,
+    "end": 9754,
     "file": "src/app/_layout.tsx",
     "line": 289,
-    "start": 9478
+    "start": 9559
   },
   "07x9wI": {
     "col": 43,
@@ -120,10 +120,10 @@
     "col": 20,
     "defaultMessage": "What would you like to make?",
     "description": "First message prompt for a meal chat based on a dish the user has in mind.",
-    "end": 28209,
+    "end": 28732,
     "file": "src/app/chats/[id].tsx",
-    "line": 786,
-    "start": 27959
+    "line": 797,
+    "start": 28482
   },
   "1+QXgM": {
     "col": 13,
@@ -138,10 +138,10 @@
     "col": 27,
     "defaultMessage": "Add ingredient",
     "description": "Adds the typed ingredient to the meal request without sending it.",
-    "end": 28753,
+    "end": 29276,
     "file": "src/app/chats/[id].tsx",
-    "line": 801,
-    "start": 28526
+    "line": 812,
+    "start": 29049
   },
   "1TrkHP": {
     "col": 12,
@@ -179,6 +179,15 @@
     "line": 81,
     "start": 3707
   },
+  "1ugpQ6": {
+    "col": 17,
+    "defaultMessage": "Get an idea from a past meal",
+    "description": "Opens a list of past meals to choose one as inspiration for a new dish.",
+    "end": 9386,
+    "file": "src/features/meals/meal-choice-entry.tsx",
+    "line": 293,
+    "start": 9155
+  },
   "2H3Nev": {
     "col": 27,
     "defaultMessage": "Add {name}",
@@ -192,10 +201,10 @@
     "col": 21,
     "defaultMessage": "Older matching variant",
     "description": "Badge on a cookbook recipe when a newer version of the same dish exists.",
-    "end": 8289,
+    "end": 7465,
     "file": "src/features/cookbook/recipe-browser.tsx",
-    "line": 212,
-    "start": 8047
+    "line": 194,
+    "start": 7223
   },
   "3DrMNt": {
     "col": 13,
@@ -207,13 +216,13 @@
     "start": 1343
   },
   "3MwfD7": {
-    "col": 38,
+    "col": 40,
     "defaultMessage": "Household and account",
     "description": "Accessibility label for the household settings shortcut.",
-    "end": 14634,
+    "end": 19222,
     "file": "src/app/(tabs)/(meals)/index.tsx",
-    "line": 436,
-    "start": 14417
+    "line": 585,
+    "start": 18997
   },
   "3UhufF": {
     "col": 62,
@@ -318,10 +327,10 @@
     "col": 8,
     "defaultMessage": "Couldn’t plan this meal",
     "description": "Alert title when a chosen meal could not be saved.",
-    "end": 8749,
+    "end": 11785,
     "file": "src/app/(tabs)/(meals)/index.tsx",
-    "line": 244,
-    "start": 8588
+    "line": 342,
+    "start": 11624
   },
   "563N8u": {
     "col": 28,
@@ -363,10 +372,19 @@
     "col": 17,
     "defaultMessage": "Shop for meals",
     "description": "Title of the screen that lists upcoming meals and their shopping decisions.",
-    "end": 9263,
+    "end": 9344,
     "file": "src/app/_layout.tsx",
     "line": 276,
-    "start": 9066
+    "start": 9147
+  },
+  "5bifwC": {
+    "col": 9,
+    "defaultMessage": "No matching recipes in your cookbook.",
+    "description": "Search found no saved recipes. The cook can still ask for help or save the text as a written meal.",
+    "end": 12538,
+    "file": "src/features/meals/meal-choice-entry.tsx",
+    "line": 402,
+    "start": 12303
   },
   "5cSDJb": {
     "col": 62,
@@ -381,10 +399,10 @@
     "col": 31,
     "defaultMessage": "Other variants",
     "description": "Menu action that opens the other versions of a recipe.",
-    "end": 9179,
+    "end": 8355,
     "file": "src/features/cookbook/recipe-browser.tsx",
-    "line": 238,
-    "start": 8947
+    "line": 220,
+    "start": 8123
   },
   "5s1Uy+": {
     "col": 62,
@@ -399,10 +417,10 @@
     "col": 21,
     "defaultMessage": "Search recipes",
     "description": "Placeholder in the cookbook's search field.",
-    "end": 2441,
+    "end": 2232,
     "file": "src/features/cookbook/recipe-browser.tsx",
-    "line": 65,
-    "start": 2296
+    "line": 61,
+    "start": 2087
   },
   "6DbM9d": {
     "col": 15,
@@ -504,13 +522,13 @@
     "start": 265
   },
   "96/RrW": {
-    "col": 34,
+    "col": 38,
     "defaultMessage": "Past chats",
     "description": "Accessibility label for the shortcut to household chat history.",
-    "end": 15204,
+    "end": 19879,
     "file": "src/app/(tabs)/(meals)/index.tsx",
-    "line": 451,
-    "start": 15007
+    "line": 602,
+    "start": 19666
   },
   "97Gs7q": {
     "col": 8,
@@ -520,6 +538,15 @@
     "file": "src/app/shop/meals.tsx",
     "line": 106,
     "start": 3744
+  },
+  "9GToKv": {
+    "col": 13,
+    "defaultMessage": "Help me make this",
+    "description": "Starts a cooking conversation about the dish in the meal slot’s text field.",
+    "end": 6302,
+    "file": "src/features/meals/meal-choice-entry.tsx",
+    "line": 196,
+    "start": 6094
   },
   "9rsKGF": {
     "col": 34,
@@ -642,10 +669,10 @@
     "col": 38,
     "defaultMessage": "Other variants of {name}",
     "description": "Accessibility label for the row that opens the other versions of a cookbook recipe. {name} is the recipe's name.",
-    "end": 10050,
+    "end": 9226,
     "file": "src/features/cookbook/recipe-browser.tsx",
-    "line": 259,
-    "start": 9674
+    "line": 241,
+    "start": 8850
   },
   "CSe0ZZ": {
     "col": 62,
@@ -657,13 +684,22 @@
     "start": 349
   },
   "CpnFSJ": {
-    "col": 21,
+    "col": 15,
     "defaultMessage": "Browse cookbook",
     "description": "Card that opens the cookbook when there are no matching recommendations.",
-    "end": 18495,
+    "end": 8985,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 483,
-    "start": 18260
+    "line": 270,
+    "start": 8774
+  },
+  "DCqTvc": {
+    "col": 15,
+    "defaultMessage": "{slot, select, lunch {Suggest a new lunch} dinner {Suggest a new dinner} treat {Suggest a new treat} other {Suggest a new dish}}",
+    "description": "Confirms the selected past meal as inspiration and starts a chat for a new suggestion. Selector values are lunch, dinner and treat.",
+    "end": 19566,
+    "file": "src/features/meals/meal-choice-entry.tsx",
+    "line": 589,
+    "start": 19096
   },
   "DXtaav": {
     "col": 62,
@@ -683,14 +719,23 @@
     "line": 147,
     "start": 5125
   },
+  "Dun8QS": {
+    "col": 18,
+    "defaultMessage": "That recent meal changed. Go back and choose a meal again.",
+    "description": "The meal selected as inspiration was removed or replaced before Magpie could read it.",
+    "end": 11169,
+    "file": "src/app/chats/[id].tsx",
+    "line": 317,
+    "start": 10864
+  },
   "Dw5A9f": {
     "col": 18,
     "defaultMessage": "Planned",
     "description": "Status on a meal that is planned for today or later.",
-    "end": 7018,
+    "end": 14420,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 203,
-    "start": 6819
+    "line": 437,
+    "start": 14221
   },
   "E1XLxG": {
     "col": 62,
@@ -732,10 +777,10 @@
     "col": 19,
     "defaultMessage": "Write in a meal",
     "description": "Action that lets the user type a meal that is not in the cookbook.",
-    "end": 19384,
+    "end": 21657,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 504,
-    "start": 19163
+    "line": 618,
+    "start": 21436
   },
   "Eu3PUg": {
     "col": 11,
@@ -799,6 +844,15 @@
     "file": "src/app/(tabs)/shop/index.tsx",
     "line": 90,
     "start": 4043
+  },
+  "FpnEry": {
+    "col": 21,
+    "defaultMessage": "Type a dish",
+    "description": "Empty meal chooser input. Typing searches saved recipes and lets the cook ask for help or plan their own dish.",
+    "end": 3288,
+    "file": "src/features/meals/meal-choice-entry.tsx",
+    "line": 96,
+    "start": 3091
   },
   "Frra3A": {
     "col": 25,
@@ -881,6 +935,15 @@
     "line": 159,
     "start": 5239
   },
+  "HENepm": {
+    "col": 13,
+    "defaultMessage": "Save as written",
+    "description": "Adds the dish to the meal plan using the typed name, without creating a recipe.",
+    "end": 6818,
+    "file": "src/features/meals/meal-choice-entry.tsx",
+    "line": 210,
+    "start": 6608
+  },
   "HkN0Rx": {
     "col": 62,
     "defaultMessage": "Chinese cabbage",
@@ -889,6 +952,15 @@
     "file": "src/features/ingredients/ingredient-labels.ts",
     "line": 10,
     "start": 349
+  },
+  "HkdZkp": {
+    "col": 9,
+    "defaultMessage": "From your cookbook",
+    "description": "Heading that identifies matching saved recipes when the cook types a dish in the meal chooser.",
+    "end": 12989,
+    "file": "src/features/meals/meal-choice-entry.tsx",
+    "line": 416,
+    "start": 12777
   },
   "I/PQEx": {
     "col": 62,
@@ -948,10 +1020,10 @@
     "col": 18,
     "defaultMessage": "Past meal",
     "description": "Status on a planned meal whose day has already passed.",
-    "end": 6800,
+    "end": 14202,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 198,
-    "start": 6597
+    "line": 432,
+    "start": 13999
   },
   "IYPNA9": {
     "col": 30,
@@ -979,6 +1051,15 @@
     "file": "src/app/cookbook/review.tsx",
     "line": 141,
     "start": 5104
+  },
+  "IokKA5": {
+    "col": 11,
+    "defaultMessage": "Couldn’t add this meal. Try again.",
+    "description": "An attempt to save a written-in meal failed.",
+    "end": 7146,
+    "file": "src/features/meals/meal-choice-entry.tsx",
+    "line": 220,
+    "start": 6974
   },
   "JGA8YW": {
     "col": 62,
@@ -1015,6 +1096,15 @@
     "file": "src/features/meals/import-job-status.tsx",
     "line": 31,
     "start": 1018
+  },
+  "JoJ12K": {
+    "col": 14,
+    "defaultMessage": "Pick a past meal and Magpie will suggest a new dish.",
+    "description": "Explains that the selected past meal is inspiration for a new dish suggestion.",
+    "end": 16238,
+    "file": "src/features/meals/meal-choice-entry.tsx",
+    "line": 511,
+    "start": 15966
   },
   "JyczPr": {
     "col": 62,
@@ -1083,10 +1173,10 @@
     "col": 18,
     "defaultMessage": "Search or add an ingredient",
     "description": "Placeholder in the ingredient picker field. Typing filters suggestions, and any typed ingredient can be added to the draft.",
-    "end": 27887,
+    "end": 28410,
     "file": "src/app/chats/[id].tsx",
-    "line": 780,
-    "start": 27597
+    "line": 791,
+    "start": 28120
   },
   "LIn5Ck": {
     "col": 35,
@@ -1137,19 +1227,28 @@
     "col": 19,
     "defaultMessage": "Use what I have",
     "description": "Starts a chat to find a meal for this slot using ingredients on hand.",
-    "end": 12814,
+    "end": 20232,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 350,
-    "start": 12590
+    "line": 584,
+    "start": 20008
+  },
+  "M7G18s": {
+    "col": 11,
+    "defaultMessage": "Browse cookbook",
+    "description": "Action opening the full cookbook to select a recipe for this meal slot.",
+    "end": 5051,
+    "file": "src/features/meals/meal-choice-entry.tsx",
+    "line": 157,
+    "start": 4857
   },
   "M7dZ14": {
     "col": 6,
     "defaultMessage": "Getting the recipe ready…",
     "description": "Status while a chosen recommendation is being saved and synced.",
-    "end": 3354,
+    "end": 3985,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 109,
-    "start": 3174
+    "line": 141,
+    "start": 3805
   },
   "MG/rFQ": {
     "col": 62,
@@ -1170,13 +1269,13 @@
     "start": 1706
   },
   "MJTmFc": {
-    "col": 17,
+    "col": 14,
     "defaultMessage": "Meals",
     "description": "Title of the meal planning screen.",
-    "end": 14177,
+    "end": 18721,
     "file": "src/app/(tabs)/(meals)/index.tsx",
-    "line": 426,
-    "start": 14044
+    "line": 574,
+    "start": 18576
   },
   "MY8DcY": {
     "col": 62,
@@ -1250,6 +1349,15 @@
     "line": 5,
     "start": 232
   },
+  "OMmcHh": {
+    "col": 15,
+    "defaultMessage": "Start with ingredients",
+    "description": "Starts a chat to find a meal for this slot using ingredients on hand.",
+    "end": 9809,
+    "file": "src/features/meals/meal-choice-entry.tsx",
+    "line": 305,
+    "start": 9594
+  },
   "ON74RR": {
     "col": 62,
     "defaultMessage": "Risotto rice",
@@ -1314,13 +1422,13 @@
     "start": 1542
   },
   "PZW+tk": {
-    "col": 26,
+    "col": 20,
     "defaultMessage": "Long press for other variants",
     "description": "Accessibility hint for opening a recipe's other variants.",
-    "end": 16408,
+    "end": 7072,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 438,
-    "start": 16150
+    "line": 222,
+    "start": 6838
   },
   "PmW3EN": {
     "col": 19,
@@ -1335,10 +1443,10 @@
     "col": 13,
     "defaultMessage": "No list yet — create one in Shop first.",
     "description": "Empty state on Meals when the household has no active shopping list.",
-    "end": 15948,
+    "end": 20663,
     "file": "src/app/(tabs)/(meals)/index.tsx",
-    "line": 471,
-    "start": 15725
+    "line": 622,
+    "start": 20440
   },
   "QI5FZT": {
     "col": 22,
@@ -1403,23 +1511,32 @@
     "line": 10,
     "start": 349
   },
+  "QwnvXR": {
+    "col": 32,
+    "defaultMessage": "Plan {name}",
+    "description": "Action for a cookbook search match that adds the recipe to the open meal slot. {name} is the recipe name.",
+    "end": 13712,
+    "file": "src/features/meals/meal-choice-entry.tsx",
+    "line": 429,
+    "start": 13399
+  },
   "RACRTO": {
     "col": 38,
     "defaultMessage": "Empty cookbook",
     "description": "Accessibility label for the illustration shown when the cookbook has no recipes.",
-    "end": 3933,
+    "end": 3724,
     "file": "src/features/cookbook/recipe-browser.tsx",
-    "line": 104,
-    "start": 3699
+    "line": 100,
+    "start": 3490
   },
   "RBdc82": {
     "col": 19,
     "defaultMessage": "Choose what to buy",
     "description": "Action under a planned meal that opens its shopping items.",
-    "end": 9162,
+    "end": 16564,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 260,
-    "start": 8946
+    "line": 494,
+    "start": 16348
   },
   "RHYND+": {
     "col": 62,
@@ -1497,10 +1614,10 @@
     "col": 8,
     "defaultMessage": "Finding meals for you…",
     "description": "Status while meal recommendations are loading.",
-    "end": 3548,
+    "end": 4179,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 115,
-    "start": 3392
+    "line": 147,
+    "start": 4023
   },
   "T+fAvK": {
     "col": 9,
@@ -1605,10 +1722,10 @@
     "col": 29,
     "defaultMessage": "Plan {name}",
     "description": "Accessibility label for a cookbook recipe that fills the meal slot being planned. {name} is the recipe's name. Selecting it plans the recipe.",
-    "end": 1493,
+    "end": 1328,
     "file": "src/features/cookbook/recipe-browser.tsx",
-    "line": 20,
-    "start": 974
+    "line": 17,
+    "start": 809
   },
   "V/P0v7": {
     "col": 17,
@@ -1704,10 +1821,10 @@
     "col": 10,
     "defaultMessage": "Suggestions couldn’t load. You can still browse your cookbook.",
     "description": "Status when meal recommendations failed, with a fallback action.",
-    "end": 3837,
+    "end": 4468,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 120,
-    "start": 3589
+    "line": 152,
+    "start": 4220
   },
   "X9+Cfa": {
     "col": 62,
@@ -1884,10 +2001,10 @@
     "col": 20,
     "defaultMessage": "older matching variant",
     "description": "Added to a cookbook recipe's accessibility label when a newer version matches the same dish. Lowercase so it reads as a continuation.",
-    "end": 6330,
+    "end": 6121,
     "file": "src/features/cookbook/recipe-browser.tsx",
-    "line": 165,
-    "start": 6027
+    "line": 161,
+    "start": 5818
   },
   "bcV9dh": {
     "col": 62,
@@ -2118,10 +2235,19 @@
     "col": 20,
     "defaultMessage": "Your cookbook is empty. Import the recipes you love to cook.",
     "description": "Empty cookbook state, before any recipe was saved or imported.",
-    "end": 4769,
+    "end": 4560,
     "file": "src/features/cookbook/recipe-browser.tsx",
-    "line": 121,
-    "start": 4475
+    "line": 117,
+    "start": 4266
+  },
+  "hHe0qV": {
+    "col": 9,
+    "defaultMessage": "{slot, select, lunch {{weekday} lunch} dinner {{weekday} dinner} treat {{weekday} treat} other {{weekday} meal}} · {date}",
+    "description": "Heading in the empty meal chooser, such as Friday lunch · Nov 27. The weekday is written out and the date has a short month and day. Selector values are lunch, dinner and treat.",
+    "end": 7862,
+    "file": "src/features/meals/labels.ts",
+    "line": 213,
+    "start": 7310
   },
   "hK8iO5": {
     "col": 62,
@@ -2177,6 +2303,15 @@
     "line": 10,
     "start": 349
   },
+  "iHUavl": {
+    "col": 11,
+    "defaultMessage": "{slot, select, lunch {Which meal should inspire lunch?} dinner {Which meal should inspire dinner?} treat {Which meal should inspire a treat?} other {Which meal should inspire a new dish?}}",
+    "description": "Heading before selecting a past meal as inspiration for a new dish. Selector values are lunch, dinner and treat.",
+    "end": 15848,
+    "file": "src/features/meals/meal-choice-entry.tsx",
+    "line": 499,
+    "start": 15369
+  },
   "iQ3uTU": {
     "col": 25,
     "defaultMessage": "Home & garden",
@@ -2196,13 +2331,13 @@
     "start": 349
   },
   "ir/sf1": {
-    "col": 26,
+    "col": 20,
     "defaultMessage": "Saves this idea to your cookbook and plans it",
     "description": "Accessibility hint for choosing a seeded meal idea.",
-    "end": 16123,
+    "end": 6817,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 432,
-    "start": 15825
+    "line": 216,
+    "start": 6549
   },
   "isMF9L": {
     "col": 17,
@@ -2235,10 +2370,10 @@
     "col": 17,
     "defaultMessage": "Found recipes",
     "description": "Title of the sheet that reviews the recipes one import found, before any are saved.",
-    "end": 10344,
+    "end": 10425,
     "file": "src/app/_layout.tsx",
     "line": 311,
-    "start": 10140
+    "start": 10221
   },
   "jnmwpe": {
     "col": 62,
@@ -2253,10 +2388,10 @@
     "col": 12,
     "defaultMessage": "The recipe hasn’t synced yet. Try again in a moment.",
     "description": "Alert body when a recommendation was chosen before its recipe finished syncing.",
-    "end": 9118,
+    "end": 12154,
     "file": "src/app/(tabs)/(meals)/index.tsx",
-    "line": 250,
-    "start": 8855
+    "line": 348,
+    "start": 11891
   },
   "jsESf/": {
     "col": 19,
@@ -2316,10 +2451,10 @@
     "col": 20,
     "defaultMessage": "No matches for “{query}”.",
     "description": "Empty search result in the cookbook. {query} is the cook's own search text, kept as typed.",
-    "end": 4454,
+    "end": 4245,
     "file": "src/features/cookbook/recipe-browser.tsx",
-    "line": 113,
-    "start": 4090
+    "line": 109,
+    "start": 3881
   },
   "lwjs+K": {
     "col": 27,
@@ -2532,10 +2667,10 @@
     "col": 31,
     "defaultMessage": "Cancel",
     "description": "Closes the ingredient editor and returns to the previous meal ideas.",
-    "end": 30671,
+    "end": 31194,
     "file": "src/app/chats/[id].tsx",
-    "line": 835,
-    "start": 30409
+    "line": 846,
+    "start": 30932
   },
   "qAqot2": {
     "col": 62,
@@ -2591,6 +2726,15 @@
     "line": 218,
     "start": 8272
   },
+  "rty5Dk": {
+    "col": 8,
+    "defaultMessage": "Give me three meal ideas like {meal}.",
+    "description": "Chat message sent when the cook chooses a recent meal as inspiration. {meal} is the name of the selected meal.",
+    "end": 14736,
+    "file": "src/app/(tabs)/(meals)/index.tsx",
+    "line": 438,
+    "start": 14429
+  },
   "rvjJhe": {
     "col": 62,
     "defaultMessage": "Leeks",
@@ -2622,10 +2766,10 @@
     "col": 21,
     "defaultMessage": "{count, plural, one {1 other variant} other {# other variants}}",
     "description": "Row that opens the other versions of a recipe. {count} is how many variants exist.",
-    "end": 10703,
+    "end": 9879,
     "file": "src/features/cookbook/recipe-browser.tsx",
-    "line": 272,
-    "start": 10284
+    "line": 254,
+    "start": 9460
   },
   "s4pdpH": {
     "col": 62,
@@ -2645,6 +2789,15 @@
     "line": 84,
     "start": 2655
   },
+  "sEo7Gc": {
+    "col": 22,
+    "defaultMessage": "Close meal chooser",
+    "description": "Accessibility label for dismissing the open meal chooser.",
+    "end": 10280,
+    "file": "src/features/meals/meal-choice-entry.tsx",
+    "line": 321,
+    "start": 10097
+  },
   "sFrF/1": {
     "col": 6,
     "defaultMessage": "I’d like to use up {ingredients}.",
@@ -2662,6 +2815,15 @@
     "file": "src/features/meals/shopping-review.ts",
     "line": 66,
     "start": 1921
+  },
+  "sPBf1o": {
+    "col": 14,
+    "defaultMessage": "There are no past meals to choose from.",
+    "description": "Shown when the history picker no longer has any past meals available.",
+    "end": 16485,
+    "file": "src/features/meals/meal-choice-entry.tsx",
+    "line": 517,
+    "start": 16253
   },
   "saRdXm": {
     "col": 11,
@@ -2721,19 +2883,19 @@
     "col": 12,
     "defaultMessage": "Picked for you",
     "description": "Heading above a list of meal recommendations.",
-    "end": 4037,
+    "end": 4668,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 127,
-    "start": 3878
+    "line": 159,
+    "start": 4509
   },
   "tYVXhj": {
     "col": 12,
     "defaultMessage": "Please try again.",
     "description": "Generic alert body after planning a meal failed for an unknown reason.",
-    "end": 9334,
+    "end": 12370,
     "file": "src/app/(tabs)/(meals)/index.tsx",
-    "line": 256,
-    "start": 9131
+    "line": 354,
+    "start": 12167
   },
   "tsQKcF": {
     "col": 11,
@@ -2775,10 +2937,10 @@
     "col": 19,
     "defaultMessage": "I have a dish in mind",
     "description": "Starts a chat to explore how to make a dish the user has in mind for this meal slot.",
-    "end": 13364,
+    "end": 20782,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 363,
-    "start": 13119
+    "line": 597,
+    "start": 20537
   },
   "u1tQl6": {
     "col": 62,
@@ -2847,10 +3009,10 @@
     "col": 19,
     "defaultMessage": "Import recipe",
     "description": "Action that opens recipe import from an open meal slot.",
-    "end": 18991,
+    "end": 21264,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 495,
-    "start": 18783
+    "line": 609,
+    "start": 21056
   },
   "w+S0BX": {
     "col": 36,
@@ -2883,10 +3045,10 @@
     "col": 29,
     "defaultMessage": "Open {name}",
     "description": "Accessibility label for a cookbook recipe. {name} is the recipe's name. Selecting it opens the recipe.",
-    "end": 1493,
+    "end": 1328,
     "file": "src/features/cookbook/recipe-browser.tsx",
-    "line": 20,
-    "start": 974
+    "line": 17,
+    "start": 809
   },
   "wRsD6i": {
     "col": 62,
@@ -2901,10 +3063,10 @@
     "col": 12,
     "defaultMessage": "No matching suggestions. Browse your cookbook or write in a meal.",
     "description": "Empty recommendation state with the two fallback actions.",
-    "end": 4304,
+    "end": 4935,
     "file": "src/features/meals/meal-section.tsx",
-    "line": 131,
-    "start": 4050
+    "line": 163,
+    "start": 4681
   },
   "wY6RjA": {
     "col": 19,
@@ -2914,15 +3076,6 @@
     "file": "src/features/shop/meal-age.ts",
     "line": 3,
     "start": 80
-  },
-  "wl05lJ": {
-    "col": 21,
-    "defaultMessage": "Plan with Magpie",
-    "description": "Header action that opens the assistant to plan meals.",
-    "end": 16132,
-    "file": "src/app/(tabs)/(meals)/index.tsx",
-    "line": 472,
-    "start": 15915
   },
   "wwnfQI": {
     "col": 17,
@@ -2991,10 +3144,10 @@
     "col": 27,
     "defaultMessage": "What do you want to cook with?",
     "description": "Heading above the ingredient picker for a planned meal. Invites the cook to choose ingredients they want to cook with.",
-    "end": 29728,
+    "end": 30251,
     "file": "src/app/chats/[id].tsx",
-    "line": 817,
-    "start": 29408
+    "line": 828,
+    "start": 29931
   },
   "y6vW60": {
     "col": 62,
@@ -3108,9 +3261,9 @@
     "col": 33,
     "defaultMessage": "Find meal ideas",
     "description": "Primary action in the meal ingredient picker. Requests meal ideas using the selected ingredients or attachments.",
-    "end": 29063,
+    "end": 29586,
     "file": "src/app/chats/[id].tsx",
-    "line": 806,
-    "start": 28788
+    "line": 817,
+    "start": 29311
   }
 }

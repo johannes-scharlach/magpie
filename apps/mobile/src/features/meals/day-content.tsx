@@ -1,8 +1,6 @@
-import { SymbolView } from "expo-symbols";
 import { useIntl } from "react-intl";
-import { Pressable, View } from "react-native";
+import { View } from "react-native";
 import type { LegacyPanGesture } from "react-native-gesture-handler";
-import { useResolveClassNames } from "uniwind";
 
 import { Text } from "@/components/ui/text";
 import { plannedMealId } from "@/db/planned-meals";
@@ -13,10 +11,8 @@ import type { ImportJobs } from "@/features/meals/import-jobs";
 import { ImportJobStatus } from "@/features/meals/import-job-status";
 import { mealIsPast } from "@/features/meals/variant-meals";
 import { useToday } from "@/hooks/use-today";
-import { dayMessages, selectSlotMessages, slotMessages } from "./labels";
+import { dayMessages, slotMessages } from "./labels";
 import type { MealRecommendations } from "./use-meal-recommendations";
-
-const PLUS_ICON = { ios: "plus", android: "add" } as const;
 
 export type DisplayRecipe = {
   id: string;
@@ -36,6 +32,15 @@ export type DisplayPlannedMeal = DisplayRecipe & {
   eatersLabel: string;
 };
 
+export type RecentMealReference = {
+  plannedMealId: string;
+  contentId: string;
+  date: string;
+  variantId: string | null;
+  name: string;
+  artPath?: string | null;
+};
+
 type Props = {
   date: Date;
   isToday: boolean;
@@ -44,6 +49,8 @@ type Props = {
   importJobs: ImportJobs;
   plannedFor: (date: string, slot: MealSlot) => DisplayPlannedMeal | null;
   dinnerSuggestion?: string;
+  recentMeals: RecentMealReference[];
+  historyLoading: boolean;
   recommendations: (slot: MealSlot) => MealRecommendations;
   isSelecting: (slot: MealSlot) => boolean;
   onRetry: (slot: MealSlot) => void;
@@ -57,7 +64,12 @@ type Props = {
   onHide: (slot: MealSlot) => void;
   onSetOpen: (slot: MealSlot, open: boolean) => void;
   onImport: (slot: MealSlot) => void;
-  onStartChat: (slot: MealSlot, entry: "on_hand" | "dish") => void;
+  onStartChat: (
+    slot: MealSlot,
+    entry: "on_hand" | "dish",
+    dish?: string,
+  ) => void;
+  onRhyme: (slot: MealSlot, meal: RecentMealReference) => void;
   onCookbook: (slot: MealSlot) => void;
   onWriteIn: (slot: MealSlot) => void;
 };
@@ -71,6 +83,8 @@ export function DayContent({
   importJobs,
   plannedFor,
   dinnerSuggestion,
+  recentMeals,
+  historyLoading,
   recommendations,
   isSelecting,
   onRetry,
@@ -85,10 +99,10 @@ export function DayContent({
   onSetOpen,
   onImport,
   onStartChat,
+  onRhyme,
   onCookbook,
   onWriteIn,
 }: Props) {
-  const mutedColor = useResolveClassNames("text-muted-foreground").color;
   const today = useToday();
   const intl = useIntl();
   const dateStr = dateKey(date);
@@ -127,21 +141,6 @@ export function DayContent({
           }
           const recipe = plannedFor(dateStr, slot);
           const open = isOpen(slot);
-          if (!recipe && !open) {
-            return (
-              <Pressable
-                key={slot}
-                accessibilityRole="button"
-                onPress={() => onSetOpen(slot, true)}
-                className="flex-row items-center gap-2 px-6"
-              >
-                <SymbolView name={PLUS_ICON} tintColor={mutedColor} size={16} />
-                <Text className="text-muted-foreground">
-                  {intl.formatMessage(selectSlotMessages[slot])}
-                </Text>
-              </Pressable>
-            );
-          }
           return (
             <MealSection
               key={slot}
@@ -151,7 +150,11 @@ export function DayContent({
               plannedMealId={plannedMealId(list.id, dateStr, slot)}
               listId={list.id}
               recipe={recipe}
+              open={open}
+              onOpen={() => onSetOpen(slot, true)}
               reminderVisit={slot === "dinner" ? dinnerSuggestion : undefined}
+              recentMeals={recentMeals}
+              historyLoading={historyLoading}
               isPast={mealIsPast(dateStr, today)}
               showShoppingPrompt={
                 !!recipe && !recipe.shoppingReviewed && dateStr >= today
@@ -169,7 +172,8 @@ export function DayContent({
               onRepeat={() => onRepeat(slot, recipe)}
               onHide={() => onHide(slot)}
               onImport={() => onImport(slot)}
-              onStartChat={(entry) => onStartChat(slot, entry)}
+              onStartChat={(entry, dish) => onStartChat(slot, entry, dish)}
+              onRhyme={(meal) => onRhyme(slot, meal)}
               onCookbook={() => onCookbook(slot)}
               onWriteIn={() => onWriteIn(slot)}
             />

@@ -4,10 +4,38 @@ import { convertToModelMessages, safeValidateUIMessages } from "ai";
 
 import {
   MealContextSchema,
+  isMealRhymePitch,
   orderRecipeSeed,
   recipeChatPrompt,
   recipeSeed,
 } from "./recipe-chat.js";
+
+test("a rhyme response contains exactly three distinct idea cards", () => {
+  const one = '<idea title="Herby rigatoni">Finish it with fresh basil.</idea>';
+  const two =
+    '<idea title="Smoky rigatoni">Toss it with charred peppers.</idea>';
+  const three = '<idea title="Lemony rigatoni">Brighten it with lemon.</idea>';
+  const ideas = (cards: string[]) => `<ideas>
+${cards.join("\n")}
+</ideas>`;
+
+  assert.equal(isMealRhymePitch(ideas([one, two, three])), true);
+  assert.equal(isMealRhymePitch(ideas([one, two])), false);
+  assert.equal(isMealRhymePitch(ideas([one, two, three, one])), false);
+  assert.equal(isMealRhymePitch(ideas([one, two, one])), false);
+  assert.equal(
+    isMealRhymePitch(ideas([one, two, '<idea title="Empty"></idea>'])),
+    false,
+  );
+  assert.equal(
+    isMealRhymePitch(ideas([one, two, `More text ${three}`])),
+    false,
+  );
+  assert.equal(
+    isMealRhymePitch('<sketch title="Pasta">Basil.</sketch>'),
+    false,
+  );
+});
 
 test("the first user turn initiates the seeded read before the model answers", async () => {
   const recipe = {

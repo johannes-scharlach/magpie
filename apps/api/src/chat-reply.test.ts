@@ -5,6 +5,7 @@ import { MockLanguageModelV4 } from "ai/test";
 import { z } from "zod";
 
 import { createChatReply, type AssistantUIMessage } from "./chat-reply.js";
+import { isMealRhymePitch } from "./recipe-chat.js";
 
 function deferred<T>() {
   let resolve!: (value: T | PromiseLike<T>) => void;
@@ -13,6 +14,61 @@ function deferred<T>() {
   });
   return { promise, resolve };
 }
+
+test("an invalid focused pitch is retryable without showing extra meal ideas", async () => {
+  let lastSaved: AssistantUIMessage | undefined;
+  const unexpected = "Two ideas: corn or beans.";
+  const result = streamText({
+    prompt: "Pitch one meal.",
+    model: new MockLanguageModelV4({
+      doStream: {
+        stream: new ReadableStream({
+          start(controller) {
+            controller.enqueue({ type: "stream-start", warnings: [] });
+            controller.enqueue({ type: "text-start", id: "text" });
+            controller.enqueue({
+              type: "text-delta",
+              id: "text",
+              delta: unexpected,
+            });
+            controller.enqueue({ type: "text-end", id: "text" });
+            controller.enqueue({
+              type: "finish",
+              finishReason: { unified: "stop", raw: "STOP" },
+              usage: {
+                inputTokens: {
+                  total: 1,
+                  noCache: 1,
+                  cacheRead: 0,
+                  cacheWrite: 0,
+                },
+                outputTokens: { total: 1, text: 1, reasoning: 0 },
+              },
+            });
+            controller.close();
+          },
+        }),
+      },
+    }),
+  });
+  const reply = createChatReply({
+    id: "reply",
+    userMessageId: "question",
+    request: new AbortController().signal,
+    run: async () => result,
+    validateText: isMealRhymePitch,
+    suggestions: async () => [],
+    save: async (message) => {
+      lastSaved = structuredClone(message);
+    },
+    notify: async () => {},
+  });
+  assert.ok(!(await reply.text()).includes(unexpected));
+  assert.equal(
+    lastSaved?.parts.find((part) => part.type === "data-turn")?.data.status,
+    "failed",
+  );
+});
 
 test(
   "a disconnected phone still gets a complete, saved chat turn, and a push",

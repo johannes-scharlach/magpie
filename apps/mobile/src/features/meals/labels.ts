@@ -204,3 +204,23 @@ export function formatPlannedWhen(
   const day = intl.formatDate(parsed, { weekday: "long" });
   return intl.formatMessage(plannedWhenMessages[slot], { day });
 }
+
+export function formatChooserTitle(
+  intl: IntlShape,
+  { date, slot }: MealTarget,
+) {
+  const day = new Date(`${date}T12:00:00`);
+  return intl.formatMessage(
+    {
+      defaultMessage:
+        "{slot, select, lunch {{weekday} lunch} dinner {{weekday} dinner} treat {{weekday} treat} other {{weekday} meal}} · {date}",
+      description:
+        "Heading in the empty meal chooser, such as Friday lunch · Nov 27. The weekday is written out and the date has a short month and day. Selector values are lunch, dinner and treat.",
+    },
+    {
+      slot,
+      weekday: intl.formatDate(day, { weekday: "long" }),
+      date: intl.formatDate(day, { month: "short", day: "numeric" }),
+    },
+  );
+}
